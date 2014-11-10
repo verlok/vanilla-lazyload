@@ -1,0 +1,39 @@
+{
+  "name": "lazyload",
+  "version": "0.0.1",
+  "description": "This library helps you to load the images only when they enter the viewport or at a specific event",
+  "main": "index.html",
+  "dependencies": {
+    "grunt": "~0.4.5"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-uglify": "~0.6.0",
+    "karma": "~0.12.24",
+    "grunt-karma": "~0.9.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-concat": "~0.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/verlok/lazyload"
+  },
+  "keywords": [
+    "lazyload",
+    "no-jquery",
+    "progressive",
+    "load",
+    "progressive",
+    "jpeg"
+  ],
+  "author": "Andrea \"verlok\" Verlicchi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/verlok/lazyload/issues"
+  },
+  "homepage": "http://verlok.github.io/lazyload"
+}
