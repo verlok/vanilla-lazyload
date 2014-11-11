@@ -14,7 +14,7 @@ var lazyLoad = (function (window, document, undefined) {
 			effect: "show",
 			container: window,
 			src_data_attribute: "original",
-			//skip_invisible: true, // TODO: Restore this
+			skip_invisible: true,
 			show_while_loading: false,
 			process_callback: null,
 			load_callback: null,
@@ -182,13 +182,10 @@ var lazyLoad = (function (window, document, undefined) {
 		//}
 	}
 
-	function _purgeElementsArray() {
-		_processedElements.forEach(function (element) {
-			var indexOfProcessedElement = _elements.indexOf(element);
-			if (indexOfProcessedElement === -1) return;
-			_elements.splice(indexOfProcessedElement, 1);
-		});
-		_processedElements = [];
+	function _isHidden(element) {
+		/*var style = window.getComputedStyle(element);
+		 return style.display === 'none' || style.visibility === 'hidden';*/
+		return (element.offsetParent === null);
 	}
 
 	return {
@@ -222,10 +219,9 @@ var lazyLoad = (function (window, document, undefined) {
 			var countBeforeFail = 0;
 			_elements.forEach(function (element) {
 
-				// TODO: Find a way to replicate "isVisible"
-				/*if (_settings.skip_invisible && !$this.is(":visible")) {
-				 return;
-				 }*/
+				if (_settings.skip_invisible && _isHidden(element)) {
+					return;
+				}
 
 				if (_isAboveViewport(element) ||
 					_isAtLeftOfViewport(element)) {
@@ -242,7 +238,13 @@ var lazyLoad = (function (window, document, undefined) {
 				}
 			});
 
-			_purgeElementsArray();
+			/* Removing _processedElements from _elements. */
+			_processedElements.forEach(function (element) {
+				var indexOfProcessedElement = _elements.indexOf(element);
+				if (indexOfProcessedElement === -1) return;
+				_elements.splice(indexOfProcessedElement, 1);
+			});
+			_processedElements = [];
 		}
 	};
 
