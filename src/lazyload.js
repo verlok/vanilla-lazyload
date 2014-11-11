@@ -6,10 +6,9 @@ var lazyLoad = (function (window, document, undefined) {
 
 	var _elements,
 		_settings,
-		_processedElements = [],
+		_processedIndexes = [],
 		_defaultSettings = {
 			threshold: 0,
-			failure_limit: 0,
 			event: "scroll",
 			effect: "show",
 			container: window,
@@ -168,7 +167,7 @@ var lazyLoad = (function (window, document, undefined) {
 		_setImageAndDisplay(element);
 	}
 
-	function _processImage(element) {
+	function _processImage(element, index) {
 		//if (-1 === _processedElements.indexOf(element)) { // TODO: This check is necessary? (evaluate not only the scroll event case)
 			_callCallback(element, "process_callback");
 			/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
@@ -177,14 +176,12 @@ var lazyLoad = (function (window, document, undefined) {
 			} else {
 				_showOnLoad(element);
 			}
-			/* Marking the element as processed so is not processed next time. */
-			_processedElements.push(element);
+			/* Marking the element index as processed. */
+			_processedIndexes.push(index);
 		//}
 	}
 
 	function _isHidden(element) {
-		/*var style = window.getComputedStyle(element);
-		 return style.display === 'none' || style.visibility === 'hidden';*/
 		return (element.offsetParent === null);
 	}
 
@@ -216,35 +213,24 @@ var lazyLoad = (function (window, document, undefined) {
 			lazyLoad.update();
 		},
 		update: function () {
-			var countBeforeFail = 0;
-			_elements.forEach(function (element) {
+			_elements.forEach(function (element, index) {
 
 				if (_settings.skip_invisible && _isHidden(element)) {
 					return;
 				}
 
-				if (_isAboveViewport(element) ||
-					_isAtLeftOfViewport(element)) {
-					/* Nothing. */
+				if (_isAboveViewport(element) || _isAtLeftOfViewport(element)) {
+					/* Do nothing. */
 				} else if (!_isBelowViewport(element) && !_isAtRightOfViewport(element)) {
-					_processImage(element);
-					/* If we found an image we'll load, reset the counter */
-					countBeforeFail = 0;
-				} else {
-					if (++countBeforeFail > _settings.failure_limit) {
-						// This should break the forEach, does it?
-						return false;
-					}
+					_processImage(element, index);
 				}
 			});
 
-			/* Removing _processedElements from _elements. */
-			_processedElements.forEach(function (element) {
-				var indexOfProcessedElement = _elements.indexOf(element);
-				if (indexOfProcessedElement === -1) return;
-				_elements.splice(indexOfProcessedElement, 1);
-			});
-			_processedElements = [];
+			/* Removing processed elements from _elements. */
+			while (_processedIndexes.length) {
+				_elements.splice(_processedIndexes.pop(), 1);
+			}
+
 		}
 	};
 
