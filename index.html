@@ -24,7 +24,7 @@
 <section id="results1" class="results">
 	<ul>
 		<li>
-			<a href="#/it/donna/stivaletti_cod44721746jj.html"><img alt="Stivaletti" data-original="http://cdn.yoox.biz/44/44721746JJ_15_a.jpg" width="220" height="280"></a>
+			<a href="#/it/donna/stivaletti_cod44721746jj.html"><img alt="Stivaletti" data-original="http://cdn.yoox.biz/44/44721746JJ_15_a.jpg" width="220" height="280" id="img1"></a>
 		</li>
 		<li>
 			<a href="#/it/donna/open-toe_cod44740806jx.html"><img alt="Open toe" data-original="http://cdn.yoox.biz/44/44740806JX_15_r.jpg" width="220" height="280"></a>
@@ -158,19 +158,20 @@
 <script>
 	(function () {
 
-		function logEvent(eventName, element, elementsLeft) {
-			console.log(eventName, element.getAttribute('data-original'), new Date().getTime(), elementsLeft + " left");
-		}
-
 		/*
-		 * TODO: Try with containers different than Window, and with single elements instead of arrays of them
+		 * TODO: Try with containers different than Window
+		 * TODO: Try with two or more containers
 		 * */
 
-		//var singleElement1 = document.getElementById('results1');
-		//var singleElement2 = document.querySelector('#results1');
-		var multipleElements = document.querySelectorAll('.results img');
+//		var elements = document.getElementById('img1');
+//		var elements = document.querySelector('#results1 img');
+		var elements = document.querySelectorAll('.results img');
 
-		lazyLoad.initialize(multipleElements, {
+		function logEvent(eventName, element, elementsLeft) {
+			console.log(eventName + " >", element.getAttribute('data-original'), new Date().getTime(), elementsLeft + " images left");
+		}
+
+		lazyLoad.initialize(elements, {
 			show_while_loading: true,
 			process_callback: function (elementsLeft) {
 				logEvent("PROCESSED", this, elementsLeft);

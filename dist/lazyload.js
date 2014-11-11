@@ -184,14 +184,13 @@ var lazyLoad = (function (window, document, undefined) {
 
 	return {
 		initialize: function (elements, options) {
-			_elements = Array.prototype.slice.call(elements, 0);
+			_elements = (typeof elements.length === 'number') ? Array.prototype.slice.call(elements) : [elements];
 			_settings = _merge_options(_defaultSettings, options);
 
 			if (_supportsAddEventListener) {
 				_settings.container.addEventListener("scroll", function () {
 					return lazyLoad.update();
 				});
-
 			}
 			else {
 				// TODO: fallback for IE<9
