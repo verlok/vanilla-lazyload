@@ -200,14 +200,10 @@ var lazyLoad = (function (window, document, undefined) {
 		},
 		update: function () {
 			_elements.forEach(function (element, index) {
-
 				if (_settings.skip_invisible && _isHidden(element)) {
 					return;
 				}
-
-				if (_isAboveViewport(element) || _isAtLeftOfViewport(element)) {
-					/* Do nothing. */
-				} else if (!_isBelowViewport(element) && !_isAtRightOfViewport(element)) {
+				if (!_isAboveViewport(element) && !_isAtLeftOfViewport(element) && !_isBelowViewport(element) && !_isAtRightOfViewport(element)) {
 					_processImage(element, index);
 				}
 			});
