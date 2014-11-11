@@ -9,7 +9,6 @@ var lazyLoad = (function (window, document, undefined) {
 		_processedIndexes = [],
 		_defaultSettings = {
 			threshold: 0,
-			event: "scroll",
 			effect: "show",
 			container: window,
 			src_data_attribute: "original",
@@ -168,17 +167,15 @@ var lazyLoad = (function (window, document, undefined) {
 	}
 
 	function _processImage(element, index) {
-		//if (-1 === _processedElements.indexOf(element)) { // TODO: This check is necessary? (evaluate not only the scroll event case)
-			_callCallback(element, "process_callback");
-			/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
-			if (_settings.show_while_loading) {
-				_showOnAppear(element);
-			} else {
-				_showOnLoad(element);
-			}
-			/* Marking the element index as processed. */
-			_processedIndexes.push(index);
-		//}
+		_callCallback(element, "process_callback");
+		/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
+		if (_settings.show_while_loading) {
+			_showOnAppear(element);
+		} else {
+			_showOnLoad(element);
+		}
+		/* Marking the element index as processed. */
+		_processedIndexes.push(index);
 	}
 
 	function _isHidden(element) {
@@ -191,20 +188,9 @@ var lazyLoad = (function (window, document, undefined) {
 			_settings = _merge_options(_defaultSettings, options);
 
 			if (_supportsAddEventListener) {
-				/* If event is scroll, add scroll event listener in the container (not in every single image) */
-				if (0 === _settings.event.indexOf("scroll")) {
-					_settings.container.addEventListener(_settings.event, function () {
-						return lazyLoad.update();
-					});
-				}
-				/* If event is not, add event listener every single image */
-				else {
-					_elements.forEach(function (element) {
-						element.addEventListener(_settings.event, function () {
-							_processImage(element);
-						});
-					});
-				}
+				_settings.container.addEventListener("scroll", function () {
+					return lazyLoad.update();
+				});
 			}
 			else {
 				// TODO: fallback for IE<9
