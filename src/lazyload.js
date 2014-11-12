@@ -183,9 +183,10 @@ var lazyLoad = (function (window, document, undefined) {
 	}
 
 	return {
-		initialize: function (elements, options) {
-			_elements = (typeof elements.length === 'number') ? Array.prototype.slice.call(elements) : [elements];
+		initialize: function (options) {
+
 			_settings = _merge_options(_defaultSettings, options);
+			_elements = Array.prototype.slice.call((_settings.container === window ? document : _settings.container).querySelectorAll(_settings.elementsSelector));
 
 			if (_supportsAddEventListener) {
 				_settings.container.addEventListener("scroll", function () {
