@@ -190,31 +190,31 @@ var lazyLoad = (function (window, document, undefined) {
 		return (element.offsetParent === null);
 	}
 
+	function _loopThroughElements() {
+		if (!_elements.length) {
+			return;
+		}
+		_elements.forEach(function (element, index) {
+			if (_settings.skip_invisible && _isHidden(element)) {
+				return;
+			}
+			if (!_isAboveViewport(element) && !_isAtLeftOfViewport(element) && !_isBelowViewport(element) && !_isAtRightOfViewport(element)) {
+				_processImage(element, index);
+			}
+		});
+		/* Removing processed elements from _elements. */
+		while (_processedIndexes.length) {
+			_elements.splice(_processedIndexes.pop(), 1);
+		}
+	}
+
 	return {
 		initialize: function (options) {
 			_settings = _merge_options(_defaultSettings, options);
 			_container = _settings.container;
 			_elements = Array.prototype.slice.call((_container === window ? document : _container).querySelectorAll(_settings.elementsSelector));
-			_addEventListener(_container, "scroll", lazyLoad.update);
-			lazyLoad.update();
-		},
-		update: function () {
-			_elements.forEach(function (element, index) {
-				if (_settings.skip_invisible && _isHidden(element)) {
-					return;
-				}
-				if (!_isAboveViewport(element) && !_isAtLeftOfViewport(element) && !_isBelowViewport(element) && !_isAtRightOfViewport(element)) {
-					_processImage(element, index);
-				}
-			});
-			/* Removing processed elements from _elements. */
-			while (_processedIndexes.length) {
-				_elements.splice(_processedIndexes.pop(), 1);
-			}
-			/* 0 images left? Remove scroll event listener */
-			if (_elements.length === 0) {
-				_removeEventListener(_container, "scroll", lazyLoad.update);
-			}
+			_addEventListener(_container, "scroll", _loopThroughElements);
+			_loopThroughElements();
 		}
 	};
 
