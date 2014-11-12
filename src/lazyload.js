@@ -5,6 +5,7 @@
 var lazyLoad = (function (window, document, undefined) {
 
 	var _elements,
+		_container,
 		_settings,
 		_processedIndexes = [],
 		_defaultSettings = {
@@ -19,7 +20,38 @@ var lazyLoad = (function (window, document, undefined) {
 			set_callback: null,
 			placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
 		},
-		_supportsAddEventListener = !!window.addEventListener;
+		_supportsAddEventListener = !!window.addEventListener,
+		_supportsAttachEvent = !!window.attachEvent;
+
+	function _addEventListener(element, eventName, callback) {
+		// Use addEventListener if available
+		if (_supportsAddEventListener) {
+			element.addEventListener(eventName, callback);
+			return;
+		}
+		// Otherwise use attachEvent, set this and event
+		if (_supportsAttachEvent) {
+			element.attachEvent('on' + eventName, (function (el) {
+				return function () {
+					callback.call(el, window.event);
+				};
+			}(element)));
+			// Break closure and primary circular reference to element
+			element = null;
+		}
+	}
+
+	function _removeEventListener(element, eventName, callback) {
+		// Use removeEventListener if available
+		if (_supportsAddEventListener) {
+			element.removeEventListener(eventName, callback);
+			return;
+		}
+		// Otherwise use detachEvent
+		if (_supportsAttachEvent) {
+			element.detachEvent('on' + eventName, callback);
+		}
+	}
 
 	function _getOffset(element) {
 		var theBox = element.getBoundingClientRect(),
@@ -39,54 +71,42 @@ var lazyLoad = (function (window, document, undefined) {
 	}
 
 	function _isBelowViewport(element) {
-		var fold,
-			container = _settings.container;
-
-		if (container === undefined || container === window) {
+		var fold;
+		if (_container === undefined || _container === window) {
 			fold = _getDocumentHeight() + window.pageYOffset;
 		} else {
-			fold = _getOffset(container).top + container.offsetHeight;
+			fold = _getOffset(_container).top + _container.offsetHeight;
 		}
-
 		return fold <= _getOffset(element).top - _settings.threshold;
 	}
 
 	function _isAtRightOfViewport(element) {
-		var fold,
-			container = _settings.container;
-
-		if (container === undefined || container === window) {
+		var fold;
+		if (_container === undefined || _container === window) {
 			fold = _getDocumentWidth() + window.pageXOffset;
 		} else {
-			fold = _getOffset(container).left + _getDocumentWidth();
+			fold = _getOffset(_container).left + _getDocumentWidth();
 		}
-
 		return fold <= _getOffset(element).left - _settings.threshold;
 	}
 
 	function _isAboveViewport(element) {
-		var fold,
-			container = _settings.container;
-
-		if (container === undefined || container === window) {
+		var fold;
+		if (_container === undefined || _container === window) {
 			fold = window.pageYOffset;
 		} else {
-			fold = _getOffset(container).top;
+			fold = _getOffset(_container).top;
 		}
-
 		return fold >= _getOffset(element).top + _settings.threshold + element.offsetHeight;
 	}
 
 	function _isAtLeftOfViewport(element) {
-		var fold,
-			container = _settings.container;
-
-		if (container === undefined || container === window) {
+		var fold;
+		if (_container === undefined || _container === window) {
 			fold = window.pageXOffset;
 		} else {
-			fold = _getOffset(container).left;
+			fold = _getOffset(_container).left;
 		}
-
 		return fold >= _getOffset(element).left + _settings.threshold + element.offsetWidth;
 	}
 
@@ -129,9 +149,7 @@ var lazyLoad = (function (window, document, undefined) {
 	}
 
 	function _showOnLoad(element) {
-
 		var fakeImg;
-
 		/* If no src attribute given use data:uri. */
 		if (!element.getAttribute("src")) {
 			element.setAttribute("src", _settings.placeholder);
@@ -139,30 +157,20 @@ var lazyLoad = (function (window, document, undefined) {
 		/* Creating a new `img` in a DOM fragment. */
 		fakeImg = document.createElement('img');
 		/* Listening to the load event */
-		if (_supportsAddEventListener) {
-			fakeImg.addEventListener("load", function () {
-				_callCallback(element, "load_callback");
-				_setImageAndDisplay(element);
-				fakeImg.removeEventListener("load");
-			});
-		}
-		else {
-			// TODO: fallback for IE<9
-		}
+		_addEventListener(fakeImg, "load", function () {
+			_callCallback(element, "load_callback");
+			_setImageAndDisplay(element);
+			_removeEventListener(fakeImg, "load");
+		});
 		/* Setting the source in the fake image */
 		fakeImg.setAttribute("src", _getOriginalSrc(element));
 	}
 
 	function _showOnAppear(element) {
-		if (_supportsAddEventListener) {
-			element.addEventListener("load", function () {
-				_callCallback(element, "load_callback");
-				element.removeEventListener("load");
-			});
-		}
-		else {
-			// TODO: fallback for IE<9
-		}
+		_addEventListener(element, "load", function () {
+			_callCallback(element, "load_callback");
+			_removeEventListener(element, "load");
+		});
 		_setImageAndDisplay(element);
 	}
 
@@ -184,19 +192,10 @@ var lazyLoad = (function (window, document, undefined) {
 
 	return {
 		initialize: function (options) {
-
 			_settings = _merge_options(_defaultSettings, options);
-			_elements = Array.prototype.slice.call((_settings.container === window ? document : _settings.container).querySelectorAll(_settings.elementsSelector));
-
-			if (_supportsAddEventListener) {
-				_settings.container.addEventListener("scroll", function () {
-					return lazyLoad.update();
-				});
-			}
-			else {
-				// TODO: fallback for IE<9
-			}
-
+			_container = _settings.container;
+			_elements = Array.prototype.slice.call((_container === window ? document : _container).querySelectorAll(_settings.elementsSelector));
+			_addEventListener(_container, "scroll", lazyLoad.update);
 			lazyLoad.update();
 		},
 		update: function () {
@@ -208,12 +207,14 @@ var lazyLoad = (function (window, document, undefined) {
 					_processImage(element, index);
 				}
 			});
-
 			/* Removing processed elements from _elements. */
 			while (_processedIndexes.length) {
 				_elements.splice(_processedIndexes.pop(), 1);
 			}
-
+			/* 0 images left? Remove scroll event listener */
+			if (_elements.length === 0) {
+				_removeEventListener(_container, "scroll", lazyLoad.update);
+			}
 		}
 	};
 
