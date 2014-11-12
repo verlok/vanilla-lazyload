@@ -8,9 +8,9 @@ var lazyLoad = (function (window, document, undefined) {
 		_settings,
 		_processedIndexes = [],
 		_defaultSettings = {
-			threshold: 0,
-			effect: "show",
+			elementsSelector: "img",
 			container: window,
+			threshold: 0,
 			src_data_attribute: "original",
 			skip_invisible: true,
 			show_while_loading: false,
