@@ -27,6 +27,7 @@
 		}
 	</style>
 </head>
+<body>
 <section id="results1" class="results">
 	<ul>
 		<li>
@@ -151,8 +152,6 @@
 		</li>
 	</ul>
 </section>
-<body>
-
 <script src="src/lazyload.js"></script>
 <script>
 	(function () {
@@ -161,7 +160,7 @@
 			console.log(eventName + " >", element.getAttribute('data-original'), new Date().getTime(), elementsLeft + " images left");
 		}
 
-		lazyLoad.initialize({
+		new LazyLoad({
 			container: document.getElementById('results1'),
 			show_while_loading: true,
 			process_callback: function (elementsLeft) {

@@ -19,6 +19,12 @@
 		img:not([src]) {
 			visibility: hidden;
 		}
+
+		.results {
+			height: 564px;
+			overflow: scroll;
+			border: 1px dotted #F00;
+		}
 	</style>
 </head>
 <body>
@@ -81,6 +87,10 @@
 		<li>
 			<a href="#/it/donna/decollete_cod44721796uk.html"><img alt="Décolleté" data-original="http://cdn.yoox.biz/44/44721796UK_15_a.jpg" width="220" height="280"></a>
 		</li>
+	</ul>
+</section>
+<section id="results2" class="results">
+	<ul>
 		<li>
 			<a href="#/it/donna/francesine_cod44717679mj.html"><img alt="Francesine" data-original="http://cdn.yoox.biz/44/44717679MJ_15_a.jpg" width="220" height="280"></a>
 		</li>
@@ -93,10 +103,6 @@
 		<li>
 			<a href="#/it/donna/mocassini_cod44719629nt.html"><img alt="Mocassini" data-original="http://cdn.yoox.biz/44/44719629NT_15_a.jpg" width="220" height="280"></a>
 		</li>
-	</ul>
-</section>
-<section id="results2" class="results">
-	<ul>
 		<li>
 			<a href="#/it/donna/mocassini_cod44725329kq.html"><img alt="Mocassini" data-original="http://cdn.yoox.biz/44/44725329KQ_15_a.jpg" width="220" height="280"></a>
 		</li>
@@ -159,6 +165,21 @@
 		}
 
 		new LazyLoad({
+			container: document.getElementById('results1'),
+			show_while_loading: true,
+			process_callback: function (elementsLeft) {
+				logEvent("PROCESSED", this, elementsLeft);
+			},
+			load_callback: function (elementsLeft) {
+				logEvent("LOADED", this, elementsLeft);
+			},
+			set_callback: function (elementsLeft) {
+				logEvent("SET", this, elementsLeft);
+			}
+		});
+
+		new LazyLoad({
+			container: document.getElementById('results2'),
 			show_while_loading: true,
 			process_callback: function (elementsLeft) {
 				logEvent("PROCESSED", this, elementsLeft);
