@@ -159,21 +159,25 @@
 <script>
 	(function () {
 
-		function logEvent(eventName, element, elementsLeft) {
-			console.log(eventName + " >", element.getAttribute('data-original'), new Date().getTime(), elementsLeft + " images left");
+		function logElementEvent(eventName, element) {
+			console.log(new Date().getTime(), eventName, element.getAttribute('data-original'));
+		}
+
+		function logEvent(eventName, elementsLeft) {
+			console.log(new Date().getTime(), eventName, elementsLeft + " images left");
 		}
 
 		new LazyLoad({
 			container: document.getElementById('results1'),
 			show_while_loading: true,
-			process_callback: function (elementsLeft) {
-				logEvent("PROCESSED", this, elementsLeft);
+			load_callback: function (element) {
+				logElementEvent("LOADED", element);
 			},
-			load_callback: function (elementsLeft) {
-				logEvent("LOADED", this, elementsLeft);
+			set_callback: function (element) {
+				logElementEvent("SET", element);
 			},
-			set_callback: function (elementsLeft) {
-				logEvent("SET", this, elementsLeft);
+			processed_callback: function(elementsLeft) {
+				logEvent("PROCESSED", elementsLeft);
 			}
 		});
 

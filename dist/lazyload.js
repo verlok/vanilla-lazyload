@@ -11,9 +11,9 @@ LazyLoad = function (instanceSettings) {
 			src_data_attribute: "original",
 			skip_invisible: true,
 			show_while_loading: false,
-			process_callback: null,
 			load_callback: null,
 			set_callback: null,
+			processed_callback: null,
 			placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
 		},
 		_supportsAddEventListener = !!window.addEventListener,
@@ -56,10 +56,12 @@ LazyLoad = function (instanceSettings) {
 
 	function _getOffset(element) {
 		var theBox = element.getBoundingClientRect(),
-			documentElement = element.ownerDocument.documentElement;
+			documentElement = element.ownerDocument.documentElement,
+			documentTop = window.pageYOffset || document.body.scrollTop,
+			documentLeft = window.pageXOffset || document.body.scrollLeft;
 		return {
-			top: theBox.top + window.pageYOffset - documentElement.clientTop,
-			left: theBox.left + window.pageXOffset - documentElement.clientLeft
+			top: theBox.top + documentTop - documentElement.clientTop,
+			left: theBox.left + documentLeft - documentElement.clientLeft
 		};
 	}
 
@@ -74,7 +76,7 @@ LazyLoad = function (instanceSettings) {
 	function _isBelowViewport(element, container, threshold) {
 		var fold;
 		if (container === window) {
-			fold = _getDocumentHeight() + window.pageYOffset;
+			fold = _getDocumentHeight() + (window.pageYOffset || document.body.scrollTop);
 		} else {
 			fold = _getOffset(container).top + container.offsetHeight;
 		}
@@ -84,7 +86,7 @@ LazyLoad = function (instanceSettings) {
 	function _isAtRightOfViewport(element, container, threshold) {
 		var fold;
 		if (container === window) {
-			fold = _getDocumentWidth() + window.pageXOffset;
+			fold = _getDocumentWidth() + (window.pageXOffset || document.body.scrollLeft);
 		} else {
 			fold = _getOffset(container).left + _getDocumentWidth();
 		}
@@ -94,7 +96,7 @@ LazyLoad = function (instanceSettings) {
 	function _isAboveViewport(element, container, threshold) {
 		var fold;
 		if (container === window) {
-			fold = window.pageYOffset;
+			fold = window.pageYOffset || document.body.scrollTop;
 		} else {
 			fold = _getOffset(container).top;
 		}
@@ -104,7 +106,7 @@ LazyLoad = function (instanceSettings) {
 	function _isAtLeftOfViewport(element, container, threshold) {
 		var fold;
 		if (container === window) {
-			fold = window.pageXOffset;
+			fold = window.pageXOffset || document.body.scrollLeft;
 		} else {
 			fold = _getOffset(container).left;
 		}
@@ -112,11 +114,13 @@ LazyLoad = function (instanceSettings) {
 	}
 
 	function _isInsideViewport(element, container, threshold) {
-		/* TODO: Check if this can be optimized -- less function calls, all in here */
-		return !_isAboveViewport(element, container, threshold) &&
-			!_isAtLeftOfViewport(element, container, threshold) &&
-			!_isBelowViewport(element, container, threshold) &&
-			!_isAtRightOfViewport(element, container, threshold);
+
+		var isAboveViewport = _isAboveViewport(element, container, threshold);
+		var isAtLeftOfViewport = _isAtLeftOfViewport(element, container, threshold);
+		var isBelowViewport = _isBelowViewport(element, container, threshold);
+		var isAtRightOfViewport = _isAtRightOfViewport(element, container, threshold);
+
+		return !isAboveViewport && !isAtLeftOfViewport && !isBelowViewport && !isAtRightOfViewport;
 	}
 
 	function _merge_options(obj1, obj2) {
@@ -152,7 +156,7 @@ LazyLoad = function (instanceSettings) {
 		catch (e) {
 			array = [];
 			l = nodeSet.length;
-			for (i=0; i<l; i++) {
+			for (i = 0; i < l; i++) {
 				array.push(nodeSet[i]);
 			}
 			return array;
@@ -164,53 +168,57 @@ LazyLoad = function (instanceSettings) {
 	 * ---------------------------------------------------------------
 	 */
 
-	this._setImageAndDisplay = function(element) {
+	this._setImageAndDisplay = function (element) {
+		var settings, src;
 		/* Setting `src` in the original `img` */
-		var original = _getSrc(element, 'data-'+this._settings.src_data_attribute, this._settings.placeholder);
+		settings = this._settings;
+		src = _getSrc(element, 'data-' + settings.src_data_attribute, settings.placeholder);
 		if (element.nodeName.toLowerCase() === "img") {
-			element.setAttribute("src", original);
+			element.setAttribute("src", src);
 		} else {
-			element.style.backgroundImage = "url('" + original + "')";
+			element.style.backgroundImage = "url('" + src + "')";
 		}
-		this._callCallback(element, "set_callback");
-	};
-
-	this._callCallback = function(element, callbackName) {
-		var settings = this._settings;
-		if (settings[callbackName]) {
-			settings[callbackName].call(element, this._elements.length, settings);
+		if (settings.set_callback) {
+			settings.set_callback(element);
 		}
 	};
 
-	this._showOnLoad = function(element) {
-		var fakeImg, that = this;
+	this._showOnLoad = function (element) {
+		var fakeImg, settings, that = this;
+		settings = this._settings;
 		/* If no src attribute given use data:uri. */
 		if (!element.getAttribute("src")) {
-			element.setAttribute("src", _settings.placeholder);
+			element.setAttribute("src", settings.placeholder);
 		}
 		/* Creating a new `img` in a DOM fragment. */
 		fakeImg = document.createElement('img');
 		/* Listening to the load event */
-		_addEventListener(fakeImg, "load", function () {
-			that._callCallback(element, "load_callback");
+		function loadCallback() {
+			if (settings.load_callback) {
+				settings.load_callback(element);
+			}
 			that._setImageAndDisplay(element);
-			_removeEventListener(fakeImg, "load");
-		});
+			_removeEventListener(fakeImg, "load", loadCallback);
+		}
+		_addEventListener(fakeImg, "load", loadCallback);
 		/* Setting the source in the fake image */
 		fakeImg.setAttribute("src", _getSrc(element));
 	};
 
-	this._showOnAppear = function(element) {
-		var that= this;
-		_addEventListener(element, "load", function () {
-			that._callCallback(element, "load_callback");
-			_removeEventListener(element, "load");
-		});
+	this._showOnAppear = function (element) {
+		var settings;
+		settings = this._settings;
+		function loadCallback() {
+			if (settings.load_callback) {
+				settings.load_callback(element);
+			}
+			_removeEventListener(element, "load", loadCallback);
+		}
+		_addEventListener(element, "load", loadCallback);
 		this._setImageAndDisplay(element);
 	};
 
-	this._processImage = function(element, showWhileLoading) {
-		this._callCallback(element, "process_callback");
+	this._processImage = function (element, showWhileLoading) {
 		/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
 		if (showWhileLoading) {
 			this._showOnAppear(element);
@@ -220,25 +228,34 @@ LazyLoad = function (instanceSettings) {
 	};
 
 	this._loopThroughElements = function () {
-		var processedIndexes, i, l, elements;
+		var processedIndexes, i, l, settings, elements, element;
 		if (!this._elements.length) {
 			return;
 		}
 		processedIndexes = [];
-		this._elements.forEach(function (element, index) {
-			if (this._settings.skip_invisible && _isHidden(element)) {
+		elements = this._elements;
+		settings = this._settings;
+		l = elements.length;
+		for (i=0; i<l; i++) {
+			element = elements[i];
+			if (settings.skip_invisible && _isHidden(element)) {
 				return;
 			}
-			if (_isInsideViewport(element, this._settings.container, this._settings.threshold)) {
-				this._processImage(element, this._settings.show_while_loading);
+			if (_isInsideViewport(element, settings.container, settings.threshold)) {
+				this._processImage(element, settings.show_while_loading);
 				/* Marking the element index as processed. */
-				processedIndexes.push(index);
+				processedIndexes.push(i);
 			}
-		}, this);
+		}
 		/* Removing processed elements from this._elements. */
 		while (processedIndexes.length) {
-			this._elements.splice(processedIndexes.pop(), 1);
+			elements.splice(processedIndexes.pop(), 1);
+			/* Calling the end loop callback */
+			if (settings.processed_callback) {
+				settings.processed_callback(elements.length);
+			}
 		}
+
 	};
 
 	/* INITIALIZE (constructor) */
@@ -246,8 +263,8 @@ LazyLoad = function (instanceSettings) {
 	this._settings = _merge_options(_defaultSettings, instanceSettings);
 	this._elements = _convertToArray((this._settings.container === window ? document : this._settings.container).querySelectorAll(this._settings.elementsSelector));
 
-	_addEventListener(this._settings.container, "scroll", (function(_this) {
-		return function() {
+	_addEventListener(this._settings.container, "scroll", (function (_this) {
+		return function () {
 			_this._loopThroughElements();
 		};
 	})(this));
