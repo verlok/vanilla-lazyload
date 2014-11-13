@@ -54,25 +54,24 @@ LazyLoad = function (instanceSettings) {
 		}
 	}
 
-	function _getDocumentWidth() {
-		return window.innerWidth || (document.documentElement.clientWidth || document.body.clientWidth); //Math.max(visibleWidth, document.body.scrollWidth);
-	}
-
-	function _getDocumentHeight() {
-		return window.innerHeight || (document.documentElement.clientHeight || document.body.clientHeight); //Math.max(visibleHeight, document.body.scrollHeight);
-	}
-
 	function _isInsideViewport(element, container, threshold) {
 
-		var documentTop, documentLeft;
+		var ownerDocument, documentTop, documentLeft;
 
-		function _getOffset(anElement) {
-			var theBox = anElement.getBoundingClientRect(),
-				documentElement = anElement.ownerDocument.documentElement;
-			return {
-				top: theBox.top + documentTop - documentElement.clientTop,
-				left: theBox.left + documentLeft - documentElement.clientLeft
-			};
+		function _getDocumentWidth() {
+			return window.innerWidth || (ownerDocument.documentElement.clientWidth || document.body.clientWidth);
+		}
+
+		function _getDocumentHeight() {
+			return window.innerHeight || (ownerDocument.documentElement.clientHeight || document.body.clientHeight);
+		}
+
+		function _getTopOffset(element) {
+			return element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
+		}
+
+		function _getLeftOffset(element) {
+			return element.getBoundingClientRect().left + documentLeft - ownerDocument.documentElement.clientLeft;
 		}
 
 		function _isBelowViewport() {
@@ -80,9 +79,9 @@ LazyLoad = function (instanceSettings) {
 			if (container === window) {
 				fold = _getDocumentHeight() + documentTop;
 			} else {
-				fold = _getOffset(container).top + container.offsetHeight;
+				fold = _getTopOffset(container) + container.offsetHeight;
 			}
-			return fold <= _getOffset(element).top - threshold;
+			return fold <= _getTopOffset(element) - threshold;
 		}
 
 		function _isAtRightOfViewport() {
@@ -90,9 +89,9 @@ LazyLoad = function (instanceSettings) {
 			if (container === window) {
 				fold = _getDocumentWidth() + window.pageXOffset;
 			} else {
-				fold = _getOffset(container).left + _getDocumentWidth();
+				fold = _getLeftOffset(container) + _getDocumentWidth();
 			}
-			return fold <= _getOffset(element).left - threshold;
+			return fold <= _getLeftOffset(element) - threshold;
 		}
 
 		function _isAboveViewport() {
@@ -100,9 +99,9 @@ LazyLoad = function (instanceSettings) {
 			if (container === window) {
 				fold = documentTop;
 			} else {
-				fold = _getOffset(container).top;
+				fold = _getTopOffset(container);
 			}
-			return fold >= _getOffset(element).top + threshold + element.offsetHeight;
+			return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
 		}
 
 		function _isAtLeftOfViewport() {
@@ -110,18 +109,19 @@ LazyLoad = function (instanceSettings) {
 			if (container === window) {
 				fold = documentLeft;
 			} else {
-				fold = _getOffset(container).left;
+				fold = _getLeftOffset(container);
 			}
-			return fold >= _getOffset(element).left + threshold + element.offsetWidth;
+			return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
 		}
 
-		documentTop = window.pageYOffset || document.body.scrollTop;
-		documentLeft = window.pageXOffset || document.body.scrollLeft;
+		ownerDocument = element.ownerDocument;
+		documentTop = window.pageYOffset || ownerDocument.body.scrollTop;
+		documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
 
 		return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
 	}
 
-	function _merge_options(obj1, obj2) {
+	function _merge_objects(obj1, obj2) {
 		var obj3 = {}, propertyName;
 		for (propertyName in obj1) {
 			if (obj1.hasOwnProperty(propertyName)) {
@@ -253,7 +253,7 @@ LazyLoad = function (instanceSettings) {
 
 	/* INITIALIZE (constructor) */
 
-	this._settings = _merge_options(_defaultSettings, instanceSettings);
+	this._settings = _merge_objects(_defaultSettings, instanceSettings);
 	this._elements = _convertToArray((this._settings.container === window ? document : this._settings.container).querySelectorAll(this._settings.elementsSelector));
 
 	_addEventListener(this._settings.container, "scroll", (function (_this) {
