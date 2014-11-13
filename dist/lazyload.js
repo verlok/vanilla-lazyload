@@ -54,17 +54,6 @@ LazyLoad = function (instanceSettings) {
 		}
 	}
 
-	function _getOffset(element) {
-		var theBox = element.getBoundingClientRect(),
-			documentElement = element.ownerDocument.documentElement,
-			documentTop = window.pageYOffset || document.body.scrollTop,
-			documentLeft = window.pageXOffset || document.body.scrollLeft;
-		return {
-			top: theBox.top + documentTop - documentElement.clientTop,
-			left: theBox.left + documentLeft - documentElement.clientLeft
-		};
-	}
-
 	function _getDocumentWidth() {
 		return window.innerWidth || (document.documentElement.clientWidth || document.body.clientWidth); //Math.max(visibleWidth, document.body.scrollWidth);
 	}
@@ -75,10 +64,21 @@ LazyLoad = function (instanceSettings) {
 
 	function _isInsideViewport(element, container, threshold) {
 
+		var documentTop, documentLeft;
+
+		function _getOffset(anElement) {
+			var theBox = anElement.getBoundingClientRect(),
+				documentElement = anElement.ownerDocument.documentElement;
+			return {
+				top: theBox.top + documentTop - documentElement.clientTop,
+				left: theBox.left + documentLeft - documentElement.clientLeft
+			};
+		}
+
 		function _isBelowViewport() {
 			var fold;
 			if (container === window) {
-				fold = _getDocumentHeight() + (window.pageYOffset || document.body.scrollTop);
+				fold = _getDocumentHeight() + documentTop;
 			} else {
 				fold = _getOffset(container).top + container.offsetHeight;
 			}
@@ -88,7 +88,7 @@ LazyLoad = function (instanceSettings) {
 		function _isAtRightOfViewport() {
 			var fold;
 			if (container === window) {
-				fold = _getDocumentWidth() + (window.pageXOffset || document.body.scrollLeft);
+				fold = _getDocumentWidth() + window.pageXOffset;
 			} else {
 				fold = _getOffset(container).left + _getDocumentWidth();
 			}
@@ -98,7 +98,7 @@ LazyLoad = function (instanceSettings) {
 		function _isAboveViewport() {
 			var fold;
 			if (container === window) {
-				fold = window.pageYOffset || document.body.scrollTop;
+				fold = documentTop;
 			} else {
 				fold = _getOffset(container).top;
 			}
@@ -108,12 +108,15 @@ LazyLoad = function (instanceSettings) {
 		function _isAtLeftOfViewport() {
 			var fold;
 			if (container === window) {
-				fold = window.pageXOffset || document.body.scrollLeft;
+				fold = documentLeft;
 			} else {
 				fold = _getOffset(container).left;
 			}
 			return fold >= _getOffset(element).left + threshold + element.offsetWidth;
 		}
+
+		documentTop = window.pageYOffset || document.body.scrollTop;
+		documentLeft = window.pageXOffset || document.body.scrollLeft;
 
 		return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
 	}
