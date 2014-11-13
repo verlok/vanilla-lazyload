@@ -144,23 +144,14 @@ LazyLoad = function (instanceSettings) {
 		return dataAttributeContent || placeholder;
 	}
 
-	function _isHidden(element) {
-		return (element.offsetParent === null);
-	}
-
 	function _convertToArray(nodeSet) {
-		var array, i, l;
-		try {
-			return Array.prototype.slice.call(nodeSet);
+		var array = [],
+			i, l = nodeSet.length;
+
+		for (i = 0; i < l; i++) {
+			array.push(nodeSet[i]);
 		}
-		catch (e) {
-			array = [];
-			l = nodeSet.length;
-			for (i = 0; i < l; i++) {
-				array.push(nodeSet[i]);
-			}
-			return array;
-		}
+		return array;
 	}
 
 	/*
@@ -169,10 +160,10 @@ LazyLoad = function (instanceSettings) {
 	 */
 
 	this._setImageAndDisplay = function (element) {
-		var settings, src;
+		var settings = this._settings,
+			src = _getSrc(element, 'data-' + settings.src_data_attribute, settings.placeholder);
+
 		/* Setting `src` in the original `img` */
-		settings = this._settings;
-		src = _getSrc(element, 'data-' + settings.src_data_attribute, settings.placeholder);
 		if (element.nodeName.toLowerCase() === "img") {
 			element.setAttribute("src", src);
 		} else {
@@ -184,8 +175,10 @@ LazyLoad = function (instanceSettings) {
 	};
 
 	this._showOnLoad = function (element) {
-		var fakeImg, settings, that = this;
-		settings = this._settings;
+		var fakeImg,
+			settings = this._settings,
+			setImageAndDisplay = this._setImageAndDisplay;
+
 		/* If no src attribute given use data:uri. */
 		if (!element.getAttribute("src")) {
 			element.setAttribute("src", settings.placeholder);
@@ -197,7 +190,7 @@ LazyLoad = function (instanceSettings) {
 			if (settings.load_callback) {
 				settings.load_callback(element);
 			}
-			that._setImageAndDisplay(element);
+			setImageAndDisplay(element);
 			_removeEventListener(fakeImg, "load", loadCallback);
 		}
 		_addEventListener(fakeImg, "load", loadCallback);
@@ -206,8 +199,8 @@ LazyLoad = function (instanceSettings) {
 	};
 
 	this._showOnAppear = function (element) {
-		var settings;
-		settings = this._settings;
+		var settings = this._settings;
+
 		function loadCallback() {
 			if (settings.load_callback) {
 				settings.load_callback(element);
@@ -218,9 +211,9 @@ LazyLoad = function (instanceSettings) {
 		this._setImageAndDisplay(element);
 	};
 
-	this._processImage = function (element, showWhileLoading) {
+	this._processImage = function (element) {
 		/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
-		if (showWhileLoading) {
+		if (this._settings.show_while_loading) {
 			this._showOnAppear(element);
 		} else {
 			this._showOnLoad(element);
@@ -229,20 +222,22 @@ LazyLoad = function (instanceSettings) {
 
 	this._loopThroughElements = function () {
 		var processedIndexes, i, l, settings, elements, element;
-		if (!this._elements.length) {
+
+		elements = this._elements;
+		if (!elements.length) {
 			return;
 		}
 		processedIndexes = [];
-		elements = this._elements;
 		settings = this._settings;
 		l = elements.length;
 		for (i=0; i<l; i++) {
 			element = elements[i];
-			if (settings.skip_invisible && _isHidden(element)) {
-				return;
+			/* If must skip_invisible and element is invisible, go to the next iteration */
+			if (settings.skip_invisible && (element.offsetParent === null)) {
+				continue;
 			}
 			if (_isInsideViewport(element, settings.container, settings.threshold)) {
-				this._processImage(element, settings.show_while_loading);
+				this._processImage(element);
 				/* Marking the element index as processed. */
 				processedIndexes.push(i);
 			}
@@ -268,6 +263,7 @@ LazyLoad = function (instanceSettings) {
 			_this._loopThroughElements();
 		};
 	})(this));
+	
 	this._loopThroughElements();
 
 };
