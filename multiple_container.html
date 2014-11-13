@@ -5,7 +5,7 @@
 	<title>
 		Lazyload tests
 	</title>
-	<style>
+	<style type="text/css">
 		ul, li {
 			list-style-type: none;
 			margin: 0;
@@ -16,6 +16,9 @@
 			display: block;
 		}
 
+		img {
+			border: 0;
+		}
 		img:not([src]) {
 			visibility: hidden;
 		}
@@ -28,7 +31,7 @@
 	</style>
 </head>
 <body>
-<section id="results1" class="results">
+<div id="results1" class="results">
 	<ul>
 		<li>
 			<a href="#/it/donna/stivaletti_cod44721746jj.html"><img alt="Stivaletti" data-original="http://cdn.yoox.biz/44/44721746JJ_15_a.jpg" width="220" height="280" id="img1"></a>
@@ -88,8 +91,8 @@
 			<a href="#/it/donna/decollete_cod44721796uk.html"><img alt="Décolleté" data-original="http://cdn.yoox.biz/44/44721796UK_15_a.jpg" width="220" height="280"></a>
 		</li>
 	</ul>
-</section>
-<section id="results2" class="results">
+</div>
+<div id="results2" class="results">
 	<ul>
 		<li>
 			<a href="#/it/donna/francesine_cod44717679mj.html"><img alt="Francesine" data-original="http://cdn.yoox.biz/44/44717679MJ_15_a.jpg" width="220" height="280"></a>
@@ -155,7 +158,7 @@
 			<a href="#/it/donna/mocassini_cod44734002vc.html"><img alt="Mocassini" data-original="http://cdn.yoox.biz/44/44734002VC_15_a.jpg" width="220" height="280"></a>
 		</li>
 	</ul>
-</section>
+</div>
 <script src="src/lazyload.js"></script>
 <script>
 	(function () {
