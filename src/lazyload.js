@@ -73,54 +73,49 @@ LazyLoad = function (instanceSettings) {
 		return window.innerHeight || (document.documentElement.clientHeight || document.body.clientHeight); //Math.max(visibleHeight, document.body.scrollHeight);
 	}
 
-	function _isBelowViewport(element, container, threshold) {
-		var fold;
-		if (container === window) {
-			fold = _getDocumentHeight() + (window.pageYOffset || document.body.scrollTop);
-		} else {
-			fold = _getOffset(container).top + container.offsetHeight;
-		}
-		return fold <= _getOffset(element).top - threshold;
-	}
-
-	function _isAtRightOfViewport(element, container, threshold) {
-		var fold;
-		if (container === window) {
-			fold = _getDocumentWidth() + (window.pageXOffset || document.body.scrollLeft);
-		} else {
-			fold = _getOffset(container).left + _getDocumentWidth();
-		}
-		return fold <= _getOffset(element).left - threshold;
-	}
-
-	function _isAboveViewport(element, container, threshold) {
-		var fold;
-		if (container === window) {
-			fold = window.pageYOffset || document.body.scrollTop;
-		} else {
-			fold = _getOffset(container).top;
-		}
-		return fold >= _getOffset(element).top + threshold + element.offsetHeight;
-	}
-
-	function _isAtLeftOfViewport(element, container, threshold) {
-		var fold;
-		if (container === window) {
-			fold = window.pageXOffset || document.body.scrollLeft;
-		} else {
-			fold = _getOffset(container).left;
-		}
-		return fold >= _getOffset(element).left + threshold + element.offsetWidth;
-	}
-
 	function _isInsideViewport(element, container, threshold) {
 
-		var isAboveViewport = _isAboveViewport(element, container, threshold);
-		var isAtLeftOfViewport = _isAtLeftOfViewport(element, container, threshold);
-		var isBelowViewport = _isBelowViewport(element, container, threshold);
-		var isAtRightOfViewport = _isAtRightOfViewport(element, container, threshold);
+		function _isBelowViewport() {
+			var fold;
+			if (container === window) {
+				fold = _getDocumentHeight() + (window.pageYOffset || document.body.scrollTop);
+			} else {
+				fold = _getOffset(container).top + container.offsetHeight;
+			}
+			return fold <= _getOffset(element).top - threshold;
+		}
 
-		return !isAboveViewport && !isAtLeftOfViewport && !isBelowViewport && !isAtRightOfViewport;
+		function _isAtRightOfViewport() {
+			var fold;
+			if (container === window) {
+				fold = _getDocumentWidth() + (window.pageXOffset || document.body.scrollLeft);
+			} else {
+				fold = _getOffset(container).left + _getDocumentWidth();
+			}
+			return fold <= _getOffset(element).left - threshold;
+		}
+
+		function _isAboveViewport() {
+			var fold;
+			if (container === window) {
+				fold = window.pageYOffset || document.body.scrollTop;
+			} else {
+				fold = _getOffset(container).top;
+			}
+			return fold >= _getOffset(element).top + threshold + element.offsetHeight;
+		}
+
+		function _isAtLeftOfViewport() {
+			var fold;
+			if (container === window) {
+				fold = window.pageXOffset || document.body.scrollLeft;
+			} else {
+				fold = _getOffset(container).left;
+			}
+			return fold >= _getOffset(element).left + threshold + element.offsetWidth;
+		}
+
+		return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
 	}
 
 	function _merge_options(obj1, obj2) {
