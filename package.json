@@ -1,6 +1,6 @@
 {
   "name": "lazyload",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "This library helps you to load the images only when they enter the viewport or at a specific event",
   "main": "index.html",
   "dependencies": {

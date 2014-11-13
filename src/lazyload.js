@@ -10,6 +10,8 @@ LazyLoad = function (instanceSettings) {
 			threshold: 0,
 			src_data_attribute: "original",
 			processed_class: "processed",
+			loading_class: "loading",
+			loaded_class: "loaded",
 			skip_invisible: true,
 			show_while_loading: false,
 			load_callback: null,
@@ -175,6 +177,7 @@ LazyLoad = function (instanceSettings) {
 
 	this._showOnLoad = function (element) {
 		var fakeImg,
+			classList = element.classList,
 			settings = this._settings,
 			setImageAndDisplay = this._setImageAndDisplay;
 
@@ -186,27 +189,34 @@ LazyLoad = function (instanceSettings) {
 		fakeImg = document.createElement('img');
 		/* Listening to the load event */
 		function loadCallback() {
+			setImageAndDisplay(element);
 			if (settings.load_callback) {
 				settings.load_callback(element);
 			}
-			setImageAndDisplay(element);
+			classList.remove(settings.loading_class);
+			classList.add(settings.loaded_class);
 			_removeEventListener(fakeImg, "load", loadCallback);
 		}
 		_addEventListener(fakeImg, "load", loadCallback);
 		/* Setting the source in the fake image */
+		element.classList.add(settings.loading_class);
 		fakeImg.setAttribute("src", _getSrc(element));
 	};
 
 	this._showOnAppear = function (element) {
-		var settings = this._settings;
+		var settings = this._settings,
+			classList = element.classList;
 
 		function loadCallback() {
 			if (settings.load_callback) {
 				settings.load_callback(element);
 			}
+			classList.remove(settings.loading_class);
+			classList.add(settings.loaded_class);
 			_removeEventListener(element, "load", loadCallback);
 		}
 		_addEventListener(element, "load", loadCallback);
+		classList.add(settings.loading_class);
 		this._setImageAndDisplay(element);
 	};
 
