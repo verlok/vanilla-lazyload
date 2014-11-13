@@ -5,10 +5,11 @@
 LazyLoad = function (instanceSettings) {
 
 	var _defaultSettings = {
-			elementsSelector: "img",
+			elements_selector: "img:not(.processed)",
 			container: window,
 			threshold: 0,
 			src_data_attribute: "original",
+			processed_class: "processed",
 			skip_invisible: true,
 			show_while_loading: false,
 			load_callback: null,
@@ -20,7 +21,7 @@ LazyLoad = function (instanceSettings) {
 		_supportsAttachEvent = !!window.attachEvent;
 
 	/*
-	 * PRIVATE FUNCTIONS *NOT* RELATED TO A SPECIFIC INSTANCE OF LAZY LOAD
+	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * -------------------------------------------------------------------
 	 */
 
@@ -142,7 +143,7 @@ LazyLoad = function (instanceSettings) {
 		return dataAttributeContent || placeholder;
 	}
 
-	function _convertToArray(nodeSet) {
+	function _getArrayFromNodeSet(nodeSet) {
 		var array = [],
 			i, l = nodeSet.length;
 
@@ -210,12 +211,21 @@ LazyLoad = function (instanceSettings) {
 	};
 
 	this._processImage = function (element) {
+		var settings = this._settings;
+
+		/* The following if is useful to skip elements already processed
+		   but were not excluded by the elements_selector setting. */
+		if (element.classList.contains(settings.processed_class)) {
+			return;
+		}
 		/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
-		if (this._settings.show_while_loading) {
+		if (settings.show_while_loading) {
 			this._showOnAppear(element);
 		} else {
 			this._showOnLoad(element);
 		}
+		/* Setting element as processed */
+		element.classList.add(settings.processed_class);
 	};
 
 	this._loopThroughElements = function () {
@@ -251,17 +261,36 @@ LazyLoad = function (instanceSettings) {
 
 	};
 
-	/* INITIALIZE (constructor) */
+	this._loadElements = function () {
+		var originNode, settings = this._settings;
 
+		originNode = settings.container === window ? document : settings.container;
+		this._elements = this._elements.concat(_getArrayFromNodeSet(originNode.querySelectorAll(settings.elements_selector)));
+	};
+
+	/*
+	 * PUBLIC FUNCTIONS
+	 * ----------------
+	 */
+
+	this.update = function() {
+		this._loadElements();
+		this._loopThroughElements();
+	};
+
+	/*
+	 * INITIALIZER
+	 * -----------
+	 */
+
+	this._elements = [];
 	this._settings = _merge_objects(_defaultSettings, instanceSettings);
-	this._elements = _convertToArray((this._settings.container === window ? document : this._settings.container).querySelectorAll(this._settings.elementsSelector));
-
+	this._loadElements();
 	_addEventListener(this._settings.container, "scroll", (function (_this) {
 		return function () {
 			_this._loopThroughElements();
 		};
 	})(this));
-	
 	this._loopThroughElements();
 
 };
