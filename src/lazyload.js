@@ -5,7 +5,7 @@
 LazyLoad = function (instanceSettings) {
 
 	var _defaultSettings = {
-			elements_selector: "img",
+			elements_selector: "img:not(.processed)",
 			container: window,
 			threshold: 0,
 			src_data_attribute: "original",
@@ -267,7 +267,8 @@ LazyLoad = function (instanceSettings) {
 		}
 	};
 
-	this._loadElements = function() {
+	this._loadElements = function () {
+		/* TODO: This breaks on IE8 because default selector has :not(.processed) which is not supported */
 		this._elements = this._queryOriginNode.querySelectorAll(this._settings.elements_selector);
 	};
 
