@@ -145,16 +145,6 @@ LazyLoad = function (instanceSettings) {
 		return dataAttributeContent || placeholder;
 	}
 
-	function _getArrayFromNodeSet(nodeSet) {
-		var array = [],
-			i, l = nodeSet.length;
-
-		for (i = 0; i < l; i++) {
-			array.push(nodeSet[i]);
-		}
-		return array;
-	}
-
 	/*
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * ---------------------------------------------------------------
@@ -239,14 +229,10 @@ LazyLoad = function (instanceSettings) {
 	};
 
 	this._loopThroughElements = function () {
-		var processedIndexes, i, l, settings, elements, element;
+		var i, l, settings, elements, element;
 
-		elements = this._elements;
-		if (!elements.length) {
-			return;
-		}
-		processedIndexes = [];
 		settings = this._settings;
+		elements = this._elements;
 		l = elements.length;
 		for (i=0; i<l; i++) {
 			element = elements[i];
@@ -256,26 +242,17 @@ LazyLoad = function (instanceSettings) {
 			}
 			if (_isInsideViewport(element, settings.container, settings.threshold)) {
 				this._processImage(element);
-				/* Marking the element index as processed. */
-				processedIndexes.push(i);
+				this._loadElements();
+				/* Calling the processed class */
+				if (settings.processed_callback) {
+					settings.processed_callback(this._elements.length);
+				}
 			}
 		}
-		/* Removing processed elements from this._elements. */
-		while (processedIndexes.length) {
-			elements.splice(processedIndexes.pop(), 1);
-			/* Calling the end loop callback */
-			if (settings.processed_callback) {
-				settings.processed_callback(elements.length);
-			}
-		}
-
 	};
 
-	this._loadElements = function () {
-		var originNode, settings = this._settings;
-
-		originNode = settings.container === window ? document : settings.container;
-		this._elements = this._elements.concat(_getArrayFromNodeSet(originNode.querySelectorAll(settings.elements_selector)));
+	this._loadElements = function() {
+		this._elements = this._queryOriginNode.querySelectorAll(this._settings.elements_selector);
 	};
 
 	/*
@@ -293,14 +270,13 @@ LazyLoad = function (instanceSettings) {
 	 * -----------
 	 */
 
-	this._elements = [];
 	this._settings = _merge_objects(_defaultSettings, instanceSettings);
-	this._loadElements();
+	this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 	_addEventListener(this._settings.container, "scroll", (function (_this) {
 		return function () {
 			_this._loopThroughElements();
 		};
 	})(this));
-	this._loopThroughElements();
+	this.update();
 
 };
