@@ -5,7 +5,7 @@
 LazyLoad = function (instanceSettings) {
 
 	var _defaultSettings = {
-			elements_selector: "img:not(.processed)",
+			elements_selector: "img",
 			container: window,
 			threshold: 0,
 			src_data_attribute: "original",
@@ -20,7 +20,8 @@ LazyLoad = function (instanceSettings) {
 			placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
 		},
 		_supportsAddEventListener = !!window.addEventListener,
-		_supportsAttachEvent = !!window.attachEvent;
+		_supportsAttachEvent = !!window.attachEvent,
+		_supportsClassList = !!document.body.classList;
 
 	/*
 	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
@@ -145,6 +146,26 @@ LazyLoad = function (instanceSettings) {
 		return dataAttributeContent || placeholder;
 	}
 
+	function _addClass(element, className) {
+		/* HTML 5 compliant browsers. */
+		if (_supportsClassList) {
+			element.classList.add(className);
+			return;
+		}
+		/* Legacy browsers (IE<10) support. */
+		element.className += (element.className ? ' ' : '') + className;
+	}
+
+	function _removeClass(element, className) {
+		/* HTML 5 compliant browsers. */
+		if (_supportsClassList) {
+			element.classList.remove(className);
+			return;
+		}
+		/* Legacy browsers (IE<10) support. */
+		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').replace(/^\s+/, '').replace(/\s+$/, '');
+	}
+
 	/*
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * ---------------------------------------------------------------
@@ -167,7 +188,6 @@ LazyLoad = function (instanceSettings) {
 
 	this._showOnLoad = function (element) {
 		var fakeImg,
-			classList = element.classList,
 			settings = this._settings,
 			setImageAndDisplay = this._setImageAndDisplay;
 
@@ -183,41 +203,37 @@ LazyLoad = function (instanceSettings) {
 			if (settings.load_callback) {
 				settings.load_callback(element);
 			}
-			classList.remove(settings.loading_class);
-			classList.add(settings.loaded_class);
+			_removeClass(element, settings.loading_class);
+			_addClass(element, settings.loaded_class);
 			_removeEventListener(fakeImg, "load", loadCallback);
 		}
+
 		_addEventListener(fakeImg, "load", loadCallback);
+		_addClass(element, settings.loading_class);
 		/* Setting the source in the fake image */
-		element.classList.add(settings.loading_class);
 		fakeImg.setAttribute("src", _getSrc(element));
 	};
 
 	this._showOnAppear = function (element) {
-		var settings = this._settings,
-			classList = element.classList;
+		var settings = this._settings;
 
 		function loadCallback() {
 			if (settings.load_callback) {
 				settings.load_callback(element);
 			}
-			classList.remove(settings.loading_class);
-			classList.add(settings.loaded_class);
+			_removeClass(element, settings.loading_class);
+			_addClass(element, settings.loaded_class);
 			_removeEventListener(element, "load", loadCallback);
 		}
+
 		_addEventListener(element, "load", loadCallback);
-		classList.add(settings.loading_class);
+		_addClass(element, settings.loading_class);
 		this._setImageAndDisplay(element);
 	};
 
 	this._processImage = function (element) {
 		var settings = this._settings;
 
-		/* The following if is useful to skip elements already processed
-		   but were not excluded by the elements_selector setting. */
-		if (element.classList.contains(settings.processed_class)) {
-			return;
-		}
 		/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
 		if (settings.show_while_loading) {
 			this._showOnAppear(element);
@@ -225,7 +241,7 @@ LazyLoad = function (instanceSettings) {
 			this._showOnLoad(element);
 		}
 		/* Setting element as processed */
-		element.classList.add(settings.processed_class);
+		_addClass(element, settings.processed_class);
 	};
 
 	this._loopThroughElements = function () {
@@ -234,7 +250,7 @@ LazyLoad = function (instanceSettings) {
 		settings = this._settings;
 		elements = this._elements;
 		l = elements.length;
-		for (i=0; i<l; i++) {
+		for (i = 0; i < l; i++) {
 			element = elements[i];
 			/* If must skip_invisible and element is invisible, go to the next iteration */
 			if (settings.skip_invisible && (element.offsetParent === null)) {
@@ -260,7 +276,7 @@ LazyLoad = function (instanceSettings) {
 	 * ----------------
 	 */
 
-	this.update = function() {
+	this.update = function () {
 		this._loadElements();
 		this._loopThroughElements();
 	};
