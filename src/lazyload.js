@@ -8,14 +8,15 @@ LazyLoad = function (instanceSettings) {
 			elements_selector: "img",
 			container: window,
 			threshold: 0,
-			src_data_attribute: "original",
-			loading_class: "loading",
-			loaded_class: "loaded",
+			data_src: "original",
+			data_ignore: "ignore",
+			class_loading: "loading",
+			class_loaded: "loaded",
 			skip_invisible: true,
 			show_while_loading: false,
-			load_callback: null,
-			set_callback: null,
-			processed_callback: null,
+			callback_load: null,
+			callback_set: null,
+			callback_processed: null,
 			placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
 		},
 		_supportsAddEventListener = !!window.addEventListener,
@@ -192,7 +193,7 @@ LazyLoad = function (instanceSettings) {
 
 	this._setImageAndDisplay = function (element) {
 		var settings = this._settings,
-			src = _getSrc(element, 'data-' + settings.src_data_attribute, settings.placeholder);
+			src = _getSrc(element, 'data-' + settings.data_src, settings.placeholder);
 
 		/* Setting `src` in the original `img` */
 		if (element.nodeName.toLowerCase() === "img") {
@@ -200,15 +201,15 @@ LazyLoad = function (instanceSettings) {
 		} else {
 			element.style.backgroundImage = "url('" + src + "')";
 		}
-		if (settings.set_callback) {
-			settings.set_callback(element);
+		if (settings.callback_set) {
+			settings.callback_set(element);
 		}
 	};
 
 	this._showOnLoad = function (element) {
 		var fakeImg,
 			settings = this._settings,
-			setImageAndDisplay = this._setImageAndDisplay;
+			_this = this;
 
 		/* If no src attribute given use data:uri. */
 		if (!element.getAttribute("src")) {
@@ -218,35 +219,35 @@ LazyLoad = function (instanceSettings) {
 		fakeImg = document.createElement('img');
 		/* Listening to the load event */
 		function loadCallback() {
-			setImageAndDisplay(element);
-			if (settings.load_callback) {
-				settings.load_callback(element);
+			if (settings.callback_load) {
+				settings.callback_load(element);
 			}
-			_removeClass(element, settings.loading_class);
-			_addClass(element, settings.loaded_class);
+			_this._setImageAndDisplay(element);
+			_removeClass(element, settings.class_loading);
+			_addClass(element, settings.class_loaded);
 			_removeEventListener(fakeImg, "load", loadCallback);
 		}
 
 		_addEventListener(fakeImg, "load", loadCallback);
-		_addClass(element, settings.loading_class);
+		_addClass(element, settings.class_loading);
 		/* Setting the source in the fake image */
-		fakeImg.setAttribute("src", _getSrc(element));
+		fakeImg.setAttribute("src", _getSrc(element, 'data-' + settings.data_src, settings.placeholder));
 	};
 
 	this._showOnAppear = function (element) {
 		var settings = this._settings;
 
 		function loadCallback() {
-			if (settings.load_callback) {
-				settings.load_callback(element);
+			if (settings.callback_load) {
+				settings.callback_load(element);
 			}
-			_removeClass(element, settings.loading_class);
-			_addClass(element, settings.loaded_class);
+			_removeClass(element, settings.class_loading);
+			_addClass(element, settings.class_loaded);
 			_removeEventListener(element, "load", loadCallback);
 		}
 
 		_addEventListener(element, "load", loadCallback);
-		_addClass(element, settings.loading_class);
+		_addClass(element, settings.class_loading);
 		this._setImageAndDisplay(element);
 	};
 
@@ -257,12 +258,9 @@ LazyLoad = function (instanceSettings) {
 			elementsLength = elements.length,
 			processedIndexes = [];
 
-		if (elementsLength === 0) {
-			return;
-		}
 		for (i = 0; i < elementsLength; i++) {
 			element = elements[i];
-			/* If must skip_invisible and element is invisible, go to the next iteration */
+			/* If must skip_invisible and element is invisible, skip it */
 			if (settings.skip_invisible && (element.offsetParent === null)) {
 				continue;
 			}
@@ -273,19 +271,39 @@ LazyLoad = function (instanceSettings) {
 				} else {
 					this._showOnLoad(element);
 				}
-				/* Marking the element index as processed. */
+				/* Marking the element as processed. */
 				processedIndexes.push(i);
+				element.setAttribute('data-' + settings.data_ignore, true);
 			}
 		}
 		/* Removing processed elements from this._elements. */
-		while (processedIndexes.length) {
+		while (processedIndexes.length > 0) {
 			elements.splice(processedIndexes.pop(), 1);
 			/* Calling the end loop callback */
-			if (settings.processed_callback) {
-				settings.processed_callback(elements.length);
+			if (settings.callback_processed) {
+				settings.callback_processed(elements.length);
 			}
 		}
+	};
 
+	this._purgeElements = function () {
+		var i, element,
+			settings = this._settings,
+			elements = this._elements,
+			elementsLength = elements.length,
+			elementsToPurge = [];
+
+		for (i = 0; i < elementsLength; i++) {
+			element = elements[i];
+			/* If the element has already been processed, skip it */
+			if (element.getAttribute('data-' + settings.data_ignore)) {
+				elementsToPurge.push(i);
+			}
+		}
+		/* Removing elements to purge from this._elements. */
+		while (elementsToPurge.length > 0) {
+			elements.splice(elementsToPurge.pop(), 1);
+		}
 	};
 
 	/*
@@ -295,6 +313,7 @@ LazyLoad = function (instanceSettings) {
 
 	this.update = function () {
 		this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
+		this._purgeElements();
 		this._loopThroughElements();
 	};
 

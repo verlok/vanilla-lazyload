@@ -174,13 +174,13 @@
 		new LazyLoad({
 			container: document.getElementById('results1'),
 			show_while_loading: true,
-			load_callback: function (element) {
+			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
-			set_callback: function (element) {
+			callback_set: function (element) {
 				logElementEvent("SET", element);
 			},
-			processed_callback: function(elementsLeft) {
+			callback_processed: function(elementsLeft) {
 				logEvent("PROCESSED", elementsLeft);
 			}
 		});
@@ -188,13 +188,13 @@
 		new LazyLoad({
 			container: document.getElementById('results2'),
 			show_while_loading: true,
-			load_callback: function (element) {
+			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
-			set_callback: function (element) {
+			callback_set: function (element) {
 				logElementEvent("SET", element);
 			},
-			processed_callback: function(elementsLeft) {
+			callback_processed: function(elementsLeft) {
 				logEvent("PROCESSED", elementsLeft);
 			}
 		});
