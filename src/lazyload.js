@@ -5,11 +5,10 @@
 LazyLoad = function (instanceSettings) {
 
 	var _defaultSettings = {
-			elements_selector: "img:not(.processed)",
+			elements_selector: "img",
 			container: window,
 			threshold: 0,
 			src_data_attribute: "original",
-			processed_class: "processed",
 			loading_class: "loading",
 			loaded_class: "loaded",
 			skip_invisible: true,
@@ -147,6 +146,19 @@ LazyLoad = function (instanceSettings) {
 		return dataAttributeContent || placeholder;
 	}
 
+	function _convertToArray(nodeSet) {
+		if (Array.prototype.slice) {
+			return Array.prototype.slice.call(nodeSet);
+		}
+		var array = [],
+			i, l = nodeSet.length;
+
+		for (i = 0; i < l; i++) {
+			array.push(nodeSet[i]);
+		}
+		return array;
+	}
+
 	function _addClass(element, className) {
 		/* HTML 5 compliant browsers. */
 		if (_supportsClassList) {
@@ -236,45 +248,42 @@ LazyLoad = function (instanceSettings) {
 		this._setImageAndDisplay(element);
 	};
 
-	this._processImage = function (element) {
-		var settings = this._settings;
-
-		/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
-		if (settings.show_while_loading) {
-			this._showOnAppear(element);
-		} else {
-			this._showOnLoad(element);
-		}
-		/* Setting element as processed */
-		_addClass(element, settings.processed_class);
-	};
-
 	this._loopThroughElements = function () {
-		var i, l, settings, elements, element;
+		var i, element,
+			settings = this._settings,
+			elements = this._elements,
+			elementsLength = elements.length,
+			processedIndexes = [];
 
-		settings = this._settings;
-		elements = this._elements;
-		l = elements.length;
-		for (i = 0; i < l; i++) {
+		if (elementsLength === 0) {
+			return;
+		}
+		for (i = 0; i < elementsLength; i++) {
 			element = elements[i];
 			/* If must skip_invisible and element is invisible, go to the next iteration */
 			if (settings.skip_invisible && (element.offsetParent === null)) {
 				continue;
 			}
 			if (_isInsideViewport(element, settings.container, settings.threshold)) {
-				this._processImage(element);
-				this._loadElements();
-				/* Calling the processed class */
-				if (settings.processed_callback) {
-					settings.processed_callback(this._elements.length);
+				/* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
+				if (settings.show_while_loading) {
+					this._showOnAppear(element);
+				} else {
+					this._showOnLoad(element);
 				}
+				/* Marking the element index as processed. */
+				processedIndexes.push(i);
 			}
 		}
-	};
+		/* Removing processed elements from this._elements. */
+		while (processedIndexes.length) {
+			elements.splice(processedIndexes.pop(), 1);
+			/* Calling the end loop callback */
+			if (settings.processed_callback) {
+				settings.processed_callback(elements.length);
+			}
+		}
 
-	this._loadElements = function () {
-		/* TODO: This breaks on IE8 because default selector has :not(.processed) which is not supported */
-		this._elements = this._queryOriginNode.querySelectorAll(this._settings.elements_selector);
 	};
 
 	/*
@@ -283,7 +292,7 @@ LazyLoad = function (instanceSettings) {
 	 */
 
 	this.update = function () {
-		this._loadElements();
+		this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
 		this._loopThroughElements();
 	};
 
