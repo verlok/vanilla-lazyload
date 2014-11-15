@@ -173,7 +173,7 @@
 				return;
 			}
 			// Otherwise use attachEvent, set this and event
-			if (_supportsAttachEvent) {
+			if (!!window.attachEvent) {
 				element.attachEvent('on' + eventName, (function (el) {
 					return function () {
 						callback.call(el, window.event);

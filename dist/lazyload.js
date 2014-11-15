@@ -147,16 +147,18 @@ LazyLoad = function (instanceSettings) {
 	}
 
 	function _convertToArray(nodeSet) {
-		if (Array.prototype.slice) {
+		try {
 			return Array.prototype.slice.call(nodeSet);
 		}
-		var array = [],
-			i, l = nodeSet.length;
+		catch (e) {
+			var array = [],
+				i, l = nodeSet.length;
 
-		for (i = 0; i < l; i++) {
-			array.push(nodeSet[i]);
+			for (i = 0; i < l; i++) {
+				array.push(nodeSet[i]);
+			}
+			return array;
 		}
-		return array;
 	}
 
 	function _addClass(element, className) {
