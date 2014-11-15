@@ -21,7 +21,8 @@ LazyLoad = function (instanceSettings) {
 		},
 		_supportsAddEventListener = !!window.addEventListener,
 		_supportsAttachEvent = !!window.attachEvent,
-		_supportsClassList = !!document.body.classList;
+		_supportsClassList = !!document.body.classList,
+		_this = this;
 
 	/*
 	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
@@ -166,6 +167,10 @@ LazyLoad = function (instanceSettings) {
 		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').replace(/^\s+/, '').replace(/\s+$/, '');
 	}
 
+	function _scrollHandler() {
+		_this._loopThroughElements();
+	}
+
 	/*
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * ---------------------------------------------------------------
@@ -282,6 +287,13 @@ LazyLoad = function (instanceSettings) {
 		this._loopThroughElements();
 	};
 
+	this.destroy = function () {
+		_removeEventListener(this._settings.container, "scroll", _scrollHandler);
+		this._elements = null;
+		this._queryOriginNode = null;
+		this._settings = null;
+	};
+
 	/*
 	 * INITIALIZER
 	 * -----------
@@ -289,11 +301,7 @@ LazyLoad = function (instanceSettings) {
 
 	this._settings = _merge_objects(_defaultSettings, instanceSettings);
 	this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-	_addEventListener(this._settings.container, "scroll", (function (_this) {
-		return function () {
-			_this._loopThroughElements();
-		};
-	})(this));
 	this.update();
+	_addEventListener(this._settings.container, "scroll", _scrollHandler);
 
 };
