@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
-<button id="addContent">
-	ADD CONTENT <span class="count"></span>
-</button>
 <head lang="en">
 	<meta charset="UTF-8">
 	<title>
@@ -36,6 +33,9 @@
 	</style>
 </head>
 <body>
+<button id="addContent">
+	ADD CONTENT <span class="count"></span>
+</button>
 <div id="results1" class="results">
 	<ul>
 		<li>
@@ -65,7 +65,7 @@
 <script>
 	(function () {
 
-		var count = 0, addContentButton, additionalContent;
+		var count = 0, addContentButton, additionalContent, target;
 
 		function _addEventListener(element, eventName, callback) {
 			// Use addEventListener if available
@@ -112,7 +112,7 @@
 			'<li><a href="#"><img alt="Francesine" data-original="http://cdn.yoox.biz/44/44717679MJ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="http://cdn.yoox.biz/44/44724594VU_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="http://cdn.yoox.biz/44/44726148AQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="http://cdn.yoox.biz/44/44719629NT_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="http://cdn.yoox.biz/44/44725329KQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="http://cdn.yoox.biz/44/44724026QS_15_a.jpg" width="220" height="280"></a> </li>'
 		];
 
-		addContentButton = document.getElementById('addContent');
+		addContentButton = document.getElementById('destroy');
 		target = document.querySelector("#results1 ul");
 
 		_addEventListener(addContentButton, 'click', function() {
