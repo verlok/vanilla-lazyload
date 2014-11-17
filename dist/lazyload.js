@@ -311,6 +311,10 @@ LazyLoad = function (instanceSettings) {
 				settings.callback_processed(elements.length);
 			}
 		}
+		/* Stop listening to scroll event when 0 elements remains */
+		if (elements.length === 0) {
+			this._stopScrollHandler();
+		}
 	};
 
 	this._purgeElements = function () {
@@ -333,6 +337,20 @@ LazyLoad = function (instanceSettings) {
 		}
 	};
 
+	this._startScrollHandler = function() {
+		if (!this._isHandlingScroll) {
+			this._isHandlingScroll = true;
+			_addEventListener(this._settings.container, "scroll", _scrollHandler);
+		}
+	};
+
+	this._stopScrollHandler = function() {
+		if (this._isHandlingScroll) {
+			this._isHandlingScroll = false;
+			_removeEventListener(this._settings.container, "scroll", _scrollHandler);
+		}
+	};
+
 	/*
 	 * PUBLIC FUNCTIONS
 	 * ----------------
@@ -342,10 +360,11 @@ LazyLoad = function (instanceSettings) {
 		this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
 		this._purgeElements();
 		this._loopThroughElements();
+		this._startScrollHandler();
 	};
 
 	this.destroy = function () {
-		_removeEventListener(this._settings.container, "scroll", _scrollHandler);
+		this._stopScrollHandler();
 		this._elements = null;
 		this._queryOriginNode = null;
 		this._settings = null;
@@ -359,6 +378,5 @@ LazyLoad = function (instanceSettings) {
 	this._settings = _merge_objects(_defaultSettings, instanceSettings);
 	this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 	this.update();
-	_addEventListener(this._settings.container, "scroll", _scrollHandler);
 
 };
