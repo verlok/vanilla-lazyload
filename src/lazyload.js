@@ -211,6 +211,39 @@ LazyLoad = function (instanceSettings) {
 			_this._loopThroughElements();
 		}
 	}
+    
+    // Based on throttle from underscore.js 1.7.0
+    // (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+    // Underscore may be freely distributed under the MIT license.
+    function _throttle(func, wait) {
+        var context, args, result;
+        var timeout = null;
+        var previous = 0;
+        var later = function() {
+          previous = Date.now();
+          timeout = null;
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        };
+        return function() {
+          var now = Date.now();
+          var remaining = wait - (now - previous);
+          context = this;
+          args = arguments;
+          if (remaining <= 0 || remaining > wait) {
+            if (timeout) {
+              clearTimeout(timeout);
+              timeout = null;
+            }
+            previous = now;
+            result = func.apply(context, args);
+            if (!timeout) context = args = null;
+          } else if (!timeout) {
+            timeout = setTimeout(later, remaining);
+          }
+          return result;
+        };
+    };
 
 
 	/*
@@ -278,7 +311,7 @@ LazyLoad = function (instanceSettings) {
 		this._setImageAndDisplay(element);
 	};
 
-	this._loopThroughElements = function () {
+	this._loopThroughElements = _throttle(function () {
 		var i, element,
 			settings = this._settings,
 			elements = this._elements,
@@ -311,7 +344,7 @@ LazyLoad = function (instanceSettings) {
 				settings.callback_processed(elements.length);
 			}
 		}
-	};
+	}, 100);
 
 	this._purgeElements = function () {
 		var i, element,
@@ -341,6 +374,10 @@ LazyLoad = function (instanceSettings) {
 	this.update = function () {
 		this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
 		this._purgeElements();
+		this._loopThroughElements();
+	};
+
+	this.check = function () {
 		this._loopThroughElements();
 	};
 
