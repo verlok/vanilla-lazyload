@@ -350,6 +350,10 @@ LazyLoad = function (instanceSettings) {
 		this._loopThroughElements();
 	};
 
+	this.check = function () {
+		this._loopThroughElements();
+	};
+
 	this.destroy = function () {
 		_removeEventListener(this._settings.container, "scroll", _scrollHandler);
 		this._elements = null;
