@@ -93,8 +93,7 @@
 			console.log(new Date().getTime(), eventName, elementsLeft + " images left");
 		}
 
-		ll = new LazyLoad({
-			show_while_loading: true,
+		ll = new LazyLoad(/*{
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
@@ -104,7 +103,7 @@
 			callback_processed: function(elementsLeft) {
 				logEvent("PROCESSED", elementsLeft);
 			}
-		});
+		}*/);
 
 		additionalContent = [
 			'<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-original="http://cdn.yoox.biz/44/44739938WK_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="http://cdn.yoox.biz/44/44736534FQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="http://cdn.yoox.biz/44/44735388UI_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="http://cdn.yoox.biz/44/44739165EV_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="http://cdn.yoox.biz/44/44739454HF_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="http://cdn.yoox.biz/44/44719480KM_15_a.jpg" width="220" height="280"></a> </li>',

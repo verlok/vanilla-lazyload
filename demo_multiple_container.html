@@ -172,8 +172,7 @@
 		}
 
 		new LazyLoad({
-			container: document.getElementById('results1'),
-			show_while_loading: true,
+			container: document.getElementById('results1')/*,
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
@@ -182,12 +181,11 @@
 			},
 			callback_processed: function(elementsLeft) {
 				logEvent("PROCESSED", elementsLeft);
-			}
+			}*/
 		});
 
 		new LazyLoad({
-			container: document.getElementById('results2'),
-			show_while_loading: true,
+			container: document.getElementById('results2')/*,
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
@@ -196,7 +194,7 @@
 			},
 			callback_processed: function(elementsLeft) {
 				logEvent("PROCESSED", elementsLeft);
-			}
+			}*/
 		});
 
 	}());

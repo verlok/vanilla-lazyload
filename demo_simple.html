@@ -161,7 +161,7 @@
 			console.log(new Date().getTime(), eventName, elementsLeft + " images left");
 		}
 
-		new LazyLoad({
+		new LazyLoad(/*{
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
@@ -171,7 +171,7 @@
 			callback_processed: function(elementsLeft) {
 				logEvent("PROCESSED", elementsLeft);
 			}
-		});
+		}*/);
 
 	}());
 </script>

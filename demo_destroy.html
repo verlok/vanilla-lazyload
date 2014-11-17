@@ -192,8 +192,7 @@
 			console.log(new Date().getTime(), eventName, elementsLeft + " images left");
 		}
 
-		ll = new LazyLoad({
-			show_while_loading: true,
+		ll = new LazyLoad(/*{
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
@@ -203,7 +202,7 @@
 			callback_processed: function(elementsLeft) {
 				logEvent("PROCESSED", elementsLeft);
 			}
-		});
+		}*/);
 
 		destroyButton = document.getElementById('destroy');
 
