@@ -7,7 +7,8 @@ LazyLoad = function (instanceSettings) {
 	var _defaultSettings = {
 			elements_selector: "img",
 			container: window,
-			threshold: 0,
+			threshold: 300,
+			throttle: 40,
 			data_src: "original",
 			data_ignore: "ignore",
 			class_loading: "loading",
@@ -22,7 +23,9 @@ LazyLoad = function (instanceSettings) {
 		_supportsAddEventListener = !!window.addEventListener,
 		_supportsAttachEvent = !!window.attachEvent,
 		_supportsClassList = !!document.body.classList,
-		_this = this;
+		_this = this,
+		_previousLoopTime = 0,
+		_loopTimeout = null;
 
 	/*
 	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
@@ -183,8 +186,32 @@ LazyLoad = function (instanceSettings) {
 	}
 
 	function _scrollHandler() {
-		_this._loopThroughElements();
+		var remainingTime,
+			now = Date.now(),
+			throttle = _this._settings.throttle;
+
+		if (throttle !== 0) {
+			remainingTime = throttle - (now - _previousLoopTime);
+			if (remainingTime <= 0 || remainingTime > throttle) {
+				if (_loopTimeout) {
+					clearTimeout(_loopTimeout);
+					_loopTimeout = null;
+				}
+				_previousLoopTime = now;
+				_this._loopThroughElements();
+			} else if (!_loopTimeout) {
+				_loopTimeout = setTimeout(function() {
+					_previousLoopTime = Date.now();
+					_loopTimeout = null;
+					_this._loopThroughElements();
+				}, remainingTime);
+			}
+		}
+		else {
+			_this._loopThroughElements();
+		}
 	}
+
 
 	/*
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
