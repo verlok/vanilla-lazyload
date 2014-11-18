@@ -68,7 +68,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-See demo_simple.html for more defails about the simple usage.
+See [demo_simple.html](demo_simple.html) for more defails about the simple usage.
 
 # Examples
 
