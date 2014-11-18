@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>
+		Lazyload tests
+	</title>
+	<style type="text/css">
+		body {
+			font-family: sans-serif;
+			line-height: 1.5em;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1, h2, h3, h4 {
+			margin-top: 1.5em;
+			font-family: Georgia, serif;
+		}
+		h1:first-child {
+			margin-top: 1.2em;
+		}
+
+		.container {
+			overflow-x: hidden;
+			position: relative;
+		}
+		
+		article {
+			margin: 0 auto;
+			max-width: 50rem;
+			padding: 1em;
+		}
+
+		.corner {
+			background: #ffce00;
+			color: black;
+			padding: 0.2rem 3rem;
+			text-decoration: none;
+			position: absolute;
+			transform: rotate(45deg);
+			transform-origin: top right;
+			top: 8.5rem;
+			right: -2rem;
+			transition: all .2s;
+		}
+		.corner:hover {
+			box-shadow: black 0 0 .5em;
+			top: 8.8rem;
+			right: -1.7rem;
+		}
+
+		table {
+			border-collapse: collapse;
+		}
+
+		td, th {
+			padding: 5px;
+			text-align: left;
+			vertical-align: top;
+			border: 1px solid #ccc;
+		}
+
+		tbody tr:nth-child(odd) {
+			background: #EEE;
+		}
+
+		thead tr {
+			background: #333;
+			color: white;
+		}
+
+		.results ul,
+		.results li {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		code {
+			padding: 0.5em;
+			background: #EEE;
+			border-radius: 0.33em;
+
+		}
+
+		code[class] {
+			display: block;
+			background: #333;
+			color: white;
+			overflow-x: scroll;
+		}
+
+		article h1 {
+			font-size: 2.5rem;
+		}
+
+		article h2 {
+			font-size: 2rem;
+		}
+
+		article h3 {
+			font-size: 1.5rem;
+		}
+
+	</style>
+</head>
+<body>
+<div class="container">
+	<a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
+	<article class="markdown-body">
+		<h1>LazyLoad</h1>
+		<p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they’re about to enter the viewport</strong> of a scrollable area, with an excellent <strong>support to the progressive JPEG image format</strong>.</p>
+		<p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>‘s <a href="http://www.appelsiini.net/projects/lazyload">jQuery.lazyLoad</a>. See <a href="#lazyload-vs-jquery95lazyload">LazyLoad vs jQuery_lazyload</a> to learn about the difference between this script and <code>jQuery_lazyload</code>.</p>
+		<h2 id="how-to-use-lazyload"><a name="user-content-how-to-use-lazyload" href="#how-to-use-lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>How to use LazyLoad</h2>
+		<p><strong>HTML - <code>img</code> tags</strong></p>
+		<p>Markup your images putting the image source inside the <code>data-original</code> attribute.<br>
+			Specify both <code>width</code> and <code>height</code> attributes so the browser can allocate the space on your page.</p>
+<pre><code class="html">&lt;img data-original="http://www.yourimageserver.com/your/image1.jpg" width="100" height="172" /&gt;
+	&lt;img data-original="http://www.yourimageserver.com/your/image2.jpg" width="100" height="172" /&gt;
+	&lt;img data-original="http://www.yourimageserver.com/your/image3.jpg" width="100" height="172" /&gt;
+</code></pre>
+
+		<p><strong>HTML - <code>script</code> tag</strong></p>
+		<p>Include the script in the bottom of your HTML page, just before the closing <code>&lt;/body&gt;</code> tag.</p>
+<pre><code class="html">&lt;body&gt;
+	&lt;!-- Your content ... --&gt;
+	&lt;script src="lazyload.min.js"&gt;&lt;/script&gt;
+	&lt;/body&gt;
+</code></pre>
+
+		<p><strong>Javascript</strong></p>
+		<p>In your javascript code, create an instance of LazyLoad, doing so:</p>
+<pre><code class="javascript">var myLazyLoad = new LazyLoad();
+</code></pre>
+
+		<p>Or, if you want to customize the behaviour of <em>LazyLoad</em> passing some options in, you can do so:</p>
+<pre><code class="javascript">var myLazyLoad = new LazyLoad({
+	// options object, see details above
+	placeholder = 'url(http://www.yourimageserver.com/placeholder.gif)';
+	});
+</code></pre>
+
+		<p>See the <a href="#demos">demos</a> and <a href="#options">options</a> sections for further defails.</p>
+		<h2 id="demos"><a name="user-content-demos" href="#demos" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Demos</h2>
+		<p>Learn how to use <em>LazyLoad</em> in different contexts by looking at the code.</p>
+		<ul>
+			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_simple.html">Simple demo</a></strong><br>
+				The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.</li>
+			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_show_while_loading.html">Show while loading demo</a></strong><br>
+				The images are in the page body, but as they are stored in the Progressive JPEG format we want them to be shown <strong>while loading</strong> and not when they are fully loaded.</li>
+			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_single_container.html">Single scrolling container demo</a></strong><br>
+				The images are in <strong>scrolling container</strong>, a scrolling div inside the page body.</li>
+			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_multiple_container.html">Multiple scrolling containers demo</a></strong><br>
+				The images are in <strong>multiple scrolling containers</strong>, two scrolling divs inside the page body.</li>
+			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_dynamic_content.html">Changing content demo</a></strong><br>
+				The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests or other actions.</li>
+			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_destroy.html">Destroying LazyLoad demo</a></strong><br>
+				This demo shows how to <strong>destroy <em>LazyLoad</em> when you’re finished using it</strong>, to free up some memory.</li>
+		</ul>
+		<h2 id="options"><a name="user-content-options" href="#options" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Options</h2>
+		<p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.<br>
+			Here’s the list of the options.</p>
+		<table>
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Meaning</th>
+				<th>Default value</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td><code>container</code></td>
+				<td>The container in which to start searching for elements, and from which to listen to the scroll event</td>
+				<td><code>window</code></td>
+			</tr>
+			<tr>
+				<td><code>elements_selector</code></td>
+				<td>The selector of the image elements inside the container</td>
+				<td><code>"img"</code></td>
+			</tr>
+			<tr>
+				<td><code>threshold</code></td>
+				<td>The distance out of the viewport, expressed in pixel, before which to start loading the images</td>
+				<td><code>300</code></td>
+			</tr>
+			<tr>
+				<td><code>throttle</code></td>
+				<td>The time that has to pass between one element parsing and the following, when fast scroll events occur</td>
+				<td><code>40</code></td>
+			</tr>
+			<tr>
+				<td><code>data_src</code></td>
+				<td>The name of the data attribute containing the original image source. The “data-” is automatically added.</td>
+				<td><code>"original"</code></td>
+			</tr>
+			<tr>
+				<td><code>data_ignore</code></td>
+				<td>The name of the data attribute to mark which images to ignore. The “data-” is automatically added.</td>
+				<td><code>"ignore"</code></td>
+			</tr>
+			<tr>
+				<td><code>class_loading</code></td>
+				<td>The class applied to the elements while the loading is in progress</td>
+				<td><code>"loading"</code></td>
+			</tr>
+			<tr>
+				<td><code>class_loaded</code></td>
+				<td>The class applied to the elements when the loading is complete</td>
+				<td><code>"loaded"</code></td>
+			</tr>
+			<tr>
+				<td><code>skip_invisible</code></td>
+				<td>Specifies whether the script has to consider invisible images or not</td>
+				<td><code>true</code></td>
+			</tr>
+			<tr>
+				<td><code>show_while_loading</code></td>
+				<td>Specifies whether the script must show the images while they are loading. Set it to true when you use progressive JPEG format for your images. <strong>Note</strong>: to make the image visible while loading, you will have to avoid using the <code>src</code> attribute in the <code>img</code> tag</td>
+				<td><code>false</code></td>
+			</tr>
+			<tr>
+				<td><code>callback_load</code></td>
+				<td>A function to be called when an image was loaded.</td>
+				<td><code>null</code></td>
+			</tr>
+			<tr>
+				<td><code>callback_set</code></td>
+				<td>A function to be called when the src of an image is set in the DOM.</td>
+				<td><code>null</code></td>
+			</tr>
+			<tr>
+				<td><code>callback_processed</code></td>
+				<td>A function to be called when an image was processed.</td>
+				<td><code>null</code></td>
+			</tr>
+			<tr>
+				<td><code>placeholder</code></td>
+				<td>The URL of a placeholder image to be shown while the original image is loading. This option is ignored when the option <code>show_while_loading</code> is set to <code>true</code></td>
+				<td>base64 encoded 1x1 transparent gif</td>
+			</tr>
+			</tbody>
+		</table>
+		<h2 id="public-methods"><a name="user-content-public-methods" href="#public-methods" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Public methods</h2>
+		<table>
+			<thead>
+			<tr>
+				<th>Method name</th>
+				<th>Effect</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td><code>update()</code></td>
+				<td>Tells <em>LazyLoad</em> that new lazy images have arrived in the container, so it must start to manage them</td>
+			</tr>
+			<tr>
+				<td><code>destroy()</code></td>
+				<td>Destroys the instance, unsetting instance variables and removing listeners.</td>
+			</tr>
+			</tbody>
+		</table>
+		<h2 id="browser-support"><a name="user-content-browser-support" href="#browser-support" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Browser support</h2>
+		<p>Browser support is starting from <strong>Internet Explorer 8</strong> up.<br>
+			Please mind that you can’t use CSS 3 selectors in IE8, so beware of them if you change the <code>elements_selector</code> default option.</p>
+		<h2 id="lazyload-vs-jquery95lazyload"><em>LazyLoad</em> vs <em>jQuery_lazyload</em></h2>
+		<ul>
+			<li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see <a href="/Users/averlicchi/Sites/webprojects/lazyload/perf/with_lazyLoad.html">lazyLoad</a> and <a href="/Users/averlicchi/Sites/webprojects/lazyload/perf/with_jQuery_lazyload.html">jQuery_lazyLoad</a>) implementations in the <em>perf</em> folder. </li>
+			<li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://en.wikipedia.org/wiki/JPEG">Progressive JPEG</a> is an image format good for perceived performance because it’s rendered in progressive passes of detail. <code>lazyLoad</code> has an option called <code>show_while_loading</code> that, when set to <code>true</code>, shows your images while they load, letting <em>progressive JPEG</em> do its magic. As <em>jQuery_lazyload</em> doesn’t have this option, it will only show your images once fully loaded.</li>
+			<li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can’t.</li>
+			<li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>‘s listener to the container’s <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn’t have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
+			<li><strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn’t rely on jQuery, you can use it in contexts where jQuery is not available.</li>
+		</ul></article>
+</div>
+</body>
+</html>
