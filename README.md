@@ -4,11 +4,10 @@ This script was inspired by [Mika Tuupola](https://www.github.com/tuupola)'s [jQ
 
 # Differences with jQuery\_lazyload
 
-* **Performance** | *lazyLoad* is much faster! The script only uses its optimized, native javascript functions and methods, not jQuery ones. This allows a great speed improvement. LazyLoad will boost your app, and your users will see the difference, even in slow devices or computers.
+* **Performance** | *lazyLoad* is much faster! The script only uses its optimized, native javascript functions and methods, not jQuery ones. Thus, **_LazyLoad_ is 6x faster than _jQuery_lazyload_** (see _perf_ folder for [lazyLoad](perf/with_lazyLoad.html) and [jQuery_lazyLoad](perf/with_jQuery_lazyload.html)). Your users will see the difference, even in slow devices or computers.
 * **Progressive JPEG support** | [Progressive JPEG](http://en.wikipedia.org/wiki/JPEG) is an image format good for perceived performance because it's rendered in progressive passes of detail. `lazyLoad` has an option called `show_while_loading` that, when set to `true`, shows your images while they load, letting *progressive JPEG* do its magic. *jQuery\_lazyload* doesn't have this option so it will only show your images when they are fully loaded.
 * **Multiple instances** | *lazyLoad* can be instanced on different scrolling containers on the same page, whereas *jQuery\_lazyload* can't.
-* **Independence** | *lazyLoad* doesn't rely on jQuery so you can use it in contexts where jQuery there's no jQuery available
-* **Weight** | Even being written in native *vanilla* JavaScript, the code is light and it weight only 2.5kb, compared to 3.5kb of jQuery\_lazyload
+* **Independence** | *lazyLoad* doesn't rely on jQuery so you can use it in contexts where jQuery there's no jQuery available.
 
 # Options
 
