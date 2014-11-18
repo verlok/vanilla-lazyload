@@ -4,7 +4,7 @@ This script was inspired by [Mika Tuupola](https://www.github.com/tuupola)'s [jQ
 
 # Differences with jQuery\_lazyload
 
-* **Performance** | *lazyLoad* is much faster! The script only uses its optimized functions and methods, this allows a speed improvement up to ?? times (to be tested) faster. It won't slow down your app, and your users will see the difference, even in slow devices or computers.
+* **Performance** | *lazyLoad* is much faster! The script only uses its optimized, native javascript functions and methods, not jQuery ones. This allows a great speed improvement. LazyLoad will boost your app, and your users will see the difference, even in slow devices or computers.
 * **Progressive JPEG support** | [Progressive JPEG](http://en.wikipedia.org/wiki/JPEG) is an image format good for perceived performance because it's rendered in progressive passes of detail. `lazyLoad` has an option called `show_while_loading` that, when set to `true`, shows your images while they load, letting *progressive JPEG* do its magic. *jQuery\_lazyload* doesn't have this option so it will only show your images when they are fully loaded.
 * **Multiple instances** | *lazyLoad* can be instanced on different scrolling containers on the same page, whereas *jQuery\_lazyload* can't.
 * **Independence** | *lazyLoad* doesn't rely on jQuery so you can use it in contexts where jQuery there's no jQuery available
@@ -16,7 +16,8 @@ This script was inspired by [Mika Tuupola](https://www.github.com/tuupola)'s [jQ
 | ---- | ----| ---- | 
 | `container` | The container in which to start searching for elements, and from which to listen to the scroll event | `window` |
 | `elements_selector` | The selector of the image elements inside the container | `"img"` |
-| `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `0` |
+| `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
+| `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `40` |
 | `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
 | `data_ignore` | The name of the data attribute to mark which images to ignore. The "data-" is automatically added. | `"ignore"` |
 | `class_loading` | The class applied to the elements while the loading is in progress | `"loading"` |
