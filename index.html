@@ -33,7 +33,7 @@
 		}
 
 		.corner {
-			background: #ffce00;
+			background: #ffd600;
 			color: black;
 			padding: 0.2rem 3rem;
 			text-decoration: none;
@@ -47,11 +47,12 @@
 			top: 8.5rem;
 			right: -2rem;
 			transition: all .2s;
+			box-shadow: rgba(0,0,0,.2) 0 0 .5em;
 		}
 		.corner:hover {
-			box-shadow: black 0 0 .5em;
 			top: 8.8rem;
 			right: -1.7rem;
+			background: #ffec00;
 		}
 
 		table {
@@ -83,16 +84,16 @@
 
 		code {
 			padding: 0.5em;
+		}
+
+		code:not([class]) {
 			background: #EEE;
 			border-radius: 0.33em;
-
 		}
 
 		code[class] {
 			display: block;
-			background: #333;
-			color: white;
-			overflow-x: scroll;
+			overflow-x: auto;
 		}
 
 		article h1 {
@@ -108,7 +109,7 @@
 		}
 
 	</style>
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.4/styles/monokai.min.css">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.4/styles/github.min.css">
 </head>
 <body>
 <div class="container">
