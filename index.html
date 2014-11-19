@@ -2,11 +2,14 @@
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=1;" />
 	<title>
 		Lazyload - a fast, lightweight and flexible script for loading images when they enter the viewport
 	</title>
 	<style type="text/css">
+		html {
+			-webkit-text-size-adjust: none; /* Prevent font scaling in landscape while allowing user zoom */
+		}
 		body {
 			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 			line-height: 1.5em;
@@ -68,7 +71,6 @@
 
 		.corner {
 			background: #ffd600;
-
 			padding: 0.2rem 3rem;
 			text-decoration: none;
 			position: absolute;
@@ -104,6 +106,13 @@
 			border: 1px solid #ccc;
 		}
 
+		@media (max-width: 320px) {
+			td:nth-child(3),
+			th:nth-child(3) {
+				display: none;
+			}
+		}
+
 		tbody tr:nth-child(odd) {
 			background: #f8f8f8;
 		}
@@ -112,8 +121,6 @@
 			background: #333;
 			color: white;
 		}
-
-
 
 		.results ul,
 		.results li {
@@ -134,6 +141,10 @@
 			display: block;
 			overflow-x: auto;
 			border-radius: .33rem;
+		}
+
+		table code:not([class]) {
+			padding: 0;
 		}
 	</style>
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.4/styles/github.min.css">
@@ -269,7 +280,7 @@
 			</tr>
 			<tr>
 				<td><code>placeholder</code></td>
-				<td>The URL of a placeholder image to be shown while the original image is loading. This option is ignored when the option <code>show_while_loading</code> is set to <code>true</code></td>
+				<td>The URL of a placeholder image to be shown while the original image is loading.</td>
 				<td>base64 encoded 1x1 transparent gif</td>
 			</tr>
 			</tbody>
