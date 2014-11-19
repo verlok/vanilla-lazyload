@@ -2,7 +2,7 @@
 
 _LazyLoad_ is a fast, lightweight and flexible script for **loading images only when they're about to enter the viewport** of a scrollable area, with an excellent **support to the progressive JPEG image format**.
 
-This script was inspired by [Mika Tuupola](https://github.com/tuupola/)'s [jQuery.lazyLoad](http://www.appelsiini.net/projects/lazyload). See [LazyLoad vs jQuery_lazyload](#lazyload-vs-jquery95lazyload) to learn about the difference between this script and `jQuery_lazyload`.
+[WEBSITE](http://verlok.github.io/lazyload/) | [DEMOS](#user-content-demos)
 
 ## How to use LazyLoad
 
@@ -102,6 +102,9 @@ Browser support is starting from **Internet Explorer 8** up.
 Please mind that you can't use CSS 3 selectors in IE8, so beware of them if you change the `elements_selector` default option.
 
 ## _LazyLoad_ vs _jQuery\_lazyload_
+
+This script was inspired by [Mika Tuupola](https://github.com/tuupola/)'s [jQuery_lazyLoad](http://www.appelsiini.net/projects/lazyload).
+The following are the main differences between the scripts.
 
 * **_LazyLoad_ is 6x faster than _jQuery_lazyload_**. This is because _LazyLoad_ uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see [lazyLoad](perf/with_lazyLoad.html) and [jQuery_lazyLoad](perf/with_jQuery_lazyload.html)) implementations in the _perf_ folder. 
 * **Progressive JPEG support will improve perceived speed**. [Progressive JPEG](http://en.wikipedia.org/wiki/JPEG) is an image format good for perceived performance because it's rendered in progressive passes of detail. `lazyLoad` has an option called `show_while_loading` that, when set to `true`, shows your images while they load, letting *progressive JPEG* do its magic. As _jQuery\_lazyload_ doesn't have this option, it will only show your images once fully loaded.

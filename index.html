@@ -7,34 +7,60 @@
 	</title>
 	<style type="text/css">
 		body {
-			font-family: sans-serif;
+			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 			line-height: 1.5em;
 			margin: 0;
 			padding: 0;
 		}
 
 		h1, h2, h3, h4 {
-			margin-top: 1.5em;
-			font-family: Georgia, serif;
+			margin: 1.2em 0 .5em;
+			/*font-family: Georgia, serif;*/
+			border-bottom: 1px solid #EEE;
+			padding-bottom: .66em;
 		}
+
+		article {
+			margin:1rem auto;
+			max-width: 50rem;
+			padding: 2rem;
+			border: 1px solid #EEE;
+		}
+
+		article h1 {
+			font-size: 2.2rem;
+		}
+
+		article h2 {
+			font-size: 1.8rem;
+		}
+
+		article h3 {
+			font-size: 1.5rem;
+		}
+
 		h1:first-child {
-			margin-top: 1.2em;
+			margin-top: .2em;
+		}
+
+		a {
+			text-decoration: none;
+		}
+		a:link {
+			color: #049ed3;
+		}
+		a:visited {
+			color: #0091ff;
 		}
 
 		.container {
 			overflow-x: hidden;
 			position: relative;
 		}
-		
-		article {
-			margin: 0 auto;
-			max-width: 50rem;
-			padding: 1em;
-		}
 
 		.corner {
 			background: #ffd600;
-			color: black;
+
 			padding: 0.2rem 3rem;
 			text-decoration: none;
 			position: absolute;
@@ -48,6 +74,10 @@
 			right: -2rem;
 			transition: all .2s;
 			box-shadow: rgba(0,0,0,.2) 0 0 .5em;
+		}
+		.corner:link,
+		.corner:visited {
+			color: black;
 		}
 		.corner:hover {
 			top: 8.8rem;
@@ -67,13 +97,15 @@
 		}
 
 		tbody tr:nth-child(odd) {
-			background: #EEE;
+			background: #f8f8f8;
 		}
 
 		thead tr {
 			background: #333;
 			color: white;
 		}
+
+
 
 		.results ul,
 		.results li {
@@ -82,31 +114,21 @@
 			padding: 0;
 		}
 
-		code {
-			padding: 0.5em;
-		}
-
 		code:not([class]) {
-			background: #EEE;
-			border-radius: 0.33em;
+			padding: 0.2em 0.5em;
+			background-color: #f8f8f8;
+			border-radius: 0.33rem;
 		}
 
 		code[class] {
+			padding: 1rem;
+			border-left: 10px dotted #EEE;
 			display: block;
 			overflow-x: auto;
+			border-radius: .33rem;
 		}
 
-		article h1 {
-			font-size: 2.5rem;
-		}
 
-		article h2 {
-			font-size: 2rem;
-		}
-
-		article h3 {
-			font-size: 1.5rem;
-		}
 
 	</style>
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.4/styles/github.min.css">
@@ -116,14 +138,14 @@
 	<a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
 	<article class="markdown-body"><h1 id="lazyload"><a name="user-content-lazyload" href="#lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LazyLoad</h1>
 		<p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they’re about to enter the viewport</strong> of a scrollable area, with an excellent <strong>support to the progressive JPEG image format</strong>.</p>
-		<p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>‘s <a href="http://www.appelsiini.net/projects/lazyload">jQuery.lazyLoad</a>. See <a href="#lazyload-vs-jquery95lazyload">LazyLoad vs jQuery_lazyload</a> to learn about the difference between this script and <code>jQuery_lazyload</code>.</p>
+		<p><a href="http://verlok.github.io/lazyload/">WEBSITE</a> | <a href="#user-content-demos">DEMOS</a></p>
 		<h2 id="how-to-use-lazyload"><a name="user-content-how-to-use-lazyload" href="#how-to-use-lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>How to use LazyLoad</h2>
 		<p><strong>HTML - <code>img</code> tags</strong></p>
 		<p>Markup your images putting the image source inside the <code>data-original</code> attribute.<br>
 			Specify both <code>width</code> and <code>height</code> attributes so the browser can allocate the space on your page.</p>
 <pre><code class="html">&lt;img data-original="http://www.yourimageserver.com/your/image1.jpg" width="100" height="172" /&gt;
-	&lt;img data-original="http://www.yourimageserver.com/your/image2.jpg" width="100" height="172" /&gt;
-	&lt;img data-original="http://www.yourimageserver.com/your/image3.jpg" width="100" height="172" /&gt;
+&lt;img data-original="http://www.yourimageserver.com/your/image2.jpg" width="100" height="172" /&gt;
+&lt;img data-original="http://www.yourimageserver.com/your/image3.jpg" width="100" height="172" /&gt;
 </code></pre>
 
 		<p><strong>HTML - <code>script</code> tag</strong></p>
@@ -131,7 +153,7 @@
 <pre><code class="html">&lt;body&gt;
 	&lt;!-- Your content ... --&gt;
 	&lt;script src="lazyload.min.js"&gt;&lt;/script&gt;
-	&lt;/body&gt;
+&lt;/body&gt;
 </code></pre>
 
 		<p><strong>Javascript</strong></p>
@@ -143,24 +165,24 @@
 <pre><code class="javascript">var myLazyLoad = new LazyLoad({
 	// options object, see details above
 	placeholder = 'url(http://www.yourimageserver.com/placeholder.gif)';
-	});
+});
 </code></pre>
 
 		<p>See the <a href="#demos">demos</a> and <a href="#options">options</a> sections for further defails.</p>
 		<h2 id="demos"><a name="user-content-demos" href="#demos" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Demos</h2>
 		<p>Learn how to use <em>LazyLoad</em> in different contexts by looking at the code.</p>
 		<ul>
-			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_simple.html">Simple demo</a></strong><br>
+			<li><strong><a href="///C://Users/verlicchia/Documents/GitHub/lazyload/demo_simple.html">Simple demo</a></strong><br>
 				The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.</li>
-			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_show_while_loading.html">Show while loading demo</a></strong><br>
+			<li><strong><a href="///C://Users/verlicchia/Documents/GitHub/lazyload/demo_show_while_loading.html">Show while loading demo</a></strong><br>
 				The images are in the page body, but as they are stored in the Progressive JPEG format we want them to be shown <strong>while loading</strong> and not when they are fully loaded.</li>
-			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_single_container.html">Single scrolling container demo</a></strong><br>
+			<li><strong><a href="///C://Users/verlicchia/Documents/GitHub/lazyload/demo_single_container.html">Single scrolling container demo</a></strong><br>
 				The images are in <strong>scrolling container</strong>, a scrolling div inside the page body.</li>
-			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_multiple_container.html">Multiple scrolling containers demo</a></strong><br>
+			<li><strong><a href="///C://Users/verlicchia/Documents/GitHub/lazyload/demo_multiple_container.html">Multiple scrolling containers demo</a></strong><br>
 				The images are in <strong>multiple scrolling containers</strong>, two scrolling divs inside the page body.</li>
-			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_dynamic_content.html">Changing content demo</a></strong><br>
+			<li><strong><a href="///C://Users/verlicchia/Documents/GitHub/lazyload/demo_dynamic_content.html">Changing content demo</a></strong><br>
 				The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests or other actions.</li>
-			<li><strong><a href="/Users/averlicchi/Sites/webprojects/lazyload/demo_destroy.html">Destroying LazyLoad demo</a></strong><br>
+			<li><strong><a href="///C://Users/verlicchia/Documents/GitHub/lazyload/demo_destroy.html">Destroying LazyLoad demo</a></strong><br>
 				This demo shows how to <strong>destroy <em>LazyLoad</em> when you’re finished using it</strong>, to free up some memory.</li>
 		</ul>
 		<h2 id="options"><a name="user-content-options" href="#options" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Options</h2>
@@ -274,8 +296,10 @@
 		<p>Browser support is starting from <strong>Internet Explorer 8</strong> up.<br>
 			Please mind that you can’t use CSS 3 selectors in IE8, so beware of them if you change the <code>elements_selector</code> default option.</p>
 		<h2 id="lazyload-vs-jquery95lazyload"><em>LazyLoad</em> vs <em>jQuery_lazyload</em></h2>
+		<p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>‘s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>.<br>
+			The following are the main differences between the scripts.</p>
 		<ul>
-			<li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see <a href="/Users/averlicchi/Sites/webprojects/lazyload/perf/with_lazyLoad.html">lazyLoad</a> and <a href="/Users/averlicchi/Sites/webprojects/lazyload/perf/with_jQuery_lazyload.html">jQuery_lazyLoad</a>) implementations in the <em>perf</em> folder. </li>
+			<li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see <a href="///C://Users/verlicchia/Documents/GitHub/lazyload/perf/with_lazyLoad.html">lazyLoad</a> and <a href="///C://Users/verlicchia/Documents/GitHub/lazyload/perf/with_jQuery_lazyload.html">jQuery_lazyLoad</a>) implementations in the <em>perf</em> folder. </li>
 			<li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://en.wikipedia.org/wiki/JPEG">Progressive JPEG</a> is an image format good for perceived performance because it’s rendered in progressive passes of detail. <code>lazyLoad</code> has an option called <code>show_while_loading</code> that, when set to <code>true</code>, shows your images while they load, letting <em>progressive JPEG</em> do its magic. As <em>jQuery_lazyload</em> doesn’t have this option, it will only show your images once fully loaded.</li>
 			<li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can’t.</li>
 			<li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>‘s listener to the container’s <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn’t have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
