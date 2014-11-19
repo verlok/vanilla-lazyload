@@ -185,7 +185,12 @@ LazyLoad = function (instanceSettings) {
 		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').replace(/^\s+/, '').replace(/\s+$/, '');
 	}
 
-	function _scrollHandler() {
+	/*
+	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
+	 * ---------------------------------------------------------------
+	 */
+
+	this.handleScroll = function() {
 		var remainingTime,
 			now = Date.now(),
 			throttle = _this._settings.throttle;
@@ -210,13 +215,7 @@ LazyLoad = function (instanceSettings) {
 		else {
 			_this._loopThroughElements();
 		}
-	}
-
-
-	/*
-	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
-	 * ---------------------------------------------------------------
-	 */
+	};
 
 	this._setImageAndDisplay = function (element) {
 		var settings = this._settings,
@@ -235,8 +234,7 @@ LazyLoad = function (instanceSettings) {
 
 	this._showOnLoad = function (element) {
 		var fakeImg,
-			settings = this._settings,
-			_this = this;
+			settings = this._settings;
 
 		/* If no src attribute given use data:uri. */
 		if (!element.getAttribute("src")) {
@@ -340,14 +338,14 @@ LazyLoad = function (instanceSettings) {
 	this._startScrollHandler = function() {
 		if (!this._isHandlingScroll) {
 			this._isHandlingScroll = true;
-			_addEventListener(this._settings.container, "scroll", _scrollHandler);
+			_addEventListener(this._settings.container, "scroll", this.handleScroll);
 		}
 	};
 
 	this._stopScrollHandler = function() {
 		if (this._isHandlingScroll) {
 			this._isHandlingScroll = false;
-			_removeEventListener(this._settings.container, "scroll", _scrollHandler);
+			_removeEventListener(this._settings.container, "scroll", this.handleScroll);
 		}
 	};
 

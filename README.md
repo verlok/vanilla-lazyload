@@ -1,3 +1,5 @@
+# LazyLoad
+
 _LazyLoad_ is a fast, lightweight and flexible script for **loading images only when they're about to enter the viewport** of a scrollable area, with an excellent **support to the progressive JPEG image format**.
 
 This script was inspired by [Mika Tuupola](https://github.com/tuupola/)'s [jQuery.lazyLoad](http://www.appelsiini.net/projects/lazyload). See [LazyLoad vs jQuery_lazyload](#lazyload-vs-jquery95lazyload) to learn about the difference between this script and `jQuery_lazyload`.
@@ -88,10 +90,11 @@ Here's the list of the options.
 
 ## Public methods 
 
-| Method name | Effect                                                                                               |
-|-------------|------------------------------------------------------------------------------------------------------|
-| `update()`  | Tells _LazyLoad_ that new lazy images have arrived in the container, so it must start to manage them |
-| `destroy()` | Destroys the instance, unsetting instance variables and removing listeners.                          |
+| Method name      | Effect                                                                                               |
+|------------------|------------------------------------------------------------------------------------------------------|
+| `update()`       | Tells _LazyLoad_ that new lazy images have arrived in the container, so it must start to manage them |
+| `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners.                          |
+| `handleScroll()` | A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a `scroll` event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll) |
 
 ## Browser support
 
