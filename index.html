@@ -108,8 +108,7 @@
 <body>
 <div class="container">
 	<a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
-	<article class="markdown-body">
-		<h1>LazyLoad</h1>
+	<article class="markdown-body"><h1 id="lazyload"><a name="user-content-lazyload" href="#lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LazyLoad</h1>
 		<p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they’re about to enter the viewport</strong> of a scrollable area, with an excellent <strong>support to the progressive JPEG image format</strong>.</p>
 		<p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>‘s <a href="http://www.appelsiini.net/projects/lazyload">jQuery.lazyLoad</a>. See <a href="#lazyload-vs-jquery95lazyload">LazyLoad vs jQuery_lazyload</a> to learn about the difference between this script and <code>jQuery_lazyload</code>.</p>
 		<h2 id="how-to-use-lazyload"><a name="user-content-how-to-use-lazyload" href="#how-to-use-lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>How to use LazyLoad</h2>
@@ -258,6 +257,10 @@
 			<tr>
 				<td><code>destroy()</code></td>
 				<td>Destroys the instance, unsetting instance variables and removing listeners.</td>
+			</tr>
+			<tr>
+				<td><code>handleScroll()</code></td>
+				<td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code> event, but it’s exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
 			</tr>
 			</tbody>
 		</table>
