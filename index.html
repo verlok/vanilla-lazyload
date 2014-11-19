@@ -9,6 +9,7 @@
 	<style type="text/css">
 		body {
 			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+			-webkit-text-size-adjust: none;
 			line-height: 1.5em;
 			margin: 0;
 			padding: 0;
@@ -24,9 +25,15 @@
 		article {
 			margin:1rem auto;
 			max-width: 50rem;
-			padding: 2rem;
-			border: 1px solid #EEE;
 			overflow-x: auto;
+			padding: 1rem;
+		}
+
+		@media screen and (min-width: 480px) {
+			article {
+				padding: 2rem;
+				border: 1px solid #EEE;
+			}
 		}
 
 		article h1 {
@@ -129,9 +136,6 @@
 			overflow-x: auto;
 			border-radius: .33rem;
 		}
-
-
-
 	</style>
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.4/styles/github.min.css">
 </head>
