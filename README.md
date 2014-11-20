@@ -56,37 +56,37 @@ Learn how to use _LazyLoad_ in different contexts by looking at the code.
 
 The images are in the page body, so _LazyLoad_ is created with the **default options**.
 
-[See it in action](http://verlok.github.io/lazyload/demo_simple.html) | [View source](https://github.com/verlok/lazyload/blob/master/demo_simple.html)
+[See it in action](http://verlok.github.io/lazyload/demos/simple.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/simple.html)
 
 #### Show while loading demo
 
 The images are in the page body, but as they are stored in the **Progressive JPEG** format we want them to be shown **while loading** and not when they are fully loaded.
 
-[See it in action](http://verlok.github.io/lazyload/demo_show_while_loading.html) | [View source](https://github.com/verlok/lazyload/blob/master/demo_show_while_loading.html)
+[See it in action](http://verlok.github.io/lazyload/demos/show_while_loading.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html)
 
 #### Single scrolling container demo 
 
 The images are in **scrolling container**, a scrolling div inside the page body.
 
-[See it in action](http://verlok.github.io/lazyload/demo_single_container.html) | [View source](https://github.com/verlok/lazyload/blob/master/demo_single_container.html)
+[See it in action](http://verlok.github.io/lazyload/demos/single_container.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/single_container.html)
 
 #### Multiple scrolling containers demo
 
 The images are in **multiple scrolling containers**, two scrolling divs inside the page body.
 
-[See it in action](http://verlok.github.io/lazyload/demo_multiple_container.html) | [View source](https://github.com/verlok/lazyload/blob/master/demo_multiple_container.html)
+[See it in action](http://verlok.github.io/lazyload/demos/multiple_container.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html)
 
 #### Changing content demo
 
 The images are **added in different times**, simulating content that gets added by AJAX requests or other actions.
 
-[See it in action](http://verlok.github.io/lazyload/demo_dynamic_content.html) | [View source](https://github.com/verlok/lazyload/blob/master/demo_dynamic_content.html)
+[See it in action](http://verlok.github.io/lazyload/demos/dynamic_content.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html)
 
 #### Destroying LazyLoad demo
 
 This demo shows how to **destroy _LazyLoad_ when you're finished using it**, to free up some memory.
 
-[See it in action](http://verlok.github.io/lazyload/demo_destroy.html) | [View source](https://github.com/verlok/lazyload/blob/master/demo_destroy.html)
+[See it in action](http://verlok.github.io/lazyload/demos/destroy.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/destroy.html)
 
 
 ## Options

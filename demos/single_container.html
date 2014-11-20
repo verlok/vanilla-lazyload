@@ -22,6 +22,12 @@
 		img:not([src]) {
 			visibility: hidden;
 		}
+
+		#results1 {
+			height: 564px;
+			overflow: scroll;
+			border: 1px dotted #F00;
+		}
 	</style>
 </head>
 <body>
@@ -149,7 +155,7 @@
 		</li>
 	</ul>
 </div>
-<script src="src/lazyload.js"></script>
+<script src="../src/lazyload.js"></script>
 <script>
 	(function () {
 
@@ -164,6 +170,7 @@
 		/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
 
 		new LazyLoad({
+			container: document.getElementById('results1'),
 			show_while_loading: true/*,
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);

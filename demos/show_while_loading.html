@@ -5,7 +5,7 @@
 	<title>
 		Lazyload tests
 	</title>
-	<style type="text/css">
+	<style>
 		ul, li {
 			list-style-type: none;
 			margin: 0;
@@ -21,12 +21,6 @@
 		}
 		img:not([src]) {
 			visibility: hidden;
-		}
-
-		.results {
-			height: 564px;
-			overflow: scroll;
-			border: 1px dotted #F00;
 		}
 	</style>
 </head>
@@ -90,10 +84,6 @@
 		<li>
 			<a href="#/it/donna/decollete_cod44721796uk.html"><img alt="Décolleté" data-original="img/44721796UK_15_a.jpg" width="220" height="280"></a>
 		</li>
-	</ul>
-</div>
-<div id="results2" class="results">
-	<ul>
 		<li>
 			<a href="#/it/donna/francesine_cod44717679mj.html"><img alt="Francesine" data-original="img/44717679MJ_15_a.jpg" width="220" height="280"></a>
 		</li>
@@ -159,7 +149,7 @@
 		</li>
 	</ul>
 </div>
-<script src="src/lazyload.js"></script>
+<script src="../src/lazyload.js"></script>
 <script>
 	(function () {
 
@@ -174,20 +164,7 @@
 		/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
 
 		new LazyLoad({
-			container: document.getElementById('results1')/*,
-			callback_load: function (element) {
-				logElementEvent("LOADED", element);
-			},
-			callback_set: function (element) {
-				logElementEvent("SET", element);
-			},
-			callback_processed: function(elementsLeft) {
-				logEvent("PROCESSED", elementsLeft);
-			}*/
-		});
-
-		new LazyLoad({
-			container: document.getElementById('results2')/*,
+			show_while_loading: true/*,
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
