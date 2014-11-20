@@ -23,12 +23,10 @@
     "url": "https://github.com/verlok/lazyload"
   },
   "keywords": [
-    "lazyload",
-    "no-jquery",
-    "progressive",
-    "load",
-    "progressive",
-    "jpeg"
+    "lazy load",
+    "progressive JPEG",
+    "performance",
+    "no-jquery"
   ],
   "author": "Andrea \"verlok\" Verlicchi",
   "license": "ISC",
