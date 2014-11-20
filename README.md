@@ -135,9 +135,20 @@ The following are the main differences between the scripts.
 * **Throttled execution for optimized CPU usage**. _LazyLoad_'s listener to the container's `scroll` event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. _jQuery\_lazyload_ doesn't have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.
 * **jQuery independency**. As _LazyLoad_ doesn't rely on jQuery, you can use it in contexts where jQuery is not available.
 
-## Download
+## Install
 
 It's time to give it a try and boost your website performance!
 
-* [Download from GitHub](https://github.com/verlok/lazyload/archive/master.zip)
-* Install it from bower
+#### Download from GitHub
+
+Download the package from GitHub and add dist/lazyload.min.js to your project files.
+
+[Zip file](https://github.com/verlok/lazyload/archive/master.zip)
+
+#### Install it from bower
+
+Run the following command on your terminal or command prompt.
+
+```bash
+bower install vanilla-lazyload
+```
