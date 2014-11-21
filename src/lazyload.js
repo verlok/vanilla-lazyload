@@ -10,6 +10,7 @@ LazyLoad = function (instanceSettings) {
 			threshold: 300,
 			throttle: 40,
 			data_src: "original",
+			data_srcset: "original-set",
 			data_ignore: "ignore",
 			class_loading: "loading",
 			class_loaded: "loaded",
@@ -144,12 +145,6 @@ LazyLoad = function (instanceSettings) {
 		return obj3;
 	}
 
-	function _getSrc(element, dataAttribute, placeholder) {
-		var dataAttributeContent;
-		dataAttributeContent = element.getAttribute(dataAttribute);
-		return dataAttributeContent || placeholder;
-	}
-
 	function _convertToArray(nodeSet) {
 		try {
 			return Array.prototype.slice.call(nodeSet);
@@ -185,12 +180,23 @@ LazyLoad = function (instanceSettings) {
 		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').replace(/^\s+/, '').replace(/\s+$/, '');
 	}
 
+	function _setSrcAndSrcset(target, source, srcsetDataAttribute, srcDataAttribute) {
+		var srcSet = source.getAttribute( 'data-' + srcsetDataAttribute),
+			src = source.getAttribute( 'data-' + srcDataAttribute);
+		if (srcSet) {
+			target.setAttribute("srcset", srcSet);
+		}
+		if (src) {
+			target.setAttribute("src", src);
+		}
+	}
+
 	/*
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * ---------------------------------------------------------------
 	 */
 
-	this.handleScroll = function() {
+	this.handleScroll = function () {
 		var remainingTime,
 			now = Date.now(),
 			throttle = _this._settings.throttle;
@@ -205,7 +211,7 @@ LazyLoad = function (instanceSettings) {
 				_previousLoopTime = now;
 				_this._loopThroughElements();
 			} else if (!_loopTimeout) {
-				_loopTimeout = setTimeout(function() {
+				_loopTimeout = setTimeout(function () {
 					_previousLoopTime = Date.now();
 					_loopTimeout = null;
 					_this._loopThroughElements();
@@ -214,21 +220,6 @@ LazyLoad = function (instanceSettings) {
 		}
 		else {
 			_this._loopThroughElements();
-		}
-	};
-
-	this._setImageAndDisplay = function (element) {
-		var settings = this._settings,
-			src = _getSrc(element, 'data-' + settings.data_src, settings.placeholder);
-
-		/* Setting `src` in the original `img` */
-		if (element.nodeName.toLowerCase() === "img") {
-			element.setAttribute("src", src);
-		} else {
-			element.style.backgroundImage = "url('" + src + "')";
-		}
-		if (settings.callback_set) {
-			settings.callback_set(element);
 		}
 	};
 
@@ -244,10 +235,15 @@ LazyLoad = function (instanceSettings) {
 		fakeImg = document.createElement('img');
 		/* Listening to the load event */
 		function loadCallback() {
+			/* Calling LOAD callback */
 			if (settings.callback_load) {
 				settings.callback_load(element);
 			}
-			_this._setImageAndDisplay(element);
+			_setSrcAndSrcset(element, element, settings.data_srcset, settings.data_src);
+			/* Calling SET callback */
+			if (settings.callback_set) {
+				settings.callback_set(element);
+			}
 			_removeClass(element, settings.class_loading);
 			_addClass(element, settings.class_loaded);
 			_removeEventListener(fakeImg, "load", loadCallback);
@@ -255,14 +251,14 @@ LazyLoad = function (instanceSettings) {
 
 		_addEventListener(fakeImg, "load", loadCallback);
 		_addClass(element, settings.class_loading);
-		/* Setting the source in the fake image */
-		fakeImg.setAttribute("src", _getSrc(element, 'data-' + settings.data_src, settings.placeholder));
+		_setSrcAndSrcset(fakeImg, element, settings.data_srcset, settings.data_src);
 	};
 
 	this._showOnAppear = function (element) {
 		var settings = this._settings;
 
 		function loadCallback() {
+			/* Calling LOAD callback */
 			if (settings.callback_load) {
 				settings.callback_load(element);
 			}
@@ -273,7 +269,11 @@ LazyLoad = function (instanceSettings) {
 
 		_addEventListener(element, "load", loadCallback);
 		_addClass(element, settings.class_loading);
-		this._setImageAndDisplay(element);
+		_setSrcAndSrcset(element, element, settings.data_srcset, settings.data_src);
+		/* Calling SET callback */
+		if (settings.callback_set) {
+			settings.callback_set(element);
+		}
 	};
 
 	this._loopThroughElements = function () {
@@ -335,14 +335,14 @@ LazyLoad = function (instanceSettings) {
 		}
 	};
 
-	this._startScrollHandler = function() {
+	this._startScrollHandler = function () {
 		if (!this._isHandlingScroll) {
 			this._isHandlingScroll = true;
 			_addEventListener(this._settings.container, "scroll", this.handleScroll);
 		}
 	};
 
-	this._stopScrollHandler = function() {
+	this._stopScrollHandler = function () {
 		if (this._isHandlingScroll) {
 			this._isHandlingScroll = false;
 			_removeEventListener(this._settings.container, "scroll", this.handleScroll);
