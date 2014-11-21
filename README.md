@@ -58,6 +58,12 @@ The images are in the page body, so _LazyLoad_ is created with the **default opt
 
 [See it in action](http://verlok.github.io/lazyload/demos/simple.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/simple.html)
 
+#### With `srcset` demo
+
+The images also contain a **`srcset` attribute** and they are still loaded lazily.
+
+[See it in action](http://verlok.github.io/lazyload/demos/with_srcset.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html)
+
 #### Show while loading demo
 
 The images are in the page body, but as they are stored in the **Progressive JPEG** format we want them to be shown **while loading** and not when they are fully loaded.
@@ -101,6 +107,7 @@ Here's the list of the options.
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `40` |
 | `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
+| `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
 | `data_ignore` | The name of the data attribute to mark which images to ignore. The "data-" is automatically added. | `"ignore"` |
 | `class_loading` | The class applied to the elements while the loading is in progress | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
@@ -133,6 +140,7 @@ The following are the main differences between the scripts.
 * **Progressive JPEG support will improve perceived speed**. [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format good for perceived performance because it's rendered in progressive passes of detail. `lazyLoad` has an option called `show_while_loading` that, when set to `true`, shows your images while they load, letting *progressive JPEG* do its magic. As _jQuery\_lazyload_ doesn't have this option, it will only show your images once fully loaded.
 * **_LazyLoad_ can be instanced on many scrolling containers** on the same page, whereas _jQuery\_lazyload_ can't.
 * **Throttled execution for optimized CPU usage**. _LazyLoad_'s listener to the container's `scroll` event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. _jQuery\_lazyload_ doesn't have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.
+* **Support for srcset attribute**. _LazyLoad_ also supports the srcset attribute, today supported in modern browsers to provide HD images for high-density displays (aka Retina display).
 * **jQuery independency**. As _LazyLoad_ doesn't rely on jQuery, you can use it in contexts where jQuery is not available.
 
 ## Install

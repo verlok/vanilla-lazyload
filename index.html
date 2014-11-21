@@ -190,6 +190,9 @@ Specify both <code>width</code> and <code>height</code> attributes so the browse
 <h4 id="simple-demo"><a name="user-content-simple-demo" href="#simple-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Simple demo</h4>
 <p>The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.</p>
 <p><a href="http://verlok.github.io/lazyload/demos/simple.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/simple.html">View source</a></p>
+<h4 id="with-srcset-demo"><a name="user-content-with-srcset-demo" href="#with-srcset-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>With <code>srcset</code> demo</h4>
+<p>The images also contain a <strong><code>srcset</code> attribute</strong> and they are still loaded lazily.</p>
+<p><a href="http://verlok.github.io/lazyload/demos/with_srcset.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html">View source</a></p>
 <h4 id="show-while-loading-demo"><a name="user-content-show-while-loading-demo" href="#show-while-loading-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Show while loading demo</h4>
 <p>The images are in the page body, but as they are stored in the <strong>Progressive JPEG</strong> format we want them to be shown <strong>while loading</strong> and not when they are fully loaded.</p>
 <p><a href="http://verlok.github.io/lazyload/demos/show_while_loading.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html">View source</a></p>
@@ -241,6 +244,11 @@ Here’s the list of the options.</p>
 <td><code>data_src</code></td>
 <td>The name of the data attribute containing the original image source. The “data-” is automatically added.</td>
 <td><code>"original"</code></td>
+</tr>
+<tr>
+<td><code>data_srcset</code></td>
+<td>The name of the data attribute containing the original image source set. The “data-” is automatically added. If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code> tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a> .</td>
+<td><code>"original-set"</code></td>
 </tr>
 <tr>
 <td><code>data_ignore</code></td>
@@ -323,6 +331,7 @@ The following are the main differences between the scripts.</p>
 <li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an image format good for perceived performance because it’s rendered in progressive passes of detail. <code>lazyLoad</code> has an option called <code>show_while_loading</code> that, when set to <code>true</code>, shows your images while they load, letting <em>progressive JPEG</em> do its magic. As <em>jQuery_lazyload</em> doesn’t have this option, it will only show your images once fully loaded.</li>
 <li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can’t.</li>
 <li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>‘s listener to the container’s <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn’t have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
+<li><strong>Support for srcset attribute</strong>. <em>LazyLoad</em> also supports the srcset attribute, today supported in modern browsers to provide HD images for high-density displays (aka Retina display).</li>
 <li><strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn’t rely on jQuery, you can use it in contexts where jQuery is not available.</li>
 </ul>
 <h2 id="install"><a name="user-content-install" href="#install" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Install</h2>
