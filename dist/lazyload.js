@@ -235,6 +235,8 @@ LazyLoad = function (instanceSettings) {
 		fakeImg = document.createElement('img');
 		/* Listening to the load event */
 		function loadCallback() {
+			/* As this method is asynchronous, it must be protected against external destroy() calls */
+			if (settings === null) { return; }
 			/* Calling LOAD callback */
 			if (settings.callback_load) {
 				settings.callback_load(element);
@@ -258,6 +260,8 @@ LazyLoad = function (instanceSettings) {
 		var settings = this._settings;
 
 		function loadCallback() {
+			/* As this method is asynchronous, it must be protected against external destroy() calls */
+			if (settings === null) { return; }
 			/* Calling LOAD callback */
 			if (settings.callback_load) {
 				settings.callback_load(element);
