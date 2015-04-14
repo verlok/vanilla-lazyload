@@ -11,7 +11,6 @@ LazyLoad = function (instanceSettings) {
 			throttle: 40,
 			data_src: "original",
 			data_srcset: "original-set",
-			data_ignore: "ignore",
 			class_loading: "loading",
 			class_loaded: "loaded",
 			skip_invisible: true,
@@ -183,6 +182,7 @@ LazyLoad = function (instanceSettings) {
 	function _setSrcAndSrcset(target, source, srcsetDataAttribute, srcDataAttribute) {
 		var srcSet = source.getAttribute( 'data-' + srcsetDataAttribute),
 			src = source.getAttribute( 'data-' + srcDataAttribute);
+
 		if (srcSet) {
 			target.setAttribute("srcset", srcSet);
 		}
@@ -302,7 +302,9 @@ LazyLoad = function (instanceSettings) {
 				}
 				/* Marking the element as processed. */
 				processedIndexes.push(i);
-				element.setAttribute('data-' + settings.data_ignore, true);
+				/* Removing the element from next parse */
+				element.removeAttribute('data-' + settings.data_src);
+				element.removeAttribute('data-' + settings.data_srcset);
 			}
 		}
 		/* Removing processed elements from this._elements. */
@@ -328,8 +330,8 @@ LazyLoad = function (instanceSettings) {
 
 		for (i = 0; i < elementsLength; i++) {
 			element = elements[i];
-			/* If the element has already been processed, skip it */
-			if (element.getAttribute('data-' + settings.data_ignore)) {
+			/* If the element has already been processed, or it's not a lazy img, skip it */
+			if (!element.getAttribute('data-' + settings.data_src) && !element.getAttribute('data-' + settings.data_srcset)) {
 				elementsToPurge.push(i);
 			}
 		}
