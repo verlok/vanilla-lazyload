@@ -52,48 +52,47 @@ See the [demos](#demos) and [options](#options) sections for further defails.
 
 Learn how to use _LazyLoad_ in different contexts by looking at the code.
 
-#### Simple demo
+### Simple demo
 
 The images are in the page body, so _LazyLoad_ is created with the **default options**.
 
 [See it in action](http://verlok.github.io/lazyload/demos/simple.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/simple.html)
 
-#### With `srcset` demo
+### With `srcset` demo
 
 The images also contain a **`srcset` attribute** and they are still loaded lazily.
 
 [See it in action](http://verlok.github.io/lazyload/demos/with_srcset.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html)
 
-#### Show while loading demo
+### Show while loading demo
 
 The images are in the page body, but as they are stored in the **Progressive JPEG** format we want them to be shown **while loading** and not when they are fully loaded.
 
 [See it in action](http://verlok.github.io/lazyload/demos/show_while_loading.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html)
 
-#### Single scrolling container demo 
+### Single scrolling container demo 
 
 The images are in **scrolling container**, a scrolling div inside the page body.
 
 [See it in action](http://verlok.github.io/lazyload/demos/single_container.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/single_container.html)
 
-#### Multiple scrolling containers demo
+### Multiple scrolling containers demo
 
 The images are in **multiple scrolling containers**, two scrolling divs inside the page body.
 
 [See it in action](http://verlok.github.io/lazyload/demos/multiple_container.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html)
 
-#### Changing content demo
+### Changing content demo
 
 The images are **added in different times**, simulating content that gets added by AJAX requests or other actions.
 
 [See it in action](http://verlok.github.io/lazyload/demos/dynamic_content.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html)
 
-#### Destroying LazyLoad demo
+### Destroying LazyLoad demo
 
 This demo shows how to **destroy _LazyLoad_ when you're finished using it**, to free up some memory.
 
 [See it in action](http://verlok.github.io/lazyload/demos/destroy.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/destroy.html)
-
 
 ## Options
 
@@ -108,7 +107,6 @@ Here's the list of the options.
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `40` |
 | `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
 | `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
-| `data_ignore` | The name of the data attribute to mark which images to ignore. The "data-" is automatically added. | `"ignore"` |
 | `class_loading` | The class applied to the elements while the loading is in progress | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
