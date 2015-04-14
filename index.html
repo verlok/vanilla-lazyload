@@ -152,197 +152,268 @@
 <body>
 <div class="container">
 	<a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
-	<article class="markdown-body"><h1 id="lazyload"><a name="user-content-lazyload" href="#lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LazyLoad</h1>
-<p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they’re about to enter the viewport</strong> of a scrollable area, which <strong>supports the <code>srcset</code> attribute</strong> and with and <strong>takes best advantage from the progressive JPEG image format</strong> (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for performance</a>).</p>
-<p><a href="http://verlok.github.io/lazyload/">WEBSITE</a> | <a href="#user-content-demos">DEMOS</a> | <a href="https://github.com/verlok/lazyload">GITHUB</a> </p>
-<h2 id="how-to-use-lazyload"><a name="user-content-how-to-use-lazyload" href="#how-to-use-lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>How to use LazyLoad</h2>
-<p><strong>HTML - <code>img</code> tags</strong></p>
-<p>Markup your images putting the image source inside the <code>data-original</code> attribute.<br>
-Specify both <code>width</code> and <code>height</code> attributes so the browser can allocate the space on your page.</p>
-<pre><code class="html">&lt;img data-original="http://www.yourimageserver.com/your/image1.jpg" width="100" height="172" /&gt;
-&lt;img data-original="http://www.yourimageserver.com/your/image2.jpg" width="100" height="172" /&gt;
-&lt;img data-original="http://www.yourimageserver.com/your/image3.jpg" width="100" height="172" /&gt;
-</code></pre>
+	<!-- ARTICLE START -->
+	<article class="markdown-body"><h1>
+		<a id="user-content-lazyload" class="anchor" href="#lazyload" aria-hidden="true"><span class="octicon octicon-link"></span></a>LazyLoad</h1>
 
-<p><strong>HTML - <code>script</code> tag</strong></p>
-<p>Include the script in the bottom of your HTML page, just before the closing <code>&lt;/body&gt;</code> tag.</p>
-<pre><code class="html">&lt;body&gt;
-    &lt;!-- Your content ... --&gt;
-    &lt;script src="lazyload.min.js"&gt;&lt;/script&gt;
-&lt;/body&gt;
-</code></pre>
+		<p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they're about to enter the viewport</strong> of a scrollable area, which <strong>supports the <code>srcset</code> attribute</strong> and with and <strong>takes best advantage from the progressive JPEG image format</strong> (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for performance</a>).</p>
 
-<p><strong>Javascript</strong></p>
-<p>In your javascript code, create an instance of LazyLoad, doing so:</p>
-<pre><code class="javascript">var myLazyLoad = new LazyLoad();
-</code></pre>
+		<p><a href="http://verlok.github.io/lazyload/">WEBSITE</a> | <a href="#user-content-demos">DEMOS</a> | <a href="https://github.com/verlok/lazyload">GITHUB</a> </p>
 
-<p>Or, if you want to customize the behaviour of <em>LazyLoad</em> passing some options in, you can do so:</p>
-<pre><code class="javascript">var myLazyLoad = new LazyLoad({
-    // options object, see details above
-    placeholder = 'url(http://www.yourimageserver.com/placeholder.gif)';
-});
-</code></pre>
+		<h2>
+			<a id="user-content-how-to-use-lazyload" class="anchor" href="#how-to-use-lazyload" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use LazyLoad</h2>
 
-<p>See the <a href="#demos">demos</a> and <a href="#options">options</a> sections for further defails.</p>
-<h2 id="demos"><a name="user-content-demos" href="#demos" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Demos</h2>
-<p>Learn how to use <em>LazyLoad</em> in different contexts by looking at the code.</p>
-<h4 id="simple-demo"><a name="user-content-simple-demo" href="#simple-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Simple demo</h4>
-<p>The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/simple.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/simple.html">View source</a></p>
-<h4 id="with-srcset-demo"><a name="user-content-with-srcset-demo" href="#with-srcset-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>With <code>srcset</code> demo</h4>
-<p>The images also contain a <strong><code>srcset</code> attribute</strong> and they are still loaded lazily.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/with_srcset.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html">View source</a></p>
-<h4 id="show-while-loading-demo"><a name="user-content-show-while-loading-demo" href="#show-while-loading-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Show while loading demo</h4>
-<p>The images are in the page body, but as they are stored in the <strong>Progressive JPEG</strong> format we want them to be shown <strong>while loading</strong> and not when they are fully loaded.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/show_while_loading.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html">View source</a></p>
-<h4 id="single-scrolling-container-demo"><a name="user-content-single-scrolling-container-demo" href="#single-scrolling-container-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Single scrolling container demo</h4>
-<p>The images are in <strong>scrolling container</strong>, a scrolling div inside the page body.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/single_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/single_container.html">View source</a></p>
-<h4 id="multiple-scrolling-containers-demo"><a name="user-content-multiple-scrolling-containers-demo" href="#multiple-scrolling-containers-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Multiple scrolling containers demo</h4>
-<p>The images are in <strong>multiple scrolling containers</strong>, two scrolling divs inside the page body.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/multiple_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html">View source</a></p>
-<h4 id="changing-content-demo"><a name="user-content-changing-content-demo" href="#changing-content-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Changing content demo</h4>
-<p>The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests or other actions.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/dynamic_content.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html">View source</a></p>
-<h4 id="destroying-lazyload-demo"><a name="user-content-destroying-lazyload-demo" href="#destroying-lazyload-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Destroying LazyLoad demo</h4>
-<p>This demo shows how to <strong>destroy <em>LazyLoad</em> when you’re finished using it</strong>, to free up some memory.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/destroy.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/destroy.html">View source</a></p>
-<h2 id="options"><a name="user-content-options" href="#options" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Options</h2>
-<p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.<br>
-Here’s the list of the options.</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Meaning</th>
-<th>Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>container</code></td>
-<td>The container in which to start searching for elements, and from which to listen to the scroll event</td>
-<td><code>window</code></td>
-</tr>
-<tr>
-<td><code>elements_selector</code></td>
-<td>The selector of the image elements inside the container</td>
-<td><code>"img"</code></td>
-</tr>
-<tr>
-<td><code>threshold</code></td>
-<td>The distance out of the viewport, expressed in pixel, before which to start loading the images</td>
-<td><code>300</code></td>
-</tr>
-<tr>
-<td><code>throttle</code></td>
-<td>The time that has to pass between one element parsing and the following, when fast scroll events occur</td>
-<td><code>40</code></td>
-</tr>
-<tr>
-<td><code>data_src</code></td>
-<td>The name of the data attribute containing the original image source. The “data-” is automatically added.</td>
-<td><code>"original"</code></td>
-</tr>
-<tr>
-<td><code>data_srcset</code></td>
-<td>The name of the data attribute containing the original image source set. The “data-” is automatically added. If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code> tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a> .</td>
-<td><code>"original-set"</code></td>
-</tr>
-<tr>
-<td><code>data_ignore</code></td>
-<td>The name of the data attribute to mark which images to ignore. The “data-” is automatically added.</td>
-<td><code>"ignore"</code></td>
-</tr>
-<tr>
-<td><code>class_loading</code></td>
-<td>The class applied to the elements while the loading is in progress</td>
-<td><code>"loading"</code></td>
-</tr>
-<tr>
-<td><code>class_loaded</code></td>
-<td>The class applied to the elements when the loading is complete</td>
-<td><code>"loaded"</code></td>
-</tr>
-<tr>
-<td><code>skip_invisible</code></td>
-<td>Specifies whether the script has to consider invisible images or not</td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>show_while_loading</code></td>
-<td>Specifies whether the script must show the images while they are loading. Set it to true when you use progressive JPEG format for your images. <strong>Note</strong>: to make the image visible while loading, you will have to avoid using the <code>src</code> attribute in the <code>img</code> tag</td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>callback_load</code></td>
-<td>A function to be called when an image was loaded.</td>
-<td><code>null</code></td>
-</tr>
-<tr>
-<td><code>callback_set</code></td>
-<td>A function to be called when the src of an image is set in the DOM.</td>
-<td><code>null</code></td>
-</tr>
-<tr>
-<td><code>callback_processed</code></td>
-<td>A function to be called when an image was processed.</td>
-<td><code>null</code></td>
-</tr>
-<tr>
-<td><code>placeholder</code></td>
-<td>The URL of a placeholder image to be shown while the original image is loading. This option is ignored when the option <code>show_while_loading</code> is set to <code>true</code></td>
-<td>(A base64 encoded 1x1 transp. gif)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-methods"><a name="user-content-public-methods" href="#public-methods" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Public methods</h2>
-<table>
-<thead>
-<tr>
-<th>Method name</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>update()</code></td>
-<td>Tells <em>LazyLoad</em> that new lazy images have arrived in the container, so it must start to manage them</td>
-</tr>
-<tr>
-<td><code>destroy()</code></td>
-<td>Destroys the instance, unsetting instance variables and removing listeners.</td>
-</tr>
-<tr>
-<td><code>handleScroll()</code></td>
-<td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code> event, but it’s exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="browser-support"><a name="user-content-browser-support" href="#browser-support" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Browser support</h2>
-<p>Browser support is starting from <strong>Internet Explorer 8</strong> up.<br>
-Please mind that you can’t use CSS 3 selectors in IE8, so beware of them if you change the <code>elements_selector</code> default option.</p>
-<h2 id="lazyload-vs-jquery95lazyload"><em>LazyLoad</em> vs <em>jQuery_lazyload</em></h2>
-<p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>‘s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>.<br>
-The following are the main differences between the scripts.</p>
-<ul>
-<li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see <a href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a> and <a href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a> implementations in the <em>perf</em> folder.</li>
-<li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an image format good for perceived performance because it’s rendered in progressive passes of detail. <code>lazyLoad</code> has an option called <code>show_while_loading</code> that, when set to <code>true</code>, shows your images while they load, letting <em>progressive JPEG</em> do its magic. As <em>jQuery_lazyload</em> doesn’t have this option, it will only show your images once fully loaded.</li>
-<li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can’t.</li>
-<li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>‘s listener to the container’s <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn’t have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
-<li><strong>Support for srcset attribute</strong>. <em>LazyLoad</em> also supports the srcset attribute, today supported in modern browsers to provide HD images for high-density displays (aka Retina display).</li>
-<li><strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn’t rely on jQuery, you can use it in contexts where jQuery is not available.</li>
-</ul>
-<h2 id="install"><a name="user-content-install" href="#install" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Install</h2>
-<p>It’s time to give it a try and boost your website performance!</p>
-<h4 id="download-from-github"><a name="user-content-download-from-github" href="#download-from-github" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Download from GitHub</h4>
-<p>Download the package from GitHub and add dist/lazyload.min.js to your project files.</p>
-<p><a href="https://github.com/verlok/lazyload/archive/master.zip">Zip file</a></p>
-<h4 id="install-it-from-bower"><a name="user-content-install-it-from-bower" href="#install-it-from-bower" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Install it from bower</h4>
-<p>Run the following command on your terminal or command prompt.</p>
-<pre><code class="bash">bower install vanilla-lazyload
-</code></pre></article>
+		<p><strong>HTML - <code>img</code> tags</strong></p>
+
+		<p>Markup your images putting the image source inside the <code>data-original</code> attribute.
+			Specify both <code>width</code> and <code>height</code> attributes so the browser can allocate the space on your page.</p>
+
+		<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>http://www.yourimageserver.com/your/image1.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span> /&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>http://www.yourimageserver.com/your/image2.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span> /&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>http://www.yourimageserver.com/your/image3.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span> /&gt;</pre></div>
+
+		<p><strong>HTML - <code>script</code> tag</strong></p>
+
+		<p>Include the script in the bottom of your HTML page, just before the closing <code>&lt;/body&gt;</code> tag.</p>
+
+		<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">body</span>&gt;
+    <span class="pl-c">&lt;!-- Your content ... --&gt;</span>
+<span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>lazyload.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</span>
+&lt;/<span class="pl-ent">body</span>&gt;</pre></div>
+
+		<p><strong>Javascript</strong></p>
+
+		<p>In your javascript code, create an instance of LazyLoad, doing so:</p>
+
+		<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> myLazyLoad <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LazyLoad</span>();</pre></div>
+
+		<p>Or, if you want to customize the behaviour of <em>LazyLoad</em> passing some options in, you can do so:</p>
+
+		<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> myLazyLoad <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LazyLoad</span>({
+    <span class="pl-c">// options object, see details above</span>
+    placeholder <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>url(http://www.yourimageserver.com/placeholder.gif)<span class="pl-pds">'</span></span>;
+});</pre></div>
+
+		<p>See the <a href="#demos">demos</a> and <a href="#options">options</a> sections for further defails.</p>
+
+		<h2>
+			<a id="user-content-demos" class="anchor" href="#demos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demos</h2>
+
+		<p>Learn how to use <em>LazyLoad</em> in different contexts by looking at the code.</p>
+
+		<h3>
+			<a id="user-content-simple-demo" class="anchor" href="#simple-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple demo</h3>
+
+		<p>The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.</p>
+
+		<p><a href="http://verlok.github.io/lazyload/demos/simple.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/simple.html">View source</a></p>
+
+		<h3>
+			<a id="user-content-with-srcset-demo" class="anchor" href="#with-srcset-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>With <code>srcset</code> demo</h3>
+
+		<p>The images also contain a <strong><code>srcset</code> attribute</strong> and they are still loaded lazily.</p>
+
+		<p><a href="http://verlok.github.io/lazyload/demos/with_srcset.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html">View source</a></p>
+
+		<h3>
+			<a id="user-content-show-while-loading-demo" class="anchor" href="#show-while-loading-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Show while loading demo</h3>
+
+		<p>The images are in the page body, but as they are stored in the <strong>Progressive JPEG</strong> format we want them to be shown <strong>while loading</strong> and not when they are fully loaded.</p>
+
+		<p><a href="http://verlok.github.io/lazyload/demos/show_while_loading.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html">View source</a></p>
+
+		<h3>
+			<a id="user-content-single-scrolling-container-demo" class="anchor" href="#single-scrolling-container-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Single scrolling container demo</h3>
+
+		<p>The images are in <strong>scrolling container</strong>, a scrolling div inside the page body.</p>
+
+		<p><a href="http://verlok.github.io/lazyload/demos/single_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/single_container.html">View source</a></p>
+
+		<h3>
+			<a id="user-content-multiple-scrolling-containers-demo" class="anchor" href="#multiple-scrolling-containers-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiple scrolling containers demo</h3>
+
+		<p>The images are in <strong>multiple scrolling containers</strong>, two scrolling divs inside the page body.</p>
+
+		<p><a href="http://verlok.github.io/lazyload/demos/multiple_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html">View source</a></p>
+
+		<h3>
+			<a id="user-content-changing-content-demo" class="anchor" href="#changing-content-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changing content demo</h3>
+
+		<p>The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests or other actions.</p>
+
+		<p><a href="http://verlok.github.io/lazyload/demos/dynamic_content.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html">View source</a></p>
+
+		<h3>
+			<a id="user-content-destroying-lazyload-demo" class="anchor" href="#destroying-lazyload-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Destroying LazyLoad demo</h3>
+
+		<p>This demo shows how to <strong>destroy <em>LazyLoad</em> when you're finished using it</strong>, to free up some memory.</p>
+
+		<p><a href="http://verlok.github.io/lazyload/demos/destroy.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/destroy.html">View source</a></p>
+
+		<h2>
+			<a id="user-content-options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h2>
+
+		<p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.
+			Here's the list of the options.</p>
+
+		<table>
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Meaning</th>
+				<th>Default value</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td><code>container</code></td>
+				<td>The container in which to start searching for elements, and from which to listen to the scroll event</td>
+				<td><code>window</code></td>
+			</tr>
+			<tr>
+				<td><code>elements_selector</code></td>
+				<td>The selector of the image elements inside the container</td>
+				<td><code>"img"</code></td>
+			</tr>
+			<tr>
+				<td><code>threshold</code></td>
+				<td>The distance out of the viewport, expressed in pixel, before which to start loading the images</td>
+				<td><code>300</code></td>
+			</tr>
+			<tr>
+				<td><code>throttle</code></td>
+				<td>The time that has to pass between one element parsing and the following, when fast scroll events occur</td>
+				<td><code>40</code></td>
+			</tr>
+			<tr>
+				<td><code>data_src</code></td>
+				<td>The name of the data attribute containing the original image source. The "data-" is automatically added.</td>
+				<td><code>"original"</code></td>
+			</tr>
+			<tr>
+				<td><code>data_srcset</code></td>
+				<td>The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code> tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a> .</td>
+				<td><code>"original-set"</code></td>
+			</tr>
+			<tr>
+				<td><code>class_loading</code></td>
+				<td>The class applied to the elements while the loading is in progress</td>
+				<td><code>"loading"</code></td>
+			</tr>
+			<tr>
+				<td><code>class_loaded</code></td>
+				<td>The class applied to the elements when the loading is complete</td>
+				<td><code>"loaded"</code></td>
+			</tr>
+			<tr>
+				<td><code>skip_invisible</code></td>
+				<td>Specifies whether the script has to consider invisible images or not</td>
+				<td><code>true</code></td>
+			</tr>
+			<tr>
+				<td><code>show_while_loading</code></td>
+				<td>Specifies whether the script must show the images while they are loading. Set it to true when you use progressive JPEG format for your images. <strong>Note</strong>: to make the image visible while loading, you will have to avoid using the <code>src</code> attribute in the <code>img</code> tag</td>
+				<td><code>false</code></td>
+			</tr>
+			<tr>
+				<td><code>callback_load</code></td>
+				<td>A function to be called when an image was loaded.</td>
+				<td><code>null</code></td>
+			</tr>
+			<tr>
+				<td><code>callback_set</code></td>
+				<td>A function to be called when the src of an image is set in the DOM.</td>
+				<td><code>null</code></td>
+			</tr>
+			<tr>
+				<td><code>callback_processed</code></td>
+				<td>A function to be called when an image was processed.</td>
+				<td><code>null</code></td>
+			</tr>
+			<tr>
+				<td><code>placeholder</code></td>
+				<td>The URL of a placeholder image to be shown while the original image is loading. This option is ignored when the option <code>show_while_loading</code> is set to <code>true</code>
+				</td>
+				<td>(A base64 encoded 1x1 transp. gif)</td>
+			</tr>
+			</tbody>
+		</table>
+
+		<h2>
+			<a id="user-content-public-methods" class="anchor" href="#public-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Public methods</h2>
+
+		<table>
+			<thead>
+			<tr>
+				<th>Method name</th>
+				<th>Effect</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td><code>update()</code></td>
+				<td>Tells <em>LazyLoad</em> that new lazy images have arrived in the container, so it must start to manage them</td>
+			</tr>
+			<tr>
+				<td><code>destroy()</code></td>
+				<td>Destroys the instance, unsetting instance variables and removing listeners.</td>
+			</tr>
+			<tr>
+				<td><code>handleScroll()</code></td>
+				<td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code> event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
+			</tr>
+			</tbody>
+		</table>
+
+		<h2>
+			<a id="user-content-browser-support" class="anchor" href="#browser-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Browser support</h2>
+
+		<p>Browser support is starting from <strong>Internet Explorer 8</strong> up.
+			Please mind that you can't use CSS 3 selectors in IE8, so beware of them if you change the <code>elements_selector</code> default option.</p>
+
+		<h2>
+			<a id="user-content-lazyload-vs-jquery_lazyload" class="anchor" href="#lazyload-vs-jquery_lazyload" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+			<em>LazyLoad</em> vs <em>jQuery_lazyload</em>
+		</h2>
+
+		<p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>'s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>.
+			The following are the main differences between the scripts.</p>
+
+		<ul>
+			<li>
+				<strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see <a href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a> and <a href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a> implementations in the <em>perf</em> folder.</li>
+			<li>
+				<strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an image format good for perceived performance because it's rendered in progressive passes of detail. <code>lazyLoad</code> has an option called <code>show_while_loading</code> that, when set to <code>true</code>, shows your images while they load, letting <em>progressive JPEG</em> do its magic. As <em>jQuery_lazyload</em> doesn't have this option, it will only show your images once fully loaded.</li>
+			<li>
+				<strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can't.</li>
+			<li>
+				<strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>'s listener to the container's <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn't have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
+			<li>
+				<strong>Support for srcset attribute</strong>. <em>LazyLoad</em> also supports the srcset attribute, today supported in modern browsers to provide HD images for high-density displays (aka Retina display).</li>
+			<li>
+				<strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn't rely on jQuery, you can use it in contexts where jQuery is not available.</li>
+		</ul>
+
+		<h2>
+			<a id="user-content-install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+		<p>It's time to give it a try and boost your website performance!</p>
+
+		<h4>
+			<a id="user-content-download-from-github" class="anchor" href="#download-from-github" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download from GitHub</h4>
+
+		<p>Download the package from GitHub and add dist/lazyload.min.js to your project files.</p>
+
+		<p><a href="https://github.com/verlok/lazyload/archive/master.zip">Zip file</a></p>
+
+		<h4>
+			<a id="user-content-install-it-from-bower" class="anchor" href="#install-it-from-bower" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install it from bower</h4>
+
+		<p>Run the following command on your terminal or command prompt.</p>
+
+		<div class="highlight highlight-bash"><pre>bower install vanilla-lazyload</pre></div>
+	</article>
+	<!-- ARTICLE END -->
 </div>
 <script src="//cdn.jsdelivr.net/highlight.js/8.4/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
