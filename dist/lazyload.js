@@ -11,7 +11,6 @@ LazyLoad = function (instanceSettings) {
 			throttle: 40,
 			data_src: "original",
 			data_srcset: "original-set",
-			data_ignore: "ignore",
 			class_loading: "loading",
 			class_loaded: "loaded",
 			skip_invisible: true,
@@ -302,7 +301,7 @@ LazyLoad = function (instanceSettings) {
 				}
 				/* Marking the element as processed. */
 				processedIndexes.push(i);
-				element.setAttribute('data-' + settings.data_ignore, true);
+				element.wasProcessed = true;
 			}
 		}
 		/* Removing processed elements from this._elements. */
@@ -329,7 +328,7 @@ LazyLoad = function (instanceSettings) {
 		for (i = 0; i < elementsLength; i++) {
 			element = elements[i];
 			/* If the element has already been processed, skip it */
-			if (element.getAttribute('data-' + settings.data_ignore)) {
+			if (element.wasProcessed) {
 				elementsToPurge.push(i);
 			}
 		}
