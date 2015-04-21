@@ -70,8 +70,15 @@ Or, if you want to customize the behaviour of `LazyLoad` passing some options in
 
 ```javascript
 var myLazyLoad = new LazyLoad({
-	// options object, see details above
-	placeholder = 'url(http://www.yourimageserver.com/placeholder.gif)';
+	// example of options object -> see options section
+	threshold: 500,
+    container: document.getElementById('scrollPane'),
+    elements_selector: ".showCase img",
+    throttle: 30,
+    data_src: "src",
+    data_srcset: "srcset",
+    show_while_loading: true,
+    callback_set: function() { /* ... */ }
 });
 ```
 
