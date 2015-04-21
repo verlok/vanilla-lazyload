@@ -6,18 +6,48 @@ _LazyLoad_ is a fast, lightweight and flexible script for **loading images only 
 
 ## How to use LazyLoad
 
-**HTML - `img` tags**
+### HTML - `img` tags
 
 Markup your images putting the image source inside the `data-original` attribute.
 Specify both `width` and `height` attributes so the browser can allocate the space on your page.
 
 ```html
-<img data-original="http://www.yourimageserver.com/your/image1.jpg" width="100" height="172" />
-<img data-original="http://www.yourimageserver.com/your/image2.jpg" width="100" height="172" />
-<img data-original="http://www.yourimageserver.com/your/image3.jpg" width="100" height="172" />
+<img data-original="/your/image1.jpg" width="100" height="172">
+<img data-original="/your/image2.jpg" width="100" height="172">
+<img data-original="/your/image3.jpg" width="100" height="172">
 ```
 
-**HTML - `script` tag**
+Or if you want to use `srcset`:
+
+```html
+<img data-original="/your/image1.jpg" 
+     data-original-set="/your/image1.jpg 1x, /your/image1@2x.jpg 2x" 
+     width="100" height="172">
+<img data-original="/your/image2.jpg" 
+     data-original-set="/your/image2.jpg 1x, /your/image2@2x.jpg 2x" 
+     width="100" height="172">
+<img data-original="/your/image3.jpg" 
+     data-original-set="/your/image3.jpg 1x, /your/image3@2x.jpg 2x" 
+     width="100" height="172">
+```
+
+Or if you want to use `srcset` and `sizes`:
+
+```html
+<img data-original="/your/image1.jpg" 
+     data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w" 
+     sizes="(min-width: 20em) 35vw, 100vw">
+<img data-original="/your/image2.jpg" 
+     data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w" 
+     sizes="(min-width: 20em) 35vw, 100vw">
+<img data-original="/your/image3.jpg" 
+     data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w" 
+     sizes="(min-width: 20em) 35vw, 100vw">
+```
+
+**Note** that not all the images in the page needs to be lazy loaded. You can leave the first images (the amount that you're quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the rest.
+
+### HTML - `script` tag
 
 Include the script in the bottom of your HTML page, just before the closing `</body>` tag.
 
@@ -28,7 +58,7 @@ Include the script in the bottom of your HTML page, just before the closing `</b
 </body>
 ```
 
-**Javascript**
+### Javascript
 
 In your javascript code, create an instance of LazyLoad, doing so:
 
@@ -36,7 +66,7 @@ In your javascript code, create an instance of LazyLoad, doing so:
 var myLazyLoad = new LazyLoad();
 ```
 
-Or, if you want to customize the behaviour of _LazyLoad_ passing some options in, you can do so:
+Or, if you want to customize the behaviour of `LazyLoad` passing some options in, you can do so:
 
 ```javascript
 var myLazyLoad = new LazyLoad({
@@ -47,6 +77,43 @@ var myLazyLoad = new LazyLoad({
 
 See the [demos](#demos) and [options](#options) sections for further defails.
 
+### CSS
+
+Be sure that the images that are going to be lazy loaded **occupy the same space of loaded images (*)**.
+
+To do that, you can either set a placeholder image in your HTML (which nullifies the effect of the `show_while_loading` option), or you can size all your `img` elements using CSS, for example doing this:
+
+```css
+/* Sets a min-height to all images so that they occupy space before loaded */
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+}
+```
+
+In addition, something needs to be done to avoid the "broken image" icon to appear when the `img` element without the `src` attribute enters the viewport.
+
+```css
+/* Prevents img without src to appear */
+img:not([src]) {
+    visibility: hidden;
+}
+```
+
+Furthermore, if we are using the `show_while_loading` option, we need to deal with a Firefox anomaly that still shows the  "broken image" icon while the image is loading. The CSS code that does this trick is the following:
+
+```css
+/* Fixes Firefox anomaly */
+@-moz-document url-prefix() {
+    img:-moz-loading {
+        visibility: hidden;
+    }
+}
+```
+
+(*) if you won't do so, a lot of images would enter the viewport as the user scrolls down, so you would lose the advantages that LazyLoad would bring to your website. 
 
 ## Demos
 
