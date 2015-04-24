@@ -103,7 +103,9 @@ Be sure that the images that are going to be lazy loaded **occupy the same space
 To do that, you can either set a placeholder image in your HTML (which nullifies the effect of the `show_while_loading` option), or you can size all your `img` elements using CSS, for example doing this:
 
 ```css
-/* Sets a min-height to all images so that they occupy space before loaded */
+/* Sets a min-height to all images 
+so that they occupy some space 
+before they are loaded */
 img {
     display: block;
     width: 100%;
@@ -174,15 +176,21 @@ The images are in the page body, so _LazyLoad_ is created with the **default opt
 
 [See it in action](http://verlok.github.io/lazyload/demos/simple.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/simple.html)
 
-#### With `srcset` demo
+#### With `srcset` (1x 2x) demo
 
-The images also contain a **`srcset` attribute** and they are still loaded lazily.
+The images also rely on the **`srcset` attribute** to be loaded lazily. Just pass in the `data_srcset` option and the job will be done.
 
 [See it in action](http://verlok.github.io/lazyload/demos/with_srcset.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html)
 
-#### Show while loading demo
+#### With `srcset` + `sizes` demo
 
-The images are in the page body, but as they are stored in the **Progressive JPEG** format we want them to be shown **while loading** and not when they are fully loaded.
+The images also rely on the **`srcset` attribute** to be loaded lazily, and on the `sizes` attribute to be sized. Just pass in the `data_srcset` option, set the `sizes` attribute normally and the job will be done.
+
+[See it in action](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html)
+
+#### Show images while loading demo
+
+The images are in the page body, but as they are stored in the **Progressive JPEG** format we want them to be shown **while loading** and not only when they are fully loaded.
 
 [See it in action](http://verlok.github.io/lazyload/demos/show_while_loading.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html)
 
