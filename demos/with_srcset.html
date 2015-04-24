@@ -12,6 +12,10 @@
 			padding: 0;
 		}
 
+		li {
+			min-height: 280px;
+		}
+
 		a, img {
 			display: block;
 		}
@@ -19,7 +23,8 @@
 		img {
 			border: 0;
 		}
-		img:not([src]) {
+
+		img:not([src]):not([srcset]) {
 			visibility: hidden;
 		}
 	</style>

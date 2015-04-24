@@ -365,6 +365,7 @@ LazyLoad = function (instanceSettings) {
 	};
 
 	this.destroy = function () {
+        _removeEventListener(window, "resize", this._loopThroughElements.bind(this));
 		this._stopScrollHandler();
 		this._elements = null;
 		this._queryOriginNode = null;
@@ -378,6 +379,7 @@ LazyLoad = function (instanceSettings) {
 
 	this._settings = _merge_objects(_defaultSettings, instanceSettings);
 	this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-	this.update();
+	_addEventListener(window, "resize", this._loopThroughElements.bind(this));
+    this.update();
 
 };
