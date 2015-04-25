@@ -8,7 +8,7 @@ LazyLoad = function (instanceSettings) {
 			elements_selector: "img",
 			container: window,
 			threshold: 300,
-			throttle: 40,
+			throttle: 50,
 			data_src: "original",
 			data_srcset: "original-set",
 			class_loading: "loading",
@@ -180,8 +180,8 @@ LazyLoad = function (instanceSettings) {
 	}
 
 	function _setSrcAndSrcset(target, source, srcsetDataAttribute, srcDataAttribute) {
-		var srcSet = source.getAttribute( 'data-' + srcsetDataAttribute),
-			src = source.getAttribute( 'data-' + srcDataAttribute);
+		var srcSet = source.getAttribute('data-' + srcsetDataAttribute),
+			src = source.getAttribute('data-' + srcDataAttribute);
 		if (srcSet) {
 			target.setAttribute("srcset", srcSet);
 		}
@@ -235,7 +235,9 @@ LazyLoad = function (instanceSettings) {
 		/* Listening to the load event */
 		function loadCallback() {
 			/* As this method is asynchronous, it must be protected against external destroy() calls */
-			if (settings === null) { return; }
+			if (settings === null) {
+				return;
+			}
 			/* Calling LOAD callback */
 			if (settings.callback_load) {
 				settings.callback_load(element);
@@ -260,7 +262,9 @@ LazyLoad = function (instanceSettings) {
 
 		function loadCallback() {
 			/* As this method is asynchronous, it must be protected against external destroy() calls */
-			if (settings === null) { return; }
+			if (settings === null) {
+				return;
+			}
 			/* Calling LOAD callback */
 			if (settings.callback_load) {
 				settings.callback_load(element);
@@ -365,7 +369,7 @@ LazyLoad = function (instanceSettings) {
 	};
 
 	this.destroy = function () {
-        _removeEventListener(window, "resize", this._loopThroughElements.bind(this));
+		_removeEventListener(window, "resize", this.handleScroll);
 		this._stopScrollHandler();
 		this._elements = null;
 		this._queryOriginNode = null;
@@ -379,7 +383,7 @@ LazyLoad = function (instanceSettings) {
 
 	this._settings = _merge_objects(_defaultSettings, instanceSettings);
 	this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-	_addEventListener(window, "resize", this._loopThroughElements.bind(this));
-    this.update();
+	_addEventListener(window, "resize", this.handleScroll.bind(this));
+	this.update();
 
 };
