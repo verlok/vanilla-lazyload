@@ -370,6 +370,10 @@ LazyLoad = function (instanceSettings) {
 
 	this.destroy = function () {
 		_removeEventListener(window, "resize", this.handleScroll);
+        if (_loopTimeout) {
+            clearTimeout(_loopTimeout);
+            _loopTimeout = null;
+        }
 		this._stopScrollHandler();
 		this._elements = null;
 		this._queryOriginNode = null;
