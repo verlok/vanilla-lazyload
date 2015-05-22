@@ -1,6 +1,6 @@
 {
   "name": "lazyload",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "LazyLoad is a fast, lightweight and flexible script for loading images only when they're about to enter the viewport of a scrollable area, with an excellent support to the progressive JPEG image format.",
   "main": "index.html",
   "dependencies": {

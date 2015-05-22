@@ -1,8 +1,12 @@
-/*
- * Lazy Load - for lazy loading images without jQuery
- */
-
-LazyLoad = function (instanceSettings) {
+(function(root, factory) {
+	if (typeof define === 'function' && define.amd) {
+		define([], factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		root.LazyLoad = factory();
+	}
+}(this, function() {
 
 	var _defaultSettings = {
 			elements_selector: "img",
@@ -23,9 +27,10 @@ LazyLoad = function (instanceSettings) {
 		_supportsAddEventListener = !!window.addEventListener,
 		_supportsAttachEvent = !!window.attachEvent,
 		_supportsClassList = !!document.body.classList,
-		_this = this,
 		_previousLoopTime = 0,
 		_loopTimeout = null;
+
+
 
 	/*
 	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
@@ -190,15 +195,16 @@ LazyLoad = function (instanceSettings) {
 		}
 	}
 
+
 	/*
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * ---------------------------------------------------------------
 	 */
 
-	this.handleScroll = function () {
+	LazyLoad.prototype.handleScroll = function () {
 		var remainingTime,
 			now = Date.now(),
-			throttle = _this._settings.throttle;
+			throttle = this._settings.throttle;
 
 		if (throttle !== 0) {
 			remainingTime = throttle - (now - _previousLoopTime);
@@ -208,21 +214,21 @@ LazyLoad = function (instanceSettings) {
 					_loopTimeout = null;
 				}
 				_previousLoopTime = now;
-				_this._loopThroughElements();
+				this._loopThroughElements();
 			} else if (!_loopTimeout) {
 				_loopTimeout = setTimeout(function () {
 					_previousLoopTime = Date.now();
 					_loopTimeout = null;
-					_this._loopThroughElements();
-				}, remainingTime);
+					this._loopThroughElements();
+				}.bind(this), remainingTime);
 			}
 		}
 		else {
-			_this._loopThroughElements();
+			this._loopThroughElements();
 		}
 	};
 
-	this._showOnLoad = function (element) {
+	LazyLoad.prototype._showOnLoad = function (element) {
 		var fakeImg,
 			settings = this._settings;
 
@@ -257,7 +263,7 @@ LazyLoad = function (instanceSettings) {
 		_setSrcAndSrcset(fakeImg, element, settings.data_srcset, settings.data_src);
 	};
 
-	this._showOnAppear = function (element) {
+	LazyLoad.prototype._showOnAppear = function (element) {
 		var settings = this._settings;
 
 		function loadCallback() {
@@ -283,7 +289,7 @@ LazyLoad = function (instanceSettings) {
 		}
 	};
 
-	this._loopThroughElements = function () {
+	LazyLoad.prototype._loopThroughElements = function () {
 		var i, element,
 			settings = this._settings,
 			elements = this._elements,
@@ -322,7 +328,7 @@ LazyLoad = function (instanceSettings) {
 		}
 	};
 
-	this._purgeElements = function () {
+	LazyLoad.prototype._purgeElements = function () {
 		var i, element,
 			settings = this._settings,
 			elements = this._elements,
@@ -342,34 +348,35 @@ LazyLoad = function (instanceSettings) {
 		}
 	};
 
-	this._startScrollHandler = function () {
+	LazyLoad.prototype._startScrollHandler = function () {
 		if (!this._isHandlingScroll) {
 			this._isHandlingScroll = true;
-			_addEventListener(this._settings.container, "scroll", this.handleScroll);
+			_addEventListener(this._settings.container, "scroll", this._handleScrollFn);
 		}
 	};
 
-	this._stopScrollHandler = function () {
+	LazyLoad.prototype._stopScrollHandler = function () {
 		if (this._isHandlingScroll) {
 			this._isHandlingScroll = false;
-			_removeEventListener(this._settings.container, "scroll", this.handleScroll);
+			_removeEventListener(this._settings.container, "scroll", this._handleScrollFn);
 		}
 	};
+
 
 	/*
 	 * PUBLIC FUNCTIONS
 	 * ----------------
 	 */
 
-	this.update = function () {
+	LazyLoad.prototype.update = function () {
 		this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
 		this._purgeElements();
 		this._loopThroughElements();
 		this._startScrollHandler();
 	};
 
-	this.destroy = function () {
-		_removeEventListener(window, "resize", this.handleScroll);
+	LazyLoad.prototype.destroy = function () {
+		_removeEventListener(window, "resize", this._handleScrollFn);
 		if (_loopTimeout) {
 			clearTimeout(_loopTimeout);
 			_loopTimeout = null;
@@ -380,14 +387,24 @@ LazyLoad = function (instanceSettings) {
 		this._settings = null;
 	};
 
+
 	/*
 	 * INITIALIZER
 	 * -----------
 	 */
 
-	this._settings = _merge_objects(_defaultSettings, instanceSettings);
-	this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-	_addEventListener(window, "resize", this.handleScroll.bind(this));
-	this.update();
+	function LazyLoad(instanceSettings) {
 
-};
+		this._settings = _merge_objects(_defaultSettings, instanceSettings);
+		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
+
+		this._handleScrollFn = this.handleScroll.bind(this);
+
+		_addEventListener(window, "resize", this._handleScrollFn);
+		this.update();
+		
+	}
+
+	return LazyLoad;
+
+}));
