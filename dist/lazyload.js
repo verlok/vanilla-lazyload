@@ -164,6 +164,12 @@
 		}
 	}
 
+	function _bind(fn, obj) {
+		return function() {
+			return fn.apply(obj, arguments);
+		};
+	}
+
 	function _addClass(element, className) {
 		/* HTML 5 compliant browsers. */
 		if (_supportsClassList) {
@@ -216,11 +222,11 @@
 				_previousLoopTime = now;
 				this._loopThroughElements();
 			} else if (!_loopTimeout) {
-				_loopTimeout = setTimeout(function () {
+				_loopTimeout = setTimeout(_bind(function () {
 					_previousLoopTime = Date.now();
 					_loopTimeout = null;
 					this._loopThroughElements();
-				}.bind(this), remainingTime);
+				}, this), remainingTime);
 			}
 		}
 		else {
@@ -398,7 +404,7 @@
 		this._settings = _merge_objects(_defaultSettings, instanceSettings);
 		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
-		this._handleScrollFn = this.handleScroll.bind(this);
+		this._handleScrollFn = _bind(this.handleScroll, this);
 
 		_addEventListener(window, "resize", this._handleScrollFn);
 		this.update();
