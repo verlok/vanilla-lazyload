@@ -26,9 +26,7 @@
 		},
 		_supportsAddEventListener = !!window.addEventListener,
 		_supportsAttachEvent = !!window.attachEvent,
-		_supportsClassList = !!document.body.classList,
-		_previousLoopTime = 0,
-		_loopTimeout = null;
+		_supportsClassList = !!document.body.classList;
 
 
 
@@ -134,6 +132,47 @@
 		return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
 	}
 
+	function debounce(func, wait, immediate) {
+		var timeout, args, context, timestamp, result;
+
+		var later = function() {
+			var last = now() - timestamp;
+
+			if (last < wait && last >= 0) {
+				timeout = setTimeout(later, wait - last);
+			} else {
+				timeout = null;
+				if (!immediate) {
+					result = func.apply(context, args);
+					if (!timeout) {
+						context = args = null;
+					}
+				}
+			}
+		};
+
+		return function() {
+			context = this;
+			args = arguments;
+			timestamp = now();
+			var callNow = immediate && !timeout;
+			if (!timeout) {
+				timeout = setTimeout(later, wait);
+			}
+			if (callNow) {
+				result = func.apply(context, args);
+				context = args = null;
+			}
+
+			return result;
+		};
+	}
+
+	function now(){
+		var now = new Date();
+		return now.getTime();
+	}
+
 	function _merge_objects(obj1, obj2) {
 		var obj3 = {}, propertyName;
 		for (propertyName in obj1) {
@@ -162,12 +201,6 @@
 			}
 			return array;
 		}
-	}
-
-	function _bind(fn, obj) {
-		return function() {
-			return fn.apply(obj, arguments);
-		};
 	}
 
 	function _addClass(element, className) {
@@ -203,35 +236,30 @@
 
 
 	/*
+	 * INITIALIZER
+	 * -----------
+	 */
+
+	function LazyLoad(instanceSettings) {
+
+		this._settings = _merge_objects(_defaultSettings, instanceSettings);
+		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
+
+		this._handleScrollFn = this.handleScroll.bind(this);
+
+		_addEventListener(window, "resize", debounce(this._handleScrollFn, this._settings.throttle));
+		this.update();
+
+	}
+
+
+	/*
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * ---------------------------------------------------------------
 	 */
 
 	LazyLoad.prototype.handleScroll = function () {
-		var remainingTime,
-			now = Date.now(),
-			throttle = this._settings.throttle;
-
-		if (throttle !== 0) {
-			remainingTime = throttle - (now - _previousLoopTime);
-			if (remainingTime <= 0 || remainingTime > throttle) {
-				if (_loopTimeout) {
-					clearTimeout(_loopTimeout);
-					_loopTimeout = null;
-				}
-				_previousLoopTime = now;
-				this._loopThroughElements();
-			} else if (!_loopTimeout) {
-				_loopTimeout = setTimeout(_bind(function () {
-					_previousLoopTime = Date.now();
-					_loopTimeout = null;
-					this._loopThroughElements();
-				}, this), remainingTime);
-			}
-		}
-		else {
-			this._loopThroughElements();
-		}
+		this._loopThroughElements();
 	};
 
 	LazyLoad.prototype._showOnLoad = function (element) {
@@ -383,10 +411,7 @@
 
 	LazyLoad.prototype.destroy = function () {
 		_removeEventListener(window, "resize", this._handleScrollFn);
-		if (_loopTimeout) {
-			clearTimeout(_loopTimeout);
-			_loopTimeout = null;
-		}
+
 		this._stopScrollHandler();
 		this._elements = null;
 		this._queryOriginNode = null;
@@ -394,23 +419,7 @@
 	};
 
 
-	/*
-	 * INITIALIZER
-	 * -----------
-	 */
-
-	function LazyLoad(instanceSettings) {
-
-		this._settings = _merge_objects(_defaultSettings, instanceSettings);
-		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-
-		this._handleScrollFn = _bind(this.handleScroll, this);
-
-		_addEventListener(window, "resize", this._handleScrollFn);
-		this.update();
-		
-	}
-
 	return LazyLoad;
+
 
 }));
