@@ -168,9 +168,9 @@
 		};
 	}
 
-	function now(){
-		var now = new Date();
-		return now.getTime();
+	function now() {
+		var d = new Date();
+		return d.getTime();
 	}
 
 	function _merge_objects(obj1, obj2) {
