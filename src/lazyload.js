@@ -233,6 +233,12 @@
 			target.setAttribute("src", src);
 		}
 	}
+    
+    function _bind(fn, obj) {
+		return function() {
+			return fn.apply(obj, arguments);
+		};
+	}
 
 
 	/*
@@ -245,7 +251,7 @@
 		this._settings = _merge_objects(_defaultSettings, instanceSettings);
 		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
-		this._handleScrollFn = this.handleScroll.bind(this);
+		this._handleScrollFn = _bind(this.handleScroll, this);
 
 		_addEventListener(window, "resize", debounce(this._handleScrollFn, this._settings.throttle));
 		this.update();
@@ -327,7 +333,7 @@
 		var i, element,
 			settings = this._settings,
 			elements = this._elements,
-			elementsLength = elements.length,
+			elementsLength = (!elements) ? 0 : elements.length,
 			processedIndexes = [];
 
 		for (i = 0; i < elementsLength; i++) {
@@ -357,7 +363,7 @@
 			}
 		}
 		/* Stop listening to scroll event when 0 elements remains */
-		if (elements.length === 0) {
+		if (elementsLength === 0) {
 			this._stopScrollHandler();
 		}
 	};
