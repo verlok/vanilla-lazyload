@@ -1,4 +1,4 @@
-(function(root, factory) {
+(function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		define([], factory);
 	} else if (typeof exports === 'object') {
@@ -6,7 +6,7 @@
 	} else {
 		root.LazyLoad = factory();
 	}
-}(this, function() {
+}(this, function () {
 
 	var _defaultSettings = {
 			elements_selector: "img",
@@ -27,7 +27,6 @@
 		_supportsAddEventListener = !!window.addEventListener,
 		_supportsAttachEvent = !!window.attachEvent,
 		_supportsClassList = !!document.body.classList;
-
 
 
 	/*
@@ -197,9 +196,9 @@
 			target.setAttribute("src", src);
 		}
 	}
-    
-    function _bind(fn, obj) {
-		return function() {
+
+	function _bind(fn, obj) {
+		return function () {
 			return fn.apply(obj, arguments);
 		};
 	}
@@ -217,7 +216,7 @@
 
 		this._previousLoopTime = 0;
 		this._loopTimeout = null;
-        
+
 		this._handleScrollFn = _bind(this.handleScroll, this);
 
 		_addEventListener(window, "resize", this._handleScrollFn);
@@ -370,8 +369,8 @@
 	 * PUBLIC FUNCTIONS
 	 * ----------------
 	 */
-    
-    LazyLoad.prototype.handleScroll = function () {
+
+	LazyLoad.prototype.handleScroll = function () {
 		var remainingTime,
 			now = _now(),
 			throttle = this._settings.throttle;
