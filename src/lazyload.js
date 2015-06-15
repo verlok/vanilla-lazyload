@@ -132,43 +132,7 @@
 		return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
 	}
 
-	function debounce(func, wait, immediate) {
-		var timeout, args, context, timestamp, result;
-
-		var later = function() {
-			var last = now() - timestamp;
-
-			if (last < wait && last >= 0) {
-				timeout = setTimeout(later, wait - last);
-			} else {
-				timeout = null;
-				if (!immediate) {
-					result = func.apply(context, args);
-					if (!timeout) {
-						context = args = null;
-					}
-				}
-			}
-		};
-
-		return function() {
-			context = this;
-			args = arguments;
-			timestamp = now();
-			var callNow = immediate && !timeout;
-			if (!timeout) {
-				timeout = setTimeout(later, wait);
-			}
-			if (callNow) {
-				result = func.apply(context, args);
-				context = args = null;
-			}
-
-			return result;
-		};
-	}
-
-	function now() {
+	function _now() {
 		var d = new Date();
 		return d.getTime();
 	}
@@ -251,9 +215,12 @@
 		this._settings = _merge_objects(_defaultSettings, instanceSettings);
 		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
+		this._previousLoopTime = 0;
+		this._loopTimeout = null;
+        
 		this._handleScrollFn = _bind(this.handleScroll, this);
 
-		_addEventListener(window, "resize", debounce(this._handleScrollFn, this._settings.throttle));
+		_addEventListener(window, "resize", this._handleScrollFn);
 		this.update();
 
 	}
@@ -263,10 +230,6 @@
 	 * PRIVATE FUNCTIONS *RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * ---------------------------------------------------------------
 	 */
-
-	LazyLoad.prototype.handleScroll = function () {
-		this._loopThroughElements();
-	};
 
 	LazyLoad.prototype._showOnLoad = function (element) {
 		var fakeImg,
@@ -407,6 +370,33 @@
 	 * PUBLIC FUNCTIONS
 	 * ----------------
 	 */
+    
+    LazyLoad.prototype.handleScroll = function () {
+		var remainingTime,
+			now = _now(),
+			throttle = this._settings.throttle;
+
+		if (throttle !== 0) {
+			remainingTime = throttle - (now - this._previousLoopTime);
+			if (remainingTime <= 0 || remainingTime > throttle) {
+				if (this._loopTimeout) {
+					clearTimeout(this._loopTimeout);
+					this._loopTimeout = null;
+				}
+				this._previousLoopTime = now;
+				this._loopThroughElements();
+			} else if (!this._loopTimeout) {
+				this._loopTimeout = setTimeout(_bind(function () {
+					this._previousLoopTime = _now();
+					this._loopTimeout = null;
+					this._loopThroughElements();
+				}, this), remainingTime);
+			}
+		}
+		else {
+			this._loopThroughElements();
+		}
+	};
 
 	LazyLoad.prototype.update = function () {
 		this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
