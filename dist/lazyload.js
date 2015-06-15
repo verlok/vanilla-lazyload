@@ -332,7 +332,6 @@
 
 	LazyLoad.prototype._purgeElements = function () {
 		var i, element,
-			settings = this._settings,
 			elements = this._elements,
 			elementsLength = elements.length,
 			elementsToPurge = [];
@@ -372,8 +371,16 @@
 
 	LazyLoad.prototype.handleScroll = function () {
 		var remainingTime,
-			now = _now(),
-			throttle = this._settings.throttle;
+			now,
+			throttle;
+
+		// IE8 fix for destroy() malfunctioning
+		if (!this._settings) {
+			return;
+		}
+
+		now = _now();
+		throttle = this._settings.throttle;
 
 		if (throttle !== 0) {
 			remainingTime = throttle - (now - this._previousLoopTime);
@@ -406,7 +413,10 @@
 
 	LazyLoad.prototype.destroy = function () {
 		_removeEventListener(window, "resize", this._handleScrollFn);
-
+		if (this._loopTimeout) {
+			clearTimeout(this._loopTimeout);
+			this._loopTimeout = null;
+		}
 		this._stopScrollHandler();
 		this._elements = null;
 		this._queryOriginNode = null;
