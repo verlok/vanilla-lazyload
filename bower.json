@@ -6,7 +6,7 @@
     "Andrea Verlicchi <andrea.verlicchi@gmail.com>"
   ],
   "description": "LazyLoad is a fast, lightweight and flexible script for loading images only when they're about to enter the viewport of a scrollable area, with an excellent support to the progressive JPEG image format",
-  "main": "dist\\lazyload.min.js",
+  "main": "dist/lazyload.min.js",
   "keywords": [
     "lazy",
     "load",
