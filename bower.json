@@ -28,6 +28,8 @@
     "Gruntfile.js",
     "README.md",
     "todo.md",
-    "favicon.ico"
+    "favicon.ico",
+    "index.html",
+    "package.json"
   ]
 }
