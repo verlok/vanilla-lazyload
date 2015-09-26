@@ -21,6 +21,13 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "src",
+    "img",
+    "demos",
+    "Gruntfile.js",
+    "README.md",
+    "todo.md",
+    "favicon.ico"
   ]
 }
