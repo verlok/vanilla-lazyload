@@ -23,7 +23,7 @@
     "no-jquery"
   ],
   "author": "Andrea \"verlok\" Verlicchi",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/verlok/lazyload/issues"
   },
