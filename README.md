@@ -2,7 +2,7 @@
 
 _LazyLoad_ is a fast, lightweight and flexible script for **loading images only when they're about to enter the viewport** of a scrollable area, which **supports the `srcset` attribute** and with and **takes best advantage from the progressive JPEG image format** (which is [good for performance](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html)).
 
-[WEBSITE](http://verlok.github.io/lazyload/) | [DEMOS](#user-content-demos) | [GITHUB](https://github.com/verlok/lazyload) 
+[WEBSITE](http://verlok.github.io/lazyload/) | [DEMOS](#user-content-demos) | [GITHUB](https://github.com/verlok/lazyload)
 
 ## Difference with jQuery\_lazyload
 
@@ -32,28 +32,28 @@ Specify both `width` and `height` attributes so the browser can allocate the spa
 Or if you want to use `srcset`:
 
 ```html
-<img data-original="/your/image1.jpg" 
-     data-original-set="/your/image1.jpg 1x, /your/image1@2x.jpg 2x" 
+<img data-original="/your/image1.jpg"
+     data-original-set="/your/image1.jpg 1x, /your/image1@2x.jpg 2x"
      width="100" height="172">
-<img data-original="/your/image2.jpg" 
-     data-original-set="/your/image2.jpg 1x, /your/image2@2x.jpg 2x" 
+<img data-original="/your/image2.jpg"
+     data-original-set="/your/image2.jpg 1x, /your/image2@2x.jpg 2x"
      width="100" height="172">
-<img data-original="/your/image3.jpg" 
-     data-original-set="/your/image3.jpg 1x, /your/image3@2x.jpg 2x" 
+<img data-original="/your/image3.jpg"
+     data-original-set="/your/image3.jpg 1x, /your/image3@2x.jpg 2x"
      width="100" height="172">
 ```
 
 Or if you want to use `srcset` and `sizes`:
 
 ```html
-<img data-original="/your/image1.jpg" 
-     data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w" 
+<img data-original="/your/image1.jpg"
+     data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
      sizes="(min-width: 20em) 35vw, 100vw">
-<img data-original="/your/image2.jpg" 
-     data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w" 
+<img data-original="/your/image2.jpg"
+     data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w"
      sizes="(min-width: 20em) 35vw, 100vw">
-<img data-original="/your/image3.jpg" 
-     data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w" 
+<img data-original="/your/image3.jpg"
+     data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
      sizes="(min-width: 20em) 35vw, 100vw">
 ```
 
@@ -103,8 +103,8 @@ Be sure that the images that are going to be lazy loaded **occupy the same space
 To do that, you can either set a placeholder image in your HTML (which nullifies the effect of the `show_while_loading` option), or you can size all your `img` elements using CSS, for example doing this:
 
 ```css
-/* Sets a min-height to all images 
-so that they occupy some space 
+/* Sets a min-height to all images
+so that they occupy some space
 before they are loaded */
 img {
     display: block;
@@ -134,7 +134,7 @@ Furthermore, if we are using the `show_while_loading` option, we need to deal wi
 }
 ```
 
-(*) if you won't do so, a lot of images would enter the viewport as the user scrolls down, so you would lose the advantages that LazyLoad would bring to your website. 
+(*) if you won't do so, a lot of images would enter the viewport as the user scrolls down, so you would lose the advantages that LazyLoad would bring to your website.
 
 ## Options
 
@@ -142,7 +142,7 @@ For every instance of _LazyLoad_ you can pass in some options, to alter its defa
 Here's the list of the options.
 
 | Name | Meaning | Default value |
-| ---- | ----| ---- | 
+| ---- | ----| ---- |
 | `container` | The container in which to start searching for elements, and from which to listen to the scroll event | `window` |
 | `elements_selector` | The selector of the image elements inside the container | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
@@ -158,7 +158,7 @@ Here's the list of the options.
 | `callback_processed` | A function to be called when an image was processed. | `null` |
 | `placeholder` | The URL of a placeholder image to be shown while the original image is loading. This option is ignored when the option `show_while_loading` is set to `true` | (A base64 encoded 1x1 transp. gif) |
 
-## Public methods 
+## Public methods
 
 | Method name      | Effect                                                                                               |
 |------------------|------------------------------------------------------------------------------------------------------|
@@ -194,7 +194,7 @@ The images are in the page body, but as they are stored in the **Progressive JPE
 
 [See it in action](http://verlok.github.io/lazyload/demos/show_while_loading.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html)
 
-#### Single scrolling container demo 
+#### Single scrolling container demo
 
 The images are in **scrolling container**, a scrolling div inside the page body.
 
@@ -233,10 +233,18 @@ Download the package from GitHub and add dist/lazyload.min.js to your project fi
 
 [Zip file](https://github.com/verlok/lazyload/archive/master.zip)
 
-##### Install it from bower
+##### Install using bower
 
 Run the following command on your terminal or command prompt.
 
 ```bash
 bower install vanilla-lazyload
+```
+
+##### Install using npm
+
+Run the following command on your terminal or command prompt.
+
+```bash
+npm install vanilla-lazyload
 ```
