@@ -8,31 +8,43 @@
 	}
 }(this, function () {
 
-	var _defaultSettings = {
-			elements_selector: "img",
-			container: window,
-			threshold: 300,
-			throttle: 50,
-			data_src: "original",
-			data_srcset: "original-set",
-			class_loading: "loading",
-			class_loaded: "loaded",
-			skip_invisible: true,
-			show_while_loading: false,
-			callback_load: null,
-			callback_set: null,
-			callback_processed: null,
-			placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-		},
-		_supportsAddEventListener = !!window.addEventListener,
-		_supportsAttachEvent = !!window.attachEvent,
-		_supportsClassList = !!document.body.classList;
+	var _defaultSettings,
+		_supportsAddEventListener,
+		_supportsAttachEvent,
+		_supportsClassList,
+		_isInitialized = false;
 
 
 	/*
 	 * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
 	 * -------------------------------------------------------------------
 	 */
+
+	function _init() {
+		if(!_isInitialized) {
+			_defaultSettings = {
+				elements_selector: "img",
+				container: window,
+				threshold: 300,
+				throttle: 50,
+				data_src: "original",
+				data_srcset: "original-set",
+				class_loading: "loading",
+				class_loaded: "loaded",
+				skip_invisible: true,
+				show_while_loading: false,
+				callback_load: null,
+				callback_set: null,
+				callback_processed: null,
+				placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+			};
+			_supportsAddEventListener = !!window.addEventListener;
+			_supportsAttachEvent = !!window.attachEvent;
+			_supportsClassList = !!document.body.classList;
+
+			_isInitialized = true;
+		}
+	}
 
 	function _addEventListener(element, eventName, callback) {
 		// Use addEventListener if available
@@ -210,6 +222,7 @@
 	 */
 
 	function LazyLoad(instanceSettings) {
+		_init();
 
 		this._settings = _merge_objects(_defaultSettings, instanceSettings);
 		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
