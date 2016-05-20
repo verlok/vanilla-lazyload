@@ -2,7 +2,7 @@
   "name": "vanilla-lazyload",
   "version": "1.5.8",
   "description": "LazyLoad is a fast, lightweight and flexible script for loading images only when they're about to enter the viewport of a scrollable area, with an excellent support to the progressive JPEG image format.",
-  "main": "index.html",
+  "main": "dist/lazyload.js",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.10.0",
