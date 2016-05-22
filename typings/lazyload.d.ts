@@ -4,10 +4,10 @@
     elements_selector?: string;
     throttle?: number;
     data_src?: string;
+    data_srcset?: string;
     class_loading?: string;
     class_loaded?: string;
-    skip_invisible?: string;
-    data_srcset?: string;
+    skip_invisible?: boolean;
     show_while_loading?: boolean;
     callback_set?: (elt:HTMLImageElement) => void;
     callback_load?: (elt:HTMLImageElement) => void;
