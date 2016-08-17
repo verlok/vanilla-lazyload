@@ -46,63 +46,63 @@ Or if you want to use `srcset`:
 
 ```html
 <img data-original="/your/image1.jpg"
-     data-original-set="/your/image1.jpg 1x, /your/image1@2x.jpg 2x"
-     width="100" height="172">
+    data-original-set="/your/image1.jpg 1x, /your/image1@2x.jpg 2x"
+    width="100" height="172">
 <img data-original="/your/image2.jpg"
-     data-original-set="/your/image2.jpg 1x, /your/image2@2x.jpg 2x"
-     width="100" height="172">
+    data-original-set="/your/image2.jpg 1x, /your/image2@2x.jpg 2x"
+    width="100" height="172">
 <img data-original="/your/image3.jpg"
-     data-original-set="/your/image3.jpg 1x, /your/image3@2x.jpg 2x"
-     width="100" height="172">
+    data-original-set="/your/image3.jpg 1x, /your/image3@2x.jpg 2x"
+    width="100" height="172">
 ```
 
 Or if you want to use `srcset` and `sizes`:
 
 ```html
 <img data-original="/your/image1.jpg"
-     data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-     sizes="(min-width: 20em) 35vw, 100vw">
+    data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+    sizes="(min-width: 20em) 35vw, 100vw">
 <img data-original="/your/image2.jpg"
-     data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w"
-     sizes="(min-width: 20em) 35vw, 100vw">
+    data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w"
+    sizes="(min-width: 20em) 35vw, 100vw">
 <img data-original="/your/image3.jpg"
-     data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
-     sizes="(min-width: 20em) 35vw, 100vw">
+    data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
+    sizes="(min-width: 20em) 35vw, 100vw">
 ```
 
 Or, for the kitchen sink approach:
 
 ```html
 <img data-original="/your/image1.jpg"
-     data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-     sizes="(min-width: 20em) 35vw, 100vw">
- <noscript>
- <picture alt="your alt text">
-    <img src="/your/image1.jpg"
-        srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-        alt="your alt text">
- </picture>
- </noscript>
+    data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+    sizes="(min-width: 20em) 35vw, 100vw">
+    <noscript>
+        <picture alt="your alt text">
+            <img src="/your/image1.jpg"
+                srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+                alt="your alt text">
+        </picture>
+    </noscript>
 <img data-original="/your/image2.jpg"
-     data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w"
-     sizes="(min-width: 20em) 35vw, 100vw">
- <noscript>
- <picture alt="your alt text">
-    <img src="/your/image2.jpg"
-        srcset="/your/image2.jpg 200w, /your/image2@2x.jpg 400w"
-        alt="your alt text">
- </picture>
- </noscript>
+    data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w"
+    sizes="(min-width: 20em) 35vw, 100vw">
+    <noscript>
+        <picture alt="your alt text">
+            <img src="/your/image2.jpg"
+                srcset="/your/image2.jpg 200w, /your/image2@2x.jpg 400w"
+                alt="your alt text">
+        </picture>
+    </noscript>
 <img data-original="/your/image3.jpg"
-     data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
-     sizes="(min-width: 20em) 35vw, 100vw">
-     <noscript>
-     <picture alt="your alt text">
-        <img src="/your/image3.jpg"
-            srcset="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
-            alt="your alt text">
-     </picture>
-     </noscript>
+    data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
+    sizes="(min-width: 20em) 35vw, 100vw">
+    <noscript>
+        <picture alt="your alt text">
+            <img src="/your/image3.jpg"
+                srcset="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
+                alt="your alt text">
+        </picture>
+    </noscript>
 ```
 
 **Note** that not all the images in the page needs to be lazy loaded. You can leave the first images (the amount that you're quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the rest.
@@ -113,8 +113,8 @@ Include the script in the bottom of your HTML page, just before the closing `</b
 
 ```html
 <body>
-	<!-- Your content ... -->
-	<script src="lazyload.min.js"></script>
+    <!-- Your content ... -->
+    <script src="lazyload.min.js"></script>
 </body>
 ```
 
@@ -130,8 +130,8 @@ Or, if you want to customize the behaviour of `LazyLoad` passing some options in
 
 ```javascript
 var myLazyLoad = new LazyLoad({
-	// example of options object -> see options section
-	threshold: 500,
+    // example of options object -> see options section
+    threshold: 500,
     container: document.getElementById('scrollPane'),
     elements_selector: ".showCase img",
     throttle: 30,
