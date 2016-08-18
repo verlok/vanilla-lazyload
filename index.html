@@ -1,413 +1,795 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
-	<title>
-		Lazyload - a fast, lightweight and flexible script for loading images when they enter the viewport
-	</title>
-	<style type="text/css">
-		html {
-			-webkit-text-size-adjust: none; /* Prevent font scaling in landscape while allowing user zoom */
-		}
-		body {
-			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-			line-height: 1.5em;
-			margin: 0;
-			padding: 0;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1"/>
+    <title>
+        Lazyload - a fast, lightweight and flexible script for loading images when they enter the viewport
+    </title>
+    <style type="text/css">
+        html {
+            -webkit-text-size-adjust: none; /* Prevent font scaling in landscape while allowing user zoom */
+        }
 
-		h1, h2, h3, h4 {
-			margin: 1.2em 0 .5em;
-			/*font-family: Georgia, serif;*/
-			border-bottom: 1px solid #EEE;
-			padding-bottom: .66em;
-		}
+        body {
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            line-height: 1.5em;
+            margin: 0;
+            padding: 0;
+        }
 
-		article {
-			margin:1rem auto;
-			max-width: 50rem;
-			overflow-x: auto;
-			padding: 1rem;
-		}
+        h1, h2, h3, h4 {
+            margin: 1.2em 0 .5em;
+            /*font-family: Georgia, serif;*/
+            border-bottom: 1px solid #EEE;
+            padding-bottom: .66em;
+        }
 
-		@media screen and (min-width: 480px) {
-			article {
-				padding: 2rem;
-				border: 1px solid #EEE;
-			}
-		}
+        article {
+            margin: 1rem auto;
+            max-width: 50rem;
+            overflow-x: auto;
+            padding: 1rem;
+        }
 
-		article h1 {
-			font-size: 2.2rem;
-		}
+        @media screen and (min-width: 480px) {
+            article {
+                padding: 2rem;
+                border: 1px solid #EEE;
+            }
+        }
 
-		article h2 {
-			font-size: 1.8rem;
-		}
+        article h1 {
+            font-size: 2.2rem;
+        }
 
-		article h3 {
-			font-size: 1.5rem;
-		}
+        article h2 {
+            font-size: 1.8rem;
+        }
 
-		h1:first-child {
-			margin-top: .2em;
-		}
+        article h3 {
+            font-size: 1.5rem;
+        }
 
-		a {
-			text-decoration: none;
-		}
-		a:link {
-			color: #049ed3;
-		}
-		a:visited {
-			color: #0091ff;
-		}
+        h1:first-child {
+            margin-top: .2em;
+        }
 
-		.container {
-			overflow-x: hidden;
-			position: relative;
-		}
+        a {
+            text-decoration: none;
+        }
 
-		.corner {
-			background: #ffd600;
-			padding: 0.2rem 3rem;
-			text-decoration: none;
-			position: absolute;
-			-webkit-transform: rotate(45deg);
-			-ms-transform: rotate(45deg);
-			transform: rotate(45deg);
-			-webkit-transform-origin: top right;
-			-ms-transform-origin: top right;
-			transform-origin: top right;
-			top: 8.5rem;
-			right: -2rem;
-			transition: all .2s;
-			box-shadow: rgba(0,0,0,.2) 0 0 .5em;
-		}
-		.corner:link,
-		.corner:visited {
-			color: black;
-		}
-		.corner:hover {
-			top: 8.8rem;
-			right: -1.7rem;
-			background: #ffec00;
-		}
+        a:link {
+            color: #049ed3;
+        }
 
-		table {
-			border-collapse: collapse;
-		}
+        a:visited {
+            color: #0091ff;
+        }
 
-		td, th {
-			padding: 5px;
-			text-align: left;
-			vertical-align: top;
-			border: 1px solid #ccc;
-		}
+        .container {
+            overflow-x: hidden;
+            position: relative;
+        }
 
-		@media (max-width: 320px) {
-			td:nth-child(3),
-			th:nth-child(3) {
-				display: none;
-			}
-		}
+        .corner {
+            background: #ffd600;
+            padding: 0.2rem 3rem;
+            text-decoration: none;
+            position: absolute;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            -webkit-transform-origin: top right;
+            -ms-transform-origin: top right;
+            transform-origin: top right;
+            top: 8.5rem;
+            right: -2rem;
+            transition: all .2s;
+            box-shadow: rgba(0, 0, 0, .2) 0 0 .5em;
+        }
 
-		tbody tr:nth-child(odd) {
-			background: #f8f8f8;
-		}
+        .corner:link,
+        .corner:visited {
+            color: black;
+        }
 
-		thead tr {
-			background: #333;
-			color: white;
-		}
+        .corner:hover {
+            top: 8.8rem;
+            right: -1.7rem;
+            background: #ffec00;
+        }
 
-		.results ul,
-		.results li {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
+        table {
+            border-collapse: collapse;
+        }
 
-		code:not([class]) {
-			padding: 0.2em 0.5em;
-			background-color: #f8f8f8;
-			border-radius: 0.33rem;
-      color: #d14;
-      border: 1px solid #DDD;
-		}
+        td, th {
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+            border: 1px solid #ccc;
+        }
 
-		code[class] {
-			padding: 1rem;
-			border-left: 10px dotted #EEE;
-			display: block;
-			overflow-x: auto;
-			border-radius: .33rem;
-		}
+        @media (max-width: 320px) {
+            td:nth-child(3),
+            th:nth-child(3) {
+                display: none;
+            }
+        }
 
-		table code:not([class]) {
-			padding: 0;
-		}
-	</style>
-	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
+        tbody tr:nth-child(odd) {
+            background: #f8f8f8;
+        }
+
+        thead tr {
+            background: #333;
+            color: white;
+        }
+
+        .results ul,
+        .results li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        code:not([class]) {
+            padding: 0.2em 0.5em;
+            background-color: #f8f8f8;
+            border-radius: 0.33rem;
+            color: #d14;
+            border: 1px solid #DDD;
+        }
+
+        code[class] {
+            padding: 1rem;
+            border-left: 10px dotted #EEE;
+            display: block;
+            overflow-x: auto;
+            border-radius: .33rem;
+        }
+
+        table code:not([class]) {
+            padding: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
 </head>
 <body>
 <div class="container">
-	<a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
-	<!-- ARTICLE START -->
-	<article class="markdown-body"><h1 id="lazyload"><a name="user-content-lazyload" href="#lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>LazyLoad</h1>
-<p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they&rsquo;re about to enter the viewport</strong> of a scrollable area, which <strong>supports the <code>srcset</code> attribute</strong> and with and <strong>takes best advantage from the progressive JPEG image format</strong> (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for performance</a>).</p>
-<p><a href="http://verlok.github.io/lazyload/">WEBSITE</a> | <a href="#user-content-demos">DEMOS</a> | <a href="https://github.com/verlok/lazyload">GITHUB</a> </p>
-<h2 id="difference-with-jquery95lazyload"><a name="user-content-difference-with-jquery95lazyload" href="#difference-with-jquery95lazyload" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Difference with jQuery_lazyload</h2>
-<p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>&lsquo;s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>.<br />
-The following are the main differences between the scripts.</p>
-<ul>
-<li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see <a href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a> and <a href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a> implementations in the <em>perf</em> folder.</li>
-<li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an image format good for perceived performance because it&rsquo;s rendered in progressive passes of detail. <code>lazyLoad</code> has an option called <code>show_while_loading</code> that, when set to <code>true</code>, shows your images while they load, letting <em>progressive JPEG</em> do its magic. As <em>jQuery_lazyload</em> doesn&rsquo;t have this option, it will only show your images once fully loaded.</li>
-<li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can&rsquo;t.</li>
-<li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>&lsquo;s listener to the container&rsquo;s <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn&rsquo;t have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
-<li><strong>Support for <code>srcset</code> attribute</strong>. <em>LazyLoad</em> also supports the srcset attribute, today supported in modern browsers to provide HD images for high-density displays (aka Retina display).</li>
-<li><strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn&rsquo;t rely on jQuery, you can use it in contexts where jQuery is not available.</li>
-</ul>
-<h2 id="how-to-use"><a name="user-content-how-to-use" href="#how-to-use" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>How to use</h2>
-<h4 id="html-img-tags"><a name="user-content-html-img-tags" href="#html-img-tags" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>HTML - <code>img</code> tags</h4>
-<p>Markup your images putting the image source inside the <code>data-original</code> attribute.<br />
-Specify both <code>width</code> and <code>height</code> attributes so the browser can allocate the space on your page.</p>
-<pre><code class="html">&lt;img data-original=&quot;/your/image1.jpg&quot; width=&quot;100&quot; height=&quot;172&quot;&gt;
-&lt;img data-original=&quot;/your/image2.jpg&quot; width=&quot;100&quot; height=&quot;172&quot;&gt;
-&lt;img data-original=&quot;/your/image3.jpg&quot; width=&quot;100&quot; height=&quot;172&quot;&gt;
-</code></pre>
+    <a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
+    <!-- ARTICLE START -->
+    <article class="markdown-body"><h1>
+        <a id="user-content-lazyload-aka-vanilla-lazyload" class="anchor" href="#lazyload-aka-vanilla-lazyload"
+           aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LazyLoad (aka Vanilla
+        LazyLoad)</h1>
 
-<p>Or if you want to use <code>srcset</code>:</p>
-<pre><code class="html">&lt;img data-original=&quot;/your/image1.jpg&quot; 
-     data-original-set=&quot;/your/image1.jpg 1x, /your/image1@2x.jpg 2x&quot; 
-     width=&quot;100&quot; height=&quot;172&quot;&gt;
-&lt;img data-original=&quot;/your/image2.jpg&quot; 
-     data-original-set=&quot;/your/image2.jpg 1x, /your/image2@2x.jpg 2x&quot; 
-     width=&quot;100&quot; height=&quot;172&quot;&gt;
-&lt;img data-original=&quot;/your/image3.jpg&quot; 
-     data-original-set=&quot;/your/image3.jpg 1x, /your/image3@2x.jpg 2x&quot; 
-     width=&quot;100&quot; height=&quot;172&quot;&gt;
-</code></pre>
+        <p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they're
+            about to enter the viewport</strong> of a scrollable area, which <strong>supports the <code>srcset</code>
+            attribute</strong> and with and <strong>takes best advantage from the progressive JPEG image format</strong>
+            (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for
+                performance</a>).</p>
 
-<p>Or if you want to use <code>srcset</code> and <code>sizes</code>:</p>
-<pre><code class="html">&lt;img data-original=&quot;/your/image1.jpg&quot; 
-     data-original-set=&quot;/your/image1.jpg 200w, /your/image1@2x.jpg 400w&quot; 
-     sizes=&quot;(min-width: 20em) 35vw, 100vw&quot;&gt;
-&lt;img data-original=&quot;/your/image2.jpg&quot; 
-     data-original-set=&quot;/your/image2.jpg 200x, /your/image2@2x.jpg 400w&quot; 
-     sizes=&quot;(min-width: 20em) 35vw, 100vw&quot;&gt;
-&lt;img data-original=&quot;/your/image3.jpg&quot; 
-     data-original-set=&quot;/your/image3.jpg 200w, /your/image3@2x.jpg 400w&quot; 
-     sizes=&quot;(min-width: 20em) 35vw, 100vw&quot;&gt;
-</code></pre>
+        <p><a href="http://verlok.github.io/lazyload/">WEBSITE</a> | <a href="#user-content-demos">DEMOS</a> | <a
+                href="https://github.com/verlok/lazyload">GITHUB</a></p>
 
-<p><strong>Note</strong> that not all the images in the page needs to be lazy loaded. You can leave the first images (the amount that you&rsquo;re quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the rest.</p>
-<h4 id="html-script-tag"><a name="user-content-html-script-tag" href="#html-script-tag" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>HTML - <code>script</code> tag</h4>
-<p>Include the script in the bottom of your HTML page, just before the closing <code>&lt;/body&gt;</code> tag.</p>
-<pre><code class="html">&lt;body&gt;
-    &lt;!-- Your content ... --&gt;
-    &lt;script src=&quot;lazyload.min.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-</code></pre>
+        <h2>
+            <a id="user-content-difference-with-jquery_lazyload" class="anchor" href="#difference-with-jquery_lazyload"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Difference with
+            jQuery_lazyload</h2>
 
-<h4 id="javascript"><a name="user-content-javascript" href="#javascript" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Javascript</h4>
-<p>In your javascript code, create an instance of LazyLoad, doing so:</p>
-<pre><code class="javascript">var myLazyLoad = new LazyLoad();
-</code></pre>
+        <p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>'s <a
+                href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>.
+            The following are the main differences between the scripts.</p>
 
-<p>Or, if you want to customize the behaviour of <code>LazyLoad</code> passing some options in, you can do so:</p>
-<pre><code class="javascript">var myLazyLoad = new LazyLoad({
-    // example of options object -&gt; see options section
-    threshold: 500,
-    container: document.getElementById('scrollPane'),
-    elements_selector: &quot;.showCase img&quot;,
-    throttle: 30,
-    data_src: &quot;src&quot;,
-    data_srcset: &quot;srcset&quot;,
-    show_while_loading: true,
-    callback_set: function() { /* ... */ }
-});
-</code></pre>
+        <ul>
+            <li>
+                <strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em>
+                uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the
+                difference, even in slow devices or computers. To measure the scripts performance yourself, see <a
+                    href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a> and <a
+                    href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a>
+                implementations in the <em>perf</em> folder.
+            </li>
+            <li>
+                <strong>Progressive JPEG support will improve perceived speed</strong>. <a
+                    href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an
+                image format good for perceived performance because it's rendered in progressive passes of detail.
+                <code>lazyLoad</code> has an option called <code>show_while_loading</code> that, when set to
+                <code>true</code>, shows your images while they load, letting <em>progressive JPEG</em> do its magic. As
+                <em>jQuery_lazyload</em> doesn't have this option, it will only show your images once fully loaded.
+            </li>
+            <li>
+                <strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page,
+                whereas <em>jQuery_lazyload</em> can't.
+            </li>
+            <li>
+                <strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>'s listener to the
+                container's <code>scroll</code> event is throttled by default, meaning that the main function of the
+                script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs.
+                <em>jQuery_lazyload</em> doesn't have this option, so its scroll handler function is executed more
+                frequently then necessary, slowing down the user device.
+            </li>
+            <li>
+                <strong>Support for <code>srcset</code> attribute</strong>. <em>LazyLoad</em> also supports the srcset
+                attribute, today supported in modern browsers to provide HD images for high-density displays (aka Retina
+                display).
+            </li>
+            <li>
+                <strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn't rely on jQuery, you can use it in
+                contexts where jQuery is not available.
+            </li>
+        </ul>
 
-<p>See the <a href="#demos">demos</a> and <a href="#options">options</a> sections for further defails.</p>
-<h4 id="css"><a name="user-content-css" href="#css" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>CSS</h4>
-<p>Be sure that the images that are going to be lazy loaded <strong>occupy the same space of loaded images (*)</strong>.</p>
-<p>To do that, you can either set a placeholder image in your HTML (which nullifies the effect of the <code>show_while_loading</code> option), or you can size all your <code>img</code> elements using CSS, for example doing this:</p>
-<pre><code class="css">/* Sets a min-height to all images 
-so that they occupy some space 
-before they are loaded */
-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 300px;
-}
-</code></pre>
+        <h2>
+            <a id="user-content-how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>How to use</h2>
 
-<p>In addition, something needs to be done to avoid the &ldquo;broken image&rdquo; icon to appear when the <code>img</code> element without the <code>src</code> attribute enters the viewport.</p>
-<pre><code class="css">/* Prevents img without src to appear */
-img:not([src]) {
-    visibility: hidden;
-}
-</code></pre>
+        <h4>
+            <a id="user-content-html---img-tags" class="anchor" href="#html---img-tags" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>HTML - <code>img</code> tags</h4>
 
-<p>Furthermore, if we are using the <code>show_while_loading</code> option, we need to deal with a Firefox anomaly that still shows the  &ldquo;broken image&rdquo; icon while the image is loading. The CSS code that does this trick is the following:</p>
-<pre><code class="css">/* Fixes Firefox anomaly */
+        <p>Markup your images putting the image source inside the <code>data-original</code> attribute.
+            Specify both <code>width</code> and <code>height</code> attributes so the browser can allocate the space on
+            your page.</p>
+
+        <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span
+                class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span> <span
+                class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span
+                class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span> <span
+                    class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span> <span
+                    class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;</pre>
+        </div>
+
+        <p>To allow the lazyload script to display images where JavaScript isn't
+            available, simply add a <code>noscript</code>tag:</p>
+
+        <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span
+                class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span> <span
+                class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span
+                class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">noscript</span>&gt;&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span
+                    class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span> <span
+                    class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;&lt;/<span
+                    class="pl-ent">noscript</span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span> <span
+                    class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">noscript</span>&gt;&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span
+                    class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span> <span
+                    class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;&lt;/<span
+                    class="pl-ent">noscript</span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span> <span
+                    class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">noscript</span>&gt;&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span
+                    class="pl-s"><span class="pl-pds">"</span>/your/image13jpg<span class="pl-pds">"</span></span> <span
+                    class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;&lt;/<span
+                    class="pl-ent">noscript</span>&gt;</pre>
+        </div>
+
+        <p>Or if you want to use <code>srcset</code>:</p>
+
+        <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span
+                class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 1x, /your/image1@2x.jpg 2x<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 1x, /your/image2@2x.jpg 2x<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 1x, /your/image3@2x.jpg 2x<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span
+                    class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;</pre>
+        </div>
+
+        <p>Or if you want to use <code>srcset</code> and <code>sizes</code>:</p>
+
+        <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span
+                class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 200w, /your/image1@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span
+                    class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 200x, /your/image2@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span
+                    class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 200w, /your/image3@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span
+                    class="pl-pds">"</span></span>&gt;</pre>
+        </div>
+
+        <p>Or, for the kitchen sink approach:</p>
+
+        <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span
+                class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 200w, /your/image1@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span
+                    class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">noscript</span>&gt;
+        &lt;<span class="pl-ent">picture</span> <span class="pl-e">alt</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>your alt text<span class="pl-pds">"</span></span>&gt;
+            &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
+                <span class="pl-e">srcset</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 200w, /your/image1@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+                <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>your alt text<span
+                    class="pl-pds">"</span></span>&gt;
+        &lt;/<span class="pl-ent">picture</span>&gt;
+    &lt;/<span class="pl-ent">noscript</span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 200x, /your/image2@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span
+                    class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">noscript</span>&gt;
+        &lt;<span class="pl-ent">picture</span> <span class="pl-e">alt</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>your alt text<span class="pl-pds">"</span></span>&gt;
+            &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
+                <span class="pl-e">srcset</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 200w, /your/image2@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+                <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>your alt text<span
+                    class="pl-pds">"</span></span>&gt;
+        &lt;/<span class="pl-ent">picture</span>&gt;
+    &lt;/<span class="pl-ent">noscript</span>&gt;
+&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
+    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 200w, /your/image3@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span
+                    class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">noscript</span>&gt;
+        &lt;<span class="pl-ent">picture</span> <span class="pl-e">alt</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>your alt text<span class="pl-pds">"</span></span>&gt;
+            &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span
+                    class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
+                <span class="pl-e">srcset</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 200w, /your/image3@2x.jpg 400w<span
+                    class="pl-pds">"</span></span>
+                <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>your alt text<span
+                    class="pl-pds">"</span></span>&gt;
+        &lt;/<span class="pl-ent">picture</span>&gt;
+    &lt;/<span class="pl-ent">noscript</span>&gt;</pre>
+        </div>
+
+        <p><strong>Note</strong> that not all the images in the page needs to be lazy loaded. You can leave the first
+            images (the amount that you're quite sure that fits in the majority of viewports) loaded normally, then
+            start lazy loading the rest.</p>
+
+        <h4>
+            <a id="user-content-html---script-tag" class="anchor" href="#html---script-tag" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>HTML - <code>script</code> tag</h4>
+
+        <p>Include the script in the bottom of your HTML page, just before the closing <code>&lt;/body&gt;</code> tag.
+        </p>
+
+        <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">body</span>&gt;
+    <span class="pl-c">&lt;!-- Your content ... --&gt;</span>
+<span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span
+        class="pl-pds">"</span>lazyload.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span
+        class="pl-ent">script</span>&gt;</span>
+&lt;/<span class="pl-ent">body</span>&gt;</pre>
+        </div>
+
+        <h4>
+            <a id="user-content-javascript" class="anchor" href="#javascript" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>Javascript</h4>
+
+        <p>In your javascript code, create an instance of LazyLoad, doing so:</p>
+
+        <div class="highlight highlight-source-js">
+            <pre><span class="pl-k">var</span> myLazyLoad <span class="pl-k">=</span> <span
+                    class="pl-k">new</span> <span class="pl-en">LazyLoad</span>();</pre>
+        </div>
+
+        <p>Or, if you want to customize the behaviour of <code>LazyLoad</code> passing some options in, you can do so:
+        </p>
+
+        <div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myLazyLoad <span
+                class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LazyLoad</span>({
+    <span class="pl-c">// example of options object -&gt; see options section</span>
+    threshold<span class="pl-k">:</span> <span class="pl-c1">500</span>,
+    container<span class="pl-k">:</span> <span class="pl-c1">document</span>.<span
+                    class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">'</span>scrollPane<span
+                    class="pl-pds">'</span></span>),
+    elements_selector<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>.showCase img<span
+                    class="pl-pds">"</span></span>,
+    throttle<span class="pl-k">:</span> <span class="pl-c1">30</span>,
+    data_src<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span>,
+    data_srcset<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>srcset<span
+                    class="pl-pds">"</span></span>,
+    <span class="pl-en">callback_set</span><span class="pl-k">:</span> <span class="pl-k">function</span>() { <span
+                    class="pl-c">/* ... */</span> }
+});</pre>
+        </div>
+
+        <p>See the <a href="#demos">demos</a> and <a href="#options">options</a> sections for further defails.</p>
+
+        <h4>
+            <a id="user-content-css" class="anchor" href="#css" aria-hidden="true"><span aria-hidden="true"
+                                                                                         class="octicon octicon-link"></span></a>CSS
+        </h4>
+
+        <p>Be sure that the images that are going to be lazy loaded <strong>occupy the same space of loaded images
+            (*)</strong>.</p>
+
+        <p>To do that, you can either set a placeholder image in your HTML (which nullifies the effect of the <code>show_while_loading</code>
+            option), or you can size all your <code>img</code> elements using CSS, for example doing this:</p>
+
+        <div class="highlight highlight-source-css"><pre><span class="pl-c">/* Sets a min-height to all images</span>
+<span class="pl-c">so that they occupy some space</span>
+<span class="pl-c">before they are loaded */</span>
+<span class="pl-ent">img</span> {
+    <span class="pl-c1"><span class="pl-c1">display</span></span>: <span class="pl-c1">block</span>;
+    <span class="pl-c1"><span class="pl-c1">width</span></span>: <span class="pl-c1">100<span
+                    class="pl-k">%</span></span>;
+    <span class="pl-c1"><span class="pl-c1">height</span></span>: <span class="pl-c1">auto</span>;
+    <span class="pl-c1"><span class="pl-c1">min-height</span></span>: <span class="pl-c1">300<span
+                    class="pl-k">px</span></span>;
+}</pre>
+        </div>
+
+        <p>In addition, something needs to be done to avoid the "broken image" icon to appear when the <code>img</code>
+            element without the <code>src</code> attribute enters the viewport.</p>
+
+        <div class="highlight highlight-source-css"><pre><span
+                class="pl-c">/* Prevents img without src to appear */</span>
+<span class="pl-ent">img</span><span class="pl-e">:not</span>([src]) {
+    <span class="pl-c1"><span class="pl-c1">visibility</span></span>: <span class="pl-c1">hidden</span>;
+}</pre>
+        </div>
+
+        <p>Furthermore, if we are using the <code>show_while_loading</code> option (which defaults to <code>true</code>),
+            we need to deal with a Firefox anomaly that still shows the "broken image" icon while the image is loading.
+            The CSS code that does this trick is the following:</p>
+
+        <div class="highlight highlight-source-css"><pre><span class="pl-c">/* Fixes Firefox anomaly */</span>
 @-moz-document url-prefix() {
-    img:-moz-loading {
-        visibility: hidden;
+    <span class="pl-c1">img</span>:-moz-loading {
+        visibility: <span class="pl-c1">hidden</span>;
     }
-}
-</code></pre>
+}</pre>
+        </div>
 
-<p>(*) if you won&rsquo;t do so, a lot of images would enter the viewport as the user scrolls down, so you would lose the advantages that LazyLoad would bring to your website. </p>
-<h2 id="options"><a name="user-content-options" href="#options" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Options</h2>
-<p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.<br />
-Here&rsquo;s the list of the options.</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Meaning</th>
-<th>Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>container</code></td>
-<td>The container in which to start searching for elements, and from which to listen to the scroll event</td>
-<td><code>window</code></td>
-</tr>
-<tr>
-<td><code>elements_selector</code></td>
-<td>The selector of the image elements inside the container</td>
-<td><code>"img"</code></td>
-</tr>
-<tr>
-<td><code>threshold</code></td>
-<td>The distance out of the viewport, expressed in pixel, before which to start loading the images</td>
-<td><code>300</code></td>
-</tr>
-<tr>
-<td><code>throttle</code></td>
-<td>The time that has to pass between one element parsing and the following, when fast scroll events occur</td>
-<td><code>40</code></td>
-</tr>
-<tr>
-<td><code>data_src</code></td>
-<td>The name of the data attribute containing the original image source. The &ldquo;data-&rdquo; is automatically added.</td>
-<td><code>"original"</code></td>
-</tr>
-<tr>
-<td><code>data_srcset</code></td>
-<td>The name of the data attribute containing the original image source set. The &ldquo;data-&rdquo; is automatically added. If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code> tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a> .</td>
-<td><code>"original-set"</code></td>
-</tr>
-<tr>
-<td><code>class_loading</code></td>
-<td>The class applied to the elements while the loading is in progress</td>
-<td><code>"loading"</code></td>
-</tr>
-<tr>
-<td><code>class_loaded</code></td>
-<td>The class applied to the elements when the loading is complete</td>
-<td><code>"loaded"</code></td>
-</tr>
-<tr>
-<td><code>skip_invisible</code></td>
-<td>Specifies whether the script has to consider invisible images or not</td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>show_while_loading</code></td>
-<td>Specifies whether the script must show the images while they are loading. Set it to true when you use progressive JPEG format for your images. <strong>Note</strong>: to make the image visible while loading, you will have to avoid using the <code>src</code> attribute in the <code>img</code> tag</td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>callback_load</code></td>
-<td>A function to be called when an image was loaded.</td>
-<td><code>null</code></td>
-</tr>
-<tr>
-<td><code>callback_set</code></td>
-<td>A function to be called when the src of an image is set in the DOM.</td>
-<td><code>null</code></td>
-</tr>
-<tr>
-<td><code>callback_processed</code></td>
-<td>A function to be called when an image was processed.</td>
-<td><code>null</code></td>
-</tr>
-<tr>
-<td><code>placeholder</code></td>
-<td>The URL of a placeholder image to be shown while the original image is loading. This option is ignored when the option <code>show_while_loading</code> is set to <code>true</code></td>
-<td>(A base64 encoded 1x1 transp. gif)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-methods"><a name="user-content-public-methods" href="#public-methods" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Public methods</h2>
-<table>
-<thead>
-<tr>
-<th>Method name</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>update()</code></td>
-<td>Tells <em>LazyLoad</em> that new lazy images have arrived in the container, so it must start to manage them</td>
-</tr>
-<tr>
-<td><code>destroy()</code></td>
-<td>Destroys the instance, unsetting instance variables and removing listeners.</td>
-</tr>
-<tr>
-<td><code>handleScroll()</code></td>
-<td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code> event, but it&rsquo;s exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="demos"><a name="user-content-demos" href="#demos" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Demos</h2>
-<p>Learn how to use <em>LazyLoad</em> in different contexts by looking at the code.</p>
-<h4 id="simple-demo"><a name="user-content-simple-demo" href="#simple-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Simple demo</h4>
-<p>The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/simple.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/simple.html">View source</a></p>
-<h4 id="with-srcset-1x-2x-demo"><a name="user-content-with-srcset-1x-2x-demo" href="#with-srcset-1x-2x-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>With <code>srcset</code> (1x 2x) demo</h4>
-<p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily. Just pass in the <code>data_srcset</code> option and the job will be done.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/with_srcset.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html">View source</a></p>
-<h4 id="with-srcset-sizes-demo"><a name="user-content-with-srcset-sizes-demo" href="#with-srcset-sizes-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>With <code>srcset</code> + <code>sizes</code> demo</h4>
-<p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily, and on the <code>sizes</code> attribute to be sized. Just pass in the <code>data_srcset</code> option, set the <code>sizes</code> attribute normally and the job will be done.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/with_srcset_sizes.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html">View source</a></p>
-<h4 id="show-images-while-loading-demo"><a name="user-content-show-images-while-loading-demo" href="#show-images-while-loading-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Show images while loading demo</h4>
-<p>The images are in the page body, but as they are stored in the <strong>Progressive JPEG</strong> format we want them to be shown <strong>while loading</strong> and not only when they are fully loaded.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/show_while_loading.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html">View source</a></p>
-<h4 id="single-scrolling-container-demo"><a name="user-content-single-scrolling-container-demo" href="#single-scrolling-container-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Single scrolling container demo</h4>
-<p>The images are in <strong>scrolling container</strong>, a scrolling div inside the page body.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/single_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/single_container.html">View source</a></p>
-<h4 id="multiple-scrolling-containers-demo"><a name="user-content-multiple-scrolling-containers-demo" href="#multiple-scrolling-containers-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Multiple scrolling containers demo</h4>
-<p>The images are in <strong>multiple scrolling containers</strong>, two scrolling divs inside the page body.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/multiple_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html">View source</a></p>
-<h4 id="changing-content-demo"><a name="user-content-changing-content-demo" href="#changing-content-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Changing content demo</h4>
-<p>The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests or other actions.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/dynamic_content.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html">View source</a></p>
-<h4 id="destroying-lazyload-demo"><a name="user-content-destroying-lazyload-demo" href="#destroying-lazyload-demo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Destroying LazyLoad demo</h4>
-<p>This demo shows how to <strong>destroy <em>LazyLoad</em> when you&rsquo;re finished using it</strong>, to free up some memory.</p>
-<p><a href="http://verlok.github.io/lazyload/demos/destroy.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/destroy.html">View source</a></p>
-<h2 id="browser-support"><a name="user-content-browser-support" href="#browser-support" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Browser support</h2>
-<p>Browser support is starting from <strong>Internet Explorer 8</strong> up.<br />
-Please mind that you can&rsquo;t use CSS 3 selectors in IE8, so beware of them if you change the <code>elements_selector</code> default option.</p>
-<h2 id="install"><a name="user-content-install" href="#install" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Install</h2>
-<p>It&rsquo;s time to give it a try and boost your website performance!</p>
-<h5 id="download-from-github"><a name="user-content-download-from-github" href="#download-from-github" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Download from GitHub</h5>
-<p>Download the package from GitHub and add dist/lazyload.min.js to your project files.</p>
-<p><a href="https://github.com/verlok/lazyload/archive/master.zip">Zip file</a></p>
-<h5 id="install-it-from-bower"><a name="user-content-install-it-from-bower" href="#install-it-from-bower" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Install it from bower</h5>
-<p>Run the following command on your terminal or command prompt.</p>
-<pre><code class="bash">bower install vanilla-lazyload
-</code></pre></article>
-	<!-- ARTICLE END -->
+        <p>(*) if you won't do so, a lot of images would enter the viewport as the user scrolls down, so you would lose
+            the advantages that LazyLoad would bring to your website.</p>
+
+        <h2>
+            <a id="user-content-options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true"
+                                                                                                 class="octicon octicon-link"></span></a>Options
+        </h2>
+
+        <p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.
+            Here's the list of the options.</p>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Meaning</th>
+                <th>Default value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><code>container</code></td>
+                <td>The container in which to start searching for elements, and from which to listen to the scroll
+                    event
+                </td>
+                <td><code>window</code></td>
+            </tr>
+            <tr>
+                <td><code>elements_selector</code></td>
+                <td>The selector of the image elements inside the container</td>
+                <td><code>"img"</code></td>
+            </tr>
+            <tr>
+                <td><code>threshold</code></td>
+                <td>The distance out of the viewport, expressed in pixel, before which to start loading the images</td>
+                <td><code>300</code></td>
+            </tr>
+            <tr>
+                <td><code>throttle</code></td>
+                <td>The time that has to pass between one element parsing and the following, when fast scroll events
+                    occur
+                </td>
+                <td><code>40</code></td>
+            </tr>
+            <tr>
+                <td><code>data_src</code></td>
+                <td>The name of the data attribute containing the original image source. The "data-" is automatically
+                    added.
+                </td>
+                <td><code>"original"</code></td>
+            </tr>
+            <tr>
+                <td><code>data_srcset</code></td>
+                <td>The name of the data attribute containing the original image source set. The "data-" is
+                    automatically added. If you also need to add the <code>sizes</code> attribute, you can do it
+                    directly to you <code>img</code> tag, as <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets
+                        ignored when the <code>srcset</code> attribute is missing</a> .
+                </td>
+                <td><code>"original-set"</code></td>
+            </tr>
+            <tr>
+                <td><code>class_loading</code></td>
+                <td>The class applied to the <code>img</code> or <code>iframe</code> elements while the loading is in
+                    progress
+                </td>
+                <td><code>"loading"</code></td>
+            </tr>
+            <tr>
+                <td><code>class_loaded</code></td>
+                <td>The class applied to the <code>img</code> or <code>iframe</code> elements when the loading is
+                    complete
+                </td>
+                <td><code>"loaded"</code></td>
+            </tr>
+            <tr>
+                <td><code>skip_invisible</code></td>
+                <td>Specifies whether the script has to consider invisible images or not</td>
+                <td><code>true</code></td>
+            </tr>
+            <tr>
+                <td><code>show_while_loading</code></td>
+                <td>Specifies whether the script must show the images while they are loading. Set it to
+                    <code>true</code> when you use progressive JPEG format for your images, to <code>false</code> if you
+                    want to wait until the loading images is loaded to display it. <strong>Note</strong>: to make the
+                    image visible while loading, you will have to avoid setting the <code>src</code> attribute in the
+                    <code>img</code> tag
+                </td>
+                <td><code>true</code></td>
+            </tr>
+            <tr>
+                <td><code>callback_load</code></td>
+                <td>A function to be called when an image was loaded.</td>
+                <td><code>null</code></td>
+            </tr>
+            <tr>
+                <td><code>callback_set</code></td>
+                <td>A function to be called when the src of an image is set in the DOM.</td>
+                <td><code>null</code></td>
+            </tr>
+            <tr>
+                <td><code>callback_processed</code></td>
+                <td>A function to be called when an image was processed.</td>
+                <td><code>null</code></td>
+            </tr>
+            <tr>
+                <td><code>placeholder</code></td>
+                <td>The URL of a placeholder image to be shown while the original image is loading. This option is
+                    ignored when the option <code>show_while_loading</code> is set to <code>true</code>
+                </td>
+                <td>(A base64 encoded 1x1 transp. gif)</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>
+            <a id="user-content-public-methods" class="anchor" href="#public-methods" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>Public methods</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Method name</th>
+                <th>Effect</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><code>update()</code></td>
+                <td>Tells <em>LazyLoad</em> that new lazy images have arrived in the container, so it must start to
+                    manage them
+                </td>
+            </tr>
+            <tr>
+                <td><code>destroy()</code></td>
+                <td>Destroys the instance, unsetting instance variables and removing listeners.</td>
+            </tr>
+            <tr>
+                <td><code>handleScroll()</code></td>
+                <td>A throttled scroll handler. This is called automatically from LazyLoad if the container element
+                    fires a <code>scroll</code> event, but it's exposed as a public method to allow you to use LazyLoad
+                    otherwise (i.g. when using iScroll)
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>
+            <a id="user-content-demos" class="anchor" href="#demos" aria-hidden="true"><span aria-hidden="true"
+                                                                                             class="octicon octicon-link"></span></a>Demos
+        </h2>
+
+        <p>Learn how to use <em>LazyLoad</em> in different contexts by looking at the code.</p>
+
+        <h4>
+            <a id="user-content-simple-demo" class="anchor" href="#simple-demo" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>Simple demo</h4>
+
+        <p>The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.
+        </p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/simple.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/simple.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-with-srcset-1x-2x-demo" class="anchor" href="#with-srcset-1x-2x-demo"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With
+            <code>srcset</code> (1x 2x) demo</h4>
+
+        <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily. Just pass in
+            the <code>data_srcset</code> option and the job will be done.</p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/with_srcset.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-with-srcset--sizes-demo" class="anchor" href="#with-srcset--sizes-demo"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With
+            <code>srcset</code> + <code>sizes</code> demo</h4>
+
+        <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily, and on the
+            <code>sizes</code> attribute to be sized. Just pass in the <code>data_srcset</code> option, set the <code>sizes</code>
+            attribute normally and the job will be done.</p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/with_srcset_sizes.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-lazy-loading-iframe-demo" class="anchor" href="#lazy-loading-iframe-demo"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lazy loading <code>iframe</code>
+            demo</h4>
+
+        <p>To lazy load <code>iframe</code>s, set the <code>elements_selector</code> to <code>iframe</code>s and
+            optionally change the <code>data_src</code> option (default <code>data-original</code>) to define which data
+            attribute will contain the source of the <code>iframe</code>.</p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/iframes.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/iframes.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-using-background-images-demo" class="anchor" href="#using-background-images-demo"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using background
+            images demo</h4>
+
+        <p>To make lazy load use background images, set the <code>elements_selector</code> to whatever tag you want
+            except <code>img</code> and <code>iframe</code>. The image will be loaded from the URL specified in the data
+            attribute defined by the <code>data_src</code> option (default <code>data-original</code>).</p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/background_images.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/background_images.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-single-scrolling-container-demo" class="anchor" href="#single-scrolling-container-demo"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Single scrolling
+            container demo</h4>
+
+        <p>The images are in <strong>scrolling container</strong>, a scrolling div inside the page body.</p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/single_container.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/single_container.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-multiple-scrolling-containers-demo" class="anchor"
+               href="#multiple-scrolling-containers-demo" aria-hidden="true"><span aria-hidden="true"
+                                                                                   class="octicon octicon-link"></span></a>Multiple
+            scrolling containers demo</h4>
+
+        <p>The images are in <strong>multiple scrolling containers</strong>, two scrolling divs inside the page body.
+        </p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/multiple_container.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-changing-content-demo" class="anchor" href="#changing-content-demo"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Changing content demo
+        </h4>
+
+        <p>The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests
+            or other actions.</p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/dynamic_content.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html">View source</a></p>
+
+        <h4>
+            <a id="user-content-destroying-lazyload-demo" class="anchor" href="#destroying-lazyload-demo"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Destroying LazyLoad
+            demo</h4>
+
+        <p>This demo shows how to <strong>destroy <em>LazyLoad</em> when you're finished using it</strong>, to free up
+            some memory.</p>
+
+        <p><a href="http://verlok.github.io/lazyload/demos/destroy.html">See it in action</a> | <a
+                href="https://github.com/verlok/lazyload/blob/master/demos/destroy.html">View source</a></p>
+
+        <h2>
+            <a id="user-content-browser-support" class="anchor" href="#browser-support" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>Browser support</h2>
+
+        <p>Browser support is starting from <strong>Internet Explorer 8</strong> up.
+            Please mind that you can't use CSS 3 selectors in IE8, so beware of them if you change the <code>elements_selector</code>
+            default option.</p>
+
+        <h2>
+            <a id="user-content-install" class="anchor" href="#install" aria-hidden="true"><span aria-hidden="true"
+                                                                                                 class="octicon octicon-link"></span></a>Install
+        </h2>
+
+        <p>It's time to give it a try and boost your website performance!</p>
+
+        <h5>
+            <a id="user-content-download-from-github" class="anchor" href="#download-from-github"
+               aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download from GitHub
+        </h5>
+
+        <p>Download the package from GitHub and add dist/lazyload.min.js to your project files.</p>
+
+        <p><a href="https://github.com/verlok/lazyload/archive/master.zip">Zip file</a></p>
+
+        <h5>
+            <a id="user-content-install-using-bower" class="anchor" href="#install-using-bower" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>Install using bower</h5>
+
+        <p>Run the following command on your terminal or command prompt.</p>
+
+        <div class="highlight highlight-source-shell">
+            <pre>bower install vanilla-lazyload</pre>
+        </div>
+
+        <h5>
+            <a id="user-content-install-using-npm" class="anchor" href="#install-using-npm" aria-hidden="true"><span
+                    aria-hidden="true" class="octicon octicon-link"></span></a>Install using npm</h5>
+
+        <p>Run the following command on your terminal or command prompt.</p>
+
+        <div class="highlight highlight-source-shell">
+            <pre>npm install vanilla-lazyload</pre>
+        </div>
+    </article>
+    <!-- ARTICLE END -->
 </div>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>

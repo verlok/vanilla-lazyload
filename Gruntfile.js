@@ -2,28 +2,15 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		concat: {
-			options: {
-				separator: ';'
-			},
-			dist: {
-				src: ['src/**/*.js'],
-				dest: 'dist/<%= pkg.name %>.js'
-			}
-		},
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> <%= pkg.version %> by <%= pkg.author %>*/',
+				banner: '<%= banner %>',
 				sourceMap: true
 			},
 			dist: {
-				files: {
-					'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-				}
+				src: 'src/lazyload.js',
+				dest: 'dist/lazyload.min.js'
 			}
-		},
-		qunit: {
-			files: ['test/**/*.html']
 		},
 		jshint: {
 			files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
@@ -46,10 +33,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 
-	grunt.registerTask('test', ['jshint']);
-
-	grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'watch']);
+	grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
 
 };
