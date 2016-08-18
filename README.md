@@ -1,4 +1,4 @@
-# LazyLoad
+# LazyLoad (aka Vanilla LazyLoad)
 
 _LazyLoad_ is a fast, lightweight and flexible script for **loading images only when they're about to enter the viewport** of a scrollable area, which **supports the `srcset` attribute** and with and **takes best advantage from the progressive JPEG image format** (which is [good for performance](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html)).
 
