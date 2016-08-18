@@ -137,7 +137,6 @@ var myLazyLoad = new LazyLoad({
     throttle: 30,
     data_src: "src",
     data_srcset: "srcset",
-    show_while_loading: true,
     callback_set: function() { /* ... */ }
 });
 ```
@@ -171,7 +170,7 @@ img:not([src]) {
 }
 ```
 
-Furthermore, if we are using the `show_while_loading` option, we need to deal with a Firefox anomaly that still shows the  "broken image" icon while the image is loading. The CSS code that does this trick is the following:
+Furthermore, if we are using the `show_while_loading` option (which defaults to `true`), we need to deal with a Firefox anomaly that still shows the "broken image" icon while the image is loading. The CSS code that does this trick is the following:
 
 ```css
 /* Fixes Firefox anomaly */
@@ -197,10 +196,10 @@ Here's the list of the options.
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `40` |
 | `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
 | `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
-| `class_loading` | The class applied to the elements while the loading is in progress | `"loading"` |
-| `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
+| `class_loading` | The class applied to the `img` or `iframe` elements while the loading is in progress | `"loading"` |
+| `class_loaded` | The class applied to the `img` or `iframe` elements when the loading is complete | `"loaded"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
-| `show_while_loading` | Specifies whether the script must show the images while they are loading. Set it to true when you use progressive JPEG format for your images. **Note**: to make the image visible while loading, you will have to avoid using the `src` attribute in the `img` tag | `false` |
+| `show_while_loading` | Specifies whether the script must show the images while they are loading. Set it to `true` when you use progressive JPEG format for your images, to `false` if you want to wait until the loading images is loaded to display it. **Note**: to make the image visible while loading, you will have to avoid setting the `src` attribute in the `img` tag | `true` |
 | `callback_load` | A function to be called when an image was loaded. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
 | `callback_processed` | A function to be called when an image was processed. | `null` |
@@ -236,11 +235,17 @@ The images also rely on the **`srcset` attribute** to be loaded lazily, and on t
 
 [See it in action](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html)
 
-#### Show images while loading demo
+#### Lazy loading `iframe` demo
 
-The images are in the page body, but as they are stored in the **Progressive JPEG** format we want them to be shown **while loading** and not only when they are fully loaded.
+To lazy load `iframe`s, set the `elements_selector` to `iframe`s and optionally change the `data_src` option (default `data-original`) to define which data attribute will contain the source of the `iframe`.
 
-[See it in action](http://verlok.github.io/lazyload/demos/show_while_loading.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/show_while_loading.html)
+[See it in action](http://verlok.github.io/lazyload/demos/iframes.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/iframes.html)
+
+#### Using background images demo
+
+To make lazy load use background images, set the `elements_selector` to whatever tag you want except `img` and `iframe`. The image will be loaded from the URL specified in the data attribute defined by the `data_src` option (default `data-original`).
+
+[See it in action](http://verlok.github.io/lazyload/demos/background_images.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/background_images.html)
 
 #### Single scrolling container demo
 
