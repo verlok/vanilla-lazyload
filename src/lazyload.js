@@ -34,6 +34,7 @@
                 skip_invisible: true,
                 show_while_loading: true,
                 callback_load: null,
+                callback_error: null,
                 callback_set: null,
                 callback_processed: null,
                 placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
@@ -278,6 +279,12 @@
         }
 
         _addEventListener(fakeImg, "load", loadCallback);
+        _addEventListener(fakeImg, "error", function () {
+            _removeClass(element, settings.class_loading);
+            if (settings.callback_error) {
+                settings.callback_error(element);
+            }
+        });
         _addClass(element, settings.class_loading);
         _setSources(fakeImg, element, settings.data_srcset, settings.data_src);
     };
@@ -301,6 +308,13 @@
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             _addEventListener(element, "load", loadCallback);
+            _addEventListener(element, "error", function () {
+                _removeEventListener(element, "load", loadCallback);
+                _removeClass(element, settings.class_loading);
+                if (settings.callback_error) {
+                    settings.callback_error(element);
+                }
+            });
             _addClass(element, settings.class_loading);
         }
 
