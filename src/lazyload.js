@@ -204,8 +204,8 @@
         var srcSet = source.getAttribute('data-' + srcsetDataAttribute);
         var tagName = target.tagName;
         if (tagName === "IMG") {
-            if (src) target.setAttribute("src", src);
             if (srcSet) target.setAttribute("srcset", srcSet);
+            if (src) target.setAttribute("src", src);
             return;
         }
         if (tagName === "IFRAME") {
