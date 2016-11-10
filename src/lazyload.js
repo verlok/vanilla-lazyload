@@ -31,6 +31,7 @@
                 data_srcset: "original-set",
                 class_loading: "loading",
                 class_loaded: "loaded",
+                class_volatile: "volatile",
                 skip_invisible: true,
                 show_while_loading: true,
                 callback_load: null,
@@ -199,6 +200,15 @@
         element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').replace(/^\s+/, '').replace(/\s+$/, '');
     }
 
+    function _hasClass(element, className) {
+        /* HTML 5 compliant browsers. */
+        if (_supportsClassList) {
+            return element.classList.contains(className);
+        }
+        /* Legacy browsers (IE<10) support. */
+        return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
+    }
+
     function _setSources(target, source, srcsetDataAttribute, srcDataAttribute) {
         var src = source.getAttribute('data-' + srcDataAttribute);
         var srcSet = source.getAttribute('data-' + srcsetDataAttribute);
@@ -346,8 +356,10 @@
                     this._showOnLoad(element);
                 }
                 /* Marking the element as processed. */
-                processedIndexes.push(i);
-                element.wasProcessed = true;
+		if(!_hasClass(element, settings.class_volatile)) {
+                    processedIndexes.push(i);
+                    element.wasProcessed = true;
+                }
             }
         }
         /* Removing processed elements from this._elements. */
