@@ -196,9 +196,9 @@ Here's the list of the options.
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `40` |
 | `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
 | `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
+| `data_volatile` | The name of the boolean data attribute that determines whether the image will continue to be updated after it is loaded the first time. The "data-" is automatically added. | `"volatile"` |
 | `class_loading` | The class applied to the `img` or `iframe` elements while the loading is in progress | `"loading"` |
 | `class_loaded` | The class applied to the `img` or `iframe` elements when the loading is complete | `"loaded"` |
-| `class_volatile` | The class that determines whether the image will continue to be updated after it is loaded the first time | `"volatile"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
 | `show_while_loading` | Specifies whether the script must show the images while they are loading. Set it to `true` when you use progressive JPEG format for your images, to `false` if you want to wait until the loading images is loaded to display it. **Note**: to make the image visible while loading, you will have to avoid setting the `src` attribute in the `img` tag | `true` |
 | `callback_load` | A function to be called when an image was loaded. | `null` |
