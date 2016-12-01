@@ -1,32 +1,41 @@
 {
-  "name": "vanilla-lazyload",
-  "version": "2.1.2",
-  "description": "LazyLoad is a fast, lightweight and flexible script for loading images only when they're about to enter the viewport of a scrollable area, with an excellent support to the progressive JPEG image format. Typescript module definition is available.",
-  "main": "dist/lazyload.min.js",
-  "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-uglify": "~0.6.0",
-    "grunt-contrib-watch": "~0.6.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/verlok/lazyload"
-  },
-  "keywords": [
-    "lazy load",
-    "progressive JPEG",
-    "performance",
-    "no-jquery"
-  ],
-  "author": "Andrea \"verlok\" Verlicchi",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/verlok/lazyload/issues"
-  },
-  "homepage": "http://verlok.github.io/lazyload"
+    "name": "vanilla-lazyload",
+    "version": "2.1.2",
+    "description": "LazyLoad is a fast, lightweight and flexible script for loading images only when they are about to enter the viewport of a scrollable area, supporting responsive images via srcset sizes or the picture tag. Support to the progressive JPEG image format is also available. Typescript module definition is available too.",
+    "main": "dist/lazyload.min.js",
+    "devDependencies": {
+        "grunt": "~0.4.5",
+        "grunt-contrib-concat": "^1.0.1",
+        "grunt-contrib-jshint": "~0.10.0",
+        "grunt-contrib-uglify": "~0.6.0",
+        "grunt-contrib-watch": "~0.6.1"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/verlok/lazyload"
+    },
+    "keywords": [
+        "lazy",
+        "load",
+        "responsive",
+        "images",
+        "picture",
+        "srcset",
+        "sizes",
+        "progressive",
+        "JPEG",
+        "performance",
+        "perfmatters",
+        "no-jquery",
+        "vanilla"
+    ],
+    "author": "Andrea \"verlok\" Verlicchi",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/verlok/lazyload/issues"
+    },
+    "homepage": "http://verlok.github.io/lazyload"
 }
