@@ -35,8 +35,7 @@
                 callback_load: null,
                 callback_error: null,
                 callback_set: null,
-                callback_processed: null,
-                placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                callback_processed: null
             };
             _supportsAddEventListener = !!window.addEventListener;
             _supportsAttachEvent = !!window.attachEvent;

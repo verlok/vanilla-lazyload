@@ -174,7 +174,6 @@ Here's the list of the options.
 | `callback_load` | A function to be called when an image was loaded. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
 | `callback_processed` | A function to be called when an image was processed. | `null` |
-| `placeholder` | The URL of a placeholder image to be shown while the original image is loading. This option is ignored when the option `show_while_loading` is set to `true` | (A base64 encoded 1x1 transp. gif) |
 
 ## Public methods
 
