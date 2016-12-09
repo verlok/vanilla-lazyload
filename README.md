@@ -10,37 +10,24 @@ This script was inspired by [Mika Tuupola](https://github.com/tuupola/)'s [jQuer
 The following are the main differences between the scripts.
 
 * **_LazyLoad_ is 6x faster than _jQuery_lazyload_**. This is because _LazyLoad_ uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see [lazyLoad](http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html) and [jQuery_lazyLoad](http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html) implementations in the _perf_ folder.
-* **Progressive JPEG support will improve perceived speed**. [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format good for perceived performance because it's rendered in progressive passes of detail. `lazyLoad` has an option called `show_while_loading` that, when set to `true`, shows your images while they load, letting *progressive JPEG* do its magic. As _jQuery\_lazyload_ doesn't have this option, it will only show your images once fully loaded.
+* **Progressive JPEG support will improve perceived speed**. [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format good for perceived performance because it's rendered in progressive passes of detail. `lazyLoad` shows your images while they load, letting *progressive JPEG* do its magic. _jQuery\_lazyload_ will only show your images once fully loaded.
 * **_LazyLoad_ can be instanced on many scrolling containers** on the same page, whereas _jQuery\_lazyload_ can't.
 * **Throttled execution for optimized CPU usage**. _LazyLoad_'s listener to the container's `scroll` event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. _jQuery\_lazyload_ doesn't have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.
-* **Support for `srcset` attribute**. _LazyLoad_ also supports the srcset attribute, today supported in modern browsers to provide HD images for high-density displays (aka Retina display).
-* **jQuery independency**. As _LazyLoad_ doesn't rely on jQuery, you can use it in contexts where jQuery is not available.
+* **Support for responsive images**. _LazyLoad_ also supports responsive images, both via the `srcset` attribute (`x` notation, i.g. `1x`, `2x` .. `nx` and `w` notation, i.g. `100w`, `200w` + `sizes` attribute), and via the `picture` tag.
+* **jQuery independency**. As _LazyLoad_ doesn't rely on jQuery, you can use it in contexts where jQuery is not used (and it's much, much faster)!
 
 ## How to use
 
 #### HTML - `img` tags
 
 Markup your images putting the image source inside the `data-original` attribute.
-Specify both `width` and `height` attributes so the browser can allocate the space on your page.
+Specify both `width` and `height` attributes if known upfront, so the browser can allocate the space on your page.
 
 ```html
 <img data-original="/your/image1.jpg" width="100" height="172">
 <img data-original="/your/image2.jpg" width="100" height="172">
 <img data-original="/your/image3.jpg" width="100" height="172">
 ```
-
-To allow the lazyload script to display images where JavaScript isn't
-available, simply add a ```noscript```tag:
-
-```html
-<img data-original="/your/image1.jpg" width="100" height="172">
-<noscript><img src="/your/image1.jpg" width="100" height="172"></noscript>
-<img data-original="/your/image2.jpg" width="100" height="172">
-<noscript><img src="/your/image2.jpg" width="100" height="172"></noscript>
-<img data-original="/your/image3.jpg" width="100" height="172">
-<noscript><img src="/your/image13jpg" width="100" height="172"></noscript>
-```
-
 
 Or if you want to use `srcset`:
 
@@ -63,46 +50,31 @@ Or if you want to use `srcset` and `sizes`:
     data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
     sizes="(min-width: 20em) 35vw, 100vw">
 <img data-original="/your/image2.jpg"
-    data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w"
+    data-original-set="/your/image2.jpg 200w, /your/image2@2x.jpg 400w"
     sizes="(min-width: 20em) 35vw, 100vw">
 <img data-original="/your/image3.jpg"
     data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
     sizes="(min-width: 20em) 35vw, 100vw">
 ```
 
-Or, for the kitchen sink approach:
+Or if you want to use the `picture` tag:
 
 ```html
-<img data-original="/your/image1.jpg"
-    data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-    sizes="(min-width: 20em) 35vw, 100vw">
-    <noscript>
-        <picture alt="your alt text">
-            <img src="/your/image1.jpg"
-                srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-                alt="your alt text">
-        </picture>
-    </noscript>
-<img data-original="/your/image2.jpg"
-    data-original-set="/your/image2.jpg 200x, /your/image2@2x.jpg 400w"
-    sizes="(min-width: 20em) 35vw, 100vw">
-    <noscript>
-        <picture alt="your alt text">
-            <img src="/your/image2.jpg"
-                srcset="/your/image2.jpg 200w, /your/image2@2x.jpg 400w"
-                alt="your alt text">
-        </picture>
-    </noscript>
-<img data-original="/your/image3.jpg"
-    data-original-set="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
-    sizes="(min-width: 20em) 35vw, 100vw">
-    <noscript>
-        <picture alt="your alt text">
-            <img src="/your/image3.jpg"
-                srcset="/your/image3.jpg 200w, /your/image3@2x.jpg 400w"
-                alt="your alt text">
-        </picture>
-    </noscript>
+<picture>
+    <source media="(min-width: 1024px)" data-original-set="/your/image1a.jpg" />
+    <source media="(min-width: 500px)" data-original-set="/your/image1b.jpg" />
+    <img alt="Stivaletti" data-original="/your/image1.jpg">
+</picture>
+<picture>
+    <source media="(min-width: 1024px)" data-original-set="/your/image2a.jpg" />
+    <source media="(min-width: 500px)" data-original-set="/your/image2b.jpg" />
+    <img alt="Stivaletti" data-original="/your/image2.jpg">
+</picture>
+<picture>
+    <source media="(min-width: 1024px)" data-original-set="/your/image3a.jpg" />
+    <source media="(min-width: 500px)" data-original-set="/your/image3b.jpg" />
+    <img alt="Stivaletti" data-original="/your/image3.jpg">
+</picture>
 ```
 
 **Note** that not all the images in the page needs to be lazy loaded. You can leave the first images (the amount that you're quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the rest.
@@ -145,9 +117,9 @@ See the [demos](#demos) and [options](#options) sections for further defails.
 
 #### CSS
 
-Be sure that the images that are going to be lazy loaded **occupy the same space of loaded images (*)**.
+Be sure that the images that are going to be lazy loaded **occupy some vertical space (*)**, ideally the same space of the loaded images.
 
-To do that, you can either set a placeholder image in your HTML (which nullifies the effect of the `show_while_loading` option), or you can size all your `img` elements using CSS, for example doing this:
+To do that you can size all your `img` elements using CSS, for example doing this:
 
 ```css
 /* Sets a min-height to all images
@@ -170,7 +142,7 @@ img:not([src]) {
 }
 ```
 
-Furthermore, if we are using the `show_while_loading` option (which defaults to `true`), we need to deal with a Firefox anomaly that still shows the "broken image" icon while the image is loading. The CSS code that does this trick is the following:
+Furthermore, we need to deal with a Firefox anomaly that still shows the "broken image" icon while the image is loading. The CSS code that does this trick is the following:
 
 ```css
 /* Fixes Firefox anomaly */
@@ -199,7 +171,6 @@ Here's the list of the options.
 | `class_loading` | The class applied to the `img` or `iframe` elements while the loading is in progress | `"loading"` |
 | `class_loaded` | The class applied to the `img` or `iframe` elements when the loading is complete | `"loaded"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
-| `show_while_loading` | Specifies whether the script must show the images while they are loading. Set it to `true` when you use progressive JPEG format for your images, to `false` if you want to wait until the loading images is loaded to display it. **Note**: to make the image visible while loading, you will have to avoid setting the `src` attribute in the `img` tag | `true` |
 | `callback_load` | A function to be called when an image was loaded. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
 | `callback_processed` | A function to be called when an image was processed. | `null` |
@@ -223,23 +194,29 @@ The images are in the page body, so _LazyLoad_ is created with the **default opt
 
 [See it in action](http://verlok.github.io/lazyload/demos/simple.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/simple.html)
 
-#### With `srcset` (1x 2x) demo
+#### With `srcset` attribute (1x 2x notation) demo
 
 The images also rely on the **`srcset` attribute** to be loaded lazily. Just pass in the `data_srcset` option and the job will be done.
 
 [See it in action](http://verlok.github.io/lazyload/demos/with_srcset.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html)
 
-#### With `srcset` + `sizes` demo
+#### With `srcset` + `sizes` attributes demo
 
 The images also rely on the **`srcset` attribute** to be loaded lazily, and on the `sizes` attribute to be sized. Just pass in the `data_srcset` option, set the `sizes` attribute normally and the job will be done.
 
 [See it in action](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html)
 
+#### With `picture` tag demo
+
+The images can also be marked up using the `picture` tag and still be loaded lazily. Just pass in the `data_srcset` option and the job will be done.
+
+[See it in action](http://verlok.github.io/lazyload/demos/with_picture.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html)
+
 #### Lazy loading `iframe` demo
 
 To lazy load `iframe`s, set the `elements_selector` to `iframe`s and optionally change the `data_src` option (default `data-original`) to define which data attribute will contain the source of the `iframe`.
 
-[See it in action](http://verlok.github.io/lazyload/demos/iframes.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/iframes.html)
+[See it in action](http://verlok.github.io/lazyload/demos/with_p.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/iframes.html)
 
 #### Using background images demo
 
