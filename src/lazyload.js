@@ -32,11 +32,10 @@
                 class_loading: "loading",
                 class_loaded: "loaded",
                 skip_invisible: true,
-                show_while_loading: true,
                 callback_load: null,
+                callback_error: null,
                 callback_set: null,
-                callback_processed: null,
-                placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                callback_processed: null
             };
             _supportsAddEventListener = !!window.addEventListener;
             _supportsAttachEvent = !!window.attachEvent;
@@ -198,20 +197,37 @@
         element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').replace(/^\s+/, '').replace(/\s+$/, '');
     }
 
-    function _setSources(target, source, srcsetDataAttribute, srcDataAttribute) {
-        var src = source.getAttribute('data-' + srcDataAttribute);
-        var srcSet = source.getAttribute('data-' + srcsetDataAttribute);
-        var tagName = target.tagName;
+    function _setSourcesForPicture(element, srcsetDataAttribute) {
+        var parent = element.parentElement;
+        if (parent.tagName !== 'PICTURE') {
+            return;
+        }
+        for (var i = 0; i < parent.children.length; i++) {
+            var pictureChild = parent.children[i];
+            if (pictureChild.tagName === 'SOURCE') {
+                var sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
+                if (sourceSrcset) {
+                    pictureChild.setAttribute('srcset', sourceSrcset);
+                }
+            }
+        }
+    }
+
+    function _setSources(element, srcsetDataAttribute, srcDataAttribute) {
+        var tagName = element.tagName;
+        var elementSrc = element.getAttribute('data-' + srcDataAttribute);
         if (tagName === "IMG") {
-            if (src) target.setAttribute("src", src);
-            if (srcSet) target.setAttribute("srcset", srcSet);
+            _setSourcesForPicture(element, srcsetDataAttribute);
+            var imgSrcset = element.getAttribute('data-' + srcsetDataAttribute);
+            if (imgSrcset) element.setAttribute("srcset", imgSrcset);
+            if (elementSrc) element.setAttribute("src", elementSrc);
             return;
         }
         if (tagName === "IFRAME") {
-            if (src) target.setAttribute("src", src);
+            if (elementSrc) element.setAttribute("src", elementSrc);
             return;
         }
-        target.style.backgroundImage = "url(" + src + ")";
+        element.style.backgroundImage = "url(" + elementSrc + ")";
     }
 
     function _bind(fn, obj) {
@@ -247,41 +263,6 @@
      * ---------------------------------------------------------------
      */
 
-    LazyLoad.prototype._showOnLoad = function(element) {
-        var fakeImg,
-            settings = this._settings;
-
-        /* If no src attribute given use data:uri. */
-        if (!element.getAttribute("src")) {
-            element.setAttribute("src", settings.placeholder);
-        }
-        /* Creating a new `img` in a DOM fragment. */
-        fakeImg = document.createElement('img');
-        /* Listening to the load event */
-        function loadCallback() {
-            /* As this method is asynchronous, it must be protected against external destroy() calls */
-            if (settings === null) {
-                return;
-            }
-            /* Calling LOAD callback */
-            if (settings.callback_load) {
-                settings.callback_load(element);
-            }
-            _setSources(element, element, settings.data_srcset, settings.data_src);
-            /* Calling SET callback */
-            if (settings.callback_set) {
-                settings.callback_set(element);
-            }
-            _removeClass(element, settings.class_loading);
-            _addClass(element, settings.class_loaded);
-            _removeEventListener(fakeImg, "load", loadCallback);
-        }
-
-        _addEventListener(fakeImg, "load", loadCallback);
-        _addClass(element, settings.class_loading);
-        _setSources(fakeImg, element, settings.data_srcset, settings.data_src);
-    };
-
     LazyLoad.prototype._showOnAppear = function(element) {
         var settings = this._settings;
 
@@ -301,10 +282,17 @@
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             _addEventListener(element, "load", loadCallback);
+            _addEventListener(element, "error", function () {
+                _removeEventListener(element, "load", loadCallback);
+                _removeClass(element, settings.class_loading);
+                if (settings.callback_error) {
+                    settings.callback_error(element);
+                }
+            });
             _addClass(element, settings.class_loading);
         }
 
-        _setSources(element, element, settings.data_srcset, settings.data_src);
+        _setSources(element, settings.data_srcset, settings.data_src);
         /* Calling SET callback */
         if (settings.callback_set) {
             settings.callback_set(element);
@@ -325,12 +313,8 @@
                 continue;
             }
             if (_isInsideViewport(element, settings.container, settings.threshold)) {
-                /* Forking behaviour depending on show_while_loading (true value is ideal for progressive jpeg). */
-                if (settings.show_while_loading) {
-                    this._showOnAppear(element);
-                } else {
-                    this._showOnLoad(element);
-                }
+                this._showOnAppear(element);
+
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
                 element.wasProcessed = true;

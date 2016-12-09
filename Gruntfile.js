@@ -13,9 +13,11 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+			files: ['Gruntfile.js', 'src/lazyload.js'],
+
 			options: {
 				// options here to override JSHint defaults
+				reporterOutput: "",
 				globals: {
 					jQuery: true,
 					console: true,
@@ -26,12 +28,12 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: ['<%= jshint.files %>'],
-			tasks: ['jshint', 'concat', 'uglify']
+			tasks: ['jshint', 'uglify']
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('default', ['jshint', 'uglify', 'watch']);
