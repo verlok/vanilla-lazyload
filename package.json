@@ -1,7 +1,7 @@
 {
     "name": "vanilla-lazyload",
-    "version": "2.1.2",
-    "description": "LazyLoad is a fast, lightweight and flexible script for loading images only when they are about to enter the viewport of a scrollable area, supporting responsive images via srcset sizes or the picture tag. Support to the progressive JPEG image format is also available. Typescript module definition is available too.",
+    "version": "3.0.0",
+    "description": "A fast, lightweight script to load images as they enter the viewport. Supporting responsive images (both srcset + sizes and picture).",
     "main": "dist/lazyload.min.js",
     "devDependencies": {
         "grunt": "~0.4.5",
