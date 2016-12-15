@@ -214,12 +214,6 @@ function _setSources(element, srcsetDataAttribute, srcDataAttribute) {
     element.style.backgroundImage = "url(" + elementSrc + ")";
 }
 
-function _bind(fn, obj) {
-    return function () {
-        return fn.apply(obj, arguments);
-    };
-}
-
 var LazyLoad = function () {
     function LazyLoad(instanceSettings) {
         _classCallCheck(this, LazyLoad);
@@ -230,9 +224,9 @@ var LazyLoad = function () {
         this._previousLoopTime = 0;
         this._loopTimeout = null;
 
-        this._handleScrollFn = _bind(this.handleScroll, this);
+        this.handleScroll = this.handleScroll.bind(this);
 
-        _addEventListener(window, "resize", this._handleScrollFn);
+        _addEventListener(window, "resize", this.handleScroll);
         this.update();
     }
 
@@ -341,7 +335,7 @@ var LazyLoad = function () {
         value: function _startScrollHandler() {
             if (!this._isHandlingScroll) {
                 this._isHandlingScroll = true;
-                _addEventListener(this._settings.container, "scroll", this._handleScrollFn);
+                _addEventListener(this._settings.container, "scroll", this.handleScroll);
             }
         }
     }, {
@@ -349,7 +343,7 @@ var LazyLoad = function () {
         value: function _stopScrollHandler() {
             if (this._isHandlingScroll) {
                 this._isHandlingScroll = false;
-                _removeEventListener(this._settings.container, "scroll", this._handleScrollFn);
+                _removeEventListener(this._settings.container, "scroll", this.handleScroll);
             }
         }
 
@@ -361,6 +355,8 @@ var LazyLoad = function () {
     }, {
         key: "handleScroll",
         value: function handleScroll() {
+            var _this = this;
+
             var remainingTime = void 0,
                 now = void 0,
                 throttle = void 0;
@@ -383,11 +379,11 @@ var LazyLoad = function () {
                     this._previousLoopTime = now;
                     this._loopThroughElements();
                 } else if (!this._loopTimeout) {
-                    this._loopTimeout = setTimeout(_bind(function () {
-                        this._previousLoopTime = _now();
-                        this._loopTimeout = null;
-                        this._loopThroughElements();
-                    }, this), remainingTime);
+                    this._loopTimeout = setTimeout(function () {
+                        _this._previousLoopTime = _now();
+                        _this._loopTimeout = null;
+                        _this._loopThroughElements();
+                    }, remainingTime);
                 }
             } else {
                 this._loopThroughElements();
@@ -404,7 +400,7 @@ var LazyLoad = function () {
     }, {
         key: "destroy",
         value: function destroy() {
-            _removeEventListener(window, "resize", this._handleScrollFn);
+            _removeEventListener(window, "resize", this.handleScroll);
             if (this._loopTimeout) {
                 clearTimeout(this._loopTimeout);
                 this._loopTimeout = null;

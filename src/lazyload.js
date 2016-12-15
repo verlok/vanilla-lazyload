@@ -157,11 +157,6 @@ function _setSources(element, srcsetDataAttribute, srcDataAttribute) {
     if (elementSrc) element.style.backgroundImage = "url(" + elementSrc + ")";
 }
 
-function _bind(fn, obj) {
-    return function () {
-        return fn.apply(obj, arguments);
-    };
-}
 class LazyLoad {
     constructor(instanceSettings) {
         this._settings = _merge_objects(_defaultSettings, instanceSettings);
@@ -170,9 +165,9 @@ class LazyLoad {
         this._previousLoopTime = 0;
         this._loopTimeout = null;
 
-        this._handleScrollFn = _bind(this.handleScroll, this);
+        this.handleScroll = this.handleScroll.bind(this);
 
-        window.addEventListener(window, "resize", this._handleScrollFn);
+        window.addEventListener(window, "resize", this.handleScroll);
         this.update();
     }
 
@@ -302,11 +297,11 @@ class LazyLoad {
                     this._previousLoopTime = now;
                     this._loopThroughElements();
                 } else if (!this._loopTimeout) {
-                this._loopTimeout = setTimeout(function () {
+                this._loopTimeout = setTimeout(() => {
                         this._previousLoopTime = _now();
                         this._loopTimeout = null;
                         this._loopThroughElements();
-                    }.bind(this), remainingTime);
+                }, remainingTime);
                 }
             } else {
                 this._loopThroughElements();
