@@ -209,6 +209,13 @@
     LazyLoad.prototype._showOnAppear = function(element) {
         var settings = this._settings;
 
+        function errorCallback() {
+            element.removeEventListener("load", loadCallback);
+            element.classList.remove(settings.class_loading);
+            if (settings.callback_error) {
+                settings.callback_error(element);
+            }
+        }
         function loadCallback() {
             /* As this method is asynchronous, it must be protected against external destroy() calls */
             if (settings === null) {
@@ -221,17 +228,12 @@
             element.classList.remove(settings.class_loading);
             element.classList.add(settings.class_loaded);
             element.removeEventListener("load", loadCallback);
+            element.removeEventListener("error", errorCallback);
         }
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             element.addEventListener("load", loadCallback);
-            element.addEventListener("error", function () {
-                element.removeEventListener("load", loadCallback);
-                element.classList.remove(settings.class_loading);
-                if (settings.callback_error) {
-                    settings.callback_error(element);
-                }
-            });
+            element.addEventListener("error", errorCallback);
             element.classList.add(settings.class_loading);
         }
 
