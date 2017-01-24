@@ -22,7 +22,7 @@
                 elements_selector: "img",
                 container: window,
                 threshold: 300,
-                throttle: 50,
+                throttle: 150,
                 data_src: "original",
                 data_srcset: "original-set",
                 class_loading: "loading",
