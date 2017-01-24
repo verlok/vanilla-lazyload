@@ -106,7 +106,7 @@ var myLazyLoad = new LazyLoad({
     threshold: 500,
     container: document.getElementById('scrollPane'),
     elements_selector: ".showCase img",
-    throttle: 30,
+    throttle: 200,
     data_src: "src",
     data_srcset: "srcset",
     callback_set: function() { /* ... */ }
@@ -165,7 +165,7 @@ Here's the list of the options.
 | `container` | The container in which to start searching for elements, and from which to listen to the scroll event | `window` |
 | `elements_selector` | The selector of the image elements inside the container | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `40` |
+| `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
 | `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
 | `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
 | `class_loading` | The class applied to the `img` or `iframe` elements while the loading is in progress | `"loading"` |
