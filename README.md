@@ -247,10 +247,15 @@ This demo shows how to **destroy _LazyLoad_ when you're finished using it**, to 
 
 [See it in action](http://verlok.github.io/lazyload/demos/destroy.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/destroy.html)
 
+#### Hundreds of images demo
+
+This demo shows the performance of LazyLoad **with 300+ images** on the page.
+
+[See it in action](http://verlok.github.io/lazyload/demos/hundreds.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/hundreds.html)
+
 ## Browser support
 
-Browser support is starting from **Internet Explorer 8** up.
-Please mind that you can't use CSS 3 selectors in IE8, so beware of them if you change the `elements_selector` default option.
+Browser support is starting from **Internet Explorer 10** up.
 
 ## Install
 
