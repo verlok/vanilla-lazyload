@@ -9,11 +9,7 @@
 }(this, function() {
 
     var _defaultSettings,
-        _supportsAddEventListener,
-        _supportsAttachEvent,
-        _supportsClassList,
         _isInitialized = false;
-
 
     /*
      * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
@@ -37,41 +33,8 @@
                 callback_set: null,
                 callback_processed: null
             };
-            _supportsAddEventListener = !!window.addEventListener;
-            _supportsAttachEvent = !!window.attachEvent;
-            _supportsClassList = !!document.body.classList;
 
             _isInitialized = true;
-        }
-    }
-
-    function _addEventListener(element, eventName, callback) {
-        // Use addEventListener if available
-        if (_supportsAddEventListener) {
-            element.addEventListener(eventName, callback);
-            return;
-        }
-        // Otherwise use attachEvent, set this and event
-        if (_supportsAttachEvent) {
-            element.attachEvent('on' + eventName, (function(el) {
-                return function() {
-                    callback.call(el, window.event);
-                };
-            }(element)));
-            // Break closure and primary circular reference to element
-            element = null;
-        }
-    }
-
-    function _removeEventListener(element, eventName, callback) {
-        // Use removeEventListener if available
-        if (_supportsAddEventListener) {
-            element.removeEventListener(eventName, callback);
-            return;
-        }
-        // Otherwise use detachEvent
-        if (_supportsAttachEvent) {
-            element.detachEvent('on' + eventName, callback);
         }
     }
 
@@ -177,26 +140,6 @@
         }
     }
 
-    function _addClass(element, className) {
-        /* HTML 5 compliant browsers. */
-        if (_supportsClassList) {
-            element.classList.add(className);
-            return;
-        }
-        /* Legacy browsers (IE<10) support. */
-        element.className += (element.className ? ' ' : '') + className;
-    }
-
-    function _removeClass(element, className) {
-        /* HTML 5 compliant browsers. */
-        if (_supportsClassList) {
-            element.classList.remove(className);
-            return;
-        }
-        /* Legacy browsers (IE<10) support. */
-        element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').replace(/^\s+/, '').replace(/\s+$/, '');
-    }
-
     function _setSourcesForPicture(element, srcsetDataAttribute) {
         var parent = element.parentElement;
         if (parent.tagName !== 'PICTURE') {
@@ -253,7 +196,7 @@
 
         this._handleScrollFn = _bind(this.handleScroll, this);
 
-        _addEventListener(window, "resize", this._handleScrollFn);
+        window.addEventListener("resize", this._handleScrollFn);
         this.update();
     }
 
@@ -275,21 +218,21 @@
             if (settings.callback_load) {
                 settings.callback_load(element);
             }
-            _removeClass(element, settings.class_loading);
-            _addClass(element, settings.class_loaded);
-            _removeEventListener(element, "load", loadCallback);
+            element.classList.remove(settings.class_loading);
+            element.classList.add(settings.class_loaded);
+            element.removeEventListener("load", loadCallback);
         }
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
-            _addEventListener(element, "load", loadCallback);
-            _addEventListener(element, "error", function () {
-                _removeEventListener(element, "load", loadCallback);
-                _removeClass(element, settings.class_loading);
+            element.addEventListener("load", loadCallback);
+            element.addEventListener("error", function () {
+                element.removeEventListener("load", loadCallback);
+                element.classList.remove(settings.class_loading);
                 if (settings.callback_error) {
                     settings.callback_error(element);
                 }
             });
-            _addClass(element, settings.class_loading);
+            element.classList.add(settings.class_loading);
         }
 
         _setSources(element, settings.data_srcset, settings.data_src);
@@ -356,14 +299,14 @@
     LazyLoad.prototype._startScrollHandler = function() {
         if (!this._isHandlingScroll) {
             this._isHandlingScroll = true;
-            _addEventListener(this._settings.container, "scroll", this._handleScrollFn);
+            this._settings.container.addEventListener("scroll", this._handleScrollFn);
         }
     };
 
     LazyLoad.prototype._stopScrollHandler = function() {
         if (this._isHandlingScroll) {
             this._isHandlingScroll = false;
-            _removeEventListener(this._settings.container, "scroll", this._handleScrollFn);
+            this._settings.container.removeEventListener("scroll", this._handleScrollFn);
         }
     };
 
@@ -415,7 +358,7 @@
     };
 
     LazyLoad.prototype.destroy = function() {
-        _removeEventListener(window, "resize", this._handleScrollFn);
+        window.removeEventListener("resize", this._handleScrollFn);
         if (this._loopTimeout) {
             clearTimeout(this._loopTimeout);
             this._loopTimeout = null;
