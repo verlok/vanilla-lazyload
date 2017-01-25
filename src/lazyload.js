@@ -127,17 +127,7 @@
     }
 
     function _convertToArray(nodeSet) {
-        try {
-            return Array.prototype.slice.call(nodeSet);
-        } catch (e) {
-            var array = [],
-                i, l = nodeSet.length;
-
-            for (i = 0; i < l; i++) {
-                array.push(nodeSet[i]);
-            }
-            return array;
-        }
+        return Array.prototype.slice.call(nodeSet);
     }
 
     function _setSourcesForPicture(element, srcsetDataAttribute) {
