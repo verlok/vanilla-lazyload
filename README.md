@@ -255,7 +255,9 @@ This demo shows the performance of LazyLoad **with 300+ images** on the page.
 
 ## Browser support
 
-Browser support is starting from **Internet Explorer 10** up.
+Version 4 of LazyLoad supports from **Internet Explorer 10** up and it should be OK, see [browser stats for november / december 2016 for desktop computers](http://gs.statcounter.com/browser-version-partially-combined-market-share/desktop/worldwide/#monthly-201611-201612-bar).
+
+If you're not comfortable with leaving IE < 10 behind, just use a 3.x release of LazyLoad. Pick one from the [releases page](https://github.com/verlok/lazyload/releases).
 
 ## Install
 
