@@ -865,23 +865,27 @@
     <div class="container">
         <a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
         <!-- ARTICLE START -->
-        <article class="markdown-body entry-content" itemprop="text"><h1><a id="user-content-lazyload-aka-vanilla-lazyload" class="anchor" href="#lazyload-aka-vanilla-lazyload" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LazyLoad (aka Vanilla LazyLoad)</h1>
+        <article class="markdown-body entry-content" itemprop="text">
+            <h1><a id="user-content-lazyload-aka-vanilla-lazyload" class="anchor" href="#lazyload-aka-vanilla-lazyload" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LazyLoad (aka Vanilla LazyLoad)</h1>
 
-            <p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they're about to enter the viewport</strong> of a scrollable area, which <strong>supports the <code>srcset</code> attribute</strong> and with and <strong>takes best advantage from the progressive JPEG image format</strong> (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for performance</a>).</p>
+            <p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they're about to enter the viewport</strong> of a scrollable area, which <strong>supports the <code>srcset</code> attribute</strong> and with
+                and <strong>takes best advantage from the progressive JPEG image format</strong> (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for performance</a>).</p>
 
             <p><a href="http://verlok.github.io/lazyload/">WEBSITE</a> | <a href="#user-content-demos">DEMOS</a> | <a href="https://github.com/verlok/lazyload">GITHUB</a></p>
 
             <h2><a id="user-content-difference-with-jquery_lazyload" class="anchor" href="#difference-with-jquery_lazyload" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Difference with jQuery_lazyload</h2>
 
-            <p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>'s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>.
-                The following are the main differences between the scripts.</p>
+            <p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>'s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>. The following are the main differences between the scripts.</p>
 
             <ul>
-                <li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in slow devices or computers. To measure the scripts performance yourself, see <a href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a> and <a href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a> implementations in the <em>perf</em> folder.</li>
-                <li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an image format good for perceived performance because it's rendered in progressive passes of detail. <code>lazyLoad</code> shows your images while they load, letting <em>progressive JPEG</em> do its magic. <em>jQuery_lazyload</em> will only show your images once fully loaded.</li>
+                <li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in
+                    slow devices or computers. To measure the scripts performance yourself, see <a href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a> and <a href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a>                    implementations in the <em>perf</em> folder.</li>
+                <li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an image format good for perceived performance because it's rendered
+                    in progressive passes of detail. <code>lazyLoad</code> shows your images while they load, letting <em>progressive JPEG</em> do its magic. <em>jQuery_lazyload</em> will only show your images once fully loaded.</li>
                 <li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can't.</li>
-                <li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>'s listener to the container's <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn't have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
-                <li><strong>Support for responsive images</strong>. <em>LazyLoad</em> also supports responsive images, both via the <code>srcset</code> attribute (<code>x</code> notation, i.g. <code>1x</code>, <code>2x</code> .. <code>nx</code> and <code>w</code> notation, i.g. <code>100w</code>, <code>200w</code> + <code>sizes</code> attribute), and via the <code>picture</code> tag.</li>
+                <li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>'s listener to the container's <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed
+                    on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn't have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
+                <li><strong>Support for responsive images</strong>. <em>LazyLoad</em> also supports responsive images, both via the <code>srcset</code> attribute (<code>x</code> notation, i.g. <code>1x</code>, <code>2x</code> .. <code>nx</code> and <code>w</code>                    notation, i.g. <code>100w</code>, <code>200w</code> + <code>sizes</code> attribute), and via the <code>picture</code> tag.</li>
                 <li><strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn't rely on jQuery, you can use it in contexts where jQuery is not used (and it's much, much faster)!</li>
             </ul>
 
@@ -889,8 +893,7 @@
 
             <h4><a id="user-content-html---img-tags" class="anchor" href="#html---img-tags" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTML - <code>img</code> tags</h4>
 
-            <p>Markup your images putting the image source inside the <code>data-original</code> attribute.
-                Specify both <code>width</code> and <code>height</code> attributes if known upfront, so the browser can allocate the space on your page.</p>
+            <p>Markup your images putting the image source inside the <code>data-original</code> attribute. Specify both <code>width</code> and <code>height</code> attributes if known upfront, so the browser can allocate the space on your page.</p>
 
             <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
 &lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
@@ -1006,99 +1009,104 @@
 
             <h2><a id="user-content-options" class="anchor" href="#options" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options</h2>
 
-            <p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.
-                Here's the list of the options.</p>
+            <p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour. Here's the list of the options.</p>
 
-            <table><thead>
-            <tr>
-                <th>Name</th>
-                <th>Meaning</th>
-                <th>Default value</th>
-            </tr>
-            </thead><tbody>
-            <tr>
-                <td><code>container</code></td>
-                <td>The container in which to start searching for elements, and from which to listen to the scroll event</td>
-                <td><code>window</code></td>
-            </tr>
-            <tr>
-                <td><code>elements_selector</code></td>
-                <td>The selector of the image elements inside the container</td>
-                <td><code>"img"</code></td>
-            </tr>
-            <tr>
-                <td><code>threshold</code></td>
-                <td>The distance out of the viewport, expressed in pixel, before which to start loading the images</td>
-                <td><code>300</code></td>
-            </tr>
-            <tr>
-                <td><code>throttle</code></td>
-                <td>The time that has to pass between one element parsing and the following, when fast scroll events occur</td>
-                <td><code>150</code></td>
-            </tr>
-            <tr>
-                <td><code>data_src</code></td>
-                <td>The name of the data attribute containing the original image source. The "data-" is automatically added.</td>
-                <td><code>"original"</code></td>
-            </tr>
-            <tr>
-                <td><code>data_srcset</code></td>
-                <td>The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code> tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a> .</td>
-                <td><code>"original-set"</code></td>
-            </tr>
-            <tr>
-                <td><code>class_loading</code></td>
-                <td>The class applied to the <code>img</code> or <code>iframe</code> elements while the loading is in progress</td>
-                <td><code>"loading"</code></td>
-            </tr>
-            <tr>
-                <td><code>class_loaded</code></td>
-                <td>The class applied to the <code>img</code> or <code>iframe</code> elements when the loading is complete</td>
-                <td><code>"loaded"</code></td>
-            </tr>
-            <tr>
-                <td><code>skip_invisible</code></td>
-                <td>Specifies whether the script has to consider invisible images or not</td>
-                <td><code>true</code></td>
-            </tr>
-            <tr>
-                <td><code>callback_load</code></td>
-                <td>A function to be called when an image was loaded.</td>
-                <td><code>null</code></td>
-            </tr>
-            <tr>
-                <td><code>callback_set</code></td>
-                <td>A function to be called when the src of an image is set in the DOM.</td>
-                <td><code>null</code></td>
-            </tr>
-            <tr>
-                <td><code>callback_processed</code></td>
-                <td>A function to be called when an image was processed.</td>
-                <td><code>null</code></td>
-            </tr>
-            </tbody></table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Meaning</th>
+                        <th>Default value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>container</code></td>
+                        <td>The container in which to start searching for elements, and from which to listen to the scroll event</td>
+                        <td><code>window</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>elements_selector</code></td>
+                        <td>The selector of the image elements inside the container</td>
+                        <td><code>"img"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>threshold</code></td>
+                        <td>The distance out of the viewport, expressed in pixel, before which to start loading the images</td>
+                        <td><code>300</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>throttle</code></td>
+                        <td>The time that has to pass between one element parsing and the following, when fast scroll events occur</td>
+                        <td><code>150</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>data_src</code></td>
+                        <td>The name of the data attribute containing the original image source. The "data-" is automatically added.</td>
+                        <td><code>"original"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>data_srcset</code></td>
+                        <td>The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code> tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a>                            .</td>
+                        <td><code>"original-set"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>class_loading</code></td>
+                        <td>The class applied to the <code>img</code> or <code>iframe</code> elements while the loading is in progress</td>
+                        <td><code>"loading"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>class_loaded</code></td>
+                        <td>The class applied to the <code>img</code> or <code>iframe</code> elements when the loading is complete</td>
+                        <td><code>"loaded"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>skip_invisible</code></td>
+                        <td>Specifies whether the script has to consider invisible images or not</td>
+                        <td><code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>callback_load</code></td>
+                        <td>A function to be called when an image was loaded.</td>
+                        <td><code>null</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>callback_set</code></td>
+                        <td>A function to be called when the src of an image is set in the DOM.</td>
+                        <td><code>null</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>callback_processed</code></td>
+                        <td>A function to be called when an image was processed.</td>
+                        <td><code>null</code></td>
+                    </tr>
+                </tbody>
+            </table>
 
             <h2><a id="user-content-public-methods" class="anchor" href="#public-methods" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Public methods</h2>
 
-            <table><thead>
-            <tr>
-                <th>Method name</th>
-                <th>Effect</th>
-            </tr>
-            </thead><tbody>
-            <tr>
-                <td><code>update()</code></td>
-                <td>Tells <em>LazyLoad</em> that new lazy images have arrived in the container, so it must start to manage them</td>
-            </tr>
-            <tr>
-                <td><code>destroy()</code></td>
-                <td>Destroys the instance, unsetting instance variables and removing listeners.</td>
-            </tr>
-            <tr>
-                <td><code>handleScroll()</code></td>
-                <td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code> event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
-            </tr>
-            </tbody></table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method name</th>
+                        <th>Effect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>update()</code></td>
+                        <td>Tells <em>LazyLoad</em> that new lazy images have arrived in the container, so it must start to manage them</td>
+                    </tr>
+                    <tr>
+                        <td><code>destroy()</code></td>
+                        <td>Destroys the instance, unsetting instance variables and removing listeners.</td>
+                    </tr>
+                    <tr>
+                        <td><code>handleScroll()</code></td>
+                        <td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code> event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
+                    </tr>
+                </tbody>
+            </table>
 
             <h2><a id="user-content-demos" class="anchor" href="#demos" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Demos</h2>
 
@@ -1118,7 +1126,8 @@
 
             <h4><a id="user-content-with-srcset--sizes-attributes-demo" class="anchor" href="#with-srcset--sizes-attributes-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>With <code>srcset</code> + <code>sizes</code> attributes demo</h4>
 
-            <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily, and on the <code>sizes</code> attribute to be sized. Just pass in the <code>data_srcset</code> option, set the <code>sizes</code> attribute normally and the job will be done.</p>
+            <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily, and on the <code>sizes</code> attribute to be sized. Just pass in the <code>data_srcset</code> option, set the <code>sizes</code> attribute normally
+                and the job will be done.</p>
 
             <p><a href="http://verlok.github.io/lazyload/demos/with_srcset_sizes.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html">View source</a></p>
 
@@ -1130,13 +1139,15 @@
 
             <h4><a id="user-content-lazy-loading-iframe-demo" class="anchor" href="#lazy-loading-iframe-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Lazy loading <code>iframe</code> demo</h4>
 
-            <p>To lazy load <code>iframe</code>s, set the <code>elements_selector</code> to <code>iframe</code>s and optionally change the <code>data_src</code> option (default <code>data-original</code>) to define which data attribute will contain the source of the <code>iframe</code>.</p>
+            <p>To lazy load <code>iframe</code>s, set the <code>elements_selector</code> to <code>iframe</code>s and optionally change the <code>data_src</code> option (default <code>data-original</code>) to define which data attribute will contain the source
+                of the <code>iframe</code>.</p>
 
             <p><a href="http://verlok.github.io/lazyload/demos/with_p.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/iframes.html">View source</a></p>
 
             <h4><a id="user-content-using-background-images-demo" class="anchor" href="#using-background-images-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using background images demo</h4>
 
-            <p>To make lazy load use background images, set the <code>elements_selector</code> to whatever tag you want except <code>img</code> and <code>iframe</code>. The image will be loaded from the URL specified in the data attribute defined by the <code>data_src</code> option (default <code>data-original</code>).</p>
+            <p>To make lazy load use background images, set the <code>elements_selector</code> to whatever tag you want except <code>img</code> and <code>iframe</code>. The image will be loaded from the URL specified in the data attribute defined by the
+                <code>data_src</code> option (default <code>data-original</code>).</p>
 
             <p><a href="http://verlok.github.io/lazyload/demos/background_images.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/background_images.html">View source</a></p>
 
@@ -1172,7 +1183,9 @@
 
             <h2><a id="user-content-browser-support" class="anchor" href="#browser-support" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Browser support</h2>
 
-            <p>Browser support is starting from <strong>Internet Explorer 10</strong> up.</p>
+            <p>Version 4 of LazyLoad supports from <strong>Internet Explorer 10</strong> up and it should be OK, see <a href="http://gs.statcounter.com/browser-version-partially-combined-market-share/desktop/worldwide/#monthly-201611-201612-bar">browser stats for november / december 2016 for desktop computers</a>.</p>
+
+            <p>If you're not comfortable with leaving IE &lt; 10 behind, just use a 3.x release of LazyLoad. Pick one from the <a href="https://github.com/verlok/lazyload/releases">releases page</a>.</p>
 
             <h2><a id="user-content-install" class="anchor" href="#install" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install</h2>
 
