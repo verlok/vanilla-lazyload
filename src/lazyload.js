@@ -160,7 +160,7 @@
             if (elementSrc) element.setAttribute("src", elementSrc);
             return;
         }
-        element.style.backgroundImage = "url(" + elementSrc + ")";
+        if (elementSrc) element.style.backgroundImage = "url(" + elementSrc + ")";
     }
 
     function _bind(fn, obj) {
