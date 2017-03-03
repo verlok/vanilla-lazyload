@@ -28,7 +28,7 @@
                 data_srcset: "original-set",
                 class_loading: "loading",
                 class_loaded: "loaded",
-                class_firstLoaded: "first-loaded",
+                class_firstLoad: "first-load",
                 skip_invisible: true,
                 callback_load: null,
                 callback_error: null,
@@ -264,7 +264,7 @@
                 element.wasProcessed = true;
                 /* if this is the first initial loop add an extra class to the elements */
                 if (_isFirstLoop) {
-                    element.classList.add(settings.class_firstLoaded);
+                    element.classList.add(settings.class_firstLoad);
                 }
             }
         }
