@@ -9,8 +9,8 @@
 }(this, function() {
 
     var _defaultSettings,
-        _isInitialized = false;
-    var _isFirstLoop = true;
+        _isInitialized = false,
+        _isFirstLoop = true;
 
     /*
      * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
