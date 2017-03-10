@@ -25,6 +25,7 @@
                 throttle: 150,
                 data_src: "original",
                 data_srcset: "original-set",
+                data_volatile: "volatile",
                 class_loading: "loading",
                 class_loaded: "loaded",
                 skip_invisible: true,
@@ -234,6 +235,22 @@
         }
     };
 
+    LazyLoad.prototype._isUpToDate = function(element) {
+        var settings = this._settings;
+        var srcNew = element.getAttribute('data-' + settings.data_src);
+        var srcSetNew = element.getAttribute('data-' + settings.data_srcset);
+        var upToDate = true;
+
+        if (element.tagName === "IMG") {
+            if (srcSetNew) upToDate &= (element.getAttribute("srcset") == srcSetNew);
+            if (srcNew) upToDate &= (element.getAttribute("src") == srcNew);
+        }
+        if (element.tagName === "IFRAME") {
+            if (srcNew) upToDate &= (element.getAttribute("src") == srcNew);
+        }
+        return upToDate;
+    };
+
     LazyLoad.prototype._loopThroughElements = function() {
         var i, element,
             settings = this._settings,
@@ -247,12 +264,18 @@
             if (settings.skip_invisible && (element.offsetParent === null)) {
                 continue;
             }
+            /* If element is volatile but already up-to-date, skip it */
+            if(element.hasAttribute('data-' + settings.data_volatile) && this._isUpToDate(element)) {
+                continue;
+            }
             if (_isInsideViewport(element, settings.container, settings.threshold)) {
                 this._showOnAppear(element);
 
                 /* Marking the element as processed. */
-                processedIndexes.push(i);
-                element.wasProcessed = true;
+                if(!element.hasAttribute('data-' + settings.data_volatile)) {
+                    processedIndexes.push(i);
+                    element.wasProcessed = true;
+                }
             }
         }
         /* Removing processed elements from this._elements. */

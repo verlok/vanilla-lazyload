@@ -168,6 +168,7 @@ Here's the list of the options.
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
 | `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
 | `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
+| `data_volatile` | The name of the boolean data attribute that determines whether the image will continue to be updated after it is loaded the first time. The "data-" is automatically added. | `"volatile"` |
 | `class_loading` | The class applied to the `img` or `iframe` elements while the loading is in progress | `"loading"` |
 | `class_loaded` | The class applied to the `img` or `iframe` elements when the loading is complete | `"loaded"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |

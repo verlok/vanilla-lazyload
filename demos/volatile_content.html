@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>
+		Lazyload tests
+	</title>
+	<style>
+		ul, li {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		a, img {
+			display: block;
+		}
+
+		img {
+			border: 0;
+		}
+		img:not([src]) {
+			visibility: hidden;
+		}
+		button {
+			position: fixed;
+			bottom: 10px;
+			width: 10em;
+			height: 3em;
+			left: 50%;
+			margin-left: -5em;
+		}
+	</style>
+</head>
+<body>
+<button id="changeContent">
+	CHANGE CONTENT <span class="count"></span>
+</button>
+<div id="results1" class="results">
+	<ul>
+		Image declared "volatile":
+		<li>
+			<a href="#"><img alt="shoe" data-original="../img/44740806JX_15_r.jpg" id="volatile-image" data-volatile width="220" height="280"></a>
+		</li>
+		Image without "volatile":
+		<li>
+			<a href="#"><img alt="shoe" data-original="../img/44740806JX_15_r.jpg" id="image" width="220" height="280"></a>
+		</li>
+	</ul>
+</div>
+<script src="../src/lazyload.js"></script>
+<script>
+	(function () {
+
+		var changeContentButton, image_num = 0;
+
+		function _addEventListener(element, eventName, callback) {
+			// Use addEventListener if available
+			if (!!window.addEventListener) {
+				element.addEventListener(eventName, callback);
+				return;
+			}
+			// Otherwise use attachEvent, set this and event
+			if (!!window.attachEvent) {
+				element.attachEvent('on' + eventName, (function (el) {
+					return function () {
+						callback.call(el, window.event);
+					};
+				}(element)));
+				// Break closure and primary circular reference to element
+				element = null;
+			}
+		}
+
+		function logElementEvent(eventName, element) {
+			console.log(new Date().getTime(), eventName, element.getAttribute('data-original'));
+		}
+
+		function logEvent(eventName, elementsLeft) {
+			console.log(new Date().getTime(), eventName, elementsLeft + " images left");
+		}
+
+		/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
+
+		ll = new LazyLoad(/*{
+			callback_load: function (element) {
+				logElementEvent("LOADED", element);
+			},
+			callback_set: function (element) {
+				logElementEvent("SET", element);
+			},
+			callback_processed: function(elementsLeft) {
+				logEvent("PROCESSED", elementsLeft);
+			}
+		}*/);
+
+		changeContentButton = document.getElementById('changeContent');
+
+		_addEventListener(changeContentButton, 'click', function() {
+			if (image_num == 0) {
+				document.getElementById('volatile-image').setAttribute('data-original', "../img/44721746JJ_15_a.jpg");
+				document.getElementById('image').setAttribute('data-original', "../img/44721746JJ_15_a.jpg");
+				image_num = 1;
+				ll.update();
+			} else {
+				document.getElementById('volatile-image').setAttribute('data-original', "../img/44740806JX_15_r.jpg");
+				document.getElementById('image').setAttribute('data-original', "../img/44740806JX_15_r.jpg");
+				image_num = 0;
+				ll.update();
+			}
+		});
+
+	}());
+</script>
+</body>
+</html>
