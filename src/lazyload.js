@@ -1,4 +1,4 @@
-(function(root, factory) {
+(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory);
     } else if (typeof exports === 'object') {
@@ -6,10 +6,11 @@
     } else {
         root.LazyLoad = factory();
     }
-}(this, function() {
+}(this, function () {
 
     var _defaultSettings,
-        _isInitialized = false;
+        _isInitialized = false,
+        _isFirstLoop = true;
 
     /*
      * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
@@ -27,11 +28,13 @@
                 data_srcset: "original-set",
                 class_loading: "loading",
                 class_loaded: "loaded",
+                class_firstLoad: "first-load",
                 skip_invisible: true,
                 callback_load: null,
                 callback_error: null,
                 callback_set: null,
-                callback_processed: null
+                callback_processed: null,
+                callback_loopThrough: null
             };
 
             _isInitialized = true;
@@ -164,7 +167,7 @@
     }
 
     function _bind(fn, obj) {
-        return function() {
+        return function () {
             return fn.apply(obj, arguments);
         };
     }
@@ -196,7 +199,7 @@
      * ---------------------------------------------------------------
      */
 
-    LazyLoad.prototype._showOnAppear = function(element) {
+    LazyLoad.prototype._showOnAppear = function (element) {
         var settings = this._settings;
 
         function errorCallback() {
@@ -206,6 +209,7 @@
                 settings.callback_error(element);
             }
         }
+
         function loadCallback() {
             /* As this method is asynchronous, it must be protected against external destroy() calls */
             if (settings === null) {
@@ -234,12 +238,17 @@
         }
     };
 
-    LazyLoad.prototype._loopThroughElements = function() {
+    LazyLoad.prototype._loopThroughElements = function () {
         var i, element,
             settings = this._settings,
             elements = this._elements,
             elementsLength = (!elements) ? 0 : elements.length,
             processedIndexes = [];
+
+        /* Calling _loopThrough callback */
+        if (settings.callback_loopThrough) {
+            settings.callback_loopThrough(_isFirstLoop);
+        }
 
         for (i = 0; i < elementsLength; i++) {
             element = elements[i];
@@ -253,6 +262,10 @@
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
                 element.wasProcessed = true;
+                /* if this is the first initial loop add an extra class to the elements */
+                if (_isFirstLoop) {
+                    element.classList.add(settings.class_firstLoad);
+                }
             }
         }
         /* Removing processed elements from this._elements. */
@@ -267,9 +280,13 @@
         if (elementsLength === 0) {
             this._stopScrollHandler();
         }
+        /* Set first load variable to false */
+        if (_isFirstLoop) {
+            _isFirstLoop = false;
+        }
     };
 
-    LazyLoad.prototype._purgeElements = function() {
+    LazyLoad.prototype._purgeElements = function () {
         var i, element,
             elements = this._elements,
             elementsLength = elements.length,
@@ -288,14 +305,14 @@
         }
     };
 
-    LazyLoad.prototype._startScrollHandler = function() {
+    LazyLoad.prototype._startScrollHandler = function () {
         if (!this._isHandlingScroll) {
             this._isHandlingScroll = true;
             this._settings.container.addEventListener("scroll", this._handleScrollFn);
         }
     };
 
-    LazyLoad.prototype._stopScrollHandler = function() {
+    LazyLoad.prototype._stopScrollHandler = function () {
         if (this._isHandlingScroll) {
             this._isHandlingScroll = false;
             this._settings.container.removeEventListener("scroll", this._handleScrollFn);
@@ -308,7 +325,7 @@
      * ----------------
      */
 
-    LazyLoad.prototype.handleScroll = function() {
+    LazyLoad.prototype.handleScroll = function () {
         var remainingTime,
             now,
             throttle;
@@ -331,7 +348,7 @@
                 this._previousLoopTime = now;
                 this._loopThroughElements();
             } else if (!this._loopTimeout) {
-                this._loopTimeout = setTimeout(_bind(function() {
+                this._loopTimeout = setTimeout(_bind(function () {
                     this._previousLoopTime = _now();
                     this._loopTimeout = null;
                     this._loopThroughElements();
@@ -342,14 +359,14 @@
         }
     };
 
-    LazyLoad.prototype.update = function() {
+    LazyLoad.prototype.update = function () {
         this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
         this._purgeElements();
         this._loopThroughElements();
         this._startScrollHandler();
     };
 
-    LazyLoad.prototype.destroy = function() {
+    LazyLoad.prototype.destroy = function () {
         window.removeEventListener("resize", this._handleScrollFn);
         if (this._loopTimeout) {
             clearTimeout(this._loopTimeout);

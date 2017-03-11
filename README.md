@@ -170,10 +170,12 @@ Here's the list of the options.
 | `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
 | `class_loading` | The class applied to the `img` or `iframe` elements while the loading is in progress | `"loading"` |
 | `class_loaded` | The class applied to the `img` or `iframe` elements when the loading is complete | `"loaded"` |
+| `class_firstLoad` | The class applied to the detected `img` or `iframe` elements on the first initial loop through | `"first-load"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
 | `callback_load` | A function to be called when an image was loaded. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
 | `callback_processed` | A function to be called when an image was processed. | `null` |
+| `callback_loopThrough` | A function to be called when lazyload detection cycle is called. | `null` |
 
 ## Public methods
 
