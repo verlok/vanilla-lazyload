@@ -9,7 +9,8 @@
 }(this, function() {
 
     var _defaultSettings,
-        _isInitialized = false;
+        _isInitialized = false,
+        _isFirstLoop = true;
 
     /*
      * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
@@ -27,11 +28,13 @@
                 data_srcset: "original-set",
                 class_loading: "loading",
                 class_loaded: "loaded",
+                class_firstLoad: "first-load",
                 skip_invisible: true,
                 callback_load: null,
                 callback_error: null,
                 callback_set: null,
-                callback_processed: null
+                callback_processed: null,
+                callback_loopThrough: null
             };
 
             _isInitialized = true;
@@ -206,6 +209,7 @@
                 settings.callback_error(element);
             }
         }
+
         function loadCallback() {
             /* As this method is asynchronous, it must be protected against external destroy() calls */
             if (settings === null) {
@@ -241,6 +245,11 @@
             elementsLength = (!elements) ? 0 : elements.length,
             processedIndexes = [];
 
+        /* Calling _loopThrough callback */
+        if (settings.callback_loopThrough) {
+            settings.callback_loopThrough(_isFirstLoop);
+        }
+
         for (i = 0; i < elementsLength; i++) {
             element = elements[i];
             /* If must skip_invisible and element is invisible, skip it */
@@ -253,6 +262,10 @@
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
                 element.wasProcessed = true;
+                /* if this is the first initial loop add an extra class to the elements */
+                if (_isFirstLoop) {
+                    element.classList.add(settings.class_firstLoad);
+                }
             }
         }
         /* Removing processed elements from this._elements. */
@@ -266,6 +279,10 @@
         /* Stop listening to scroll event when 0 elements remains */
         if (elementsLength === 0) {
             this._stopScrollHandler();
+        }
+        /* Set first load variable to false */
+        if (_isFirstLoop) {
+            _isFirstLoop = false;
         }
     };
 
