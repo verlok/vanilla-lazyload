@@ -1,4 +1,4 @@
-(function(root, factory) {
+(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory);
     } else if (typeof exports === 'object') {
@@ -6,7 +6,7 @@
     } else {
         root.LazyLoad = factory();
     }
-}(this, function() {
+}(this, function () {
 
     var _defaultSettings,
         _isInitialized = false,
@@ -167,7 +167,7 @@
     }
 
     function _bind(fn, obj) {
-        return function() {
+        return function () {
             return fn.apply(obj, arguments);
         };
     }
@@ -199,7 +199,7 @@
      * ---------------------------------------------------------------
      */
 
-    LazyLoad.prototype._showOnAppear = function(element) {
+    LazyLoad.prototype._showOnAppear = function (element) {
         var settings = this._settings;
 
         function errorCallback() {
@@ -238,7 +238,7 @@
         }
     };
 
-    LazyLoad.prototype._loopThroughElements = function() {
+    LazyLoad.prototype._loopThroughElements = function () {
         var i, element,
             settings = this._settings,
             elements = this._elements,
@@ -286,7 +286,7 @@
         }
     };
 
-    LazyLoad.prototype._purgeElements = function() {
+    LazyLoad.prototype._purgeElements = function () {
         var i, element,
             elements = this._elements,
             elementsLength = elements.length,
@@ -305,14 +305,14 @@
         }
     };
 
-    LazyLoad.prototype._startScrollHandler = function() {
+    LazyLoad.prototype._startScrollHandler = function () {
         if (!this._isHandlingScroll) {
             this._isHandlingScroll = true;
             this._settings.container.addEventListener("scroll", this._handleScrollFn);
         }
     };
 
-    LazyLoad.prototype._stopScrollHandler = function() {
+    LazyLoad.prototype._stopScrollHandler = function () {
         if (this._isHandlingScroll) {
             this._isHandlingScroll = false;
             this._settings.container.removeEventListener("scroll", this._handleScrollFn);
@@ -325,7 +325,7 @@
      * ----------------
      */
 
-    LazyLoad.prototype.handleScroll = function() {
+    LazyLoad.prototype.handleScroll = function () {
         var remainingTime,
             now,
             throttle;
@@ -348,7 +348,7 @@
                 this._previousLoopTime = now;
                 this._loopThroughElements();
             } else if (!this._loopTimeout) {
-                this._loopTimeout = setTimeout(_bind(function() {
+                this._loopTimeout = setTimeout(_bind(function () {
                     this._previousLoopTime = _now();
                     this._loopTimeout = null;
                     this._loopThroughElements();
@@ -359,14 +359,14 @@
         }
     };
 
-    LazyLoad.prototype.update = function() {
+    LazyLoad.prototype.update = function () {
         this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
         this._purgeElements();
         this._loopThroughElements();
         this._startScrollHandler();
     };
 
-    LazyLoad.prototype.destroy = function() {
+    LazyLoad.prototype.destroy = function () {
         window.removeEventListener("resize", this._handleScrollFn);
         if (this._loopTimeout) {
             clearTimeout(this._loopTimeout);
@@ -378,8 +378,5 @@
         this._settings = null;
     };
 
-
     return LazyLoad;
-
-
 }));
