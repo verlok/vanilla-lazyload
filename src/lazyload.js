@@ -8,35 +8,26 @@
     }
 }(this, function() {
 
-    var _defaultSettings,
-        _isInitialized = false;
+    var _defaultSettings = {
+        elements_selector: "img",
+        container: window,
+        threshold: 300,
+        throttle: 150,
+        data_src: "original",
+        data_srcset: "original-set",
+        class_loading: "loading",
+        class_loaded: "loaded",
+        skip_invisible: true,
+        callback_load: null,
+        callback_error: null,
+        callback_set: null,
+        callback_processed: null
+    }
 
     /*
      * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
      * -------------------------------------------------------------------
      */
-
-    function _init() {
-        if (!_isInitialized) {
-            _defaultSettings = {
-                elements_selector: "img",
-                container: window,
-                threshold: 300,
-                throttle: 150,
-                data_src: "original",
-                data_srcset: "original-set",
-                class_loading: "loading",
-                class_loaded: "loaded",
-                skip_invisible: true,
-                callback_load: null,
-                callback_error: null,
-                callback_set: null,
-                callback_processed: null
-            };
-
-            _isInitialized = true;
-        }
-    }
 
     function _isInsideViewport(element, container, threshold) {
 
@@ -176,8 +167,6 @@
      */
 
     function LazyLoad(instanceSettings) {
-        _init();
-
         this._settings = _merge_objects(_defaultSettings, instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
