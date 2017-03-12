@@ -22,7 +22,7 @@
         callback_error: null,
         callback_set: null,
         callback_processed: null
-    }
+    };
 
     /*
      * PRIVATE FUNCTIONS *NOT RELATED* TO A SPECIFIC INSTANCE OF LAZY LOAD
