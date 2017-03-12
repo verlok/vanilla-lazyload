@@ -78,3 +78,10 @@ test("QueryOriginNode is valid", () => {
     expect(ll1._queryOriginNode.nodeType).toBe(9);
     expect(ll2._queryOriginNode.nodeType).toBe(1);
 });
+
+test("Update is called at instance creation", () => {
+    LazyLoad.prototype.update = jest.fn();
+    var ll = new LazyLoad();
+    var ll2 = new LazyLoad();
+    expect(LazyLoad.prototype.update).toHaveBeenCalledTimes(2);
+});
