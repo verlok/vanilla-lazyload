@@ -92,3 +92,9 @@ test("Scroll is managed", () => {
     expect(LazyLoad.prototype.update).toHaveBeenCalled();
 });
 
+test("Resize is managed", () => {
+    LazyLoad.prototype.handleScroll = jest.fn();
+    window.resizeTo(800, 600);
+    expect(LazyLoad.prototype.update).toHaveBeenCalled();
+});
+
