@@ -98,3 +98,43 @@ test("Resize is managed", () => {
     expect(LazyLoad.prototype.update).toHaveBeenCalled();
 });
 
+describe("_mergeObjects", () => {
+    var mergeFunct = LazyLoad.prototype._mergeObjects;
+    test("...with empty objects", () => {
+        expect(mergeFunct({}, {})).toEqual({});
+    });
+    test("...with empty first object", () => {
+        expect(mergeFunct({}, {
+            pippo: "cane"
+        })).toEqual({
+            pippo: "cane"
+        });
+    });
+    test("...with empty second object", () => {
+        expect(mergeFunct({
+            pippo: "cane"
+        }, {})).toEqual({
+            pippo: "cane"
+        });
+    });
+    test("...with matching property", () => {
+        expect(mergeFunct({
+            pippo: "cane"
+        }, {
+            pippo: "canuto"
+        })).toEqual({
+            pippo: "canuto"
+        });
+    });
+    test("...with only one matching property", () => {
+        expect(mergeFunct({
+            pippo: "cane",
+            orazio: "cavallo"
+        }, {
+            pippo: "canuto"
+        })).toEqual({
+            pippo: "canuto",
+            orazio: "cavallo"
+        });
+    });
+});

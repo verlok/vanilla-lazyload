@@ -40,7 +40,7 @@
      */
 
     function LazyLoad(instanceSettings) {
-        this._settings = this._merge_objects(_defaultSettings, instanceSettings);
+        this._settings = this._mergeObjects(_defaultSettings, instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
         this._previousLoopTime = 0;
@@ -125,7 +125,7 @@
             return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
         },
 
-        _merge_objects: function (obj1, obj2) {
+        _mergeObjects: function (obj1, obj2) {
             var obj3 = {},
                 propertyName;
             for (propertyName in obj1) {
