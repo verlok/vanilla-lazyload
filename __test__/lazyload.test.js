@@ -85,3 +85,10 @@ test("Update is called at instance creation", () => {
     var ll2 = new LazyLoad();
     expect(LazyLoad.prototype.update).toHaveBeenCalledTimes(2);
 });
+
+test("Scroll is managed", () => {
+    LazyLoad.prototype.handleScroll = jest.fn();
+    window.scrollTo(0, 1);
+    expect(LazyLoad.prototype.update).toHaveBeenCalled();
+});
+
