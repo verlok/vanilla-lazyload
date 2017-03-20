@@ -215,7 +215,7 @@ The images can also be marked up using the `picture` tag and still be loaded laz
 
 To lazy load `iframe`s, set the `elements_selector` to `iframe`s and optionally change the `data_src` option (default `data-original`) to define which data attribute will contain the source of the `iframe`.
 
-[See it in action](http://verlok.github.io/lazyload/demos/with_p.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/iframes.html)
+[See it in action](http://verlok.github.io/lazyload/demos/iframes.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/iframes.html)
 
 #### Using background images demo
 
