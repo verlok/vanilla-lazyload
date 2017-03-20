@@ -179,9 +179,9 @@ class LazyLoad {
         }
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
-            element.addEventListener("load", loadCallback);
             element.addEventListener("error", errorCallback);
             element.classList.add(settings.class_loading);
+            element.complete ? loadCallback.call(element) : element.addEventListener("load", loadCallback);
         }
 
         this._setSources(element, settings.data_srcset, settings.data_src);
