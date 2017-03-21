@@ -171,14 +171,14 @@ class LazyLoad {
             if (settings === null) {
                 return;
             }
-            /* Calling LOAD callback */
-            if (settings.callback_load) {
-                settings.callback_load(element);
-            }
             element.classList.remove(settings.class_loading);
             element.classList.add(settings.class_loaded);
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
+            /* Calling LOAD callback */
+            if (settings.callback_load) {
+                settings.callback_load(element);
+            }
         }
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
