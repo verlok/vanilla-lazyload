@@ -865,152 +865,186 @@
     <div class="container">
         <a class="corner" href="https://github.com/verlok/lazyload">Fork me on GitHub</a>
         <!-- ARTICLE START -->
-        <article class="markdown-body entry-content" itemprop="text">
-            <h1><a id="user-content-lazyload-aka-vanilla-lazyload" class="anchor" href="#lazyload-aka-vanilla-lazyload" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LazyLoad (aka Vanilla LazyLoad)</h1>
-
-            <p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they're about to enter the viewport</strong> of a scrollable area, which <strong>supports the <code>srcset</code> attribute</strong> and with
-                and <strong>takes best advantage from the progressive JPEG image format</strong> (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for performance</a>).</p>
-
+                <article class="markdown-body entry-content" itemprop="text">
+            <h1>
+                <a id="user-content-lazyload-aka-vanilla-lazyload" class="anchor" href="#lazyload-aka-vanilla-lazyload" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>LazyLoad (aka Vanilla LazyLoad)</h1>
+            <p><em>LazyLoad</em> is a fast, lightweight and flexible script for <strong>loading images only when they're about to enter the viewport</strong>        of a scrollable area, which <strong>supports the <code>srcset</code> attribute</strong> and with and <strong>takes best advantage from the progressive JPEG image format</strong>        (which is <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">good for performance</a>).</p>
             <p><a href="http://verlok.github.io/lazyload/">WEBSITE</a> | <a href="#user-content-demos">DEMOS</a> | <a href="https://github.com/verlok/lazyload">GITHUB</a></p>
-
-            <h2><a id="user-content-difference-with-jquery_lazyload" class="anchor" href="#difference-with-jquery_lazyload" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Difference with jQuery_lazyload</h2>
-
-            <p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>'s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>. The following are the main differences between the scripts.</p>
-
+            <h2>
+                <a id="user-content-difference-with-jquery_lazyload" class="anchor" href="#difference-with-jquery_lazyload" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Difference with jQuery_lazyload</h2>
+            <p>This script was inspired by <a href="https://github.com/tuupola/">Mika Tuupola</a>'s <a href="http://www.appelsiini.net/projects/lazyload">jQuery_lazyLoad</a>.
+                The following are the main differences between the scripts.</p>
             <ul>
-                <li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em> uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference, even in
-                    slow devices or computers. To measure the scripts performance yourself, see <a href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a> and <a href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a>                    implementations in the <em>perf</em> folder.</li>
-                <li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a> is an image format good for perceived performance because it's rendered
-                    in progressive passes of detail. <code>lazyLoad</code> shows your images while they load, letting <em>progressive JPEG</em> do its magic. <em>jQuery_lazyload</em> will only show your images once fully loaded.</li>
-                <li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em> can't.</li>
-                <li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>'s listener to the container's <code>scroll</code> event is throttled by default, meaning that the main function of the script will not continuously be executed
-                    on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn't have this option, so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
-                <li><strong>Support for responsive images</strong>. <em>LazyLoad</em> also supports responsive images, both via the <code>srcset</code> attribute (<code>x</code> notation, i.g. <code>1x</code>, <code>2x</code> .. <code>nx</code> and <code>w</code>                    notation, i.g. <code>100w</code>, <code>200w</code> + <code>sizes</code> attribute), and via the <code>picture</code> tag.</li>
-                <li><strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn't rely on jQuery, you can use it in contexts where jQuery is not used (and it's much, much faster)!</li>
+                <li><strong><em>LazyLoad</em> is 6x faster than <em>jQuery_lazyload</em></strong>. This is because <em>LazyLoad</em>            uses only optimized, native javascript functions and methods, and not jQuery. Your users will see the difference,
+                    even in slow devices or computers. To measure the scripts performance yourself, see <a href="http://verlok.github.io/lazyload/demos/perf/with_lazyLoad.html">lazyLoad</a>            and <a href="http://verlok.github.io/lazyload/demos/perf/with_jQuery_lazyLoad.html">jQuery_lazyLoad</a> implementations
+                    in the <em>perf</em> folder.</li>
+                <li><strong>Progressive JPEG support will improve perceived speed</strong>. <a href="http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html">Progressive JPEG</a>            is an image format good for perceived performance because it's rendered in progressive passes of detail. <code>lazyLoad</code>            shows your images while they load, letting <em>progressive JPEG</em> do its magic. <em>jQuery_lazyload</em> will
+                    only show your images once fully loaded.</li>
+                <li><strong><em>LazyLoad</em> can be instanced on many scrolling containers</strong> on the same page, whereas <em>jQuery_lazyload</em>            can't.</li>
+                <li><strong>Throttled execution for optimized CPU usage</strong>. <em>LazyLoad</em>'s listener to the container's <code>scroll</code>            event is throttled by default, meaning that the main function of the script will not continuously be executed
+                    on devices with a smooth scroll such as mobile devices or Macs. <em>jQuery_lazyload</em> doesn't have this option,
+                    so its scroll handler function is executed more frequently then necessary, slowing down the user device.</li>
+                <li><strong>Support for responsive images</strong>. <em>LazyLoad</em> also supports responsive images, both via the <code>srcset</code>            attribute (<code>x</code> notation, i.g. <code>1x</code>, <code>2x</code> .. <code>nx</code> and <code>w</code>            notation, i.g. <code>100w</code>, <code>200w</code> + <code>sizes</code> attribute), and via the <code>picture</code>            tag.</li>
+                <li><strong>jQuery independency</strong>. As <em>LazyLoad</em> doesn't rely on jQuery, you can use it in contexts where
+                    jQuery is not used (and it's much, much faster)!</li>
             </ul>
-
-            <h2><a id="user-content-how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How to use</h2>
-
-            <h4><a id="user-content-html---img-tags" class="anchor" href="#html---img-tags" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTML - <code>img</code> tags</h4>
-
-            <p>Markup your images putting the image source inside the <code>data-original</code> attribute. Specify both <code>width</code> and <code>height</code> attributes if known upfront, so the browser can allocate the space on your page.</p>
-
-            <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
-&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
-&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;</pre></div>
-
+            <h2>
+                <a id="user-content-how-to-use" class="anchor" href="#how-to-use" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>How to use</h2>
+            <h4>
+                <a id="user-content-html---img-tags" class="anchor" href="#html---img-tags" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>HTML - <code>img</code> tags</h4>
+            <p>Markup your images putting the image source inside the <code>data-original</code> attribute. Specify both <code>width</code>        and <code>height</code> attributes if known upfront, so the browser can allocate the space on your page.</p>
+            <div class="highlight highlight-text-html-basic">
+                <pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;</pre>
+            </div>
             <p>Or if you want to use <code>srcset</code>:</p>
-
-            <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
-    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 1x, /your/image1@2x.jpg 2x<span class="pl-pds">"</span></span>
-    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
-&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
-    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 1x, /your/image2@2x.jpg 2x<span class="pl-pds">"</span></span>
-    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
-&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
-    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 1x, /your/image3@2x.jpg 2x<span class="pl-pds">"</span></span>
-    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;</pre></div>
-
+            <div class="highlight highlight-text-html-basic">
+                <pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
+                    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 1x, /your/image1@2x.jpg 2x<span class="pl-pds">"</span></span>
+                    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
+                    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 1x, /your/image2@2x.jpg 2x<span class="pl-pds">"</span></span>
+                    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
+                    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 1x, /your/image3@2x.jpg 2x<span class="pl-pds">"</span></span>
+                    <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>100<span class="pl-pds">"</span></span> <span class="pl-e">height</span>=<span class="pl-s"><span class="pl-pds">"</span>172<span class="pl-pds">"</span></span>&gt;</pre>
+            </div>
             <p>Or if you want to use <code>srcset</code> and <code>sizes</code>:</p>
-
-            <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
-    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 200w, /your/image1@2x.jpg 400w<span class="pl-pds">"</span></span>
-    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span class="pl-pds">"</span></span>&gt;
-&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
-    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 200w, /your/image2@2x.jpg 400w<span class="pl-pds">"</span></span>
-    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span class="pl-pds">"</span></span>&gt;
-&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
-    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 200w, /your/image3@2x.jpg 400w<span class="pl-pds">"</span></span>
-    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span class="pl-pds">"</span></span>&gt;</pre></div>
-
+            <div class="highlight highlight-text-html-basic">
+                <pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>
+                    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg 200w, /your/image1@2x.jpg 400w<span class="pl-pds">"</span></span>
+                    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>
+                    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg 200w, /your/image2@2x.jpg 400w<span class="pl-pds">"</span></span>
+                    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span class="pl-pds">"</span></span>&gt;
+                &lt;<span class="pl-ent">img</span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>
+                    <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg 200w, /your/image3@2x.jpg 400w<span class="pl-pds">"</span></span>
+                    <span class="pl-e">sizes</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 20em) 35vw, 100vw<span class="pl-pds">"</span></span>&gt;</pre>
+            </div>
             <p>Or if you want to use the <code>picture</code> tag:</p>
-
-            <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">picture</span>&gt;
-    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 1024px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1a.jpg<span class="pl-pds">"</span></span> /&gt;
-    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 500px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1b.jpg<span class="pl-pds">"</span></span> /&gt;
-    &lt;<span class="pl-ent">img</span> <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>Stivaletti<span class="pl-pds">"</span></span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>&gt;
-&lt;/<span class="pl-ent">picture</span>&gt;
-&lt;<span class="pl-ent">picture</span>&gt;
-    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 1024px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2a.jpg<span class="pl-pds">"</span></span> /&gt;
-    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 500px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2b.jpg<span class="pl-pds">"</span></span> /&gt;
-    &lt;<span class="pl-ent">img</span> <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>Stivaletti<span class="pl-pds">"</span></span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>&gt;
-&lt;/<span class="pl-ent">picture</span>&gt;
-&lt;<span class="pl-ent">picture</span>&gt;
-    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 1024px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3a.jpg<span class="pl-pds">"</span></span> /&gt;
-    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 500px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3b.jpg<span class="pl-pds">"</span></span> /&gt;
-    &lt;<span class="pl-ent">img</span> <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>Stivaletti<span class="pl-pds">"</span></span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>&gt;
-&lt;/<span class="pl-ent">picture</span>&gt;</pre></div>
-
-            <p><strong>Note</strong> that not all the images in the page needs to be lazy loaded. You can leave the first images (the amount that you're quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the rest.</p>
-
-            <h4><a id="user-content-html---script-tag" class="anchor" href="#html---script-tag" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTML - <code>script</code> tag</h4>
-
+            <div class="highlight highlight-text-html-basic">
+                <pre>&lt;<span class="pl-ent">picture</span>&gt;
+                    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 1024px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1a.jpg<span class="pl-pds">"</span></span> /&gt;
+                    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 500px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1b.jpg<span class="pl-pds">"</span></span> /&gt;
+                    &lt;<span class="pl-ent">img</span> <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>Stivaletti<span class="pl-pds">"</span></span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image1.jpg<span class="pl-pds">"</span></span>&gt;
+                &lt;/<span class="pl-ent">picture</span>&gt;
+                &lt;<span class="pl-ent">picture</span>&gt;
+                    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 1024px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2a.jpg<span class="pl-pds">"</span></span> /&gt;
+                    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 500px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2b.jpg<span class="pl-pds">"</span></span> /&gt;
+                    &lt;<span class="pl-ent">img</span> <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>Stivaletti<span class="pl-pds">"</span></span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image2.jpg<span class="pl-pds">"</span></span>&gt;
+                &lt;/<span class="pl-ent">picture</span>&gt;
+                &lt;<span class="pl-ent">picture</span>&gt;
+                    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 1024px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3a.jpg<span class="pl-pds">"</span></span> /&gt;
+                    &lt;<span class="pl-ent">source</span> <span class="pl-e">media</span>=<span class="pl-s"><span class="pl-pds">"</span>(min-width: 500px)<span class="pl-pds">"</span></span> <span class="pl-e">data-original-set</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3b.jpg<span class="pl-pds">"</span></span> /&gt;
+                    &lt;<span class="pl-ent">img</span> <span class="pl-e">alt</span>=<span class="pl-s"><span class="pl-pds">"</span>Stivaletti<span class="pl-pds">"</span></span> <span class="pl-e">data-original</span>=<span class="pl-s"><span class="pl-pds">"</span>/your/image3.jpg<span class="pl-pds">"</span></span>&gt;
+                &lt;/<span class="pl-ent">picture</span>&gt;</pre>
+            </div>
+            <p><strong>Note</strong> that not all the images in the page needs to be lazy loaded. You can leave the first images (the
+                amount that you're quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the
+                rest.
+            </p>
+            <h4>
+                <a id="user-content-html---script-tag" class="anchor" href="#html---script-tag" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>HTML - <code>script</code> tag</h4>
             <p>Include the script in the bottom of your HTML page, just before the closing <code>&lt;/body&gt;</code> tag.</p>
-
-            <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">body</span>&gt;
-    <span class="pl-c"><span class="pl-c">&lt;!--</span> Your content ... <span class="pl-c">--&gt;</span></span>
-<span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>lazyload.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</span>
-&lt;/<span class="pl-ent">body</span>&gt;</pre></div>
-
-            <h4><a id="user-content-javascript" class="anchor" href="#javascript" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Javascript</h4>
-
+            <div class="highlight highlight-text-html-basic">
+                <pre>&lt;<span class="pl-ent">body</span>&gt;
+                    <span class="pl-c"><span class="pl-c">&lt;!--</span> Your content ... <span class="pl-c">--&gt;</span></span>
+                <span class="pl-s1">    &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>lazyload.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</span>
+                &lt;/<span class="pl-ent">body</span>&gt;</pre>
+            </div>
+            <h4>
+                <a id="user-content-javascript" class="anchor" href="#javascript" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Javascript</h4>
             <p>In your javascript code, create an instance of LazyLoad, doing so:</p>
-
-            <div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myLazyLoad <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LazyLoad</span>();</pre></div>
-
+            <div class="highlight highlight-source-js">
+                <pre><span class="pl-k">var</span> myLazyLoad <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LazyLoad</span>();</pre>
+            </div>
             <p>Or, if you want to customize the behaviour of <code>LazyLoad</code> passing some options in, you can do so:</p>
-
-            <div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> myLazyLoad <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LazyLoad</span>({
-    <span class="pl-c"><span class="pl-c">//</span> example of options object -&gt; see options section</span>
-    threshold<span class="pl-k">:</span> <span class="pl-c1">500</span>,
-    container<span class="pl-k">:</span> <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">'</span>scrollPane<span class="pl-pds">'</span></span>),
-    elements_selector<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>.showCase img<span class="pl-pds">"</span></span>,
-    throttle<span class="pl-k">:</span> <span class="pl-c1">200</span>,
-    data_src<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span>,
-    data_srcset<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>srcset<span class="pl-pds">"</span></span>,
-    <span class="pl-en">callback_set</span><span class="pl-k">:</span> <span class="pl-k">function</span>() { <span class="pl-c"><span class="pl-c">/*</span> ... <span class="pl-c">*/</span></span> }
-});</pre></div>
-
+            <div class="highlight highlight-source-js">
+                <pre><span class="pl-k">var</span> myLazyLoad <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LazyLoad</span>({
+                    <span class="pl-c"><span class="pl-c">//</span> example of options object -&gt; see options section</span>
+                    threshold<span class="pl-k">:</span> <span class="pl-c1">500</span>,
+                    container<span class="pl-k">:</span> <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">'</span>scrollPane<span class="pl-pds">'</span></span>),
+                    elements_selector<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>.showCase img<span class="pl-pds">"</span></span>,
+                    throttle<span class="pl-k">:</span> <span class="pl-c1">200</span>,
+                    data_src<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span>,
+                    data_srcset<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>srcset<span class="pl-pds">"</span></span>,
+                    <span class="pl-en">callback_set</span><span class="pl-k">:</span> <span class="pl-k">function</span>() { <span class="pl-c">/* ... */</span> }
+                });</pre>
+            </div>
             <p>See the <a href="#demos">demos</a> and <a href="#options">options</a> sections for further defails.</p>
-
-            <h4><a id="user-content-css" class="anchor" href="#css" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSS</h4>
-
-            <p>Be sure that the images that are going to be lazy loaded <strong>occupy some vertical space (*)</strong>, ideally the same space of the loaded images.</p>
-
+            <h4>
+                <a id="user-content-css" class="anchor" href="#css" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>CSS</h4>
+            <p>Be sure that the images that are going to be lazy loaded <strong>occupy some vertical space (*)</strong>, ideally the
+                same space of the loaded images.</p>
             <p>To do that you can size all your <code>img</code> elements using CSS, for example doing this:</p>
-
-            <div class="highlight highlight-source-css"><pre><span class="pl-c"><span class="pl-c">/*</span> Sets a min-height to all images</span>
-<span class="pl-c">so that they occupy some space</span>
-<span class="pl-c">before they are loaded <span class="pl-c">*/</span></span>
-<span class="pl-ent">img</span> {
-    <span class="pl-c1"><span class="pl-c1">display</span></span>: <span class="pl-c1">block</span>;
-    <span class="pl-c1"><span class="pl-c1">width</span></span>: <span class="pl-c1">100<span class="pl-k">%</span></span>;
-    <span class="pl-c1"><span class="pl-c1">height</span></span>: <span class="pl-c1">auto</span>;
-    <span class="pl-c1"><span class="pl-c1">min-height</span></span>: <span class="pl-c1">300<span class="pl-k">px</span></span>;
-}</pre></div>
-
-            <p>In addition, something needs to be done to avoid the "broken image" icon to appear when the <code>img</code> element without the <code>src</code> attribute enters the viewport.</p>
-
-            <div class="highlight highlight-source-css"><pre><span class="pl-c"><span class="pl-c">/*</span> Prevents img without src to appear <span class="pl-c">*/</span></span>
-<span class="pl-ent">img</span><span class="pl-e">:not</span>([<span class="pl-e">src</span>]) {
-    <span class="pl-c1"><span class="pl-c1">visibility</span></span>: <span class="pl-c1">hidden</span>;
-}</pre></div>
-
-            <p>Furthermore, we need to deal with a Firefox anomaly that still shows the "broken image" icon while the image is loading. The CSS code that does this trick is the following:</p>
-
-            <div class="highlight highlight-source-css"><pre><span class="pl-c"><span class="pl-c">/*</span> Fixes Firefox anomaly <span class="pl-c">*/</span></span>
-@-moz-document url-prefix() {
-    <span class="pl-c1">img</span>:<span class="pl-c1">-moz-loading</span> {
-        visibility: <span class="pl-c1">hidden</span>;
-    }
-}</pre></div>
-
-            <p>(*) if you won't do so, a lot of images would enter the viewport as the user scrolls down, so you would lose the advantages that LazyLoad would bring to your website.</p>
-
-            <h2><a id="user-content-options" class="anchor" href="#options" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options</h2>
-
-            <p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour. Here's the list of the options.</p>
-
+            <div class="highlight highlight-source-css">
+                <pre><span class="pl-c"><span class="pl-c">/*</span> Sets a min-height to all images</span>
+                <span class="pl-c">so that they occupy some space</span>
+                <span class="pl-c">before they are loaded <span class="pl-c">*/</span></span>
+                <span class="pl-ent">img</span> {
+                    <span class="pl-c1"><span class="pl-c1">display</span></span>: <span class="pl-c1">block</span>;
+                    <span class="pl-c1"><span class="pl-c1">width</span></span>: <span class="pl-c1">100<span class="pl-k">%</span></span>;
+                    <span class="pl-c1"><span class="pl-c1">height</span></span>: <span class="pl-c1">auto</span>;
+                    <span class="pl-c1"><span class="pl-c1">min-height</span></span>: <span class="pl-c1">300<span class="pl-k">px</span></span>;
+                }</pre>
+            </div>
+            <p>In addition, something needs to be done to avoid the "broken image" icon to appear when the <code>img</code> element
+                without the <code>src</code> attribute enters the viewport.</p>
+            <div class="highlight highlight-source-css">
+                <pre><span class="pl-c"><span class="pl-c">/*</span> Prevents img without src to appear <span class="pl-c">*/</span></span>
+                <span class="pl-ent">img</span><span class="pl-e">:not</span>([<span class="pl-e">src</span>]) {
+                    <span class="pl-c1"><span class="pl-c1">visibility</span></span>: <span class="pl-c1">hidden</span>;
+                }</pre>
+            </div>
+            <p>Furthermore, we need to deal with a Firefox anomaly that still shows the "broken image" icon while the image is loading.
+                The CSS code that does this trick is the following:</p>
+            <div class="highlight highlight-source-css">
+                <pre><span class="pl-c"><span class="pl-c">/*</span> Fixes Firefox anomaly <span class="pl-c">*/</span></span>
+                @-moz-document url-prefix() {
+                    <span class="pl-c1">img</span>:<span class="pl-c1">-moz-loading</span> {
+                        visibility: <span class="pl-c1">hidden</span>;
+                    }
+                }</pre>
+            </div>
+            <p>(*) if you won't do so, a lot of images would enter the viewport as the user scrolls down, so you would lose the advantages
+                that LazyLoad would bring to your website.</p>
+            <h2>
+                <a id="user-content-options" class="anchor" href="#options" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Options</h2>
+            <p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour. Here's the list
+                of the options.</p>
             <table>
                 <thead>
                     <tr>
@@ -1047,7 +1081,8 @@
                     </tr>
                     <tr>
                         <td><code>data_srcset</code></td>
-                        <td>The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code> tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a>                            .</td>
+                        <td>The name of the data attribute containing the original image source set. The "data-" is automatically added.
+                            If you also need to add the <code>sizes</code> attribute, you can do it directly to you <code>img</code>                    tag, as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img"><code>sizes</code> gets ignored when the <code>srcset</code> attribute is missing</a>                    .</td>
                         <td><code>"original-set"</code></td>
                     </tr>
                     <tr>
@@ -1082,9 +1117,12 @@
                     </tr>
                 </tbody>
             </table>
-
-            <h2><a id="user-content-public-methods" class="anchor" href="#public-methods" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Public methods</h2>
-
+            <h2>
+                <a id="user-content-public-methods" class="anchor" href="#public-methods" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Public methods</h2>
             <table>
                 <thead>
                     <tr>
@@ -1103,111 +1141,163 @@
                     </tr>
                     <tr>
                         <td><code>handleScroll()</code></td>
-                        <td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code> event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
+                        <td>A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a <code>scroll</code>                    event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll)</td>
                     </tr>
                 </tbody>
             </table>
-
-            <h2><a id="user-content-demos" class="anchor" href="#demos" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Demos</h2>
-
+            <h2>
+                <a id="user-content-demos" class="anchor" href="#demos" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Demos</h2>
             <p>Learn how to use <em>LazyLoad</em> in different contexts by looking at the code.</p>
-
-            <h4><a id="user-content-simple-demo" class="anchor" href="#simple-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Simple demo</h4>
-
+            <h4>
+                <a id="user-content-simple-demo" class="anchor" href="#simple-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Simple demo</h4>
             <p>The images are in the page body, so <em>LazyLoad</em> is created with the <strong>default options</strong>.</p>
-
             <p><a href="http://verlok.github.io/lazyload/demos/simple.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/simple.html">View source</a></p>
-
-            <h4><a id="user-content-with-srcset-attribute-1x-2x-notation-demo" class="anchor" href="#with-srcset-attribute-1x-2x-notation-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>With <code>srcset</code> attribute (1x 2x notation) demo</h4>
-
-            <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily. Just pass in the <code>data_srcset</code> option and the job will be done.</p>
-
+            <h4>
+                <a id="user-content-with-srcset-attribute-1x-2x-notation-demo" class="anchor" href="#with-srcset-attribute-1x-2x-notation-demo"
+                    aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>With <code>srcset</code> attribute (1x 2x notation) demo</h4>
+            <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily. Just pass in the <code>data_srcset</code>        option and the job will be done.</p>
             <p><a href="http://verlok.github.io/lazyload/demos/with_srcset.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset.html">View source</a></p>
-
-            <h4><a id="user-content-with-srcset--sizes-attributes-demo" class="anchor" href="#with-srcset--sizes-attributes-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>With <code>srcset</code> + <code>sizes</code> attributes demo</h4>
-
-            <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily, and on the <code>sizes</code> attribute to be sized. Just pass in the <code>data_srcset</code> option, set the <code>sizes</code> attribute normally
+            <h4>
+                <a id="user-content-with-srcset--sizes-attributes-demo" class="anchor" href="#with-srcset--sizes-attributes-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>With <code>srcset</code> + <code>sizes</code> attributes demo</h4>
+            <p>The images also rely on the <strong><code>srcset</code> attribute</strong> to be loaded lazily, and on the <code>sizes</code>        attribute to be sized. Just pass in the <code>data_srcset</code> option, set the <code>sizes</code> attribute normally
                 and the job will be done.</p>
-
             <p><a href="http://verlok.github.io/lazyload/demos/with_srcset_sizes.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html">View source</a></p>
-
-            <h4><a id="user-content-with-picture-tag-demo" class="anchor" href="#with-picture-tag-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>With <code>picture</code> tag demo</h4>
-
-            <p>The images can also be marked up using the <code>picture</code> tag and still be loaded lazily. Just pass in the <code>data_srcset</code> option and the job will be done.</p>
-
+            <h4>
+                <a id="user-content-with-picture-tag-demo" class="anchor" href="#with-picture-tag-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>With <code>picture</code> tag demo</h4>
+            <p>The images can also be marked up using the <code>picture</code> tag and still be loaded lazily. Just pass in the <code>data_srcset</code>        option and the job will be done.</p>
             <p><a href="http://verlok.github.io/lazyload/demos/with_picture.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/with_picture.html">View source</a></p>
-
-            <h4><a id="user-content-lazy-loading-iframe-demo" class="anchor" href="#lazy-loading-iframe-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Lazy loading <code>iframe</code> demo</h4>
-
-            <p>To lazy load <code>iframe</code>s, set the <code>elements_selector</code> to <code>iframe</code>s and optionally change the <code>data_src</code> option (default <code>data-original</code>) to define which data attribute will contain the source
-                of the <code>iframe</code>.</p>
-
-            <p><a href="http://verlok.github.io/lazyload/demos/with_p.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/iframes.html">View source</a></p>
-
-            <h4><a id="user-content-using-background-images-demo" class="anchor" href="#using-background-images-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using background images demo</h4>
-
-            <p>To make lazy load use background images, set the <code>elements_selector</code> to whatever tag you want except <code>img</code> and <code>iframe</code>. The image will be loaded from the URL specified in the data attribute defined by the
-                <code>data_src</code> option (default <code>data-original</code>).</p>
-
+            <h4>
+                <a id="user-content-lazy-loading-iframe-demo" class="anchor" href="#lazy-loading-iframe-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Lazy loading <code>iframe</code> demo</h4>
+            <p>To lazy load <code>iframe</code>s, set the <code>elements_selector</code> to <code>iframe</code>s and optionally change
+                the <code>data_src</code> option (default <code>data-original</code>) to define which data attribute will contain
+                the source of the <code>iframe</code>.</p>
+            <p><a href="http://verlok.github.io/lazyload/demos/iframes.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/iframes.html">View source</a></p>
+            <h4>
+                <a id="user-content-using-background-images-demo" class="anchor" href="#using-background-images-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Using background images demo</h4>
+            <p>To make lazy load use background images, set the <code>elements_selector</code> to whatever tag you want except <code>img</code>        and <code>iframe</code>. The image will be loaded from the URL specified in the data attribute defined by the <code>data_src</code>        option (default <code>data-original</code>).</p>
             <p><a href="http://verlok.github.io/lazyload/demos/background_images.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/background_images.html">View source</a></p>
-
-            <h4><a id="user-content-single-scrolling-container-demo" class="anchor" href="#single-scrolling-container-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Single scrolling container demo</h4>
-
+            <h4>
+                <a id="user-content-single-scrolling-container-demo" class="anchor" href="#single-scrolling-container-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Single scrolling container demo</h4>
             <p>The images are in <strong>scrolling container</strong>, a scrolling div inside the page body.</p>
-
             <p><a href="http://verlok.github.io/lazyload/demos/single_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/single_container.html">View source</a></p>
-
-            <h4><a id="user-content-multiple-scrolling-containers-demo" class="anchor" href="#multiple-scrolling-containers-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple scrolling containers demo</h4>
-
+            <h4>
+                <a id="user-content-multiple-scrolling-containers-demo" class="anchor" href="#multiple-scrolling-containers-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Multiple scrolling containers demo</h4>
             <p>The images are in <strong>multiple scrolling containers</strong>, two scrolling divs inside the page body.</p>
-
             <p><a href="http://verlok.github.io/lazyload/demos/multiple_container.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html">View source</a></p>
-
-            <h4><a id="user-content-changing-content-demo" class="anchor" href="#changing-content-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changing content demo</h4>
-
-            <p>The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests or other actions.</p>
-
+            <h4>
+                <a id="user-content-changing-content-demo" class="anchor" href="#changing-content-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Changing content demo</h4>
+            <p>The images are <strong>added in different times</strong>, simulating content that gets added by AJAX requests or other
+                actions.
+            </p>
             <p><a href="http://verlok.github.io/lazyload/demos/dynamic_content.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html">View source</a></p>
-
-            <h4><a id="user-content-destroying-lazyload-demo" class="anchor" href="#destroying-lazyload-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Destroying LazyLoad demo</h4>
-
+            <h4>
+                <a id="user-content-destroying-lazyload-demo" class="anchor" href="#destroying-lazyload-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Destroying LazyLoad demo</h4>
             <p>This demo shows how to <strong>destroy <em>LazyLoad</em> when you're finished using it</strong>, to free up some memory.</p>
-
             <p><a href="http://verlok.github.io/lazyload/demos/destroy.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/destroy.html">View source</a></p>
-
-            <h4><a id="user-content-hundreds-of-images-demo" class="anchor" href="#hundreds-of-images-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hundreds of images demo</h4>
-
+            <h4>
+                <a id="user-content-hundreds-of-images-demo" class="anchor" href="#hundreds-of-images-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Hundreds of images demo</h4>
             <p>This demo shows the performance of LazyLoad <strong>with 300+ images</strong> on the page.</p>
-
             <p><a href="http://verlok.github.io/lazyload/demos/hundreds.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/hundreds.html">View source</a></p>
-
-            <h2><a id="user-content-browser-support" class="anchor" href="#browser-support" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Browser support</h2>
-
+            <h4>
+                <a id="user-content-callbacks-demo" class="anchor" href="#callbacks-demo" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Callbacks demo</h4>
+            <p>This demo shows how to use LazyLoad's <strong>callbacks</strong>, including the <strong>error</strong> callback to provide
+                a fallback image.</p>
+            <p><a href="http://verlok.github.io/lazyload/demos/callbacks.html">See it in action</a> | <a href="https://github.com/verlok/lazyload/blob/master/demos/callbacks.html">View source</a></p>
+            <h2>
+                <a id="user-content-browser-support" class="anchor" href="#browser-support" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Browser support</h2>
             <p>Version 4 of LazyLoad supports from <strong>Internet Explorer 10</strong> up and it should be OK, see <a href="http://gs.statcounter.com/browser-version-partially-combined-market-share/desktop/worldwide/#monthly-201611-201612-bar">browser stats for november / december 2016 for desktop computers</a>.</p>
-
             <p>If you're not comfortable with leaving IE &lt; 10 behind, just use a 3.x release of LazyLoad. Pick one from the <a href="https://github.com/verlok/lazyload/releases">releases page</a>.</p>
-
-            <h2><a id="user-content-install" class="anchor" href="#install" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install</h2>
-
+            <h2>
+                <a id="user-content-install" class="anchor" href="#install" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Install</h2>
             <p>It's time to give it a try and boost your website performance!</p>
-
-            <h5><a id="user-content-download-from-github" class="anchor" href="#download-from-github" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Download from GitHub</h5>
-
+            <h5>
+                <a id="user-content-download-from-github" class="anchor" href="#download-from-github" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Download from GitHub</h5>
             <p>Download the package from GitHub and add dist/lazyload.min.js to your project files.</p>
-
             <p><a href="https://github.com/verlok/lazyload/archive/master.zip">Zip file</a></p>
-
-            <h5><a id="user-content-install-using-bower" class="anchor" href="#install-using-bower" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install using bower</h5>
-
+            <h5>
+                <a id="user-content-install-using-bower" class="anchor" href="#install-using-bower" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Install using bower</h5>
             <p>Run the following command on your terminal or command prompt.</p>
-
-            <div class="highlight highlight-source-shell"><pre>bower install vanilla-lazyload</pre></div>
-
-            <h5><a id="user-content-install-using-npm" class="anchor" href="#install-using-npm" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install using npm</h5>
-
+            <div class="highlight highlight-source-shell">
+                <pre>bower install vanilla-lazyload</pre>
+            </div>
+            <h5>
+                <a id="user-content-install-using-npm" class="anchor" href="#install-using-npm" aria-hidden="true">
+                    <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                        <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>Install using npm</h5>
             <p>Run the following command on your terminal or command prompt.</p>
-
-            <div class="highlight highlight-source-shell"><pre>npm install vanilla-lazyload</pre></div>
+            <div class="highlight highlight-source-shell">
+                <pre>npm install vanilla-lazyload</pre>
+            </div>
         </article>
         <!-- ARTICLE END -->
     </div>
