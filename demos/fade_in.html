@@ -24,10 +24,12 @@
 		img {
 			display: block;
 			border: 0;
+			opacity: 0;
 			transition: opacity 1s;
 		}
-		img.loading {
-			opacity: 0;
+		img.loaded,
+		img.error {
+			opacity: 1;
 		}
 
 		img:not([src]) {
