@@ -259,6 +259,12 @@ This demo shows how to use LazyLoad's **callbacks**, including the **error** cal
 
 [See it in action](http://verlok.github.io/lazyload/demos/callbacks.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/callbacks.html)
 
+#### Fade-in demo
+
+This demo shows how to use LazyLoad to fade-in loaded images as they load.
+
+[See it in action](http://verlok.github.io/lazyload/demos/fade-in.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/fade-in.html)
+
 ## Browser support
 
 Version 4 of LazyLoad supports from **Internet Explorer 10** up and it should be OK, see [browser stats for november / december 2016 for desktop computers](http://gs.statcounter.com/browser-version-partially-combined-market-share/desktop/worldwide/#monthly-201611-201612-bar).
