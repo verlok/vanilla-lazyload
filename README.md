@@ -263,7 +263,7 @@ This demo shows how to use LazyLoad's **callbacks**, including the **error** cal
 
 This demo shows how to use LazyLoad to fade-in loaded images as they load.
 
-[See it in action](http://verlok.github.io/lazyload/demos/fade-in.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/fade-in.html)
+[See it in action](http://verlok.github.io/lazyload/demos/fade_in.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/fade_in.html)
 
 ## Browser support
 
