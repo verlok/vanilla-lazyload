@@ -15,6 +15,7 @@ var _defaultSettings = {
     data_srcset: "original-set",
     class_loading: "loading",
     class_loaded: "loaded",
+    class_error: "error",
     skip_invisible: true,
     callback_load: null,
     callback_error: null,
@@ -174,6 +175,8 @@ var LazyLoad = function () {
             function errorCallback() {
                 element.removeEventListener("load", loadCallback);
                 element.classList.remove(settings.class_loading);
+                element.classList.add(settings.class_error);
+                /* Calling ERROR callback */
                 if (settings.callback_error) {
                     settings.callback_error(element);
                 }
@@ -184,14 +187,14 @@ var LazyLoad = function () {
                 if (settings === null) {
                     return;
                 }
-                /* Calling LOAD callback */
-                if (settings.callback_load) {
-                    settings.callback_load(element);
-                }
                 element.classList.remove(settings.class_loading);
                 element.classList.add(settings.class_loaded);
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
+                /* Calling LOAD callback */
+                if (settings.callback_load) {
+                    settings.callback_load(element);
+                }
             }
 
             if (element.tagName === "IMG" || element.tagName === "IFRAME") {
