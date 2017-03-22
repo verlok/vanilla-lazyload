@@ -8,7 +8,7 @@
     }
 }(this, function () {
 
-    var _defaultSettings = {
+    const _defaultSettings = {
         elements_selector: "img",
         container: window,
         threshold: 300,
@@ -28,11 +28,6 @@
      * UTILITY FUNCTIONS
      * -----------------
      */
-    
-    function _now() {
-        var d = new Date();
-        return d.getTime();
-    }
 
     /*
      * CONSTRUCTOR
@@ -40,7 +35,7 @@
      */
 
     function LazyLoad(instanceSettings) {
-        this._settings = this._mergeObjects(_defaultSettings, instanceSettings);
+        this._settings = Object.assign(_defaultSettings, instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
         this._previousLoopTime = 0;
@@ -60,7 +55,7 @@
 
         _isInsideViewport: function (element, container, threshold) {
 
-            var ownerDocument, documentTop, documentLeft;
+            let ownerDocument, documentTop, documentLeft;
 
             function _getDocumentWidth() {
                 return window.innerWidth || (ownerDocument.documentElement.clientWidth || document.body.clientWidth);
@@ -79,7 +74,7 @@
             }
 
             function _isBelowViewport() {
-                var fold;
+                let fold;
                 if (container === window) {
                     fold = _getDocumentHeight() + documentTop;
                 } else {
@@ -89,7 +84,7 @@
             }
 
             function _isAtRightOfViewport() {
-                var fold;
+                let fold;
                 if (container === window) {
                     fold = _getDocumentWidth() + window.pageXOffset;
                 } else {
@@ -99,7 +94,7 @@
             }
 
             function _isAboveViewport() {
-                var fold;
+                let fold;
                 if (container === window) {
                     fold = documentTop;
                 } else {
@@ -109,7 +104,7 @@
             }
 
             function _isAtLeftOfViewport() {
-                var fold;
+                let fold;
                 if (container === window) {
                     fold = documentLeft;
                 } else {
@@ -125,31 +120,15 @@
             return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
         },
 
-        _mergeObjects: function (obj1, obj2) {
-            var obj3 = {},
-                propertyName;
-            for (propertyName in obj1) {
-                if (obj1.hasOwnProperty(propertyName)) {
-                    obj3[propertyName] = obj1[propertyName];
-                }
-            }
-            for (propertyName in obj2) {
-                if (obj2.hasOwnProperty(propertyName)) {
-                    obj3[propertyName] = obj2[propertyName];
-                }
-            }
-            return obj3;
-        },
-
         _setSourcesForPicture: function (element, srcsetDataAttribute) {
-            var parent = element.parentElement;
+            const parent = element.parentElement;
             if (parent.tagName !== 'PICTURE') {
                 return;
             }
-            for (var i = 0; i < parent.children.length; i++) {
-                var pictureChild = parent.children[i];
+            for (let i = 0; i < parent.children.length; i++) {
+                let pictureChild = parent.children[i];
                 if (pictureChild.tagName === 'SOURCE') {
-                    var sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
+                    let sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
                     if (sourceSrcset) {
                         pictureChild.setAttribute('srcset', sourceSrcset);
                     }
@@ -158,11 +137,11 @@
         },
 
         _setSources: function (element, srcsetDataAttribute, srcDataAttribute) {
-            var tagName = element.tagName;
-            var elementSrc = element.getAttribute('data-' + srcDataAttribute);
+            const tagName = element.tagName;
+            const elementSrc = element.getAttribute('data-' + srcDataAttribute);
             if (tagName === "IMG") {
                 this._setSourcesForPicture(element, srcsetDataAttribute);
-                var imgSrcset = element.getAttribute('data-' + srcsetDataAttribute);
+                const imgSrcset = element.getAttribute('data-' + srcsetDataAttribute);
                 if (imgSrcset) element.setAttribute("srcset", imgSrcset);
                 if (elementSrc) element.setAttribute("src", elementSrc);
                 return;
@@ -175,7 +154,7 @@
         },
 
         _showOnAppear: function (element) {
-            var settings = this._settings;
+            const settings = this._settings;
 
             function errorCallback() {
                 element.removeEventListener("load", loadCallback);
@@ -214,14 +193,14 @@
         },
 
         _loopThroughElements: function () {
-            var i, element,
-                settings = this._settings,
+            const settings = this._settings,
                 elements = this._elements,
-                elementsLength = (!elements) ? 0 : elements.length,
+                elementsLength = (!elements) ? 0 : elements.length;
+            let i,
                 processedIndexes = [];
 
             for (i = 0; i < elementsLength; i++) {
-                element = elements[i];
+                let element = elements[i];
                 /* If must skip_invisible and element is invisible, skip it */
                 if (settings.skip_invisible && (element.offsetParent === null)) {
                     continue;
@@ -249,13 +228,13 @@
         },
 
         _purgeElements: function () {
-            var i, element,
-                elements = this._elements,
-                elementsLength = elements.length,
+            const elements = this._elements,
+                elementsLength = elements.length;
+            let i,
                 elementsToPurge = [];
 
             for (i = 0; i < elementsLength; i++) {
-                element = elements[i];
+                let element = elements[i];
                 /* If the element has already been processed, skip it */
                 if (element.wasProcessed) {
                     elementsToPurge.push(i);
@@ -288,20 +267,12 @@
         */
 
         handleScroll: function () {
-            var remainingTime,
-                now,
-                throttle;
-
-            // IE8 fix for destroy() malfunctioning
-            if (!this._settings) {
-                return;
-            }
-
-            now = _now();
-            throttle = this._settings.throttle;
+            const throttle = this._settings.throttle;
 
             if (throttle !== 0) {
-                remainingTime = throttle - (now - this._previousLoopTime);
+                const getTime = () => {(new Date()).getTime()};
+                let now = getTime();
+                let remainingTime = throttle - (now - this._previousLoopTime);
                 if (remainingTime <= 0 || remainingTime > throttle) {
                     if (this._loopTimeout) {
                         clearTimeout(this._loopTimeout);
@@ -311,7 +282,7 @@
                     this._loopThroughElements();
                 } else if (!this._loopTimeout) {
                     this._loopTimeout = setTimeout(function () {
-                        this._previousLoopTime = _now();
+                        this._previousLoopTime = getTime();
                         this._loopTimeout = null;
                         this._loopThroughElements();
                     }.bind(this), remainingTime);
