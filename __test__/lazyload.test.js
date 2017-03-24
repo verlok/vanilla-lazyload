@@ -250,3 +250,32 @@ describe("_setSources for image", () => {
     });
 });
 
+describe("_setSources for iframe", () => {
+    let i;
+    let testFunct = LazyLoad.prototype._setSources;
+    let srcToLoad = "http://www.google.it";
+    let dataSrcPartialAttr = 'original'; 
+    let dataSrcAttr = 'data-' + dataSrcPartialAttr;
+    let srcAttr = 'src';
+    beforeEach(() => {
+        i = document.createElement('iframe');
+    });
+    test("...with initially empty src", () => {
+        i.setAttribute(dataSrcAttr, srcToLoad);
+        testFunct(i, "", dataSrcPartialAttr);
+        expect(i.getAttribute(srcAttr)).toBe(srcToLoad);
+    });
+    test("...with initial value in src", () => {
+        let newSrc = srcToLoad+"/doodle";
+        i.setAttribute(srcAttr, srcToLoad);
+        i.setAttribute(dataSrcAttr, newSrc);
+        testFunct(i, "", dataSrcPartialAttr);
+        expect(i.getAttribute(srcAttr)).toBe(newSrc);
+    });
+    test("...with initial value in src and empty data-original", () => {
+        i.setAttribute(srcAttr, srcToLoad);
+        i.setAttribute(dataSrcAttr, "");
+        testFunct(i, "", dataSrcPartialAttr);
+        expect(i.getAttribute(srcAttr)).toBe(srcToLoad);
+    });
+});
