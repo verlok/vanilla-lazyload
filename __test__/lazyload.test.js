@@ -138,3 +138,36 @@ describe("_mergeObjects", () => {
         });
     });
 });
+
+/*
+ * Can't test _isInsideViewport because the DOM implementation is not correct 
+ * (same test on codepen returns true)
+ * will test using Jasmine/Sinon/Karma, maybe
+ */
+/*
+describe("_isInsideViewport", () => {
+    test("...affermative - window container - position static - no threshold", () => {
+        const img = document.createElement('img');
+        img.src="http://placehold.it/1x1";
+        img.style="width:300px; height:300px;";
+        document.body.appendChild(img);
+        var ll = new LazyLoad();
+        expect(ll._isInsideViewport(img, window, 0)).toBe(true);
+    });
+});
+*/
+
+describe("_setSourcesForPicture", () => {
+    test("...affermative", () => {
+        let p, s, i;
+        p = document.createElement('picture');
+        p.appendChild(s = document.createElement('source'));
+        p.appendChild(i = document.createElement('img'));
+        s.setAttribute('data-original-set', "http://placehold.it/200x200");
+        i.setAttribute('data-original', "http://placehold.it/100x100");
+        //document.body.appendChild(p);
+        var testFunct = LazyLoad.prototype._setSourcesForPicture;
+        testFunct(i, 'original-set');
+        expect(s.getAttribute('srcset')).toBe("http://placehold.it/200x200");
+    });
+});
