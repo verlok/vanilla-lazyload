@@ -52,12 +52,12 @@ describe("Constructor", () => {
     });
 
     test("...of different instances", () => {
-        const ll1 = new LazyLoad({
+        var ll1 = new LazyLoad({
             elements_selector: ".lazy1 img",
             data_src: "data-src",
             data_srcset: "data-srcset"
         });
-        const ll2 = new LazyLoad({
+        var ll2 = new LazyLoad({
             elements_selector: ".lazy2 img",
             data_src: "data-src",
             data_srcset: "data-srcset"
@@ -65,6 +65,7 @@ describe("Constructor", () => {
         expect(ll1._settings.elements_selector).toBe(".lazy1 img");
         expect(ll2._settings.elements_selector).toBe(".lazy2 img");
     });
+
 });
 
 test("QueryOriginNode is valid", () => {
@@ -96,45 +97,4 @@ test("Resize is managed", () => {
     LazyLoad.prototype.handleScroll = jest.fn();
     window.resizeTo(800, 600);
     expect(LazyLoad.prototype.update).toHaveBeenCalled();
-});
-
-describe("_mergeObjects", () => {
-    var mergeFunct = LazyLoad.prototype._mergeObjects;
-    test("...with empty objects", () => {
-        expect(mergeFunct({}, {})).toEqual({});
-    });
-    test("...with empty first object", () => {
-        expect(mergeFunct({}, {
-            pippo: "cane"
-        })).toEqual({
-            pippo: "cane"
-        });
-    });
-    test("...with empty second object", () => {
-        expect(mergeFunct({
-            pippo: "cane"
-        }, {})).toEqual({
-            pippo: "cane"
-        });
-    });
-    test("...with matching property", () => {
-        expect(mergeFunct({
-            pippo: "cane"
-        }, {
-            pippo: "canuto"
-        })).toEqual({
-            pippo: "canuto"
-        });
-    });
-    test("...with only one matching property", () => {
-        expect(mergeFunct({
-            pippo: "cane",
-            orazio: "cavallo"
-        }, {
-            pippo: "canuto"
-        })).toEqual({
-            pippo: "canuto",
-            orazio: "cavallo"
-        });
-    });
 });
