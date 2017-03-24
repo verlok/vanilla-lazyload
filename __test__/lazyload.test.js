@@ -158,16 +158,41 @@ describe("_isInsideViewport", () => {
 */
 
 describe("_setSourcesForPicture", () => {
-    test("...affermative", () => {
-        let p, s, i;
+    let p, s1, s2, i;
+    let testFunct = LazyLoad.prototype._setSourcesForPicture;
+    let img1 = "http://placehold.it/1x1";
+    let img100 = "http://placehold.it/100x100";
+    let img200 = "http://placehold.it/200x200";
+    let img400 = "http://placehold.it/400x400";
+    beforeEach(() => {
         p = document.createElement('picture');
-        p.appendChild(s = document.createElement('source'));
+        p.appendChild(s1 = document.createElement('source'));
+        p.appendChild(s2 = document.createElement('source'));
         p.appendChild(i = document.createElement('img'));
-        s.setAttribute('data-original-set', "http://placehold.it/200x200");
-        i.setAttribute('data-original', "http://placehold.it/100x100");
-        //document.body.appendChild(p);
-        var testFunct = LazyLoad.prototype._setSourcesForPicture;
+    });
+    test("...with initially empty srcset", () => {
+        s1.setAttribute('data-original-set', img200);
+        s2.setAttribute('data-original-set', img400);
         testFunct(i, 'original-set');
-        expect(s.getAttribute('srcset')).toBe("http://placehold.it/200x200");
+        expect(s1.getAttribute('srcset')).toBe(img200);
+        expect(s2.getAttribute('srcset')).toBe(img400);
+    });
+    test("...with initial value in srcset", () => {
+        s1.setAttribute('srcset', img1);
+        s2.setAttribute('srcset', img1);
+        s1.setAttribute('data-original-set', img200);
+        s2.setAttribute('data-original-set', img400);
+        testFunct(i, 'original-set');
+        expect(s1.getAttribute('srcset')).toBe(img200);
+        expect(s2.getAttribute('srcset')).toBe(img400);
+    });
+    test("...with initial value in srcset and empty data-srcset", () => {
+        s1.setAttribute('srcset', img1);
+        s2.setAttribute('srcset', img1);
+        s1.setAttribute('data-original-set', "");
+        s2.setAttribute('data-original-set', "");
+        testFunct(i, 'original-set');
+        expect(s1.getAttribute('srcset')).toBe(img1);
+        expect(s2.getAttribute('srcset')).toBe(img1);
     });
 });
