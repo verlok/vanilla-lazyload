@@ -279,3 +279,32 @@ describe("_setSources for iframe", () => {
         expect(i.getAttribute(srcAttr)).toBe(srcToLoad);
     });
 });
+
+describe("_setSources for background image", () => {
+    let i;
+    let testFunct = LazyLoad.prototype._setSources;
+    let img100 = "http://placehold.it/100x100";
+    let img200 = "http://placehold.it/200x200";
+    let dataSrcPartialAttr = 'original';
+    let dataSrcAttr = 'data-' + dataSrcPartialAttr;
+    test("...with initially empty style attribute", () => {
+        i = document.createElement('div');
+        i.setAttribute(dataSrcAttr, img200);
+        testFunct(i, "", dataSrcPartialAttr);
+        expect(i.style.backgroundImage).toBe("url("+img200+")");
+    });
+    test("...with initially present style attribute", () => {
+        i = document.createElement('div');
+        i.style.padding = "1px";
+        i.setAttribute(dataSrcAttr, img200);
+        testFunct(i, "", dataSrcPartialAttr);
+        expect(i.style.backgroundImage).toBe("url("+img200+")");
+    });
+    test("...with initially present style and background", () => {
+        i = document.createElement('div');
+        i.style.backgroundImage = "url("+img100+")";
+        i.setAttribute(dataSrcAttr, img200);
+        testFunct(i, "", dataSrcPartialAttr);
+        expect(i.style.backgroundImage).toBe("url("+img200+")");
+    });
+});
