@@ -35,7 +35,7 @@
      */
 
     function LazyLoad(instanceSettings) {
-        this._settings = Object.assign(_defaultSettings, instanceSettings);
+        this._settings = Object.assign({}, _defaultSettings, instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
         this._previousLoopTime = 0;
