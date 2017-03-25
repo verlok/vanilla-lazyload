@@ -24,6 +24,8 @@
         callback_processed: null
     };
 
+    var asyncLazyLoadOptions = window.asyncLazyLoadOptions;
+
     /* 
      * UTILITY FUNCTIONS
      * -----------------
@@ -342,6 +344,10 @@
         }
     };
 
+    if (asyncLazyLoadOptions) {
+        window.asyncLazyLoad = new LazyLoad(asyncLazyLoadOptions);
+    }
+    
     return LazyLoad;
 
 }));
