@@ -79,6 +79,19 @@ Or if you want to use the `picture` tag:
 
 **Note** that not all the images in the page needs to be lazy loaded. You can leave the first images (the amount that you're quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the rest.
 
+#### HTML - async loading
+
+Include the following scripts in your HTML page.
+
+```html
+<script>
+window.asyncLazyLoadOptions = { 
+    /* your LazyLoad settings here, or an empty object */
+};
+</script>
+<script src="../src/lazyload.js" async></script>
+```
+
 #### HTML - `script` tag
 
 Include the script in the bottom of your HTML page, just before the closing `</body>` tag.
