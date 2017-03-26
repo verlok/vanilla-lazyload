@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: {
-                	'dist/lazyload.transpiled.js': 'src/lazyload.js'
+					'dist/lazyload.transpiled.js': 'src/lazyload.js'
 				}
 			}
 		},
@@ -19,8 +19,10 @@ module.exports = function(grunt) {
 				sourceMap: true
 			},
 			dist: {
-				src: 'dist/lazyload.transpiled.js',
-				dest: 'dist/lazyload.min.js'
+				files: {
+					'dist/lazyload.min.js': 'src/lazyload.js',
+					'dist/lazyload.transpiled.min.js': 'dist/lazyload.transpiled.js',
+				}
 			}
 		},
 		jshint: {
@@ -28,14 +30,14 @@ module.exports = function(grunt) {
 
 			options: {
 				// options here to override JSHint defaults
-				reporterOutput: "",
+				reporterOutput: '',
 				globals: {
 					jQuery: true,
 					console: true,
 					module: true,
 					document: true
 				},
-				"esnext": true
+				'esnext': true
 			}
 		},
 		watch: {
@@ -50,5 +52,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('default', ['jshint', 'babel', 'uglify', 'watch']);
+	grunt.registerTask('publish', ['jshint', 'babel', 'uglify']);
 
 };
