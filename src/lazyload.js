@@ -8,53 +8,36 @@
     }
 }(this, function () {
 
-    const _defaultSettings = {
-        elements_selector: "img",
-        container: window,
-        threshold: 300,
-        throttle: 150,
-        data_src: "original",
-        data_srcset: "original-set",
-        class_loading: "loading",
-        class_loaded: "loaded",
-        skip_invisible: true,
-        callback_load: null,
-        callback_error: null,
-        callback_set: null,
-        callback_processed: null
-    };
+    class LazyLoad {
+        constructor(instanceSettings) {
+            const _defaultSettings = {
+                elements_selector: "img",
+                container: window,
+                threshold: 300,
+                throttle: 150,
+                data_src: "original",
+                data_srcset: "original-set",
+                class_loading: "loading",
+                class_loaded: "loaded",
+                skip_invisible: true,
+                callback_load: null,
+                callback_error: null,
+                callback_set: null,
+                callback_processed: null
+            };
 
-    /* 
-     * UTILITY FUNCTIONS
-     * -----------------
-     */
+            this._settings = Object.assign({}, _defaultSettings, instanceSettings);
+            this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
-    /*
-     * CONSTRUCTOR
-     * -----------
-     */
+            this._previousLoopTime = 0;
+            this._loopTimeout = null;
+            this._boundHandleScroll = this.handleScroll.bind(this);
 
-    function LazyLoad(instanceSettings) {
-        this._settings = Object.assign({}, _defaultSettings, instanceSettings);
-        this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
+            window.addEventListener("resize", this._boundHandleScroll);
+            this.update();
+        }
 
-        this._previousLoopTime = 0;
-        this._loopTimeout = null;
-        this._boundHandleScroll = this.handleScroll.bind(this);
-
-        window.addEventListener("resize", this._boundHandleScroll);
-        this.update();
-    }
-
-    LazyLoad.prototype = {
-
-        /*
-        * PRIVATE FUNCTIONS
-        * -----------------
-        */
-
-        _isInsideViewport: function (element, container, threshold) {
-
+        _isInsideViewport(element, container, threshold) {
             let ownerDocument, documentTop, documentLeft;
 
             function _getDocumentWidth() {
@@ -118,9 +101,9 @@
             documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
 
             return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
-        },
+        }
 
-        _setSourcesForPicture: function (element, srcsetDataAttribute) {
+        _setSourcesForPicture(element, srcsetDataAttribute) {
             const parent = element.parentElement;
             if (parent.tagName !== 'PICTURE') {
                 return;
@@ -134,9 +117,9 @@
                     }
                 }
             }
-        },
+        }
 
-        _setSources: function (element, srcsetDataAttribute, srcDataAttribute) {
+        _setSources(element, srcsetDataAttribute, srcDataAttribute) {
             const tagName = element.tagName;
             const elementSrc = element.getAttribute('data-' + srcDataAttribute);
             if (tagName === "IMG") {
@@ -151,9 +134,9 @@
                 return;
             }
             if (elementSrc) element.style.backgroundImage = "url(" + elementSrc + ")";
-        },
+        }
 
-        _showOnAppear: function (element) {
+        _showOnAppear(element) {
             const settings = this._settings;
 
             function errorCallback() {
@@ -190,9 +173,9 @@
             if (settings.callback_set) {
                 settings.callback_set(element);
             }
-        },
+        }
 
-        _loopThroughElements: function () {
+        _loopThroughElements() {
             const settings = this._settings,
                 elements = this._elements,
                 elementsLength = (!elements) ? 0 : elements.length;
@@ -225,9 +208,9 @@
             if (elementsLength === 0) {
                 this._stopScrollHandler();
             }
-        },
+        }
 
-        _purgeElements: function () {
+        _purgeElements() {
             const elements = this._elements,
                 elementsLength = elements.length;
             let i,
@@ -244,33 +227,28 @@
             while (elementsToPurge.length > 0) {
                 elements.splice(elementsToPurge.pop(), 1);
             }
-        },
+        }
 
-        _startScrollHandler: function () {
+        _startScrollHandler() {
             if (!this._isHandlingScroll) {
                 this._isHandlingScroll = true;
                 this._settings.container.addEventListener("scroll", this._boundHandleScroll);
             }
-        },
+        }
 
-        _stopScrollHandler: function () {
+        _stopScrollHandler() {
             if (this._isHandlingScroll) {
                 this._isHandlingScroll = false;
                 this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
             }
-        },
+        }
 
 
-        /*
-        * PUBLIC FUNCTIONS
-        * ----------------
-        */
-
-        handleScroll: function () {
+        handleScroll() {
             const throttle = this._settings.throttle;
 
             if (throttle !== 0) {
-                const getTime = () => {(new Date()).getTime()};
+                const getTime = () => { (new Date()).getTime(); };
                 let now = getTime();
                 let remainingTime = throttle - (now - this._previousLoopTime);
                 if (remainingTime <= 0 || remainingTime > throttle) {
@@ -290,17 +268,17 @@
             } else {
                 this._loopThroughElements();
             }
-        },
+        }
 
-        update: function () {
+        update() {
             // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
             this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
             this._purgeElements();
             this._loopThroughElements();
             this._startScrollHandler();
-        },
+        }
 
-        destroy: function () {
+        destroy() {
             window.removeEventListener("resize", this._boundHandleScroll);
             if (this._loopTimeout) {
                 clearTimeout(this._loopTimeout);
@@ -311,7 +289,7 @@
             this._queryOriginNode = null;
             this._settings = null;
         }
-    };
+    }
 
     return LazyLoad;
 

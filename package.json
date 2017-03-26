@@ -9,7 +9,7 @@
     "grunt-babel": "^6.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-jshint": "~1.1.0",
-    "grunt-contrib-uglify": "~2.0.0",
+    "grunt-contrib-uglify": "git+https://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-contrib-watch": "~1.0.0",
     "jest": "^19.0.2"
   },
