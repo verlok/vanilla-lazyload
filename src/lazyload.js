@@ -62,14 +62,6 @@
 
             var ownerDocument, documentTop, documentLeft;
 
-            function _getDocumentWidth() {
-                return window.innerWidth || (ownerDocument.documentElement.clientWidth || document.body.clientWidth);
-            }
-
-            function _getDocumentHeight() {
-                return window.innerHeight || (ownerDocument.documentElement.clientHeight || document.body.clientHeight);
-            }
-
             function _getTopOffset(element) {
                 return element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
             }
@@ -81,7 +73,7 @@
             function _isBelowViewport() {
                 var fold;
                 if (container === window) {
-                    fold = _getDocumentHeight() + documentTop;
+                    fold = window.innerHeight + documentTop;
                 } else {
                     fold = _getTopOffset(container) + container.offsetHeight;
                 }
@@ -90,10 +82,11 @@
 
             function _isAtRightOfViewport() {
                 var fold;
+                var documentWidth = window.innerWidth;
                 if (container === window) {
-                    fold = _getDocumentWidth() + window.pageXOffset;
+                    fold = documentWidth + window.pageXOffset;
                 } else {
-                    fold = _getLeftOffset(container) + _getDocumentWidth();
+                    fold = _getLeftOffset(container) + documentWidth;
                 }
                 return fold <= _getLeftOffset(element) - threshold;
             }
