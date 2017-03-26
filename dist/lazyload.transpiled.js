@@ -53,14 +53,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     documentTop = void 0,
                     documentLeft = void 0;
 
-                function _getDocumentWidth() {
-                    return window.innerWidth || ownerDocument.documentElement.clientWidth || document.body.clientWidth;
-                }
-
-                function _getDocumentHeight() {
-                    return window.innerHeight || ownerDocument.documentElement.clientHeight || document.body.clientHeight;
-                }
-
                 function _getTopOffset(element) {
                     return element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
                 }
@@ -72,7 +64,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 function _isBelowViewport() {
                     var fold = void 0;
                     if (container === window) {
-                        fold = _getDocumentHeight() + documentTop;
+                        fold = window.innerHeight + documentTop;
                     } else {
                         fold = _getTopOffset(container) + container.offsetHeight;
                     }
@@ -81,10 +73,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 function _isAtRightOfViewport() {
                     var fold = void 0;
+                    var documentWidth = window.innerWidth;
                     if (container === window) {
-                        fold = _getDocumentWidth() + window.pageXOffset;
+                        fold = documentWidth + window.pageXOffset;
                     } else {
-                        fold = _getLeftOffset(container) + _getDocumentWidth();
+                        fold = _getLeftOffset(container) + documentWidth;
                     }
                     return fold <= _getLeftOffset(element) - threshold;
                 }
