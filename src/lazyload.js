@@ -8,6 +8,46 @@
     }
 }(this, function () {
 
+    const _getTopOffset = function (element) {
+        return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
+    };
+
+    const _isBelowViewport = function (element, container, threshold) {
+        const fold = (container === window) ? 
+            window.innerHeight + window.pageYOffset :
+            _getTopOffset(container) + container.offsetHeight;
+        return fold <= _getTopOffset(element) - threshold;
+    };
+
+    const _getLeftOffset = function (element) {
+        return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
+    };
+
+    const _isAtRightOfViewport = function (element, container, threshold) {
+        const documentWidth = window.innerWidth;
+        const fold = (container === window) ?
+            documentWidth + window.pageXOffset :
+            _getLeftOffset(container) + documentWidth;
+        return fold <= _getLeftOffset(element) - threshold;
+    };
+
+    const _isAboveViewport = function (element, container, threshold) {
+        const fold = (container === window) ? window.pageYOffset : _getTopOffset(container);
+        return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
+    };
+
+    const _isAtLeftOfViewport = function (element, container, threshold) {
+        const fold = (container === window) ? window.pageXOffset :  _getLeftOffset(container);
+        return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
+    };
+
+    const _isInsideViewport = function(element, container, threshold) {
+        return !_isBelowViewport(element, container, threshold) &&
+            !_isAboveViewport(element, container, threshold) && 
+            !_isAtRightOfViewport(element, container, threshold) && 
+            !_isAtLeftOfViewport(element, container, threshold);
+    };
+
     class LazyLoad {
         constructor(instanceSettings) {
             const _defaultSettings = {
@@ -35,57 +75,6 @@
 
             window.addEventListener("resize", this._boundHandleScroll);
             this.update();
-        }
-
-        _isInsideViewport(element, container, threshold) {
-            const ownerDocument = element.ownerDocument;
-            const documentTop = window.pageYOffset || ownerDocument.body.scrollTop;
-            const documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
-
-            const _isBelowViewport = function () {
-                let fold;
-                const _getTopOffset = (element) => element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
-                if (container === window) {
-                    fold = window.innerHeight + documentTop;
-                } else {
-                    fold = _getTopOffset(container) + container.offsetHeight;
-                }
-                return fold <= _getTopOffset(element) - threshold;
-            };
-
-            const _isAtRightOfViewport = function () {
-                let fold;
-                const documentWidth = window.innerWidth;
-                const _getLeftOffset = (element) => element.getBoundingClientRect().left + documentLeft - ownerDocument.documentElement.clientLeft;
-                if (container === window) {
-                    fold = documentWidth + window.pageXOffset;
-                } else {
-                    fold = _getLeftOffset(container) + documentWidth;
-                }
-                return fold <= _getLeftOffset(element) - threshold;
-            };
-
-            const _isAboveViewport = function () {
-                let fold;
-                if (container === window) {
-                    fold = documentTop;
-                } else {
-                    fold = _getTopOffset(container);
-                }
-                return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
-            };
-
-            const _isAtLeftOfViewport = function () {
-                let fold;
-                if (container === window) {
-                    fold = documentLeft;
-                } else {
-                    fold = _getLeftOffset(container);
-                }
-                return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
-            };
-
-            return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
         }
 
         _setSourcesForPicture(element, srcsetDataAttribute) {
@@ -173,7 +162,7 @@
                 if (settings.skip_invisible && (element.offsetParent === null)) {
                     continue;
                 }
-                if (this._isInsideViewport(element, settings.container, settings.threshold)) {
+                if (_isInsideViewport(element, settings.container, settings.threshold)) {
                     this._showOnAppear(element);
 
                     /* Marking the element as processed. */
