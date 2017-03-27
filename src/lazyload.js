@@ -48,6 +48,10 @@
             !_isAtLeftOfViewport(element, container, threshold);
     };
 
+    const _callCallback = function (callback, argument) {
+        if (callback) { callback(argument); }
+    };
+
     class LazyLoad {
         constructor(instanceSettings) {
             const _defaultSettings = {
@@ -119,9 +123,7 @@
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 element.classList.remove(settings.class_loading);
-                if (settings.callback_error) {
-                    settings.callback_error(element);
-                }
+                _callCallback(settings.callback_error, element);
             };
 
             const loadCallback = function () {
@@ -132,9 +134,7 @@
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 /* Calling LOAD callback */
-                if (settings.callback_load) {
-                    settings.callback_load(element);
-                }
+                _callCallback(settings.callback_load, element);
             }
 
             if (element.tagName === "IMG" || element.tagName === "IFRAME") {
@@ -145,9 +145,7 @@
 
             this._setSources(element, settings.data_srcset, settings.data_src);
             /* Calling SET callback */
-            if (settings.callback_set) {
-                settings.callback_set(element);
-            }
+            _callCallback(settings.callback_set, element);
         }
 
         _loopThroughElements() {
@@ -175,9 +173,7 @@
             while (processedIndexes.length > 0) {
                 elements.splice(processedIndexes.pop(), 1);
                 /* Calling the end loop callback */
-                if (settings.callback_processed) {
-                    settings.callback_processed(elements.length);
-                }
+                _callCallback(settings.callback_processed, elements.length);
             }
             /* Stop listening to scroll event when 0 elements remains */
             if (elementsLength === 0) {
