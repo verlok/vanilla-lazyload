@@ -15,25 +15,66 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         root.LazyLoad = factory();
     }
 })(undefined, function () {
+
+    var _getTopOffset = function _getTopOffset(element) {
+        return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
+    };
+
+    var _isBelowViewport = function _isBelowViewport(element, container, threshold) {
+        var fold = container === window ? window.innerHeight + window.pageYOffset : _getTopOffset(container) + container.offsetHeight;
+        return fold <= _getTopOffset(element) - threshold;
+    };
+
+    var _getLeftOffset = function _getLeftOffset(element) {
+        return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
+    };
+
+    var _isAtRightOfViewport = function _isAtRightOfViewport(element, container, threshold) {
+        var documentWidth = window.innerWidth;
+        var fold = container === window ? documentWidth + window.pageXOffset : _getLeftOffset(container) + documentWidth;
+        return fold <= _getLeftOffset(element) - threshold;
+    };
+
+    var _isAboveViewport = function _isAboveViewport(element, container, threshold) {
+        var fold = container === window ? window.pageYOffset : _getTopOffset(container);
+        return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
+    };
+
+    var _isAtLeftOfViewport = function _isAtLeftOfViewport(element, container, threshold) {
+        var fold = container === window ? window.pageXOffset : _getLeftOffset(container);
+        return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
+    };
+
+    var _isInsideViewport = function _isInsideViewport(element, container, threshold) {
+        return !_isBelowViewport(element, container, threshold) && !_isAboveViewport(element, container, threshold) && !_isAtRightOfViewport(element, container, threshold) && !_isAtLeftOfViewport(element, container, threshold);
+    };
+
+    var _callCallback = function _callCallback(callback, argument) {
+        if (callback) {
+            callback(argument);
+        }
+    };
+
+    var _defaultSettings = {
+        elements_selector: "img",
+        container: window,
+        threshold: 300,
+        throttle: 150,
+        data_src: "original",
+        data_srcset: "original-set",
+        class_loading: "loading",
+        class_loaded: "loaded",
+        class_error: "error",
+        skip_invisible: true,
+        callback_load: null,
+        callback_error: null,
+        callback_set: null,
+        callback_processed: null
+    };
+
     var LazyLoad = function () {
         function LazyLoad(instanceSettings) {
             _classCallCheck(this, LazyLoad);
-
-            var _defaultSettings = {
-                elements_selector: "img",
-                container: window,
-                threshold: 300,
-                throttle: 150,
-                data_src: "original",
-                data_srcset: "original-set",
-                class_loading: "loading",
-                class_loaded: "loaded",
-                skip_invisible: true,
-                callback_load: null,
-                callback_error: null,
-                callback_set: null,
-                callback_processed: null
-            };
 
             this._settings = Object.assign({}, _defaultSettings, instanceSettings);
             this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
@@ -47,68 +88,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
 
         _createClass(LazyLoad, [{
-            key: '_isInsideViewport',
-            value: function _isInsideViewport(element, container, threshold) {
-                var ownerDocument = void 0,
-                    documentTop = void 0,
-                    documentLeft = void 0;
-
-                function _getTopOffset(element) {
-                    return element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
-                }
-
-                function _getLeftOffset(element) {
-                    return element.getBoundingClientRect().left + documentLeft - ownerDocument.documentElement.clientLeft;
-                }
-
-                function _isBelowViewport() {
-                    var fold = void 0;
-                    if (container === window) {
-                        fold = window.innerHeight + documentTop;
-                    } else {
-                        fold = _getTopOffset(container) + container.offsetHeight;
-                    }
-                    return fold <= _getTopOffset(element) - threshold;
-                }
-
-                function _isAtRightOfViewport() {
-                    var fold = void 0;
-                    var documentWidth = window.innerWidth;
-                    if (container === window) {
-                        fold = documentWidth + window.pageXOffset;
-                    } else {
-                        fold = _getLeftOffset(container) + documentWidth;
-                    }
-                    return fold <= _getLeftOffset(element) - threshold;
-                }
-
-                function _isAboveViewport() {
-                    var fold = void 0;
-                    if (container === window) {
-                        fold = documentTop;
-                    } else {
-                        fold = _getTopOffset(container);
-                    }
-                    return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
-                }
-
-                function _isAtLeftOfViewport() {
-                    var fold = void 0;
-                    if (container === window) {
-                        fold = documentLeft;
-                    } else {
-                        fold = _getLeftOffset(container);
-                    }
-                    return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
-                }
-
-                ownerDocument = element.ownerDocument;
-                documentTop = window.pageYOffset || ownerDocument.body.scrollTop;
-                documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
-
-                return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
-            }
-        }, {
             key: '_setSourcesForPicture',
             value: function _setSourcesForPicture(element, srcsetDataAttribute) {
                 var parent = element.parentElement;
@@ -148,28 +127,30 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function _showOnAppear(element) {
                 var settings = this._settings;
 
-                function errorCallback() {
-                    element.removeEventListener("load", loadCallback);
-                    element.classList.remove(settings.class_loading);
-                    if (settings.callback_error) {
-                        settings.callback_error(element);
-                    }
-                }
-
-                function loadCallback() {
+                var errorCallback = function errorCallback() {
                     /* As this method is asynchronous, it must be protected against external destroy() calls */
-                    if (settings === null) {
+                    if (!settings) {
                         return;
                     }
-                    /* Calling LOAD callback */
-                    if (settings.callback_load) {
-                        settings.callback_load(element);
+                    element.removeEventListener("load", loadCallback);
+                    element.removeEventListener("error", errorCallback);
+                    element.classList.remove(settings.class_loading);
+                    element.classList.add(settings.class_error);
+                    _callCallback(settings.callback_error, element);
+                };
+
+                var loadCallback = function loadCallback() {
+                    /* As this method is asynchronous, it must be protected against external destroy() calls */
+                    if (!settings) {
+                        return;
                     }
                     element.classList.remove(settings.class_loading);
                     element.classList.add(settings.class_loaded);
                     element.removeEventListener("load", loadCallback);
                     element.removeEventListener("error", errorCallback);
-                }
+                    /* Calling LOAD callback */
+                    _callCallback(settings.callback_load, element);
+                };
 
                 if (element.tagName === "IMG" || element.tagName === "IFRAME") {
                     element.addEventListener("load", loadCallback);
@@ -179,9 +160,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 this._setSources(element, settings.data_srcset, settings.data_src);
                 /* Calling SET callback */
-                if (settings.callback_set) {
-                    settings.callback_set(element);
-                }
+                _callCallback(settings.callback_set, element);
             }
         }, {
             key: '_loopThroughElements',
@@ -198,7 +177,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     if (settings.skip_invisible && element.offsetParent === null) {
                         continue;
                     }
-                    if (this._isInsideViewport(element, settings.container, settings.threshold)) {
+                    if (_isInsideViewport(element, settings.container, settings.threshold)) {
                         this._showOnAppear(element);
 
                         /* Marking the element as processed. */
@@ -210,9 +189,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 while (processedIndexes.length > 0) {
                     elements.splice(processedIndexes.pop(), 1);
                     /* Calling the end loop callback */
-                    if (settings.callback_processed) {
-                        settings.callback_processed(elements.length);
-                    }
+                    _callCallback(settings.callback_processed, elements.length);
                 }
                 /* Stop listening to scroll event when 0 elements remains */
                 if (elementsLength === 0) {
