@@ -137,7 +137,7 @@
                 element.removeEventListener("error", errorCallback);
                 /* Calling LOAD callback */
                 _callCallback(settings.callback_load, element);
-            }
+            };
 
             if (element.tagName === "IMG" || element.tagName === "IFRAME") {
                 element.addEventListener("load", loadCallback);
