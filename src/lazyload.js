@@ -113,6 +113,7 @@
         _showOnAppear(element) {
             const settings = this._settings;
 
+            /* TODO: Bring this out */
             const errorCallback = function () {
                 element.removeEventListener("load", loadCallback);
                 element.classList.remove(settings.class_loading);
@@ -121,7 +122,8 @@
                 }
             }
 
-            function loadCallback() {
+            /* TODO: Bring this out */
+            const loadCallback = function() {
                 /* As this method is asynchronous, it must be protected against external destroy() calls */
                 if (settings === null) {
                     return;
