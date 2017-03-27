@@ -13,7 +13,7 @@
     };
 
     const _isBelowViewport = function (element, container, threshold) {
-        const fold = (container === window) ? 
+        const fold = (container === window) ?
             window.innerHeight + window.pageYOffset :
             _getTopOffset(container) + container.offsetHeight;
         return fold <= _getTopOffset(element) - threshold;
@@ -37,14 +37,14 @@
     };
 
     const _isAtLeftOfViewport = function (element, container, threshold) {
-        const fold = (container === window) ? window.pageXOffset :  _getLeftOffset(container);
+        const fold = (container === window) ? window.pageXOffset : _getLeftOffset(container);
         return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
     };
 
-    const _isInsideViewport = function(element, container, threshold) {
+    const _isInsideViewport = function (element, container, threshold) {
         return !_isBelowViewport(element, container, threshold) &&
-            !_isAboveViewport(element, container, threshold) && 
-            !_isAtRightOfViewport(element, container, threshold) && 
+            !_isAboveViewport(element, container, threshold) &&
+            !_isAtRightOfViewport(element, container, threshold) &&
             !_isAtLeftOfViewport(element, container, threshold);
     };
 
@@ -113,29 +113,28 @@
         _showOnAppear(element) {
             const settings = this._settings;
 
-            /* TODO: Bring this out */
             const errorCallback = function () {
+                /* As this method is asynchronous, it must be protected against external destroy() calls */
+                if (!settings) { return; }
                 element.removeEventListener("load", loadCallback);
+                element.removeEventListener("error", errorCallback);
                 element.classList.remove(settings.class_loading);
                 if (settings.callback_error) {
                     settings.callback_error(element);
                 }
-            }
+            };
 
-            /* TODO: Bring this out */
-            const loadCallback = function() {
+            const loadCallback = function () {
                 /* As this method is asynchronous, it must be protected against external destroy() calls */
-                if (settings === null) {
-                    return;
-                }
-                /* Calling LOAD callback */
-                if (settings.callback_load) {
-                    settings.callback_load(element);
-                }
+                if (!settings) { return; }
                 element.classList.remove(settings.class_loading);
                 element.classList.add(settings.class_loaded);
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
+                /* Calling LOAD callback */
+                if (settings.callback_load) {
+                    settings.callback_load(element);
+                }
             }
 
             if (element.tagName === "IMG" || element.tagName === "IFRAME") {
