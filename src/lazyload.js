@@ -63,6 +63,7 @@
                 data_srcset: "original-set",
                 class_loading: "loading",
                 class_loaded: "loaded",
+                class_error: "error",
                 skip_invisible: true,
                 callback_load: null,
                 callback_error: null,
@@ -123,6 +124,7 @@
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 element.classList.remove(settings.class_loading);
+                element.classList.add(settings.class_error);
                 _callCallback(settings.callback_error, element);
             };
 
