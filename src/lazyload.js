@@ -52,25 +52,25 @@
         if (callback) { callback(argument); }
     };
 
+    const _defaultSettings = {
+        elements_selector: "img",
+        container: window,
+        threshold: 300,
+        throttle: 150,
+        data_src: "original",
+        data_srcset: "original-set",
+        class_loading: "loading",
+        class_loaded: "loaded",
+        class_error: "error",
+        skip_invisible: true,
+        callback_load: null,
+        callback_error: null,
+        callback_set: null,
+        callback_processed: null
+    };
+
     class LazyLoad {
         constructor(instanceSettings) {
-            const _defaultSettings = {
-                elements_selector: "img",
-                container: window,
-                threshold: 300,
-                throttle: 150,
-                data_src: "original",
-                data_srcset: "original-set",
-                class_loading: "loading",
-                class_loaded: "loaded",
-                class_error: "error",
-                skip_invisible: true,
-                callback_load: null,
-                callback_error: null,
-                callback_set: null,
-                callback_processed: null
-            };
-
             this._settings = Object.assign({}, _defaultSettings, instanceSettings);
             this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
