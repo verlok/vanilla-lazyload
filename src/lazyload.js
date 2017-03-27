@@ -38,38 +38,34 @@
         }
 
         _isInsideViewport(element, container, threshold) {
-            let ownerDocument, documentTop, documentLeft;
+            const ownerDocument = element.ownerDocument;
+            const documentTop = window.pageYOffset || ownerDocument.body.scrollTop;
+            const documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
 
-            function _getTopOffset(element) {
-                return element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
-            }
-
-            function _getLeftOffset(element) {
-                return element.getBoundingClientRect().left + documentLeft - ownerDocument.documentElement.clientLeft;
-            }
-
-            function _isBelowViewport() {
+            const _isBelowViewport = function () {
                 let fold;
+                const _getTopOffset = (element) => element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
                 if (container === window) {
                     fold = window.innerHeight + documentTop;
                 } else {
                     fold = _getTopOffset(container) + container.offsetHeight;
                 }
                 return fold <= _getTopOffset(element) - threshold;
-            }
+            };
 
-            function _isAtRightOfViewport() {
+            const _isAtRightOfViewport = function () {
                 let fold;
-                let documentWidth = window.innerWidth;
+                const documentWidth = window.innerWidth;
+                const _getLeftOffset = (element) => element.getBoundingClientRect().left + documentLeft - ownerDocument.documentElement.clientLeft;
                 if (container === window) {
                     fold = documentWidth + window.pageXOffset;
                 } else {
                     fold = _getLeftOffset(container) + documentWidth;
                 }
                 return fold <= _getLeftOffset(element) - threshold;
-            }
+            };
 
-            function _isAboveViewport() {
+            const _isAboveViewport = function () {
                 let fold;
                 if (container === window) {
                     fold = documentTop;
@@ -77,9 +73,9 @@
                     fold = _getTopOffset(container);
                 }
                 return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
-            }
+            };
 
-            function _isAtLeftOfViewport() {
+            const _isAtLeftOfViewport = function () {
                 let fold;
                 if (container === window) {
                     fold = documentLeft;
@@ -87,11 +83,7 @@
                     fold = _getLeftOffset(container);
                 }
                 return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
-            }
-
-            ownerDocument = element.ownerDocument;
-            documentTop = window.pageYOffset || ownerDocument.body.scrollTop;
-            documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
+            };
 
             return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
         }
@@ -132,7 +124,7 @@
         _showOnAppear(element) {
             const settings = this._settings;
 
-            function errorCallback() {
+            const errorCallback = function () {
                 element.removeEventListener("load", loadCallback);
                 element.classList.remove(settings.class_loading);
                 if (settings.callback_error) {
