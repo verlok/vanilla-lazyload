@@ -6,7 +6,7 @@
     } else {
         root.LazyLoad = factory();
     }
-}(this, function () {
+}(window, function () {
 
     const _getTopOffset = function (element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
