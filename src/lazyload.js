@@ -165,6 +165,7 @@
                 if (settings.skip_invisible && (element.offsetParent === null)) {
                     continue;
                 }
+
                 if (_supportsScroll && _isInsideViewport(element, settings.container, settings.threshold)) {
                     this._showOnAppear(element);
 
