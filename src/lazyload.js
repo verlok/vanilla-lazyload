@@ -8,6 +8,8 @@
     }
 }(window, function () {
 
+    const _supportsScroll = ('onscroll' in window) && !(/glebot/.test(navigator.userAgent));
+
     const _getTopOffset = function (element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
     };
@@ -163,7 +165,7 @@
                 if (settings.skip_invisible && (element.offsetParent === null)) {
                     continue;
                 }
-                if (_isInsideViewport(element, settings.container, settings.threshold)) {
+                if (_supportsScroll && _isInsideViewport(element, settings.container, settings.threshold)) {
                     this._showOnAppear(element);
 
                     /* Marking the element as processed. */
