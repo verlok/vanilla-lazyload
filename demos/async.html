@@ -164,8 +164,8 @@
 	
 	<script>
 		lazyLoadAutoInit = true;
-		window.addEventListener('LazyLoad::Init', function (ll) { 
-			console.log(i);
+		window.addEventListener('LazyLoad::Initialized', function (e) {
+			console.log(e.detail.instance);
 		}, false);
 	</script>
 	<script async src="../src/lazyload.js"></script>
