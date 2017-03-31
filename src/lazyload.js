@@ -57,9 +57,9 @@
     /* Creates instance and notifies it through the window element */
     const _createInstance = function(options) {
         let instance = new LazyLoad(options);
-        let event = new CustomEvent('LazyLoad::Initialized', { instance });
+        let event = new CustomEvent('LazyLoad::Initialized', {detail: {instance}});
         window.dispatchEvent(event);
-    }
+    };
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
        options passes (which can be a plain object or an array) */
