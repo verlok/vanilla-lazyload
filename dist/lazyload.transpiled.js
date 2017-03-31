@@ -16,7 +16,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 })(window, function () {
 
+<<<<<<< HEAD
     var _supportsScroll = 'onscroll' in window && !/glebot/.test(navigator.userAgent);
+=======
+    var _isBot = !('onscroll' in window) || /glebot/.test(navigator.userAgent);
+>>>>>>> master
 
     var _getTopOffset = function _getTopOffset(element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
@@ -180,7 +184,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         continue;
                     }
 
+<<<<<<< HEAD
                     if (_supportsScroll && _isInsideViewport(element, settings.container, settings.threshold)) {
+=======
+                    if (_isBot || _isInsideViewport(element, settings.container, settings.threshold)) {
+>>>>>>> master
                         this._showOnAppear(element);
 
                         /* Marking the element as processed. */
