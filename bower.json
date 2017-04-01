@@ -5,7 +5,7 @@
         "Andrea Verlicchi <andrea.verlicchi@gmail.com>"
     ],
     "description": "A fast, lightweight script to load images as they enter the viewport. Supporting responsive images (both srcset + sizes and picture).",
-    "main": "dist/lazyload.min.js",
+    "main": "dist/lazyload.transpiled.min.js",
     "keywords": [
         "lazy",
         "load",
@@ -15,6 +15,7 @@
         "srcset",
         "sizes",
         "progressive",
+        "SEO",
         "JPEG",
         "performance",
         "perfmatters",

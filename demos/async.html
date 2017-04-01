@@ -161,8 +161,15 @@
 			</li>
 		</ul>
 	</div>
-	<script>window.asyncLazyLoadOptions = {};</script>
-	<script src="../src/lazyload.js" async></script>
+	<script>
+		window.lazyLoadOptions = {
+			threshold: 50
+		};
+		window.addEventListener('LazyLoad::Initialized', function (e) {
+			console.log(e.detail.instance);
+		}, false);
+	</script>
+	<script async src="../src/lazyload.js"></script>
 </body>
 
 </html>
