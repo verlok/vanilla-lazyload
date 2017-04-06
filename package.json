@@ -1,9 +1,10 @@
 {
   "name": "vanilla-lazyload",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
   "main": "dist/lazyload.transpiled.min.js",
   "devDependencies": {
+    "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-es2015": "^6.18.0",
     "grunt": "~1.0.1",
     "grunt-babel": "^6.0.0",
