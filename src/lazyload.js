@@ -54,6 +54,29 @@
         if (callback) { callback(argument); }
     };
 
+    /* Creates instance and notifies it through the window element */
+    const _createInstance = function(options) {
+        let instance = new LazyLoad(options);
+        let event = new CustomEvent('LazyLoad::Initialized', {detail: {instance}});
+        window.dispatchEvent(event);
+    };
+
+    /* Auto initialization of one or more instances of lazyload, depending on the 
+       options passed in (plain object or an array) */
+    const _autoInitialize = function(options) {
+        let optsLength = options.length;
+        if (!optsLength) {
+            // Plain object
+            _createInstance(options);
+        }
+        else {
+            // Array of objects
+            for (let i=0; i<optsLength; i++) {
+                _createInstance(options[i]);
+            }
+        }
+    }
+
     const _defaultSettings = {
         elements_selector: "img",
         container: window,
@@ -267,6 +290,10 @@
         }
     }
 
+    /* Automatic instances creation if required (useful for async script loading!) */
+    let autoInitOptions = window.lazyLoadOptions;
+    if (autoInitOptions) { _autoInitialize(autoInitOptions); }
+    
     return LazyLoad;
 
 }));
