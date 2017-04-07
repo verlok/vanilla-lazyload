@@ -192,6 +192,7 @@ Here's the list of the options.
 | `class_loading` | The class applied to the elements (`img` or `iframe`) while the loading is in progress | `"loading"` |
 | `class_loaded` | The class applied to the elements (`img` or `iframe`) when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements (`img` or `iframe`) when the element causes an error | `"error"` |
+| `class_firstBatch` | The class applied to the first batch elements (`img` or `iframe`) to be loaded in the page | `"first-batch"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
 | `callback_load` | A function to be called when an element (`img` or `iframe`) was loaded. | `null` |
 | `callback_error` | A function to be called when an element (`img` or `iframe`) triggers an error. | `null` |
@@ -282,9 +283,9 @@ This demo shows how to use LazyLoad's **callbacks**, including the **error** cal
 
 [See it in action](http://verlok.github.io/lazyload/demos/callbacks.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/callbacks.html)
 
-#### Fade-in demo
+#### Fade-in + first-batch demo
 
-This demo shows how to use LazyLoad to fade-in loaded images as they load.
+This demo shows how to use LazyLoad to fade-in loaded images as they load, except the first batch of images.
 
 [See it in action](http://verlok.github.io/lazyload/demos/fade_in.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/fade_in.html)
 
