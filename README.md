@@ -81,13 +81,23 @@ Or if you want to use the `picture` tag:
 
 #### HTML - async script + auto init
 
-Include the following scripts in your HTML page.
+Include the following scripts **at the end of** your HTML page, before the `</body>` tag.
 
 ```html
-<script>
-window.lazyLoadOptions = {/* your settings here, or an empty object, or true */};
-</script>
+<script>window.lazyLoadOptions = {/* your settings or array of settings */};</script>
 <script async src="../src/lazyload.js"></script>
+```
+
+LazyLoad is then downloaded and automatically **initialized right after** with the options you passed in `window.lazyLoadOptions`.
+
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will probably initialized before the DOM ready event. In that case, you need to get the instance and use the `update` method on it. This will make it check the DOM again.
+
+To get an auto-initialized instance of LazyLoad:
+
+```js
+window.addEventListener('LazyLoad::Initialized', function (e) {
+    lazyLoadInstance = e.detail.instance;
+}, false);
 ```
 
 #### HTML - `script` tag
