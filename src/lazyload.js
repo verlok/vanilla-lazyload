@@ -62,7 +62,7 @@
     };
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
-       options passes (which can be a plain object or an array) */
+       options passed in (plain object or an array) */
     const _autoInitialize = function(options) {
         let optsLength = options.length;
         if (!optsLength) {
