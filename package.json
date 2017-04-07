@@ -1,6 +1,6 @@
 {
   "name": "vanilla-lazyload",
-  "version": "6.1.2",
+  "version": "6.2.0",
   "description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
   "main": "dist/lazyload.transpiled.min.js",
   "devDependencies": {
@@ -35,6 +35,7 @@
     "performance",
     "perfmatters",
     "no-jquery",
+    "async",
     "vanilla"
   ],
   "author": "Andrea \"verlok\" Verlicchi",
