@@ -75,7 +75,7 @@
                 _createInstance(options[i]);
             }
         }
-    }
+    };
 
     const _defaultSettings = {
         elements_selector: "img",
