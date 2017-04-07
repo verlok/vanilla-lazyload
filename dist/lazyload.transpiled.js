@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -57,6 +59,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
     };
 
+    /* Creates instance and notifies it through the window element */
+    var _createInstance = function _createInstance(options) {
+        var instance = new LazyLoad(options);
+        var event = new CustomEvent('LazyLoad::Initialized', { detail: { instance: instance } });
+        window.dispatchEvent(event);
+    };
+
+    /* Auto initialization of one or more instances of lazyload, depending on the 
+       options passed in (plain object or an array) */
+    var _autoInitialize = function _autoInitialize(options) {
+        var optsLength = options.length;
+        if (!optsLength) {
+            // Plain object
+            _createInstance(options);
+        } else {
+            // Array of objects
+            for (var i = 0; i < optsLength; i++) {
+                _createInstance(options[i]);
+            }
+        }
+    };
+
     var _defaultSettings = {
         elements_selector: "img",
         container: window,
@@ -78,7 +102,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         function LazyLoad(instanceSettings) {
             _classCallCheck(this, LazyLoad);
 
-            this._settings = Object.assign({}, _defaultSettings, instanceSettings);
+            this._settings = _extends({}, _defaultSettings, instanceSettings);
             this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
             this._previousLoopTime = 0;
@@ -294,6 +318,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         return LazyLoad;
     }();
+
+    /* Automatic instances creation if required (useful for async script loading!) */
+
+
+    var autoInitOptions = window.lazyLoadOptions;
+    if (autoInitOptions) {
+        _autoInitialize(autoInitOptions);
+    }
 
     return LazyLoad;
 });

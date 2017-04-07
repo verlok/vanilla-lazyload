@@ -79,6 +79,27 @@ Or if you want to use the `picture` tag:
 
 **Note** that not all the images in the page needs to be lazy loaded. You can leave the first images (the amount that you're quite sure that fits in the majority of viewports) loaded normally, then start lazy loading the rest.
 
+#### HTML - async script + auto init
+
+Include the following scripts **at the end of** your HTML page, before the `</body>` tag.
+
+```html
+<script>window.lazyLoadOptions = {/* your settings or array of settings */};</script>
+<script async src="../src/lazyload.js"></script>
+```
+
+LazyLoad is then downloaded and automatically **initialized right after** with the options you passed in `window.lazyLoadOptions`.
+
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will probably initialized before the DOM ready event. In that case, you need to get the instance and use the `update` method on it. This will make it check the DOM again.
+
+To get an auto-initialized instance of LazyLoad:
+
+```js
+window.addEventListener('LazyLoad::Initialized', function (e) {
+    lazyLoadInstance = e.detail.instance;
+}, false);
+```
+
 #### HTML - `script` tag
 
 Include the script in the bottom of your HTML page, just before the closing `</body>` tag.
@@ -266,6 +287,12 @@ This demo shows how to use LazyLoad's **callbacks**, including the **error** cal
 This demo shows how to use LazyLoad to fade-in loaded images as they load.
 
 [See it in action](http://verlok.github.io/lazyload/demos/fade_in.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/fade_in.html)
+
+#### Async + auto init demo
+
+This demo shows how to load LazyLoad with an `async` script, then auto-initialize it.
+
+[See it in action](http://verlok.github.io/lazyload/demos/async.html) | [View source](https://github.com/verlok/lazyload/blob/master/demos/async.html)
 
 ## Browser support
 
