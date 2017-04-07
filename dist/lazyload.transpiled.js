@@ -59,6 +59,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
     };
 
+    /* Creates instance and notifies it through the window element */
+    var _createInstance = function _createInstance(options) {
+        var instance = new LazyLoad(options);
+        var event = new CustomEvent('LazyLoad::Initialized', { detail: { instance: instance } });
+        window.dispatchEvent(event);
+    };
+
+    /* Auto initialization of one or more instances of lazyload, depending on the 
+       options passed in (plain object or an array) */
+    var _autoInitialize = function _autoInitialize(options) {
+        var optsLength = options.length;
+        if (!optsLength) {
+            // Plain object
+            _createInstance(options);
+        } else {
+            // Array of objects
+            for (var i = 0; i < optsLength; i++) {
+                _createInstance(options[i]);
+            }
+        }
+    };
+
     var _defaultSettings = {
         elements_selector: "img",
         container: window,
@@ -292,6 +314,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         return LazyLoad;
     }();
+
+    /* Automatic instances creation if required (useful for async script loading!) */
+
+
+    var autoInitOptions = window.lazyLoadOptions;
+    if (autoInitOptions) {
+        _autoInitialize(autoInitOptions);
+    }
 
     return LazyLoad;
 });
