@@ -1,58 +1,48 @@
 module.exports = function (grunt) {
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+		pkg: grunt.file.readJSON("package.json"),
 		babel: {
 			options: {
 				sourceMap: false,
-				presets: ['es2015'],
+				presets: ["es2015"],
 				plugins: ["transform-object-assign"]
 			},
 			dist: {
 				files: {
-					'dist/lazyload.transpiled.js': 'src/lazyload.js'
+					"dist/lazyload.transpiled.js": "src/lazyload.js"
 				}
 			}
 		},
 		uglify: {
 			options: {
-				banner: '',
+				banner: "",
 				sourceMap: true
 			},
 			dist: {
 				files: {
-					'dist/lazyload.min.js': 'src/lazyload.js',
-					'dist/lazyload.transpiled.min.js': 'dist/lazyload.transpiled.js',
+					"dist/lazyload.min.js": "src/lazyload.js",
+					"dist/lazyload.transpiled.min.js": "dist/lazyload.transpiled.js",
 				}
 			}
 		},
-		jshint: {
-			files: ['Gruntfile.js', 'src/lazyload.js'],
-
+		eslint: {
 			options: {
-				// options here to override JSHint defaults
-				reporterOutput: '',
-				globals: {
-					jQuery: true,
-					console: true,
-					module: true,
-					document: true
-				},
-				'esnext': true
-			}
+            	configFile: ".eslintrc.json"
+			},
+			src: ["src/lazyload.js"]
 		},
 		watch: {
-			files: ['<%= jshint.files %>'],
-			tasks: ['jshint', 'babel', 'uglify']
+			files: ["<%= eslint.src %>"],
+			tasks: ["eslint", "babel", "uglify"]
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-babel');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks("gruntify-eslint");
+	grunt.loadNpmTasks("grunt-babel");
+	grunt.loadNpmTasks("grunt-contrib-uglify");
 
-	grunt.registerTask('default', ['jshint', 'babel', 'uglify', 'watch']);
-	grunt.registerTask('publish', ['jshint', 'babel', 'uglify']);
+	grunt.registerTask("default", ["eslint", "babel", "uglify"]);
+	grunt.registerTask("watch", ["eslint", "babel", "uglify", "watch"]);
 
 };

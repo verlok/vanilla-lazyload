@@ -1,11 +1,11 @@
-const LazyLoad = require('../src/lazyLoad');
+const LazyLoad = require("../src/lazyLoad");
 
 test("Public methods", () => {
     const ll = new LazyLoad();
-    ['update', 
-     'handleScroll', 
-     'destroy'].forEach((methodName) => {
-        expect(typeof ll[methodName]).toBe('function');
+    ["update", 
+     "handleScroll", 
+     "destroy"].forEach((methodName) => {
+        expect(typeof ll[methodName]).toBe("function");
     });
 });
 
@@ -71,8 +71,8 @@ describe("Constructor", () => {
 });
 
 test("QueryOriginNode is valid", () => {
-    const scrollArea = document.createElement('div');
-    scrollArea.classList.add('scrollArea');
+    const scrollArea = document.createElement("div");
+    scrollArea.classList.add("scrollArea");
     window.document.documentElement.appendChild(scrollArea);
     const ll1 = new LazyLoad();
     const ll2 = new LazyLoad({
@@ -102,14 +102,14 @@ test("Resize is managed", () => {
 });
 
 /*
- * Can't test _isInsideViewport because the DOM implementation is not correct 
+ * Can"t test _isInsideViewport because the DOM implementation is not correct 
  * (same test on codepen returns true)
  * will test using Jasmine/Sinon/Karma, maybe
  */
 /*
 describe("_isInsideViewport", () => {
     test("...affermative - window container - position static - no threshold", () => {
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.src="http://placehold.it/1x1";
         img.style="width:300px; height:300px;";
         document.body.appendChild(img);
@@ -126,14 +126,14 @@ describe("_setSourcesForPicture", () => {
     let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
     let img400 = "http://placehold.it/400x400";
-    let dataSrcSetPartialAttr = 'original-set'; 
-    let dataSrcSetAttr = 'data-' + dataSrcSetPartialAttr;
-    let srcsetAttr = 'srcset';
+    let dataSrcSetPartialAttr = "original-set"; 
+    let dataSrcSetAttr = "data-" + dataSrcSetPartialAttr;
+    let srcsetAttr = "srcset";
     beforeEach(() => {
-        p = document.createElement('picture');
-        p.appendChild(s1 = document.createElement('source'));
-        p.appendChild(s2 = document.createElement('source'));
-        p.appendChild(i = document.createElement('img'));
+        p = document.createElement("picture");
+        p.appendChild(s1 = document.createElement("source"));
+        p.appendChild(s2 = document.createElement("source"));
+        p.appendChild(i = document.createElement("img"));
     });
     test("...with initially empty srcset", () => {
         s1.setAttribute(dataSrcSetAttr, img200);
@@ -170,14 +170,14 @@ describe("_setSources for image", () => {
     let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
     let img400 = "http://placehold.it/400x400";
-    let dataSrcPartialAttr = 'original'; 
-    let dataSrcSetPartialAttr = 'original-set'; 
-    let dataSrcAttr = 'data-' + dataSrcPartialAttr;
-    let dataSrcSetAttr = 'data-' + dataSrcSetPartialAttr;
-    let srcAttr = 'src';
-    let srcSetAttr = 'srcset';
+    let dataSrcPartialAttr = "original"; 
+    let dataSrcSetPartialAttr = "original-set"; 
+    let dataSrcAttr = "data-" + dataSrcPartialAttr;
+    let dataSrcSetAttr = "data-" + dataSrcSetPartialAttr;
+    let srcAttr = "src";
+    let srcSetAttr = "srcset";
     beforeEach(() => {
-        i = document.createElement('img');
+        i = document.createElement("img");
     });
     test("...with initially empty src and srcset", () => {
         fakeInstance._setSourcesForPicture.mockClear();
@@ -216,11 +216,11 @@ describe("_setSources for iframe", () => {
     let i;
     let testFunct = LazyLoad.prototype._setSources;
     let srcToLoad = "http://www.google.it";
-    let dataSrcPartialAttr = 'original'; 
-    let dataSrcAttr = 'data-' + dataSrcPartialAttr;
-    let srcAttr = 'src';
+    let dataSrcPartialAttr = "original"; 
+    let dataSrcAttr = "data-" + dataSrcPartialAttr;
+    let srcAttr = "src";
     beforeEach(() => {
-        i = document.createElement('iframe');
+        i = document.createElement("iframe");
     });
     test("...with initially empty src", () => {
         i.setAttribute(dataSrcAttr, srcToLoad);
@@ -247,23 +247,23 @@ describe("_setSources for background image", () => {
     let testFunct = LazyLoad.prototype._setSources;
     let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
-    let dataSrcPartialAttr = 'original';
-    let dataSrcAttr = 'data-' + dataSrcPartialAttr;
+    let dataSrcPartialAttr = "original";
+    let dataSrcAttr = "data-" + dataSrcPartialAttr;
     test("...with initially empty style attribute", () => {
-        i = document.createElement('div');
+        i = document.createElement("div");
         i.setAttribute(dataSrcAttr, img200);
         testFunct(i, "", dataSrcPartialAttr);
         expect(i.style.backgroundImage).toBe("url("+img200+")");
     });
     test("...with initially present style attribute", () => {
-        i = document.createElement('div');
+        i = document.createElement("div");
         i.style.padding = "1px";
         i.setAttribute(dataSrcAttr, img200);
         testFunct(i, "", dataSrcPartialAttr);
         expect(i.style.backgroundImage).toBe("url("+img200+")");
     });
     test("...with initially present style and background", () => {
-        i = document.createElement('div');
+        i = document.createElement("div");
         i.style.backgroundImage = "url("+img100+")";
         i.setAttribute(dataSrcAttr, img200);
         testFunct(i, "", dataSrcPartialAttr);
