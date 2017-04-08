@@ -131,15 +131,15 @@
             if (tagName === "IMG") {
                 this._setSourcesForPicture(element, srcsetDataAttribute);
                 const imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
-                if (imgSrcset) element.setAttribute("srcset", imgSrcset);
-                if (elementSrc) element.setAttribute("src", elementSrc);
+                if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
+                if (elementSrc) { element.setAttribute("src", elementSrc); }
                 return;
             }
             if (tagName === "IFRAME") {
-                if (elementSrc) element.setAttribute("src", elementSrc);
+                if (elementSrc) { element.setAttribute("src", elementSrc); }
                 return;
             }
-            if (elementSrc) element.style.backgroundImage = "url(" + elementSrc + ")";
+            if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
         }
 
         _showOnAppear(element) {
