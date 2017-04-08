@@ -1,0 +1,15 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "script"
+    },
+    "env": {
+        "browser": true,
+        "jest": true
+    },
+    "rules": {
+        "eqeqeq": "off",
+        "curly": "error",
+        "quotes": ["error", "double"]
+    }
+}
