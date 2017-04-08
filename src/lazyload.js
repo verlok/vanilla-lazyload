@@ -87,6 +87,7 @@
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
+        class_initial: "initial",
         skip_invisible: true,
         callback_load: null,
         callback_error: null,
@@ -98,11 +99,12 @@
         constructor(instanceSettings) {
             this._settings = Object.assign({}, _defaultSettings, instanceSettings);
             this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-
+            
             this._previousLoopTime = 0;
             this._loopTimeout = null;
             this._boundHandleScroll = this.handleScroll.bind(this);
 
+            this._isFirstLoop = true;
             window.addEventListener("resize", this._boundHandleScroll);
             this.update();
         }
@@ -180,7 +182,8 @@
                 elements = this._elements,
                 elementsLength = (!elements) ? 0 : elements.length;
             let i,
-                processedIndexes = [];
+                processedIndexes = [],
+                firstLoop = this._isFirstLoop;
 
             for (i = 0; i < elementsLength; i++) {
                 let element = elements[i];
@@ -188,10 +191,13 @@
                 if (settings.skip_invisible && (element.offsetParent === null)) {
                     continue;
                 }
-
+                
                 if (_isBot || _isInsideViewport(element, settings.container, settings.threshold)) {
+                    if (firstLoop) {
+                        element.classList.add(settings.class_initial);
+                    }
+                    /* Start loading the image */
                     this._showOnAppear(element);
-
                     /* Marking the element as processed. */
                     processedIndexes.push(i);
                     element.wasProcessed = true;
@@ -206,6 +212,10 @@
             /* Stop listening to scroll event when 0 elements remains */
             if (elementsLength === 0) {
                 this._stopScrollHandler();
+            }
+            /* Sets isFirstLoop to false */
+            if (firstLoop) {
+                this._isFirstLoop = false;
             }
         }
 

@@ -91,6 +91,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
+        class_initial: "initial",
         skip_invisible: true,
         callback_load: null,
         callback_error: null,
@@ -109,6 +110,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             this._loopTimeout = null;
             this._boundHandleScroll = this.handleScroll.bind(this);
 
+            this._isFirstLoop = true;
             window.addEventListener("resize", this._boundHandleScroll);
             this.update();
         }
@@ -195,7 +197,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     elements = this._elements,
                     elementsLength = !elements ? 0 : elements.length;
                 var i = void 0,
-                    processedIndexes = [];
+                    processedIndexes = [],
+                    firstLoop = this._isFirstLoop;
 
                 for (i = 0; i < elementsLength; i++) {
                     var element = elements[i];
@@ -205,8 +208,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     }
 
                     if (_isBot || _isInsideViewport(element, settings.container, settings.threshold)) {
+                        if (firstLoop) {
+                            element.classList.add(settings.class_initial);
+                        }
+                        /* Start loading the image */
                         this._showOnAppear(element);
-
                         /* Marking the element as processed. */
                         processedIndexes.push(i);
                         element.wasProcessed = true;
@@ -221,6 +227,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 /* Stop listening to scroll event when 0 elements remains */
                 if (elementsLength === 0) {
                     this._stopScrollHandler();
+                }
+                /* Sets isFirstLoop to false */
+                if (firstLoop) {
+                    this._isFirstLoop = false;
                 }
             }
         }, {
