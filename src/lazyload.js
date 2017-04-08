@@ -87,7 +87,7 @@
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
-        class_firstBatch: "first-batch",
+        class_initial: "initial",
         skip_invisible: true,
         callback_load: null,
         callback_error: null,
@@ -104,7 +104,7 @@
             this._loopTimeout = null;
             this._boundHandleScroll = this.handleScroll.bind(this);
 
-            this._isFirstBatch = true;
+            this._isFirstLoop = true;
             window.addEventListener("resize", this._boundHandleScroll);
             this.update();
         }
@@ -183,7 +183,7 @@
                 elementsLength = (!elements) ? 0 : elements.length;
             let i,
                 processedIndexes = [],
-                firstLoop = this._isFirstBatch;
+                firstLoop = this._isFirstLoop;
 
             for (i = 0; i < elementsLength; i++) {
                 let element = elements[i];
@@ -194,7 +194,7 @@
                 
                 if (_isBot || _isInsideViewport(element, settings.container, settings.threshold)) {
                     if (firstLoop) {
-                        element.classList.add(settings.class_firstBatch);
+                        element.classList.add(settings.class_initial);
                     }
                     /* Start loading the image */
                     this._showOnAppear(element);
@@ -215,7 +215,7 @@
             }
             /* Sets isFirstLoop to false */
             if (firstLoop) {
-                this._isFirstBatch = false;
+                this._isFirstLoop = false;
             }
         }
 
