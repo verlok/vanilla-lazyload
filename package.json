@@ -1,6 +1,6 @@
 {
   "name": "vanilla-lazyload",
-  "version": "6.3.1",
+  "version": "6.3.2",
   "description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
   "main": "dist/lazyload.transpiled.min.js",
   "devDependencies": {
@@ -12,6 +12,7 @@
     "grunt-contrib-jshint": "~1.1.0",
     "grunt-contrib-uglify": "~2.3.0",
     "grunt-contrib-watch": "~1.0.0",
+    "gruntify-eslint": "^3.1.0",
     "jest": "^19.0.2"
   },
   "scripts": {
