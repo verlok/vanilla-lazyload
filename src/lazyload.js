@@ -1,14 +1,14 @@
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
+    if (typeof define === "function" && define.amd) {
         define([], factory);
-    } else if (typeof exports === 'object') {
+    } else if (typeof exports === "object") {
         module.exports = factory();
     } else {
         root.LazyLoad = factory();
     }
 }(window, function () {
 
-    const _isBot = !('onscroll' in window) || /glebot/.test(navigator.userAgent);
+    const _isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
     const _getTopOffset = function (element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
@@ -57,7 +57,7 @@
     /* Creates instance and notifies it through the window element */
     const _createInstance = function(options) {
         let instance = new LazyLoad(options);
-        let event = new CustomEvent('LazyLoad::Initialized', {detail: {instance}});
+        let event = new CustomEvent("LazyLoad::Initialized", {detail: {instance}});
         window.dispatchEvent(event);
     };
 
@@ -111,15 +111,15 @@
 
         _setSourcesForPicture(element, srcsetDataAttribute) {
             const parent = element.parentElement;
-            if (parent.tagName !== 'PICTURE') {
+            if (parent.tagName !== "PICTURE") {
                 return;
             }
             for (let i = 0; i < parent.children.length; i++) {
                 let pictureChild = parent.children[i];
-                if (pictureChild.tagName === 'SOURCE') {
-                    let sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
+                if (pictureChild.tagName === "SOURCE") {
+                    let sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
                     if (sourceSrcset) {
-                        pictureChild.setAttribute('srcset', sourceSrcset);
+                        pictureChild.setAttribute("srcset", sourceSrcset);
                     }
                 }
             }
@@ -127,10 +127,10 @@
 
         _setSources(element, srcsetDataAttribute, srcDataAttribute) {
             const tagName = element.tagName;
-            const elementSrc = element.getAttribute('data-' + srcDataAttribute);
+            const elementSrc = element.getAttribute("data-" + srcDataAttribute);
             if (tagName === "IMG") {
                 this._setSourcesForPicture(element, srcsetDataAttribute);
-                const imgSrcset = element.getAttribute('data-' + srcsetDataAttribute);
+                const imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
                 if (imgSrcset) element.setAttribute("srcset", imgSrcset);
                 if (elementSrc) element.setAttribute("src", elementSrc);
                 return;
