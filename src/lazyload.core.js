@@ -2,6 +2,7 @@ import defaultSettings from "./lazyload.defaults";
 import * as utils from "./lazyload.utils";
 
 class LazyLoad {
+    
     constructor(instanceSettings) {
         this._settings = Object.assign({}, defaultSettings, instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
@@ -15,7 +16,11 @@ class LazyLoad {
         this.update();
     }
 
-    _showOnAppear(element) {
+    /*
+    Private methods
+    */
+
+    _reveal(element) {
         const settings = this._settings;
 
         const errorCallback = function () {
@@ -25,7 +30,7 @@ class LazyLoad {
             element.removeEventListener("error", errorCallback);
             element.classList.remove(settings.class_loading);
             element.classList.add(settings.class_error);
-            _callCallback(settings.callback_error, element);
+            utils.callCallback(settings.callback_error, element);
         };
 
         const loadCallback = function () {
@@ -36,7 +41,7 @@ class LazyLoad {
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
             /* Calling LOAD callback */
-            _callCallback(settings.callback_load, element);
+            utils.callCallback(settings.callback_load, element);
         };
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
@@ -45,9 +50,9 @@ class LazyLoad {
             element.classList.add(settings.class_loading);
         }
 
-        utils._setSources(element, settings.data_srcset, settings.data_src);
+        utils.setSources(element, settings.data_srcset, settings.data_src);
         /* Calling SET callback */
-        _callCallback(settings.callback_set, element);
+        utils.callCallback(settings.callback_set, element);
     }
 
     _loopThroughElements() {
@@ -65,12 +70,12 @@ class LazyLoad {
                 continue;
             }
             
-            if (_isBot || _isInsideViewport(element, settings.container, settings.threshold)) {
+            if (utils.isBot || utils.isInsideViewport(element, settings.container, settings.threshold)) {
                 if (firstLoop) {
                     element.classList.add(settings.class_initial);
                 }
                 /* Start loading the image */
-                this._showOnAppear(element);
+                this._reveal(element);
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
                 element.wasProcessed = true;
@@ -80,7 +85,7 @@ class LazyLoad {
         while (processedIndexes.length > 0) {
             elements.splice(processedIndexes.pop(), 1);
             /* Calling the end loop callback */
-            _callCallback(settings.callback_processed, elements.length);
+            utils.callCallback(settings.callback_processed, elements.length);
         }
         /* Stop listening to scroll event when 0 elements remains */
         if (elementsLength === 0) {
@@ -125,6 +130,9 @@ class LazyLoad {
         }
     }
 
+    /* 
+    Public methods
+    */
 
     handleScroll() {
         const throttle = this._settings.throttle;
@@ -176,6 +184,6 @@ class LazyLoad {
 /* Automatic instances creation if required (useful for async script loading!) */
 /* TODO: Move it in some kind of auto-initializer-thing? */
 let autoInitOptions = window.lazyLoadOptions;
-if (autoInitOptions) { _autoInitialize(autoInitOptions); }
+if (autoInitOptions) { utils.autoInitialize(autoInitOptions); }
 
 export default LazyLoad;
