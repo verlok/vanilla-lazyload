@@ -24,6 +24,10 @@
 
     const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
+    const callCallback = function (callback, argument) {
+        if (callback) { callback(argument); }
+    };
+
     const getTopOffset = function (element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
     };
@@ -57,15 +61,11 @@
         return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
     };
 
-    const isInsideViewport = function (element, container, threshold) {
+    var isInsideViewport = function (element, container, threshold) {
         return !isBelowViewport(element, container, threshold) &&
             !isAboveViewport(element, container, threshold) &&
             !isAtRightOfViewport(element, container, threshold) &&
             !isAtLeftOfViewport(element, container, threshold);
-    };
-
-    const callCallback = function (callback, argument) {
-        if (callback) { callback(argument); }
     };
 
     /* Creates instance and notifies it through the window element */
@@ -77,7 +77,7 @@
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
         options passed in (plain object or an array) */
-    const autoInitialize = function (classObj, options) { 
+    var autoInitialize = function (classObj, options) { 
         let optsLength = options.length;
         if (!optsLength) {
             // Plain object
@@ -107,7 +107,7 @@
         }
     };
 
-    const setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
+    var setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
         const tagName = element.tagName;
         const elementSrc = element.getAttribute("data-" + srcDataAttribute);
         if (tagName === "IMG") {
@@ -126,7 +126,7 @@
 
     /*
      * Constructor
-     */
+     */ 
 
     const LazyLoad = function(instanceSettings) {
         this._settings = Object.assign({}, defaultSettings, instanceSettings);
