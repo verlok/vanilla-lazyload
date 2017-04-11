@@ -99,7 +99,7 @@
         for (let i = 0; i < parent.children.length; i++) {
             let pictureChild = parent.children[i];
             if (pictureChild.tagName === "SOURCE") {
-                let sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
+                let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
@@ -109,10 +109,10 @@
 
     var setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
         const tagName = element.tagName;
-        const elementSrc = element.getAttribute("data-" + srcDataAttribute);
+        const elementSrc = element.dataset[srcDataAttribute];
         if (tagName === "IMG") {
             setSourcesForPicture(element, srcsetDataAttribute);
-            const imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
+            const imgSrcset = element.dataset[srcsetDataAttribute];
             if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
             if (elementSrc) { element.setAttribute("src", elementSrc); }
             return;
@@ -205,7 +205,7 @@
                     this._reveal(element);
                     /* Marking the element as processed. */
                     processedIndexes.push(i);
-                    element.wasProcessed = true;
+                    element.dataset.wasProcessed = true;
                 }
             }
             /* Removing processed elements from this._elements. */
@@ -233,7 +233,7 @@
             for (i = 0; i < elementsLength; i++) {
                 let element = elements[i];
                 /* If the element has already been processed, skip it */
-                if (element.wasProcessed) {
+                if (element.dataset.wasProcessed) {
                     elementsToPurge.push(i);
                 }
             }
