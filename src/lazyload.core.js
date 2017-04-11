@@ -1,26 +1,33 @@
 import defaultSettings from "./lazyload.defaults";
-import * as utils from "./lazyload.utils";
+import {isBot, callCallback} from "./lazyload.utils";
+import isInsideViewport from "./lazyload.viewport";
+import autoInitialize from "./lazyload.autoInitialize";
+import setSources from "./lazyload.setSources";
 
-class LazyLoad {
+/*
+ * Constructor
+ */ 
+
+const LazyLoad = function(instanceSettings) {
+    this._settings = Object.assign({}, defaultSettings, instanceSettings);
+    this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
     
-    constructor(instanceSettings) {
-        this._settings = Object.assign({}, defaultSettings, instanceSettings);
-        this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-        
-        this._previousLoopTime = 0;
-        this._loopTimeout = null;
-        this._boundHandleScroll = this.handleScroll.bind(this);
+    this._previousLoopTime = 0;
+    this._loopTimeout = null;
+    this._boundHandleScroll = this.handleScroll.bind(this);
 
-        this._isFirstLoop = true;
-        window.addEventListener("resize", this._boundHandleScroll);
-        this.update();
-    }
+    this._isFirstLoop = true;
+    window.addEventListener("resize", this._boundHandleScroll);
+    this.update();
+};
 
+LazyLoad.prototype = {
+    
     /*
-    Private methods
-    */
+     * Private methods
+     */
 
-    _reveal(element) {
+    _reveal: function (element) {
         const settings = this._settings;
 
         const errorCallback = function () {
@@ -30,7 +37,7 @@ class LazyLoad {
             element.removeEventListener("error", errorCallback);
             element.classList.remove(settings.class_loading);
             element.classList.add(settings.class_error);
-            utils.callCallback(settings.callback_error, element);
+            callCallback(settings.callback_error, element);
         };
 
         const loadCallback = function () {
@@ -41,7 +48,7 @@ class LazyLoad {
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
             /* Calling LOAD callback */
-            utils.callCallback(settings.callback_load, element);
+            callCallback(settings.callback_load, element);
         };
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
@@ -50,12 +57,12 @@ class LazyLoad {
             element.classList.add(settings.class_loading);
         }
 
-        utils.setSources(element, settings.data_srcset, settings.data_src);
+        setSources(element, settings.data_srcset, settings.data_src);
         /* Calling SET callback */
-        utils.callCallback(settings.callback_set, element);
-    }
+        callCallback(settings.callback_set, element);
+    },
 
-    _loopThroughElements() {
+    _loopThroughElements: function () {
         const settings = this._settings,
             elements = this._elements,
             elementsLength = (!elements) ? 0 : elements.length;
@@ -70,7 +77,7 @@ class LazyLoad {
                 continue;
             }
             
-            if (utils.isBot || utils.isInsideViewport(element, settings.container, settings.threshold)) {
+            if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                 if (firstLoop) {
                     element.classList.add(settings.class_initial);
                 }
@@ -85,7 +92,7 @@ class LazyLoad {
         while (processedIndexes.length > 0) {
             elements.splice(processedIndexes.pop(), 1);
             /* Calling the end loop callback */
-            utils.callCallback(settings.callback_processed, elements.length);
+            callCallback(settings.callback_processed, elements.length);
         }
         /* Stop listening to scroll event when 0 elements remains */
         if (elementsLength === 0) {
@@ -95,9 +102,9 @@ class LazyLoad {
         if (firstLoop) {
             this._isFirstLoop = false;
         }
-    }
+    },
 
-    _purgeElements() {
+    _purgeElements: function () {
         const elements = this._elements,
             elementsLength = elements.length;
         let i,
@@ -114,27 +121,27 @@ class LazyLoad {
         while (elementsToPurge.length > 0) {
             elements.splice(elementsToPurge.pop(), 1);
         }
-    }
+    },
 
-    _startScrollHandler() {
+    _startScrollHandler: function () {
         if (!this._isHandlingScroll) {
             this._isHandlingScroll = true;
             this._settings.container.addEventListener("scroll", this._boundHandleScroll);
         }
-    }
+    },
 
-    _stopScrollHandler() {
+    _stopScrollHandler: function () {
         if (this._isHandlingScroll) {
             this._isHandlingScroll = false;
             this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
         }
-    }
+    },
 
     /* 
-    Public methods
-    */
+     * Public methods
+     */
 
-    handleScroll() {
+    handleScroll: function () {
         const throttle = this._settings.throttle;
 
         if (throttle !== 0) {
@@ -158,17 +165,17 @@ class LazyLoad {
         } else {
             this._loopThroughElements();
         }
-    }
+    },
 
-    update() {
+    update: function () {
         // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
         this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
         this._purgeElements();
         this._loopThroughElements();
         this._startScrollHandler();
-    }
+    },
 
-    destroy() {
+    destroy: function () {
         window.removeEventListener("resize", this._boundHandleScroll);
         if (this._loopTimeout) {
             clearTimeout(this._loopTimeout);
@@ -182,10 +189,9 @@ class LazyLoad {
 }
 
 /* Automatic instances creation if required (useful for async script loading!) */
-/* TODO: Move it in some kind of auto-initializer-thing? */
 let autoInitOptions = window.lazyLoadOptions;
 if (autoInitOptions) { 
-    utils.autoInitialize(LazyLoad, autoInitOptions);
+    autoInitialize(LazyLoad, autoInitOptions);
 }
 
 export default LazyLoad;
