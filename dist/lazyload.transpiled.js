@@ -1,5 +1,3 @@
-"use strict";
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -8,80 +6,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-(function (root, factory) {
-    if (typeof define === "function" && define.amd) {
-        define([], factory);
-    } else if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === "object") {
-        module.exports = factory();
-    } else {
-        root.LazyLoad = factory();
-    }
-})(window, function () {
+(function (global, factory) {
+    (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.LazyLoad = factory();
+})(this, function () {
+    'use strict';
 
-    var _isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
-
-    var _getTopOffset = function _getTopOffset(element) {
-        return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
-    };
-
-    var _isBelowViewport = function _isBelowViewport(element, container, threshold) {
-        var fold = container === window ? window.innerHeight + window.pageYOffset : _getTopOffset(container) + container.offsetHeight;
-        return fold <= _getTopOffset(element) - threshold;
-    };
-
-    var _getLeftOffset = function _getLeftOffset(element) {
-        return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
-    };
-
-    var _isAtRightOfViewport = function _isAtRightOfViewport(element, container, threshold) {
-        var documentWidth = window.innerWidth;
-        var fold = container === window ? documentWidth + window.pageXOffset : _getLeftOffset(container) + documentWidth;
-        return fold <= _getLeftOffset(element) - threshold;
-    };
-
-    var _isAboveViewport = function _isAboveViewport(element, container, threshold) {
-        var fold = container === window ? window.pageYOffset : _getTopOffset(container);
-        return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
-    };
-
-    var _isAtLeftOfViewport = function _isAtLeftOfViewport(element, container, threshold) {
-        var fold = container === window ? window.pageXOffset : _getLeftOffset(container);
-        return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
-    };
-
-    var _isInsideViewport = function _isInsideViewport(element, container, threshold) {
-        return !_isBelowViewport(element, container, threshold) && !_isAboveViewport(element, container, threshold) && !_isAtRightOfViewport(element, container, threshold) && !_isAtLeftOfViewport(element, container, threshold);
-    };
-
-    var _callCallback = function _callCallback(callback, argument) {
-        if (callback) {
-            callback(argument);
-        }
-    };
-
-    /* Creates instance and notifies it through the window element */
-    var _createInstance = function _createInstance(options) {
-        var instance = new LazyLoad(options);
-        var event = new CustomEvent("LazyLoad::Initialized", { detail: { instance: instance } });
-        window.dispatchEvent(event);
-    };
-
-    /* Auto initialization of one or more instances of lazyload, depending on the 
-       options passed in (plain object or an array) */
-    var _autoInitialize = function _autoInitialize(options) {
-        var optsLength = options.length;
-        if (!optsLength) {
-            // Plain object
-            _createInstance(options);
-        } else {
-            // Array of objects
-            for (var i = 0; i < optsLength; i++) {
-                _createInstance(options[i]);
-            }
-        }
-    };
-
-    var _defaultSettings = {
+    var defaultSettings = {
         elements_selector: "img",
         container: window,
         threshold: 300,
@@ -99,11 +29,115 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         callback_processed: null
     };
 
+    var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
+
+    var getTopOffset = function getTopOffset(element) {
+        return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
+    };
+
+    var isBelowViewport = function isBelowViewport(element, container, threshold) {
+        var fold = container === window ? window.innerHeight + window.pageYOffset : getTopOffset(container) + container.offsetHeight;
+        return fold <= getTopOffset(element) - threshold;
+    };
+
+    var getLeftOffset = function getLeftOffset(element) {
+        return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
+    };
+
+    var isAtRightOfViewport = function isAtRightOfViewport(element, container, threshold) {
+        var documentWidth = window.innerWidth;
+        var fold = container === window ? documentWidth + window.pageXOffset : getLeftOffset(container) + documentWidth;
+        return fold <= getLeftOffset(element) - threshold;
+    };
+
+    var isAboveViewport = function isAboveViewport(element, container, threshold) {
+        var fold = container === window ? window.pageYOffset : getTopOffset(container);
+        return fold >= getTopOffset(element) + threshold + element.offsetHeight;
+    };
+
+    var isAtLeftOfViewport = function isAtLeftOfViewport(element, container, threshold) {
+        var fold = container === window ? window.pageXOffset : getLeftOffset(container);
+        return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
+    };
+
+    var isInsideViewport = function isInsideViewport(element, container, threshold) {
+        return !isBelowViewport(element, container, threshold) && !isAboveViewport(element, container, threshold) && !isAtRightOfViewport(element, container, threshold) && !isAtLeftOfViewport(element, container, threshold);
+    };
+
+    var callCallback = function callCallback(callback, argument) {
+        if (callback) {
+            callback(argument);
+        }
+    };
+
+    /* Creates instance and notifies it through the window element */
+    var createInstance = function createInstance(classObj, options) {
+        var instance = new classObj(options);
+        var event = new CustomEvent("LazyLoad::Initialized", { detail: { instance: instance } });
+        window.dispatchEvent(event);
+    };
+
+    /* Auto initialization of one or more instances of lazyload, depending on the 
+        options passed in (plain object or an array) */
+    var autoInitialize = function autoInitialize(classObj, options) {
+        var optsLength = options.length;
+        if (!optsLength) {
+            // Plain object
+            createInstance(classObj, options);
+        } else {
+            // Array of objects
+            for (var i = 0; i < optsLength; i++) {
+                createInstance(classObj, options[i]);
+            }
+        }
+    };
+
+    var setSourcesForPicture = function setSourcesForPicture(element, srcsetDataAttribute) {
+        var parent = element.parentElement;
+        if (parent.tagName !== "PICTURE") {
+            return;
+        }
+        for (var i = 0; i < parent.children.length; i++) {
+            var pictureChild = parent.children[i];
+            if (pictureChild.tagName === "SOURCE") {
+                var sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
+                if (sourceSrcset) {
+                    pictureChild.setAttribute("srcset", sourceSrcset);
+                }
+            }
+        }
+    };
+
+    var setSources = function setSources(element, srcsetDataAttribute, srcDataAttribute) {
+        var tagName = element.tagName;
+        var elementSrc = element.getAttribute("data-" + srcDataAttribute);
+        if (tagName === "IMG") {
+            setSourcesForPicture(element, srcsetDataAttribute);
+            var imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
+            if (imgSrcset) {
+                element.setAttribute("srcset", imgSrcset);
+            }
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
+            return;
+        }
+        if (tagName === "IFRAME") {
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
+            return;
+        }
+        if (elementSrc) {
+            element.style.backgroundImage = "url(" + elementSrc + ")";
+        }
+    };
+
     var LazyLoad = function () {
         function LazyLoad(instanceSettings) {
             _classCallCheck(this, LazyLoad);
 
-            this._settings = _extends({}, _defaultSettings, instanceSettings);
+            this._settings = _extends({}, defaultSettings, instanceSettings);
             this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
             this._previousLoopTime = 0;
@@ -115,52 +149,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             this.update();
         }
 
+        /*
+        Private methods
+        */
+
         _createClass(LazyLoad, [{
-            key: "_setSourcesForPicture",
-            value: function _setSourcesForPicture(element, srcsetDataAttribute) {
-                var parent = element.parentElement;
-                if (parent.tagName !== "PICTURE") {
-                    return;
-                }
-                for (var i = 0; i < parent.children.length; i++) {
-                    var pictureChild = parent.children[i];
-                    if (pictureChild.tagName === "SOURCE") {
-                        var sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
-                        if (sourceSrcset) {
-                            pictureChild.setAttribute("srcset", sourceSrcset);
-                        }
-                    }
-                }
-            }
-        }, {
-            key: "_setSources",
-            value: function _setSources(element, srcsetDataAttribute, srcDataAttribute) {
-                var tagName = element.tagName;
-                var elementSrc = element.getAttribute("data-" + srcDataAttribute);
-                if (tagName === "IMG") {
-                    this._setSourcesForPicture(element, srcsetDataAttribute);
-                    var imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
-                    if (imgSrcset) {
-                        element.setAttribute("srcset", imgSrcset);
-                    }
-                    if (elementSrc) {
-                        element.setAttribute("src", elementSrc);
-                    }
-                    return;
-                }
-                if (tagName === "IFRAME") {
-                    if (elementSrc) {
-                        element.setAttribute("src", elementSrc);
-                    }
-                    return;
-                }
-                if (elementSrc) {
-                    element.style.backgroundImage = "url(" + elementSrc + ")";
-                }
-            }
-        }, {
-            key: "_showOnAppear",
-            value: function _showOnAppear(element) {
+            key: '_reveal',
+            value: function _reveal(element) {
                 var settings = this._settings;
 
                 var errorCallback = function errorCallback() {
@@ -172,7 +167,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     element.removeEventListener("error", errorCallback);
                     element.classList.remove(settings.class_loading);
                     element.classList.add(settings.class_error);
-                    _callCallback(settings.callback_error, element);
+                    callCallback(settings.callback_error, element);
                 };
 
                 var loadCallback = function loadCallback() {
@@ -185,7 +180,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     element.removeEventListener("load", loadCallback);
                     element.removeEventListener("error", errorCallback);
                     /* Calling LOAD callback */
-                    _callCallback(settings.callback_load, element);
+                    callCallback(settings.callback_load, element);
                 };
 
                 if (element.tagName === "IMG" || element.tagName === "IFRAME") {
@@ -194,12 +189,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     element.classList.add(settings.class_loading);
                 }
 
-                this._setSources(element, settings.data_srcset, settings.data_src);
+                setSources(element, settings.data_srcset, settings.data_src);
                 /* Calling SET callback */
-                _callCallback(settings.callback_set, element);
+                callCallback(settings.callback_set, element);
             }
         }, {
-            key: "_loopThroughElements",
+            key: '_loopThroughElements',
             value: function _loopThroughElements() {
                 var settings = this._settings,
                     elements = this._elements,
@@ -215,12 +210,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         continue;
                     }
 
-                    if (_isBot || _isInsideViewport(element, settings.container, settings.threshold)) {
+                    if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                         if (firstLoop) {
                             element.classList.add(settings.class_initial);
                         }
                         /* Start loading the image */
-                        this._showOnAppear(element);
+                        this._reveal(element);
                         /* Marking the element as processed. */
                         processedIndexes.push(i);
                         element.wasProcessed = true;
@@ -230,7 +225,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 while (processedIndexes.length > 0) {
                     elements.splice(processedIndexes.pop(), 1);
                     /* Calling the end loop callback */
-                    _callCallback(settings.callback_processed, elements.length);
+                    callCallback(settings.callback_processed, elements.length);
                 }
                 /* Stop listening to scroll event when 0 elements remains */
                 if (elementsLength === 0) {
@@ -242,7 +237,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
             }
         }, {
-            key: "_purgeElements",
+            key: '_purgeElements',
             value: function _purgeElements() {
                 var elements = this._elements,
                     elementsLength = elements.length;
@@ -262,7 +257,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
             }
         }, {
-            key: "_startScrollHandler",
+            key: '_startScrollHandler',
             value: function _startScrollHandler() {
                 if (!this._isHandlingScroll) {
                     this._isHandlingScroll = true;
@@ -270,15 +265,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
             }
         }, {
-            key: "_stopScrollHandler",
+            key: '_stopScrollHandler',
             value: function _stopScrollHandler() {
                 if (this._isHandlingScroll) {
                     this._isHandlingScroll = false;
                     this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
                 }
             }
+
+            /* 
+            Public methods
+            */
+
         }, {
-            key: "handleScroll",
+            key: 'handleScroll',
             value: function handleScroll() {
                 var _this = this;
 
@@ -311,7 +311,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
             }
         }, {
-            key: "update",
+            key: 'update',
             value: function update() {
                 // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
                 this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
@@ -320,7 +320,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this._startScrollHandler();
             }
         }, {
-            key: "destroy",
+            key: 'destroy',
             value: function destroy() {
                 window.removeEventListener("resize", this._boundHandleScroll);
                 if (this._loopTimeout) {
@@ -338,11 +338,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }();
 
     /* Automatic instances creation if required (useful for async script loading!) */
+    /* TODO: Move it in some kind of auto-initializer-thing? */
 
 
     var autoInitOptions = window.lazyLoadOptions;
     if (autoInitOptions) {
-        _autoInitialize(autoInitOptions);
+        autoInitialize(LazyLoad, autoInitOptions);
     }
 
     return LazyLoad;
