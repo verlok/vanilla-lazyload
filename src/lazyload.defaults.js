@@ -1,4 +1,4 @@
-export default defaultSettings = {
+export default {
     elements_selector: "img",
     container: window,
     threshold: 300,
