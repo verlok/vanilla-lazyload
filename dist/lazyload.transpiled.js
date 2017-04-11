@@ -27,6 +27,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
+    var callCallback = function callCallback(callback, argument) {
+        if (callback) {
+            callback(argument);
+        }
+    };
+
     var getTopOffset = function getTopOffset(element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
     };
@@ -58,12 +64,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var isInsideViewport = function isInsideViewport(element, container, threshold) {
         return !isBelowViewport(element, container, threshold) && !isAboveViewport(element, container, threshold) && !isAtRightOfViewport(element, container, threshold) && !isAtLeftOfViewport(element, container, threshold);
-    };
-
-    var callCallback = function callCallback(callback, argument) {
-        if (callback) {
-            callback(argument);
-        }
     };
 
     /* Creates instance and notifies it through the window element */
