@@ -96,7 +96,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         for (var i = 0; i < parent.children.length; i++) {
             var pictureChild = parent.children[i];
             if (pictureChild.tagName === "SOURCE") {
-                var sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
+                var sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
@@ -106,10 +106,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var setSources = function setSources(element, srcsetDataAttribute, srcDataAttribute) {
         var tagName = element.tagName;
-        var elementSrc = element.getAttribute("data-" + srcDataAttribute);
+        var elementSrc = element.dataset[srcDataAttribute];
         if (tagName === "IMG") {
             setSourcesForPicture(element, srcsetDataAttribute);
-            var imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
+            var imgSrcset = element.dataset[srcsetDataAttribute];
             if (imgSrcset) {
                 element.setAttribute("srcset", imgSrcset);
             }
@@ -214,7 +214,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     this._reveal(element);
                     /* Marking the element as processed. */
                     processedIndexes.push(i);
-                    element.wasProcessed = true;
+                    element.dataset.wasProcessed = true;
                 }
             }
             /* Removing processed elements from this._elements. */
@@ -242,7 +242,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             for (i = 0; i < elementsLength; i++) {
                 var element = elements[i];
                 /* If the element has already been processed, skip it */
-                if (element.wasProcessed) {
+                if (element.dataset.wasProcessed) {
                     elementsToPurge.push(i);
                 }
             }

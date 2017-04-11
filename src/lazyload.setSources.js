@@ -6,7 +6,7 @@ const setSourcesForPicture = function(element, srcsetDataAttribute) {
     for (let i = 0; i < parent.children.length; i++) {
         let pictureChild = parent.children[i];
         if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
+            let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
             if (sourceSrcset) {
                 pictureChild.setAttribute("srcset", sourceSrcset);
             }
@@ -16,10 +16,10 @@ const setSourcesForPicture = function(element, srcsetDataAttribute) {
 
 export default function(element, srcsetDataAttribute, srcDataAttribute) {
     const tagName = element.tagName;
-    const elementSrc = element.getAttribute("data-" + srcDataAttribute);
+    const elementSrc = element.dataset[srcDataAttribute];
     if (tagName === "IMG") {
         setSourcesForPicture(element, srcsetDataAttribute);
-        const imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
+        const imgSrcset = element.dataset[srcsetDataAttribute];
         if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
         if (elementSrc) { element.setAttribute("src", elementSrc); }
         return;
