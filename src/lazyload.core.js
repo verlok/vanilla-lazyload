@@ -184,6 +184,8 @@ class LazyLoad {
 /* Automatic instances creation if required (useful for async script loading!) */
 /* TODO: Move it in some kind of auto-initializer-thing? */
 let autoInitOptions = window.lazyLoadOptions;
-if (autoInitOptions) { utils.autoInitialize(autoInitOptions); }
+if (autoInitOptions) { 
+    utils.autoInitialize(LazyLoad, autoInitOptions);
+}
 
 export default LazyLoad;
