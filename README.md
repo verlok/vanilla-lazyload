@@ -297,9 +297,9 @@ This demo shows how to load LazyLoad with an `async` script, then auto-initializ
 
 ## Browser support
 
-Version 4 of LazyLoad supports from **Internet Explorer 10** up and it should be OK, see [browser stats for november / december 2016 for desktop computers](http://gs.statcounter.com/browser-version-partially-combined-market-share/desktop/worldwide/#monthly-201611-201612-bar).
+Version 7.2.0+ of LazyLoad introduced support from **Internet Explorer 11** up and it's OK, if you check the [desktop browsers stats for the 1st quarter of 2017](http://gs.statcounter.com/browser-version-partially-combined-market-share/desktop/worldwide/#monthly-201701-201703-bar).
 
-If you're not comfortable with leaving IE < 10 behind, just use a 3.x release of LazyLoad. Pick one from the [releases page](https://github.com/verlok/lazyload/releases).
+If you don't feel comfortable with leaving legacy IE versions behind, just use [version 3.0.0](https://github.com/verlok/lazyload/releases/tag/v3.0.0) which supports back to IE 8.
 
 ## Install
 
@@ -311,18 +311,18 @@ Download the package from GitHub and add dist/lazyload.min.js to your project fi
 
 [Zip file](https://github.com/verlok/lazyload/archive/master.zip)
 
-##### Install using bower
-
-Run the following command on your terminal or command prompt.
-
-```bash
-bower install vanilla-lazyload
-```
-
 ##### Install using npm
 
 Run the following command on your terminal or command prompt.
 
 ```bash
 npm install vanilla-lazyload
+```
+
+##### Install using bower
+
+Run the following command on your terminal or command prompt.
+
+```bash
+bower install vanilla-lazyload
 ```
