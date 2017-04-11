@@ -1,9 +1,12 @@
 import defaultSettings from "./lazyload.defaults";
-import * as utils from "./lazyload.utils";
+import {isBot, callCallback} from "./lazyload.utils";
+import isInsideViewport from "./lazyload.viewport";
+import autoInitialize from "./lazyload.autoInitialize";
+import setSources from "./lazyload.setSources";
 
 /*
  * Constructor
- */
+ */ 
 
 const LazyLoad = function(instanceSettings) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
@@ -34,7 +37,7 @@ LazyLoad.prototype = {
             element.removeEventListener("error", errorCallback);
             element.classList.remove(settings.class_loading);
             element.classList.add(settings.class_error);
-            utils.callCallback(settings.callback_error, element);
+            callCallback(settings.callback_error, element);
         };
 
         const loadCallback = function () {
@@ -45,7 +48,7 @@ LazyLoad.prototype = {
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
             /* Calling LOAD callback */
-            utils.callCallback(settings.callback_load, element);
+            callCallback(settings.callback_load, element);
         };
 
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
@@ -54,9 +57,9 @@ LazyLoad.prototype = {
             element.classList.add(settings.class_loading);
         }
 
-        utils.setSources(element, settings.data_srcset, settings.data_src);
+        setSources(element, settings.data_srcset, settings.data_src);
         /* Calling SET callback */
-        utils.callCallback(settings.callback_set, element);
+        callCallback(settings.callback_set, element);
     },
 
     _loopThroughElements: function () {
@@ -74,7 +77,7 @@ LazyLoad.prototype = {
                 continue;
             }
             
-            if (utils.isBot || utils.isInsideViewport(element, settings.container, settings.threshold)) {
+            if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                 if (firstLoop) {
                     element.classList.add(settings.class_initial);
                 }
@@ -89,7 +92,7 @@ LazyLoad.prototype = {
         while (processedIndexes.length > 0) {
             elements.splice(processedIndexes.pop(), 1);
             /* Calling the end loop callback */
-            utils.callCallback(settings.callback_processed, elements.length);
+            callCallback(settings.callback_processed, elements.length);
         }
         /* Stop listening to scroll event when 0 elements remains */
         if (elementsLength === 0) {
@@ -188,7 +191,7 @@ LazyLoad.prototype = {
 /* Automatic instances creation if required (useful for async script loading!) */
 let autoInitOptions = window.lazyLoadOptions;
 if (autoInitOptions) { 
-    utils.autoInitialize(LazyLoad, autoInitOptions);
+    autoInitialize(LazyLoad, autoInitOptions);
 }
 
 export default LazyLoad;
