@@ -1,83 +1,10 @@
-(function (root, factory) {
-    if (typeof define === "function" && define.amd) {
-        define([], factory);
-    } else if (typeof exports === "object") {
-        module.exports = factory();
-    } else {
-        root.LazyLoad = factory();
-    }
-}(window, function () {
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.LazyLoad = factory());
+}(this, (function () { 'use strict';
 
-    const _isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
-
-    const _getTopOffset = function (element) {
-        return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
-    };
-
-    const _isBelowViewport = function (element, container, threshold) {
-        const fold = (container === window) ?
-            window.innerHeight + window.pageYOffset :
-            _getTopOffset(container) + container.offsetHeight;
-        return fold <= _getTopOffset(element) - threshold;
-    };
-
-    const _getLeftOffset = function (element) {
-        return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
-    };
-
-    const _isAtRightOfViewport = function (element, container, threshold) {
-        const documentWidth = window.innerWidth;
-        const fold = (container === window) ?
-            documentWidth + window.pageXOffset :
-            _getLeftOffset(container) + documentWidth;
-        return fold <= _getLeftOffset(element) - threshold;
-    };
-
-    const _isAboveViewport = function (element, container, threshold) {
-        const fold = (container === window) ? window.pageYOffset : _getTopOffset(container);
-        return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
-    };
-
-    const _isAtLeftOfViewport = function (element, container, threshold) {
-        const fold = (container === window) ? window.pageXOffset : _getLeftOffset(container);
-        return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
-    };
-
-    const _isInsideViewport = function (element, container, threshold) {
-        return !_isBelowViewport(element, container, threshold) &&
-            !_isAboveViewport(element, container, threshold) &&
-            !_isAtRightOfViewport(element, container, threshold) &&
-            !_isAtLeftOfViewport(element, container, threshold);
-    };
-
-    const _callCallback = function (callback, argument) {
-        if (callback) { callback(argument); }
-    };
-
-    /* Creates instance and notifies it through the window element */
-    const _createInstance = function(options) {
-        let instance = new LazyLoad(options);
-        let event = new CustomEvent("LazyLoad::Initialized", {detail: {instance}});
-        window.dispatchEvent(event);
-    };
-
-    /* Auto initialization of one or more instances of lazyload, depending on the 
-       options passed in (plain object or an array) */
-    const _autoInitialize = function(options) {
-        let optsLength = options.length;
-        if (!optsLength) {
-            // Plain object
-            _createInstance(options);
-        }
-        else {
-            // Array of objects
-            for (let i=0; i<optsLength; i++) {
-                _createInstance(options[i]);
-            }
-        }
-    };
-
-    const _defaultSettings = {
+    var defaultSettings = {
         elements_selector: "img",
         container: window,
         threshold: 300,
@@ -95,9 +22,112 @@
         callback_processed: null
     };
 
+    const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
+
+    const getTopOffset = function (element) {
+        return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
+    };
+
+    const isBelowViewport = function (element, container, threshold) {
+        const fold = (container === window) ?
+            window.innerHeight + window.pageYOffset :
+            getTopOffset(container) + container.offsetHeight;
+        return fold <= getTopOffset(element) - threshold;
+    };
+
+    const getLeftOffset = function (element) {
+        return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
+    };
+
+    const isAtRightOfViewport = function (element, container, threshold) {
+        const documentWidth = window.innerWidth;
+        const fold = (container === window) ?
+            documentWidth + window.pageXOffset :
+            getLeftOffset(container) + documentWidth;
+        return fold <= getLeftOffset(element) - threshold;
+    };
+
+    const isAboveViewport = function (element, container, threshold) {
+        const fold = (container === window) ? window.pageYOffset : getTopOffset(container);
+        return fold >= getTopOffset(element) + threshold + element.offsetHeight;
+    };
+
+    const isAtLeftOfViewport = function (element, container, threshold) {
+        const fold = (container === window) ? window.pageXOffset : getLeftOffset(container);
+        return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
+    };
+
+    const isInsideViewport = function (element, container, threshold) {
+        return !isBelowViewport(element, container, threshold) &&
+            !isAboveViewport(element, container, threshold) &&
+            !isAtRightOfViewport(element, container, threshold) &&
+            !isAtLeftOfViewport(element, container, threshold);
+    };
+
+    const callCallback = function (callback, argument) {
+        if (callback) { callback(argument); }
+    };
+
+    /* Creates instance and notifies it through the window element */
+    const createInstance = function (classObj, options) { 
+        let instance = new classObj(options);
+        let event = new CustomEvent("LazyLoad::Initialized", { detail: { instance } });
+        window.dispatchEvent(event);
+    };
+
+    /* Auto initialization of one or more instances of lazyload, depending on the 
+        options passed in (plain object or an array) */
+    const autoInitialize = function (classObj, options) { 
+        let optsLength = options.length;
+        if (!optsLength) {
+            // Plain object
+            createInstance(classObj, options);
+        }
+        else {
+            // Array of objects
+            for (let i = 0; i < optsLength; i++) {
+                createInstance(classObj, options[i]);
+            }
+        }
+    };
+
+    const setSourcesForPicture = function(element, srcsetDataAttribute) {
+        const parent = element.parentElement;
+        if (parent.tagName !== "PICTURE") {
+            return;
+        }
+        for (let i = 0; i < parent.children.length; i++) {
+            let pictureChild = parent.children[i];
+            if (pictureChild.tagName === "SOURCE") {
+                let sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
+                if (sourceSrcset) {
+                    pictureChild.setAttribute("srcset", sourceSrcset);
+                }
+            }
+        }
+    };
+
+    const setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
+        const tagName = element.tagName;
+        const elementSrc = element.getAttribute("data-" + srcDataAttribute);
+        if (tagName === "IMG") {
+            setSourcesForPicture(element, srcsetDataAttribute);
+            const imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
+            if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
+            if (elementSrc) { element.setAttribute("src", elementSrc); }
+            return;
+        }
+        if (tagName === "IFRAME") {
+            if (elementSrc) { element.setAttribute("src", elementSrc); }
+            return;
+        }
+        if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
+    };
+
     class LazyLoad {
+        
         constructor(instanceSettings) {
-            this._settings = Object.assign({}, _defaultSettings, instanceSettings);
+            this._settings = Object.assign({}, defaultSettings, instanceSettings);
             this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
             
             this._previousLoopTime = 0;
@@ -109,40 +139,11 @@
             this.update();
         }
 
-        _setSourcesForPicture(element, srcsetDataAttribute) {
-            const parent = element.parentElement;
-            if (parent.tagName !== "PICTURE") {
-                return;
-            }
-            for (let i = 0; i < parent.children.length; i++) {
-                let pictureChild = parent.children[i];
-                if (pictureChild.tagName === "SOURCE") {
-                    let sourceSrcset = pictureChild.getAttribute("data-" + srcsetDataAttribute);
-                    if (sourceSrcset) {
-                        pictureChild.setAttribute("srcset", sourceSrcset);
-                    }
-                }
-            }
-        }
+        /*
+        Private methods
+        */
 
-        _setSources(element, srcsetDataAttribute, srcDataAttribute) {
-            const tagName = element.tagName;
-            const elementSrc = element.getAttribute("data-" + srcDataAttribute);
-            if (tagName === "IMG") {
-                this._setSourcesForPicture(element, srcsetDataAttribute);
-                const imgSrcset = element.getAttribute("data-" + srcsetDataAttribute);
-                if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
-                if (elementSrc) { element.setAttribute("src", elementSrc); }
-                return;
-            }
-            if (tagName === "IFRAME") {
-                if (elementSrc) { element.setAttribute("src", elementSrc); }
-                return;
-            }
-            if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
-        }
-
-        _showOnAppear(element) {
+        _reveal(element) {
             const settings = this._settings;
 
             const errorCallback = function () {
@@ -152,7 +153,7 @@
                 element.removeEventListener("error", errorCallback);
                 element.classList.remove(settings.class_loading);
                 element.classList.add(settings.class_error);
-                _callCallback(settings.callback_error, element);
+                callCallback(settings.callback_error, element);
             };
 
             const loadCallback = function () {
@@ -163,7 +164,7 @@
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 /* Calling LOAD callback */
-                _callCallback(settings.callback_load, element);
+                callCallback(settings.callback_load, element);
             };
 
             if (element.tagName === "IMG" || element.tagName === "IFRAME") {
@@ -172,9 +173,9 @@
                 element.classList.add(settings.class_loading);
             }
 
-            this._setSources(element, settings.data_srcset, settings.data_src);
+            setSources(element, settings.data_srcset, settings.data_src);
             /* Calling SET callback */
-            _callCallback(settings.callback_set, element);
+            callCallback(settings.callback_set, element);
         }
 
         _loopThroughElements() {
@@ -192,12 +193,12 @@
                     continue;
                 }
                 
-                if (_isBot || _isInsideViewport(element, settings.container, settings.threshold)) {
+                if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                     if (firstLoop) {
                         element.classList.add(settings.class_initial);
                     }
                     /* Start loading the image */
-                    this._showOnAppear(element);
+                    this._reveal(element);
                     /* Marking the element as processed. */
                     processedIndexes.push(i);
                     element.wasProcessed = true;
@@ -207,7 +208,7 @@
             while (processedIndexes.length > 0) {
                 elements.splice(processedIndexes.pop(), 1);
                 /* Calling the end loop callback */
-                _callCallback(settings.callback_processed, elements.length);
+                callCallback(settings.callback_processed, elements.length);
             }
             /* Stop listening to scroll event when 0 elements remains */
             if (elementsLength === 0) {
@@ -252,6 +253,9 @@
             }
         }
 
+        /* 
+        Public methods
+        */
 
         handleScroll() {
             const throttle = this._settings.throttle;
@@ -301,9 +305,12 @@
     }
 
     /* Automatic instances creation if required (useful for async script loading!) */
+    /* TODO: Move it in some kind of auto-initializer-thing? */
     let autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) { _autoInitialize(autoInitOptions); }
-    
+    if (autoInitOptions) { 
+        autoInitialize(LazyLoad, autoInitOptions);
+    }
+
     return LazyLoad;
 
-}));
+})));
