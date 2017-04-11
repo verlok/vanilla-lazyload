@@ -85,7 +85,7 @@ LazyLoad.prototype = {
                 this._reveal(element);
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
-                element.wasProcessed = true;
+                element.dataset.wasProcessed = true;
             }
         }
         /* Removing processed elements from this._elements. */
@@ -113,7 +113,7 @@ LazyLoad.prototype = {
         for (i = 0; i < elementsLength; i++) {
             let element = elements[i];
             /* If the element has already been processed, skip it */
-            if (element.wasProcessed) {
+            if (element.dataset.wasProcessed) {
                 elementsToPurge.push(i);
             }
         }
