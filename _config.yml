@@ -1,0 +1,3 @@
+theme: jekyll-theme-cayman
+title: LazyLoad (vanilla-lazyload)
+description: LazyLoad is a fast, lightweight and flexible script that speeds up your web application by loading images only as they enter the viewport. LazyLoad supports responsive images.
