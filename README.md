@@ -37,7 +37,7 @@ It's possible to include it as an `async` script, see [use cases](#use-cases) be
 
 ### Simple
 
-Your lazy images are in the body of a scrolling page.
+**Use when**: your lazy images are (normally) located in the body of a scrolling page.
 
 Html:
 
@@ -57,6 +57,8 @@ var myLazyLoad = new LazyLoad();
 
 ### Async script + auto initialization
 
+**Use when**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
+
 Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
 
 ```html
@@ -72,7 +74,7 @@ Please note that if you put the script at the beginning of your HTML page, LazyL
 
 #### Auto init + get the instance
 
-To get an auto-initialized instance of LazyLoad (e.g. to and the [API](#api) on it), use the following:
+**Use when**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
 
 HTML:
 
@@ -94,12 +96,15 @@ You will then have the auto-generated instance in the `lazyLoadInstance` variabl
 
 #### Auto init multiple instances
 
+**Use when**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, and you need multiple auto-initialized instances of LazyLoad.
+
 To automatically initialize multiple instances of LazyLoad, just make `lazyLoadOptions` to be an array of options, like that:
 
 ```html
 <script>
+lazyLoadInstances = [];
 window.addEventListener('LazyLoad::Initialized', function (e) {
-    lazyLoadInstance = e.detail.instance;
+    lazyLoadInstances.push(e.detail.instance);
 }, false);
 lazyLoadOptions = [{
     /* your instance 1 settings */
