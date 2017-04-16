@@ -14,9 +14,9 @@ Jump to:
 
 ## Include the script
 
-### From cdnJs
+### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
 
-[Include the script from cdnjs](https://cdnjs.com/libraries/vanilla-lazyload), like that:
+Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/7.2.0/lazyload.transpiled.min.js"></script>
