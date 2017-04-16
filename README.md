@@ -2,34 +2,19 @@ LazyLoad is a fast, lightweight and flexible script that __speeds up your web ap
 
 Jump to:
 
-<!-- TOC -->
+<!-- TOC depthFrom:2 depthTo:2 -->
 
 - [Include the script](#include-the-script)
 - [Use cases](#use-cases)
-    - [Simplest](#simplest)
-    - [Async script](#async-script)
-    - [Responsive images - srcset and sizes](#responsive-images---srcset-and-sizes)
-    - [Responsive images - picture](#responsive-images---picture)
-    - [Scolling pane](#scolling-pane)
-    - [Multiple scrolling panes](#multiple-scrolling-panes)
-    - [Dynamic content](#dynamic-content)
-    - [Lazy background images](#lazy-background-images)
-    - [Lazy iframes](#lazy-iframes)
 - [Tips & tricks](#tips--tricks)
 - [API](#api)
-    - [Options](#options)
-    - [Methods](#methods)
 - [Notable features](#notable-features)
-    - [SEO friendly](#seo-friendly)
-    - [Progressive JPEG support --> improve perceived performance](#progressive-jpeg-support----improve-perceived-performance)
-    - [It works with your favourite framework**](#it-works-with-your-favourite-framework)
-    - [Support for responsive images.](#support-for-responsive-images)
-    - [Throttled execution for optimized CPU usage](#throttled-execution-for-optimized-cpu-usage)
-    - [Much faster than jQuery\_lazyload](#much-faster-than-jquery\_lazyload)
 
 <!-- /TOC -->
 
 ## Include the script
+
+### From cdnJs
 
 [Include the script from cdnjs](https://cdnjs.com/libraries/vanilla-lazyload), like that:
 
@@ -37,12 +22,16 @@ Jump to:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/7.2.0/lazyload.transpiled.min.js"></script>
 ```
 
-It's possible to include it as an `async` script, see [use cases](#use-cases).
+### Local install
 
 If you prefer to install it in your project, you can:
 - [download it from the `dist` folder](https://github.com/verlok/lazyload/tree/master/dist). The file you typically want to use is **lazyload.transpiled.min.js**.
 - install it with `npm install --save vanilla-lazyload`
 - install it with `bower install vanilla-lazyload`.
+
+### Async script
+
+It's possible to include it as an `async` script, see [use cases](#use-cases) below.
 
 
 ## Use cases
