@@ -24,7 +24,7 @@ Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) 
 
 ### Local install
 
-If you prefer to install it in your project, you can:
+If you prefer to install LazyLoad locally in your project, you can either:
 - [download it from the `dist` folder](https://github.com/verlok/lazyload/tree/master/dist). The file you typically want to use is **lazyload.transpiled.min.js**.
 - install it with `npm install --save vanilla-lazyload`
 - install it with `bower install vanilla-lazyload`.
@@ -33,12 +33,13 @@ If you prefer to install it in your project, you can:
 
 It's possible to include it as an `async` script, see [use cases](#use-cases) below.
 
-
 ## Use cases
 
-### Simplest
+### Simple
 
 Your lazy images are in the body of a scrolling page.
+
+Html:
 
 ```html
 <img alt="..." 
@@ -46,15 +47,70 @@ Your lazy images are in the body of a scrolling page.
      width="220" height="280">
 ```
 
+Javascript:
+
 ```js
 var myLazyLoad = new LazyLoad();
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api) --> more about options and methods.
+[DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api)
 
-### Async script
+### Async script + auto initialization
 
-...
+Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
+
+```html
+<script>window.lazyLoadOptions = {/* your settings or array of settings */};</script>
+<script async src="../src/lazyload.js"></script>
+```
+
+LazyLoad is then downloaded and automatically **initialized right after** with the options you passed in `window.lazyLoadOptions`.
+
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will probably initialized before the DOM ready event. In that case, you need to get the instance and use the `update` method on it. This will make it check the DOM again.
+
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
+
+#### Auto init + get the instance
+
+To get an auto-initialized instance of LazyLoad (e.g. to and the [API](#api) on it), use the following:
+
+HTML:
+
+```html
+<script>
+window.addEventListener('LazyLoad::Initialized', function (e) {
+    lazyLoadInstance = e.detail.instance;
+}, false);
+lazyLoadOptions = {
+    /* your settings */
+};
+</script>
+<script async src="../src/lazyload.js"></script>
+```
+
+You will then have the auto-generated instance in the `lazyLoadInstance` variable.
+
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
+
+#### Auto init multiple instances
+
+To automatically initialize multiple instances of LazyLoad, just make `lazyLoadOptions` to be an array of options, like that:
+
+```html
+<script>
+window.addEventListener('LazyLoad::Initialized', function (e) {
+    lazyLoadInstance = e.detail.instance;
+}, false);
+lazyLoadOptions = [{
+    /* your instance 1 settings */
+}, {
+    /* your instance 2 settings */
+}];
+</script>
+<script async src="../src/lazyload.js"></script>
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
 
 ### Responsive images - srcset and sizes
 
