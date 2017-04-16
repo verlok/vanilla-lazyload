@@ -62,8 +62,12 @@ var myLazyLoad = new LazyLoad();
 Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
 
 ```html
-<script>window.lazyLoadOptions = {/* your settings or array of settings */};</script>
-<script async src="../src/lazyload.js"></script>
+<script>
+window.lazyLoadOptions = {
+    /* your settings here */
+};
+</script>
+<script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
 
 LazyLoad is then downloaded and automatically **initialized right after** with the options you passed in `window.lazyLoadOptions`.
@@ -80,14 +84,18 @@ HTML:
 
 ```html
 <script>
+// Listens to the Initialized event
 window.addEventListener('LazyLoad::Initialized', function (e) {
+    // Get the instance and puts it in the lazyLoadInstance variable
     lazyLoadInstance = e.detail.instance;
 }, false);
+// Sets the lazyload options for async usage
 lazyLoadOptions = {
     /* your settings */
 };
 </script>
-<script async src="../src/lazyload.js"></script>
+<!-- Download the script and execute it right after -->
+<script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
 
 You will then have the auto-generated instance in the `lazyLoadInstance` variable.
@@ -102,17 +110,22 @@ To automatically initialize multiple instances of LazyLoad, just make `lazyLoadO
 
 ```html
 <script>
+// Prepare an empty array of auto-initialized instances 
 lazyLoadInstances = [];
+// Listens to the Initialized event
 window.addEventListener('LazyLoad::Initialized', function (e) {
+    // Get the instance and push it in the lazyLoadInstances array
     lazyLoadInstances.push(e.detail.instance);
 }, false);
+// Sets the lazyload options for each instance
 lazyLoadOptions = [{
     /* your instance 1 settings */
 }, {
     /* your instance 2 settings */
 }];
 </script>
-<script async src="../src/lazyload.js"></script>
+<!-- Download the script and execute it right after -->
+<script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
