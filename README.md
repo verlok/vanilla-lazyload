@@ -1,4 +1,4 @@
-LazyLoad is a fast, lightweight and flexible script that __speeds up your web application__ by loading images only as they enter the viewport. LazyLoad supports [responsive images](https://alistapart.com/article/responsive-images-in-practice) and it has some others [notable features](#notable-features).
+LazyLoad is a fast, lightweight and flexible script that __speeds up your web application__ by loading images only as they enter the viewport. LazyLoad supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it's SEO friendly and it has some others [notable features](#notable-features).
 
 Jump to:
 
@@ -21,11 +21,11 @@ Jump to:
     - [Methods](#methods)
 - [Notable features](#notable-features)
     - [SEO friendly](#seo-friendly)
-    - [Faster than jQuery\_lazyload](#faster-than-jquery\_lazyload)
     - [Progressive JPEG support --> improve perceived performance](#progressive-jpeg-support----improve-perceived-performance)
     - [It works with your favourite framework**](#it-works-with-your-favourite-framework)
     - [Support for responsive images.](#support-for-responsive-images)
     - [Throttled execution for optimized CPU usage](#throttled-execution-for-optimized-cpu-usage)
+    - [Much faster than jQuery\_lazyload](#much-faster-than-jquery\_lazyload)
 
 <!-- /TOC -->
 
@@ -141,10 +141,6 @@ You can call the following public methods on any instance of LazyLoad.
 
 LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` you your image.
 
-### Faster than jQuery\_lazyload
-
-This script is comparable to the notorious jQuery\_lazyload, but **_LazyLoad_ is 6x faster**, because LazyLoad uses only optimized, **native javascript** functions and methods, instead of jQuery. Your users will see the difference, even in slow devices or computers.
-
 ### Progressive JPEG support --> improve perceived performance
 
 [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
@@ -160,3 +156,7 @@ _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attribute
 ### Throttled execution for optimized CPU usage
 
 _LazyLoad_'s listeners to the container's `scroll` and `resize` events are throttled by default, meaning that the main function of the script will not overload the CPU of devices with a smooth scroll. 
+
+### Much faster than jQuery\_lazyload
+
+This script is comparable to the notorious jQuery\_lazyload, but **_LazyLoad_ is 6x faster**, because LazyLoad uses only optimized, **native javascript** functions and methods, instead of jQuery. Your users will see the difference, even in slow devices or computers.
