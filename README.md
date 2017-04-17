@@ -5,7 +5,7 @@ Jump to:
 <!-- TOC depthFrom:2 depthTo:2 -->
 
 - [Include the script](#include-the-script)
-- [Use cases](#use-cases)
+- [Recipes](#recipes)
 - [Tips & tricks](#tips--tricks)
 - [API](#api)
 - [Notable features](#notable-features)
@@ -31,15 +31,15 @@ If you prefer to install LazyLoad locally in your project, you can either:
 
 ### Async script
 
-It's possible to include it as an `async` script, see [use cases](#use-cases) below.
+It's possible to include it as an `async` script, see [Recipes](#recipes) below.
 
-## Use cases
+## Recipes
 
 ### Simple
 
-**Use when**: your lazy images are (normally) located in the body of a scrolling page.
+**When to use**: your lazy images are (normally) located in the body of a scrolling page.
 
-Html:
+HTML
 
 ```html
 <img alt="..." 
@@ -47,7 +47,7 @@ Html:
      width="220" height="280">
 ```
 
-Javascript:
+Javascript
 
 ```js
 var myLazyLoad = new LazyLoad();
@@ -55,11 +55,55 @@ var myLazyLoad = new LazyLoad();
 
 [DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api)
 
+### Responsive images - srcset and sizes
+
+> **When to use**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
+
+HTML 
+
+```html
+<img data-original="/your/image1.jpg"
+    data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+    sizes="(min-width: 20em) 35vw, 100vw">
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad();
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/with-srcset-sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with-srcset-sizes.html) | [API](#api)
+
+### Responsive images - picture
+
+> **When to use**: you want to lazily load responsive images using the `picture` tag.
+
+HTML
+
+```html
+<picture>
+    <source media="(min-width: 1024px)" data-original-set="/your/image1a.jpg" />
+    <source media="(min-width: 500px)" data-original-set="/your/image1b.jpg" />
+    <img alt="Stivaletti" data-original="/your/image1.jpg">
+</picture>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad();
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) | [API](#api)
+
 ### Async script + auto initialization
 
-**Use when**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
+> **When to use**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
 
 Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
+
+HTML + Javascript
 
 ```html
 <script>
@@ -72,15 +116,15 @@ window.lazyLoadOptions = {
 
 LazyLoad is then downloaded and automatically **initialized right after** with the options you passed in `window.lazyLoadOptions`.
 
-Please note that if you put the script at the beginning of your HTML page, LazyLoad will probably initialized before the DOM ready event. In that case, you need to get the instance and use the `update` method on it. This will make it check the DOM again.
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will probably initialized before the DOM ready event. In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again.
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
 
-#### Auto init + get the instance
+#### Auto init + store the instance in a variable
 
-**Use when**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
+> **When to use**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
 
-HTML:
+HTML + Javascript
 
 ```html
 <script>
@@ -102,11 +146,13 @@ You will then have the auto-generated instance in the `lazyLoadInstance` variabl
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
 
-#### Auto init multiple instances
+#### Auto init multiple instances + store them in an array
 
-**Use when**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, and you need multiple auto-initialized instances of LazyLoad.
+> **When to use**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, and you need multiple auto-initialized instances of LazyLoad.
 
 To automatically initialize multiple instances of LazyLoad, just make `lazyLoadOptions` to be an array of options, like that:
+
+HTML + Javascript
 
 ```html
 <script>
@@ -130,25 +176,85 @@ lazyLoadOptions = [{
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
 
-### Responsive images - srcset and sizes
-
-...
-
-### Responsive images - picture
-
-...
 
 ### Scolling pane
 
-...
+> **When to use**: when your scrolling container is not the main browser window, but a scrolling container.
+
+HTML
+
+```html
+<div id="scrollingPane">
+    <img alt="Image description" 
+         data-original="../img/44721746JJ_15_a.jpg" 
+         width="220" height="280">
+    <!-- More images -->
+</div>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    container: document.getElementById('scrollingPane')
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) | [API](#api)
 
 ### Multiple scrolling panes
 
-...
+> **When to use**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
+
+HTML
+
+```html
+<div id="scrollingPane1">
+    <img alt="Image description" 
+         data-original="../img/44721746JJ_15_a.jpg" 
+         width="220" height="280">
+    <!-- More images -->
+</div>
+<div id="scrollingPane2">
+    <img alt="Image description" 
+         data-original="../img/44721746JJ_15_a.jpg" 
+         width="220" height="280">
+    <!-- More images -->
+</div>
+```
+
+Javascript
+
+```js
+var myLazyLoad1 = new LazyLoad({
+    container: document.getElementById('scrollingPane1')
+});
+var myLazyLoad2 = new LazyLoad({
+    container: document.getElementById('scrollingPane2')
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) | [API](#api)
 
 ### Dynamic content
 
-...
+> **When to use**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
+
+HTML
+
+```html
+<!-- Depending on your case, see other recipes HTML -->
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad();
+// After your content has changed...
+myLazyLoad.update();
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) | [API](#api)
 
 ### Lazy background images
 
