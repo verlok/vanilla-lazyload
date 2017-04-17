@@ -266,6 +266,9 @@ myLazyLoad.update();
 
 ## Tips & tricks
 
+* How to set up CSS
+* When your scrolling container isn't native
+* When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
 ...
 
 ## API
