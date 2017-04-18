@@ -110,16 +110,20 @@ HTML + Javascript
 window.lazyLoadOptions = {
     /* your lazyload options */
 };
-// OR, if you need multiple instances
+</script>
+
+<!-- Download the script and execute it after lazyLoadOptions is defined -->
+<script async src="https://.../lazyload.transpiled.min.js"></script>
+```
+
+**If you need multiple async instances**, just pass `window.lazyLoadOptions` an array of settings.
+
+```js
 window.lazyLoadOptions = [{
     /* your instance 1 options */
 }, {
     /* your instance 2 options */
 }];
-</script>
-
-<!-- Download the script and execute it after lazyLoadOptions is defined -->
-<script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
 
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
