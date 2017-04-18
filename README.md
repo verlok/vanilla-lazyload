@@ -2,15 +2,7 @@ LazyLoad is a fast, lightweight and flexible script that __speeds up your web ap
 
 Jump to:
 
-<!-- TOC depthFrom:2 depthTo:2 -->
-
-- [Include the script](#include-the-script)
-- [Recipes](#recipes)
-- [Tips & tricks](#tips--tricks)
-- [API](#api)
-- [Notable features](#notable-features)
-
-<!-- /TOC -->
+[Include the script](#include-the-script) | [Recipes](#recipes) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
 ## Include the script
 
