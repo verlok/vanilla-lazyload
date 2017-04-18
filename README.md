@@ -391,7 +391,7 @@ LazyLoad **doesn't hide your images from search engines**, even if you don't spe
 
 [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
 
-### It works with your favourite framework**
+### It works with your favourite framework
 
 As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using **Angular**, **React** or **Vue.js** without the need to include jQuery.
 
