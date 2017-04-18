@@ -286,9 +286,72 @@ That's it. Whenever the element selected by `elements_selector` is not an `img` 
 
 ## Tips & tricks
 
-* How to set up CSS
+### Occupy vertical space and maintain ratio
+
+You need to be sure that the images that are going to be lazy loaded **occupy some vertical space (*)**, ideally the same space of the loaded images. Otherwise, all the images will be loaded at once.
+
+In an elastic layout where images width change, you want to keep vertical space maintaining the images height, using a width/height ratio calculation.
+
+```css
+.image-wrapper {
+    width: 100%;
+    height: 0;
+    padding-bottom: 66.67%; /* You define this doing height / width * 100% */
+    position: relative;
+}
+.image {
+    width: 100%;
+    /*height: auto;*/
+    position: absolute;
+}
+```
+
+More info in [Sizing Fluid Image Containers with a Little CSS Padding Hack](http://andyshora.com/css-image-container-padding-hack.html) by Andy Shora.
+
+There's also a **useful SASS mixin** to [maintain aspect ratio](https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/) on CSS tricks.
+
+```scss
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+```
+
+### Show the images *while* they load
+
+Images should be shown while they load, and not after, to give your users the best perceived performance. This is especially true if you use a progressive loading format like **progressive JPEG**.
+
+In order to make your images visible as soon as LazyLoad sets the `src`/`srcset` attribute to it, you can either:
+
+Do it like that via CSS:
+
+```css
+/* Prevents img without src to appear */
+img:not([src]) {
+    visibility: hidden;
+}
+```
+
+Or do it using the **CSS classes** set by LazyLoad when loading starts - see [API](#api).
+
+<!--
+MOAR points to add to the README:
+
 * When your scrolling container isn't native
 * When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
+-->
 
 ## API
 
