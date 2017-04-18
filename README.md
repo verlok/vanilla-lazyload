@@ -146,45 +146,15 @@ You will then have the auto-generated instance in the `lazyLoadInstance` variabl
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
 
-#### Auto init multiple instances + store them in an array
 
-> **When to use**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, and you need multiple auto-initialized instances of LazyLoad.
-
-To automatically initialize multiple instances of LazyLoad, just make `lazyLoadOptions` to be an array of options, like that:
-
-HTML + Javascript
-
-```html
-<script>
-// Prepare an empty array of auto-initialized instances 
-lazyLoadInstances = [];
-// Listens to the Initialized event
-window.addEventListener('LazyLoad::Initialized', function (e) {
-    // Get the instance and push it in the lazyLoadInstances array
-    lazyLoadInstances.push(e.detail.instance);
-}, false);
-// Sets the lazyload options for each instance
-lazyLoadOptions = [{
-    /* your instance 1 settings */
-}, {
-    /* your instance 2 settings */
-}];
-</script>
-<!-- Download the script and execute it right after -->
-<script async src="https://.../lazyload.transpiled.min.js"></script>
-```
-
-[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
-
-
-### Scolling pane
+### Scolling panel
 
 > **When to use**: when your scrolling container is not the main browser window, but a scrolling container.
 
 HTML
 
 ```html
-<div id="scrollingPane">
+<div id="scrollingPanel">
     <img alt="Image description" 
          data-original="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
@@ -196,26 +166,26 @@ Javascript
 
 ```js
 var myLazyLoad = new LazyLoad({
-    container: document.getElementById('scrollingPane')
+    container: document.getElementById('scrollingPanel')
 });
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/single_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) | [API](#api)
 
-### Multiple scrolling panes
+### Multiple scrolling panels
 
 > **When to use**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
 
 HTML
 
 ```html
-<div id="scrollingPane1">
+<div id="scrollingPanel1">
     <img alt="Image description" 
          data-original="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
-<div id="scrollingPane2">
+<div id="scrollingPanel2">
     <img alt="Image description" 
          data-original="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
@@ -227,10 +197,10 @@ Javascript
 
 ```js
 var myLazyLoad1 = new LazyLoad({
-    container: document.getElementById('scrollingPane1')
+    container: document.getElementById('scrollingPanel1')
 });
 var myLazyLoad2 = new LazyLoad({
-    container: document.getElementById('scrollingPane2')
+    container: document.getElementById('scrollingPanel2')
 });
 ```
 
@@ -256,20 +226,53 @@ myLazyLoad.update();
 
 [DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) | [API](#api)
 
-### Lazy background images
-
-...
-
 ### Lazy iframes
 
-...
+> **When to use**: you want to lazily load `iframe`s in your web page, maybe because you have many or just because you want to load only what your users actually want to see.
+
+HTML
+
+```html
+<iframe data-original="iframes/i01.html" frameborder="0"></iframe>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: "iframe"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) | [API](#api)
+
+### Lazy background images
+
+> **When to use**: your images are set as CSS background images instead of real `img`, but you still want to lazily load them.
+
+HTML
+
+```html
+<div class="lazy" data-original="../img/44721746JJ_15_a.jpg"></div>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+That's it. Whenever the element selected by `elements_selector` is not an `img` or an `iframe`, LazyLoad puts the image found in the `data-original` attribute in the `background-image` of the element.
+
+[DEMO](http://verlok.github.io/lazyload/demos/background_images.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) | [API](#api)
 
 ## Tips & tricks
 
 * How to set up CSS
 * When your scrolling container isn't native
 * When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
-...
 
 ## API
 
