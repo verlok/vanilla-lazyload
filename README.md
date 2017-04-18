@@ -110,6 +110,12 @@ HTML + Javascript
 window.lazyLoadOptions = {
     /* your lazyload options */
 };
+// OR, if you need multiple instances
+window.lazyLoadOptions = [{
+    /* your instance 1 options */
+}, {
+    /* your instance 2 options */
+}];
 </script>
 
 <!-- Download the script and execute it after lazyLoadOptions is defined -->
@@ -117,14 +123,6 @@ window.lazyLoadOptions = {
 ```
 
 **Need multiple async instances**? Just pass `window.lazyLoadOptions` an array of settings.
-
-```js
-window.lazyLoadOptions = [{
-    /* your instance 1 options */
-}, {
-    /* your instance 2 options */
-}];
-```
 
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
