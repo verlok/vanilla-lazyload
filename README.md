@@ -108,15 +108,26 @@ HTML + Javascript
 ```html
 <script>
 window.lazyLoadOptions = {
-    /* your settings here */
+    /* your lazyload options */
 };
 </script>
+
+<!-- Download the script and execute it after lazyLoadOptions is defined -->
 <script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
 
-LazyLoad is then downloaded and automatically **initialized right after** with the options you passed in `window.lazyLoadOptions`.
+**Need multiple async instances**? Just pass `window.lazyLoadOptions` an array of settings.
 
-Please note that if you put the script at the beginning of your HTML page, LazyLoad will probably initialized before the DOM ready event. In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again.
+```js
+window.lazyLoadOptions = [{
+    /* your instance 1 options */
+}, {
+    /* your instance 2 options */
+}];
+```
+
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
+In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
 
@@ -128,17 +139,19 @@ HTML + Javascript
 
 ```html
 <script>
-// Listens to the Initialized event
+// Listen to the Initialized event
 window.addEventListener('LazyLoad::Initialized', function (e) {
     // Get the instance and puts it in the lazyLoadInstance variable
     lazyLoadInstance = e.detail.instance;
 }, false);
-// Sets the lazyload options for async usage
+
+// Set the lazyload options for async usage
 lazyLoadOptions = {
-    /* your settings */
+    /* your lazyload options */
 };
 </script>
-<!-- Download the script and execute it right after -->
+
+<!-- Download the script and execute it after lazyLoadOptions is defined -->
 <script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
 
