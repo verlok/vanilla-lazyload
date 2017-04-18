@@ -6,6 +6,9 @@ Jump to:
 
 - [Include the script](#include-the-script)
 - [Recipes](#recipes)
+- [Tips & tricks](#tips--tricks)
+- [API](#api)
+- [Notable features](#notable-features)
 
 <!-- /TOC -->
 
@@ -127,7 +130,6 @@ window.lazyLoadOptions = [{
 <!-- Download the script and execute it after lazyLoadOptions is defined -->
 <script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
-```
 
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
@@ -228,9 +230,7 @@ var myLazyLoad2 = new LazyLoad({
 
 HTML
 
-```html
-<!-- Depending on your case, see other recipes HTML -->
-```
+*The HTML to use depends on your case, see other recipes' HTML*
 
 Javascript
 
@@ -299,19 +299,19 @@ Here's the list of the options.
 
 | Name | Meaning | Default value |
 | ---- | ----| ---- |
-| `container` | The container in which to start searching for elements, and from which to listen to the scroll event | `window` |
-| `elements_selector` | The selector of the image elements inside the container | `"img"` |
+| `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `window` |
+| `elements_selector` | The selector of the image elements inside the container, as descendants of the element in the `container` option | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
-| `data_src` | The name of the data attribute containing the original image source. The "data-" is automatically added. | `"original"` |
-| `data_srcset` | The name of the data attribute containing the original image source set. The "data-" is automatically added. If you also need to add the `sizes` attribute, you can do it directly to you `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) . | `"original-set"` |
-| `class_loading` | The class applied to the elements (`img` or `iframe`) while the loading is in progress | `"loading"` |
-| `class_loaded` | The class applied to the elements (`img` or `iframe`) when the loading is complete | `"loaded"` |
-| `class_error` | The class applied to the elements (`img` or `iframe`) when the element causes an error | `"error"` |
-| `class_initial` | The class applied to the first batch elements (`img` or `iframe`) to be loaded in the page | `"initial"` |
+| `data_src` | The name of the dataset property containing the original image source. | `"original"` |
+| `data_srcset` | The name of the dataset property containing the original image source set. If you also use the `sizes` attribute, put it directly in the `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img). | `"original-set"` |
+| `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
+| `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
+| `class_error` | The class applied to the elements when the element causes an error | `"error"` |
+| `class_initial` | The class applied to the first batch elements to be loaded in the page | `"initial"` |
 | `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
-| `callback_load` | A function to be called when an element (`img` or `iframe`) was loaded. | `null` |
-| `callback_error` | A function to be called when an element (`img` or `iframe`) triggers an error. | `null` |
+| `callback_load` | A function to be called when an element was loaded. | `null` |
+| `callback_error` | A function to be called when an element triggers an error. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
 | `callback_processed` | A function to be called when an image was processed. | `null` |
 
