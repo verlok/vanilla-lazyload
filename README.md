@@ -122,8 +122,6 @@ window.lazyLoadOptions = [{
 <script async src="https://.../lazyload.transpiled.min.js"></script>
 ```
 
-**Need multiple async instances**? Just pass `window.lazyLoadOptions` an array of settings.
-
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
 
