@@ -99,12 +99,18 @@
         for (let i = 0; i < parent.children.length; i++) {
             let pictureChild = parent.children[i];
             if (pictureChild.tagName === "SOURCE") {
-                let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+                let sourceSrcset = pictureChild.dataset[hyphentoCamelCase(srcsetDataAttribute)];
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
             }
         }
+    };
+
+    const hyphentoCamelCase = function(string) {
+        return string.replace(/-([a-z])/g, function(string) {
+            return string[1].toUpperCase();
+        });
     };
 
     var setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
