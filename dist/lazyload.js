@@ -10,7 +10,7 @@
         threshold: 300,
         throttle: 150,
         data_src: "original",
-        data_srcset: "original-set",
+        data_srcset: "originalSet",
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
