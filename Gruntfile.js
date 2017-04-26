@@ -36,7 +36,6 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				files: {
-					"dist/lazyload.min.js": "dist/lazyload.js",
 					"dist/lazyload.transpiled.min.js": "dist/lazyload.transpiled.js",
 				}
 			}
