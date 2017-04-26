@@ -358,8 +358,8 @@ Here's the list of the options.
 | `elements_selector` | The selector of the image elements inside the container, as descendants of the element in the `container` option | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
-| `data_src` | The name of the dataset property containing the original image source. | `"original"` |
-| `data_srcset` | The name of the dataset property containing the original image source set. If you also use the `sizes` attribute, put it directly in the `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img). | `"original-set"` |
+| `data_src` | The name of the dataset property containing the original image source. See [dataset naming note](#dataset-naming-note) below. | `"original"` |
+| `data_srcset` | The name of the dataset property containing the original image source set in either `img` and `source` tags. See [dataset naming note](#dataset-naming-note) below. | `"originalSet"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements when the element causes an error | `"error"` |
@@ -369,6 +369,12 @@ Here's the list of the options.
 | `callback_error` | A function to be called when an element triggers an error. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
 | `callback_processed` | A function to be called when an image was processed. | `null` |
+
+#### Dataset naming note
+
+Please note that dataset properties of hyphenated data attributes (like `data-my-custom-attribute`) are automatically [converted to camel case](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) by Javascript (so `myCustomAttribute`).
+
+[Demo here](https://codepen.io/verlok/pen/LybvYy?editors=1011))
 
 
 ### Methods
