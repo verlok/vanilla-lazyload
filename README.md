@@ -359,7 +359,7 @@ Here's the list of the options.
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
 | `data_src` | The name of the dataset property containing the original image source. | `"original"` |
-| `data_srcset` | The name of the dataset property containing the original image source set. If you also use the `sizes` attribute, put it directly in the `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img). | `"original-set"` |
+| `data_srcset` | The name of the dataset property containing the original image source set. If you also use the `sizes` attribute, put it directly in the `img` tag, as [`sizes` gets ignored when the `srcset` attribute is missing](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img). | `"originalSet"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements when the element causes an error | `"error"` |
