@@ -276,6 +276,51 @@ That's it. Whenever the element selected by `elements_selector` is not an `img` 
 
 [DEMO](http://verlok.github.io/lazyload/demos/background_images.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) | [API](#api)
 
+### Lazy LazyLoad
+
+> **When to use**: when you have a lot of scrolling containers in the page and you want to insantiate a LazyLoad only on the ones that are in the viewport.
+
+HTML
+
+```html
+<div class="horzContainer">
+    <img src="" alt="Row 01, col 01" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_01&amp;w=200&amp;h=200">
+    <img src="" alt="Row 01, col 02" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_02&amp;w=200&amp;h=200">
+    <!-- ... -->
+</div>
+<div class="horzContainer">
+    <img src="" alt="Row 02, col 01" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_01&amp;w=200&amp;h=200">
+    <img src="" alt="Row 02, col 02" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_02&amp;w=200&amp;h=200">
+    <!-- ... -->
+</div>
+```
+
+Javascript
+
+```js
+var lazyLoadInstances = [];
+// The "lazyLazy" instance of lazyload is used (kinda improperly) 
+// to check when the .horzContainer divs enter the viewport
+var lazyLazy = new LazyLoad({
+    elements_selector: ".horzContainer",
+    // When the .horzContainer div enters the viewport...
+    callback_set: function(el) {
+        // ...instantiate a new LazyLoad on it
+        var oneLL = new LazyLoad({
+            container: el
+        });
+        // Optionally push it in the lazyLoadInstances 
+        // array to keep track of the instances
+        lazyLoadInstances.push(oneLL);
+    }
+});
+```
+
+That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_set` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
+
+[DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) | [API](#api)
+
+
 ## Tips & tricks
 
 ### Occupy vertical space and maintain ratio
