@@ -28,7 +28,7 @@
         height: 200px;
     }
 </style>
-<div class="horzContainer horzContainer--01">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2001%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -90,7 +90,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--02">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2002%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -152,7 +152,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--03">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2003%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -214,7 +214,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--04">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2004%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -276,7 +276,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--05">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2005%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -338,7 +338,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--06">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2006%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -400,7 +400,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--07">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2007%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -462,7 +462,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--08">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2008%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -524,7 +524,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--09">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2009%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -586,7 +586,7 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-<div class="horzContainer horzContainer--10">
+<div class="horzContainer">
     <figure class="item">
         <img src="" alt="" data-original="https://placeholdit.imgix.net/~text?txtsize=19&txt=row%2010%20col%2001&w=200&h=200">
         <figcaption>Lorem ipsum 01</figcaption>
@@ -648,20 +648,23 @@
         <figcaption>Lorem ipsum 15</figcaption>
     </figure>
 </div>
-
-
-
 <script src="../dist/lazyload.transpiled.min.js"></script>
 <script>
-    // THIS LOOPS ALL THE HORZCONTAINER AND INSTANTIATE A LAZYLOAD ON IT
+(function() {
     var lls = [];
-    for (var i = 1; i <= 10; i += 1) {
-        var number = (i < 10) ? '0' + i : '' + i;
-        var container = document.querySelector('.horzContainer--' + number);
-        var oneLL = new LazyLoad({
-            container: container,
-            threshold: 0
-        });
-        lls.push(oneLL);
-    }
+    // The lazyLazy instance of lazyload is used (improperly) to check when the .horzContainer divs enter the viewport
+    var lazyLazy = new LazyLoad({
+        threshold: 0,
+        elements_selector: ".horzContainer",
+        // When the .horzContainer div enters the viewport, I instantiate a new LazyLoad on it. Easy.
+        callback_set: function(e) {
+            console.log("Initializing LazyLoad on", e);
+            var oneLL = new LazyLoad({
+                container: e,
+                threshold: 0
+            });
+            lls.push(oneLL);
+        }
+    });
+})();
 </script>
