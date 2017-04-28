@@ -653,6 +653,7 @@
 
 <script src="../dist/lazyload.transpiled.min.js"></script>
 <script>
+    // THIS LOOPS ALL THE HORZCONTAINER AND INSTANTIATE A LAZYLOAD ON IT
     var lls = [];
     for (var i = 1; i <= 10; i += 1) {
         var number = (i < 10) ? '0' + i : '' + i;
@@ -663,5 +664,4 @@
         });
         lls.push(oneLL);
     }
-
 </script>
