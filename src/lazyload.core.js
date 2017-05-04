@@ -18,7 +18,7 @@ const LazyLoad = function(instanceSettings) {
 
     this._isFirstLoop = true;
     window.addEventListener("resize", this._boundHandleScroll);
-    this.update();
+    this._queryOriginNode && this.update();
 };
 
 LazyLoad.prototype = {
