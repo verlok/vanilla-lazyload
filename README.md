@@ -4,7 +4,7 @@ Check out the [LazyLoad website](https://verlok.github.io/lazyload/), or [LazyLo
 
 Jump to:
 
-[Include the script](#include-the-script) | [Recipes](#recipes) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
+[Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
 
 ## Include the script
@@ -323,6 +323,11 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 [DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) | [API](#api)
 
+## Demos
+
+Didn't find the [recipe](#recipes) that exactly matches your case? We have demos!
+
+The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contains 15 use cases of LazyLoad. You might find there what you're looking for.
 
 ## Tips & tricks
 
@@ -422,7 +427,7 @@ Here's the list of the options.
 
 Please note that dataset properties of hyphenated data attributes (like `data-my-custom-attribute`) are automatically [converted to camel case](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) by Javascript (so `myCustomAttribute`).
 
-[Demo here](https://codepen.io/verlok/pen/LybvYy?editors=1011))
+[Demo here](https://codepen.io/verlok/pen/LybvYy?editors=1011)
 
 
 ### Methods
