@@ -1,6 +1,6 @@
 LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images only as they enter the viewport**. LazyLoad is written in plain (vanilla) Javascript, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it's SEO friendly and it has some others [notable features](#notable-features). 
 
-Check out the [LazyLoad website](https://verlok.github.io/lazyload/), or [LazyLoad on GitHub](https://github.com/verlok/lazyload/).
+Check out the [LazyLoad website](https://verlok.github.io/lazyload/), in case you're reading this on GitHub.
 
 Jump to:
 
