@@ -154,6 +154,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         _reveal: function _reveal(element) {
             var settings = this._settings;
+            var onLoadCallback = void 0,
+                onErrorOrLoadCallback = void 0;
 
             var errorCallback = function errorCallback() {
                 /* As this method is asynchronous, it must be protected against external destroy() calls */
@@ -165,6 +167,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 element.classList.remove(settings.class_loading);
                 element.classList.add(settings.class_error);
                 callCallback(settings.callback_error, element);
+                callCallback(onErrorOrLoadCallback);
             };
 
             var loadCallback = function loadCallback() {
@@ -172,21 +175,37 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 if (!settings) {
                     return;
                 }
+                callCallback(onLoadCallback);
                 element.classList.remove(settings.class_loading);
                 element.classList.add(settings.class_loaded);
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 /* Calling LOAD callback */
                 callCallback(settings.callback_load, element);
+                callCallback(onErrorOrLoadCallback);
+            };
+
+            var listenToElement = function listenToElement(domElement) {
+                domElement.addEventListener("load", loadCallback);
+                domElement.addEventListener("error", errorCallback);
+                element.classList.add(settings.class_loading);
             };
 
             if (element.tagName === "IMG" || element.tagName === "IFRAME") {
-                element.addEventListener("load", loadCallback);
-                element.addEventListener("error", errorCallback);
-                element.classList.add(settings.class_loading);
+                listenToElement(element);
+                setSources(element, settings.data_srcset, settings.data_src);
+            } else {
+                var img = document.createElement("img");
+                img.setAttribute("src", settings.data_src);
+                onLoadCallback = function onLoadCallback() {
+                    setSources(element, settings.data_srcset, settings.data_src);
+                };
+                onErrorOrLoadCallback = function onErrorOrLoadCallback() {
+                    img.remove();
+                };
+                listenToElement(img);
             }
 
-            setSources(element, settings.data_srcset, settings.data_src);
             /* Calling SET callback */
             callCallback(settings.callback_set, element);
         },

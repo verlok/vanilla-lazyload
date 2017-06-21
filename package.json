@@ -16,7 +16,8 @@
     "jest": "^19.0.2"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "grunt"
   },
   "repository": {
     "type": "git",
