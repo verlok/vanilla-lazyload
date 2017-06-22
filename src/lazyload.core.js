@@ -66,7 +66,7 @@ LazyLoad.prototype = {
             setSources(element, settings.data_srcset, settings.data_src);
         } else {
             const img = document.createElement("img");
-            img.setAttribute("src", settings.data_src);
+            img.setAttribute("src", element.dataset[settings.data_src]);
             onLoadCallback = function(){ setSources(element, settings.data_srcset, settings.data_src) };
             onErrorOrLoadCallback = function(){ img.remove(); }
             listenToElement(img);

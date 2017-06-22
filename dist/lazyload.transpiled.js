@@ -196,7 +196,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 setSources(element, settings.data_srcset, settings.data_src);
             } else {
                 var img = document.createElement("img");
-                img.setAttribute("src", settings.data_src);
+                img.setAttribute("src", element.dataset[settings.data_src]);
                 onLoadCallback = function onLoadCallback() {
                     setSources(element, settings.data_srcset, settings.data_src);
                 };
