@@ -29,6 +29,7 @@ LazyLoad.prototype = {
 
     _reveal: function (element) {
         const settings = this._settings;
+        let onLoadCallback, onErrorOrLoadCallback;
 
         const errorCallback = function () {
             /* As this method is asynchronous, it must be protected against external destroy() calls */
@@ -38,26 +39,39 @@ LazyLoad.prototype = {
             element.classList.remove(settings.class_loading);
             element.classList.add(settings.class_error);
             callCallback(settings.callback_error, element);
+            callCallback(onErrorOrLoadCallback);
         };
 
         const loadCallback = function () {
             /* As this method is asynchronous, it must be protected against external destroy() calls */
             if (!settings) { return; }
+            callCallback(onLoadCallback);
             element.classList.remove(settings.class_loading);
             element.classList.add(settings.class_loaded);
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
             /* Calling LOAD callback */
             callCallback(settings.callback_load, element);
+            callCallback(onErrorOrLoadCallback);
         };
 
-        if (element.tagName === "IMG" || element.tagName === "IFRAME") {
-            element.addEventListener("load", loadCallback);
-            element.addEventListener("error", errorCallback);
+        const listenToElement = function(domElement){
+            domElement.addEventListener("load", loadCallback);
+            domElement.addEventListener("error", errorCallback);
             element.classList.add(settings.class_loading);
         }
 
-        setSources(element, settings.data_srcset, settings.data_src);
+        if(element.tagName === "IMG" || element.tagName === "IFRAME") {
+            listenToElement(element)
+            setSources(element, settings.data_srcset, settings.data_src);
+        } else {
+            const img = document.createElement("img");
+            img.setAttribute("src", element.dataset[settings.data_src]);
+            onLoadCallback = function(){ setSources(element, settings.data_srcset, settings.data_src) };
+            onErrorOrLoadCallback = function(){ img.remove(); }
+            listenToElement(img);
+        }
+        
         /* Calling SET callback */
         callCallback(settings.callback_set, element);
     },
