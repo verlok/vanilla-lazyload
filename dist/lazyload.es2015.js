@@ -1,11 +1,8 @@
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 (function (global, factory) {
-    (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.LazyLoad = factory();
-})(this, function () {
-    'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.LazyLoad = factory());
+}(this, (function () { 'use strict';
 
     var defaultSettings = {
         elements_selector: "img",
@@ -25,78 +22,84 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callback_processed: null
     };
 
-    var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
+    const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
-    var callCallback = function callCallback(callback, argument) {
-        if (callback) {
-            callback(argument);
-        }
+    const callCallback = function (callback, argument) {
+        if (callback) { callback(argument); }
     };
 
-    var getTopOffset = function getTopOffset(element) {
+    const getTopOffset = function (element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
     };
 
-    var isBelowViewport = function isBelowViewport(element, container, threshold) {
-        var fold = container === window ? window.innerHeight + window.pageYOffset : getTopOffset(container) + container.offsetHeight;
+    const isBelowViewport = function (element, container, threshold) {
+        const fold = (container === window) ?
+            window.innerHeight + window.pageYOffset :
+            getTopOffset(container) + container.offsetHeight;
         return fold <= getTopOffset(element) - threshold;
     };
 
-    var getLeftOffset = function getLeftOffset(element) {
+    const getLeftOffset = function (element) {
         return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
     };
 
-    var isAtRightOfViewport = function isAtRightOfViewport(element, container, threshold) {
-        var documentWidth = window.innerWidth;
-        var fold = container === window ? documentWidth + window.pageXOffset : getLeftOffset(container) + documentWidth;
+    const isAtRightOfViewport = function (element, container, threshold) {
+        const documentWidth = window.innerWidth;
+        const fold = (container === window) ?
+            documentWidth + window.pageXOffset :
+            getLeftOffset(container) + documentWidth;
         return fold <= getLeftOffset(element) - threshold;
     };
 
-    var isAboveViewport = function isAboveViewport(element, container, threshold) {
-        var fold = container === window ? window.pageYOffset : getTopOffset(container);
+    const isAboveViewport = function (element, container, threshold) {
+        const fold = (container === window) ? window.pageYOffset : getTopOffset(container);
         return fold >= getTopOffset(element) + threshold + element.offsetHeight;
     };
 
-    var isAtLeftOfViewport = function isAtLeftOfViewport(element, container, threshold) {
-        var fold = container === window ? window.pageXOffset : getLeftOffset(container);
+    const isAtLeftOfViewport = function (element, container, threshold) {
+        const fold = (container === window) ? window.pageXOffset : getLeftOffset(container);
         return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
     };
 
-    var isInsideViewport = function isInsideViewport(element, container, threshold) {
-        return !isBelowViewport(element, container, threshold) && !isAboveViewport(element, container, threshold) && !isAtRightOfViewport(element, container, threshold) && !isAtLeftOfViewport(element, container, threshold);
+    var isInsideViewport = function (element, container, threshold) {
+        return !isBelowViewport(element, container, threshold) &&
+            !isAboveViewport(element, container, threshold) &&
+            !isAtRightOfViewport(element, container, threshold) &&
+            !isAtLeftOfViewport(element, container, threshold);
     };
 
     /* Creates instance and notifies it through the window element */
-    var createInstance = function createInstance(classObj, options) {
-        var instance = new classObj(options);
-        var event = new CustomEvent("LazyLoad::Initialized", { detail: { instance: instance } });
+    const createInstance = function (classObj, options) { 
+        let instance = new classObj(options);
+        let event = new CustomEvent("LazyLoad::Initialized", { detail: { instance } });
         window.dispatchEvent(event);
     };
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
         options passed in (plain object or an array) */
-    var autoInitialize = function autoInitialize(classObj, options) {
-        var optsLength = options.length;
+    var autoInitialize = function (classObj, options) { 
+        let optsLength = options.length;
         if (!optsLength) {
             // Plain object
             createInstance(classObj, options);
-        } else {
+        }
+        else {
             // Array of objects
-            for (var i = 0; i < optsLength; i++) {
+            for (let i = 0; i < optsLength; i++) {
                 createInstance(classObj, options[i]);
             }
         }
     };
 
-    var setSourcesForPicture = function setSourcesForPicture(element, srcsetDataAttribute) {
-        var parent = element.parentElement;
+    const setSourcesForPicture = function(element, srcsetDataAttribute) {
+        const parent = element.parentElement;
         if (parent.tagName !== "PICTURE") {
             return;
         }
-        for (var i = 0; i < parent.children.length; i++) {
-            var pictureChild = parent.children[i];
+        for (let i = 0; i < parent.children.length; i++) {
+            let pictureChild = parent.children[i];
             if (pictureChild.tagName === "SOURCE") {
-                var sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+                let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
@@ -104,39 +107,31 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var setSources = function setSources(element, srcsetDataAttribute, srcDataAttribute) {
-        var tagName = element.tagName;
-        var elementSrc = element.dataset[srcDataAttribute];
+    var setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
+        const tagName = element.tagName;
+        const elementSrc = element.dataset[srcDataAttribute];
         if (tagName === "IMG") {
             setSourcesForPicture(element, srcsetDataAttribute);
-            var imgSrcset = element.dataset[srcsetDataAttribute];
-            if (imgSrcset) {
-                element.setAttribute("srcset", imgSrcset);
-            }
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
+            const imgSrcset = element.dataset[srcsetDataAttribute];
+            if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
+            if (elementSrc) { element.setAttribute("src", elementSrc); }
             return;
         }
         if (tagName === "IFRAME") {
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
+            if (elementSrc) { element.setAttribute("src", elementSrc); }
             return;
         }
-        if (elementSrc) {
-            element.style.backgroundImage = "url(" + elementSrc + ")";
-        }
+        if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
     };
 
     /*
      * Constructor
-     */
+     */ 
 
-    var LazyLoad = function LazyLoad(instanceSettings) {
-        this._settings = _extends({}, defaultSettings, instanceSettings);
+    const LazyLoad = function(instanceSettings) {
+        this._settings = Object.assign({}, defaultSettings, instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-
+        
         this._previousLoopTime = 0;
         this._loopTimeout = null;
         this._boundHandleScroll = this.handleScroll.bind(this);
@@ -147,19 +142,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     LazyLoad.prototype = {
-
+        
         /*
          * Private methods
          */
 
-        _reveal: function _reveal(element) {
-            var settings = this._settings;
+        _reveal: function (element) {
+            const settings = this._settings;
 
-            var errorCallback = function errorCallback() {
+            const errorCallback = function () {
                 /* As this method is asynchronous, it must be protected against external destroy() calls */
-                if (!settings) {
-                    return;
-                }
+                if (!settings) { return; }
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 element.classList.remove(settings.class_loading);
@@ -167,11 +160,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 callCallback(settings.callback_error, element);
             };
 
-            var loadCallback = function loadCallback() {
+            const loadCallback = function () {
                 /* As this method is asynchronous, it must be protected against external destroy() calls */
-                if (!settings) {
-                    return;
-                }
+                if (!settings) { return; }
                 element.classList.remove(settings.class_loading);
                 element.classList.add(settings.class_loaded);
                 element.removeEventListener("load", loadCallback);
@@ -191,21 +182,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             callCallback(settings.callback_set, element);
         },
 
-        _loopThroughElements: function _loopThroughElements() {
-            var settings = this._settings,
+        _loopThroughElements: function () {
+            const settings = this._settings,
                 elements = this._elements,
-                elementsLength = !elements ? 0 : elements.length;
-            var i = void 0,
+                elementsLength = (!elements) ? 0 : elements.length;
+            let i,
                 processedIndexes = [],
                 firstLoop = this._isFirstLoop;
 
             for (i = 0; i < elementsLength; i++) {
-                var element = elements[i];
+                let element = elements[i];
                 /* If must skip_invisible and element is invisible, skip it */
-                if (settings.skip_invisible && element.offsetParent === null) {
+                if (settings.skip_invisible && (element.offsetParent === null)) {
                     continue;
                 }
-
+                
                 if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                     if (firstLoop) {
                         element.classList.add(settings.class_initial);
@@ -233,14 +224,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
         },
 
-        _purgeElements: function _purgeElements() {
-            var elements = this._elements,
+        _purgeElements: function () {
+            const elements = this._elements,
                 elementsLength = elements.length;
-            var i = void 0,
+            let i,
                 elementsToPurge = [];
 
             for (i = 0; i < elementsLength; i++) {
-                var element = elements[i];
+                let element = elements[i];
                 /* If the element has already been processed, skip it */
                 if (element.dataset.wasProcessed) {
                     elementsToPurge.push(i);
@@ -252,14 +243,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
         },
 
-        _startScrollHandler: function _startScrollHandler() {
+        _startScrollHandler: function () {
             if (!this._isHandlingScroll) {
                 this._isHandlingScroll = true;
                 this._settings.container.addEventListener("scroll", this._boundHandleScroll);
             }
         },
 
-        _stopScrollHandler: function _stopScrollHandler() {
+        _stopScrollHandler: function () {
             if (this._isHandlingScroll) {
                 this._isHandlingScroll = false;
                 this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
@@ -270,15 +261,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * Public methods
          */
 
-        handleScroll: function handleScroll() {
-            var throttle = this._settings.throttle;
+        handleScroll: function () {
+            const throttle = this._settings.throttle;
 
             if (throttle !== 0) {
-                var getTime = function getTime() {
-                    new Date().getTime();
-                };
-                var now = getTime();
-                var remainingTime = throttle - (now - this._previousLoopTime);
+                const getTime = () => { (new Date()).getTime(); };
+                let now = getTime();
+                let remainingTime = throttle - (now - this._previousLoopTime);
                 if (remainingTime <= 0 || remainingTime > throttle) {
                     if (this._loopTimeout) {
                         clearTimeout(this._loopTimeout);
@@ -298,7 +287,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
         },
 
-        update: function update() {
+        update: function () {
             // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
             this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
             this._purgeElements();
@@ -306,7 +295,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this._startScrollHandler();
         },
 
-        destroy: function destroy() {
+        destroy: function () {
             window.removeEventListener("resize", this._boundHandleScroll);
             if (this._loopTimeout) {
                 clearTimeout(this._loopTimeout);
@@ -320,10 +309,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     /* Automatic instances creation if required (useful for async script loading!) */
-    var autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) {
+    let autoInitOptions = window.lazyLoadOptions;
+    if (autoInitOptions) { 
         autoInitialize(LazyLoad, autoInitOptions);
     }
 
     return LazyLoad;
-});
+
+})));

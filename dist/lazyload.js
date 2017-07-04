@@ -1,8 +1,11 @@
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global.LazyLoad = factory());
-}(this, (function () { 'use strict';
+    (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.LazyLoad = factory();
+})(this, function () {
+    'use strict';
 
     var defaultSettings = {
         elements_selector: "img",
@@ -22,84 +25,78 @@
         callback_processed: null
     };
 
-    const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
+    var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
-    const callCallback = function (callback, argument) {
-        if (callback) { callback(argument); }
+    var callCallback = function callCallback(callback, argument) {
+        if (callback) {
+            callback(argument);
+        }
     };
 
-    const getTopOffset = function (element) {
+    var getTopOffset = function getTopOffset(element) {
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
     };
 
-    const isBelowViewport = function (element, container, threshold) {
-        const fold = (container === window) ?
-            window.innerHeight + window.pageYOffset :
-            getTopOffset(container) + container.offsetHeight;
+    var isBelowViewport = function isBelowViewport(element, container, threshold) {
+        var fold = container === window ? window.innerHeight + window.pageYOffset : getTopOffset(container) + container.offsetHeight;
         return fold <= getTopOffset(element) - threshold;
     };
 
-    const getLeftOffset = function (element) {
+    var getLeftOffset = function getLeftOffset(element) {
         return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
     };
 
-    const isAtRightOfViewport = function (element, container, threshold) {
-        const documentWidth = window.innerWidth;
-        const fold = (container === window) ?
-            documentWidth + window.pageXOffset :
-            getLeftOffset(container) + documentWidth;
+    var isAtRightOfViewport = function isAtRightOfViewport(element, container, threshold) {
+        var documentWidth = window.innerWidth;
+        var fold = container === window ? documentWidth + window.pageXOffset : getLeftOffset(container) + documentWidth;
         return fold <= getLeftOffset(element) - threshold;
     };
 
-    const isAboveViewport = function (element, container, threshold) {
-        const fold = (container === window) ? window.pageYOffset : getTopOffset(container);
+    var isAboveViewport = function isAboveViewport(element, container, threshold) {
+        var fold = container === window ? window.pageYOffset : getTopOffset(container);
         return fold >= getTopOffset(element) + threshold + element.offsetHeight;
     };
 
-    const isAtLeftOfViewport = function (element, container, threshold) {
-        const fold = (container === window) ? window.pageXOffset : getLeftOffset(container);
+    var isAtLeftOfViewport = function isAtLeftOfViewport(element, container, threshold) {
+        var fold = container === window ? window.pageXOffset : getLeftOffset(container);
         return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
     };
 
-    var isInsideViewport = function (element, container, threshold) {
-        return !isBelowViewport(element, container, threshold) &&
-            !isAboveViewport(element, container, threshold) &&
-            !isAtRightOfViewport(element, container, threshold) &&
-            !isAtLeftOfViewport(element, container, threshold);
+    var isInsideViewport = function isInsideViewport(element, container, threshold) {
+        return !isBelowViewport(element, container, threshold) && !isAboveViewport(element, container, threshold) && !isAtRightOfViewport(element, container, threshold) && !isAtLeftOfViewport(element, container, threshold);
     };
 
     /* Creates instance and notifies it through the window element */
-    const createInstance = function (classObj, options) { 
-        let instance = new classObj(options);
-        let event = new CustomEvent("LazyLoad::Initialized", { detail: { instance } });
+    var createInstance = function createInstance(classObj, options) {
+        var instance = new classObj(options);
+        var event = new CustomEvent("LazyLoad::Initialized", { detail: { instance: instance } });
         window.dispatchEvent(event);
     };
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
         options passed in (plain object or an array) */
-    var autoInitialize = function (classObj, options) { 
-        let optsLength = options.length;
+    var autoInitialize = function autoInitialize(classObj, options) {
+        var optsLength = options.length;
         if (!optsLength) {
             // Plain object
             createInstance(classObj, options);
-        }
-        else {
+        } else {
             // Array of objects
-            for (let i = 0; i < optsLength; i++) {
+            for (var i = 0; i < optsLength; i++) {
                 createInstance(classObj, options[i]);
             }
         }
     };
 
-    const setSourcesForPicture = function(element, srcsetDataAttribute) {
-        const parent = element.parentElement;
+    var setSourcesForPicture = function setSourcesForPicture(element, srcsetDataAttribute) {
+        var parent = element.parentElement;
         if (parent.tagName !== "PICTURE") {
             return;
         }
-        for (let i = 0; i < parent.children.length; i++) {
-            let pictureChild = parent.children[i];
+        for (var i = 0; i < parent.children.length; i++) {
+            var pictureChild = parent.children[i];
             if (pictureChild.tagName === "SOURCE") {
-                let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+                var sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
@@ -107,31 +104,39 @@
         }
     };
 
-    var setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
-        const tagName = element.tagName;
-        const elementSrc = element.dataset[srcDataAttribute];
+    var setSources = function setSources(element, srcsetDataAttribute, srcDataAttribute) {
+        var tagName = element.tagName;
+        var elementSrc = element.dataset[srcDataAttribute];
         if (tagName === "IMG") {
             setSourcesForPicture(element, srcsetDataAttribute);
-            const imgSrcset = element.dataset[srcsetDataAttribute];
-            if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
-            if (elementSrc) { element.setAttribute("src", elementSrc); }
+            var imgSrcset = element.dataset[srcsetDataAttribute];
+            if (imgSrcset) {
+                element.setAttribute("srcset", imgSrcset);
+            }
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
             return;
         }
         if (tagName === "IFRAME") {
-            if (elementSrc) { element.setAttribute("src", elementSrc); }
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
             return;
         }
-        if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
+        if (elementSrc) {
+            element.style.backgroundImage = "url(" + elementSrc + ")";
+        }
     };
 
     /*
      * Constructor
-     */ 
+     */
 
-    const LazyLoad = function(instanceSettings) {
-        this._settings = Object.assign({}, defaultSettings, instanceSettings);
+    var LazyLoad = function LazyLoad(instanceSettings) {
+        this._settings = _extends({}, defaultSettings, instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-        
+
         this._previousLoopTime = 0;
         this._loopTimeout = null;
         this._boundHandleScroll = this.handleScroll.bind(this);
@@ -142,17 +147,19 @@
     };
 
     LazyLoad.prototype = {
-        
+
         /*
          * Private methods
          */
 
-        _reveal: function (element) {
-            const settings = this._settings;
+        _reveal: function _reveal(element) {
+            var settings = this._settings;
 
-            const errorCallback = function () {
+            var errorCallback = function errorCallback() {
                 /* As this method is asynchronous, it must be protected against external destroy() calls */
-                if (!settings) { return; }
+                if (!settings) {
+                    return;
+                }
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 element.classList.remove(settings.class_loading);
@@ -160,9 +167,11 @@
                 callCallback(settings.callback_error, element);
             };
 
-            const loadCallback = function () {
+            var loadCallback = function loadCallback() {
                 /* As this method is asynchronous, it must be protected against external destroy() calls */
-                if (!settings) { return; }
+                if (!settings) {
+                    return;
+                }
                 element.classList.remove(settings.class_loading);
                 element.classList.add(settings.class_loaded);
                 element.removeEventListener("load", loadCallback);
@@ -182,21 +191,21 @@
             callCallback(settings.callback_set, element);
         },
 
-        _loopThroughElements: function () {
-            const settings = this._settings,
+        _loopThroughElements: function _loopThroughElements() {
+            var settings = this._settings,
                 elements = this._elements,
-                elementsLength = (!elements) ? 0 : elements.length;
-            let i,
+                elementsLength = !elements ? 0 : elements.length;
+            var i = void 0,
                 processedIndexes = [],
                 firstLoop = this._isFirstLoop;
 
             for (i = 0; i < elementsLength; i++) {
-                let element = elements[i];
+                var element = elements[i];
                 /* If must skip_invisible and element is invisible, skip it */
-                if (settings.skip_invisible && (element.offsetParent === null)) {
+                if (settings.skip_invisible && element.offsetParent === null) {
                     continue;
                 }
-                
+
                 if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                     if (firstLoop) {
                         element.classList.add(settings.class_initial);
@@ -224,14 +233,14 @@
             }
         },
 
-        _purgeElements: function () {
-            const elements = this._elements,
+        _purgeElements: function _purgeElements() {
+            var elements = this._elements,
                 elementsLength = elements.length;
-            let i,
+            var i = void 0,
                 elementsToPurge = [];
 
             for (i = 0; i < elementsLength; i++) {
-                let element = elements[i];
+                var element = elements[i];
                 /* If the element has already been processed, skip it */
                 if (element.dataset.wasProcessed) {
                     elementsToPurge.push(i);
@@ -243,14 +252,14 @@
             }
         },
 
-        _startScrollHandler: function () {
+        _startScrollHandler: function _startScrollHandler() {
             if (!this._isHandlingScroll) {
                 this._isHandlingScroll = true;
                 this._settings.container.addEventListener("scroll", this._boundHandleScroll);
             }
         },
 
-        _stopScrollHandler: function () {
+        _stopScrollHandler: function _stopScrollHandler() {
             if (this._isHandlingScroll) {
                 this._isHandlingScroll = false;
                 this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
@@ -261,13 +270,15 @@
          * Public methods
          */
 
-        handleScroll: function () {
-            const throttle = this._settings.throttle;
+        handleScroll: function handleScroll() {
+            var throttle = this._settings.throttle;
 
             if (throttle !== 0) {
-                const getTime = () => { (new Date()).getTime(); };
-                let now = getTime();
-                let remainingTime = throttle - (now - this._previousLoopTime);
+                var getTime = function getTime() {
+                    new Date().getTime();
+                };
+                var now = getTime();
+                var remainingTime = throttle - (now - this._previousLoopTime);
                 if (remainingTime <= 0 || remainingTime > throttle) {
                     if (this._loopTimeout) {
                         clearTimeout(this._loopTimeout);
@@ -287,7 +298,7 @@
             }
         },
 
-        update: function () {
+        update: function update() {
             // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
             this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
             this._purgeElements();
@@ -295,7 +306,7 @@
             this._startScrollHandler();
         },
 
-        destroy: function () {
+        destroy: function destroy() {
             window.removeEventListener("resize", this._boundHandleScroll);
             if (this._loopTimeout) {
                 clearTimeout(this._loopTimeout);
@@ -309,11 +320,10 @@
     };
 
     /* Automatic instances creation if required (useful for async script loading!) */
-    let autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) { 
+    var autoInitOptions = window.lazyLoadOptions;
+    if (autoInitOptions) {
         autoInitialize(LazyLoad, autoInitOptions);
     }
 
     return LazyLoad;
-
-})));
+});

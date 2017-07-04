@@ -11,13 +11,13 @@ Jump to:
 Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/7.2.0/lazyload.transpiled.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/7.2.0/lazyload.min.js"></script>
 ```
 
 ### Local install
 
 If you prefer to install LazyLoad locally in your project, you can either:
-- [download it from the `dist` folder](https://github.com/verlok/lazyload/tree/master/dist). The file you typically want to use is **lazyload.transpiled.min.js**.
+- [download it from the `dist` folder](https://github.com/verlok/lazyload/tree/master/dist). The file you typically want to use is **lazyload.min.js**.
 - install it with `npm install --save vanilla-lazyload`
 - install it with `bower install vanilla-lazyload`.
 
@@ -105,7 +105,7 @@ window.lazyLoadOptions = {
 </script>
 
 <!-- Download the script and execute it after lazyLoadOptions is defined -->
-<script async src="https://.../lazyload.transpiled.min.js"></script>
+<script async src="https://.../lazyload.min.js"></script>
 ```
 
 **If you need multiple async instances**, just pass `window.lazyLoadOptions` an array of settings.
@@ -120,7 +120,7 @@ window.lazyLoadOptions = [{
 </script>
 
 <!-- Download the script and execute it after lazyLoadOptions is defined -->
-<script async src="https://.../lazyload.transpiled.min.js"></script>
+<script async src="https://.../lazyload.min.js"></script>
 ```
 
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
@@ -149,7 +149,7 @@ lazyLoadOptions = {
 </script>
 
 <!-- Download the script and execute it after lazyLoadOptions is defined -->
-<script async src="https://.../lazyload.transpiled.min.js"></script>
+<script async src="https://.../lazyload.min.js"></script>
 ```
 
 You will then have the auto-generated instance in the `lazyLoadInstance` variable.
