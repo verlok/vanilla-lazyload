@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 			},
 			files: {
 				src: "src/lazyload.core.js",
-				dest: "dist/lazyload.js"
+				dest: "dist/lazyload.es2015.js"
 			}
 		},
 		babel: {
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				files: {
-					"dist/lazyload.transpiled.js": "dist/lazyload.js"
+					"dist/lazyload.js": "dist/lazyload.es2015.js"
 				}
 			}
 		},
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				files: {
-					"dist/lazyload.transpiled.min.js": "dist/lazyload.transpiled.js",
+					"dist/lazyload.min.js": "dist/lazyload.js",
 				}
 			}
 		},
