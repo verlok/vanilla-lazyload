@@ -1,8 +1,11 @@
-LazyLoad is a fast, lightweight and flexible script that __speeds up your web application__ by loading images only as they enter the viewport. LazyLoad supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it's SEO friendly and it has some others [notable features](#notable-features).
+LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images only as they enter the viewport**. LazyLoad is written in plain (vanilla) Javascript, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it's SEO friendly and it has some others [notable features](#notable-features). 
+
+Check out the [LazyLoad website](https://verlok.github.io/lazyload/), in case you're reading this on GitHub.
 
 Jump to:
 
-[Include the script](#include-the-script) | [Recipes](#recipes) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
+[Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
+
 
 ## Include the script
 
@@ -155,6 +158,28 @@ lazyLoadOptions = {
 You will then have the auto-generated instance in the `lazyLoadInstance` variable.
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
+
+**Note about Internet Explorer**
+
+LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) to trigger the `LazyLoad::Initialized`, but this event type is not natively supported by Internet Explorer. If you want to use asynchronous loading and need to store the instance you can use the following polyfill to enable support for Internet Explorer.
+
+```js
+(function () {
+    if (typeof window.CustomEvent === "function") {
+        return false;
+    }
+
+    function CustomEvent(event, params) {
+        params = params || {bubbles: false, cancelable: false, detail: undefined};
+        var evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent (event, params.bubbles, params.cancelable, params.detail);
+        return evt;
+    }
+
+    CustomEvent.prototype = window.Event.prototype;
+    window.CustomEvent = CustomEvent;
+})();
+```
 
 
 ### Scolling panel
@@ -320,6 +345,11 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 [DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) | [API](#api)
 
+## Demos
+
+Didn't find the [recipe](#recipes) that exactly matches your case? We have demos!
+
+The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contains 15 use cases of LazyLoad. You might find there what you're looking for.
 
 ## Tips & tricks
 
@@ -419,7 +449,7 @@ Here's the list of the options.
 
 Please note that dataset properties of hyphenated data attributes (like `data-my-custom-attribute`) are automatically [converted to camel case](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) by Javascript (so `myCustomAttribute`).
 
-[Demo here](https://codepen.io/verlok/pen/LybvYy?editors=1011))
+[Demo here](https://codepen.io/verlok/pen/LybvYy?editors=1011)
 
 
 ### Methods
