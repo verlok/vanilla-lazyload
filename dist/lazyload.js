@@ -271,28 +271,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          */
 
         handleScroll: function handleScroll() {
+            var _this = this;
+
             var throttle = this._settings.throttle;
 
             if (throttle !== 0) {
-                var getTime = function getTime() {
-                    new Date().getTime();
-                };
-                var now = getTime();
-                var remainingTime = throttle - (now - this._previousLoopTime);
-                if (remainingTime <= 0 || remainingTime > throttle) {
-                    if (this._loopTimeout) {
-                        clearTimeout(this._loopTimeout);
-                        this._loopTimeout = null;
+                (function () {
+                    var getTime = function getTime() {
+                        new Date().getTime();
+                    };
+                    var now = getTime();
+                    var remainingTime = throttle - (now - _this._previousLoopTime);
+                    if (remainingTime <= 0 || remainingTime > throttle) {
+                        if (_this._loopTimeout) {
+                            clearTimeout(_this._loopTimeout);
+                            _this._loopTimeout = null;
+                        }
+                        _this._previousLoopTime = now;
+                        _this._loopThroughElements();
+                    } else if (!_this._loopTimeout) {
+                        _this._loopTimeout = setTimeout(function () {
+                            this._previousLoopTime = getTime();
+                            this._loopTimeout = null;
+                            this._loopThroughElements();
+                        }.bind(_this), remainingTime);
                     }
-                    this._previousLoopTime = now;
-                    this._loopThroughElements();
-                } else if (!this._loopTimeout) {
-                    this._loopTimeout = setTimeout(function () {
-                        this._previousLoopTime = getTime();
-                        this._loopTimeout = null;
-                        this._loopThroughElements();
-                    }.bind(this), remainingTime);
-                }
+                })();
             } else {
                 this._loopThroughElements();
             }
