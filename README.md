@@ -159,6 +159,28 @@ You will then have the auto-generated instance in the `lazyLoadInstance` variabl
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
 
+**Note about Internet Explorer**
+
+LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) to trigger the `LazyLoad::Initialized`, but this event type is not natively supported by Internet Explorer. If you want to use asynchronous loading and need to store the instance you can use the following polyfill to enable support for Internet Explorer.
+
+```js
+(function () {
+    if (typeof window.CustomEvent === "function") {
+        return false;
+    }
+
+    function CustomEvent(event, params) {
+        params = params || {bubbles: false, cancelable: false, detail: undefined};
+        var evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent (event, params.bubbles, params.cancelable, params.detail);
+        return evt;
+    }
+
+    CustomEvent.prototype = window.Event.prototype;
+    window.CustomEvent = CustomEvent;
+})();
+```
+
 
 ### Scolling panel
 
@@ -390,30 +412,6 @@ img:not([src]) {
 ```
 
 Or do it using the **CSS classes** set by LazyLoad when loading starts - see [API](#api).
-
-### Auto init + store the instance in a variable in *Internet Explorer*
-
-*CustomEvent* that is use to trigger the *LazyLoad::Initialized* event is innately not supported by Internet Explorer. If you want to use asynchronous loading and need to store the instance you can use the following polyfill to enable support for Internet Explorer.
-
-```js
-(function () {
-
-  if ( typeof window.CustomEvent === "function" ) return false;
-
-  function CustomEvent ( event, params ) {
-    params = params || { bubbles: false, cancelable: false, detail: undefined };
-    var evt = document.createEvent( 'CustomEvent' );
-    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-    return evt;
-   }
-
-  CustomEvent.prototype = window.Event.prototype;
-
-  window.CustomEvent = CustomEvent;
-})();
-```
-
-Learn more at https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
 
 <!--
 MOAR points to add to the README:
