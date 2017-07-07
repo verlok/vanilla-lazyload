@@ -68,7 +68,7 @@ Javascript
 var myLazyLoad = new LazyLoad();
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with-srcset-sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with-srcset-sizes.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html) | [API](#api)
 
 ### Responsive images - picture
 
