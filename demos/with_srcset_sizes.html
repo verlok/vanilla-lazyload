@@ -356,24 +356,7 @@
 </div>
 <script src="../dist/lazyload.min.js"></script>
 <script>
-	(function () {
-
-		function logElementEvent(eventName, element) {
-			console.log(new Date().getTime(), eventName, element.getAttribute('data-original'));
-		}
-
-		function logEvent(eventName, elementsLeft) {
-			console.log(new Date().getTime(), eventName, elementsLeft + " images left");
-		}
-
-		/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
-
-		new LazyLoad({
-			data_src: 'original',
-    		data_srcset: 'original-set'
-		});
-
-	}());
+	new LazyLoad();
 </script>
 </body>
 </html>
