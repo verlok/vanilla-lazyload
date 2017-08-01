@@ -14,7 +14,7 @@ Jump to:
 Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/7.2.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.0.1/lazyload.min.js"></script>
 ```
 
 ### Local install
@@ -68,7 +68,7 @@ Javascript
 var myLazyLoad = new LazyLoad();
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with-srcset-sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with-srcset-sizes.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html) | [API](#api)
 
 ### Responsive images - picture
 
