@@ -6,7 +6,7 @@ import setSources from "./lazyload.setSources";
 
 /*
  * Constructor
- */ 
+ */
 
 const LazyLoad = function(instanceSettings) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
@@ -145,7 +145,7 @@ LazyLoad.prototype = {
         const throttle = this._settings.throttle;
 
         if (throttle !== 0) {
-            const getTime = () => { (new Date()).getTime(); };
+            const getTime = () => +new Date();
             let now = getTime();
             let remainingTime = throttle - (now - this._previousLoopTime);
             if (remainingTime <= 0 || remainingTime > throttle) {
