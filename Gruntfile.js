@@ -42,7 +42,7 @@ module.exports = function (grunt) {
 		},
 		watch: {
 			files: ["<%= eslint.src %>"],
-			tasks: ["eslint", "babel", "uglify"]
+			tasks: ["eslint", "rollup", "babel", "uglify"]
 		}
 	});
 
