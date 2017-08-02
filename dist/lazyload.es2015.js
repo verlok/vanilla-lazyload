@@ -91,7 +91,7 @@
         }
     };
 
-    const setSourcesForPicture = function(element, srcsetDataAttribute) {
+    const setSourcesForPicture = function (element, srcsetDataAttribute) {
         const parent = element.parentElement;
         if (parent.tagName !== "PICTURE") {
             return;
@@ -107,21 +107,29 @@
         }
     };
 
-    var setSources = function(element, srcsetDataAttribute, srcDataAttribute) {
+    var setSources = function (element, srcsetDataAttribute, srcDataAttribute) {
         const tagName = element.tagName;
         const elementSrc = element.dataset[srcDataAttribute];
         if (tagName === "IMG") {
             setSourcesForPicture(element, srcsetDataAttribute);
             const imgSrcset = element.dataset[srcsetDataAttribute];
-            if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
-            if (elementSrc) { element.setAttribute("src", elementSrc); }
+            if (imgSrcset) {
+                element.setAttribute("srcset", imgSrcset);
+            }
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
             return;
         }
         if (tagName === "IFRAME") {
-            if (elementSrc) { element.setAttribute("src", elementSrc); }
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
             return;
         }
-        if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
+        if (elementSrc) {
+            element.style.backgroundImage = `url("${elementSrc}")`;
+        }
     };
 
     /*
@@ -209,7 +217,7 @@
                 }
             }
             /* Removing processed elements from this._elements. */
-            while (processedIndexes.length > 0) {
+            while (processedIndexes.length) {
                 elements.splice(processedIndexes.pop(), 1);
                 /* Calling the end loop callback */
                 callCallback(settings.callback_processed, elements.length);
@@ -265,8 +273,7 @@
             const throttle = this._settings.throttle;
 
             if (throttle !== 0) {
-                const getTime = () => +new Date();
-                let now = getTime();
+                let now = Date.now();
                 let remainingTime = throttle - (now - this._previousLoopTime);
                 if (remainingTime <= 0 || remainingTime > throttle) {
                     if (this._loopTimeout) {
@@ -277,7 +284,7 @@
                     this._loopThroughElements();
                 } else if (!this._loopTimeout) {
                     this._loopTimeout = setTimeout(function () {
-                        this._previousLoopTime = getTime();
+                        this._previousLoopTime = Date.now();
                         this._loopTimeout = null;
                         this._loopThroughElements();
                     }.bind(this), remainingTime);
