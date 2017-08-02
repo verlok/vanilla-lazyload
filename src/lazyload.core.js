@@ -89,7 +89,7 @@ LazyLoad.prototype = {
             }
         }
         /* Removing processed elements from this._elements. */
-        while (processedIndexes.length > 0) {
+        while (processedIndexes.length) {
             elements.splice(processedIndexes.pop(), 1);
             /* Calling the end loop callback */
             callCallback(settings.callback_processed, elements.length);
@@ -145,8 +145,7 @@ LazyLoad.prototype = {
         const throttle = this._settings.throttle;
 
         if (throttle !== 0) {
-            const getTime = () => +new Date();
-            let now = getTime();
+            let now = Date.now();
             let remainingTime = throttle - (now - this._previousLoopTime);
             if (remainingTime <= 0 || remainingTime > throttle) {
                 if (this._loopTimeout) {
@@ -157,7 +156,7 @@ LazyLoad.prototype = {
                 this._loopThroughElements();
             } else if (!this._loopTimeout) {
                 this._loopTimeout = setTimeout(function () {
-                    this._previousLoopTime = getTime();
+                    this._previousLoopTime = Date.now();
                     this._loopTimeout = null;
                     this._loopThroughElements();
                 }.bind(this), remainingTime);
