@@ -28,5 +28,5 @@ export default function(element, srcsetDataAttribute, srcDataAttribute) {
         if (elementSrc) { element.setAttribute("src", elementSrc); }
         return;
     }
-    if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
+    if (elementSrc) { element.style.backgroundImage = "url('" + elementSrc + "')"; }
 };
