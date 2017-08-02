@@ -1,4 +1,4 @@
-const setSourcesForPicture = function(element, srcsetDataAttribute) {
+const setSourcesForPicture = function (element, srcsetDataAttribute) {
     const parent = element.parentElement;
     if (parent.tagName !== "PICTURE") {
         return;
@@ -14,19 +14,27 @@ const setSourcesForPicture = function(element, srcsetDataAttribute) {
     }
 };
 
-export default function(element, srcsetDataAttribute, srcDataAttribute) {
+export default function (element, srcsetDataAttribute, srcDataAttribute) {
     const tagName = element.tagName;
     const elementSrc = element.dataset[srcDataAttribute];
     if (tagName === "IMG") {
         setSourcesForPicture(element, srcsetDataAttribute);
         const imgSrcset = element.dataset[srcsetDataAttribute];
-        if (imgSrcset) { element.setAttribute("srcset", imgSrcset); }
-        if (elementSrc) { element.setAttribute("src", elementSrc); }
+        if (imgSrcset) {
+            element.setAttribute("srcset", imgSrcset);
+        }
+        if (elementSrc) {
+            element.setAttribute("src", elementSrc);
+        }
         return;
     }
     if (tagName === "IFRAME") {
-        if (elementSrc) { element.setAttribute("src", elementSrc); }
+        if (elementSrc) {
+            element.setAttribute("src", elementSrc);
+        }
         return;
     }
-    if (elementSrc) { element.style.backgroundImage = "url(" + elementSrc + ")"; }
+    if (elementSrc) {
+        element.style.backgroundImage = `url("${elementSrc}")`;
+    }
 };

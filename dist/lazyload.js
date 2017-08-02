@@ -125,7 +125,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return;
         }
         if (elementSrc) {
-            element.style.backgroundImage = "url(" + elementSrc + ")";
+            element.style.backgroundImage = 'url("' + elementSrc + '")';
         }
     };
 
@@ -218,7 +218,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
             }
             /* Removing processed elements from this._elements. */
-            while (processedIndexes.length > 0) {
+            while (processedIndexes.length) {
                 elements.splice(processedIndexes.pop(), 1);
                 /* Calling the end loop callback */
                 callCallback(settings.callback_processed, elements.length);
@@ -274,10 +274,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var throttle = this._settings.throttle;
 
             if (throttle !== 0) {
-                var getTime = function getTime() {
-                    return +new Date();
-                };
-                var now = getTime();
+                var now = Date.now();
                 var remainingTime = throttle - (now - this._previousLoopTime);
                 if (remainingTime <= 0 || remainingTime > throttle) {
                     if (this._loopTimeout) {
@@ -288,7 +285,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     this._loopThroughElements();
                 } else if (!this._loopTimeout) {
                     this._loopTimeout = setTimeout(function () {
-                        this._previousLoopTime = getTime();
+                        this._previousLoopTime = Date.now();
                         this._loopTimeout = null;
                         this._loopThroughElements();
                     }.bind(this), remainingTime);
