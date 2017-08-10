@@ -7,22 +7,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
     'use strict';
 
+    // TODO: Check is class "initial" can still be used
+
     var defaultSettings = {
         elements_selector: "img",
-        container: window,
+        container: document,
         threshold: 300,
-        throttle: 150,
         data_src: "original",
         data_srcset: "originalSet",
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
         class_initial: "initial",
-        skip_invisible: true,
         callback_load: null,
         callback_error: null,
         callback_set: null,
-        callback_processed: null
+        callback_processed: null,
+        observer_fallback: 1
     };
 
     var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
@@ -31,39 +32,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (callback) {
             callback(argument);
         }
-    };
-
-    var getTopOffset = function getTopOffset(element) {
-        return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
-    };
-
-    var isBelowViewport = function isBelowViewport(element, container, threshold) {
-        var fold = container === window ? window.innerHeight + window.pageYOffset : getTopOffset(container) + container.offsetHeight;
-        return fold <= getTopOffset(element) - threshold;
-    };
-
-    var getLeftOffset = function getLeftOffset(element) {
-        return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
-    };
-
-    var isAtRightOfViewport = function isAtRightOfViewport(element, container, threshold) {
-        var documentWidth = window.innerWidth;
-        var fold = container === window ? documentWidth + window.pageXOffset : getLeftOffset(container) + documentWidth;
-        return fold <= getLeftOffset(element) - threshold;
-    };
-
-    var isAboveViewport = function isAboveViewport(element, container, threshold) {
-        var fold = container === window ? window.pageYOffset : getTopOffset(container);
-        return fold >= getTopOffset(element) + threshold + element.offsetHeight;
-    };
-
-    var isAtLeftOfViewport = function isAtLeftOfViewport(element, container, threshold) {
-        var fold = container === window ? window.pageXOffset : getLeftOffset(container);
-        return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
-    };
-
-    var isInsideViewport = function isInsideViewport(element, container, threshold) {
-        return !isBelowViewport(element, container, threshold) && !isAboveViewport(element, container, threshold) && !isAtRightOfViewport(element, container, threshold) && !isAtLeftOfViewport(element, container, threshold);
     };
 
     /* Creates instance and notifies it through the window element */
@@ -88,7 +56,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var setSourcesForPicture = function setSourcesForPicture(element, srcsetDataAttribute) {
+    var setSourcesForPicture = function setSourcesForPicture(element, settings) {
+        var dataSrcSet = settings.dataSrcSet;
+
         var parent = element.parentElement;
         if (parent.tagName !== "PICTURE") {
             return;
@@ -96,7 +66,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         for (var i = 0; i < parent.children.length; i++) {
             var pictureChild = parent.children[i];
             if (pictureChild.tagName === "SOURCE") {
-                var sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+                var sourceSrcset = pictureChild.dataset[dataSrcSet];
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
@@ -104,12 +74,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var setSources = function setSources(element, srcsetDataAttribute, srcDataAttribute) {
+    var setSources = function setSources(element, settings) {
+        var dataSrc = settings.data_src,
+            dataSrcSet = settings.data_srcset;
+
         var tagName = element.tagName;
-        var elementSrc = element.dataset[srcDataAttribute];
+        var elementSrc = element.dataset[dataSrc];
         if (tagName === "IMG") {
-            setSourcesForPicture(element, srcsetDataAttribute);
-            var imgSrcset = element.dataset[srcsetDataAttribute];
+            setSourcesForPicture(element, settings);
+            var imgSrcset = element.dataset[dataSrcSet];
             if (imgSrcset) {
                 element.setAttribute("srcset", imgSrcset);
             }
@@ -134,17 +107,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      */
 
     var LazyLoad = function LazyLoad(instanceSettings) {
+        var _this = this;
+
         this._settings = _extends({}, defaultSettings, instanceSettings);
-        this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-
-        this._previousLoopTime = 0;
-        this._loopTimeout = null;
-        this._boundHandleScroll = this.handleScroll.bind(this);
-
-        this._isFirstLoop = true;
-        window.addEventListener("resize", this._boundHandleScroll);
+        this._intObsSupport = "IntersectionObserver" in window;
+        var settings = this._settings;
+        if (this._intObsSupport) {
+            var onIntersection = function onIntersection(entries) {
+                // Loop through the entries
+                entries.forEach(function (entry) {
+                    // Is the image in viewport?
+                    if (entry.intersectionRatio > 0) {
+                        var element = entry.target;
+                        _this._revealElement(element);
+                        _this._observer.unobserve(element);
+                    }
+                });
+            };
+            this._observer = new IntersectionObserver(onIntersection, {
+                root: settings.container === document ? null : settings.container,
+                rootMargin: this._settings.threshold + "px"
+            });
+        }
         this.update();
     };
+
+    // TODO: Convert settings = this._settings into {setting1, setting2} = this._settings for legibility and minification;
 
     LazyLoad.prototype = {
 
@@ -152,94 +140,53 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * Private methods
          */
 
-        _reveal: function _reveal(element) {
+        _onError: function _onError(event) {
             var settings = this._settings;
+            var element = event.target;
+            if (!settings) {
+                return; // As this method is asynchronous, it must be protected against calls after destroy()
+            }
+            element.removeEventListener("load", this._onLoad);
+            element.removeEventListener("error", this._onError);
+            element.classList.remove(settings.class_loading);
+            element.classList.add(settings.class_error);
+            callCallback(settings.callback_error, element);
+        },
 
-            var errorCallback = function errorCallback() {
-                /* As this method is asynchronous, it must be protected against external destroy() calls */
-                if (!settings) {
-                    return;
-                }
-                element.removeEventListener("load", loadCallback);
-                element.removeEventListener("error", errorCallback);
-                element.classList.remove(settings.class_loading);
-                element.classList.add(settings.class_error);
-                callCallback(settings.callback_error, element);
-            };
+        _onLoad: function _onLoad(event) {
+            var settings = this._settings;
+            var element = event.target;
+            if (!settings) {
+                return; // As this method is asynchronous, it must be protected against calls after destroy()
+            }
+            element.classList.remove(settings.class_loading);
+            element.classList.add(settings.class_loaded);
+            element.removeEventListener("load", this._onLoad);
+            element.removeEventListener("error", this._onError);
+            /* Calling LOAD callback */
+            callCallback(settings.callback_load, element);
+        },
 
-            var loadCallback = function loadCallback() {
-                /* As this method is asynchronous, it must be protected against external destroy() calls */
-                if (!settings) {
-                    return;
-                }
-                element.classList.remove(settings.class_loading);
-                element.classList.add(settings.class_loaded);
-                element.removeEventListener("load", loadCallback);
-                element.removeEventListener("error", errorCallback);
-                /* Calling LOAD callback */
-                callCallback(settings.callback_load, element);
-            };
-
-            if (element.tagName === "IMG" || element.tagName === "IFRAME") {
-                element.addEventListener("load", loadCallback);
-                element.addEventListener("error", errorCallback);
+        // Stop watching and load the image
+        _revealElement: function _revealElement(element) {
+            var settings = this._settings;
+            if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
+                element.addEventListener("load", this._onLoad.bind(this));
+                element.addEventListener("error", this._onError.bind(this));
                 element.classList.add(settings.class_loading);
             }
-
-            setSources(element, settings.data_srcset, settings.data_src);
-            /* Calling SET callback */
+            setSources(element, settings);
+            element.dataset.wasProcessed = true;
             callCallback(settings.callback_set, element);
         },
 
-        _loopThroughElements: function _loopThroughElements() {
-            var settings = this._settings,
-                elements = this._elements,
-                elementsLength = !elements ? 0 : elements.length;
-            var i = void 0,
-                processedIndexes = [],
-                firstLoop = this._isFirstLoop;
-
-            for (i = 0; i < elementsLength; i++) {
-                var element = elements[i];
-                /* If must skip_invisible and element is invisible, skip it */
-                if (settings.skip_invisible && element.offsetParent === null) {
-                    continue;
-                }
-
-                if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
-                    if (firstLoop) {
-                        element.classList.add(settings.class_initial);
-                    }
-                    /* Start loading the image */
-                    this._reveal(element);
-                    /* Marking the element as processed. */
-                    processedIndexes.push(i);
-                    element.dataset.wasProcessed = true;
-                }
-            }
-            /* Removing processed elements from this._elements. */
-            while (processedIndexes.length) {
-                elements.splice(processedIndexes.pop(), 1);
-                /* Calling the end loop callback */
-                callCallback(settings.callback_processed, elements.length);
-            }
-            /* Stop listening to scroll event when 0 elements remains */
-            if (elementsLength === 0) {
-                this._stopScrollHandler();
-            }
-            /* Sets isFirstLoop to false */
-            if (firstLoop) {
-                this._isFirstLoop = false;
-            }
-        },
-
+        // TODO: Optimize removing double loop (for, while) -- can this function be removed at all?
         _purgeElements: function _purgeElements() {
             var elements = this._elements,
-                elementsLength = elements.length;
-            var i = void 0,
+                elementsLength = elements.length,
                 elementsToPurge = [];
 
-            for (i = 0; i < elementsLength; i++) {
+            for (var i = 0; i < elementsLength; i++) {
                 var element = elements[i];
                 /* If the element has already been processed, skip it */
                 if (element.dataset.wasProcessed) {
@@ -252,67 +199,49 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
         },
 
-        _startScrollHandler: function _startScrollHandler() {
-            if (!this._isHandlingScroll) {
-                this._isHandlingScroll = true;
-                this._settings.container.addEventListener("scroll", this._boundHandleScroll);
-            }
-        },
-
-        _stopScrollHandler: function _stopScrollHandler() {
-            if (this._isHandlingScroll) {
-                this._isHandlingScroll = false;
-                this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
-            }
-        },
-
         /* 
          * Public methods
          */
 
-        handleScroll: function handleScroll() {
-            var throttle = this._settings.throttle;
-
-            if (throttle !== 0) {
-                var now = Date.now();
-                var remainingTime = throttle - (now - this._previousLoopTime);
-                if (remainingTime <= 0 || remainingTime > throttle) {
-                    if (this._loopTimeout) {
-                        clearTimeout(this._loopTimeout);
-                        this._loopTimeout = null;
-                    }
-                    this._previousLoopTime = now;
-                    this._loopThroughElements();
-                } else if (!this._loopTimeout) {
-                    this._loopTimeout = setTimeout(function () {
-                        this._previousLoopTime = Date.now();
-                        this._loopTimeout = null;
-                        this._loopThroughElements();
-                    }.bind(this), remainingTime);
-                }
-            } else {
-                this._loopThroughElements();
-            }
-        },
-
         update: function update() {
-            // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
-            this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
+            var _this2 = this;
+
+            var settings = this._settings;
+
+            // TODO: Don't convert to array, use nodeset directly
+            // TODO: Make purgeElements take a nodeset and return a purged one so this._elements is assigned once
+
+            // Converts to array the nodeset obtained querying the DOM from settings.container with elements_selector
+            this._elements = Array.prototype.slice.call(settings.container.querySelectorAll(settings.elements_selector));
             this._purgeElements();
-            this._loopThroughElements();
-            this._startScrollHandler();
+
+            if (this._observer) {
+                this._elements.forEach(function (element) {
+                    _this2._observer.observe(element);
+                });
+                return;
+            }
+
+            if (settings.observer_fallback === 1) {
+                this._elements.forEach(function (element) {
+                    _this2._revealElement(element, settings);
+                });
+            }
         },
 
         destroy: function destroy() {
-            window.removeEventListener("resize", this._boundHandleScroll);
-            if (this._loopTimeout) {
-                clearTimeout(this._loopTimeout);
-                this._loopTimeout = null;
+            var _this3 = this;
+
+            if (this._observer) {
+                this._purgeElements();
+                this._elements.forEach(function (element) {
+                    _this3._observer.unobserve(element);
+                });
+                this._observer = null;
             }
-            this._stopScrollHandler();
             this._elements = null;
-            this._queryOriginNode = null;
             this._settings = null;
+            this._intObsSupport = null;
         }
     };
 

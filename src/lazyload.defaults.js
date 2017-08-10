@@ -1,17 +1,18 @@
+// TODO: Check is class "initial" can still be used
+
 export default {
     elements_selector: "img",
-    container: window,
+    container: document,
     threshold: 300,
-    throttle: 150,
     data_src: "original",
     data_srcset: "originalSet",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
     class_initial: "initial",
-    skip_invisible: true,
     callback_load: null,
     callback_error: null,
     callback_set: null,
-    callback_processed: null
+    callback_processed: null,
+    observer_fallback: 1
 };
