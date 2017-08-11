@@ -6,7 +6,7 @@ export const callCallback = function (callback, argument) {
     if (callback) { callback(argument); }
 };
 
-export const addRemoveListeners = function(addRemove, element, loadHandler, errorHandler) {
+export const addRemoveListeners = function(element, addRemove, loadHandler, errorHandler) {
     element[addRemove + eventListener]("load", loadHandler);
     element[addRemove + eventListener]("error", errorHandler);
 }

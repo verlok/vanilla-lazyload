@@ -51,7 +51,7 @@ LazyLoad.prototype = {
         if (!settings) { return; }
         const element = event.target;
 
-        addRemoveListeners("remove", element, this._onLoad, this._onError);
+        addRemoveListeners(element, "remove", this._onLoad, this._onError);
         removeClass(element, settings.class_loading);
         addClass(element, settings.class_error);
         callCallback(settings.callback_error, element); // Calling ERROR callback
@@ -63,7 +63,7 @@ LazyLoad.prototype = {
         if (!settings) { return; }
         const element = event.target;
 
-        addRemoveListeners("remove", element, this._onLoad, this._onError);
+        addRemoveListeners(element, "remove", this._onLoad, this._onError);
         removeClass(element, settings.class_loading);
         addClass(element, settings.class_loaded);
         callCallback(settings.callback_load, element); // Calling LOAD callback
@@ -73,7 +73,7 @@ LazyLoad.prototype = {
     _revealElement: function (element) {
         const settings = this._settings;
         if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-            addRemoveListeners("add", element, this._onLoad.bind(this), this._onError.bind(this));
+            addRemoveListeners(element, "add", this._onLoad.bind(this), this._onError.bind(this));
             addClass(element, settings.class_loading);
         }
         setSources(element, settings);

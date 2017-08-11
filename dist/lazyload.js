@@ -36,7 +36,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var addRemoveListeners = function addRemoveListeners(addRemove, element, loadHandler, errorHandler) {
+    var addRemoveListeners = function addRemoveListeners(element, addRemove, loadHandler, errorHandler) {
         element[addRemove + eventListener]("load", loadHandler);
         element[addRemove + eventListener]("error", errorHandler);
     };
@@ -163,7 +163,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
             var element = event.target;
 
-            addRemoveListeners("remove", element, this._onLoad, this._onError);
+            addRemoveListeners(element, "remove", this._onLoad, this._onError);
             removeClass(element, settings.class_loading);
             addClass(element, settings.class_error);
             callCallback(settings.callback_error, element); // Calling ERROR callback
@@ -177,7 +177,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
             var element = event.target;
 
-            addRemoveListeners("remove", element, this._onLoad, this._onError);
+            addRemoveListeners(element, "remove", this._onLoad, this._onError);
             removeClass(element, settings.class_loading);
             addClass(element, settings.class_loaded);
             callCallback(settings.callback_load, element); // Calling LOAD callback
@@ -187,7 +187,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         _revealElement: function _revealElement(element) {
             var settings = this._settings;
             if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-                addRemoveListeners("add", element, this._onLoad.bind(this), this._onError.bind(this));
+                addRemoveListeners(element, "add", this._onLoad.bind(this), this._onError.bind(this));
                 addClass(element, settings.class_loading);
             }
             setSources(element, settings);
