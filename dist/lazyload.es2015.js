@@ -23,10 +23,25 @@
         observer_fallback: 1
     };
 
+    const eventListener = "EventListener";
+
     const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
     const callCallback = function (callback, argument) {
         if (callback) { callback(argument); }
+    };
+
+    const addRemoveListeners = function(addRemove, element, loadHandler, errorHandler) {
+        element[addRemove + eventListener]("load", loadHandler);
+        element[addRemove + eventListener]("error", errorHandler);
+    };
+
+    const addClass = function(element, className) {
+        element.classList.add(className);
+    };
+
+    const removeClass = function(element, className) {
+        element.classList.remove(className);
     };
 
     /* Creates instance and notifies it through the window element */
@@ -133,38 +148,34 @@
 
         _onError: function (event) {
             const settings = this._settings;
+            // As this method is asynchronous, it must be protected against calls after destroy()
+            if (!settings) { return; }
             const element = event.target;
-            if (!settings) {
-                return; // As this method is asynchronous, it must be protected against calls after destroy()
-            }
-            element.removeEventListener("load", this._onLoad);
-            element.removeEventListener("error", this._onError);
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_error);
-            callCallback(settings.callback_error, element);
+
+            addRemoveListeners("remove", element, this._onLoad, this._onError);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_error);
+            callCallback(settings.callback_error, element); // Calling ERROR callback
         },
 
         _onLoad: function (event) {
             const settings = this._settings;
+            // As this method is asynchronous, it must be protected against calls after destroy()
+            if (!settings) { return; }
             const element = event.target;
-            if (!settings) {
-                return; // As this method is asynchronous, it must be protected against calls after destroy()
-            }
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_loaded);
-            element.removeEventListener("load", this._onLoad);
-            element.removeEventListener("error", this._onError);
-            /* Calling LOAD callback */
-            callCallback(settings.callback_load, element);
+
+            addRemoveListeners("remove", element, this._onLoad, this._onError);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_loaded);
+            callCallback(settings.callback_load, element); // Calling LOAD callback
         },
 
         // Stop watching and load the image
         _revealElement: function (element) {
             const settings = this._settings;
             if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-                element.addEventListener("load", this._onLoad.bind(this));
-                element.addEventListener("error", this._onError.bind(this));
-                element.classList.add(settings.class_loading);
+                addRemoveListeners("add", element, this._onLoad.bind(this), this._onError.bind(this));
+                addClass(element, settings.class_loading);
             }
             setSources(element, settings);
             element.dataset.wasProcessed = true;

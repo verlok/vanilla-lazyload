@@ -26,12 +26,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         observer_fallback: 1
     };
 
+    var eventListener = "EventListener";
+
     var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
     var callCallback = function callCallback(callback, argument) {
         if (callback) {
             callback(argument);
         }
+    };
+
+    var addRemoveListeners = function addRemoveListeners(addRemove, element, loadHandler, errorHandler) {
+        element[addRemove + eventListener]("load", loadHandler);
+        element[addRemove + eventListener]("error", errorHandler);
+    };
+
+    var addClass = function addClass(element, className) {
+        element.classList.add(className);
+    };
+
+    var removeClass = function removeClass(element, className) {
+        element.classList.remove(className);
     };
 
     /* Creates instance and notifies it through the window element */
@@ -142,38 +157,38 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         _onError: function _onError(event) {
             var settings = this._settings;
-            var element = event.target;
+            // As this method is asynchronous, it must be protected against calls after destroy()
             if (!settings) {
-                return; // As this method is asynchronous, it must be protected against calls after destroy()
+                return;
             }
-            element.removeEventListener("load", this._onLoad);
-            element.removeEventListener("error", this._onError);
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_error);
-            callCallback(settings.callback_error, element);
+            var element = event.target;
+
+            addRemoveListeners("remove", element, this._onLoad, this._onError);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_error);
+            callCallback(settings.callback_error, element); // Calling ERROR callback
         },
 
         _onLoad: function _onLoad(event) {
             var settings = this._settings;
-            var element = event.target;
+            // As this method is asynchronous, it must be protected against calls after destroy()
             if (!settings) {
-                return; // As this method is asynchronous, it must be protected against calls after destroy()
+                return;
             }
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_loaded);
-            element.removeEventListener("load", this._onLoad);
-            element.removeEventListener("error", this._onError);
-            /* Calling LOAD callback */
-            callCallback(settings.callback_load, element);
+            var element = event.target;
+
+            addRemoveListeners("remove", element, this._onLoad, this._onError);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_loaded);
+            callCallback(settings.callback_load, element); // Calling LOAD callback
         },
 
         // Stop watching and load the image
         _revealElement: function _revealElement(element) {
             var settings = this._settings;
             if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-                element.addEventListener("load", this._onLoad.bind(this));
-                element.addEventListener("error", this._onError.bind(this));
-                element.classList.add(settings.class_loading);
+                addRemoveListeners("add", element, this._onLoad.bind(this), this._onError.bind(this));
+                addClass(element, settings.class_loading);
             }
             setSources(element, settings);
             element.dataset.wasProcessed = true;
