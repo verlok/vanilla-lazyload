@@ -15,23 +15,21 @@ import setSources from "./lazyload.setSources";
 
 const LazyLoad = function (instanceSettings) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
-    this._intObsSupport = ("IntersectionObserver" in window);
     const settings = this._settings;
-    if (this._intObsSupport) {
+    if ("IntersectionObserver" in window) {
         const onIntersection = (entries) => {
-            // Loop through the entries
-            entries.forEach(entry => {
-                // Is the image in viewport?
-                if (entry.intersectionRatio > 0) {
-                    let element = entry.target;
-                    this._revealElement(element);
-                    this._observer.unobserve(element);
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
                 }
+                let element = entry.target;
+                this._revealElement(element); 
+                this._observer.unobserve(element);
             });
         };
         this._observer = new IntersectionObserver(onIntersection, {
             root: settings.container === document ? null : settings.container,
-            rootMargin: this._settings.threshold + "px"
+            rootMargin: settings.threshold + "px"
         });
     }
     this.update();
@@ -48,7 +46,9 @@ LazyLoad.prototype = {
     _onError: function (event) {
         const settings = this._settings;
         // As this method is asynchronous, it must be protected against calls after destroy()
-        if (!settings) { return; }
+        if (!settings) {
+            return;
+        }
         const element = event.target;
 
         addRemoveListeners(element, "remove", this._onLoad, this._onError);
@@ -60,7 +60,9 @@ LazyLoad.prototype = {
     _onLoad: function (event) {
         const settings = this._settings;
         // As this method is asynchronous, it must be protected against calls after destroy()
-        if (!settings) { return; }
+        if (!settings) {
+            return;
+        }
         const element = event.target;
 
         addRemoveListeners(element, "remove", this._onLoad, this._onError);
@@ -139,7 +141,6 @@ LazyLoad.prototype = {
         }
         this._elements = null;
         this._settings = null;
-        this._intObsSupport = null;
     }
 }
 

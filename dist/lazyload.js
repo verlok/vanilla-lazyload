@@ -125,23 +125,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var _this = this;
 
         this._settings = _extends({}, defaultSettings, instanceSettings);
-        this._intObsSupport = "IntersectionObserver" in window;
         var settings = this._settings;
-        if (this._intObsSupport) {
+        if ("IntersectionObserver" in window) {
             var onIntersection = function onIntersection(entries) {
-                // Loop through the entries
                 entries.forEach(function (entry) {
-                    // Is the image in viewport?
-                    if (entry.intersectionRatio > 0) {
-                        var element = entry.target;
-                        _this._revealElement(element);
-                        _this._observer.unobserve(element);
+                    if (!entry.isIntersecting) {
+                        return;
                     }
+                    var element = entry.target;
+                    _this._revealElement(element);
+                    _this._observer.unobserve(element);
                 });
             };
             this._observer = new IntersectionObserver(onIntersection, {
                 root: settings.container === document ? null : settings.container,
-                rootMargin: this._settings.threshold + "px"
+                rootMargin: settings.threshold + "px"
             });
         }
         this.update();
@@ -256,7 +254,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
             this._elements = null;
             this._settings = null;
-            this._intObsSupport = null;
         }
     };
 
