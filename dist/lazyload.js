@@ -49,6 +49,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         element.classList.remove(className);
     };
 
+    var purgeElements = function purgeElements(elements) {
+        var purgedElements = [];
+
+        for (var element, i = 0; element = elements[i]; i++) {
+            if (!element.dataset.wasProcessed) {
+                purgedElements.push(element);
+            }
+        }
+        return purgedElements;
+    };
+
     /* Creates instance and notifies it through the window element */
     var createInstance = function createInstance(classObj, options) {
         var instance = new classObj(options);
@@ -145,7 +156,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         this.update();
     };
 
-    // TODO: Convert settings = this._settings into {setting1, setting2} = this._settings for legibility and minification;
+    // TODO: Convert all for i=0... < length loops to more performing loop using assignment as exiting case
+    // TODO: Convert all private methods to external functions --> trim some kb, declare dependencies!
 
     LazyLoad.prototype = {
 
@@ -193,25 +205,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             callCallback(settings.callback_set, element);
         },
 
-        // TODO: Optimize removing double loop (for, while) -- can this function be removed at all?
-        _purgeElements: function _purgeElements() {
-            var elements = this._elements,
-                elementsLength = elements.length,
-                elementsToPurge = [];
-
-            for (var i = 0; i < elementsLength; i++) {
-                var element = elements[i];
-                /* If the element has already been processed, skip it */
-                if (element.dataset.wasProcessed) {
-                    elementsToPurge.push(i);
-                }
-            }
-            /* Removing elements to purge from this._elements. */
-            while (elementsToPurge.length > 0) {
-                elements.splice(elementsToPurge.pop(), 1);
-            }
-        },
-
         /* 
          * Public methods
          */
@@ -221,12 +214,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             var settings = this._settings;
 
-            // TODO: Don't convert to array, use nodeset directly
-            // TODO: Make purgeElements take a nodeset and return a purged one so this._elements is assigned once
-
-            // Converts to array the nodeset obtained querying the DOM from settings.container with elements_selector
-            this._elements = Array.prototype.slice.call(settings.container.querySelectorAll(settings.elements_selector));
-            this._purgeElements();
+            var elements = settings.container.querySelectorAll(settings.elements_selector);
+            this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
 
             if (this._observer) {
                 this._elements.forEach(function (element) {

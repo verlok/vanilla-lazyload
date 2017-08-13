@@ -18,3 +18,14 @@ export const addClass = function(element, className) {
 export const removeClass = function(element, className) {
     element.classList.remove(className);
 }
+
+export const purgeElements = function (elements) {
+    const purgedElements = [];
+    
+    for (let element, i = 0; element = elements[i]; i++) {
+        if (!element.dataset.wasProcessed) {
+            purgedElements.push(element);
+        }
+    }
+    return purgedElements;
+}
