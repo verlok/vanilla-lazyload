@@ -22,36 +22,10 @@
         callback_processed: null
     };
 
-    const eventListener = "EventListener";
-
-    const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
-
-    const callCallback = function (callback, argument) {
-        if (callback) { callback(argument); }
-    };
-
-    const addRemoveListeners = function(element, addRemove, loadHandler, errorHandler) {
-        element[addRemove + eventListener]("load", loadHandler);
-        element[addRemove + eventListener]("error", errorHandler);
-    };
-
-    const addClass = function(element, className) {
-        element.classList.add(className);
-    };
-
-    const removeClass = function(element, className) {
-        element.classList.remove(className);
-    };
-
-    const purgeElements = function (elements) {
-        const purgedElements = [];
-        
-        for (let element, i = 0; element = elements[i]; i++) {
-            if (!element.dataset.wasProcessed) {
-                purgedElements.push(element);
-            }
-        }
-        return purgedElements;
+    var purgeElements = function (elements) {
+        return elements.filter((element) => {
+            return !element.dataset.wasProcessed;
+        });
     };
 
     /* Creates instance and notifies it through the window element */
@@ -77,48 +51,7 @@
         }
     };
 
-    const setSourcesForPicture = function (element, settings) {
-        const {dataSrcSet} = settings;
-        const parent = element.parentElement;
-        if (parent.tagName !== "PICTURE") {
-            return;
-        }
-        for (let i = 0; i < parent.children.length; i++) {
-            let pictureChild = parent.children[i];
-            if (pictureChild.tagName === "SOURCE") {
-                let sourceSrcset = pictureChild.dataset[dataSrcSet];
-                if (sourceSrcset) {
-                    pictureChild.setAttribute("srcset", sourceSrcset);
-                }
-            }
-        }
-    };
-
-    var setSources = function (element, settings) {
-        const {data_src: dataSrc, data_srcset: dataSrcSet} = settings;
-        const tagName = element.tagName;
-        const elementSrc = element.dataset[dataSrc];
-        if (tagName === "IMG") {
-            setSourcesForPicture(element, settings);
-            const imgSrcset = element.dataset[dataSrcSet];
-            if (imgSrcset) {
-                element.setAttribute("srcset", imgSrcset);
-            }
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
-            return;
-        }
-        if (tagName === "IFRAME") {
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
-            return;
-        }
-        if (elementSrc) {
-            element.style.backgroundImage = `url("${elementSrc}")`;
-        }
-    };
+    // Stop watching and load the image
 
     /*
      * Constructor
@@ -134,7 +67,7 @@
                         return;
                     }
                     let element = entry.target;
-                    this._revealElement(element); 
+                    revealElement(element, settings);
                     this._observer.unobserve(element);
                 });
                 this._elements = purgeElements(this._elements);
@@ -147,59 +80,9 @@
         this.update();
     };
 
-    // TODO: Convert all for i=0... < length loops to more performing loop using assignment as exiting case
     // TODO: Convert all private methods to external functions --> trim some kb, declare dependencies!
 
     LazyLoad.prototype = {
-
-        /*
-         * Private methods
-         */
-
-        _onError: function (event) {
-            const settings = this._settings;
-            // As this method is asynchronous, it must be protected against calls after destroy()
-            if (!settings) {
-                return;
-            }
-            const element = event.target;
-
-            addRemoveListeners(element, "remove", this._onLoad, this._onError);
-            removeClass(element, settings.class_loading);
-            addClass(element, settings.class_error);
-            callCallback(settings.callback_error, element); // Calling ERROR callback
-        },
-
-        _onLoad: function (event) {
-            const settings = this._settings;
-            // As this method is asynchronous, it must be protected against calls after destroy()
-            if (!settings) {
-                return;
-            }
-            const element = event.target;
-
-            addRemoveListeners(element, "remove", this._onLoad, this._onError);
-            removeClass(element, settings.class_loading);
-            addClass(element, settings.class_loaded);
-            callCallback(settings.callback_load, element); // Calling LOAD callback
-        },
-
-        // Stop watching and load the image
-        _revealElement: function (element) {
-            const settings = this._settings;
-            if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-                addRemoveListeners(element, "add", this._onLoad.bind(this), this._onError.bind(this));
-                addClass(element, settings.class_loading);
-            }
-            setSources(element, settings);
-            element.dataset.wasProcessed = true;
-            callCallback(settings.callback_set, element);
-        },
-
-        /* 
-         * Public methods
-         */
-
         update: function () {
             const settings = this._settings;
             const elements = settings.container.querySelectorAll(settings.elements_selector);
@@ -213,15 +96,14 @@
             }
             // Fallback: load all elements at once
             this._elements.forEach(element => {
-                this._revealElement(element, settings);
+                revealElement(element, settings);
             });
             this._elements = purgeElements(this._elements);
         },
 
         destroy: function () {
             if (this._observer) {
-                this._purgeElements();
-                this._elements.forEach(element => {
+                purgeElements(this._elements).forEach(element => {
                     this._observer.unobserve(element);
                 });
                 this._observer = null;
