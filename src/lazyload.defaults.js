@@ -1,5 +1,3 @@
-// TODO: Check if class "initial" can still be used
-
 export default {
     elements_selector: "img",
     container: document,
@@ -9,9 +7,7 @@ export default {
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
-    class_initial: "initial",
     callback_load: null,
     callback_error: null,
-    callback_set: null,
-    callback_processed: null
+    callback_set: null
 };
