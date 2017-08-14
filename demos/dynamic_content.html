@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
 	<meta charset="UTF-8">
 	<title>
 		Lazyload tests
 	</title>
 	<style>
-		ul, li {
+		ul,
+		li {
 			list-style-type: none;
 			margin: 0;
 			padding: 0;
 		}
 
-		a, img {
+		a,
+		img {
 			display: block;
 		}
 
 		img {
 			border: 0;
 		}
+
 		img:not([src]) {
 			visibility: hidden;
 		}
+
 		button {
 			position: fixed;
 			bottom: 10px;
@@ -32,99 +37,79 @@
 		}
 	</style>
 </head>
+
 <body>
-<button id="addContent">
+	<button id="addContent">
 	ADD CONTENT <span class="count"></span>
 </button>
-<div id="results1" class="results">
-	<ul>
-		<li>
-			<a href="#"><img alt="Stivaletti" data-original="../img/44721746JJ_15_a.jpg" width="220" height="280"></a>
-		</li>
-		<li>
-			<a href="#"><img alt="Open toe" data-original="../img/44740806JX_15_r.jpg" width="220" height="280"></a>
-		</li>
-		<li>
-			<a href="#"><img alt="Sneakers &amp; Tennis" data-original="../img/44735977GR_15_a.jpg" width="220" height="280"></a>
-		</li>
-		<li>
-			<a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-original="../img/44738717AM_15_a.jpg" width="220" height="280"></a>
-		</li>
-		<li>
-			<a href="#"><img alt="Sneakers &amp; Tennis shoes alte" data-original="../img/44739940CB_15_a.jpg" width="220" height="280"></a>
-		</li>
-		<li>
-			<a href="#"><img alt="Sneakers &amp; Tennis shoes alte" data-original="../img/44740860XG_15_a.jpg" width="220" height="280"></a>
-		</li>
-		<li>
-			<a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-original="../img/44738719VN_15_a.jpg" width="220" height="280"></a>
-		</li>
-	</ul>
-</div>
-<script src="../dist/lazyload.min.js"></script>
-<script>
-	(function () {
+	<div id="results1" class="results">
+		<ul>
+			<li>
+				<a href="#"><img alt="Stivaletti" data-original="../img/44721746JJ_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Open toe" data-original="../img/44740806JX_15_r.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis" data-original="../img/44735977GR_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-original="../img/44738717AM_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes alte" data-original="../img/44739940CB_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes alte" data-original="../img/44740860XG_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-original="../img/44738719VN_15_a.jpg" width="220" height="280"></a>
+			</li>
+		</ul>
+	</div>
+	<script src="../dist/lazyload.js"></script>
+	<script>
+		(function () {
 
-		var count = 0, addContentButton, additionalContent, target;
+			var count = 0,
+				addContentButton, additionalContent, target;
 
-		function _addEventListener(element, eventName, callback) {
-			// Use addEventListener if available
-			if (!!window.addEventListener) {
-				element.addEventListener(eventName, callback);
-				return;
+			function logElementEvent(eventName, element) {
+				console.log(new Date().getTime(), eventName, element.getAttribute('data-original'));
 			}
-			// Otherwise use attachEvent, set this and event
-			if (!!window.attachEvent) {
-				element.attachEvent('on' + eventName, (function (el) {
-					return function () {
-						callback.call(el, window.event);
-					};
-				}(element)));
-				// Break closure and primary circular reference to element
-				element = null;
-			}
-		}
 
-		function logElementEvent(eventName, element) {
-			console.log(new Date().getTime(), eventName, element.getAttribute('data-original'));
-		}
+			/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
 
-		function logEvent(eventName, elementsLeft) {
-			console.log(new Date().getTime(), eventName, elementsLeft + " images left");
-		}
+			ll = new LazyLoad({
+				callback_load: function (element) {
+					logElementEvent("LOADED", element);
+				},
+				callback_set: function (element) {
+					logElementEvent("SET", element);
+				}
+			});
 
-		/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
+			additionalContent = [
+				'<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-original="../img/44739938WK_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44736534FQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44735388UI_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44739165EV_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44739454HF_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44719480KM_15_a.jpg" width="220" height="280"></a> </li>',
+				'<li><a href="#"><img alt="Stivaletti" data-original="../img/44719687TD_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44721899NG_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="../img/44721744SL_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44716730KR_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44718734XL_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44721796UK_15_a.jpg" width="220" height="280"></a> </li>',
+				'<li><a href="#"><img alt="Francesine" data-original="../img/44717679MJ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44724594VU_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44726148AQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="../img/44719629NT_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="../img/44725329KQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44724026QS_15_a.jpg" width="220" height="280"></a> </li>'
+			];
 
-		ll = new LazyLoad(/*{
-			callback_load: function (element) {
-				logElementEvent("LOADED", element);
-			},
-			callback_set: function (element) {
-				logElementEvent("SET", element);
-			},
-			callback_processed: function(elementsLeft) {
-				logEvent("PROCESSED", elementsLeft);
-			}
-		}*/);
+			addContentButton = document.getElementById('addContent');
+			target = document.querySelector("#results1 ul");
 
-		additionalContent = [
-			'<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-original="../img/44739938WK_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44736534FQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44735388UI_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44739165EV_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44739454HF_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44719480KM_15_a.jpg" width="220" height="280"></a> </li>',
-			'<li><a href="#"><img alt="Stivaletti" data-original="../img/44719687TD_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44721899NG_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="../img/44721744SL_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44716730KR_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44718734XL_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44721796UK_15_a.jpg" width="220" height="280"></a> </li>',
-			'<li><a href="#"><img alt="Francesine" data-original="../img/44717679MJ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-original="../img/44724594VU_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-original="../img/44726148AQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="../img/44719629NT_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-original="../img/44725329KQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-original="../img/44724026QS_15_a.jpg" width="220" height="280"></a> </li>'
-		];
-
-		addContentButton = document.getElementById('addContent');
-		target = document.querySelector("#results1 ul");
-
-		_addEventListener(addContentButton, 'click', function() {
-			if (count<additionalContent.length) {
+			addContentButton.addEventListener('click', () => {
+				if (count === additionalContent.length) {
+					return;
+				}
 				target.innerHTML += additionalContent[count];
 				ll.update();
-				count++;
-			}
-		});
+				addContentButton.disabled = ++count >= additionalContent.length;
+			});
 
-	}());
-</script>
+
+		}());
+	</script>
 </body>
+
 </html>
