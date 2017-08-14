@@ -4,14 +4,19 @@ import autoInitialize from "./lazyload.autoInitialize";
 import setSources from "./lazyload.setSources";
 import revealElement from "./lazyload.reveal";
 
-/*
- * Constructor
- */
-
 const LazyLoad = function (instanceSettings) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
-    const settings = this._settings;
-    if ("IntersectionObserver" in window) {
+    this._setObserver();
+    this.update();
+};
+
+LazyLoad.prototype = {
+    _setObserver: function () {
+        if (!("IntersectionObserver" in window)) {
+            return;
+        }
+
+        const settings = this._settings;
         const onIntersection = (entries) => {
             entries.forEach((entry) => {
                 if (!entry.isIntersecting) {
@@ -27,11 +32,8 @@ const LazyLoad = function (instanceSettings) {
             root: settings.container === document ? null : settings.container,
             rootMargin: settings.threshold + "px"
         });
-    }
-    this.update();
-};
+    },
 
-LazyLoad.prototype = {
     update: function () {
         const settings = this._settings;
         const elements = settings.container.querySelectorAll(settings.elements_selector);

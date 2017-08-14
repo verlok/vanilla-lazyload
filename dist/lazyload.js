@@ -135,16 +135,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callCallback(settings.callback_set, element);
     };
 
-    /*
-     * Constructor
-     */
-
     var LazyLoad = function LazyLoad(instanceSettings) {
-        var _this = this;
-
         this._settings = _extends({}, defaultSettings, instanceSettings);
-        var settings = this._settings;
-        if ("IntersectionObserver" in window) {
+        this._setObserver();
+        this.update();
+    };
+
+    LazyLoad.prototype = {
+        _setObserver: function _setObserver() {
+            var _this = this;
+
+            if (!("IntersectionObserver" in window)) {
+                return;
+            }
+
+            var settings = this._settings;
             var onIntersection = function onIntersection(entries) {
                 entries.forEach(function (entry) {
                     if (!entry.isIntersecting) {
@@ -160,11 +165,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 root: settings.container === document ? null : settings.container,
                 rootMargin: settings.threshold + "px"
             });
-        }
-        this.update();
-    };
+        },
 
-    LazyLoad.prototype = {
         update: function update() {
             var _this2 = this;
 

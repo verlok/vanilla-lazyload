@@ -128,14 +128,19 @@
         callCallback(settings.callback_set, element);
     };
 
-    /*
-     * Constructor
-     */
-
     const LazyLoad = function (instanceSettings) {
         this._settings = Object.assign({}, defaultSettings, instanceSettings);
-        const settings = this._settings;
-        if ("IntersectionObserver" in window) {
+        this._setObserver();
+        this.update();
+    };
+
+    LazyLoad.prototype = {
+        _setObserver: function () {
+            if (!("IntersectionObserver" in window)) {
+                return;
+            }
+
+            const settings = this._settings;
             const onIntersection = (entries) => {
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting) {
@@ -151,11 +156,8 @@
                 root: settings.container === document ? null : settings.container,
                 rootMargin: settings.threshold + "px"
             });
-        }
-        this.update();
-    };
+        },
 
-    LazyLoad.prototype = {
         update: function () {
             const settings = this._settings;
             const elements = settings.container.querySelectorAll(settings.elements_selector);
