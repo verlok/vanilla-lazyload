@@ -105,16 +105,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var addOneShotListener = function addOneShotListener(element, forSuccess, settings) {
-        var eventType = forSuccess ? "load" : "error";
-        var handler = function handler(event) {
-            onEvent(event, forSuccess, settings);
+    var loadString = "load";
+    var errorString = "error";
+
+    var removeListeners = function removeListeners(element, loadHandler, errorHandler) {
+        element.removeEventListener(loadString, loadHandler);
+        element.removeEventListener(errorString, errorHandler);
+    };
+
+    var addOneShotListeners = function addOneShotListeners(element, settings) {
+        var onLoad = function onLoad(event) {
+            onEvent(event, true, settings);
+            removeListeners(element, onLoad, onError);
         };
-        var augmentedHandler = function augmentedHandler(event) {
-            handler(event, settings);
-            element.removeEventListener(eventType, augmentedHandler);
+        var onError = function onError(event) {
+            onEvent(event, false, settings);
+            removeListeners(element, onLoad, onError);
         };
-        element.addEventListener(eventType, augmentedHandler);
+        element.addEventListener(loadString, onLoad);
+        element.addEventListener(errorString, onError);
     };
 
     var onEvent = function onEvent(event, success, settings) {
@@ -126,8 +135,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var revealElement = function revealElement(element, settings) {
         if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-            addOneShotListener(element, true, settings);
-            addOneShotListener(element, false, settings);
+            addOneShotListeners(element, settings);
             element.classList.add(settings.class_loading);
         }
         setSources(element, settings);

@@ -6,14 +6,25 @@ const callCallback = function (callback, argument) {
     }
 };
 
-const addOneShotListener = function(element, forSuccess, settings) {
-    const eventType = forSuccess ? "load" : "error";
-    const handler = (event) => { onEvent(event, forSuccess, settings) };
-    const augmentedHandler = (event) => {
-        handler(event, settings);
-        element.removeEventListener(eventType, augmentedHandler);
+const loadString = "load";
+const errorString = "error";
+
+const removeListeners = function(element, loadHandler, errorHandler) {
+    element.removeEventListener(loadString, loadHandler);
+    element.removeEventListener(errorString, errorHandler);
+};
+
+const addOneShotListeners = function(element, settings) {
+    const onLoad = (event) => {
+        onEvent(event, true, settings);
+        removeListeners(element, onLoad, onError);
     }
-    element.addEventListener(eventType, augmentedHandler);
+    const onError = (event) => {
+        onEvent(event, false, settings);
+        removeListeners(element, onLoad, onError);
+    }
+    element.addEventListener(loadString, onLoad);
+    element.addEventListener(errorString, onError);
 };
 
 const onEvent = function (event, success, settings) {
@@ -25,8 +36,7 @@ const onEvent = function (event, success, settings) {
 
 export default function (element, settings) {
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-        addOneShotListener(element, true, settings);
-        addOneShotListener(element, false, settings);
+        addOneShotListeners(element, settings);
         element.classList.add(settings.class_loading);
     }
     setSources(element, settings);
