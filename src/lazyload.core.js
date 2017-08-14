@@ -1,7 +1,6 @@
 import defaultSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
-import setSources from "./lazyload.setSources";
 import revealElement from "./lazyload.reveal";
 
 const LazyLoad = function (instanceSettings) {
