@@ -7,7 +7,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
     'use strict';
 
-    // TODO: Check is class "initial" can still be used
+    // TODO: Check if class "initial" can still be used
 
     var defaultSettings = {
         elements_selector: "img",
@@ -53,8 +53,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    // Stop watching and load the image
-
     /*
      * Constructor
      */
@@ -83,8 +81,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
         this.update();
     };
-
-    // TODO: Convert all private methods to external functions --> trim some kb, declare dependencies!
 
     LazyLoad.prototype = {
         update: function update() {

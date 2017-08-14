@@ -31,8 +31,6 @@ const LazyLoad = function (instanceSettings) {
     this.update();
 };
 
-// TODO: Convert all private methods to external functions --> trim some kb, declare dependencies!
-
 LazyLoad.prototype = {
     update: function () {
         const settings = this._settings;

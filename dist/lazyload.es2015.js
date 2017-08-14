@@ -4,7 +4,7 @@
     (global.LazyLoad = factory());
 }(this, (function () { 'use strict';
 
-    // TODO: Check is class "initial" can still be used
+    // TODO: Check if class "initial" can still be used
 
     var defaultSettings = {
         elements_selector: "img",
@@ -51,8 +51,6 @@
         }
     };
 
-    // Stop watching and load the image
-
     /*
      * Constructor
      */
@@ -79,8 +77,6 @@
         }
         this.update();
     };
-
-    // TODO: Convert all private methods to external functions --> trim some kb, declare dependencies!
 
     LazyLoad.prototype = {
         update: function () {

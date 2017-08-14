@@ -1,4 +1,4 @@
-// TODO: Check is class "initial" can still be used
+// TODO: Check if class "initial" can still be used
 
 export default {
     elements_selector: "img",

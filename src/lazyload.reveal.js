@@ -1,21 +1,23 @@
 import setSources from "./lazyload.setSources";
 
-const eventListener = "EventListener";
-
 const callCallback = function (callback, argument) {
-    if (callback) { callback(argument); }
+    if (callback) {
+        callback(argument);
+    }
 };
 
-const addRemoveListeners = function(element, addRemove, loadHandler, errorHandler) {
+const eventListener = "EventListener";
+
+const addRemoveListeners = function (element, addRemove, loadHandler, errorHandler) {
     element[addRemove + eventListener]("load", loadHandler);
     element[addRemove + eventListener]("error", errorHandler);
 }
 
- const addClass = function(element, className) {
+const addClass = function (element, className) {
     element.classList.add(className);
 }
 
- const removeClass = function(element, className) {
+const removeClass = function (element, className) {
     element.classList.remove(className);
 }
 
@@ -26,6 +28,7 @@ const onError = function (event, settings) {
     }
     const element = event.target;
 
+    // TODO: Check what's happening -- setting wasn't passed!
     addRemoveListeners(element, "remove", onLoad, onError);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_error);
@@ -39,13 +42,13 @@ const onLoad = function (event, settings) {
     }
     const element = event.target;
 
+    // TODO: Check what's happening -- setting wasn't passed!
     addRemoveListeners(element, "remove", onLoad, onError);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_loaded);
     callCallback(settings.callback_load, element); // Calling LOAD callback
 };
 
-// Stop watching and load the image
 export default function (element, settings) {
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
         addRemoveListeners(element, "add", onLoad, onError);
