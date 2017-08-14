@@ -22,8 +22,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callback_load: null,
         callback_error: null,
         callback_set: null,
-        callback_processed: null,
-        observer_fallback: 1
+        callback_processed: null
     };
 
     var eventListener = "EventListener";
@@ -147,6 +146,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     _this._revealElement(element);
                     _this._observer.unobserve(element);
                 });
+                _this._elements = purgeElements(_this._elements);
             };
             this._observer = new IntersectionObserver(onIntersection, {
                 root: settings.container === document ? null : settings.container,
@@ -213,22 +213,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var _this2 = this;
 
             var settings = this._settings;
-
             var elements = settings.container.querySelectorAll(settings.elements_selector);
-            this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
 
+            this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
             if (this._observer) {
                 this._elements.forEach(function (element) {
                     _this2._observer.observe(element);
                 });
                 return;
             }
-
-            if (settings.observer_fallback === 1) {
-                this._elements.forEach(function (element) {
-                    _this2._revealElement(element, settings);
-                });
-            }
+            // Fallback: load all elements at once
+            this._elements.forEach(function (element) {
+                _this2._revealElement(element, settings);
+            });
+            this._elements = purgeElements(this._elements);
         },
 
         destroy: function destroy() {

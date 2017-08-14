@@ -19,8 +19,7 @@
         callback_load: null,
         callback_error: null,
         callback_set: null,
-        callback_processed: null,
-        observer_fallback: 1
+        callback_processed: null
     };
 
     const eventListener = "EventListener";
@@ -138,6 +137,7 @@
                     this._revealElement(element); 
                     this._observer.unobserve(element);
                 });
+                this._elements = purgeElements(this._elements);
             };
             this._observer = new IntersectionObserver(onIntersection, {
                 root: settings.container === document ? null : settings.container,
@@ -202,23 +202,20 @@
 
         update: function () {
             const settings = this._settings;
-
             const elements = settings.container.querySelectorAll(settings.elements_selector);
-            this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
 
+            this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
             if (this._observer) {
                 this._elements.forEach(element => {
                     this._observer.observe(element);
                 });
                 return;
             }
-
-            if (settings.observer_fallback === 1) {
-                this._elements.forEach(element => {
-                    this._revealElement(element, settings);
-                });
-            }
-
+            // Fallback: load all elements at once
+            this._elements.forEach(element => {
+                this._revealElement(element, settings);
+            });
+            this._elements = purgeElements(this._elements);
         },
 
         destroy: function () {
