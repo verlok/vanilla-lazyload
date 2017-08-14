@@ -105,7 +105,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var addOneShotListener = function addOneShotListener(element, eventType, handler, settings) {
+    var addOneShotListener = function addOneShotListener(element, forSuccess, settings) {
+        var eventType = forSuccess ? "load" : "error";
+        var handler = function handler(event) {
+            onEvent(event, forSuccess, settings);
+        };
         var augmentedHandler = function augmentedHandler(event) {
             handler(event, settings);
             element.removeEventListener(eventType, augmentedHandler);
@@ -113,34 +117,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         element.addEventListener(eventType, augmentedHandler);
     };
 
-    var addClass = function addClass(element, className) {
-        element.classList.add(className);
-    };
-
-    var removeClass = function removeClass(element, className) {
-        element.classList.remove(className);
-    };
-
-    var onEvent = function onEvent(event, settings, loaded) {
+    var onEvent = function onEvent(event, success, settings) {
         var element = event.target;
-        removeClass(element, settings.class_loading);
-        addClass(element, loaded ? settings.class_loaded : settings.class_error); // Setting loaded or error class
-        callCallback(loaded ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
-    };
-
-    var onError = function onError(event, settings) {
-        onEvent(event, settings, false);
-    };
-
-    var onLoad = function onLoad(event, settings) {
-        onEvent(event, settings, true);
+        element.classList.remove(settings.class_loading);
+        element.classList.add(success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
+        callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
     };
 
     var revealElement = function revealElement(element, settings) {
         if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-            addOneShotListener(element, "load", onLoad, settings);
-            addOneShotListener(element, "error", onError, settings);
-            addClass(element, settings.class_loading);
+            addOneShotListener(element, true, settings);
+            addOneShotListener(element, false, settings);
+            element.classList.add(settings.class_loading);
         }
         setSources(element, settings);
         element.dataset.wasProcessed = true;

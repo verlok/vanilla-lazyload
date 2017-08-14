@@ -6,7 +6,9 @@ const callCallback = function (callback, argument) {
     }
 };
 
-const addOneShotListener = function(element, eventType, handler, settings) {
+const addOneShotListener = function(element, forSuccess, settings) {
+    const eventType = forSuccess ? "load" : "error";
+    const handler = (event) => { onEvent(event, forSuccess, settings) };
     const augmentedHandler = (event) => {
         handler(event, settings);
         element.removeEventListener(eventType, augmentedHandler);
@@ -14,34 +16,18 @@ const addOneShotListener = function(element, eventType, handler, settings) {
     element.addEventListener(eventType, augmentedHandler);
 };
 
-const addClass = function (element, className) {
-    element.classList.add(className);
-};
-
-const removeClass = function (element, className) {
-    element.classList.remove(className);
-};
-
-const onEvent = function (event, settings, loaded) {
+const onEvent = function (event, success, settings) {
     const element = event.target;
-    removeClass(element, settings.class_loading);
-    addClass(element, loaded ? settings.class_loaded : settings.class_error); // Setting loaded or error class
-    callCallback(loaded ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
+    element.classList.remove(settings.class_loading);
+    element.classList.add(success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
+    callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
 }
-
-const onError = function (event, settings) {
-    onEvent(event, settings, false);
-};
-
-const onLoad = function (event, settings) {
-    onEvent(event, settings, true);
-};
 
 export default function (element, settings) {
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-        addOneShotListener(element, "load", onLoad, settings);
-        addOneShotListener(element, "error", onError, settings);
-        addClass(element, settings.class_loading);
+        addOneShotListener(element, true, settings);
+        addOneShotListener(element, false, settings);
+        element.classList.add(settings.class_loading);
     }
     setSources(element, settings);
     element.dataset.wasProcessed = true;
