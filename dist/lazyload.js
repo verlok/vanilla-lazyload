@@ -105,11 +105,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var eventListener = "EventListener";
-
-    var addRemoveListeners = function addRemoveListeners(element, addRemove, loadHandler, errorHandler) {
-        element[addRemove + eventListener]("load", loadHandler);
-        element[addRemove + eventListener]("error", errorHandler);
+    var addOneShotListener = function addOneShotListener(element, eventType, handler, settings) {
+        var augmentedHandler = function augmentedHandler(event) {
+            handler(event, settings);
+            element.removeEventListener(eventType, augmentedHandler);
+        };
+        element.addEventListener(eventType, augmentedHandler);
     };
 
     var addClass = function addClass(element, className) {
@@ -120,37 +121,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         element.classList.remove(className);
     };
 
-    var onError = function onError(event, settings) {
-        // As this method is asynchronous, it must be protected against calls after destroy()
-        if (!settings) {
-            return;
-        }
+    var onEvent = function onEvent(event, settings, loaded) {
         var element = event.target;
-
-        // TODO: Check what's happening -- setting wasn't passed!
-        addRemoveListeners(element, "remove", onLoad, onError);
         removeClass(element, settings.class_loading);
-        addClass(element, settings.class_error);
-        callCallback(settings.callback_error, element); // Calling ERROR callback
+        addClass(element, loaded ? settings.class_loaded : settings.class_error); // Setting loaded or error class
+        callCallback(loaded ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
+    };
+
+    var onError = function onError(event, settings) {
+        onEvent(event, settings, false);
     };
 
     var onLoad = function onLoad(event, settings) {
-        // As this method is asynchronous, it must be protected against calls after destroy()
-        if (!settings) {
-            return;
-        }
-        var element = event.target;
-
-        // TODO: Check what's happening -- setting wasn't passed!
-        addRemoveListeners(element, "remove", onLoad, onError);
-        removeClass(element, settings.class_loading);
-        addClass(element, settings.class_loaded);
-        callCallback(settings.callback_load, element); // Calling LOAD callback
+        onEvent(event, settings, true);
     };
 
     var revealElement = function revealElement(element, settings) {
         if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-            addRemoveListeners(element, "add", onLoad, onError);
+            addOneShotListener(element, "load", onLoad, settings);
+            addOneShotListener(element, "error", onError, settings);
             addClass(element, settings.class_loading);
         }
         setSources(element, settings);

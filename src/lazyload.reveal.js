@@ -6,52 +6,41 @@ const callCallback = function (callback, argument) {
     }
 };
 
-const eventListener = "EventListener";
-
-const addRemoveListeners = function (element, addRemove, loadHandler, errorHandler) {
-    element[addRemove + eventListener]("load", loadHandler);
-    element[addRemove + eventListener]("error", errorHandler);
-}
+const addOneShotListener = function(element, eventType, handler, settings) {
+    const augmentedHandler = (event) => {
+        handler(event, settings);
+        element.removeEventListener(eventType, augmentedHandler);
+    }
+    element.addEventListener(eventType, augmentedHandler);
+};
 
 const addClass = function (element, className) {
     element.classList.add(className);
-}
+};
 
 const removeClass = function (element, className) {
     element.classList.remove(className);
+};
+
+const onEvent = function (event, settings, loaded) {
+    const element = event.target;
+    removeClass(element, settings.class_loading);
+    addClass(element, loaded ? settings.class_loaded : settings.class_error); // Setting loaded or error class
+    callCallback(loaded ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
 }
 
 const onError = function (event, settings) {
-    // As this method is asynchronous, it must be protected against calls after destroy()
-    if (!settings) {
-        return;
-    }
-    const element = event.target;
-
-    // TODO: Check what's happening -- setting wasn't passed!
-    addRemoveListeners(element, "remove", onLoad, onError);
-    removeClass(element, settings.class_loading);
-    addClass(element, settings.class_error);
-    callCallback(settings.callback_error, element); // Calling ERROR callback
+    onEvent(event, settings, false);
 };
 
 const onLoad = function (event, settings) {
-    // As this method is asynchronous, it must be protected against calls after destroy()
-    if (!settings) {
-        return;
-    }
-    const element = event.target;
-
-    // TODO: Check what's happening -- setting wasn't passed!
-    addRemoveListeners(element, "remove", onLoad, onError);
-    removeClass(element, settings.class_loading);
-    addClass(element, settings.class_loaded);
-    callCallback(settings.callback_load, element); // Calling LOAD callback
+    onEvent(event, settings, true);
 };
 
 export default function (element, settings) {
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
-        addRemoveListeners(element, "add", onLoad, onError);
+        addOneShotListener(element, "load", onLoad, settings);
+        addOneShotListener(element, "error", onError, settings);
         addClass(element, settings.class_loading);
     }
     setSources(element, settings);
