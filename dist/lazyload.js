@@ -53,6 +53,111 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
+    var setSourcesForPicture = function setSourcesForPicture(element, settings) {
+        var dataSrcSet = settings.dataSrcSet;
+
+        var parent = element.parentElement;
+        if (parent.tagName !== "PICTURE") {
+            return;
+        }
+        for (var i = 0; i < parent.children.length; i++) {
+            var pictureChild = parent.children[i];
+            if (pictureChild.tagName === "SOURCE") {
+                var sourceSrcset = pictureChild.dataset[dataSrcSet];
+                if (sourceSrcset) {
+                    pictureChild.setAttribute("srcset", sourceSrcset);
+                }
+            }
+        }
+    };
+
+    var setSources = function setSources(element, settings) {
+        var dataSrc = settings.data_src,
+            dataSrcSet = settings.data_srcset;
+
+        var tagName = element.tagName;
+        var elementSrc = element.dataset[dataSrc];
+        if (tagName === "IMG") {
+            setSourcesForPicture(element, settings);
+            var imgSrcset = element.dataset[dataSrcSet];
+            if (imgSrcset) {
+                element.setAttribute("srcset", imgSrcset);
+            }
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
+            return;
+        }
+        if (tagName === "IFRAME") {
+            if (elementSrc) {
+                element.setAttribute("src", elementSrc);
+            }
+            return;
+        }
+        if (elementSrc) {
+            element.style.backgroundImage = 'url("' + elementSrc + '")';
+        }
+    };
+
+    var callCallback = function callCallback(callback, argument) {
+        if (callback) {
+            callback(argument);
+        }
+    };
+
+    var eventListener = "EventListener";
+
+    var addRemoveListeners = function addRemoveListeners(element, addRemove, loadHandler, errorHandler) {
+        element[addRemove + eventListener]("load", loadHandler);
+        element[addRemove + eventListener]("error", errorHandler);
+    };
+
+    var addClass = function addClass(element, className) {
+        element.classList.add(className);
+    };
+
+    var removeClass = function removeClass(element, className) {
+        element.classList.remove(className);
+    };
+
+    var onError = function onError(event, settings) {
+        // As this method is asynchronous, it must be protected against calls after destroy()
+        if (!settings) {
+            return;
+        }
+        var element = event.target;
+
+        // TODO: Check what's happening -- setting wasn't passed!
+        addRemoveListeners(element, "remove", onLoad, onError);
+        removeClass(element, settings.class_loading);
+        addClass(element, settings.class_error);
+        callCallback(settings.callback_error, element); // Calling ERROR callback
+    };
+
+    var onLoad = function onLoad(event, settings) {
+        // As this method is asynchronous, it must be protected against calls after destroy()
+        if (!settings) {
+            return;
+        }
+        var element = event.target;
+
+        // TODO: Check what's happening -- setting wasn't passed!
+        addRemoveListeners(element, "remove", onLoad, onError);
+        removeClass(element, settings.class_loading);
+        addClass(element, settings.class_loaded);
+        callCallback(settings.callback_load, element); // Calling LOAD callback
+    };
+
+    var revealElement = function revealElement(element, settings) {
+        if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
+            addRemoveListeners(element, "add", onLoad, onError);
+            addClass(element, settings.class_loading);
+        }
+        setSources(element, settings);
+        element.dataset.wasProcessed = true;
+        callCallback(settings.callback_set, element);
+    };
+
     /*
      * Constructor
      */
