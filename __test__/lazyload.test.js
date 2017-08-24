@@ -14,6 +14,7 @@ describe("Constructor", () => {
         const ll = new LazyLoad();
         expect(ll._settings).toEqual({
             elements_selector: "img",
+            elements_container: document,
             container: window,
             threshold: 300,
             throttle: 150,
@@ -38,6 +39,7 @@ describe("Constructor", () => {
         });
         expect(ll._settings).toEqual({
             elements_selector: "img",
+            elements_container: document,
             container: window,
             threshold: 300,
             throttle: 150,

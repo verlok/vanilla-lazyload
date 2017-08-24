@@ -430,6 +430,7 @@ Here's the list of the options.
 | Name | Meaning | Default value |
 | ---- | ----| ---- |
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `window` |
+| `elements_container` | The container that gets searched for the elements selector | `document` |
 | `elements_selector` | The selector of the image elements inside the container, as descendants of the element in the `container` option | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
