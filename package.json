@@ -11,7 +11,7 @@
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-uglify": "~2.3.0",
     "grunt-contrib-watch": "~1.0.0",
-    "grunt-rollup": "^1.0.1",
+    "grunt-rollup": "^4.0.0",
     "gruntify-eslint": "^3.1.0",
     "jest": "^19.0.2"
   },

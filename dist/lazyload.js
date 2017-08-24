@@ -9,6 +9,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var defaultSettings = {
         elements_selector: "img",
+        elements_container: document,
         container: window,
         threshold: 300,
         throttle: 150,
@@ -135,7 +136,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var LazyLoad = function LazyLoad(instanceSettings) {
         this._settings = _extends({}, defaultSettings, instanceSettings);
-        this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
+
+        if (this._settings.elements_container !== document) {
+            this._queryOriginNode = this._settings.elements_container;
+        } else {
+            this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
+        }
 
         this._previousLoopTime = 0;
         this._loopTimeout = null;
