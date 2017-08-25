@@ -1,5 +1,6 @@
 export default {
     elements_selector: "img",
+    elements_container: document,
     container: window,
     threshold: 300,
     throttle: 150,
