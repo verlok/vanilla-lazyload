@@ -5,8 +5,14 @@
   "main": "dist/lazyload.min.js",
   "devDependencies": {
     "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0"
   },
   "scripts": {},
   "repository": {
