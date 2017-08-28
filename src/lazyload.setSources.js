@@ -1,4 +1,5 @@
-const setSourcesForPicture = function (element, srcsetDataAttribute) {
+const setSourcesForPicture = function (element, settings) {
+    const {dataSrcSet} = settings;
     const parent = element.parentElement;
     if (parent.tagName !== "PICTURE") {
         return;
@@ -6,7 +7,7 @@ const setSourcesForPicture = function (element, srcsetDataAttribute) {
     for (let i = 0; i < parent.children.length; i++) {
         let pictureChild = parent.children[i];
         if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+            let sourceSrcset = pictureChild.dataset[dataSrcSet];
             if (sourceSrcset) {
                 pictureChild.setAttribute("srcset", sourceSrcset);
             }
@@ -14,12 +15,13 @@ const setSourcesForPicture = function (element, srcsetDataAttribute) {
     }
 };
 
-export default function (element, srcsetDataAttribute, srcDataAttribute) {
+export default function (element, settings) {
+    const {data_src: dataSrc, data_srcset: dataSrcSet} = settings;
     const tagName = element.tagName;
-    const elementSrc = element.dataset[srcDataAttribute];
+    const elementSrc = element.dataset[dataSrc];
     if (tagName === "IMG") {
-        setSourcesForPicture(element, srcsetDataAttribute);
-        const imgSrcset = element.dataset[srcsetDataAttribute];
+        setSourcesForPicture(element, settings);
+        const imgSrcset = element.dataset[dataSrcSet];
         if (imgSrcset) {
             element.setAttribute("srcset", imgSrcset);
         }

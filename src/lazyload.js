@@ -1,195 +1,71 @@
 import defaultSettings from "./lazyload.defaults";
-import {isBot, callCallback} from "./lazyload.utils";
-import isInsideViewport from "./lazyload.viewport";
+import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
-import setSources from "./lazyload.setSources";
+import revealElement from "./lazyload.reveal";
 
-/*
- * Constructor
- */
-
-const LazyLoad = function(instanceSettings) {
+const LazyLoad = function (instanceSettings) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
-    this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-    
-    this._previousLoopTime = 0;
-    this._loopTimeout = null;
-    this._boundHandleScroll = this.handleScroll.bind(this);
-
-    this._isFirstLoop = true;
-    window.addEventListener("resize", this._boundHandleScroll);
+    this._setObserver();
     this.update();
 };
 
 LazyLoad.prototype = {
-    
-    /*
-     * Private methods
-     */
+    _setObserver: function () {
+        if (!("IntersectionObserver" in window)) {
+            return;
+        }
 
-    _reveal: function (element) {
         const settings = this._settings;
-
-        const errorCallback = function () {
-            /* As this method is asynchronous, it must be protected against external destroy() calls */
-            if (!settings) { return; }
-            element.removeEventListener("load", loadCallback);
-            element.removeEventListener("error", errorCallback);
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_error);
-            callCallback(settings.callback_error, element);
-        };
-
-        const loadCallback = function () {
-            /* As this method is asynchronous, it must be protected against external destroy() calls */
-            if (!settings) { return; }
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_loaded);
-            element.removeEventListener("load", loadCallback);
-            element.removeEventListener("error", errorCallback);
-            /* Calling LOAD callback */
-            callCallback(settings.callback_load, element);
-        };
-
-        if (element.tagName === "IMG" || element.tagName === "IFRAME") {
-            element.addEventListener("load", loadCallback);
-            element.addEventListener("error", errorCallback);
-            element.classList.add(settings.class_loading);
-        }
-
-        setSources(element, settings.data_srcset, settings.data_src);
-        /* Calling SET callback */
-        callCallback(settings.callback_set, element);
-    },
-
-    _loopThroughElements: function () {
-        const settings = this._settings,
-            elements = this._elements,
-            elementsLength = (!elements) ? 0 : elements.length;
-        let i,
-            processedIndexes = [],
-            firstLoop = this._isFirstLoop;
-
-        for (i = 0; i < elementsLength; i++) {
-            let element = elements[i];
-            /* If must skip_invisible and element is invisible, skip it */
-            if (settings.skip_invisible && (element.offsetParent === null)) {
-                continue;
-            }
-            
-            if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
-                if (firstLoop) {
-                    element.classList.add(settings.class_initial);
+        const onIntersection = (entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
                 }
-                /* Start loading the image */
-                this._reveal(element);
-                /* Marking the element as processed. */
-                processedIndexes.push(i);
-                element.dataset.wasProcessed = true;
-            }
-        }
-        /* Removing processed elements from this._elements. */
-        while (processedIndexes.length) {
-            elements.splice(processedIndexes.pop(), 1);
-            /* Calling the end loop callback */
-            callCallback(settings.callback_processed, elements.length);
-        }
-        /* Stop listening to scroll event when 0 elements remains */
-        if (elementsLength === 0) {
-            this._stopScrollHandler();
-        }
-        /* Sets isFirstLoop to false */
-        if (firstLoop) {
-            this._isFirstLoop = false;
-        }
-    },
-
-    _purgeElements: function () {
-        const elements = this._elements,
-            elementsLength = elements.length;
-        let i,
-            elementsToPurge = [];
-
-        for (i = 0; i < elementsLength; i++) {
-            let element = elements[i];
-            /* If the element has already been processed, skip it */
-            if (element.dataset.wasProcessed) {
-                elementsToPurge.push(i);
-            }
-        }
-        /* Removing elements to purge from this._elements. */
-        while (elementsToPurge.length > 0) {
-            elements.splice(elementsToPurge.pop(), 1);
-        }
-    },
-
-    _startScrollHandler: function () {
-        if (!this._isHandlingScroll) {
-            this._isHandlingScroll = true;
-            this._settings.container.addEventListener("scroll", this._boundHandleScroll);
-        }
-    },
-
-    _stopScrollHandler: function () {
-        if (this._isHandlingScroll) {
-            this._isHandlingScroll = false;
-            this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
-        }
-    },
-
-    /* 
-     * Public methods
-     */
-
-    handleScroll: function () {
-        const throttle = this._settings.throttle;
-
-        if (throttle !== 0) {
-            let now = Date.now();
-            let remainingTime = throttle - (now - this._previousLoopTime);
-            if (remainingTime <= 0 || remainingTime > throttle) {
-                if (this._loopTimeout) {
-                    clearTimeout(this._loopTimeout);
-                    this._loopTimeout = null;
-                }
-                this._previousLoopTime = now;
-                this._loopThroughElements();
-            } else if (!this._loopTimeout) {
-                this._loopTimeout = setTimeout(function () {
-                    this._previousLoopTime = Date.now();
-                    this._loopTimeout = null;
-                    this._loopThroughElements();
-                }.bind(this), remainingTime);
-            }
-        } else {
-            this._loopThroughElements();
-        }
+                let element = entry.target;
+                revealElement(element, settings);
+                this._observer.unobserve(element);
+            });
+            this._elements = purgeElements(this._elements);
+        };
+        this._observer = new IntersectionObserver(onIntersection, {
+            root: settings.container === document ? null : settings.container,
+            rootMargin: settings.threshold + "px"
+        });
     },
 
     update: function () {
-        // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
-        this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
-        this._purgeElements();
-        this._loopThroughElements();
-        this._startScrollHandler();
+        const settings = this._settings;
+        const elements = settings.container.querySelectorAll(settings.elements_selector);
+
+        this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
+        if (this._observer) {
+            this._elements.forEach(element => {
+                this._observer.observe(element);
+            });
+            return;
+        }
+        // Fallback: load all elements at once
+        this._elements.forEach(element => {
+            revealElement(element, settings);
+        });
+        this._elements = purgeElements(this._elements);
     },
 
     destroy: function () {
-        window.removeEventListener("resize", this._boundHandleScroll);
-        if (this._loopTimeout) {
-            clearTimeout(this._loopTimeout);
-            this._loopTimeout = null;
+        if (this._observer) {
+            purgeElements(this._elements).forEach(element => {
+                this._observer.unobserve(element);
+            });
+            this._observer = null;
         }
-        this._stopScrollHandler();
         this._elements = null;
-        this._queryOriginNode = null;
         this._settings = null;
     }
 }
 
 /* Automatic instances creation if required (useful for async script loading!) */
 let autoInitOptions = window.lazyLoadOptions;
-if (autoInitOptions) { 
+if (autoInitOptions) {
     autoInitialize(LazyLoad, autoInitOptions);
 }
 
