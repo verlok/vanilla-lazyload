@@ -96,7 +96,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         for (var i = 0; i < parent.children.length; i++) {
             var pictureChild = parent.children[i];
             if (pictureChild.tagName === "SOURCE") {
-                var sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+                var sourceSrcset = getData(pictureChild, srcsetDataAttribute);
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
@@ -106,10 +106,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var setSources = function setSources(element, srcsetDataAttribute, srcDataAttribute) {
         var tagName = element.tagName;
-        var elementSrc = element.dataset[srcDataAttribute];
+        var elementSrc = getData(element, srcDataAttribute);
         if (tagName === "IMG") {
             setSourcesForPicture(element, srcsetDataAttribute);
-            var imgSrcset = element.dataset[srcsetDataAttribute];
+            var imgSrcset = getData(element, srcsetDataAttribute);
             if (imgSrcset) {
                 element.setAttribute("srcset", imgSrcset);
             }
@@ -128,6 +128,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             element.style.backgroundImage = 'url("' + elementSrc + '")';
         }
     };
+
+    function setData(element, key, value) {
+        window.jQuery ? $(element).data(key, value) : element.dataset[key] = value;
+    }
+
+    function getData(element, key) {
+        return window.jQuery ? $(element).data(key) : element.dataset[key];
+    }
+
+    function removeClass(element, className) {
+        window.jQuery ? $(element).removeClass(className) : element.classList.remove(className);
+    }
+
+    function addClass(element, className) {
+        window.jQuery ? $(element).addClass(className) : element.classList.add(className);
+    }
 
     /*
      * Constructor
@@ -162,8 +178,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 }
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
-                element.classList.remove(settings.class_loading);
-                element.classList.add(settings.class_error);
+                removeClass(element, settings.class_loading);
+                addClass(element, settings.class_error);
                 callCallback(settings.callback_error, element);
             };
 
@@ -172,8 +188,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 if (!settings) {
                     return;
                 }
-                element.classList.remove(settings.class_loading);
-                element.classList.add(settings.class_loaded);
+                removeClass(element, settings.class_loading);
+                addClass(element, settings.class_loaded);
                 element.removeEventListener("load", loadCallback);
                 element.removeEventListener("error", errorCallback);
                 /* Calling LOAD callback */
@@ -183,7 +199,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             if (element.tagName === "IMG" || element.tagName === "IFRAME") {
                 element.addEventListener("load", loadCallback);
                 element.addEventListener("error", errorCallback);
-                element.classList.add(settings.class_loading);
+                addClass(element, settings.class_loading);
             }
 
             setSources(element, settings.data_srcset, settings.data_src);
@@ -208,13 +224,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                     if (firstLoop) {
-                        element.classList.add(settings.class_initial);
+                        addClass(element, settings.class_initial);
                     }
                     /* Start loading the image */
                     this._reveal(element);
                     /* Marking the element as processed. */
                     processedIndexes.push(i);
-                    element.dataset.wasProcessed = true;
+                    setData(element, 'wasProcessed', true);
                 }
             }
             /* Removing processed elements from this._elements. */
@@ -242,7 +258,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             for (i = 0; i < elementsLength; i++) {
                 var element = elements[i];
                 /* If the element has already been processed, skip it */
-                if (element.dataset.wasProcessed) {
+                if (getData(element, 'wasProcessed')) {
                     elementsToPurge.push(i);
                 }
             }
