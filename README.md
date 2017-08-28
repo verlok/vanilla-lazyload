@@ -1,4 +1,4 @@
-LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images only as they enter the viewport**. LazyLoad is written in plain (vanilla) Javascript, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it's SEO friendly and it has some other [notable features](#notable-features). 
+LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images only as they enter the viewport**. LazyLoad is written in plain (vanilla) Javascript featuring the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it's SEO friendly and it has some other [notable features](#notable-features). 
 
 Check out the [LazyLoad website](https://verlok.github.io/lazyload/), in case you're reading this on GitHub.
 
@@ -14,8 +14,10 @@ Jump to:
 Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.0.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/9.0.0/lazyload.min.js"></script>
 ```
+
+**Important note about the version**: From version 9.0.0, LazyLoad started using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is now supported in all major browsers except Microsoft Internet Explorer. As a fallback where not supported, LazyLoad loads all the images at once so, **if you need to load images lazily on Internet Explorer too, use version 8**.
 
 ### Local install
 
@@ -429,21 +431,17 @@ Here's the list of the options.
 
 | Name | Meaning | Default value |
 | ---- | ----| ---- |
-| `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `window` |
+| `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
 | `elements_selector` | The selector of the image elements inside the container, as descendants of the element in the `container` option | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
 | `data_src` | The name of the dataset property containing the original image source. See [dataset naming note](#dataset-naming-note) below. | `"original"` |
 | `data_srcset` | The name of the dataset property containing the original image source set in either `img` and `source` tags. See [dataset naming note](#dataset-naming-note) below. | `"originalSet"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements when the element causes an error | `"error"` |
-| `class_initial` | The class applied to the first batch elements to be loaded in the page | `"initial"` |
-| `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
 | `callback_load` | A function to be called when an element was loaded. | `null` |
 | `callback_error` | A function to be called when an element triggers an error. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
-| `callback_processed` | A function to be called when an image was processed. | `null` |
 
 #### Dataset naming note
 
@@ -460,17 +458,12 @@ You can call the following public methods on any instance of LazyLoad.
 |------------------|------------------------------------------------------------------------------------------------------|
 | `update()`       | Tells _LazyLoad_ that new lazy images have arrived in the container, so it must start to manage them |
 | `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners.                          |
-| `handleScroll()` | A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a `scroll` event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll) |
 
 ## Notable features
 
 ### SEO friendly
 
 LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` you your image.
-
-### Progressive JPEG support --> improve perceived performance
-
-[Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
 
 ### It works with your favourite framework
 
@@ -480,10 +473,14 @@ As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using *
 
 _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
 
-### Throttled execution for optimized CPU usage
+### Progressive JPEG support --> improve perceived performance
 
-_LazyLoad_'s listeners to the container's `scroll` and `resize` events are throttled by default, meaning that the main function of the script will not overload the CPU of devices with a smooth scroll. 
+[Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
+
+### Intersection Observer API for optimized CPU usage
+
+Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
 
 ### Much faster than jQuery\_lazyload
 
-This script is comparable to the notorious jQuery\_lazyload, but **_LazyLoad_ is 6x faster**, because LazyLoad uses only optimized, **native javascript** functions and methods, instead of jQuery. Your users will see the difference, even in slow devices or computers.
+This script is comparable to the notorious jQuery\_lazyload, but **_LazyLoad_ is 10x faster**, because LazyLoad uses only optimized, **native javascript** functions and methods, instead of jQuery.

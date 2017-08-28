@@ -159,7 +159,7 @@
 		</li>
 	</ul>
 </div>
-<script src="../dist/lazyload.min.js"></script>
+<script src="../dist/lazyload.js"></script>
 <script>
 	(function () {
 		function logElementEvent(eventName, element) {
@@ -176,9 +176,6 @@
 			},
 			callback_set: function (element) {
 				logElementEvent("SET", element);
-			},
-			callback_processed: function(elementsLeft) {
-				logEvent("PROCESSED", elementsLeft);
 			},
 			callback_error: function(element) {
 				logElementEvent("ERROR", element);
