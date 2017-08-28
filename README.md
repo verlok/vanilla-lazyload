@@ -17,7 +17,13 @@ Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/9.0.0/lazyload.min.js"></script>
 ```
 
-**Important note about the version**: From version 9.0.0, LazyLoad started using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is now supported in all major browsers except Microsoft Internet Explorer. As a fallback where not supported, LazyLoad loads all the images at once so, **if you need to load images lazily on Internet Explorer too, use version 8**.
+**Important note: if you need to lazily load images on Internet Explorer too, use version 8**
+
+From version 9, LazyLoad uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is now supported in all major browsers including Microsoft Edge, but except Microsoft Internet Explorer. As a fallback, LazyLoad loads all the images at once on Internet Explorer.
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.1.0/lazyload.min.js"></script>
+```
 
 ### Local install
 
