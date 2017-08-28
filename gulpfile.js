@@ -4,31 +4,35 @@ var eslint = require('gulp-eslint');
 var rename = require('gulp-rename');
 var notify = require('gulp-notify');
 var babel = require('gulp-babel');
+var rollup = require('gulp-rollup');
 
-var entryPoint = "src/lazyload.js";
-var destFolder = 'dist/js';
-var minifiedSuffix = '.min';
+var destFolder = "./dist";
 
 gulp.task('scripts', function () {
-    return gulp.src(entryPoint)
+    return gulp.src("./src/**/*.js")
         // ----------- linting --------------
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError())
-        .pipe(gulp.dest(destFolder)) // --> writing non uglified
+        // ----------- rolling up --------------
+        .pipe(rollup({
+            format: "umd",
+            moduleName: "LazyLoad",
+            entry: './src/lazyload.js'
+        }))
+        .pipe(rename("lazyload.es2015.js"))
+        .pipe(gulp.dest(destFolder)) // --> writing rolledup
         // ----------- babelizing --------------
         .pipe(babel({
-            presets: ['env']
+            presets: [["es2015", { "modules": false }]],
+            sourceMap: false,
+            plugins: ["transform-object-assign"]
         }))
-        .pipe(rename({
-            suffix: "-babelized"
-        }))
+        .pipe(rename("lazyload.js"))
         .pipe(gulp.dest(destFolder)) // --> writing babelized
         // ----------- minifying --------------
         .pipe(uglify())
-        .pipe(rename({
-            suffix: minifiedSuffix
-        }))
+        .pipe(rename("lazyload.min.js"))
         .pipe(gulp.dest(destFolder)) // --> writing uglified
         // ----------- notifying --------------
         .pipe(notify({
