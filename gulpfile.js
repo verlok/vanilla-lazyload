@@ -9,14 +9,11 @@ var jest = require('gulp-jest').default;
 
 var destFolder = "./dist";
 
-gulp.task('test', function() {
+gulp.task('test', function () {
     process.env.NODE_ENV = 'test';
     return gulp.src('__tests__').pipe(jest({
-        "preprocessorIgnorePatterns": [
-          "<rootDir>/dist/", "<rootDir>/node_modules/"
-        ],
         "automock": false
-      }));
+    }));
 });
 
 gulp.task('release', function () {
