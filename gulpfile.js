@@ -1,23 +1,13 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var eslint = require('gulp-eslint');
-var rename = require('gulp-rename');
-var notify = require('gulp-notify');
-var babel = require('gulp-babel');
-var rollup = require('gulp-rollup');
-var jest = require('gulp-jest').default;
-
+var gulp = require("gulp");
+var uglify = require("gulp-uglify");
+var eslint = require("gulp-eslint");
+var rename = require("gulp-rename");
+var babel = require("gulp-babel");
+var rollup = require("gulp-rollup");
 var destFolder = "./dist";
 
-gulp.task('test', function () {
-    process.env.NODE_ENV = 'test';
-    return gulp.src('__tests__').pipe(jest({
-        "automock": false
-    }));
-});
-
-gulp.task('release', function () {
-    process.env.NODE_ENV = 'release';
+gulp.task("default", function () { 
+    process.env.NODE_ENV = "release";
     return gulp.src("./src/**/*.js")
         // ----------- linting --------------
         .pipe(eslint())
@@ -27,7 +17,7 @@ gulp.task('release', function () {
         .pipe(rollup({
             format: "umd",
             moduleName: "LazyLoad",
-            entry: './src/lazyload.js'
+            entry: "./src/lazyload.js"
         }))
         .pipe(rename("lazyload.es2015.js"))
         .pipe(gulp.dest(destFolder)) // --> writing rolledup
@@ -38,9 +28,5 @@ gulp.task('release', function () {
         // ----------- minifying --------------
         .pipe(uglify())
         .pipe(rename("lazyload.min.js"))
-        .pipe(gulp.dest(destFolder)) // --> writing uglified
-        // ----------- notifying --------------
-        .pipe(notify({
-            message: 'Scripts task complete'
-        }));
+        .pipe(gulp.dest(destFolder)); // --> writing uglified
 });

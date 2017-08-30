@@ -11,8 +11,6 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-eslint": "^4.0.0",
-    "gulp-jest": "^2.0.0",
-    "gulp-notify": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-rollup": "^2.14.0",
     "gulp-uglify": "^3.0.0",
