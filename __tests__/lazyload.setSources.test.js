@@ -10,9 +10,10 @@ const _expectAttr = (el, attr, val) => {
 };
 
 expect.extend({
-    toHaveAttribute: (element, attributeName, valueToVerify) => {
+    toHaveAttributeValue: (element, attributeName, valueToVerify) => {
         const actualValue = element.getAttribute(attributeName);
-        return actualValue === valueToVerify ? {
+        const pass = actualValue === valueToVerify;
+        return pass ? {
             message: () => `${element.tagName} has attribute "${attributeName}" set to "${valueToVerify}"`,
             pass: true
         } : {
@@ -45,8 +46,8 @@ describe("setSources for image", () => {
             "originalSet": img400
         };
         setSources(img, settings);
-        expect(img).toHaveAttribute("src", img200);
-        expect(img).toHaveAttribute("srcset", img400);
+        expect(img).toHaveAttributeValue("src", img200);
+        expect(img).toHaveAttributeValue("srcset", img400);
     });
 
     test("...with initial values in src and srcset", () => {
@@ -57,8 +58,8 @@ describe("setSources for image", () => {
         img.setAttribute("src", img1);
         img.setAttribute("srcset", img1);
         setSources(img, settings);
-        expect(img).toHaveAttribute("src", img200);
-        expect(img).toHaveAttribute("srcset", img400);
+        expect(img).toHaveAttributeValue("src", img200);
+        expect(img).toHaveAttributeValue("srcset", img400);
     });
     test("...with initial values in src and srcset and empty data-*", () => {
         img.dataset = {
@@ -68,8 +69,8 @@ describe("setSources for image", () => {
         img.setAttribute("src", img200);
         img.setAttribute("srcset", img400);
         setSources(img, settings);
-        expect(img).toHaveAttribute("src", img200);
-        expect(img).toHaveAttribute("srcset", img400);
+        expect(img).toHaveAttributeValue("src", img200);
+        expect(img).toHaveAttributeValue("srcset", img400);
     });
 });
 
@@ -86,7 +87,7 @@ describe("_setSources for iframe", () => {
             "original": srcToLoad
         };
         setSources(iframe, settings);
-        expect(iframe).toHaveAttribute("src", srcToLoad);
+        expect(iframe).toHaveAttributeValue("src", srcToLoad);
     });
     test("...with initial value in src", () => {
         iframe.dataset = {
@@ -94,7 +95,7 @@ describe("_setSources for iframe", () => {
         };
         iframe.setAttribute("src", preloadedSrc);
         setSources(iframe, settings);
-        expect(iframe).toHaveAttribute("src", srcToLoad);
+        expect(iframe).toHaveAttributeValue("src", srcToLoad);
     });
     test("...with initial value in src and empty data-original", () => {
         iframe.dataset = {
@@ -102,7 +103,7 @@ describe("_setSources for iframe", () => {
         };
         iframe.setAttribute("src", preloadedSrc);
         setSources(iframe, settings);
-        expect(iframe).toHaveAttribute("src", preloadedSrc);
+        expect(iframe).toHaveAttributeValue("src", preloadedSrc);
     });
 });
 
