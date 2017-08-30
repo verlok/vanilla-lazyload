@@ -1,4 +1,4 @@
-import setSources from "./lazyload.setSources";
+import {setSources} from "./lazyload.setSources";
 
 const callCallback = function (callback, argument) {
     if (callback) {

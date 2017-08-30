@@ -1,5 +1,5 @@
-const setSourcesForPicture = function (element, settings) {
-    const {dataSrcSet} = settings;
+export const setSourcesForPicture = function (element, settings) {
+    const {data_srcset: dataSrcSet} = settings;
     const parent = element.parentElement;
     if (parent.tagName !== "PICTURE") {
         return;
@@ -15,7 +15,7 @@ const setSourcesForPicture = function (element, settings) {
     }
 };
 
-export default function (element, settings) {
+export const setSources = function (element, settings) {
     const {data_src: dataSrc, data_srcset: dataSrcSet} = settings;
     const tagName = element.tagName;
     const elementSrc = element.dataset[dataSrc];

@@ -1,14 +1,13 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var eslint = require('gulp-eslint');
-var rename = require('gulp-rename');
-var notify = require('gulp-notify');
-var babel = require('gulp-babel');
-var rollup = require('gulp-rollup');
-
+var gulp = require("gulp");
+var uglify = require("gulp-uglify");
+var eslint = require("gulp-eslint");
+var rename = require("gulp-rename");
+var babel = require("gulp-babel");
+var rollup = require("gulp-rollup");
 var destFolder = "./dist";
 
-gulp.task('scripts', function () {
+gulp.task("default", function () { 
+    process.env.NODE_ENV = "release";
     return gulp.src("./src/**/*.js")
         // ----------- linting --------------
         .pipe(eslint())
@@ -18,24 +17,16 @@ gulp.task('scripts', function () {
         .pipe(rollup({
             format: "umd",
             moduleName: "LazyLoad",
-            entry: './src/lazyload.js'
+            entry: "./src/lazyload.js"
         }))
         .pipe(rename("lazyload.es2015.js"))
         .pipe(gulp.dest(destFolder)) // --> writing rolledup
         // ----------- babelizing --------------
-        .pipe(babel({
-            presets: [["es2015", { "modules": false }]],
-            sourceMap: false,
-            plugins: ["transform-object-assign"]
-        }))
+        .pipe(babel())
         .pipe(rename("lazyload.js"))
         .pipe(gulp.dest(destFolder)) // --> writing babelized
         // ----------- minifying --------------
         .pipe(uglify())
         .pipe(rename("lazyload.min.js"))
-        .pipe(gulp.dest(destFolder)) // --> writing uglified
-        // ----------- notifying --------------
-        .pipe(notify({
-            message: 'Scripts task complete'
-        }));
+        .pipe(gulp.dest(destFolder)); // --> writing uglified
 });
