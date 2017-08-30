@@ -1,0 +1,22 @@
+{
+    "ignore": [
+        "node_modules/**"
+    ],
+    "env": {
+        "test": {
+            "presets": [
+                "es2015"
+            ],
+            "plugins": ["transform-object-assign"]
+        },
+        "release": {
+            "presets": [
+                ["es2015", {
+                    "modules": false
+                }]
+            ],
+            "sourceMap": false,
+            "plugins": ["transform-object-assign"]
+        }
+    }
+}
