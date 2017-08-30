@@ -13,6 +13,8 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
+## Version 8
+
 #### 8.1.0
 
 Updated from grunt to gulp (run with gulp scripts)
@@ -33,3 +35,29 @@ Fixed reference to old names in demo files
 
 - The main file to include is now **`dist/lazyload.min.js`** as you would expect, and no longer `dist/lazyload.transpiled.min.js`. 
 - The non-transpiled version is now named lazyload.es2015.js.
+
+## Version 7
+
+#### 7.2.0
+
+- Now using `element.dataset` to read data attributes
+- New readme! New website!
+
+Bug fixes:
+
+- Fixed #87
+
+**IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
+
+#### 7.1.0
+
+- Refactored code now using more modules
+- Saving ~0.5 kb of transpiled code going back from ES2015 `class` to function's `prototype`
+
+#### 7.0.0
+
+Source code converted to ES2015 modules, bundled with [rollup.js](https://rollupjs.org/) and transpiled with [babel](https://babeljs.io/)
+
+---
+
+_Wanna go back and back in time? Take a look at the [release history](https://github.com/verlok/lazyload/releases) on GitHub_
