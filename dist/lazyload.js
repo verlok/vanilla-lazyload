@@ -50,7 +50,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var setSourcesForPicture = function setSourcesForPicture(element, settings) {
-        var dataSrcSet = settings.dataSrcSet;
+        var dataSrcSet = settings.data_srcset;
 
         var parent = element.parentElement;
         if (parent.tagName !== "PICTURE") {
