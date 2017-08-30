@@ -1,4 +1,4 @@
-import setSources from "../src/lazyLoad.setSources";
+import {setSources, setSourcesForPicture} from "../src/lazyLoad.setSources";
 
 const lazyloadSettings = {
     data_src: "original",
@@ -13,9 +13,9 @@ expect.extend({
             message: () => `${element.tagName} has attribute "${attributeName}" set to "${valueToVerify}"`,
             pass: true
         } : {
-                message: () => `expected ${element.tagName} to have attribute "${attributeName}" set to "${valueToVerify}", received "${actualValue}"`,
-                pass: false
-            }
+            message: () => `expected ${element.tagName} to have attribute "${attributeName}" set to "${valueToVerify}", received "${actualValue}"`,
+            pass: false
+        }
     }
 });
 
@@ -30,10 +30,9 @@ describe("setSources for image", () => {
     let img400 = "http://placehold.it/400x400";
 
     beforeEach(() => {
-        img = document.createElement("img");
         // Parent is a div
         let div = document.createElement("div");
-        div.appendChild(img);
+        div.appendChild(img = document.createElement("img"));
     });
 
     test("...with initially empty src and srcset", () => {
@@ -145,47 +144,46 @@ describe("_setSources for background image", () => {
     });
 });
 
-/*
 describe("setSourcesForPicture", () => {
-    let p, s1, s2, i;
-    let testFunct = setSourcesForPicture;
+    let picture, source1, source2, img;
     let img1 = "http://placehold.it/1x1";
     let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
     let img400 = "http://placehold.it/400x400";
-    let dataSrcSetPartialAttr = "original-set";
-    let dataSrcSetAttr = "data-" + dataSrcSetPartialAttr;
-    let srcsetAttr = "srcset";
+    
     beforeEach(() => {
-        p = document.createElement("picture");
-        p.appendChild(s1 = document.createElement("source"));
-        p.appendChild(s2 = document.createElement("source"));
-        p.appendChild(i = document.createElement("img"));
+        // Parent is a picture
+        picture = document.createElement("picture");
+        picture.appendChild(source1 = document.createElement("source"));
+        picture.appendChild(source2 = document.createElement("source"));
+        picture.appendChild(img = document.createElement("img"));
     });
+    
     test("...with initially empty srcset", () => {
-        s1.setAttribute(dataSrcSetAttr, img200);
-        s2.setAttribute(dataSrcSetAttr, img400);
-        testFunct(i, dataSrcSetPartialAttr);
-        expect(s1.getAttribute("srcset")).toBe(img200);
-        expect(s2.getAttribute("srcset")).toBe(img400);
+        source1.dataset = {"originalSet": img200};
+        source2.dataset = {"originalSet": img400};
+        setSourcesForPicture(img, lazyloadSettings);
+        expect(source1).toHaveAttributeValue("srcset", img200);
+        expect(source2).toHaveAttributeValue("srcset", img400);
     });
+
     test("...with initial value in srcset", () => {
-        s1.setAttribute("srcset", img1);
-        s2.setAttribute("srcset", img1);
-        s1.setAttribute(dataSrcSetAttr, img200);
-        s2.setAttribute(dataSrcSetAttr, img400);
-        testFunct(i, dataSrcSetPartialAttr);
-        expect(s1.getAttribute("srcset")).toBe(img200);
-        expect(s2.getAttribute("srcset")).toBe(img400);
+        source1.dataset = {"originalSet": img200};
+        source2.dataset = {"originalSet": img400};
+        source1.setAttribute("srcset", img1);
+        source2.setAttribute("srcset", img1);
+        setSourcesForPicture(img, lazyloadSettings);
+        expect(source1).toHaveAttributeValue("srcset", img200);
+        expect(source2).toHaveAttributeValue("srcset", img400);
     });
+
     test("...with initial value in srcset and empty data-srcset", () => {
-        s1.setAttribute("srcset", img1);
-        s2.setAttribute("srcset", img1);
-        s1.setAttribute(dataSrcSetAttr, "");
-        s2.setAttribute(dataSrcSetAttr, "");
-        testFunct(i, dataSrcSetPartialAttr);
-        expect(s1.getAttribute("srcset")).toBe(img1);
-        expect(s2.getAttribute("srcset")).toBe(img1);
+        source1.dataset = {"originalSet": ""};
+        source2.dataset = {"originalSet": ""};
+        source1.setAttribute("srcset", img200);
+        source2.setAttribute("srcset", img400);
+        setSourcesForPicture(img, lazyloadSettings);
+        expect(source1).toHaveAttributeValue("srcset", img200);
+        expect(source2).toHaveAttributeValue("srcset", img400);
     });
 });
-*/
