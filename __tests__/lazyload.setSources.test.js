@@ -24,75 +24,79 @@ describe("setSourcesForPicture", () => {
         s1.setAttribute(dataSrcSetAttr, img200);
         s2.setAttribute(dataSrcSetAttr, img400);
         testFunct(i, dataSrcSetPartialAttr);
-        expect(s1.getAttribute(srcsetAttr)).toBe(img200);
-        expect(s2.getAttribute(srcsetAttr)).toBe(img400);
+        expect(s1.getAttribute("srcset")).toBe(img200);
+        expect(s2.getAttribute("srcset")).toBe(img400);
     });
     test("...with initial value in srcset", () => {
-        s1.setAttribute(srcsetAttr, img1);
-        s2.setAttribute(srcsetAttr, img1);
+        s1.setAttribute("srcset", img1);
+        s2.setAttribute("srcset", img1);
         s1.setAttribute(dataSrcSetAttr, img200);
         s2.setAttribute(dataSrcSetAttr, img400);
         testFunct(i, dataSrcSetPartialAttr);
-        expect(s1.getAttribute(srcsetAttr)).toBe(img200);
-        expect(s2.getAttribute(srcsetAttr)).toBe(img400);
+        expect(s1.getAttribute("srcset")).toBe(img200);
+        expect(s2.getAttribute("srcset")).toBe(img400);
     });
     test("...with initial value in srcset and empty data-srcset", () => {
-        s1.setAttribute(srcsetAttr, img1);
-        s2.setAttribute(srcsetAttr, img1);
+        s1.setAttribute("srcset", img1);
+        s2.setAttribute("srcset", img1);
         s1.setAttribute(dataSrcSetAttr, "");
         s2.setAttribute(dataSrcSetAttr, "");
         testFunct(i, dataSrcSetPartialAttr);
-        expect(s1.getAttribute(srcsetAttr)).toBe(img1);
-        expect(s2.getAttribute(srcsetAttr)).toBe(img1);
+        expect(s1.getAttribute("srcset")).toBe(img1);
+        expect(s2.getAttribute("srcset")).toBe(img1);
     });
 });
 */
 describe("setSources for image", () => {
-    let img, div;
-    let fakeInstance = {
-        setSourcesForPicture: jest.fn()
-    };
+    let img, div, settings;
     let img1 = "http://placehold.it/1x1";
     let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
     let img400 = "http://placehold.it/400x400";
+
+    const _setDataset = (img) => {
+        img.dataset = {
+            "original": img200,
+            "originalSet": img400
+        }
+    };
+
+    const _expects = (img) => {
+        expect(img.getAttribute("src")).toBe(img200);
+        expect(img.getAttribute("srcset")).toBe(img400);
+    };
+
     beforeEach(() => {
+        // Parent is a div
+        settings = {
+            data_src: "original",
+            data_srcset: "originalSet"
+        }
         img = document.createElement("img");
         div = document.createElement("div");
         div.appendChild(img);
     });
+
     test("...with initially empty src and srcset", () => {
-        let settings = {data_src: "original", data_srcset: "originalSet"}
-        // Parent is a div
-        img.dataset = {"original": img200, "originalSet": img400}
+        _setDataset(img);
         setSources(img, settings);
-        expect(img.getAttribute("src")).toBe(img200);
-        expect(img.getAttribute("srcset")).toBe(img400);
+        _expects(img);
     });
-    /*
+
     test("...with initial values in src and srcset", () => {
-        fakeInstance.setSourcesForPicture.mockClear();
-        i.setAttribute(srcAttr, img1);
-        i.setAttribute(srcSetAttr, img1);
-        i.setAttribute(dataSrcAttr, img200);
-        i.setAttribute(dataSrcSetAttr, img400);
-        setSources(i, dataSrcSetPartialAttr, dataSrcPartialAttr);
-        expect(i.getAttribute(srcAttr)).toBe(img200);
-        expect(i.getAttribute(srcSetAttr)).toBe(img400);
-        expect(fakeInstance.setSourcesForPicture).toHaveBeenCalledTimes(1);
+        img.setAttribute("src", img1);
+        img.setAttribute("srcset", img1);
+        _setDataset(img);
+        setSources(img, settings);
+        _expects(img);
     });
     test("...with initial values in src and srcset and empty data-*", () => {
-        fakeInstance.setSourcesForPicture.mockClear();
-        i.setAttribute(srcAttr, img200);
-        i.setAttribute(srcSetAttr, img400);
-        i.setAttribute(dataSrcAttr, "");
-        i.setAttribute(dataSrcSetAttr, "");
-        setSources(i, dataSrcSetPartialAttr, dataSrcPartialAttr);
-        expect(i.getAttribute(srcAttr)).toBe(img200);
-        expect(i.getAttribute(srcSetAttr)).toBe(img400);
-        expect(fakeInstance.setSourcesForPicture).toHaveBeenCalledTimes(1);
+        img.setAttribute("src", img200);
+        img.setAttribute("srcset", img400);
+        img.dataset = {};
+        setSources(img, settings);
+        _expects(img);
     });
-    */
 });
 /*
 describe("_setSources for iframe", () => {
@@ -108,20 +112,20 @@ describe("_setSources for iframe", () => {
     test("...with initially empty src", () => {
         i.setAttribute(dataSrcAttr, srcToLoad);
         testFunct(i, "", dataSrcPartialAttr);
-        expect(i.getAttribute(srcAttr)).toBe(srcToLoad);
+        expect(i.getAttribute("src")).toBe(srcToLoad);
     });
     test("...with initial value in src", () => {
         let newSrc = srcToLoad + "/doodle";
-        i.setAttribute(srcAttr, srcToLoad);
+        i.setAttribute("src", srcToLoad);
         i.setAttribute(dataSrcAttr, newSrc);
         testFunct(i, "", dataSrcPartialAttr);
-        expect(i.getAttribute(srcAttr)).toBe(newSrc);
+        expect(i.getAttribute("src")).toBe(newSrc);
     });
     test("...with initial value in src and empty data-original", () => {
-        i.setAttribute(srcAttr, srcToLoad);
+        i.setAttribute("src", srcToLoad);
         i.setAttribute(dataSrcAttr, "");
         testFunct(i, "", dataSrcPartialAttr);
-        expect(i.getAttribute(srcAttr)).toBe(srcToLoad);
+        expect(i.getAttribute("src")).toBe(srcToLoad);
     });
 });
 
