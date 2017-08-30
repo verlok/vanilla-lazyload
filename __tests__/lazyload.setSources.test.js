@@ -1,12 +1,8 @@
 import setSources from "../src/lazyLoad.setSources";
 
-const settings = {
+const lazyloadSettings = {
     data_src: "original",
     data_srcset: "originalSet"
-};
-
-const _expectAttr = (el, attr, val) => {
-    expect(el.getAttribute(attr)).toBe(val);
 };
 
 expect.extend({
@@ -45,7 +41,7 @@ describe("setSources for image", () => {
             "original": img200,
             "originalSet": img400
         };
-        setSources(img, settings);
+        setSources(img, lazyloadSettings);
         expect(img).toHaveAttributeValue("src", img200);
         expect(img).toHaveAttributeValue("srcset", img400);
     });
@@ -57,7 +53,7 @@ describe("setSources for image", () => {
         };
         img.setAttribute("src", img1);
         img.setAttribute("srcset", img1);
-        setSources(img, settings);
+        setSources(img, lazyloadSettings);
         expect(img).toHaveAttributeValue("src", img200);
         expect(img).toHaveAttributeValue("srcset", img400);
     });
@@ -68,7 +64,7 @@ describe("setSources for image", () => {
         };
         img.setAttribute("src", img200);
         img.setAttribute("srcset", img400);
-        setSources(img, settings);
+        setSources(img, lazyloadSettings);
         expect(img).toHaveAttributeValue("src", img200);
         expect(img).toHaveAttributeValue("srcset", img400);
     });
@@ -86,7 +82,7 @@ describe("_setSources for iframe", () => {
         iframe.dataset = {
             "original": srcToLoad
         };
-        setSources(iframe, settings);
+        setSources(iframe, lazyloadSettings);
         expect(iframe).toHaveAttributeValue("src", srcToLoad);
     });
     test("...with initial value in src", () => {
@@ -94,7 +90,7 @@ describe("_setSources for iframe", () => {
             "original": srcToLoad
         };
         iframe.setAttribute("src", preloadedSrc);
-        setSources(iframe, settings);
+        setSources(iframe, lazyloadSettings);
         expect(iframe).toHaveAttributeValue("src", srcToLoad);
     });
     test("...with initial value in src and empty data-original", () => {
@@ -102,7 +98,7 @@ describe("_setSources for iframe", () => {
             "original": ""
         };
         iframe.setAttribute("src", preloadedSrc);
-        setSources(iframe, settings);
+        setSources(iframe, lazyloadSettings);
         expect(iframe).toHaveAttributeValue("src", preloadedSrc);
     });
 });
