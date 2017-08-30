@@ -13,9 +13,9 @@ expect.extend({
             message: () => `${element.tagName} has attribute "${attributeName}" set to "${valueToVerify}"`,
             pass: true
         } : {
-            message: () => `expected ${element.tagName} to have attribute "${attributeName}" set to "${valueToVerify}", received "${actualValue}"`,
-            pass: false
-        }
+                message: () => `expected ${element.tagName} to have attribute "${attributeName}" set to "${valueToVerify}", received "${actualValue}"`,
+                pass: false
+            }
     }
 });
 
@@ -103,35 +103,47 @@ describe("_setSources for iframe", () => {
     });
 });
 
-/*
 describe("_setSources for background image", () => {
-    let i;
-    let testFunct = setSources;
+    let element;
     let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
-    let dataSrcPartialAttr = "original";
-    let dataSrcAttr = "data-" + dataSrcPartialAttr;
+
+    beforeEach(() => {
+        element = document.createElement("div");
+    });
+
     test("...with initially empty style attribute", () => {
-        i = document.createElement("div");
-        i.setAttribute(dataSrcAttr, img200);
-        testFunct(i, "", dataSrcPartialAttr);
-        expect(i.style.backgroundImage).toBe("url(" + img200 + ")");
+        element.dataset = {
+            "original": img200
+        };
+        setSources(element, lazyloadSettings);
+        // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
+        expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
     test("...with initially present style attribute", () => {
-        i = document.createElement("div");
-        i.style.padding = "1px";
-        i.setAttribute(dataSrcAttr, img200);
-        testFunct(i, "", dataSrcPartialAttr);
-        expect(i.style.backgroundImage).toBe("url(" + img200 + ")");
+        element.dataset = {
+            "original": img100
+        };
+        element.style = {
+            padding: "1px"
+        };
+        setSources(element, lazyloadSettings);
+        // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
+        expect(element.style.backgroundImage).toBe(`url(${img100})`);
     });
     test("...with initially present style and background", () => {
-        i = document.createElement("div");
-        i.style.backgroundImage = "url(" + img100 + ")";
-        i.setAttribute(dataSrcAttr, img200);
-        testFunct(i, "", dataSrcPartialAttr);
-        expect(i.style.backgroundImage).toBe("url(" + img200 + ")");
+        element.dataset = {
+            "original": img200
+        };
+        element.style = {
+            padding: "1px",
+            backgroundImage: "url(" + img100 + ")"
+        };
+        setSources(element, lazyloadSettings);
+        // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
+        expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
-});*/
+});
 
 /*
 describe("setSourcesForPicture", () => {
