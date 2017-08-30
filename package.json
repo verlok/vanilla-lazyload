@@ -10,10 +10,12 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
     "gulp-eslint": "^4.0.0",
+    "gulp-jest": "^2.0.0",
     "gulp-notify": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-rollup": "^2.14.0",
-    "gulp-uglify": "^3.0.0"
+    "gulp-uglify": "^3.0.0",
+    "jest-cli": "^20.0.4"
   },
   "scripts": {},
   "repository": {
@@ -42,5 +44,7 @@
     "url": "https://github.com/verlok/lazyload/issues"
   },
   "homepage": "http://verlok.github.io/lazyload",
-  "dependencies": {}
+  "dependencies": {
+    "graceful-fs": "^4.1.11"
+  }
 }

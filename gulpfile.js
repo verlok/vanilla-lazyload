@@ -5,10 +5,22 @@ var rename = require('gulp-rename');
 var notify = require('gulp-notify');
 var babel = require('gulp-babel');
 var rollup = require('gulp-rollup');
+var jest = require('gulp-jest').default;
 
 var destFolder = "./dist";
 
-gulp.task('scripts', function () {
+gulp.task('test', function() {
+    process.env.NODE_ENV = 'test';
+    return gulp.src('__tests__').pipe(jest({
+        "preprocessorIgnorePatterns": [
+          "<rootDir>/dist/", "<rootDir>/node_modules/"
+        ],
+        "automock": false
+      }));
+});
+
+gulp.task('release', function () {
+    process.env.NODE_ENV = 'release';
     return gulp.src("./src/**/*.js")
         // ----------- linting --------------
         .pipe(eslint())
@@ -23,11 +35,7 @@ gulp.task('scripts', function () {
         .pipe(rename("lazyload.es2015.js"))
         .pipe(gulp.dest(destFolder)) // --> writing rolledup
         // ----------- babelizing --------------
-        .pipe(babel({
-            presets: [["es2015", { "modules": false }]],
-            sourceMap: false,
-            plugins: ["transform-object-assign"]
-        }))
+        .pipe(babel())
         .pipe(rename("lazyload.js"))
         .pipe(gulp.dest(destFolder)) // --> writing babelized
         // ----------- minifying --------------
