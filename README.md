@@ -40,7 +40,7 @@ HTML
 
 ```html
 <img alt="..." 
-     data-original="../img/44721746JJ_15_a.jpg"
+     data-src="../img/44721746JJ_15_a.jpg"
      width="220" height="280">
 ```
 
@@ -59,8 +59,8 @@ var myLazyLoad = new LazyLoad();
 HTML 
 
 ```html
-<img data-original="/your/image1.jpg"
-    data-original-set="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+<img data-src="/your/image1.jpg"
+    data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
     sizes="(min-width: 20em) 35vw, 100vw">
 ```
 
@@ -80,9 +80,9 @@ HTML
 
 ```html
 <picture>
-    <source media="(min-width: 1024px)" data-original-set="/your/image1a.jpg" />
-    <source media="(min-width: 500px)" data-original-set="/your/image1b.jpg" />
-    <img alt="Stivaletti" data-original="/your/image1.jpg">
+    <source media="(min-width: 1024px)" data-srcset="/your/image1a.jpg" />
+    <source media="(min-width: 500px)" data-srcset="/your/image1b.jpg" />
+    <img alt="Stivaletti" data-src="/your/image1.jpg">
 </picture>
 ```
 
@@ -193,7 +193,7 @@ HTML
 ```html
 <div id="scrollingPanel">
     <img alt="Image description" 
-         data-original="../img/44721746JJ_15_a.jpg" 
+         data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
@@ -218,13 +218,13 @@ HTML
 ```html
 <div id="scrollingPanel1">
     <img alt="Image description" 
-         data-original="../img/44721746JJ_15_a.jpg" 
+         data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
 <div id="scrollingPanel2">
     <img alt="Image description" 
-         data-original="../img/44721746JJ_15_a.jpg" 
+         data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
@@ -268,7 +268,7 @@ myLazyLoad.update();
 HTML
 
 ```html
-<iframe data-original="iframes/i01.html" frameborder="0"></iframe>
+<iframe data-src="iframes/i01.html" frameborder="0"></iframe>
 ```
 
 Javascript
@@ -288,7 +288,7 @@ var myLazyLoad = new LazyLoad({
 HTML
 
 ```html
-<div class="lazy" data-original="../img/44721746JJ_15_a.jpg"></div>
+<div class="lazy" data-src="../img/44721746JJ_15_a.jpg"></div>
 ```
 
 Javascript
@@ -299,7 +299,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-That's it. Whenever the element selected by `elements_selector` is not an `img` or an `iframe`, LazyLoad puts the image found in the `data-original` attribute in the `background-image` of the element.
+That's it. Whenever the element selected by `elements_selector` is not an `img` or an `iframe`, LazyLoad puts the image found in the `data-src` attribute in the `background-image` of the element.
 
 [DEMO](http://verlok.github.io/lazyload/demos/background_images.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) | [API](#api)
 
@@ -311,13 +311,13 @@ HTML
 
 ```html
 <div class="horzContainer">
-    <img src="" alt="Row 01, col 01" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_01&amp;w=200&amp;h=200">
-    <img src="" alt="Row 01, col 02" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_02&amp;w=200&amp;h=200">
+    <img src="" alt="Row 01, col 01" data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_01&amp;w=200&amp;h=200">
+    <img src="" alt="Row 01, col 02" data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_02&amp;w=200&amp;h=200">
     <!-- ... -->
 </div>
 <div class="horzContainer">
-    <img src="" alt="Row 02, col 01" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_01&amp;w=200&amp;h=200">
-    <img src="" alt="Row 02, col 02" data-original="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_02&amp;w=200&amp;h=200">
+    <img src="" alt="Row 02, col 01" data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_01&amp;w=200&amp;h=200">
+    <img src="" alt="Row 02, col 02" data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_02&amp;w=200&amp;h=200">
     <!-- ... -->
 </div>
 ```
@@ -434,8 +434,8 @@ Here's the list of the options.
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
 | `elements_selector` | The selector of the image elements inside the container, as descendants of the element in the `container` option | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `data_src` | The name of the dataset property containing the original image source. See [dataset naming note](#dataset-naming-note) below. | `"original"` |
-| `data_srcset` | The name of the dataset property containing the original image source set in either `img` and `source` tags. See [dataset naming note](#dataset-naming-note) below. | `"originalSet"` |
+| `data_src` | The name of the dataset property containing the original image source. See [dataset naming note](#dataset-naming-note) below. | `"src"` |
+| `data_srcset` | The name of the dataset property containing the original image source set in either `img` and `source` tags. See [dataset naming note](#dataset-naming-note) below. | `"srcset"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements when the element causes an error | `"error"` |

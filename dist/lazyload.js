@@ -11,8 +11,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         elements_selector: "img",
         container: document,
         threshold: 300,
-        data_src: "original",
-        data_srcset: "originalSet",
+        data_src: "src",
+        data_srcset: "srcset",
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
@@ -37,14 +37,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     /* Auto initialization of one or more instances of lazyload, depending on the 
         options passed in (plain object or an array) */
     var autoInitialize = function autoInitialize(classObj, options) {
-        var optsLength = options.length;
-        if (!optsLength) {
+        if (!options.length) {
             // Plain object
             createInstance(classObj, options);
         } else {
             // Array of objects
-            for (var i = 0; i < optsLength; i++) {
-                createInstance(classObj, options[i]);
+            for (var i = 0, optionsItem; optionsItem = options[i]; i += 1) {
+                createInstance(classObj, optionsItem);
             }
         }
     };
@@ -56,8 +55,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (parent.tagName !== "PICTURE") {
             return;
         }
-        for (var i = 0; i < parent.children.length; i++) {
-            var pictureChild = parent.children[i];
+        for (var i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
             if (pictureChild.tagName === "SOURCE") {
                 var sourceSrcset = pictureChild.dataset[dataSrcSet];
                 if (sourceSrcset) {

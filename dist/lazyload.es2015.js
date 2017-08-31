@@ -8,8 +8,8 @@ var defaultSettings = {
     elements_selector: "img",
     container: document,
     threshold: 300,
-    data_src: "original",
-    data_srcset: "originalSet",
+    data_src: "src",
+    data_srcset: "srcset",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
@@ -25,7 +25,7 @@ var purgeElements = function (elements) {
 };
 
 /* Creates instance and notifies it through the window element */
-const createInstance = function (classObj, options) { 
+const createInstance = function (classObj, options) {
     let instance = new classObj(options);
     let event = new CustomEvent("LazyLoad::Initialized", { detail: { instance } });
     window.dispatchEvent(event);
@@ -33,16 +33,14 @@ const createInstance = function (classObj, options) {
 
 /* Auto initialization of one or more instances of lazyload, depending on the 
     options passed in (plain object or an array) */
-var autoInitialize = function (classObj, options) { 
-    let optsLength = options.length;
-    if (!optsLength) {
+var autoInitialize = function (classObj, options) {
+    if (!options.length) {
         // Plain object
         createInstance(classObj, options);
-    }
-    else {
+    } else {
         // Array of objects
-        for (let i = 0; i < optsLength; i++) {
-            createInstance(classObj, options[i]);
+        for (let i = 0, optionsItem; optionsItem = options[i]; i += 1) {
+            createInstance(classObj, optionsItem);
         }
     }
 };
@@ -53,8 +51,7 @@ const setSourcesForPicture = function (element, settings) {
     if (parent.tagName !== "PICTURE") {
         return;
     }
-    for (let i = 0; i < parent.children.length; i++) {
-        let pictureChild = parent.children[i];
+    for (let i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
         if (pictureChild.tagName === "SOURCE") {
             let sourceSrcset = pictureChild.dataset[dataSrcSet];
             if (sourceSrcset) {

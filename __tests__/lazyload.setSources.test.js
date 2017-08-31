@@ -1,8 +1,8 @@
 import {setSources, setSourcesForPicture} from "../src/lazyLoad.setSources";
 
 const lazyloadSettings = {
-    data_src: "original",
-    data_srcset: "originalSet"
+    data_src: "src",
+    data_srcset: "srcset"
 };
 
 expect.extend({
@@ -37,8 +37,8 @@ describe("setSources for image", () => {
 
     test("...with initially empty src and srcset", () => {
         img.dataset = {
-            "original": img200,
-            "originalSet": img400
+            "src": img200,
+            "srcset": img400
         };
         setSources(img, lazyloadSettings);
         expect(img).toHaveAttributeValue("src", img200);
@@ -47,8 +47,8 @@ describe("setSources for image", () => {
 
     test("...with initial values in src and srcset", () => {
         img.dataset = {
-            "original": img200,
-            "originalSet": img400
+            "src": img200,
+            "srcset": img400
         };
         img.setAttribute("src", img1);
         img.setAttribute("srcset", img1);
@@ -58,8 +58,8 @@ describe("setSources for image", () => {
     });
     test("...with initial values in src and srcset and empty data-*", () => {
         img.dataset = {
-            "original": "",
-            "originalSet": ""
+            "src": "",
+            "srcset": ""
         };
         img.setAttribute("src", img200);
         img.setAttribute("srcset", img400);
@@ -69,7 +69,7 @@ describe("setSources for image", () => {
     });
 });
 
-describe("_setSources for iframe", () => {
+describe("setSources for iframe", () => {
     let iframe;
     let srcToLoad = "http://www.google.it";
     let preloadedSrc = srcToLoad + "/doodle";
@@ -79,22 +79,22 @@ describe("_setSources for iframe", () => {
     });
     test("...with initially empty src", () => {
         iframe.dataset = {
-            "original": srcToLoad
+            "src": srcToLoad
         };
         setSources(iframe, lazyloadSettings);
         expect(iframe).toHaveAttributeValue("src", srcToLoad);
     });
     test("...with initial value in src", () => {
         iframe.dataset = {
-            "original": srcToLoad
+            "src": srcToLoad
         };
         iframe.setAttribute("src", preloadedSrc);
         setSources(iframe, lazyloadSettings);
         expect(iframe).toHaveAttributeValue("src", srcToLoad);
     });
-    test("...with initial value in src and empty data-original", () => {
+    test("...with initial value in src and empty data-src", () => {
         iframe.dataset = {
-            "original": ""
+            "src": ""
         };
         iframe.setAttribute("src", preloadedSrc);
         setSources(iframe, lazyloadSettings);
@@ -102,7 +102,7 @@ describe("_setSources for iframe", () => {
     });
 });
 
-describe("_setSources for background image", () => {
+describe("setSources for background image", () => {
     let element;
     let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
@@ -113,7 +113,7 @@ describe("_setSources for background image", () => {
 
     test("...with initially empty style attribute", () => {
         element.dataset = {
-            "original": img200
+            "src": img200
         };
         setSources(element, lazyloadSettings);
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
@@ -121,7 +121,7 @@ describe("_setSources for background image", () => {
     });
     test("...with initially present style attribute", () => {
         element.dataset = {
-            "original": img100
+            "src": img100
         };
         element.style = {
             padding: "1px"
@@ -132,7 +132,7 @@ describe("_setSources for background image", () => {
     });
     test("...with initially present style and background", () => {
         element.dataset = {
-            "original": img200
+            "src": img200
         };
         element.style = {
             padding: "1px",
@@ -160,16 +160,16 @@ describe("setSourcesForPicture", () => {
     });
     
     test("...with initially empty srcset", () => {
-        source1.dataset = {"originalSet": img200};
-        source2.dataset = {"originalSet": img400};
+        source1.dataset = {"srcset": img200};
+        source2.dataset = {"srcset": img400};
         setSourcesForPicture(img, lazyloadSettings);
         expect(source1).toHaveAttributeValue("srcset", img200);
         expect(source2).toHaveAttributeValue("srcset", img400);
     });
 
     test("...with initial value in srcset", () => {
-        source1.dataset = {"originalSet": img200};
-        source2.dataset = {"originalSet": img400};
+        source1.dataset = {"srcset": img200};
+        source2.dataset = {"srcset": img400};
         source1.setAttribute("srcset", img1);
         source2.setAttribute("srcset", img1);
         setSourcesForPicture(img, lazyloadSettings);
@@ -178,8 +178,8 @@ describe("setSourcesForPicture", () => {
     });
 
     test("...with initial value in srcset and empty data-srcset", () => {
-        source1.dataset = {"originalSet": ""};
-        source2.dataset = {"originalSet": ""};
+        source1.dataset = {"srcset": ""};
+        source2.dataset = {"srcset": ""};
         source1.setAttribute("srcset", img200);
         source2.setAttribute("srcset", img400);
         setSourcesForPicture(img, lazyloadSettings);
