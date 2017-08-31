@@ -4,8 +4,7 @@ export const setSourcesForPicture = function (element, settings) {
     if (parent.tagName !== "PICTURE") {
         return;
     }
-    for (let i = 0; i < parent.children.length; i++) {
-        let pictureChild = parent.children[i];
+    for (let i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
         if (pictureChild.tagName === "SOURCE") {
             let sourceSrcset = pictureChild.dataset[dataSrcSet];
             if (sourceSrcset) {
