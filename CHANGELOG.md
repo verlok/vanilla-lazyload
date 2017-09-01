@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version 10
+
+#### 10.0.0
+
+- Default options changes values:
+  - default for `data_src` is now `src` (was `original`)
+  - default for `data_srcset` is now `srcset` (was `original-set`)
+
 ## Version 9
 
 #### 9.0.1
