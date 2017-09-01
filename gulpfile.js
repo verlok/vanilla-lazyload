@@ -6,13 +6,13 @@ var babel = require("gulp-babel");
 var rollup = require("gulp-rollup");
 var destFolder = "./dist";
 
-gulp.task("default", function () { 
+gulp.task("default", function () {
     process.env.NODE_ENV = "release";
     return gulp.src("./src/**/*.js")
         // ----------- linting --------------
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(eslint.failAfterError())
+        .pipe(eslint.failAfterError()) // --> failing if errors
         // ----------- rolling up --------------
         .pipe(rollup({
             format: "umd",
@@ -29,4 +29,9 @@ gulp.task("default", function () {
         .pipe(uglify())
         .pipe(rename("lazyload.min.js"))
         .pipe(gulp.dest(destFolder)); // --> writing uglified
+});
+
+gulp.task("watch", function () {
+    gulp.watch("./src/**/*.js", ["default"]);
+    // Other watchers
 });
