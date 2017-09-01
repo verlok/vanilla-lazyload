@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.0.1
+
+Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.
+
 #### 10.0.0
 
 - Default options changes values:
@@ -25,24 +29,24 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 #### 8.1.0
 
-Updated from grunt to gulp (run with gulp scripts)
+Updated from grunt to gulp (run with gulp scripts).
 
 #### 8.0.3
 
-Added quotes in background image URLs, as suggested in #114 (thanks to @vseva)
+Added quotes in background image URLs, as suggested in #114 (thanks to @vseva).
 
 #### 8.0.2
 
-Fixed a bug that affected performance
+Fixed a bug that affected performance.
 
 #### 8.0.1
 
-Fixed reference to old names in demo files
+Fixed reference to old names in demo files.
 
 #### 8.0.0
 
 - The main file to include is now **`dist/lazyload.min.js`** as you would expect, and no longer `dist/lazyload.transpiled.min.js`. 
-- The non-transpiled version is now named lazyload.es2015.js.
+- The non-transpiled version is now named lazyload.es2015.js
 
 ## Version 7
 
@@ -64,8 +68,8 @@ Bug fixes:
 
 #### 7.0.0
 
-Source code converted to ES2015 modules, bundled with [rollup.js](https://rollupjs.org/) and transpiled with [babel](https://babeljs.io/)
+Source code converted to ES2015 modules, bundled with [rollup.js](https://rollupjs.org/) and transpiled with [babel](https://babeljs.io/).
 
 ---
 
-_Wanna go back and back in time? Take a look at the [release history](https://github.com/verlok/lazyload/releases) on GitHub_
+_Wanna go back and back in time? Take a look at the [release history](https://github.com/verlok/lazyload/releases) on GitHub_!
