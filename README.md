@@ -9,17 +9,17 @@ Jump to:
 
 ## Include the script
 
+**IMPORTANT NOTE**: Starting from version 9.0.0, this script uses Intersection Observer which is [currently not supported]((https://caniuse.com/#search=IntersectionObserver)) by Safari and Internet Explorer 11. **I advice to use version 8.1.0 of LazyLoad until Safari will support Intersection Observer**. For more information, see the [changelog](CHANGELOG.md).
+
 ### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
 
 Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/9.0.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.0.1/lazyload.min.js"></script>
 ```
 
-From version 9, LazyLoad uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is now supported in all major browsers including Microsoft Edge, but not in Internet Explorer. As a fallback, LazyLoad 9 loads all the images at once on Internet Explorer. 
-
-**If you need to lazily load images on Internet Explorer too, use version 8.**
+To include version 8.1.0 which supports all major browsers, just do:
 
 
 ```html
