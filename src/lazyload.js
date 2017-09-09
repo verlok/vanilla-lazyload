@@ -35,7 +35,9 @@ LazyLoad.prototype = {
 
     update: function () {
         const settings = this._settings;
-        const elements = settings.container.querySelectorAll(settings.elements_selector);
+        const elements = typeof settings.elements_selector === "object" 
+                        ? settings.elements_selector 
+                        : settings.container.querySelectorAll(settings.elements_selector);
 
         this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
         if (this._observer) {

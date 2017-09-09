@@ -1,7 +1,7 @@
 ﻿interface ILazyLoadOptions {
     threshold?: number;
     container?: HTMLElement;
-    elements_selector?: string;
+    elements_selector?: any;
     throttle?: number;
     data_src?: string;
     data_srcset?: string;
