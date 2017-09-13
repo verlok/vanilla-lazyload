@@ -18,9 +18,19 @@ var defaultSettings = {
     callback_set: null
 };
 
+const dataPrefix = "data-";
+
+const getData = (element, attribute) => {
+    return element.getAttribute(dataPrefix + attribute);
+};
+
+const setData = (element, attribute, value) => {
+    return element.setAttribute(dataPrefix + attribute, value);
+};
+
 var purgeElements = function (elements) {
     return elements.filter((element) => {
-        return !element.dataset.wasProcessed;
+        return !getData(element, "was-processed");
     });
 };
 
@@ -53,7 +63,7 @@ const setSourcesForPicture = function (element, settings) {
     }
     for (let i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
         if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = pictureChild.dataset[dataSrcSet];
+            let sourceSrcset = getData(pictureChild, dataSrcSet);
             if (sourceSrcset) {
                 pictureChild.setAttribute("srcset", sourceSrcset);
             }
@@ -64,10 +74,10 @@ const setSourcesForPicture = function (element, settings) {
 const setSources = function (element, settings) {
     const {data_src: dataSrc, data_srcset: dataSrcSet} = settings;
     const tagName = element.tagName;
-    const elementSrc = element.dataset[dataSrc];
+    const elementSrc = getData(element, dataSrc);
     if (tagName === "IMG") {
         setSourcesForPicture(element, settings);
-        const imgSrcset = element.dataset[dataSrcSet];
+        const imgSrcset = getData(element, dataSrcSet);
         if (imgSrcset) {
             element.setAttribute("srcset", imgSrcset);
         }
@@ -85,6 +95,24 @@ const setSources = function (element, settings) {
     if (elementSrc) {
         element.style.backgroundImage = `url("${elementSrc}")`;
     }
+};
+
+const supportsClassList = !!document.body.classList;
+
+const addClass = (element, className) => {
+    if (supportsClassList) {
+        element.classList.add(className);
+        return;
+    }
+    element.className += (element.className ? " " : "") + className;
+};
+
+const removeClass = (element, className) => {
+    if (supportsClassList) {
+        element.classList.remove(className);
+        return;
+    }
+    element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
 };
 
 const callCallback = function (callback, argument) {
@@ -116,18 +144,18 @@ const addOneShotListeners = function(element, settings) {
 
 const onEvent = function (event, success, settings) {
     const element = event.target;
-    element.classList.remove(settings.class_loading);
-    element.classList.add(success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
+    removeClass(element, settings.class_loading);
+    addClass(element, (success ? settings.class_loaded : settings.class_error)); // Setting loaded or error class
     callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
 };
 
 var revealElement = function (element, settings) {
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
         addOneShotListeners(element, settings);
-        element.classList.add(settings.class_loading);
+        addClass(element, settings.class_loading);
     }
     setSources(element, settings);
-    element.dataset.wasProcessed = true;
+    setData(element, "was-processed", true);
     callCallback(settings.callback_set, element);
 };
 
