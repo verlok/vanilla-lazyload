@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.1.0
+
+Added the ability to pass a `NodeList` object to the `elements_selector` option, as suggested by @SassNinja in #130.
+
 #### 10.0.1
 
 Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.
