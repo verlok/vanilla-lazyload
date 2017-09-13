@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.3.0
+
+Restored support to IE9 and IE10, as requested in #118 and #132.
+
 #### 10.2.0
 
 To solve cases when you can't select the elements to load using a string, added the ability to pass a `NodeList` object...
