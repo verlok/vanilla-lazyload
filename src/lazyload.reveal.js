@@ -1,4 +1,5 @@
 import {setSources} from "./lazyload.setSources";
+import {setData} from "./lazyload.data";
 
 const callCallback = function (callback, argument) {
     if (callback) {
@@ -40,6 +41,6 @@ export default function (element, settings) {
         element.classList.add(settings.class_loading);
     }
     setSources(element, settings);
-    element.dataset.wasProcessed = true;
+    setData(element, "was-processed", true);
     callCallback(settings.callback_set, element);
 };

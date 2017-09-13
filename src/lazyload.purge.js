@@ -1,5 +1,7 @@
+import {getData} from "./lazyload.data";
+
 export default function (elements) {
     return elements.filter((element) => {
-        return !element.dataset.wasProcessed;
+        return !getData(element, "was-processed");
     });
 }

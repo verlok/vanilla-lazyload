@@ -18,9 +18,19 @@ var defaultSettings = {
     callback_set: null
 };
 
+const dataPrefix = "data-";
+
+const getData = (element, attribute) => {
+    return element.getAttribute(dataPrefix + attribute);
+};
+
+const setData = (element, attribute, value) => {
+    return element.setAttribute(dataPrefix + attribute, value);
+};
+
 var purgeElements = function (elements) {
     return elements.filter((element) => {
-        return !element.dataset.wasProcessed;
+        return !getData(element, "was-processed");
     });
 };
 
@@ -53,7 +63,7 @@ const setSourcesForPicture = function (element, settings) {
     }
     for (let i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
         if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = pictureChild.dataset[dataSrcSet];
+            let sourceSrcset = getData(pictureChild, dataSrcSet);
             if (sourceSrcset) {
                 pictureChild.setAttribute("srcset", sourceSrcset);
             }
@@ -64,10 +74,10 @@ const setSourcesForPicture = function (element, settings) {
 const setSources = function (element, settings) {
     const {data_src: dataSrc, data_srcset: dataSrcSet} = settings;
     const tagName = element.tagName;
-    const elementSrc = element.dataset[dataSrc];
+    const elementSrc = getData(element, dataSrc);
     if (tagName === "IMG") {
         setSourcesForPicture(element, settings);
-        const imgSrcset = element.dataset[dataSrcSet];
+        const imgSrcset = getData(element, dataSrcSet);
         if (imgSrcset) {
             element.setAttribute("srcset", imgSrcset);
         }
@@ -127,7 +137,7 @@ var revealElement = function (element, settings) {
         element.classList.add(settings.class_loading);
     }
     setSources(element, settings);
-    element.dataset.wasProcessed = true;
+    setData(element, "was-processed", true);
     callCallback(settings.callback_set, element);
 };
 

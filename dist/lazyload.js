@@ -21,9 +21,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callback_set: null
     };
 
+    var dataPrefix = "data-";
+
+    var getData = function getData(element, attribute) {
+        return element.getAttribute(dataPrefix + attribute);
+    };
+
+    var setData = function setData(element, attribute, value) {
+        return element.setAttribute(dataPrefix + attribute, value);
+    };
+
     var purgeElements = function purgeElements(elements) {
         return elements.filter(function (element) {
-            return !element.dataset.wasProcessed;
+            return !getData(element, "was-processed");
         });
     };
 
@@ -57,7 +67,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
         for (var i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
             if (pictureChild.tagName === "SOURCE") {
-                var sourceSrcset = pictureChild.dataset[dataSrcSet];
+                var sourceSrcset = getData(pictureChild, dataSrcSet);
                 if (sourceSrcset) {
                     pictureChild.setAttribute("srcset", sourceSrcset);
                 }
@@ -70,10 +80,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             dataSrcSet = settings.data_srcset;
 
         var tagName = element.tagName;
-        var elementSrc = element.dataset[dataSrc];
+        var elementSrc = getData(element, dataSrc);
         if (tagName === "IMG") {
             setSourcesForPicture(element, settings);
-            var imgSrcset = element.dataset[dataSrcSet];
+            var imgSrcset = getData(element, dataSrcSet);
             if (imgSrcset) {
                 element.setAttribute("srcset", imgSrcset);
             }
@@ -133,7 +143,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             element.classList.add(settings.class_loading);
         }
         setSources(element, settings);
-        element.dataset.wasProcessed = true;
+        setData(element, "was-processed", true);
         callCallback(settings.callback_set, element);
     };
 
