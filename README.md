@@ -11,14 +11,16 @@ Jump to:
 
 ### Important note about browser support
 
-Starting from version 9.0.0, this script uses Intersection Observer which is [currently not supported]((https://caniuse.com/#search=IntersectionObserver)) by Safari and Internet Explorer 11. **I advice to use version 8.1.0 of LazyLoad until Safari will support Intersection Observer**. For more information, see the [changelog](CHANGELOG.md).
+Starting from version 9.0.0, this script uses Intersection Observer which is [currently not supported]((https://caniuse.com/#search=IntersectionObserver)) by Safari and Internet Explorer. **I advice to use version 8.x of LazyLoad until Safari will support Intersection Observer**. For more information, see the [changelog](CHANGELOG.md).
+
+As it currently stands, version 10.3.0 restored support to browsers from Internet Explorer 9, while previous versions of LazyLoad only support Internet Explorer 11. If you need to support Internet Explorer 9, use LazyLoad from version 10.3.0 up.
 
 ### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
 
 Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.0.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.0/lazyload.min.js"></script>
 ```
 
 To include version 8.1.0 which supports all major browsers, just do:
