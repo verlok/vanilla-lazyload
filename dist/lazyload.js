@@ -103,6 +103,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
+    var supportsClassList = !!document.body.classList;
+
+    var addClass = function addClass(element, className) {
+        if (supportsClassList) {
+            element.classList.add(className);
+            return;
+        }
+        element.className += (element.className ? " " : "") + className;
+    };
+
+    var removeClass = function removeClass(element, className) {
+        if (_supportsClassList) {
+            element.classList.remove(className);
+            return;
+        }
+        element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+    };
+
     var callCallback = function callCallback(callback, argument) {
         if (callback) {
             callback(argument);
@@ -132,15 +150,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var onEvent = function onEvent(event, success, settings) {
         var element = event.target;
-        element.classList.remove(settings.class_loading);
-        element.classList.add(success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
+        removeClass(element, settings.class_loading);
+        addClass(element, success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
         callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
     };
 
     var revealElement = function revealElement(element, settings) {
         if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
             addOneShotListeners(element, settings);
-            element.classList.add(settings.class_loading);
+            addClass(element, settings.class_loading);
         }
         setSources(element, settings);
         setData(element, "was-processed", true);
