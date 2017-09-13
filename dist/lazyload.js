@@ -114,7 +114,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var removeClass = function removeClass(element, className) {
-        if (_supportsClassList) {
+        if (supportsClassList) {
             element.classList.remove(className);
             return;
         }

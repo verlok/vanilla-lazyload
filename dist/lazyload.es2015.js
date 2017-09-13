@@ -108,7 +108,7 @@ const addClass = (element, className) => {
 };
 
 const removeClass = (element, className) => {
-    if (_supportsClassList) {
+    if (supportsClassList) {
         element.classList.remove(className);
         return;
     }
