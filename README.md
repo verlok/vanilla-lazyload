@@ -443,7 +443,7 @@ Here's the list of the options.
 | Name | Meaning | Default value |
 | ---- | ----| ---- |
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
-| `elements_selector` | The `string` selector of the elements to load lazily, to be selected as descendants of the `container` object. Starting from version 10.1.0 it can also be a `NodeList` object to be used as-is. | `"img"` |
+| `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `data_src` | The name of the dataset property containing the original image source. See [dataset naming note](#dataset-naming-note) below. | `"src"` |
 | `data_srcset` | The name of the dataset property containing the original image source set in either `img` and `source` tags. See [dataset naming note](#dataset-naming-note) below. | `"srcset"` |
