@@ -173,7 +173,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var _this2 = this;
 
             var settings = this._settings;
-            var elements = settings.container.querySelectorAll(settings.elements_selector);
+            var elements = _typeof(settings.elements_selector) === "object" ? settings.elements_selector : settings.container.querySelectorAll(settings.elements_selector);
 
             this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
             if (this._observer) {
