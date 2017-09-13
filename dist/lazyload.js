@@ -137,10 +137,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callCallback(settings.callback_set, element);
     };
 
-    var LazyLoad = function LazyLoad(instanceSettings) {
+    var LazyLoad = function LazyLoad(instanceSettings, elements) {
         this._settings = _extends({}, defaultSettings, instanceSettings);
         this._setObserver();
-        this.update();
+        this.update(elements);
     };
 
     LazyLoad.prototype = {
@@ -169,14 +169,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
         },
 
-        update: function update() {
+        update: function update(elements) {
             var _this2 = this;
 
             var settings = this._settings;
-            var elementsSelector = settings.elements_selector;
-            var elements = (typeof elementsSelector === 'undefined' ? 'undefined' : _typeof(elementsSelector)) === "object" ? elementsSelector : settings.container.querySelectorAll(elementsSelector);
+            var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
 
-            this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
+            this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
             if (this._observer) {
                 this._elements.forEach(function (element) {
                     _this2._observer.observe(element);

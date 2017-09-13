@@ -86,9 +86,8 @@
 				},
 				callback_set: function (element) {
 					logElementEvent("SET", element);
-				},
-				elements_selector: document.querySelectorAll('img')
-			});
+				}
+			}, document.querySelectorAll('img'));
 
 			additionalContent = [
 				'<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-src="../img/44739938WK_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="../img/44736534FQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="../img/44735388UI_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="../img/44739165EV_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="../img/44739454HF_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="../img/44719480KM_15_a.jpg" width="220" height="280"></a> </li>',
@@ -104,7 +103,7 @@
 					return;
 				}
 				target.innerHTML += additionalContent[count];
-				ll.update();
+				ll.update(document.querySelectorAll('img'));
 				addContentButton.disabled = ++count >= additionalContent.length;
 			});
 
