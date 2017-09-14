@@ -7,13 +7,16 @@ Jump to:
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
 
+## Browser support
+
+Internet Explorer from 9 up is supported in LazyLoad versions 10.3 and 8.2.
+For more information, see the [changelog](CHANGELOG.md).
+
 ## Include the script
 
-### Important note about browser support
+### Important note
 
-Starting from version 9.0.0, this script uses Intersection Observer which is [currently not supported]((https://caniuse.com/#search=IntersectionObserver)) by Safari and Internet Explorer. **I advice to use version 8.x of LazyLoad until Safari will support Intersection Observer**. For more information, see the [changelog](CHANGELOG.md).
-
-As it currently stands, version 10.3.0 restored support to browsers from Internet Explorer 9, while previous versions of LazyLoad only support Internet Explorer 11. If you need to support Internet Explorer 9, use LazyLoad from version 10.3.0 up. Support to IE9 in version 8.x of LazyLoad is under development.
+**The recommended version of LazyLoad is 8.2.** LazyLoad from 9 up will load all of your images at once on Safari and Internet Explorer since those browsers don't support the Intersection Observer API yet.
 
 ### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
 
@@ -27,7 +30,7 @@ To include version 8.1.0 which supports all major browsers, just do:
 
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.1.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.2.0/lazyload.min.js"></script>
 ```
 
 From version 9, LazyLoad uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is now supported in all major browsers including Microsoft Edge, but except Microsoft Internet Explorer. As a fallback, LazyLoad loads all the images at once on Internet Explorer.
@@ -447,21 +450,14 @@ Here's the list of the options.
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
 | `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `data_src` | The name of the dataset property containing the original image source. See [dataset naming note](#dataset-naming-note) below. | `"src"` |
-| `data_srcset` | The name of the dataset property containing the original image source set in either `img` and `source` tags. See [dataset naming note](#dataset-naming-note) below. | `"srcset"` |
+| `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original"`, just pass `"original"` | `"src"` |
+| `data_srcset` | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"` | `"srcset"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements when the element causes an error | `"error"` |
 | `callback_load` | A function to be called when an element was loaded. | `null` |
 | `callback_error` | A function to be called when an element triggers an error. | `null` |
 | `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
-
-#### Dataset naming note
-
-Please note that dataset properties of hyphenated data attributes (like `data-my-custom-attribute`) are automatically [converted to camel case](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) by Javascript (so `myCustomAttribute`).
-
-[Demo here](https://codepen.io/verlok/pen/LybvYy?editors=1011)
-
 
 ### Methods
 
