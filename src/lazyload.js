@@ -3,10 +3,10 @@ import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
 
-const LazyLoad = function (instanceSettings) {
+const LazyLoad = function (instanceSettings, elements) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
     this._setObserver();
-    this.update();
+    this.update(elements);
 };
 
 LazyLoad.prototype = {
@@ -33,11 +33,11 @@ LazyLoad.prototype = {
         });
     },
 
-    update: function () {
+    update: function (elements) {
         const settings = this._settings;
-        const elements = settings.container.querySelectorAll(settings.elements_selector);
+        const nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
 
-        this._elements = purgeElements(Array.prototype.slice.call(elements)); // nodeset to array for IE compatibility
+        this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
         if (this._observer) {
             this._elements.forEach(element => {
                 this._observer.observe(element);

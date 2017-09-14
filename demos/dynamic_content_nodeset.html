@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>
+		Lazyload tests
+	</title>
+	<style>
+		ul,
+		li {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		a,
+		img {
+			display: block;
+		}
+
+		img {
+			border: 0;
+		}
+
+		img:not([src]) {
+			visibility: hidden;
+		}
+
+		button {
+			position: fixed;
+			bottom: 10px;
+			width: 10em;
+			height: 3em;
+			left: 50%;
+			margin-left: -5em;
+		}
+	</style>
+</head>
+
+<body>
+	<button id="addContent">
+	ADD CONTENT <span class="count"></span>
+</button>
+	<div id="results1" class="results">
+		<ul>
+			<li>
+				<a href="#"><img alt="Stivaletti" data-src="../img/44721746JJ_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Open toe" data-src="../img/44740806JX_15_r.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis" data-src="../img/44735977GR_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-src="../img/44738717AM_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes alte" data-src="../img/44739940CB_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes alte" data-src="../img/44740860XG_15_a.jpg" width="220" height="280"></a>
+			</li>
+			<li>
+				<a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-src="../img/44738719VN_15_a.jpg" width="220" height="280"></a>
+			</li>
+		</ul>
+	</div>
+	<script src="../dist/lazyload.js"></script>
+	<script>
+		(function () {
+
+			var count = 0,
+				addContentButton, additionalContent, target;
+
+			function logElementEvent(eventName, element) {
+				console.log(new Date().getTime(), eventName, element.getAttribute('data-src'));
+			}
+
+			/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
+
+			ll = new LazyLoad({
+				callback_load: function (element) {
+					logElementEvent("LOADED", element);
+				},
+				callback_set: function (element) {
+					logElementEvent("SET", element);
+				}
+			}, document.querySelectorAll('img'));
+
+			additionalContent = [
+				'<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-src="../img/44739938WK_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="../img/44736534FQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="../img/44735388UI_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="../img/44739165EV_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="../img/44739454HF_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="../img/44719480KM_15_a.jpg" width="220" height="280"></a> </li>',
+				'<li><a href="#"><img alt="Stivaletti" data-src="../img/44719687TD_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="../img/44721899NG_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="../img/44721744SL_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="../img/44716730KR_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="../img/44718734XL_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="../img/44721796UK_15_a.jpg" width="220" height="280"></a> </li>',
+				'<li><a href="#"><img alt="Francesine" data-src="../img/44717679MJ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="../img/44724594VU_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="../img/44726148AQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="../img/44719629NT_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="../img/44725329KQ_15_a.jpg" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="../img/44724026QS_15_a.jpg" width="220" height="280"></a> </li>'
+			];
+
+			addContentButton = document.getElementById('addContent');
+			target = document.querySelector("#results1 ul");
+
+			addContentButton.addEventListener('click', () => {
+				if (count === additionalContent.length) {
+					return;
+				}
+				target.innerHTML += additionalContent[count];
+				ll.update(document.querySelectorAll('img'));
+				addContentButton.disabled = ++count >= additionalContent.length;
+			});
+
+
+		}());
+	</script>
+</body>
+
+</html>

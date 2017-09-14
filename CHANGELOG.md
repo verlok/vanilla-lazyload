@@ -2,6 +2,17 @@
 
 ## Version 10
 
+#### 10.2.0
+
+To solve cases when you can't select the elements to load using a string, added the ability to pass a `NodeList` object...
+
+- as a second parameter in the constructor, after the regular option object, e.g. `var ll = new Lazyload({}, myNodeList)`
+- as a single parameter to the `update()` method, e.g. `ll.update(myNodeList)`
+
+#### 10.1.0
+
+To solve cases when you can't select the elements to load using a string, added the ability to pass a `NodeList` object to the `elements_selector` option, as suggested by @SassNinja in #130.
+
 #### 10.0.1
 
 Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.

@@ -9,17 +9,19 @@ Jump to:
 
 ## Include the script
 
+### Important note about browser support
+
+Starting from version 9.0.0, this script uses Intersection Observer which is [currently not supported]((https://caniuse.com/#search=IntersectionObserver)) by Safari and Internet Explorer 11. **I advice to use version 8.1.0 of LazyLoad until Safari will support Intersection Observer**. For more information, see the [changelog](CHANGELOG.md).
+
 ### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
 
 Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/9.0.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.0.1/lazyload.min.js"></script>
 ```
 
-From version 9, LazyLoad uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is now supported in all major browsers including Microsoft Edge, but not in Internet Explorer. As a fallback, LazyLoad 9 loads all the images at once on Internet Explorer. 
-
-**If you need to lazily load images on Internet Explorer too, use version 8.**
+To include version 8.1.0 which supports all major browsers, just do:
 
 
 ```html
@@ -441,7 +443,7 @@ Here's the list of the options.
 | Name | Meaning | Default value |
 | ---- | ----| ---- |
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
-| `elements_selector` | The selector of the image elements inside the container, as descendants of the element in the `container` option | `"img"` |
+| `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `data_src` | The name of the dataset property containing the original image source. See [dataset naming note](#dataset-naming-note) below. | `"src"` |
 | `data_srcset` | The name of the dataset property containing the original image source set in either `img` and `source` tags. See [dataset naming note](#dataset-naming-note) below. | `"srcset"` |
