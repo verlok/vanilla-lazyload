@@ -34,7 +34,7 @@
         "no-fallthrough": 1,
         "no-floating-decimal": 1,
         "no-global-assign": 1,
-        "no-implicit-coercion": 1,
+        "no-implicit-coercion": 0,
         "no-implicit-globals": 1,
         "no-implied-eval": 1,
         "no-invalid-this": 1,
