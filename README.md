@@ -26,8 +26,6 @@ To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.0/lazyload.min.js"></script>
 ```
 
-From version 9, LazyLoad uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is now supported in all major browsers including Microsoft Edge, but except Microsoft Internet Explorer. As a fallback, LazyLoad loads all the images at once on Internet Explorer.
-
 ### Local install
 
 If you prefer to install LazyLoad locally in your project, you can either:
