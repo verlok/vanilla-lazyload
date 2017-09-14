@@ -3,6 +3,8 @@ import {isBot, callCallback} from "./lazyload.utils";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
 import setSources from "./lazyload.setSources";
+import {addClass, removeClass} from "./lazyload.class";
+import {getData, setData} from "./lazyload.data";
 
 /*
  * Constructor
@@ -35,16 +37,16 @@ LazyLoad.prototype = {
             if (!settings) { return; }
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_error);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_error);
             callCallback(settings.callback_error, element);
         };
 
         const loadCallback = function () {
             /* As this method is asynchronous, it must be protected against external destroy() calls */
             if (!settings) { return; }
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_loaded);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_loaded);
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
             /* Calling LOAD callback */
@@ -54,7 +56,7 @@ LazyLoad.prototype = {
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             element.addEventListener("load", loadCallback);
             element.addEventListener("error", errorCallback);
-            element.classList.add(settings.class_loading);
+            addClass(element, settings.class_loading);
         }
 
         setSources(element, settings.data_srcset, settings.data_src);
@@ -79,13 +81,13 @@ LazyLoad.prototype = {
             
             if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                 if (firstLoop) {
-                    element.classList.add(settings.class_initial);
+                    addClass(element, settings.class_initial);
                 }
                 /* Start loading the image */
                 this._reveal(element);
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
-                element.dataset.wasProcessed = true;
+                setData(element, "was-processed", true);
             }
         }
         /* Removing processed elements from this._elements. */
@@ -113,7 +115,7 @@ LazyLoad.prototype = {
         for (i = 0; i < elementsLength; i++) {
             let element = elements[i];
             /* If the element has already been processed, skip it */
-            if (element.dataset.wasProcessed) {
+            if (getData(element, "was-processed")) {
                 elementsToPurge.push(i);
             }
         }
