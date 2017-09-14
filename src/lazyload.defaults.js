@@ -4,7 +4,7 @@ export default {
     threshold: 300,
     throttle: 150,
     data_src: "original",
-    data_srcset: "originalSet",
+    data_srcset: "original-set",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
