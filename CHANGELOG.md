@@ -42,6 +42,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.2.0
+
+Restored support to IE9 and IE10, as requested in #118 and #132.
+
 #### 8.1.0
 
 Updated from grunt to gulp (run with gulp scripts).
