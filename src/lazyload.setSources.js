@@ -1,3 +1,5 @@
+import {getData} from "./lazyload.data";
+
 const setSourcesForPicture = function (element, srcsetDataAttribute) {
     const parent = element.parentElement;
     if (parent.tagName !== "PICTURE") {
@@ -6,7 +8,7 @@ const setSourcesForPicture = function (element, srcsetDataAttribute) {
     for (let i = 0; i < parent.children.length; i++) {
         let pictureChild = parent.children[i];
         if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+            let sourceSrcset = getData(pictureChild, srcsetDataAttribute);
             if (sourceSrcset) {
                 pictureChild.setAttribute("srcset", sourceSrcset);
             }
@@ -16,10 +18,10 @@ const setSourcesForPicture = function (element, srcsetDataAttribute) {
 
 export default function (element, srcsetDataAttribute, srcDataAttribute) {
     const tagName = element.tagName;
-    const elementSrc = element.dataset[srcDataAttribute];
+    const elementSrc = getData(element, srcDataAttribute);
     if (tagName === "IMG") {
         setSourcesForPicture(element, srcsetDataAttribute);
-        const imgSrcset = element.dataset[srcsetDataAttribute];
+        const imgSrcset = getData(element, srcsetDataAttribute);
         if (imgSrcset) {
             element.setAttribute("srcset", imgSrcset);
         }

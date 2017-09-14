@@ -10,7 +10,7 @@ var defaultSettings = {
     threshold: 300,
     throttle: 150,
     data_src: "original",
-    data_srcset: "originalSet",
+    data_srcset: "original-set",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
@@ -91,6 +91,16 @@ var autoInitialize = function (classObj, options) {
     }
 };
 
+const dataPrefix = "data-";
+
+const getData = (element, attribute) => {
+    return element.getAttribute(dataPrefix + attribute);
+};
+
+const setData = (element, attribute, value) => {
+    return element.setAttribute(dataPrefix + attribute, value);
+};
+
 const setSourcesForPicture = function (element, srcsetDataAttribute) {
     const parent = element.parentElement;
     if (parent.tagName !== "PICTURE") {
@@ -99,7 +109,7 @@ const setSourcesForPicture = function (element, srcsetDataAttribute) {
     for (let i = 0; i < parent.children.length; i++) {
         let pictureChild = parent.children[i];
         if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = pictureChild.dataset[srcsetDataAttribute];
+            let sourceSrcset = getData(pictureChild, srcsetDataAttribute);
             if (sourceSrcset) {
                 pictureChild.setAttribute("srcset", sourceSrcset);
             }
@@ -109,10 +119,10 @@ const setSourcesForPicture = function (element, srcsetDataAttribute) {
 
 var setSources = function (element, srcsetDataAttribute, srcDataAttribute) {
     const tagName = element.tagName;
-    const elementSrc = element.dataset[srcDataAttribute];
+    const elementSrc = getData(element, srcDataAttribute);
     if (tagName === "IMG") {
         setSourcesForPicture(element, srcsetDataAttribute);
-        const imgSrcset = element.dataset[srcsetDataAttribute];
+        const imgSrcset = getData(element, srcsetDataAttribute);
         if (imgSrcset) {
             element.setAttribute("srcset", imgSrcset);
         }
@@ -130,6 +140,24 @@ var setSources = function (element, srcsetDataAttribute, srcDataAttribute) {
     if (elementSrc) {
         element.style.backgroundImage = `url("${elementSrc}")`;
     }
+};
+
+const supportsClassList = !!document.body.classList;
+
+const addClass = (element, className) => {
+    if (supportsClassList) {
+        element.classList.add(className);
+        return;
+    }
+    element.className += (element.className ? " " : "") + className;
+};
+
+const removeClass = (element, className) => {
+    if (supportsClassList) {
+        element.classList.remove(className);
+        return;
+    }
+    element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
 };
 
 /*
@@ -163,16 +191,16 @@ LazyLoad.prototype = {
             if (!settings) { return; }
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_error);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_error);
             callCallback(settings.callback_error, element);
         };
 
         const loadCallback = function () {
             /* As this method is asynchronous, it must be protected against external destroy() calls */
             if (!settings) { return; }
-            element.classList.remove(settings.class_loading);
-            element.classList.add(settings.class_loaded);
+            removeClass(element, settings.class_loading);
+            addClass(element, settings.class_loaded);
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
             /* Calling LOAD callback */
@@ -182,7 +210,7 @@ LazyLoad.prototype = {
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             element.addEventListener("load", loadCallback);
             element.addEventListener("error", errorCallback);
-            element.classList.add(settings.class_loading);
+            addClass(element, settings.class_loading);
         }
 
         setSources(element, settings.data_srcset, settings.data_src);
@@ -207,13 +235,13 @@ LazyLoad.prototype = {
             
             if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
                 if (firstLoop) {
-                    element.classList.add(settings.class_initial);
+                    addClass(element, settings.class_initial);
                 }
                 /* Start loading the image */
                 this._reveal(element);
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
-                element.dataset.wasProcessed = true;
+                setData(element, "was-processed", true);
             }
         }
         /* Removing processed elements from this._elements. */
@@ -241,7 +269,7 @@ LazyLoad.prototype = {
         for (i = 0; i < elementsLength; i++) {
             let element = elements[i];
             /* If the element has already been processed, skip it */
-            if (element.dataset.wasProcessed) {
+            if (getData(element, "was-processed")) {
                 elementsToPurge.push(i);
             }
         }
