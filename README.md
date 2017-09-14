@@ -6,7 +6,9 @@ Jump to:
 
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
-## Include the script / browser support
+## Include the script
+
+### Versions and browser support
 
 **The recommended version of LazyLoad is 8.2.** LazyLoad from 9 up will load all of your images at once on Safari and Internet Explorer since these browsers don't support the Intersection Observer API yet.
 
@@ -31,12 +33,16 @@ From version 9, LazyLoad uses the [Intersection Observer API](https://developer.
 ### Local install
 
 If you prefer to install LazyLoad locally in your project, you can either:
-- [download it from the `dist` folder](https://github.com/verlok/lazyload/tree/master/dist)
+- **download it** from the [`dist` folder](https://github.com/verlok/lazyload/tree/master/dist)
   The file you typically want to use is `lazyload.min.js`
   If you prefer the ES2015 version, use `lazyload.es2015.js`
-- install it with `npm install --save vanilla-lazyload`
-- install it with `bower install vanilla-lazyload`
-
+- **install it with npm**
+  Recommended version `npm install vanilla-lazyload@8.2.0`   
+  Latest version `npm install vanilla-lazyload`
+- **install it with bower**
+  Recommended version `bower install vanilla-lazyload#8.2.0`
+  Latest version `bower install vanilla-lazyload`
+  
 ### Async script
 
 It's possible to include it as an `async` script, see [Recipes](#recipes) below.
