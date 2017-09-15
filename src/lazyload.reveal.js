@@ -1,6 +1,5 @@
 import {setSources} from "./lazyload.setSources";
 import {setData} from "./lazyload.data";
-import {addClass, removeClass} from "./lazyload.class";
 
 const callCallback = function (callback, argument) {
     if (callback) {
@@ -31,15 +30,20 @@ const addOneShotListeners = function(element, settings) {
 
 const onEvent = function (event, success, settings) {
     const element = event.target;
-    removeClass(element, settings.class_loading);
-    addClass(element, (success ? settings.class_loaded : settings.class_error)); // Setting loaded or error class
+    element.classList.remove(settings.class_loading);
+
+    element.classList.add(
+        // Setting loaded or error class
+        success ? settings.class_loaded : settings.class_error
+    );
+
     callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
 }
 
 export default function (element, settings) {
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
         addOneShotListeners(element, settings);
-        addClass(element, settings.class_loading);
+        element.classList.add(settings.class_loading);
     }
     setSources(element, settings);
     setData(element, "was-processed", true);

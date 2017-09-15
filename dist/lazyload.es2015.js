@@ -97,24 +97,6 @@ const setSources = function (element, settings) {
     }
 };
 
-const supportsClassList = !!document.body.classList;
-
-const addClass = (element, className) => {
-    if (supportsClassList) {
-        element.classList.add(className);
-        return;
-    }
-    element.className += (element.className ? " " : "") + className;
-};
-
-const removeClass = (element, className) => {
-    if (supportsClassList) {
-        element.classList.remove(className);
-        return;
-    }
-    element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
-};
-
 const callCallback = function (callback, argument) {
     if (callback) {
         callback(argument);
@@ -144,15 +126,20 @@ const addOneShotListeners = function(element, settings) {
 
 const onEvent = function (event, success, settings) {
     const element = event.target;
-    removeClass(element, settings.class_loading);
-    addClass(element, (success ? settings.class_loaded : settings.class_error)); // Setting loaded or error class
+    element.classList.remove(settings.class_loading);
+
+    element.classList.add(
+        // Setting loaded or error class
+        success ? settings.class_loaded : settings.class_error
+    );
+
     callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
 };
 
 var revealElement = function (element, settings) {
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
         addOneShotListeners(element, settings);
-        addClass(element, settings.class_loading);
+        element.classList.add(settings.class_loading);
     }
     setSources(element, settings);
     setData(element, "was-processed", true);
