@@ -6,6 +6,10 @@ Jump to:
 
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
+## Important note about this doc
+
+The documentation you're reading refers to the latest version of LazyLoad. Find the documentation about version 8.x (recommended version) in the [README_v8.md](README_v8.md) file.
+
 ## Include the script / browser support
 
 **The recommended version of LazyLoad is 8.2.** LazyLoad from 9 up will load all of your images at once on Safari and Internet Explorer since these browsers don't support the Intersection Observer API yet.
