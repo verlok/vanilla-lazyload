@@ -4,9 +4,9 @@ Jump to:
 
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
-## Important note about this doc
+## IMPORTANT
 
-The documentation you're reading refers to version 8.x (recommended version) of LazyLoad. Find the documentation about the latest version in the [README.md](README.md) file.
+This documentation refers to version 8.x (recommended version) of LazyLoad. Find the documentation about the latest version in the [README.md](README.md) file.
 
 ## Include the script
 
