@@ -8,7 +8,7 @@ Jump to:
 
 ## IMPORTANT
 
-This documentation refers to the latest version of LazyLoad. Find the documentation about version 8.x (recommended version) in the [README_v8.md](README_v8.md) file.
+This documentation refers to the **latest version** of LazyLoad. Find the documentation about version 8.x (recommended version) in the [README_v8.md](README_v8.md) file.
 
 ## Include the script / browser support
 
