@@ -182,12 +182,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var settings = this._settings;
             var onIntersection = function onIntersection(entries) {
                 entries.forEach(function (entry) {
-                    if (!entry.isIntersecting) {
-                        return;
+                    if (entry.intersectionRatio > 0) {
+                        var element = entry.target;
+                        revealElement(element, settings);
+                        _this._observer.unobserve(element);
                     }
-                    var element = entry.target;
-                    revealElement(element, settings);
-                    _this._observer.unobserve(element);
                 });
                 _this._elements = purgeElements(_this._elements);
             };
