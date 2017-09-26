@@ -27,7 +27,7 @@ To include the recommended version:
 To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.1/lazyload.min.js"></script>
 ```
 
 ### Local install
