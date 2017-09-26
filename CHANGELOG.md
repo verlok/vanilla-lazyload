@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.3.1
+
+Introduced a workaround for an issue of Microsoft Edge documented [here](https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12156111/)
+
 #### 10.3.0
 
 Restored support to IE9 and IE10, as requested in #118 and #132.
