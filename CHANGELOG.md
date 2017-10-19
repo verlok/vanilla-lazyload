@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.3.2
+
+Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and its #145.
+
 #### 10.3.1
 
 Introduced a workaround for an issue of Microsoft Edge documented [here](https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12156111/)
