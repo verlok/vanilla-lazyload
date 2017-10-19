@@ -2,7 +2,7 @@
 
 ## Version 10
 
-#### 10.3.2
+#### 10.3.3
 
 Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and his pull request #145.
 

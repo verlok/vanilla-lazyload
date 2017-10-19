@@ -97,7 +97,7 @@ const setSources = function (element, settings) {
     }
 };
 
-const supportsClassList = !!document.body.classList;
+const supportsClassList = "classList" in document.createElement("p");
 
 const addClass = (element, className) => {
     if (supportsClassList) {

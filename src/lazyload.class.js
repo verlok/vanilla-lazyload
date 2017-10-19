@@ -1,4 +1,4 @@
-const supportsClassList = 'classList' in document.createElement('p');
+const supportsClassList = "classList" in document.createElement("p");
 
 export const addClass = (element, className) => {
     if (supportsClassList) {
