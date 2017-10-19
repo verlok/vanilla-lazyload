@@ -50,6 +50,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.2.1
+
+Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and his #145.
+
 #### 8.2.0
 
 Restored support to IE9 and IE10, as requested in #118 and #132.
