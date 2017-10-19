@@ -103,7 +103,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var supportsClassList = !!document.body.classList;
+    var supportsClassList = "classList" in document.createElement("p");
 
     var addClass = function addClass(element, className) {
         if (supportsClassList) {
