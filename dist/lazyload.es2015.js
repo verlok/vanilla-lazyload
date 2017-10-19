@@ -142,7 +142,7 @@ var setSources = function (element, srcsetDataAttribute, srcDataAttribute) {
     }
 };
 
-const supportsClassList = !!document.body.classList;
+const supportsClassList = "classList" in document.createElement("p");
 
 const addClass = (element, className) => {
     if (supportsClassList) {
