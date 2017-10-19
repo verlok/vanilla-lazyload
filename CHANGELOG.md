@@ -4,7 +4,7 @@
 
 #### 10.3.2
 
-Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and its #145.
+Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and his pull request #145.
 
 #### 10.3.1
 
