@@ -141,7 +141,7 @@ window.lazyLoadOptions = [{
 <script async src="https://.../lazyload.min.js"></script>
 ```
 
-Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
@@ -318,7 +318,7 @@ That's it. Whenever the element selected by `elements_selector` is not an `img` 
 
 ### Lazy LazyLoad
 
-> **When to use**: when you have a lot of scrolling containers in the page and you want to insantiate a LazyLoad only on the ones that are in the viewport.
+> **When to use**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
 
 HTML
 
@@ -469,7 +469,7 @@ You can call the following public methods on any instance of LazyLoad.
 
 ### SEO friendly
 
-LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` you your image.
+LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
 
 ### It works with your favourite framework
 
