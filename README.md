@@ -12,34 +12,37 @@ This documentation refers to the **latest version** of LazyLoad. Find here the [
 
 ## Include the script / browser support
 
-Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, it would load all the images at once in those browsers.
+### Simple: direct include from cdnjs
 
-The best thing you can do is to conditionally load the latest version or the universal version depending on your browser support of the IntersectionObserver API, like that:
-
-```js
-(function(){
-	var head = document.getElementsByTagName('body')[0];
-	var lazyLoadScript = document.createElement("script");
-	var lazyLoadVersion = !("IntersectionObserver" in window) ? "8.2.1" : "10.3.3";
-	lazyLoadScript.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + lazyLoadVersion + "/lazyload.min.js";
-	window.lazyLoadOptions = {data_src: "src", data_srcset: "srcset"};
-	head.appendChild(lazyLoadScript);
-}());
-```
-
-See the conditional_load.html in the demos folder to try it or play around with it.
-
-If you don't have this fine control over your page, just load the recommended version from cdnjs.
+The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.2.1/lazyload.min.js"></script>
 ```
 
-To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad:
+Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, it would load all the images at once in those browsers. Anyway, to include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script.
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.3/lazyload.min.js"></script>
 ```
+
+### Advanced: conditionally loading version 8 or 10
+
+The best thing you can do is to **conditionally load the best version** of LazyLoad depending on the browser's support of the IntersectionObserver API.
+You can do it with the following script:
+
+```js
+(function(w, d){
+	var b = d.getElementsByTagName('body')[0];
+	var s = d.createElement("script");
+	var v = !("IntersectionObserver" in w) ? "8.2.1" : "10.3.3";
+	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+	w.lazyLoadOptions = {data_src: "src", data_srcset: "srcset"};
+	b.appendChild(s);
+}(window, document));
+```
+
+See the conditional_load.html file in the demos folder to try it or play around with it.
 
 ### Local install
 
