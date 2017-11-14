@@ -12,22 +12,33 @@ This documentation refers to the **latest version** of LazyLoad. Find here the [
 
 ## Include the script / browser support
 
-**The recommended version of LazyLoad is 8.2.** LazyLoad from 9 up will load all of your images at once on Safari and Internet Explorer since these browsers don't support the Intersection Observer API yet.
+Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, it would load all the images at once in those browsers.
 
-**LazyLoad versions 10.3 and 8.2 support Internet Explorer 9 up.** For more information, see the [changelog](CHANGELOG.md).
+The best thing you can do is to conditionally load the latest version or the universal version depending on your browser support of the IntersectionObserver API, like that:
 
-### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
+```js
+(function(){
+	var head = document.getElementsByTagName('body')[0];
+	var lazyLoadScript = document.createElement("script");
+	var lazyLoadVersion = !("IntersectionObserver" in window) ? "8.2.1" : "10.3.3";
+	lazyLoadScript.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + lazyLoadVersion + "/lazyload.min.js";
+	window.lazyLoadOptions = {data_src: "src", data_srcset: "srcset"};
+	head.appendChild(lazyLoadScript);
+}());
+```
 
-To include the recommended version:
+See the conditional_load.html in the demos folder to try it or play around with it.
+
+If you don't have this fine control over your page, just load the recommended version from cdnjs.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.2.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.2.1/lazyload.min.js"></script>
 ```
 
 To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.3/lazyload.min.js"></script>
 ```
 
 ### Local install
