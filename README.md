@@ -211,7 +211,7 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 ```
 
 
-### Scolling panel
+### Scrolling panel
 
 > **When to use**: when your scrolling container is not the main browser window, but a scrolling container.
 
@@ -448,6 +448,20 @@ MOAR points to add to the README:
 * When your scrolling container isn't native
 * When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
 -->
+
+### Dealing with Microsoft Edge problems
+
+According to what reported in #152, for Microsoft Edge to fire the IntersectionObserver for an `img` element, it must have a size. Since `img`s are displayed `inline-block` as standard, MS Edge (version not specified) doesn't read them correctly.
+
+By setting the following, edge is able to see the images and they get loaded.
+
+```css
+img["data-src"],
+img["data-srcset"] {
+  display: block;
+  min-height: 1px;
+}
+```
 
 ## API
 
