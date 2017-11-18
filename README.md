@@ -33,10 +33,10 @@ You can do it with the following script:
 ```js
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
-	var s = d.createElement("script");
+	var s = d.createElement("script"); s.async = true;
 	var v = !("IntersectionObserver" in w) ? "8.5.0" : "10.3.3";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
-	w.lazyLoadOptions = {data_src: "src", data_srcset: "srcset"};
+	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information aboyt async.
 	b.appendChild(s);
 }(window, document));
 ```
