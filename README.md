@@ -6,9 +6,6 @@ Jump to:
 
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
-## IMPORTANT
-
-This documentation refers to the **latest version** of LazyLoad. Find here the [documentation about version 8.x](README_v8.md).
 
 ## Include the script / browser support
 
@@ -17,25 +14,27 @@ This documentation refers to the **latest version** of LazyLoad. Find here the [
 The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.2.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.5.0/lazyload.min.js"></script>
 ```
 
-Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, it would load all the images at once in those browsers. Anyway, to include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script.
+Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
+
+To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.3/lazyload.min.js"></script>
 ```
 
-### Advanced: conditionally loading version 8 or 10
+### Advanced and best option: conditionally load version 8 or 10
 
-The best thing you can do is to **conditionally load the best version** of LazyLoad depending on the browser's support of the IntersectionObserver API.
+The best thing you can do is to conditionally load the best version of LazyLoad **depending on the browser's support of the IntersectionObserver API**.
 You can do it with the following script:
 
 ```js
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
 	var s = d.createElement("script");
-	var v = !("IntersectionObserver" in w) ? "8.2.1" : "10.3.3";
+	var v = !("IntersectionObserver" in w) ? "8.5.0" : "10.3.3";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
 	w.lazyLoadOptions = {data_src: "src", data_srcset: "srcset"};
 	b.appendChild(s);
@@ -475,7 +474,7 @@ Here's the list of the options.
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
 | `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original"`, just pass `"original"` | `"src"` |
+| `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"` | `"src"` |
 | `data_srcset` | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"` | `"srcset"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
