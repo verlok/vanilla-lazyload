@@ -50,6 +50,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.5.1
+
+Fixed a CustomEvent bug which occured on IE when using async object initialization
+
 #### 8.5.0
 
 - Change in default options, in order to be aligned with version 10
