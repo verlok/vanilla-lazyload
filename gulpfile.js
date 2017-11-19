@@ -1,14 +1,14 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var eslint = require('gulp-eslint');
-var rename = require('gulp-rename');
-var notify = require('gulp-notify');
-var babel = require('gulp-babel');
-var rollup = require('gulp-rollup');
+var gulp = require("gulp");
+var uglify = require("gulp-uglify");
+var eslint = require("gulp-eslint");
+var rename = require("gulp-rename");
+var notify = require("gulp-notify");
+var babel = require("gulp-babel");
+var rollup = require("gulp-rollup");
 
 var destFolder = "./dist";
 
-gulp.task('scripts', function () {
+gulp.task("default", function () {
     return gulp.src("./src/**/*.js")
         // ----------- linting --------------
         .pipe(eslint())
@@ -18,7 +18,7 @@ gulp.task('scripts', function () {
         .pipe(rollup({
             format: "umd",
             moduleName: "LazyLoad",
-            entry: './src/lazyload.js'
+            entry: "./src/lazyload.js"
         }))
         .pipe(rename("lazyload.es2015.js"))
         .pipe(gulp.dest(destFolder)) // --> writing rolledup
@@ -36,6 +36,11 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest(destFolder)) // --> writing uglified
         // ----------- notifying --------------
         .pipe(notify({
-            message: 'Scripts task complete'
+            message: "Scripts task complete"
         }));
+});
+
+gulp.task("watch", function () {
+    gulp.watch("./src/**/*.js", ["default"]);
+    // Other watchers
 });
