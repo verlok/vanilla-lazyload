@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.3.4
+
+Fixed a CustomEvent bug which occured on IE when using async object initialization.
+
 #### 10.3.3
 
 Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and his pull request #145.
@@ -52,7 +56,7 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 #### 8.5.1
 
-Fixed a CustomEvent bug which occured on IE when using async object initialization
+Fixed a CustomEvent bug which occured on IE when using async object initialization.
 
 #### 8.5.0
 
