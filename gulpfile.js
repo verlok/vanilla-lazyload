@@ -2,7 +2,6 @@ var gulp = require("gulp");
 var uglify = require("gulp-uglify");
 var eslint = require("gulp-eslint");
 var rename = require("gulp-rename");
-var notify = require("gulp-notify");
 var babel = require("gulp-babel");
 var rollup = require("gulp-rollup");
 
@@ -33,11 +32,7 @@ gulp.task("default", function () {
         // ----------- minifying --------------
         .pipe(uglify())
         .pipe(rename("lazyload.min.js"))
-        .pipe(gulp.dest(destFolder)) // --> writing uglified
-        // ----------- notifying --------------
-        .pipe(notify({
-            message: "Scripts task complete"
-        }));
+        .pipe(gulp.dest(destFolder)); // --> writing uglified
 });
 
 gulp.task("watch", function () {
