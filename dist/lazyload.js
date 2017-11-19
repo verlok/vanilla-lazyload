@@ -68,8 +68,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /* Creates instance and notifies it through the window element */
     var createInstance = function createInstance(classObj, options) {
+        var event;
+        var eventString = "LazyLoad::Initialized";
         var instance = new classObj(options);
-        var event = new CustomEvent("LazyLoad::Initialized", { detail: { instance: instance } });
+        try {
+            // Works in modern browsers
+            event = new CustomEvent(eventString, { detail: { instance: instance } });
+        } catch (err) {
+            // Works in Internet Explorer (all versions)
+            event = document.createEvent("CustomEvent");
+            event.initCustomEvent(eventString, false, false, { instance: instance });
+        }
         window.dispatchEvent(event);
     };
 
