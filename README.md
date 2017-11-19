@@ -6,29 +6,42 @@ Jump to:
 
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
-## IMPORTANT
-
-This documentation refers to the **latest version** of LazyLoad. Find here the [documentation about version 8.x](README_v8.md).
 
 ## Include the script / browser support
 
-**The recommended version of LazyLoad is 8.2.** LazyLoad from 9 up will load all of your images at once on Safari and Internet Explorer since these browsers don't support the Intersection Observer API yet.
+### Simple: direct include from cdnjs
 
-**LazyLoad versions 10.3 and 8.2 support Internet Explorer 9 up.** For more information, see the [changelog](CHANGELOG.md).
-
-### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
-
-To include the recommended version:
+The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.2.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.5.0/lazyload.min.js"></script>
 ```
 
-To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad:
+Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
+
+To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.3.3/lazyload.min.js"></script>
 ```
+
+### Advanced and best option: conditionally load version 8 or 10
+
+The best thing you can do is to conditionally load the best version of LazyLoad **depending on the browser's support of the IntersectionObserver API**.
+You can do it with the following script:
+
+```js
+(function(w, d){
+	var b = d.getElementsByTagName('body')[0];
+	var s = d.createElement("script"); s.async = true;
+	var v = !("IntersectionObserver" in w) ? "8.5.0" : "10.3.3";
+	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information aboyt async.
+	b.appendChild(s);
+}(window, document));
+```
+
+See the conditional_load.html file in the demos folder to try it or play around with it.
 
 ### Local install
 
@@ -145,7 +158,7 @@ window.lazyLoadOptions = [{
 <script async src="https://.../lazyload.min.js"></script>
 ```
 
-Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
@@ -201,7 +214,7 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 ```
 
 
-### Scolling panel
+### Scrolling panel
 
 > **When to use**: when your scrolling container is not the main browser window, but a scrolling container.
 
@@ -322,7 +335,7 @@ That's it. Whenever the element selected by `elements_selector` is not an `img` 
 
 ### Lazy LazyLoad
 
-> **When to use**: when you have a lot of scrolling containers in the page and you want to insantiate a LazyLoad only on the ones that are in the viewport.
+> **When to use**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
 
 HTML
 
@@ -439,6 +452,20 @@ MOAR points to add to the README:
 * When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
 -->
 
+### Dealing with Microsoft Edge problems
+
+According to what reported in #152, for Microsoft Edge to fire the IntersectionObserver for an `img` element, it must have a size. Since `img`s are displayed `inline-block` as standard, MS Edge (version not specified) doesn't read them correctly.
+
+By setting the following, edge is able to see the images and they get loaded.
+
+```css
+img["data-src"],
+img["data-srcset"] {
+  display: block;
+  min-height: 1px;
+}
+```
+
 ## API
 
 ### Options
@@ -451,7 +478,7 @@ Here's the list of the options.
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
 | `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original"`, just pass `"original"` | `"src"` |
+| `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"` | `"src"` |
 | `data_srcset` | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"` | `"srcset"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
@@ -473,7 +500,7 @@ You can call the following public methods on any instance of LazyLoad.
 
 ### SEO friendly
 
-LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` you your image.
+LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
 
 ### It works with your favourite framework
 

@@ -31,7 +31,7 @@ Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.
 
 #### 10.0.0
 
-- Default options changes values:
+- Change in default options:
   - default for `data_src` is now `src` (was `original`)
   - default for `data_srcset` is now `srcset` (was `original-set`)
 
@@ -49,6 +49,20 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.5.1
+
+Fixed a CustomEvent bug which occured on IE when using async object initialization
+
+#### 8.5.0
+
+- Change in default options, in order to be aligned with version 10
+  - default for `data_src` is now `src` (was `original`)
+  - default for `data_srcset` is now `srcset` (was `original-set`)
+
+#### 8.2.1
+
+Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and his #145.
 
 #### 8.2.0
 
