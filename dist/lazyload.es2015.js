@@ -112,7 +112,7 @@ const setData = (element, attribute, value) => {
 };
 
 const setSourcesForPicture = function (element, srcsetDataAttribute) {
-    const parent = element.parentElement;
+    const parent = element.parentNode;
     if (parent.tagName !== "PICTURE") {
         return;
     }
