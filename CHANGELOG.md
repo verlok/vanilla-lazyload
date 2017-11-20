@@ -2,9 +2,13 @@
 
 ## Version 10
 
+#### 10.3.5
+
+Fixed a bug that could occur on older versions of IE when trying to access an image's parent node.
+
 #### 10.3.4
 
-Fixed a CustomEvent bug which occured on IE when using async object initialization.
+Fixed a CustomEvent bug which occurred on IE when using async object initialization.
 
 #### 10.3.3
 
