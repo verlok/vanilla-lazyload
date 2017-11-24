@@ -36,7 +36,7 @@ You can do it with the following script:
 	var s = d.createElement("script"); s.async = true;
 	var v = !("IntersectionObserver" in w) ? "8.5.2" : "10.3.5";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
-	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information aboyt async.
+	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
 	b.appendChild(s);
 }(window, document));
 ```
