@@ -53,10 +53,8 @@ describe("setSources for image", () => {
         expect(img).toHaveAttributeValue("srcset", img400);
     });
     test("...with initial values in src and srcset and empty data-*", () => {
-        img.dataset = {
-            "src": "",
-            "srcset": ""
-        };
+        img.setAttribute("data-src", "");
+        img.setAttribute("data-srcset", "");
         img.setAttribute("src", img200);
         img.setAttribute("srcset", img400);
         setSources(img, lazyloadSettings);

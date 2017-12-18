@@ -1,9 +1,10 @@
 var gulp = require("gulp");
-var uglify = require("gulp-uglify");
 var eslint = require("gulp-eslint");
+var rollup = require("gulp-rollup");
 var rename = require("gulp-rename");
 var babel = require("gulp-babel");
-var rollup = require("gulp-rollup");
+var uglify = require("gulp-uglify");
+
 var destFolder = "./dist";
 
 gulp.task("default", function () {
@@ -24,7 +25,7 @@ gulp.task("default", function () {
         // ----------- babelizing --------------
         .pipe(babel())
         .pipe(rename("lazyload.js"))
-        .pipe(gulp.dest(destFolder)) // --> writing babelized
+        .pipe(gulp.dest(destFolder)) // --> writing babelized ES5
         // ----------- minifying --------------
         .pipe(uglify())
         .pipe(rename("lazyload.min.js"))

@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.3.6
+
+Fixed tests to match dataset revert made in 10.3 and 8.2 (oopsy).
+
 #### 10.3.5
 
 Fixed a bug that could occur on older versions of IE when trying to access an image's parent node.
