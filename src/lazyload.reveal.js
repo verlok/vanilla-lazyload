@@ -37,6 +37,7 @@ const onEvent = function (event, success, settings) {
 }
 
 export default function (element, settings) {
+    callCallback(settings.callback_enter, element);
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
         addOneShotListeners(element, settings);
         addClass(element, settings.class_loading);
