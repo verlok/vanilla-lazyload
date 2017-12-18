@@ -9,5 +9,6 @@ export default {
     class_error: "error",
     callback_load: null,
     callback_error: null,
-    callback_set: null
+    callback_set: null,
+    callback_enter: null
 };

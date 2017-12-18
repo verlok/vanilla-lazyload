@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.4.0
+
+Added the `callback_enter` callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
+
 #### 10.3.6
 
 Fixed tests to match dataset revert made in 10.3 and 8.2 (oopsy).
