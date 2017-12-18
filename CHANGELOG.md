@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.4.0
+
+Added the `callback_enter` callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
+
 #### 10.3.6
 
 Fixed tests to match dataset revert made in 10.3 and 8.2 (oopsy).
@@ -62,9 +66,13 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.5.2
+
+Fixed a bug that could occur on older versions of IE when trying to access an image's parent node.
+
 #### 8.5.1
 
-Fixed a CustomEvent bug which occured on IE when using async object initialization
+Fixed a CustomEvent bug which occured on IE when using async object initialization.
 
 #### 8.5.0
 
