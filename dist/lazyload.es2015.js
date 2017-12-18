@@ -67,7 +67,7 @@ var autoInitialize = function (classObj, options) {
 
 const setSourcesForPicture = function (element, settings) {
     const {data_srcset: dataSrcSet} = settings;
-    const parent = element.parentElement;
+    const parent = element.parentNode;
     if (parent.tagName !== "PICTURE") {
         return;
     }

@@ -2,6 +2,18 @@
 
 ## Version 10
 
+#### 10.3.6
+
+Fixed tests to match dataset revert made in 10.3 and 8.2 (oopsy).
+
+#### 10.3.5
+
+Fixed a bug that could occur on older versions of IE when trying to access an image's parent node.
+
+#### 10.3.4
+
+Fixed a CustomEvent bug which occurred on IE when using async object initialization.
+
 #### 10.3.3
 
 Fixed `supportsClassList` test to work even when the `document` object isn't yet there. Thanks to @Spone and his pull request #145.
@@ -50,9 +62,13 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.5.2
+
+Fixed a bug that could occur on older versions of IE when trying to access an image's parent node.
+
 #### 8.5.1
 
-Fixed a CustomEvent bug which occured on IE when using async object initialization
+Fixed a CustomEvent bug which occured on IE when using async object initialization.
 
 #### 8.5.0
 

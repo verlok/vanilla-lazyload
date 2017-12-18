@@ -2,7 +2,7 @@ import {getData} from "./lazyload.data";
 
 export const setSourcesForPicture = function (element, settings) {
     const {data_srcset: dataSrcSet} = settings;
-    const parent = element.parentElement;
+    const parent = element.parentNode;
     if (parent.tagName !== "PICTURE") {
         return;
     }
