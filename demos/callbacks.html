@@ -171,6 +171,9 @@
 		}
 
 		ll = new LazyLoad({
+			callback_enter: function (element) {
+				logElementEvent("ENTERED", element);
+			},
 			callback_load: function (element) {
 				logElementEvent("LOADED", element);
 			},
