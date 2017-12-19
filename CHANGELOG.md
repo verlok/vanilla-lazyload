@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.4.1
+
+Updated `dist` folder.
+
 #### 10.4.0
 
 Added the `callback_enter` callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
