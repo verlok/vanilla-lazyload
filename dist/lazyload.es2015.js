@@ -15,7 +15,8 @@ var defaultSettings = {
     class_error: "error",
     callback_load: null,
     callback_error: null,
-    callback_set: null
+    callback_set: null,
+    callback_enter: null
 };
 
 const dataPrefix = "data-";
@@ -160,6 +161,7 @@ const onEvent = function (event, success, settings) {
 };
 
 var revealElement = function (element, settings) {
+    callCallback(settings.callback_enter, element);
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
         addOneShotListeners(element, settings);
         addClass(element, settings.class_loading);
