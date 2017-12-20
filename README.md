@@ -483,9 +483,10 @@ Here's the list of the options.
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements when the element causes an error | `"error"` |
+| `callback_enter` | A function to be called when the DOM element enters the viewport. | `null` |
+| `callback_set` | A function to be called after the src of an image is set in the DOM. | `null` |
 | `callback_load` | A function to be called when an element was loaded. | `null` |
 | `callback_error` | A function to be called when an element triggers an error. | `null` |
-| `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
 
 ### Methods
 
