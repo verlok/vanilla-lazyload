@@ -13,5 +13,6 @@ export default {
     callback_load: null,
     callback_error: null,
     callback_set: null,
-    callback_processed: null
+    callback_processed: null,
+    callback_enter: null
 };
