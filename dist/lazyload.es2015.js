@@ -19,7 +19,8 @@ var defaultSettings = {
     callback_load: null,
     callback_error: null,
     callback_set: null,
-    callback_processed: null
+    callback_processed: null,
+    callback_enter: null
 };
 
 const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
@@ -213,18 +214,16 @@ LazyLoad.prototype = {
             addClass(element, settings.class_loaded);
             element.removeEventListener("load", loadCallback);
             element.removeEventListener("error", errorCallback);
-            /* Calling LOAD callback */
             callCallback(settings.callback_load, element);
         };
 
+        callCallback(settings.callback_enter, element);
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             element.addEventListener("load", loadCallback);
             element.addEventListener("error", errorCallback);
-            addClass(element, settings.class_loading);
+            addClass(element, settings.class_loading); 
         }
-
         setSources(element, settings.data_srcset, settings.data_src);
-        /* Calling SET callback */
         callCallback(settings.callback_set, element);
     },
 
@@ -257,7 +256,6 @@ LazyLoad.prototype = {
         /* Removing processed elements from this._elements. */
         while (processedIndexes.length) {
             elements.splice(processedIndexes.pop(), 1);
-            /* Calling the end loop callback */
             callCallback(settings.callback_processed, elements.length);
         }
         /* Stop listening to scroll event when 0 elements remains */
