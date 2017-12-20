@@ -70,6 +70,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.6.0
+
+Added the callback_enter callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
+
 #### 8.5.2
 
 Fixed a bug that could occur on older versions of IE when trying to access an image's parent node.
