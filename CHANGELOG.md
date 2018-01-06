@@ -70,6 +70,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.6.0
+
+Added the callback_enter callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
+
 #### 8.5.2
 
 Fixed a bug that could occur on older versions of IE when trying to access an image's parent node.
@@ -135,6 +139,56 @@ Bug fixes:
 
 Source code converted to ES2015 modules, bundled with [rollup.js](https://rollupjs.org/) and transpiled with [babel](https://babeljs.io/).
 
+## Version 6
+
+#### 6.3.x
+
+Added the class initial to all images (or iframes) inside the viewport at the moment of script initialization
+
+#### 6.2.x
+
+* Added the ability to load LazyLoad using an async script
+
+#### 6.1.x
+
+SEO improvements for lazily loaded images
+
+#### 6.0.x
+
+* Source code migrated to ES6 / ES2015
+* Serving both minified ES6 version and minified transpiled-to-ES5 version
+
+## Version 5
+
+* Exposed private functions for test coverage
+* Test coverage
+
+## Version 4
+
+* Lighter constructor
+* Performance improvements
+* Bugfix: null on background images
+* Removed code for legacy browsers - now supporting IE10+
+
+## Version 3
+
+* Added support to the picture tag
+* Removed the "show image only when fully loaded" mode
+  * Dumped the show_while_loading and placeholder options
+
+## Version 2
+
+* Added support to lazily load iframes and background images
+* Added error management callback and error class option
+* Performance improvements
+
+## Version 1
+
+* Added support to the srcset attribute for images
+* Added typescript typings + updated dist folder files
+* Performance improvements
+* Stable release of LazyLoad
+
 ---
 
-_Wanna go back and back in time? Take a look at the [release history](https://github.com/verlok/lazyload/releases) on GitHub_!
+_Want more detail? Take a look at the [release history](https://github.com/verlok/lazyload/releases) on GitHub_!
