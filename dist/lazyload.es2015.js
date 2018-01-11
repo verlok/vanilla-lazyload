@@ -33,10 +33,8 @@ const getTopOffset = function (element) {
     return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
 };
 
-const isBelowViewport = function (element, container, threshold) {
-    const fold = (container === window) ?
-        window.innerHeight + window.pageYOffset :
-        getTopOffset(container) + container.offsetHeight;
+const isBelowViewport = function (element, threshold) {
+    const fold = window.innerHeight + window.pageYOffset;
     return fold <= getTopOffset(element) - threshold;
 };
 
@@ -44,29 +42,27 @@ const getLeftOffset = function (element) {
     return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
 };
 
-const isAtRightOfViewport = function (element, container, threshold) {
+const isAtRightOfViewport = function (element, threshold) {
     const documentWidth = window.innerWidth;
-    const fold = (container === window) ?
-        documentWidth + window.pageXOffset :
-        getLeftOffset(container) + documentWidth;
+    const fold = documentWidth + window.pageXOffset;
     return fold <= getLeftOffset(element) - threshold;
 };
 
-const isAboveViewport = function (element, container, threshold) {
-    const fold = (container === window) ? window.pageYOffset : getTopOffset(container);
+const isAboveViewport = function (element, threshold) {
+    const fold = window.pageYOffset;
     return fold >= getTopOffset(element) + threshold + element.offsetHeight;
 };
 
-const isAtLeftOfViewport = function (element, container, threshold) {
-    const fold = (container === window) ? window.pageXOffset : getLeftOffset(container);
+const isAtLeftOfViewport = function (element, threshold) {
+    const fold = window.pageXOffset;
     return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
 };
 
-var isInsideViewport = function (element, container, threshold) {
-    return !isBelowViewport(element, container, threshold) &&
-        !isAboveViewport(element, container, threshold) &&
-        !isAtRightOfViewport(element, container, threshold) &&
-        !isAtLeftOfViewport(element, container, threshold);
+var isInsideViewport = function (element, threshold) {
+    return !isBelowViewport(element, threshold) &&
+        !isAboveViewport(element, threshold) &&
+        !isAtRightOfViewport(element, threshold) &&
+        !isAtLeftOfViewport(element, threshold);
 };
 
 /* Creates instance and notifies it through the window element */
@@ -221,7 +217,7 @@ LazyLoad.prototype = {
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             element.addEventListener("load", loadCallback);
             element.addEventListener("error", errorCallback);
-            addClass(element, settings.class_loading); 
+            addClass(element, settings.class_loading);
         }
         setSources(element, settings.data_srcset, settings.data_src);
         callCallback(settings.callback_set, element);
@@ -242,7 +238,7 @@ LazyLoad.prototype = {
                 continue;
             }
             
-            if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
+            if (isBot || isInsideViewport(element, settings.threshold)) {
                 if (firstLoop) {
                     addClass(element, settings.class_initial);
                 }

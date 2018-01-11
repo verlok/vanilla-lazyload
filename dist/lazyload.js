@@ -38,8 +38,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
     };
 
-    var isBelowViewport = function isBelowViewport(element, container, threshold) {
-        var fold = container === window ? window.innerHeight + window.pageYOffset : getTopOffset(container) + container.offsetHeight;
+    var isBelowViewport = function isBelowViewport(element, threshold) {
+        var fold = window.innerHeight + window.pageYOffset;
         return fold <= getTopOffset(element) - threshold;
     };
 
@@ -47,24 +47,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
     };
 
-    var isAtRightOfViewport = function isAtRightOfViewport(element, container, threshold) {
+    var isAtRightOfViewport = function isAtRightOfViewport(element, threshold) {
         var documentWidth = window.innerWidth;
-        var fold = container === window ? documentWidth + window.pageXOffset : getLeftOffset(container) + documentWidth;
+        var fold = documentWidth + window.pageXOffset;
         return fold <= getLeftOffset(element) - threshold;
     };
 
-    var isAboveViewport = function isAboveViewport(element, container, threshold) {
-        var fold = container === window ? window.pageYOffset : getTopOffset(container);
+    var isAboveViewport = function isAboveViewport(element, threshold) {
+        var fold = window.pageYOffset;
         return fold >= getTopOffset(element) + threshold + element.offsetHeight;
     };
 
-    var isAtLeftOfViewport = function isAtLeftOfViewport(element, container, threshold) {
-        var fold = container === window ? window.pageXOffset : getLeftOffset(container);
+    var isAtLeftOfViewport = function isAtLeftOfViewport(element, threshold) {
+        var fold = window.pageXOffset;
         return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
     };
 
-    var isInsideViewport = function isInsideViewport(element, container, threshold) {
-        return !isBelowViewport(element, container, threshold) && !isAboveViewport(element, container, threshold) && !isAtRightOfViewport(element, container, threshold) && !isAtLeftOfViewport(element, container, threshold);
+    var isInsideViewport = function isInsideViewport(element, threshold) {
+        return !isBelowViewport(element, threshold) && !isAboveViewport(element, threshold) && !isAtRightOfViewport(element, threshold) && !isAtLeftOfViewport(element, threshold);
     };
 
     /* Creates instance and notifies it through the window element */
@@ -242,7 +242,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     continue;
                 }
 
-                if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
+                if (isBot || isInsideViewport(element, settings.threshold)) {
                     if (firstLoop) {
                         addClass(element, settings.class_initial);
                     }
