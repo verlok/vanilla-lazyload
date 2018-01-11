@@ -77,7 +77,7 @@ LazyLoad.prototype = {
                 continue;
             }
             
-            if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
+            if (isBot || isInsideViewport(element, settings.threshold)) {
                 if (firstLoop) {
                     addClass(element, settings.class_initial);
                 }
