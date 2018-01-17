@@ -186,10 +186,12 @@ LazyLoad.prototype = {
         const settings = this._settings;
         const onIntersection = (entries) => {
             entries.forEach((entry) => {
-                if (entry.intersectionRatio > 0) {
+                // entry.isIntersecting is null on some versions of MS Edge
+                // entry.intersectionRatio can be 0 on some intersecting elements
+                if (entry.isIntersecting || entry.intersectionRatio > 0) {
                     let element = entry.target;
                     revealElement(element, settings);
-                    this._observer.unobserve(element);    
+                    this._observer.unobserve(element);
                 }
             });
             this._elements = purgeElements(this._elements);
