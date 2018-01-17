@@ -17,7 +17,7 @@ gulp.task("default", function () {
         // ----------- rolling up --------------
         .pipe(rollup({
             format: "umd",
-            moduleName: "LazyLoad",
+            name: "LazyLoad",
             entry: "./src/lazyload.js"
         }))
         .pipe(rename("lazyload.es2015.js"))

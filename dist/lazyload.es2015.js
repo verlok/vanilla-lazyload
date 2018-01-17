@@ -173,6 +173,7 @@ var revealElement = function (element, settings) {
 
 const LazyLoad = function (instanceSettings, elements) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
+    this._initialized = false;
     this._setObserver();
     this.update(elements);
 };
@@ -186,7 +187,7 @@ LazyLoad.prototype = {
         const settings = this._settings;
         const onIntersection = (entries) => {
             entries.forEach((entry) => {
-                if (entry.intersectionRatio > 0) {
+                if (this._initialized && entry.intersectionRatio >= 0) {
                     let element = entry.target;
                     revealElement(element, settings);
                     this._observer.unobserve(element);    
