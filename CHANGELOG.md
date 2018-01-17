@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.4.2
+
+Fixed a bug for which sometimes images wouldn't reveal on Chrome 65 (see issue #165).
+
 #### 10.4.1
 
 Updated `dist` folder.
