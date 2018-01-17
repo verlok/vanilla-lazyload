@@ -194,7 +194,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var settings = this._settings;
             var onIntersection = function onIntersection(entries) {
                 entries.forEach(function (entry) {
-                    if (_this._initialized || entry.intersectionRatio > 0) {
+                    if (_this._initialized && entry.intersectionRatio >= 0) {
                         var element = entry.target;
                         revealElement(element, settings);
                         _this._observer.unobserve(element);

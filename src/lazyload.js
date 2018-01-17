@@ -19,7 +19,7 @@ LazyLoad.prototype = {
         const settings = this._settings;
         const onIntersection = (entries) => {
             entries.forEach((entry) => {
-                if (this._initialized || entry.intersectionRatio > 0) {
+                if (this._initialized && entry.intersectionRatio >= 0) {
                     let element = entry.target;
                     revealElement(element, settings);
                     this._observer.unobserve(element);    
