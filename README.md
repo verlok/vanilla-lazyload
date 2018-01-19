@@ -50,10 +50,10 @@ If you prefer to install LazyLoad locally in your project, you can either:
   The file you typically want to use is `lazyload.min.js`
   If you prefer the ES2015 version, use `lazyload.es2015.js`
 - **install it with npm**
-  Recommended version `npm install vanilla-lazyload@8.2.0`   
+  Recommended version `npm install vanilla-lazyload@8.6.0`   
   Latest version `npm install vanilla-lazyload`
 - **install it with bower**
-  Recommended version `bower install vanilla-lazyload#8.2.0`
+  Recommended version `bower install vanilla-lazyload#8.6.0`
   Latest version `bower install vanilla-lazyload`
   
 ### Async script
