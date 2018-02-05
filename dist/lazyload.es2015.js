@@ -29,11 +29,11 @@ const setData = (element, attribute, value) => {
     return element.setAttribute(dataPrefix + attribute, value);
 };
 
-var purgeElements = function (elements) {
+function purgeElements (elements) {
     return elements.filter((element) => {
         return !getData(element, "was-processed");
     });
-};
+}
 
 /* Creates instance and notifies it through the window element */
 const createInstance = function (classObj, options) { 
@@ -54,7 +54,7 @@ const createInstance = function (classObj, options) {
 
 /* Auto initialization of one or more instances of lazyload, depending on the 
     options passed in (plain object or an array) */
-var autoInitialize = function (classObj, options) {
+function autoInitialize (classObj, options) {
     if (!options.length) {
         // Plain object
         createInstance(classObj, options);
@@ -64,7 +64,7 @@ var autoInitialize = function (classObj, options) {
             createInstance(classObj, optionsItem);
         }
     }
-};
+}
 
 const setSourcesForPicture = function (element, settings) {
     const {data_srcset: dataSrcSet} = settings;
@@ -160,7 +160,7 @@ const onEvent = function (event, success, settings) {
     callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
 };
 
-var revealElement = function (element, settings) {
+function revealElement (element, settings) {
     callCallback(settings.callback_enter, element);
     if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
         addOneShotListeners(element, settings);
@@ -169,7 +169,7 @@ var revealElement = function (element, settings) {
     setSources(element, settings);
     setData(element, "was-processed", true);
     callCallback(settings.callback_set, element);
-};
+}
 
 const LazyLoad = function (instanceSettings, elements) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
@@ -178,25 +178,25 @@ const LazyLoad = function (instanceSettings, elements) {
 };
 
 LazyLoad.prototype = {
+    _onIntersection: function(entries) {
+        entries.forEach(entry => {
+            // entry.isIntersecting is null on some versions of MS Edge
+            // entry.intersectionRatio can be 0 on some intersecting elements
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                let element = entry.target;
+                revealElement(element, this._settings);
+                this._observer.unobserve(element);
+            }
+        });
+        this._elements = purgeElements(this._elements);
+    },
+
     _setObserver: function () {
         if (!("IntersectionObserver" in window)) {
             return;
         }
-
         const settings = this._settings;
-        const onIntersection = (entries) => {
-            entries.forEach((entry) => {
-                // entry.isIntersecting is null on some versions of MS Edge
-                // entry.intersectionRatio can be 0 on some intersecting elements
-                if (entry.isIntersecting || entry.intersectionRatio > 0) {
-                    let element = entry.target;
-                    revealElement(element, settings);
-                    this._observer.unobserve(element);
-                }
-            });
-            this._elements = purgeElements(this._elements);
-        };
-        this._observer = new IntersectionObserver(onIntersection, {
+        this._observer = new IntersectionObserver(this._onIntersection.bind(this), {
             root: settings.container === document ? null : settings.container,
             rootMargin: settings.threshold + "px"
         });

@@ -28,7 +28,7 @@ LazyLoad.prototype = {
             return;
         }
         const settings = this._settings;
-        this._observer = new IntersectionObserver(this._onIntersection, {
+        this._observer = new IntersectionObserver(this._onIntersection.bind(this), {
             root: settings.container === document ? null : settings.container,
             rootMargin: settings.threshold + "px"
         });

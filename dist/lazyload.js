@@ -32,11 +32,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return element.setAttribute(dataPrefix + attribute, value);
     };
 
-    var purgeElements = function purgeElements(elements) {
+    function purgeElements(elements) {
         return elements.filter(function (element) {
             return !getData(element, "was-processed");
         });
-    };
+    }
 
     /* Creates instance and notifies it through the window element */
     var createInstance = function createInstance(classObj, options) {
@@ -56,7 +56,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
         options passed in (plain object or an array) */
-    var autoInitialize = function autoInitialize(classObj, options) {
+    function autoInitialize(classObj, options) {
         if (!options.length) {
             // Plain object
             createInstance(classObj, options);
@@ -66,7 +66,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 createInstance(classObj, optionsItem);
             }
         }
-    };
+    }
 
     var setSourcesForPicture = function setSourcesForPicture(element, settings) {
         var dataSrcSet = settings.data_srcset;
@@ -165,7 +165,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
     };
 
-    var revealElement = function revealElement(element, settings) {
+    function revealElement(element, settings) {
         callCallback(settings.callback_enter, element);
         if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
             addOneShotListeners(element, settings);
@@ -174,7 +174,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         setSources(element, settings);
         setData(element, "was-processed", true);
         callCallback(settings.callback_set, element);
-    };
+    }
 
     var LazyLoad = function LazyLoad(instanceSettings, elements) {
         this._settings = _extends({}, defaultSettings, instanceSettings);
@@ -183,27 +183,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     LazyLoad.prototype = {
-        _setObserver: function _setObserver() {
+        _onIntersection: function _onIntersection(entries) {
             var _this = this;
 
+            entries.forEach(function (entry) {
+                // entry.isIntersecting is null on some versions of MS Edge
+                // entry.intersectionRatio can be 0 on some intersecting elements
+                if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                    var element = entry.target;
+                    revealElement(element, _this._settings);
+                    _this._observer.unobserve(element);
+                }
+            });
+            this._elements = purgeElements(this._elements);
+        },
+
+        _setObserver: function _setObserver() {
             if (!("IntersectionObserver" in window)) {
                 return;
             }
-
             var settings = this._settings;
-            var onIntersection = function onIntersection(entries) {
-                entries.forEach(function (entry) {
-                    // entry.isIntersecting is null on some versions of MS Edge
-                    // entry.intersectionRatio can be 0 on some intersecting elements
-                    if (entry.isIntersecting || entry.intersectionRatio > 0) {
-                        var element = entry.target;
-                        revealElement(element, settings);
-                        _this._observer.unobserve(element);
-                    }
-                });
-                _this._elements = purgeElements(_this._elements);
-            };
-            this._observer = new IntersectionObserver(onIntersection, {
+            this._observer = new IntersectionObserver(this._onIntersection.bind(this), {
                 root: settings.container === document ? null : settings.container,
                 rootMargin: settings.threshold + "px"
             });
