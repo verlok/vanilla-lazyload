@@ -10,25 +10,25 @@ const LazyLoad = function (instanceSettings, elements) {
 };
 
 LazyLoad.prototype = {
+    _onIntersection: function(entries) {
+        entries.forEach(entry => {
+            // entry.isIntersecting is null on some versions of MS Edge
+            // entry.intersectionRatio can be 0 on some intersecting elements
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                let element = entry.target;
+                revealElement(element, this._settings);
+                this._observer.unobserve(element);
+            }
+        });
+        this._elements = purgeElements(this._elements);
+    },
+
     _setObserver: function () {
         if (!("IntersectionObserver" in window)) {
             return;
         }
-
         const settings = this._settings;
-        const onIntersection = (entries) => {
-            entries.forEach((entry) => {
-                // entry.isIntersecting is null on some versions of MS Edge
-                // entry.intersectionRatio can be 0 on some intersecting elements
-                if (entry.isIntersecting || entry.intersectionRatio > 0) {
-                    let element = entry.target;
-                    revealElement(element, settings);
-                    this._observer.unobserve(element);
-                }
-            });
-            this._elements = purgeElements(this._elements);
-        };
-        this._observer = new IntersectionObserver(onIntersection, {
+        this._observer = new IntersectionObserver(this._onIntersection, {
             root: settings.container === document ? null : settings.container,
             rootMargin: settings.threshold + "px"
         });
