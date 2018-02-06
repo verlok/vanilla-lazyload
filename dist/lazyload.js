@@ -32,11 +32,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return element.setAttribute(dataPrefix + attribute, value);
     };
 
-    function purgeElements(elements) {
+    var purgeElements = function purgeElements(elements) {
         return elements.filter(function (element) {
             return !getData(element, "was-processed");
         });
-    }
+    };
 
     /* Creates instance and notifies it through the window element */
     var createInstance = function createInstance(classObj, options) {
@@ -56,7 +56,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
         options passed in (plain object or an array) */
-    function autoInitialize(classObj, options) {
+    var autoInitialize = function autoInitialize(classObj, options) {
         if (!options.length) {
             // Plain object
             createInstance(classObj, options);
@@ -66,7 +66,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 createInstance(classObj, optionsItem);
             }
         }
-    }
+    };
 
     var setSourcesForPicture = function setSourcesForPicture(element, settings) {
         var dataSrcSet = settings.data_srcset;
@@ -165,7 +165,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
     };
 
-    function revealElement(element, settings) {
+    var revealElement = function revealElement(element, settings) {
         callCallback(settings.callback_enter, element);
         if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
             addOneShotListeners(element, settings);
@@ -174,7 +174,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         setSources(element, settings);
         setData(element, "was-processed", true);
         callCallback(settings.callback_set, element);
-    }
+    };
+
+    var intersectionObserverSupport = "IntersectionObserver" in window;
 
     var LazyLoad = function LazyLoad(instanceSettings, elements) {
         this._settings = _extends({}, defaultSettings, instanceSettings);
@@ -182,28 +184,31 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         this.update(elements);
     };
 
+    /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
+       entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
+    var isIntersecting = function isIntersecting(element) {
+        return element.isIntersecting || element.intersectionRatio > 0;
+    };
+
     LazyLoad.prototype = {
-        _onIntersection: function _onIntersection(entries) {
+        _setObserver: function _setObserver() {
             var _this = this;
 
-            entries.forEach(function (entry) {
-                // entry.isIntersecting is null on some versions of MS Edge
-                // entry.intersectionRatio can be 0 on some intersecting elements
-                if (entry.isIntersecting || entry.intersectionRatio > 0) {
-                    var element = entry.target;
-                    revealElement(element, _this._settings);
-                    _this._observer.unobserve(element);
-                }
-            });
-            this._elements = purgeElements(this._elements);
-        },
-
-        _setObserver: function _setObserver() {
-            if (!("IntersectionObserver" in window)) {
+            if (!intersectionObserverSupport) {
                 return;
             }
             var settings = this._settings;
-            this._observer = new IntersectionObserver(this._onIntersection.bind(this), {
+            var revealIntersectingElements = function revealIntersectingElements(entries) {
+                entries.forEach(function (entry) {
+                    if (isIntersecting(entry)) {
+                        var element = entry.target;
+                        revealElement(element, _this._settings);
+                        _this._observer.unobserve(element);
+                    }
+                });
+                _this._elements = purgeElements(_this._elements);
+            };
+            this._observer = new IntersectionObserver(revealIntersectingElements, {
                 root: settings.container === document ? null : settings.container,
                 rootMargin: settings.threshold + "px"
             });
