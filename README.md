@@ -459,8 +459,8 @@ According to what reported in #152, for Microsoft Edge to fire the IntersectionO
 By setting the following, edge is able to see the images and they get loaded.
 
 ```css
-img["data-src"],
-img["data-srcset"] {
+img[data-src],
+img[data-srcset] {
   display: block;
   min-height: 1px;
 }
