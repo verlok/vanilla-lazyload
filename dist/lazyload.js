@@ -178,16 +178,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var intersectionObserverSupport = "IntersectionObserver" in window;
 
-    var LazyLoad = function LazyLoad(instanceSettings, elements) {
-        this._settings = _extends({}, defaultSettings, instanceSettings);
-        this._setObserver();
-        this.update(elements);
-    };
-
     /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
        entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
     var isIntersecting = function isIntersecting(element) {
         return element.isIntersecting || element.intersectionRatio > 0;
+    };
+
+    var LazyLoad = function LazyLoad(instanceSettings, elements) {
+        this._settings = _extends({}, defaultSettings, instanceSettings);
+        this._setObserver();
+        this.update(elements);
     };
 
     LazyLoad.prototype = {
@@ -198,6 +198,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 return;
             }
             var settings = this._settings;
+            var observerSettings = {
+                root: settings.container === document ? null : settings.container,
+                rootMargin: settings.threshold + "px"
+            };
             var revealIntersectingElements = function revealIntersectingElements(entries) {
                 entries.forEach(function (entry) {
                     if (isIntersecting(entry)) {
@@ -208,10 +212,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 });
                 _this._elements = purgeElements(_this._elements);
             };
-            this._observer = new IntersectionObserver(revealIntersectingElements, {
-                root: settings.container === document ? null : settings.container,
-                rootMargin: settings.threshold + "px"
-            });
+            this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
         },
 
         update: function update(elements) {

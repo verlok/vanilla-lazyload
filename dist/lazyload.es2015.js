@@ -173,20 +173,24 @@ var revealElement = function (element, settings) {
 
 const intersectionObserverSupport = "IntersectionObserver" in window;
 
+/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
+   entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
+const isIntersecting = (element) => element.isIntersecting || element.intersectionRatio > 0;
+
 const LazyLoad = function (instanceSettings, elements) {
     this._settings = Object.assign({}, defaultSettings, instanceSettings);
     this._setObserver();
     this.update(elements);
 };
 
-/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
-   entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-const isIntersecting = (element) => element.isIntersecting || element.intersectionRatio > 0;
-
 LazyLoad.prototype = {
     _setObserver: function () {
         if (!intersectionObserverSupport) { return; }
         const settings = this._settings;
+        const observerSettings = {
+            root: settings.container === document ? null : settings.container,
+            rootMargin: settings.threshold + "px"
+        };
         const revealIntersectingElements = (entries) => {
             entries.forEach(entry => {
                 if (isIntersecting(entry)) {
@@ -197,10 +201,7 @@ LazyLoad.prototype = {
             });
             this._elements = purgeElements(this._elements);
         };
-        this._observer = new IntersectionObserver(revealIntersectingElements, {
-            root: settings.container === document ? null : settings.container,
-            rootMargin: settings.threshold + "px"
-        });
+        this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
     },
 
     update: function (elements) {

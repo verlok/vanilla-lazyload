@@ -14,6 +14,10 @@ LazyLoad.prototype = {
     _setObserver: function () {
         if (!intersectionObserverSupport) { return; }
         const settings = this._settings;
+        const observerSettings = {
+            root: settings.container === document ? null : settings.container,
+            rootMargin: settings.threshold + "px"
+        };
         const revealIntersectingElements = (entries) => {
             entries.forEach(entry => {
                 if (isIntersecting(entry)) {
@@ -24,10 +28,7 @@ LazyLoad.prototype = {
             });
             this._elements = purgeElements(this._elements);
         };
-        this._observer = new IntersectionObserver(revealIntersectingElements, {
-            root: settings.container === document ? null : settings.container,
-            rootMargin: settings.threshold + "px"
-        });
+        this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
     },
 
     update: function (elements) {
