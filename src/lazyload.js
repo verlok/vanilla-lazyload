@@ -1,10 +1,10 @@
-import defaultSettings from "./lazyload.defaults";
+import getDefaultSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
 
 const LazyLoad = function (instanceSettings, elements) {
-    this._settings = Object.assign({}, defaultSettings, instanceSettings);
+    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
     this._setObserver();
     this.update(elements);
 };
