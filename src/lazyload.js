@@ -64,10 +64,12 @@ LazyLoad.prototype = {
     }
 }
 
-/* Automatic instances creation if required (useful for async script loading!) */
-let autoInitOptions = window.lazyLoadOptions;
-if (autoInitOptions) {
-    autoInitialize(LazyLoad, autoInitOptions);
+if (typeof window !== "undefined") {
+    /* Automatic instances creation if required (useful for async script loading!) */
+    let autoInitOptions = window.lazyLoadOptions;
+    if (autoInitOptions) {
+        autoInitialize(LazyLoad, autoInitOptions);
+    }
 }
 
 export default LazyLoad;
