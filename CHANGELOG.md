@@ -80,6 +80,12 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.7.0
+
+Added node support by merging pull request #188, "node-support" by @klarstrup.
+
+With these changes in place, simply importing vanilla-lazyload without using it won't crash Node by itself. This is important for isomorphic/universal/server rendered setups where the same code runs on both the server and the browser.
+
 #### 8.6.0
 
 Added the callback_enter callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
