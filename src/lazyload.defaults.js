@@ -1,4 +1,4 @@
-export default {
+export default () => ({
     elements_selector: "img",
     container: window,
     threshold: 300,
@@ -15,4 +15,4 @@ export default {
     callback_set: null,
     callback_processed: null,
     callback_enter: null
-};
+});
