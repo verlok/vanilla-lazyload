@@ -7,23 +7,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
     'use strict';
 
-    var defaultSettings = {
-        elements_selector: "img",
-        container: window,
-        threshold: 300,
-        throttle: 150,
-        data_src: "src",
-        data_srcset: "srcset",
-        class_loading: "loading",
-        class_loaded: "loaded",
-        class_error: "error",
-        class_initial: "initial",
-        skip_invisible: true,
-        callback_load: null,
-        callback_error: null,
-        callback_set: null,
-        callback_processed: null,
-        callback_enter: null
+    var getDefaultSettings = function getDefaultSettings() {
+        return {
+            elements_selector: "img",
+            container: window,
+            threshold: 300,
+            throttle: 150,
+            data_src: "src",
+            data_srcset: "srcset",
+            class_loading: "loading",
+            class_loaded: "loaded",
+            class_error: "error",
+            class_initial: "initial",
+            skip_invisible: true,
+            callback_load: null,
+            callback_error: null,
+            callback_set: null,
+            callback_processed: null,
+            callback_enter: null
+        };
     };
 
     var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
@@ -149,7 +151,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var supportsClassList = "classList" in document.createElement("p");
+    var runningOnBrowser = typeof window !== "undefined";
+
+    var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
     var addClass = function addClass(element, className) {
         if (supportsClassList) {
@@ -172,7 +176,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      */
 
     var LazyLoad = function LazyLoad(instanceSettings) {
-        this._settings = _extends({}, defaultSettings, instanceSettings);
+        this._settings = _extends({}, getDefaultSettings(), instanceSettings);
         this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
         this._previousLoopTime = 0;
@@ -353,7 +357,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /* Automatic instances creation if required (useful for async script loading!) */
     var autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) {
+    if (runningOnBrowser && autoInitOptions) {
         autoInitialize(LazyLoad, autoInitOptions);
     }
 

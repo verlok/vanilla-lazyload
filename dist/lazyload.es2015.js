@@ -4,7 +4,7 @@
 	(global.LazyLoad = factory());
 }(this, (function () { 'use strict';
 
-var defaultSettings = {
+var getDefaultSettings = () => ({
     elements_selector: "img",
     container: window,
     threshold: 300,
@@ -21,7 +21,7 @@ var defaultSettings = {
     callback_set: null,
     callback_processed: null,
     callback_enter: null
-};
+});
 
 const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
@@ -153,7 +153,9 @@ var setSources = function (element, srcsetDataAttribute, srcDataAttribute) {
     }
 };
 
-const supportsClassList = "classList" in document.createElement("p");
+const runningOnBrowser = (typeof window !== "undefined");
+
+const supportsClassList = runningOnBrowser && ("classList" in document.createElement("p"));
 
 const addClass = (element, className) => {
     if (supportsClassList) {
@@ -176,7 +178,7 @@ const removeClass = (element, className) => {
  */
 
 const LazyLoad = function(instanceSettings) {
-    this._settings = Object.assign({}, defaultSettings, instanceSettings);
+    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
     this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
     
     this._previousLoopTime = 0;
@@ -221,7 +223,7 @@ LazyLoad.prototype = {
         if (element.tagName === "IMG" || element.tagName === "IFRAME") {
             element.addEventListener("load", loadCallback);
             element.addEventListener("error", errorCallback);
-            addClass(element, settings.class_loading); 
+            addClass(element, settings.class_loading);
         }
         setSources(element, settings.data_srcset, settings.data_src);
         callCallback(settings.callback_set, element);
@@ -353,7 +355,7 @@ LazyLoad.prototype = {
 
 /* Automatic instances creation if required (useful for async script loading!) */
 let autoInitOptions = window.lazyLoadOptions;
-if (autoInitOptions) { 
+if (runningOnBrowser && autoInitOptions) { 
     autoInitialize(LazyLoad, autoInitOptions);
 }
 

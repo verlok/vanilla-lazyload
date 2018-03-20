@@ -1,17 +1,18 @@
-import defaultSettings from "./lazyload.defaults";
+import getDefaultSettings from "./lazyload.defaults";
 import {isBot, callCallback} from "./lazyload.utils";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
 import setSources from "./lazyload.setSources";
 import {addClass, removeClass} from "./lazyload.class";
 import {getData, setData} from "./lazyload.data";
+import {runningOnBrowser} from "./lazyload.environment";
 
 /*
  * Constructor
  */
 
 const LazyLoad = function(instanceSettings) {
-    this._settings = Object.assign({}, defaultSettings, instanceSettings);
+    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
     this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
     
     this._previousLoopTime = 0;
@@ -188,7 +189,7 @@ LazyLoad.prototype = {
 
 /* Automatic instances creation if required (useful for async script loading!) */
 let autoInitOptions = window.lazyLoadOptions;
-if (autoInitOptions) { 
+if (runningOnBrowser && autoInitOptions) { 
     autoInitialize(LazyLoad, autoInitOptions);
 }
 
