@@ -2,6 +2,12 @@
 
 ## Version 10
 
+#### 10.5.0
+
+Added node support by merging pull request #188, "node-support" by @klarstrup.
+
+With these changes in place, simply importing vanilla-lazyload without using it won't crash Node by itself. This is important for isomorphic/universal/server rendered setups where the same code runs on both the server and the browser.
+
 #### 10.4.2
 
 Fixed a bug for which sometimes images wouldn't reveal on Chrome 65 (see issue #165).

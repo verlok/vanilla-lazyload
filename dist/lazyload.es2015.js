@@ -4,7 +4,7 @@
 	(global.LazyLoad = factory());
 }(this, (function () { 'use strict';
 
-var defaultSettings = {
+var getDefaultSettings = () => ({
     elements_selector: "img",
     container: document,
     threshold: 300,
@@ -17,7 +17,7 @@ var defaultSettings = {
     callback_error: null,
     callback_set: null,
     callback_enter: null
-};
+});
 
 const dataPrefix = "data-";
 
@@ -108,7 +108,11 @@ const setSources = function (element, settings) {
     }
 };
 
-const supportsClassList = "classList" in document.createElement("p");
+const runningOnBrowser = (typeof window !== "undefined");
+
+const supportsIntersectionObserver = runningOnBrowser && ("IntersectionObserver" in window);
+
+const supportsClassList = runningOnBrowser && ("classList" in document.createElement("p"));
 
 const addClass = (element, className) => {
     if (supportsClassList) {
@@ -172,14 +176,14 @@ var revealElement = function (element, settings) {
 };
 
 const LazyLoad = function (instanceSettings, elements) {
-    this._settings = Object.assign({}, defaultSettings, instanceSettings);
+    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
     this._setObserver();
     this.update(elements);
 };
 
 LazyLoad.prototype = {
     _setObserver: function () {
-        if (!("IntersectionObserver" in window)) {
+        if (!supportsIntersectionObserver) {
             return;
         }
 
@@ -234,7 +238,7 @@ LazyLoad.prototype = {
 
 /* Automatic instances creation if required (useful for async script loading!) */
 let autoInitOptions = window.lazyLoadOptions;
-if (autoInitOptions) {
+if (runningOnBrowser && autoInitOptions) {
     autoInitialize(LazyLoad, autoInitOptions);
 }
 

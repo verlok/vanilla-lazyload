@@ -1,4 +1,4 @@
-const supportsClassList = "classList" in document.createElement("p");
+import {supportsClassList} from "./lazyload.environment";
 
 export const addClass = (element, className) => {
     if (supportsClassList) {
