@@ -7,19 +7,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
     'use strict';
 
-    var defaultSettings = {
-        elements_selector: "img",
-        container: document,
-        threshold: 300,
-        data_src: "src",
-        data_srcset: "srcset",
-        class_loading: "loading",
-        class_loaded: "loaded",
-        class_error: "error",
-        callback_load: null,
-        callback_error: null,
-        callback_set: null,
-        callback_enter: null
+    var getDefaultSettings = function getDefaultSettings() {
+        return {
+            elements_selector: "img",
+            container: document,
+            threshold: 300,
+            data_src: "src",
+            data_srcset: "srcset",
+            class_loading: "loading",
+            class_loaded: "loaded",
+            class_error: "error",
+            callback_load: null,
+            callback_error: null,
+            callback_set: null,
+            callback_enter: null
+        };
     };
 
     var dataPrefix = "data-";
@@ -113,7 +115,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var supportsClassList = "classList" in document.createElement("p");
+    var runningOnBrowser = typeof window !== "undefined";
+
+    var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+
+    var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
     var addClass = function addClass(element, className) {
         if (supportsClassList) {
@@ -176,8 +182,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callCallback(settings.callback_set, element);
     };
 
-    var intersectionObserverSupport = "IntersectionObserver" in window;
-
     /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
        entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
     var isIntersecting = function isIntersecting(element) {
@@ -185,7 +189,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var LazyLoad = function LazyLoad(instanceSettings, elements) {
-        this._settings = _extends({}, defaultSettings, instanceSettings);
+        this._settings = _extends({}, getDefaultSettings(), instanceSettings);
         this._setObserver();
         this.update(elements);
     };
@@ -194,9 +198,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         _setObserver: function _setObserver() {
             var _this = this;
 
-            if (!intersectionObserverSupport) {
+            if (!supportsIntersectionObserver) {
                 return;
             }
+
             var settings = this._settings;
             var observerSettings = {
                 root: settings.container === document ? null : settings.container,
@@ -251,7 +256,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /* Automatic instances creation if required (useful for async script loading!) */
     var autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) {
+    if (runningOnBrowser && autoInitOptions) {
         autoInitialize(LazyLoad, autoInitOptions);
     }
 
