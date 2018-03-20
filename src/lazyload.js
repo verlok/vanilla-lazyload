@@ -1,11 +1,12 @@
-import getDefaultSettings from "./lazyload.defaults";
+import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
+import {intersectionObserverSupport, isIntersecting} from "./lazyload.intersectionObserver";
 import {runningOnBrowser, supportsIntersectionObserver} from "./lazyload.environment";
 
-const LazyLoad = function (instanceSettings, elements) {
-    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
+const LazyLoad = function (customSettings, elements) {
+    this._settings = getInstanceSettings(customSettings);
     this._setObserver();
     this.update(elements);
 };
@@ -17,22 +18,21 @@ LazyLoad.prototype = {
         }
 
         const settings = this._settings;
-        const onIntersection = (entries) => {
-            entries.forEach((entry) => {
-                // entry.isIntersecting is null on some versions of MS Edge
-                // entry.intersectionRatio can be 0 on some intersecting elements
-                if (entry.isIntersecting || entry.intersectionRatio > 0) {
+        const observerSettings = {
+            root: settings.container === document ? null : settings.container,
+            rootMargin: settings.threshold + "px"
+        };
+        const revealIntersectingElements = (entries) => {
+            entries.forEach(entry => {
+                if (isIntersecting(entry)) {
                     let element = entry.target;
-                    revealElement(element, settings);
+                    revealElement(element, this._settings);
                     this._observer.unobserve(element);
                 }
             });
             this._elements = purgeElements(this._elements);
         };
-        this._observer = new IntersectionObserver(onIntersection, {
-            root: settings.container === document ? null : settings.container,
-            rootMargin: settings.threshold + "px"
-        });
+        this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
     },
 
     update: function (elements) {

@@ -4,20 +4,24 @@
 	(global.LazyLoad = factory());
 }(this, (function () { 'use strict';
 
-var getDefaultSettings = () => ({
-    elements_selector: "img",
-    container: document,
-    threshold: 300,
-    data_src: "src",
-    data_srcset: "srcset",
-    class_loading: "loading",
-    class_loaded: "loaded",
-    class_error: "error",
-    callback_load: null,
-    callback_error: null,
-    callback_set: null,
-    callback_enter: null
-});
+var getInstanceSettings = (customSettings) => {
+    const defaultSettings = {
+        elements_selector: "img",
+        container: document,
+        threshold: 300,
+        data_src: "src",
+        data_srcset: "srcset",
+        class_loading: "loading",
+        class_loaded: "loaded",
+        class_error: "error",
+        callback_load: null,
+        callback_error: null,
+        callback_set: null,
+        callback_enter: null
+    };
+
+    return Object.assign({}, defaultSettings, customSettings);
+};
 
 const dataPrefix = "data-";
 
@@ -175,8 +179,12 @@ var revealElement = function (element, settings) {
     callCallback(settings.callback_set, element);
 };
 
-const LazyLoad = function (instanceSettings, elements) {
-    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
+/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
+   entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
+const isIntersecting = (element) => element.isIntersecting || element.intersectionRatio > 0;
+
+const LazyLoad = function (customSettings, elements) {
+    this._settings = getInstanceSettings(customSettings);
     this._setObserver();
     this.update(elements);
 };
@@ -188,22 +196,21 @@ LazyLoad.prototype = {
         }
 
         const settings = this._settings;
-        const onIntersection = (entries) => {
-            entries.forEach((entry) => {
-                // entry.isIntersecting is null on some versions of MS Edge
-                // entry.intersectionRatio can be 0 on some intersecting elements
-                if (entry.isIntersecting || entry.intersectionRatio > 0) {
+        const observerSettings = {
+            root: settings.container === document ? null : settings.container,
+            rootMargin: settings.threshold + "px"
+        };
+        const revealIntersectingElements = (entries) => {
+            entries.forEach(entry => {
+                if (isIntersecting(entry)) {
                     let element = entry.target;
-                    revealElement(element, settings);
+                    revealElement(element, this._settings);
                     this._observer.unobserve(element);
                 }
             });
             this._elements = purgeElements(this._elements);
         };
-        this._observer = new IntersectionObserver(onIntersection, {
-            root: settings.container === document ? null : settings.container,
-            rootMargin: settings.threshold + "px"
-        });
+        this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
     },
 
     update: function (elements) {

@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.5.1
+
+Just a refactoring over previous version.
+
 #### 10.5.0
 
 Added node support by merging pull request #188, "node-support" by @klarstrup.

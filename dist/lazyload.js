@@ -7,8 +7,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
     'use strict';
 
-    var getDefaultSettings = function getDefaultSettings() {
-        return {
+    var getInstanceSettings = function getInstanceSettings(customSettings) {
+        var defaultSettings = {
             elements_selector: "img",
             container: document,
             threshold: 300,
@@ -22,6 +22,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             callback_set: null,
             callback_enter: null
         };
+
+        return _extends({}, defaultSettings, customSettings);
     };
 
     var dataPrefix = "data-";
@@ -182,8 +184,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         callCallback(settings.callback_set, element);
     };
 
-    var LazyLoad = function LazyLoad(instanceSettings, elements) {
-        this._settings = _extends({}, getDefaultSettings(), instanceSettings);
+    /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
+       entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
+    var isIntersecting = function isIntersecting(element) {
+        return element.isIntersecting || element.intersectionRatio > 0;
+    };
+
+    var LazyLoad = function LazyLoad(customSettings, elements) {
+        this._settings = getInstanceSettings(customSettings);
         this._setObserver();
         this.update(elements);
     };
@@ -197,22 +205,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
             var settings = this._settings;
-            var onIntersection = function onIntersection(entries) {
+            var observerSettings = {
+                root: settings.container === document ? null : settings.container,
+                rootMargin: settings.threshold + "px"
+            };
+            var revealIntersectingElements = function revealIntersectingElements(entries) {
                 entries.forEach(function (entry) {
-                    // entry.isIntersecting is null on some versions of MS Edge
-                    // entry.intersectionRatio can be 0 on some intersecting elements
-                    if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                    if (isIntersecting(entry)) {
                         var element = entry.target;
-                        revealElement(element, settings);
+                        revealElement(element, _this._settings);
                         _this._observer.unobserve(element);
                     }
                 });
                 _this._elements = purgeElements(_this._elements);
             };
-            this._observer = new IntersectionObserver(onIntersection, {
-                root: settings.container === document ? null : settings.container,
-                rootMargin: settings.threshold + "px"
-            });
+            this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
         },
 
         update: function update(elements) {
