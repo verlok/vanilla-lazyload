@@ -115,7 +115,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var supportsClassList = typeof document !== "undefined" && "classList" in document.createElement("p");
+    var runningOnBrowser = typeof window !== "undefined";
+
+    var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+
+    var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
     var addClass = function addClass(element, className) {
         if (supportsClassList) {
@@ -188,7 +192,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         _setObserver: function _setObserver() {
             var _this = this;
 
-            if (!("IntersectionObserver" in window)) {
+            if (!supportsIntersectionObserver) {
                 return;
             }
 
@@ -245,12 +249,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    if (typeof window !== "undefined") {
-        /* Automatic instances creation if required (useful for async script loading!) */
-        var autoInitOptions = window.lazyLoadOptions;
-        if (autoInitOptions) {
-            autoInitialize(LazyLoad, autoInitOptions);
-        }
+    /* Automatic instances creation if required (useful for async script loading!) */
+    var autoInitOptions = window.lazyLoadOptions;
+    if (runningOnBrowser && autoInitOptions) {
+        autoInitialize(LazyLoad, autoInitOptions);
     }
 
     return LazyLoad;

@@ -2,6 +2,7 @@ import getDefaultSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
+import {runningOnBrowser, supportsIntersectionObserver} from "./lazyload.environment";
 
 const LazyLoad = function (instanceSettings, elements) {
     this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
@@ -11,7 +12,7 @@ const LazyLoad = function (instanceSettings, elements) {
 
 LazyLoad.prototype = {
     _setObserver: function () {
-        if (!("IntersectionObserver" in window)) {
+        if (!supportsIntersectionObserver) {
             return;
         }
 
@@ -64,12 +65,10 @@ LazyLoad.prototype = {
     }
 }
 
-if (typeof window !== "undefined") {
-    /* Automatic instances creation if required (useful for async script loading!) */
-    let autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) {
-        autoInitialize(LazyLoad, autoInitOptions);
-    }
+/* Automatic instances creation if required (useful for async script loading!) */
+let autoInitOptions = window.lazyLoadOptions;
+if (runningOnBrowser && autoInitOptions) {
+    autoInitialize(LazyLoad, autoInitOptions);
 }
 
 export default LazyLoad;

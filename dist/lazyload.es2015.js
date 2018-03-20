@@ -108,7 +108,11 @@ const setSources = function (element, settings) {
     }
 };
 
-const supportsClassList = typeof document !== "undefined" && "classList" in document.createElement("p");
+const runningOnBrowser = (typeof window !== "undefined");
+
+const supportsIntersectionObserver = runningOnBrowser && ("IntersectionObserver" in window);
+
+const supportsClassList = runningOnBrowser && ("classList" in document.createElement("p"));
 
 const addClass = (element, className) => {
     if (supportsClassList) {
@@ -179,7 +183,7 @@ const LazyLoad = function (instanceSettings, elements) {
 
 LazyLoad.prototype = {
     _setObserver: function () {
-        if (!("IntersectionObserver" in window)) {
+        if (!supportsIntersectionObserver) {
             return;
         }
 
@@ -232,12 +236,10 @@ LazyLoad.prototype = {
     }
 };
 
-if (typeof window !== "undefined") {
-    /* Automatic instances creation if required (useful for async script loading!) */
-    let autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) {
-        autoInitialize(LazyLoad, autoInitOptions);
-    }
+/* Automatic instances creation if required (useful for async script loading!) */
+let autoInitOptions = window.lazyLoadOptions;
+if (runningOnBrowser && autoInitOptions) {
+    autoInitialize(LazyLoad, autoInitOptions);
 }
 
 return LazyLoad;
