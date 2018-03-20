@@ -7,8 +7,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
     'use strict';
 
-    var getDefaultSettings = function getDefaultSettings() {
-        return {
+    var getInstanceSettings = function getInstanceSettings(customSettings) {
+        var defaultSettings = {
             elements_selector: "img",
             container: document,
             threshold: 300,
@@ -22,6 +22,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             callback_set: null,
             callback_enter: null
         };
+
+        return _extends({}, defaultSettings, customSettings);
     };
 
     var dataPrefix = "data-";
@@ -188,8 +190,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return element.isIntersecting || element.intersectionRatio > 0;
     };
 
-    var LazyLoad = function LazyLoad(instanceSettings, elements) {
-        this._settings = _extends({}, getDefaultSettings(), instanceSettings);
+    var LazyLoad = function LazyLoad(customSettings, elements) {
+        this._settings = getInstanceSettings(customSettings);
         this._setObserver();
         this.update(elements);
     };

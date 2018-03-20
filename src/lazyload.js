@@ -1,12 +1,12 @@
-import getDefaultSettings from "./lazyload.defaults";
+import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
 import {intersectionObserverSupport, isIntersecting} from "./lazyload.intersectionObserver";
 import {runningOnBrowser, supportsIntersectionObserver} from "./lazyload.environment";
 
-const LazyLoad = function (instanceSettings, elements) {
-    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
+const LazyLoad = function (customSettings, elements) {
+    this._settings = getInstanceSettings(customSettings);
     this._setObserver();
     this.update(elements);
 };

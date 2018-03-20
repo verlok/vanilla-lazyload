@@ -4,20 +4,24 @@
 	(global.LazyLoad = factory());
 }(this, (function () { 'use strict';
 
-var getDefaultSettings = () => ({
-    elements_selector: "img",
-    container: document,
-    threshold: 300,
-    data_src: "src",
-    data_srcset: "srcset",
-    class_loading: "loading",
-    class_loaded: "loaded",
-    class_error: "error",
-    callback_load: null,
-    callback_error: null,
-    callback_set: null,
-    callback_enter: null
-});
+var getInstanceSettings = (customSettings) => {
+    const defaultSettings = {
+        elements_selector: "img",
+        container: document,
+        threshold: 300,
+        data_src: "src",
+        data_srcset: "srcset",
+        class_loading: "loading",
+        class_loaded: "loaded",
+        class_error: "error",
+        callback_load: null,
+        callback_error: null,
+        callback_set: null,
+        callback_enter: null
+    };
+
+    return Object.assign({}, defaultSettings, customSettings);
+};
 
 const dataPrefix = "data-";
 
@@ -179,8 +183,8 @@ var revealElement = function (element, settings) {
    entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
 const isIntersecting = (element) => element.isIntersecting || element.intersectionRatio > 0;
 
-const LazyLoad = function (instanceSettings, elements) {
-    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
+const LazyLoad = function (customSettings, elements) {
+    this._settings = getInstanceSettings(customSettings);
     this._setObserver();
     this.update(elements);
 };
