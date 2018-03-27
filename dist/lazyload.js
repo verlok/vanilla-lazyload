@@ -76,7 +76,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var dataSrcSet = settings.data_srcset;
 
         var parent = element.parentNode;
-        if (parent.tagName !== "PICTURE") {
+        if (!parent || parent.tagName !== "PICTURE") {
             return;
         }
         for (var i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
