@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.5.2
+
+Added a security check on lazy elements' parents.
+
 #### 10.5.1
 
 Just a refactoring over previous version.
