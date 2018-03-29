@@ -88,6 +88,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.7.1
+
+Added a security check on lazy elements' parents.
+
 #### 8.7.0
 
 Added node support by merging pull request #188, "node-support" by @klarstrup.
