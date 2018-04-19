@@ -476,7 +476,7 @@ Here's the list of the options.
 | Name | Meaning | Default value |
 | ---- | ----| ---- |
 | `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
-| `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. | `"img"` |
+| `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. For multiple elements, you can add the css selectors for the same followed by a comma. E.g.: 'iframe, img, .container_class'. This will lazy load images for iframe and img elements along with the images/background images under 'container_class' | `"img"` |
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"` | `"src"` |
 | `data_srcset` | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"` | `"srcset"` |
