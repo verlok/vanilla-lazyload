@@ -2,6 +2,11 @@
 
 ## Version 10
 
+#### 10.6.0
+
+- Added a demo with a popup layer and images injected after popup open. Closes #196.
+- Updated the `background_images` demo with a custom management of the loading class and the loaded event callback.
+
 #### 10.5.2
 
 Added a security check on lazy elements' parents.
