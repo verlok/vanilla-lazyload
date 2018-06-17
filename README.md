@@ -430,7 +430,7 @@ There's also a **useful SASS mixin** to [maintain aspect ratio](https://css-tric
 
 ### Show the images *while* they load
 
-Images should be shown while they load, and not after, to give your users the best perceived performance. This is especially true if you use a progressive loading format like **progressive JPEG**.
+Images should be shown while they load, and not after, to give your users the best perceived performance. This is especially true if you use a progressive loading format like **Progressive JPEG**.
 
 In order to make your images visible as soon as LazyLoad sets the `src`/`srcset` attribute to it, you can either:
 
@@ -443,7 +443,17 @@ img:not([src]) {
 }
 ```
 
-Or do it using the **CSS classes** set by LazyLoad when loading starts - see [API](#api).
+Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#api).
+
+#### Do NOT use 1×1 pixel GIF placeholders
+
+Some lazy loading solutions sometimes advise to use transparent 1×1 pixel GIF placeholders as `src` and `srcset` until the image is loaded. We do *not* recommend this because:
+
+* If you don't put anything in the src, when LazyLoad copies the data-src in the src, the image is shown while loading by the browser (good perceived performance especially when used with progressive JPEG: User sees preview of image when browser *starts* loading)
+* If you put something in the src (like a transparent GIF), when LazyLoad copies the data-src in the src, the browser *waits* until the new image is loaded, then replaces the image (so the perceived performance is longer)
+
+It's also save to *not* have a `src` or `srcset` although it is not valid HTML. Once javascript is executed the `src` and `srcset` will be set by LazyLoad. If the client is a crawler like Googlebot then it will be detected by its `useragent` and the crawler sees correct HTML with `src` and `srcset` always set.
+
 
 <!--
 MOAR points to add to the README:
