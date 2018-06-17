@@ -445,14 +445,17 @@ img:not([src]) {
 
 Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#api).
 
-#### Do NOT use 1×1 pixel GIF placeholders
+
+### Do NOT use 1×1 pixel GIF placeholders
 
 Some lazy loading solutions sometimes advise to use transparent 1×1 pixel GIF placeholders as `src` and `srcset` until the image is loaded. We do *not* recommend this because:
 
-* If you don't put anything in the src, when LazyLoad copies the data-src in the src, the image is shown while loading by the browser (good perceived performance especially when used with progressive JPEG: User sees preview of image when browser *starts* loading)
-* If you put something in the src (like a transparent GIF), when LazyLoad copies the data-src in the src, the browser *waits* until the new image is loaded, then replaces the image (so the perceived performance is longer)
+* If you don't put anything in the `src`, the image is shown as soon as LazyLoad starts loading the image. This ensures **best perceived performance** for your users, especially when the images are in the Progressive JPEG format.
+* If you put anything in the src (like a transparent GIF), then LazyLoad starts loading the image, but browsers wait until the new image is loaded, then replaces the image. This is **worse for perceived performance**.
 
-It's also save to *not* have a `src` or `srcset` although it is not valid HTML. Once javascript is executed the `src` and `srcset` will be set by LazyLoad. If the client is a crawler like Googlebot then it will be detected by its `useragent` and the crawler sees correct HTML with `src` and `srcset` always set.
+As a proof of it, see [this video](https://youtu.be/2E3ociaFJS0) or [this pen](https://codepen.io/verlok/pen/bKYggE?editors=0110) to test the difference setting a slower connection speed and disabling the cache.
+
+It's also safe not to put any value in the `src` nor `srcset` attributes, although it is not valid HTML. Once javascript is executed, the `src` and `srcset` will be set by LazyLoad. If the client is a crawler like Googlebot, it will be detected by LazyLoad which will fix the HTML.
 
 
 <!--
