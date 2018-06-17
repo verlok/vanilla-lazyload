@@ -446,16 +446,14 @@ img:not([src]) {
 Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#api).
 
 
-### Do NOT use 1×1 pixel GIF placeholders
+### Do NOT use placeholder images
 
-Some lazy loading solutions sometimes advise to use transparent 1×1 pixel GIF placeholders as `src` and `srcset` until the image is loaded. We do *not* recommend this because:
+We do not recommend to use a placeholder image (like a transparent pixel GIF) in your HTML. 
 
-* If you don't put anything in the `src`, the image is shown as soon as LazyLoad starts loading the image. This ensures **best perceived performance** for your users, especially when the images are in the Progressive JPEG format.
-* If you put anything in the src (like a transparent GIF), then LazyLoad starts loading the image, but browsers wait until the new image is loaded, then replaces the image. This is **worse for perceived performance**.
+* For **best perceived preformance, leave the `src` and `srcset` attributes blank**. Doing so, the image will be shown as soon as LazyLoad starts loading the image. See [this video](https://youtu.be/2E3ociaFJS0) or [this pen](https://codepen.io/verlok/pen/bKYggE?editors=0110) to test the difference (remember to disable the cache and to set a slower connection speed if you have a very fast one).
+* If you put anything in the src (like a transparent GIF), then LazyLoad starts loading the image but it won't be shown by browsers until the new image is loaded, leading to a **worse perceived performance**.
 
-As a proof of it, see [this video](https://youtu.be/2E3ociaFJS0) or [this pen](https://codepen.io/verlok/pen/bKYggE?editors=0110) to test the difference setting a slower connection speed and disabling the cache.
-
-It's also safe not to put any value in the `src` nor `srcset` attributes, although it is not valid HTML. Once javascript is executed, the `src` and `srcset` will be set by LazyLoad. If the client is a crawler like Googlebot, it will be detected by LazyLoad which will fix the HTML.
+It's safe not to put any value in the `src` nor `srcset` attributes, even if your HTML won't validate by a static code analyzer. The reason is that once JavaScript is executed, those values will be set by LazyLoad. For SEO, if the client is a crawler like Googlebot, it will be detected by LazyLoad which will fix the HTML.
 
 
 <!--
