@@ -16,8 +16,9 @@ gulp.task("default", function () {
         .pipe(eslint.failAfterError()) // --> failing if errors
         // ----------- rolling up --------------
         .pipe(rollup({
-            input: "./src/lazyload.js",
-            output: { name: "LazyLoad", format: "umd" }
+            format: "umd",
+            moduleName: "LazyLoad",
+            entry: "./src/lazyload.js"
         }))
         .pipe(rename("lazyload.es2015.js"))
         .pipe(gulp.dest(destFolder)) // --> writing rolledup
