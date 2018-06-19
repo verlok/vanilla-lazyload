@@ -6,15 +6,24 @@ export const setSourcesForPicture = function (element, settings) {
     if (!parent || parent.tagName !== "PICTURE") {
         return;
     }
-    for (let i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
-        if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = getData(pictureChild, dataSrcSet);
-            if (sourceSrcset) {
-                pictureChild.setAttribute("srcset", sourceSrcset);
+    setSourcesInChildren(parent, "srcset", dataSrcSet);
+};
+
+export const setSourcesInChildren = function(parentTag, attrName, dataAttrName) {
+    for (let i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
+        if (childTag.tagName === "SOURCE") {
+            let attributeValue = getData(childTag, dataAttrName);
+            if (attributeValue) {
+                childTag.setAttribute(attrName, attributeValue);
             }
         }
     }
 };
+
+export const setSourcesForVideo = function (element, settings) {
+    const {data_src: dataSrc} = settings;
+    setSourcesInChildren(element, "src", dataSrc);
+}
 
 export const setSources = function (element, settings) {
     const {data_src: dataSrc, data_srcset: dataSrcSet} = settings;
@@ -30,6 +39,10 @@ export const setSources = function (element, settings) {
             element.setAttribute("src", elementSrc);
         }
         return;
+    }
+    if (tagName === "VIDEO") {
+        setSourcesForVideo(element, settings);
+        return; 
     }
     if (tagName === "IFRAME") {
         if (elementSrc) {
