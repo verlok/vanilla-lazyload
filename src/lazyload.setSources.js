@@ -47,7 +47,8 @@ export const setSources = function (element, settings) {
     }
     if (tagName === "VIDEO") {
         setSourcesForVideo(element, settings);
-        return; 
+        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
+        return;
     }
     if (elementSrc) {
         element.style.backgroundImage = `url("${elementSrc}")`;

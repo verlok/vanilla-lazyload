@@ -1,4 +1,4 @@
-import {setSources, setSourcesForPicture} from "../src/lazyLoad.setSources";
+import {setSources, setSourcesForPicture, setSourcesForVideo} from "../src/lazyLoad.setSources";
 
 const lazyloadSettings = {
     data_src: "src",
@@ -129,7 +129,6 @@ describe("setSources for background image", () => {
 describe("setSourcesForPicture", () => {
     let picture, source1, source2, img;
     let img1 = "http://placehold.it/1x1";
-    let img100 = "http://placehold.it/100x100";
     let img200 = "http://placehold.it/200x200";
     let img400 = "http://placehold.it/400x400";
     
@@ -169,3 +168,47 @@ describe("setSourcesForPicture", () => {
         expect(source2).toHaveAttributeValue("srcset", img400);
     });
 });
+/*
+describe("setSourcesForVideo", () => {
+    let video, source1, source2, videoEl;
+    let videoPlaceholder = "http://placehold.it/videoPlaceholder";
+    let videoSrc1 = "http://placehold.it/videoMPG";
+    let videoSrc2 = "http://placehold.it/videoOGG";
+    
+    beforeEach(() => {
+        // Parent is a video
+        video = document.createElement("video");
+        video.appendChild(source1 = document.createElement("source"));
+        video.appendChild(source2 = document.createElement("source"));
+        video.appendChild(videoEl = document.createElement("video"));
+    });
+    
+    test("...with initially empty src", () => {
+        source1.setAttribute("data-src", videoSrc1);
+        source2.setAttribute("data-src", videoSrc2);
+        setSourcesForVideo(videoEl, lazyloadSettings);
+        expect(source1).toHaveAttributeValue("src", videoSrc1);
+        expect(source2).toHaveAttributeValue("src", videoSrc2);
+    });
+
+    test("...with initial value in src", () => {
+        source1.setAttribute("data-src", videoSrc1);
+        source2.setAttribute("data-src", videoSrc2);
+        source1.setAttribute("src", videoPlaceholder);
+        source2.setAttribute("src", videoPlaceholder);
+        setSourcesForVideo(videoEl, lazyloadSettings);
+        expect(source1).toHaveAttributeValue("src", videoSrc1);
+        expect(source2).toHaveAttributeValue("src", videoSrc2);
+    });
+
+    test("...with initial value in src and empty data-src", () => {
+        source1.setAttribute("data-src", "");
+        source2.setAttribute("data-src", "");
+        source1.setAttribute("src", videoSrc1);
+        source2.setAttribute("src", videoSrc2);
+        setSourcesForVideo(videoEl, lazyloadSettings);
+        expect(source1).toHaveAttributeValue("src", videoSrc1);
+        expect(source2).toHaveAttributeValue("src", videoSrc2);
+    });
+});
+*/
