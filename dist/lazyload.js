@@ -72,44 +72,46 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var setSourcesForPicture = function setSourcesForPicture(element, settings) {
-        var dataSrcSet = settings.data_srcset;
-
-        var parent = element.parentNode;
-        if (!parent || parent.tagName !== "PICTURE") {
-            return;
-        }
-        for (var i = 0, pictureChild; pictureChild = parent.children[i]; i += 1) {
-            if (pictureChild.tagName === "SOURCE") {
-                var sourceSrcset = getData(pictureChild, dataSrcSet);
-                if (sourceSrcset) {
-                    pictureChild.setAttribute("srcset", sourceSrcset);
+    var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName) {
+        for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
+            if (childTag.tagName === "SOURCE") {
+                var attributeValue = getData(childTag, dataAttrName);
+                if (attributeValue) {
+                    childTag.setAttribute(attrName, attributeValue);
                 }
             }
         }
     };
 
-    var setSources = function setSources(element, settings) {
-        var dataSrc = settings.data_src,
-            dataSrcSet = settings.data_srcset;
+    var setAttributeIfNotNullOrEmpty = function setAttributeIfNotNullOrEmpty(element, attrName, value) {
+        if (!value) {
+            return;
+        }
+        element.setAttribute(attrName, value);
+    };
 
+    var setSources = function setSources(element, settings) {
+        var dataAttrSrcName = settings.data_src;
+        var elementSrc = getData(element, dataAttrSrcName);
         var tagName = element.tagName;
-        var elementSrc = getData(element, dataSrc);
         if (tagName === "IMG") {
-            setSourcesForPicture(element, settings);
-            var imgSrcset = getData(element, dataSrcSet);
-            if (imgSrcset) {
-                element.setAttribute("srcset", imgSrcset);
+            var dataAttrSrcSetName = settings.data_srcset;
+            var elementSrcSet = getData(element, dataAttrSrcSetName);
+            var parent = element.parentNode;
+            if (parent && parent.tagName === "PICTURE") {
+                setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
             }
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
+            setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet);
+            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
             return;
         }
         if (tagName === "IFRAME") {
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
+            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
+            return;
+        }
+        if (tagName === "VIDEO") {
+            setSourcesInChildren(element, "src", dataAttrSrcName);
+            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
             return;
         }
         if (elementSrc) {
@@ -175,7 +177,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var revealElement = function revealElement(element, settings) {
         callCallback(settings.callback_enter, element);
-        if (["IMG", "IFRAME"].indexOf(element.tagName) > -1) {
+        if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
             addOneShotListeners(element, settings);
             addClass(element, settings.class_loading);
         }

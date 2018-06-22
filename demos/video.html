@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>
+		Lazyload tests
+	</title>
+	<style>
+		ul,
+		li {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="results1" class="results">
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<p>Scroll down</p>
+		<video class="lazy" controls width="620"
+			data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+			poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217">
+			<source type="video/mp4"
+				data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4">
+			<source type="video/ogg"
+				data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv">
+			<source type="video/avi"
+				data-src="https://archive.org/download/ElephantsDream/ed_hd.avi">
+		</video>
+	</div>
+	<script src="../dist/lazyload.js"></script>
+	<script>
+		new LazyLoad({
+			elements_selector: ".lazy"
+		});
+	</script>
+</body>
+
+</html>
