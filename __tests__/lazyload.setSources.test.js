@@ -195,3 +195,41 @@ describe("setSourcesInChildren", () => {
         expect(source2).toHaveAttributeValue("src", img400);
     });
 });
+
+describe("setSources for video", () => {
+    let video, source1, source2;
+    let videoUrl = "https://youtu.be/foobar";
+    
+    beforeEach(() => {
+        video = document.createElement("video");
+        video.appendChild(source1 = document.createElement("source"));
+        video.appendChild(source2 = document.createElement("source"));
+    });
+    
+    test("...with initially empty src", () => {
+        video.setAttribute("data-src", videoUrl);
+        setSources(video, lazyloadSettings);
+        expect(video).toHaveAttributeValue("src", videoUrl);
+    });
+});
+
+describe("setSources for picture", () => {
+    let picture, source1, source2, img;
+    let img200 = "http://placehold.it/200x200";
+    let img400 = "http://placehold.it/400x400";
+    
+    beforeEach(() => {
+        picture = document.createElement("picture");
+        picture.appendChild(source1 = document.createElement("source"));
+        picture.appendChild(source2 = document.createElement("source"));
+        picture.appendChild(img = document.createElement("img"));
+    });
+    
+    test("...with initially empty srcset", () => {
+        img.setAttribute("data-src", img200);
+        img.setAttribute("data-srcset", img400);
+        setSources(img, lazyloadSettings);
+        expect(img).toHaveAttributeValue("src", img200);
+        expect(img).toHaveAttributeValue("srcset", img400);
+    });
+});
