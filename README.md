@@ -1,6 +1,4 @@
-LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images as they enter the viewport**. It's written in plain "vanilla" JavaScript, uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#notable-features).
-
-Check out the [LazyLoad website](https://verlok.github.io/lazyload/), in case you're reading this on GitHub.
+LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images, video or iframes as they enter the viewport**. It's written in plain "vanilla" JavaScript, uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#notable-features).
 
 Jump to:
 
@@ -69,7 +67,7 @@ It's possible to include it as an `async` script, see [Recipes](#recipes) below.
 HTML
 
 ```html
-<img alt="..." 
+<img class="lazy" alt="..." 
      data-src="../img/44721746JJ_15_a.jpg"
      width="220" height="280">
 ```
@@ -77,7 +75,9 @@ HTML
 Javascript
 
 ```js
-var myLazyLoad = new LazyLoad();
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api)
@@ -89,7 +89,7 @@ var myLazyLoad = new LazyLoad();
 HTML 
 
 ```html
-<img data-src="/your/image1.jpg"
+<img class="lazy" data-src="/your/image1.jpg"
     data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
     sizes="(min-width: 20em) 35vw, 100vw">
 ```
@@ -97,7 +97,9 @@ HTML
 Javascript
 
 ```js
-var myLazyLoad = new LazyLoad();
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html) | [API](#api)
@@ -112,17 +114,64 @@ HTML
 <picture>
     <source media="(min-width: 1024px)" data-srcset="/your/image1a.jpg" />
     <source media="(min-width: 500px)" data-srcset="/your/image1b.jpg" />
-    <img alt="Stivaletti" data-src="/your/image1.jpg">
+    <img class="lazy" alt="Stivaletti" data-src="/your/image1.jpg">
 </picture>
 ```
 
 Javascript
 
 ```js
-var myLazyLoad = new LazyLoad();
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) | [API](#api)
+
+### Videos
+
+> **When to use**: you want to lazily load videos using the `video` tag.
+
+HTML
+
+```html
+<video class="lazy" controls width="620"
+    data-src="/your/video.mp4" poster="/your/poster.jpg">
+    <source type="video/mp4" data-src="/your/video.mp4">
+    <source type="video/ogg" data-src="/your/video.ogg">
+    <source type="video/avi" data-src="/your/video.avi">
+</video>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/video.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) | [API](#api)
+
+### Iframes
+
+> **When to use**: you want to lazily load `iframe`s.
+
+HTML
+
+```html
+<iframe class="lazy" data-src="https://some.page.com" frameborder="0"></iframe>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) | [API](#api)
 
 ### Async script + auto initialization
 
