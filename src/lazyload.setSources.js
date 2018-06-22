@@ -16,11 +16,6 @@ export const setAttributeIfNotNullOrEmpty = function(element, attrName, value) {
     element.setAttribute(attrName, value);
 };
 
-export const isParentPicture = function(element){
-    const parent = element.parentNode;
-    return parent && parent.tagName === "PICTURE";
-};
-
 export const setSources = function (element, settings) {
     const dataAttrSrcName = settings.data_src;
     const elementSrc = getData(element, dataAttrSrcName);
@@ -28,11 +23,12 @@ export const setSources = function (element, settings) {
     if (tagName === "IMG") {
         const dataAttrSrcSetName = settings.data_srcset;
         const elementSrcSet = getData(element, dataAttrSrcSetName);
-        if (isParentPicture(element)) {
+        const parent = element.parentNode;
+        if (parent && parent.tagName === "PICTURE") {
             setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
         }
-        setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet)
-        setAttributeIfNotNullOrEmpty(element, "src", elementSrc)
+        setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet);
+        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
         return;
     }
     if (tagName === "IFRAME") {
