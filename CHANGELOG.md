@@ -2,6 +2,11 @@
 
 ## Version 10
 
+#### 10.7.0
+
+Now you can lazy load your `<video>` HTML tag and descending `<source>` tags.
+Created the `video.html` demo.
+
 #### 10.6.0
 
 - Added a demo with a popup layer and images injected after popup open. Closes #196.
