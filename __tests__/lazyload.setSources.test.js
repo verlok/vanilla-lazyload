@@ -1,4 +1,4 @@
-import {setSources, setSourcesForPicture, setSourcesForVideo} from "../src/lazyLoad.setSources";
+import {setSources, setSourcesInChildren} from "../src/lazyLoad.setSources";
 
 const lazyloadSettings = {
     data_src: "src",
@@ -126,24 +126,23 @@ describe("setSources for background image", () => {
     });
 });
 
-describe("setSourcesForPicture", () => {
-    let picture, source1, source2, img;
+describe("setSourcesInChildren", () => {
+    let container, source1, source2, img;
     let img1 = "http://placehold.it/1x1";
     let img200 = "http://placehold.it/200x200";
     let img400 = "http://placehold.it/400x400";
     
     beforeEach(() => {
-        // Parent is a picture
-        picture = document.createElement("picture");
-        picture.appendChild(source1 = document.createElement("source"));
-        picture.appendChild(source2 = document.createElement("source"));
-        picture.appendChild(img = document.createElement("img"));
+        container = document.createElement("picture");
+        container.appendChild(source1 = document.createElement("source"));
+        container.appendChild(source2 = document.createElement("source"));
+        container.appendChild(img = document.createElement("img"));
     });
     
     test("...with initially empty srcset", () => {
         source1.setAttribute("data-srcset", img200);
         source2.setAttribute("data-srcset", img400);
-        setSourcesForPicture(img, lazyloadSettings);
+        setSourcesInChildren(container, "srcset", "srcset");
         expect(source1).toHaveAttributeValue("srcset", img200);
         expect(source2).toHaveAttributeValue("srcset", img400);
     });
@@ -153,7 +152,7 @@ describe("setSourcesForPicture", () => {
         source2.setAttribute("data-srcset", img400);
         source1.setAttribute("srcset", img1);
         source2.setAttribute("srcset", img1);
-        setSourcesForPicture(img, lazyloadSettings);
+        setSourcesInChildren(container, "srcset", "srcset");
         expect(source1).toHaveAttributeValue("srcset", img200);
         expect(source2).toHaveAttributeValue("srcset", img400);
     });
@@ -163,52 +162,36 @@ describe("setSourcesForPicture", () => {
         source2.setAttribute("data-srcset", "");
         source1.setAttribute("srcset", img200);
         source2.setAttribute("srcset", img400);
-        setSourcesForPicture(img, lazyloadSettings);
+        setSourcesInChildren(container, "srcset", "srcset");
         expect(source1).toHaveAttributeValue("srcset", img200);
         expect(source2).toHaveAttributeValue("srcset", img400);
     });
-});
-/*
-describe("setSourcesForVideo", () => {
-    let video, source1, source2, videoEl;
-    let videoPlaceholder = "http://placehold.it/videoPlaceholder";
-    let videoSrc1 = "http://placehold.it/videoMPG";
-    let videoSrc2 = "http://placehold.it/videoOGG";
-    
-    beforeEach(() => {
-        // Parent is a video
-        video = document.createElement("video");
-        video.appendChild(source1 = document.createElement("source"));
-        video.appendChild(source2 = document.createElement("source"));
-        video.appendChild(videoEl = document.createElement("video"));
-    });
-    
+
     test("...with initially empty src", () => {
-        source1.setAttribute("data-src", videoSrc1);
-        source2.setAttribute("data-src", videoSrc2);
-        setSourcesForVideo(videoEl, lazyloadSettings);
-        expect(source1).toHaveAttributeValue("src", videoSrc1);
-        expect(source2).toHaveAttributeValue("src", videoSrc2);
+        source1.setAttribute("data-src", img200);
+        source2.setAttribute("data-src", img400);
+        setSourcesInChildren(container, "src", "src");
+        expect(source1).toHaveAttributeValue("src", img200);
+        expect(source2).toHaveAttributeValue("src", img400);
     });
 
     test("...with initial value in src", () => {
-        source1.setAttribute("data-src", videoSrc1);
-        source2.setAttribute("data-src", videoSrc2);
-        source1.setAttribute("src", videoPlaceholder);
-        source2.setAttribute("src", videoPlaceholder);
-        setSourcesForVideo(videoEl, lazyloadSettings);
-        expect(source1).toHaveAttributeValue("src", videoSrc1);
-        expect(source2).toHaveAttributeValue("src", videoSrc2);
+        source1.setAttribute("data-src", img200);
+        source2.setAttribute("data-src", img400);
+        source1.setAttribute("src", img1);
+        source2.setAttribute("src", img1);
+        setSourcesInChildren(container, "src", "src");
+        expect(source1).toHaveAttributeValue("src", img200);
+        expect(source2).toHaveAttributeValue("src", img400);
     });
 
     test("...with initial value in src and empty data-src", () => {
         source1.setAttribute("data-src", "");
         source2.setAttribute("data-src", "");
-        source1.setAttribute("src", videoSrc1);
-        source2.setAttribute("src", videoSrc2);
-        setSourcesForVideo(videoEl, lazyloadSettings);
-        expect(source1).toHaveAttributeValue("src", videoSrc1);
-        expect(source2).toHaveAttributeValue("src", videoSrc2);
+        source1.setAttribute("src", img200);
+        source2.setAttribute("src", img400);
+        setSourcesInChildren(container, "src", "src");
+        expect(source1).toHaveAttributeValue("src", img200);
+        expect(source2).toHaveAttributeValue("src", img400);
     });
 });
-*/
