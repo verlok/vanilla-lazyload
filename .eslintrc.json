@@ -42,7 +42,7 @@
         "no-labels": 1,
         "no-lone-blocks": 1,
         "no-loop-func": 1,
-        "no-magic-numbers": [2, { "ignore": [0, 1] }],
+        "no-magic-numbers": [2, { "ignore": [0, 1, -1] }],
         "no-multi-spaces": 1,
         "no-multi-str": 1,
         "no-new": 1,
