@@ -1,14 +1,5 @@
 import {getData} from "./lazyload.data";
 
-export const setSourcesForPicture = function (element, settings) {
-    const {data_srcset: dataSrcSet} = settings;
-    const parent = element.parentNode;
-    if (!parent || parent.tagName !== "PICTURE") {
-        return;
-    }
-    setSourcesInChildren(parent, "srcset", dataSrcSet);
-};
-
 export const setSourcesInChildren = function(parentTag, attrName, dataAttrName) {
     for (let i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
         if (childTag.tagName === "SOURCE") {
@@ -20,23 +11,26 @@ export const setSourcesInChildren = function(parentTag, attrName, dataAttrName) 
     }
 };
 
-export const setSourcesForVideo = function (element, settings) {
-    const {data_src: dataSrc} = settings;
-    setSourcesInChildren(element, "src", dataSrc);
-};
-
 export const setAttributeIfNotNullOrEmpty = function(element, attrName, value) {
     if (!value) {return;}
     element.setAttribute(attrName, value);
 };
 
+export const isParentPicture = function(element){
+    const parent = element.parentNode;
+    return parent && parent.tagName === "PICTURE";
+};
+
 export const setSources = function (element, settings) {
-    const {data_src: dataSrc, data_srcset: dataSrcSet} = settings;
+    const dataAttrSrcName = settings.data_src;
+    const elementSrc = getData(element, dataAttrSrcName);
     const tagName = element.tagName;
-    const elementSrc = getData(element, dataSrc);
     if (tagName === "IMG") {
-        setSourcesForPicture(element, settings);
-        const elementSrcSet = getData(element, dataSrcSet);
+        const dataAttrSrcSetName = settings.data_srcset;
+        const elementSrcSet = getData(element, dataAttrSrcSetName);
+        if (isParentPicture(element)) {
+            setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
+        }
         setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet)
         setAttributeIfNotNullOrEmpty(element, "src", elementSrc)
         return;
@@ -46,7 +40,7 @@ export const setSources = function (element, settings) {
         return;
     }
     if (tagName === "VIDEO") {
-        setSourcesForVideo(element, settings);
+        setSourcesInChildren(element, "src", dataAttrSrcName);
         setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
         return;
     }
