@@ -54,12 +54,12 @@ LazyLoad.prototype = {
         };
 
         callCallback(settings.callback_enter, element);
-        if (element.tagName === "IMG" || element.tagName === "IFRAME") {
+        if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
             element.addEventListener("load", loadCallback);
             element.addEventListener("error", errorCallback);
             addClass(element, settings.class_loading);
         }
-        setSources(element, settings.data_srcset, settings.data_src);
+        setSources(element, settings);
         callCallback(settings.callback_set, element);
     },
 

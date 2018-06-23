@@ -1,39 +1,43 @@
 import {getData} from "./lazyload.data";
 
-const setSourcesForPicture = function (element, srcsetDataAttribute) {
-    const parent = element.parentNode;
-    if (parent && parent.tagName !== "PICTURE") {
-        return;
-    }
-    for (let i = 0; i < parent.children.length; i++) {
-        let pictureChild = parent.children[i];
-        if (pictureChild.tagName === "SOURCE") {
-            let sourceSrcset = getData(pictureChild, srcsetDataAttribute);
-            if (sourceSrcset) {
-                pictureChild.setAttribute("srcset", sourceSrcset);
+const setSourcesInChildren = function(parentTag, attrName, dataAttrName) {
+    for (let i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
+        if (childTag.tagName === "SOURCE") {
+            let attributeValue = getData(childTag, dataAttrName);
+            if (attributeValue) {
+                childTag.setAttribute(attrName, attributeValue);
             }
         }
     }
 };
 
-export default function (element, srcsetDataAttribute, srcDataAttribute) {
+const setAttributeIfNotNullOrEmpty = function(element, attrName, value) {
+    if (!value) {return;}
+    element.setAttribute(attrName, value);
+};
+
+export default function setSources(element, settings) {
+    const dataAttrSrcName = settings.data_src;
+    const elementSrc = getData(element, dataAttrSrcName);
     const tagName = element.tagName;
-    const elementSrc = getData(element, srcDataAttribute);
     if (tagName === "IMG") {
-        setSourcesForPicture(element, srcsetDataAttribute);
-        const imgSrcset = getData(element, srcsetDataAttribute);
-        if (imgSrcset) {
-            element.setAttribute("srcset", imgSrcset);
+        const dataAttrSrcSetName = settings.data_srcset;
+        const elementSrcSet = getData(element, dataAttrSrcSetName);
+        const parent = element.parentNode;
+        if (parent && parent.tagName === "PICTURE") {
+            setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
         }
-        if (elementSrc) {
-            element.setAttribute("src", elementSrc);
-        }
+        setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet);
+        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
         return;
     }
     if (tagName === "IFRAME") {
-        if (elementSrc) {
-            element.setAttribute("src", elementSrc);
-        }
+        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
+        return;
+    }
+    if (tagName === "VIDEO") {
+        setSourcesInChildren(element, "src", dataAttrSrcName);
+        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
         return;
     }
     if (elementSrc) {

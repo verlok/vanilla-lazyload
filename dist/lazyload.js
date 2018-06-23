@@ -110,46 +110,52 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return element.setAttribute(dataPrefix + attribute, value);
     };
 
-    var setSourcesForPicture = function setSourcesForPicture(element, srcsetDataAttribute) {
-        var parent = element.parentNode;
-        if (parent && parent.tagName !== "PICTURE") {
-            return;
-        }
-        for (var i = 0; i < parent.children.length; i++) {
-            var pictureChild = parent.children[i];
-            if (pictureChild.tagName === "SOURCE") {
-                var sourceSrcset = getData(pictureChild, srcsetDataAttribute);
-                if (sourceSrcset) {
-                    pictureChild.setAttribute("srcset", sourceSrcset);
+    var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName) {
+        for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
+            if (childTag.tagName === "SOURCE") {
+                var attributeValue = getData(childTag, dataAttrName);
+                if (attributeValue) {
+                    childTag.setAttribute(attrName, attributeValue);
                 }
             }
         }
     };
 
-    var setSources = function setSources(element, srcsetDataAttribute, srcDataAttribute) {
+    var setAttributeIfNotNullOrEmpty = function setAttributeIfNotNullOrEmpty(element, attrName, value) {
+        if (!value) {
+            return;
+        }
+        element.setAttribute(attrName, value);
+    };
+
+    function setSources(element, settings) {
+        var dataAttrSrcName = settings.data_src;
+        var elementSrc = getData(element, dataAttrSrcName);
         var tagName = element.tagName;
-        var elementSrc = getData(element, srcDataAttribute);
         if (tagName === "IMG") {
-            setSourcesForPicture(element, srcsetDataAttribute);
-            var imgSrcset = getData(element, srcsetDataAttribute);
-            if (imgSrcset) {
-                element.setAttribute("srcset", imgSrcset);
+            var dataAttrSrcSetName = settings.data_srcset;
+            var elementSrcSet = getData(element, dataAttrSrcSetName);
+            var parent = element.parentNode;
+            if (parent && parent.tagName === "PICTURE") {
+                setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
             }
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
+            setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet);
+            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
             return;
         }
         if (tagName === "IFRAME") {
-            if (elementSrc) {
-                element.setAttribute("src", elementSrc);
-            }
+            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
+            return;
+        }
+        if (tagName === "VIDEO") {
+            setSourcesInChildren(element, "src", dataAttrSrcName);
+            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
             return;
         }
         if (elementSrc) {
             element.style.backgroundImage = 'url("' + elementSrc + '")';
         }
-    };
+    }
 
     var runningOnBrowser = typeof window !== "undefined";
 
@@ -222,12 +228,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             };
 
             callCallback(settings.callback_enter, element);
-            if (element.tagName === "IMG" || element.tagName === "IFRAME") {
+            if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
                 element.addEventListener("load", loadCallback);
                 element.addEventListener("error", errorCallback);
                 addClass(element, settings.class_loading);
             }
-            setSources(element, settings.data_srcset, settings.data_src);
+            setSources(element, settings);
             callCallback(settings.callback_set, element);
         },
 
