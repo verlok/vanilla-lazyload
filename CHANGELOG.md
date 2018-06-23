@@ -98,6 +98,11 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.8.0
+
+Added support for the `video` tag. Closes #209.
+Created the `video.html` demo.
+
 #### 8.7.1
 
 Added a security check on lazy elements' parents.
