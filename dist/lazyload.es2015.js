@@ -216,6 +216,15 @@ LazyLoad.prototype = {
         this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
     },
 
+    loadAll: function() {
+        const settings = this._settings;
+        // Fallback: load all elements at once
+        this._elements.forEach(element => {
+            revealElement(element, settings);
+        });
+        this._elements = purgeElements(this._elements);
+    },
+
     update: function (elements) {
         const settings = this._settings;
         const nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
@@ -227,11 +236,7 @@ LazyLoad.prototype = {
             });
             return;
         }
-        // Fallback: load all elements at once
-        this._elements.forEach(element => {
-            revealElement(element, settings);
-        });
-        this._elements = purgeElements(this._elements);
+        this.loadAll();
     },
 
     destroy: function () {

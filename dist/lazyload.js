@@ -224,6 +224,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
         },
 
+        loadAll: function loadAll() {
+            var settings = this._settings;
+            // Fallback: load all elements at once
+            this._elements.forEach(function (element) {
+                revealElement(element, settings);
+            });
+            this._elements = purgeElements(this._elements);
+        },
+
         update: function update(elements) {
             var _this2 = this;
 
@@ -237,11 +246,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 });
                 return;
             }
-            // Fallback: load all elements at once
-            this._elements.forEach(function (element) {
-                revealElement(element, settings);
-            });
-            this._elements = purgeElements(this._elements);
+            this.loadAll();
         },
 
         destroy: function destroy() {
