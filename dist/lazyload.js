@@ -237,7 +237,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             callCallback(settings.callback_set, element);
         },
 
-        _loopThroughElements: function _loopThroughElements() {
+        _loopThroughElements: function _loopThroughElements(forceDownload) {
             var settings = this._settings,
                 elements = this._elements,
                 elementsLength = !elements ? 0 : elements.length;
@@ -252,7 +252,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     continue;
                 }
 
-                if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
+                if (isBot || forceDownload || isInsideViewport(element, settings.container, settings.threshold)) {
                     if (firstLoop) {
                         addClass(element, settings.class_initial);
                     }
@@ -338,6 +338,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             } else {
                 this._loopThroughElements();
             }
+        },
+
+        loadAll: function loadAll() {
+            this._loopThroughElements(true);
         },
 
         update: function update() {

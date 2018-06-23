@@ -233,7 +233,7 @@ LazyLoad.prototype = {
         callCallback(settings.callback_set, element);
     },
 
-    _loopThroughElements: function () {
+    _loopThroughElements: function (forceDownload) {
         const settings = this._settings,
             elements = this._elements,
             elementsLength = (!elements) ? 0 : elements.length;
@@ -248,7 +248,7 @@ LazyLoad.prototype = {
                 continue;
             }
             
-            if (isBot || isInsideViewport(element, settings.container, settings.threshold)) {
+            if (isBot || forceDownload || isInsideViewport(element, settings.container, settings.threshold)) {
                 if (firstLoop) {
                     addClass(element, settings.class_initial);
                 }
@@ -334,6 +334,10 @@ LazyLoad.prototype = {
         } else {
             this._loopThroughElements();
         }
+    },
+
+    loadAll: function() {
+        this._loopThroughElements(true);
     },
 
     update: function () {
