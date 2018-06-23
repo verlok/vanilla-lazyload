@@ -2,6 +2,11 @@
 
 ## Version 10
 
+#### 10.7.0
+
+Now you can lazy load your `<video>` HTML tag and descending `<source>` tags.
+Created the `video.html` demo.
+
 #### 10.6.0
 
 - Added a demo with a popup layer and images injected after popup open. Closes #196.
@@ -92,6 +97,11 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.8.0
+
+Added support for the `video` tag. Closes #209.
+Created the `video.html` demo.
 
 #### 8.7.1
 
