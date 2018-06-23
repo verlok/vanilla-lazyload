@@ -20,7 +20,7 @@ Starting from version 9, LazyLoad uses the IntersectionObserver API, which is no
 To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.7.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.8.0/lazyload.min.js"></script>
 ```
 
 ### Advanced and best option: conditionally load version 8 or 10
@@ -32,7 +32,7 @@ You can do it with the following script:
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
 	var s = d.createElement("script"); s.async = true;
-	var v = !("IntersectionObserver" in w) ? "8.8.0" : "10.7.0";
+	var v = !("IntersectionObserver" in w) ? "8.8.0" : "10.8.0";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
 	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
 	b.appendChild(s);
@@ -554,8 +554,9 @@ You can call the following public methods on any instance of LazyLoad.
 
 | Method name      | Effect                                                                                               |
 |------------------|------------------------------------------------------------------------------------------------------|
-| `update()`       | Tells _LazyLoad_ that new lazy images have arrived in the container, so it must start to manage them |
-| `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners.                          |
+| `update()`       | Tells _LazyLoad_ that new lazy images have arrived in the container, so it must start to manage them. |
+| `loadAll()`      | Forces _LazyLoad_ to load all the images at once, instead of lazily loading them. |
+| `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners. |
 
 ## Notable features
 
