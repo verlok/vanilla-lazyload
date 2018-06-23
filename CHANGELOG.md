@@ -103,6 +103,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.9.0
+
+Added a public `loadAll` method to force loading all the images, as asked in #193.
+
 #### 8.8.0
 
 Added support for the `video` tag. Closes #209.
