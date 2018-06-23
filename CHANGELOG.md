@@ -2,14 +2,19 @@
 
 ## Version 10
 
+#### 10.8.0
+
+Added a public `loadAll` method to force loading all the images, as asked in #193.
+
 #### 10.7.0
 
-Now you can lazy load your `<video>` HTML tag and descending `<source>` tags.
-Created the `video.html` demo.
+- Added support for the `<video>` HTML tag and descending `<source>` tags. 
+  Now you can lazily load your videos too!
+- Created the `video.html` demo.
 
 #### 10.6.0
 
-- Added a demo with a popup layer and images injected after popup open. Closes #196.
+- Added a demo with a popup layer and images injected after popup open, to help with #196.
 - Updated the `background_images` demo with a custom management of the loading class and the loaded event callback.
 
 #### 10.5.2
