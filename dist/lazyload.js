@@ -15,6 +15,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             throttle: 150,
             data_src: "src",
             data_srcset: "srcset",
+            data_sizes: "sizes",
             class_loading: "loading",
             class_loaded: "loaded",
             class_error: "error",
@@ -65,9 +66,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
     };
 
-    var isInsideViewport = function isInsideViewport(element, container, threshold) {
+    function isInsideViewport(element, container, threshold) {
         return !isBelowViewport(element, container, threshold) && !isAboveViewport(element, container, threshold) && !isAtRightOfViewport(element, container, threshold) && !isAtLeftOfViewport(element, container, threshold);
-    };
+    }
 
     /* Creates instance and notifies it through the window element */
     var createInstance = function createInstance(classObj, options) {
@@ -87,7 +88,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     /* Auto initialization of one or more instances of lazyload, depending on the 
         options passed in (plain object or an array) */
-    var autoInitialize = function autoInitialize(classObj, options) {
+    function autoInitialize(classObj, options) {
         var optsLength = options.length;
         if (!optsLength) {
             // Plain object
@@ -98,7 +99,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 createInstance(classObj, options[i]);
             }
         }
-    };
+    }
 
     var dataPrefix = "data-";
 
@@ -129,31 +130,35 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     function setSources(element, settings) {
-        var dataAttrSrcName = settings.data_src;
-        var elementSrc = getData(element, dataAttrSrcName);
+        var sizesDataName = settings.data_sizes,
+            srcsetDataName = settings.data_srcset,
+            srcDataName = settings.data_src;
+
+        var srcDataValue = getData(element, srcDataName);
         var tagName = element.tagName;
         if (tagName === "IMG") {
-            var dataAttrSrcSetName = settings.data_srcset;
-            var elementSrcSet = getData(element, dataAttrSrcSetName);
             var parent = element.parentNode;
             if (parent && parent.tagName === "PICTURE") {
-                setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
+                setSourcesInChildren(parent, "srcset", srcsetDataName);
             }
-            setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet);
-            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
+            var sizesDataValue = getData(element, sizesDataName);
+            setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
+            var srcsetDataValue = getData(element, srcsetDataName);
+            setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
+            setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
             return;
         }
         if (tagName === "IFRAME") {
-            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
+            setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
             return;
         }
         if (tagName === "VIDEO") {
-            setSourcesInChildren(element, "src", dataAttrSrcName);
-            setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
+            setSourcesInChildren(element, "src", srcDataName);
+            setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
             return;
         }
-        if (elementSrc) {
-            element.style.backgroundImage = 'url("' + elementSrc + '")';
+        if (srcDataValue) {
+            element.style.backgroundImage = 'url("' + srcDataValue + '")';
         }
     }
 

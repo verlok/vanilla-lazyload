@@ -5,22 +5,23 @@
 }(this, (function () { 'use strict';
 
 var getDefaultSettings = () => ({
-    elements_selector: "img",
-    container: window,
-    threshold: 300,
-    throttle: 150,
-    data_src: "src",
-    data_srcset: "srcset",
-    class_loading: "loading",
-    class_loaded: "loaded",
-    class_error: "error",
-    class_initial: "initial",
-    skip_invisible: true,
-    callback_load: null,
-    callback_error: null,
-    callback_set: null,
-    callback_processed: null,
-    callback_enter: null
+	elements_selector: "img",
+	container: window,
+	threshold: 300,
+	throttle: 150,
+	data_src: "src",
+	data_srcset: "srcset",
+	data_sizes: "sizes",
+	class_loading: "loading",
+	class_loaded: "loaded",
+	class_error: "error",
+	class_initial: "initial",
+	skip_invisible: true,
+	callback_load: null,
+	callback_error: null,
+	callback_set: null,
+	callback_processed: null,
+	callback_enter: null
 });
 
 const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
@@ -62,12 +63,12 @@ const isAtLeftOfViewport = function (element, container, threshold) {
     return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
 };
 
-var isInsideViewport = function (element, container, threshold) {
+function isInsideViewport (element, container, threshold) {
     return !isBelowViewport(element, container, threshold) &&
         !isAboveViewport(element, container, threshold) &&
         !isAtRightOfViewport(element, container, threshold) &&
         !isAtLeftOfViewport(element, container, threshold);
-};
+}
 
 /* Creates instance and notifies it through the window element */
 const createInstance = function (classObj, options) { 
@@ -88,7 +89,7 @@ const createInstance = function (classObj, options) {
 
 /* Auto initialization of one or more instances of lazyload, depending on the 
     options passed in (plain object or an array) */
-var autoInitialize = function (classObj, options) { 
+function autoInitialize (classObj, options) { 
     let optsLength = options.length;
     if (!optsLength) {
         // Plain object
@@ -100,7 +101,7 @@ var autoInitialize = function (classObj, options) {
             createInstance(classObj, options[i]);
         }
     }
-};
+}
 
 const dataPrefix = "data-";
 
@@ -113,48 +114,55 @@ const setData = (element, attribute, value) => {
 };
 
 const setSourcesInChildren = function(parentTag, attrName, dataAttrName) {
-    for (let i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
-        if (childTag.tagName === "SOURCE") {
-            let attributeValue = getData(childTag, dataAttrName);
-            if (attributeValue) {
-                childTag.setAttribute(attrName, attributeValue);
-            }
-        }
-    }
+	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
+		if (childTag.tagName === "SOURCE") {
+			let attributeValue = getData(childTag, dataAttrName);
+			if (attributeValue) {
+				childTag.setAttribute(attrName, attributeValue);
+			}
+		}
+	}
 };
 
 const setAttributeIfNotNullOrEmpty = function(element, attrName, value) {
-    if (!value) {return;}
-    element.setAttribute(attrName, value);
+	if (!value) {
+		return;
+	}
+	element.setAttribute(attrName, value);
 };
 
 function setSources(element, settings) {
-    const dataAttrSrcName = settings.data_src;
-    const elementSrc = getData(element, dataAttrSrcName);
-    const tagName = element.tagName;
-    if (tagName === "IMG") {
-        const dataAttrSrcSetName = settings.data_srcset;
-        const elementSrcSet = getData(element, dataAttrSrcSetName);
-        const parent = element.parentNode;
-        if (parent && parent.tagName === "PICTURE") {
-            setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
-        }
-        setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet);
-        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
-        return;
-    }
-    if (tagName === "IFRAME") {
-        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
-        return;
-    }
-    if (tagName === "VIDEO") {
-        setSourcesInChildren(element, "src", dataAttrSrcName);
-        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
-        return;
-    }
-    if (elementSrc) {
-        element.style.backgroundImage = `url("${elementSrc}")`;
-    }
+	const {
+		data_sizes: sizesDataName,
+		data_srcset: srcsetDataName,
+		data_src: srcDataName
+	} = settings;
+	const srcDataValue = getData(element, srcDataName);
+	const tagName = element.tagName;
+	if (tagName === "IMG") {
+		const parent = element.parentNode;
+		if (parent && parent.tagName === "PICTURE") {
+			setSourcesInChildren(parent, "srcset", srcsetDataName);
+		}
+		const sizesDataValue = getData(element, sizesDataName);
+		setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
+		const srcsetDataValue = getData(element, srcsetDataName);
+		setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
+		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+		return;
+	}
+	if (tagName === "IFRAME") {
+		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+		return;
+	}
+	if (tagName === "VIDEO") {
+		setSourcesInChildren(element, "src", srcDataName);
+		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+		return;
+	}
+	if (srcDataValue) {
+		element.style.backgroundImage = `url("${srcDataValue}")`;
+	}
 }
 
 const runningOnBrowser = (typeof window !== "undefined");
