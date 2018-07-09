@@ -18,7 +18,7 @@ const setAttributeIfNotNullOrEmpty = function(element, attrName, value) {
 	element.setAttribute(attrName, value);
 };
 
-export const setSources = function(element, settings) {
+export default function setSources(element, settings) {
 	const {
 		data_sizes: sizesDataName,
 		data_srcset: srcsetDataName,
@@ -50,4 +50,4 @@ export const setSources = function(element, settings) {
 	if (srcDataValue) {
 		element.style.backgroundImage = `url("${srcDataValue}")`;
 	}
-};
+}
