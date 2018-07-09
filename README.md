@@ -12,7 +12,7 @@ Jump to:
 The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.9.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.10.0/lazyload.min.js"></script>
 ```
 
 Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
@@ -48,10 +48,10 @@ If you prefer to install LazyLoad locally in your project, you can either:
   The file you typically want to use is `lazyload.min.js`
   If you prefer the ES2015 version, use `lazyload.es2015.js`
 - **install it with npm**
-  Recommended version `npm install vanilla-lazyload@8.9.0`   
+  Recommended version `npm install vanilla-lazyload@8.10.0`   
   Latest version `npm install vanilla-lazyload`
 - **install it with bower**
-  Recommended version `bower install vanilla-lazyload#8.9.0`
+  Recommended version `bower install vanilla-lazyload#8.10.0`
   Latest version `bower install vanilla-lazyload`
   
 ### Async script
@@ -540,6 +540,7 @@ Here's the list of the options.
 | `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
 | `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"` | `"src"` |
 | `data_srcset` | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"` | `"srcset"` |
+| `data_sizes` | The name of the data attribute containing the sizes attribute to use, excluding the `"data-"` part. E.g. if your data attribute is named `"data-sizes"`, just pass `"sizes"` | `"sizes"` |
 | `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
 | `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
 | `class_error` | The class applied to the elements when the element causes an error | `"error"` |
