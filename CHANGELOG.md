@@ -2,6 +2,11 @@
 
 ## Version 10
 
+#### 10.9.0
+
+Added the ability to lazily set the `sizes` attribute via a `data-sizes` attribute.
+See the [README](README.md) file for more information.
+
 #### 10.8.0
 
 Added a public `loadAll` method to force loading all the images, as asked in #193.

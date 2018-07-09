@@ -5,6 +5,7 @@ export default (customSettings) => {
         threshold: 300,
         data_src: "src",
         data_srcset: "srcset",
+        data_sizes: "sizes",
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
