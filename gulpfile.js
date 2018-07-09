@@ -32,8 +32,8 @@ gulp.task("default", function() {
 			// ----------- minifying --------------
 			pipe(uglify()).
 			pipe(rename("lazyload.min.js")).
-			pipe(gulp.dest(destFolder))
-	); // --> writing uglified
+			pipe(gulp.dest(destFolder)) // --> writing uglified
+	);
 });
 
 gulp.task("watch", function() {
