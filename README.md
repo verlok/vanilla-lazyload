@@ -20,7 +20,7 @@ Starting from version 9, LazyLoad uses the IntersectionObserver API, which is no
 To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.8.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.9.0/lazyload.min.js"></script>
 ```
 
 ### Advanced and best option: conditionally load version 8 or 10
@@ -32,7 +32,7 @@ You can do it with the following script:
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
 	var s = d.createElement("script"); s.async = true;
-	var v = !("IntersectionObserver" in w) ? "8.8.0" : "10.8.0";
+	var v = !("IntersectionObserver" in w) ? "8.8.0" : "10.9.0";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
 	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
 	b.appendChild(s);
@@ -91,7 +91,7 @@ HTML
 ```html
 <img class="lazy" data-src="/your/image1.jpg"
     data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-    sizes="(min-width: 20em) 35vw, 100vw">
+    data-sizes="(min-width: 20em) 35vw, 100vw">
 ```
 
 Javascript
@@ -102,7 +102,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) | [API](#api)
 
 ### Responsive images - picture
 

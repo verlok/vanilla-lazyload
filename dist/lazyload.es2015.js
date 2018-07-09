@@ -11,6 +11,7 @@ var getInstanceSettings = (customSettings) => {
         threshold: 300,
         data_src: "src",
         data_srcset: "srcset",
+        data_sizes: "sizes",
         class_loading: "loading",
         class_loaded: "loaded",
         class_error: "error",
@@ -33,11 +34,11 @@ const setData = (element, attribute, value) => {
     return element.setAttribute(dataPrefix + attribute, value);
 };
 
-var purgeElements = function (elements) {
+function purgeElements (elements) {
     return elements.filter((element) => {
         return !getData(element, "was-processed");
     });
-};
+}
 
 /* Creates instance and notifies it through the window element */
 const createInstance = function (classObj, options) { 
@@ -58,7 +59,7 @@ const createInstance = function (classObj, options) {
 
 /* Auto initialization of one or more instances of lazyload, depending on the 
     options passed in (plain object or an array) */
-var autoInitialize = function (classObj, options) {
+function autoInitialize (classObj, options) {
     if (!options.length) {
         // Plain object
         createInstance(classObj, options);
@@ -68,51 +69,62 @@ var autoInitialize = function (classObj, options) {
             createInstance(classObj, optionsItem);
         }
     }
-};
+}
 
-const setSourcesInChildren = function(parentTag, attrName, dataAttrName) {
-    for (let i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
-        if (childTag.tagName === "SOURCE") {
-            let attributeValue = getData(childTag, dataAttrName);
-            if (attributeValue) {
-                childTag.setAttribute(attrName, attributeValue);
-            }
-        }
-    }
+const setSourcesInChildren = function(
+	parentTag,
+	attrName,
+	dataAttrName
+) {
+	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
+		if (childTag.tagName === "SOURCE") {
+			let attributeValue = getData(childTag, dataAttrName);
+			if (attributeValue) {
+				childTag.setAttribute(attrName, attributeValue);
+			}
+		}
+	}
 };
 
 const setAttributeIfNotNullOrEmpty = function(element, attrName, value) {
-    if (!value) {return;}
-    element.setAttribute(attrName, value);
+	if (!value) {
+		return;
+	}
+	element.setAttribute(attrName, value);
 };
 
-const setSources = function (element, settings) {
-    const dataAttrSrcName = settings.data_src;
-    const elementSrc = getData(element, dataAttrSrcName);
-    const tagName = element.tagName;
-    if (tagName === "IMG") {
-        const dataAttrSrcSetName = settings.data_srcset;
-        const elementSrcSet = getData(element, dataAttrSrcSetName);
-        const parent = element.parentNode;
-        if (parent && parent.tagName === "PICTURE") {
-            setSourcesInChildren(parent, "srcset", dataAttrSrcSetName);
-        }
-        setAttributeIfNotNullOrEmpty(element, "srcset", elementSrcSet);
-        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
-        return;
-    }
-    if (tagName === "IFRAME") {
-        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
-        return;
-    }
-    if (tagName === "VIDEO") {
-        setSourcesInChildren(element, "src", dataAttrSrcName);
-        setAttributeIfNotNullOrEmpty(element, "src", elementSrc);
-        return;
-    }
-    if (elementSrc) {
-        element.style.backgroundImage = `url("${elementSrc}")`;
-    }
+const setSources = function(element, settings) {
+	const {
+		data_sizes: sizesDataName,
+		data_srcset: srcsetDataName,
+		data_src: srcDataName
+	} = settings;
+	const srcDataValue = getData(element, srcDataName);
+	const tagName = element.tagName;
+	if (tagName === "IMG") {
+		const parent = element.parentNode;
+		if (parent && parent.tagName === "PICTURE") {
+			setSourcesInChildren(parent, "srcset", srcsetDataName);
+		}
+		const sizesDataValue = getData(element, sizesDataName);
+		setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
+		const srcsetDataValue = getData(element, srcsetDataName);
+		setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
+		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+		return;
+	}
+	if (tagName === "IFRAME") {
+		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+		return;
+	}
+	if (tagName === "VIDEO") {
+		setSourcesInChildren(element, "src", srcDataName);
+		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+		return;
+	}
+	if (srcDataValue) {
+		element.style.backgroundImage = `url("${srcDataValue}")`;
+	}
 };
 
 const runningOnBrowser = (typeof window !== "undefined");
@@ -171,7 +183,7 @@ const onEvent = function (event, success, settings) {
     callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
 };
 
-var revealElement = function (element, settings) {
+function revealElement (element, settings) {
     callCallback(settings.callback_enter, element);
     if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
         addOneShotListeners(element, settings);
@@ -180,7 +192,7 @@ var revealElement = function (element, settings) {
     setSources(element, settings);
     setData(element, "was-processed", true);
     callCallback(settings.callback_set, element);
-};
+}
 
 /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
    entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
