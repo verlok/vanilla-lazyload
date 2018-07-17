@@ -29,29 +29,29 @@ export const setSources = function(element, settings) {
 		data_src: srcDataName
 	} = settings;
 	const srcDataValue = getData(element, srcDataName);
-	const tagName = element.tagName;
-	if (tagName === "IMG") {
-		const parent = element.parentNode;
-		if (parent && parent.tagName === "PICTURE") {
-			setSourcesInChildren(parent, "srcset", srcsetDataName);
+	switch (element.tagName) {
+		case "IMG": {
+			const parent = element.parentNode;
+			if (parent && parent.tagName === "PICTURE") {
+				setSourcesInChildren(parent, "srcset", srcsetDataName);
+			}
+			const sizesDataValue = getData(element, sizesDataName);
+			setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
+			const srcsetDataValue = getData(element, srcsetDataName);
+			setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
+			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			break;
 		}
-		const sizesDataValue = getData(element, sizesDataName);
-		setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
-		const srcsetDataValue = getData(element, srcsetDataName);
-		setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
-		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-		return;
-	}
-	if (tagName === "IFRAME") {
-		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-		return;
-	}
-	if (tagName === "VIDEO") {
-		setSourcesInChildren(element, "src", srcDataName);
-		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-		return;
-	}
-	if (srcDataValue) {
-		element.style.backgroundImage = `url("${srcDataValue}")`;
+		case "IFRAME":
+			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			break;
+		case "VIDEO":
+			setSourcesInChildren(element, "src", srcDataName);
+			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			break;
+		default:
+			if (srcDataValue) {
+				element.style.backgroundImage = `url("${srcDataValue}")`;
+			}
 	}
 };
