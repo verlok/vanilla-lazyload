@@ -2,9 +2,14 @@
 
 ## Version 10
 
-#### 10.9.0
+#### 10.10.0
 
 Added a public `load` method to force loading any element.
+
+#### 10.9.0
+
+Added the ability to lazily set the `sizes` attribute via a `data-sizes` attribute.
+See the [README](README.md) file for more information.
 
 #### 10.8.0
 
@@ -106,6 +111,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.9.0
+
+Added a public `loadAll` method to force loading all the images, as asked in #193.
 
 #### 8.8.0
 
