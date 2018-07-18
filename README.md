@@ -528,6 +528,30 @@ img[data-srcset] {
 
 ## API
 
+### Constructor arguments
+
+The `new LazyLoad()` instruction you execute on your page can take 2 parameters
+
+| Required | What to pass                                    | Type    | Default value |
+| -------- | ----------------------------------------------- | ------- | ------------- |
+| No       | The option object for this instance of LazyLoad | Plain Object | `{}`     |
+| No       | A NodeSet of elements to execute LazyLoad on    | NodeSet | `null`        |
+
+The most common usage of LazyLoad constructor is to pass only the options object (see "options" in the next section). For example:
+
+```js
+var lazyLoadOptions = { /* options here */ };
+var aLazyLoad = new LazyLoad(lazyLoadOptions);
+```
+
+In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as second parameter.
+
+```js
+var lazyLoadOptions = { /* options here */ };
+var elementsToLazyLoad = getElementSetFromSomewhere();
+var aLazyLoad = new LazyLoad(lazyLoadOptions, elementsToLazyLoad);
+```
+
 ### Options
 
 For every instance of _LazyLoad_ you can pass in some options, to alter its default behaviour.
