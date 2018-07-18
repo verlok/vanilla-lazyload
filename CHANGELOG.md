@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.9.0
+
+Added a public `load` method to force loading any element.
+
 #### 10.8.0
 
 Added a public `loadAll` method to force loading all the images, as asked in #193.
