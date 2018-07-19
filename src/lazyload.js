@@ -77,8 +77,8 @@ LazyLoad.prototype = {
 		this._settings = null;
 	},
 
-	load: function(element) {
-		revealElement(element, this._settings);
+	load: function(element, force) {
+		revealElement(element, this._settings, force);
 	}
 };
 
