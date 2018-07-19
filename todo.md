@@ -10,3 +10,6 @@ TODO
     * autoinitialize
     * purge
     * reveal
+* revealElement (breaking change)
+    * now that .load() and .loadAll() now exist, in the `reveal` function we should have another callback to notify "start loading" and `callback_enter` should be moved outside of the `reveal` function, just to notify that the element entered the viewport -- BREAKING CHANGE!
+* check why on load.html the "loaded" callback is called twice in some cases
