@@ -49,7 +49,7 @@ LazyLoad.prototype = {
         const nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
 
         this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
-        if (this._observer) {
+        if (this._observer && this._observer.observe) {
             this._elements.forEach(element => {
                 this._observer.observe(element);
             });
