@@ -498,6 +498,8 @@
 			}
 
 			ll = new LazyLoad({
+				elements_selector: '.lazy',
+
 				callback_enter: function (element) {
 					logElementEvent("ENTERED", element);
 				},
