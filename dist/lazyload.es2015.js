@@ -30,44 +30,58 @@ const callCallback = function (callback, argument) {
     if (callback) { callback(argument); }
 };
 
-const getTopOffset = function (element) {
-    return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
+const getTopOffset = function(element) {
+	return (
+		element.getBoundingClientRect().top +
+		window.pageYOffset -
+		element.ownerDocument.documentElement.clientTop
+	);
 };
 
-const isBelowViewport = function (element, container, threshold) {
-    const fold = (container === window) ?
-        window.innerHeight + window.pageYOffset :
-        getTopOffset(container) + container.offsetHeight;
-    return fold <= getTopOffset(element) - threshold;
+const isBelowViewport = function(element, container, threshold) {
+	const fold =
+		container === window
+			? window.innerHeight + window.pageYOffset
+			: getTopOffset(container) + container.offsetHeight;
+	return fold <= getTopOffset(element) - threshold;
 };
 
-const getLeftOffset = function (element) {
-    return element.getBoundingClientRect().left + window.pageXOffset - element.ownerDocument.documentElement.clientLeft;
+const getLeftOffset = function(element) {
+	return (
+		element.getBoundingClientRect().left +
+		window.pageXOffset -
+		element.ownerDocument.documentElement.clientLeft
+	);
 };
 
-const isAtRightOfViewport = function (element, container, threshold) {
-    const documentWidth = window.innerWidth;
-    const fold = (container === window) ?
-        documentWidth + window.pageXOffset :
-        getLeftOffset(container) + documentWidth;
-    return fold <= getLeftOffset(element) - threshold;
+const isAtRightOfViewport = function(element, container, threshold) {
+	const documentWidth = window.innerWidth;
+	const fold =
+		container === window
+			? documentWidth + window.pageXOffset
+			: getLeftOffset(container) + documentWidth;
+	return fold <= getLeftOffset(element) - threshold;
 };
 
-const isAboveViewport = function (element, container, threshold) {
-    const fold = (container === window) ? window.pageYOffset : getTopOffset(container);
-    return fold >= getTopOffset(element) + threshold + element.offsetHeight;
+const isAboveViewport = function(element, container, threshold) {
+	const fold =
+		container === window ? window.pageYOffset : getTopOffset(container);
+	return fold >= getTopOffset(element) + threshold + element.offsetHeight;
 };
 
-const isAtLeftOfViewport = function (element, container, threshold) {
-    const fold = (container === window) ? window.pageXOffset : getLeftOffset(container);
-    return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
+const isAtLeftOfViewport = function(element, container, threshold) {
+	const fold =
+		container === window ? window.pageXOffset : getLeftOffset(container);
+	return fold >= getLeftOffset(element) + threshold + element.offsetWidth;
 };
 
-function isInsideViewport (element, container, threshold) {
-    return !isBelowViewport(element, container, threshold) &&
-        !isAboveViewport(element, container, threshold) &&
-        !isAtRightOfViewport(element, container, threshold) &&
-        !isAtLeftOfViewport(element, container, threshold);
+function isInsideViewport(element, container, threshold) {
+	return (
+		!isBelowViewport(element, container, threshold) &&
+		!isAboveViewport(element, container, threshold) &&
+		!isAtRightOfViewport(element, container, threshold) &&
+		!isAtLeftOfViewport(element, container, threshold)
+	);
 }
 
 /* Creates instance and notifies it through the window element */
@@ -104,14 +118,22 @@ function autoInitialize (classObj, options) {
 }
 
 const dataPrefix = "data-";
+const processedDataName = "was-processed";
+const processedDataValue = "true";
 
 const getData = (element, attribute) => {
-    return element.getAttribute(dataPrefix + attribute);
+	return element.getAttribute(dataPrefix + attribute);
 };
 
 const setData = (element, attribute, value) => {
-    return element.setAttribute(dataPrefix + attribute, value);
+	return element.setAttribute(dataPrefix + attribute, value);
 };
+
+const setWasProcessed = element =>
+	setData(element, processedDataName, processedDataValue);
+
+const getWasProcessed = element =>
+	getData(element, processedDataName) === processedDataValue;
 
 const setSourcesInChildren = function(parentTag, attrName, dataAttrName) {
 	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
@@ -190,189 +212,216 @@ const removeClass = (element, className) => {
  */
 
 const LazyLoad = function(instanceSettings) {
-    this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
-    this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
-    
-    this._previousLoopTime = 0;
-    this._loopTimeout = null;
-    this._boundHandleScroll = this.handleScroll.bind(this);
+	this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
+	this._queryOriginNode =
+		this._settings.container === window
+			? document
+			: this._settings.container;
 
-    this._isFirstLoop = true;
-    window.addEventListener("resize", this._boundHandleScroll);
-    this.update();
+	this._previousLoopTime = 0;
+	this._loopTimeout = null;
+	this._boundHandleScroll = this.handleScroll.bind(this);
+
+	this._isFirstLoop = true;
+	window.addEventListener("resize", this._boundHandleScroll);
+	this.update();
 };
 
 LazyLoad.prototype = {
-    
-    /*
-     * Private methods
-     */
+	_reveal: function(element, force) {
+		if (!force && getWasProcessed(element)) {
+			return; // element has already been processed and force wasn't true
+		}
 
-    _reveal: function (element) {
-        const settings = this._settings;
+		const settings = this._settings;
 
-        const errorCallback = function () {
-            /* As this method is asynchronous, it must be protected against external destroy() calls */
-            if (!settings) { return; }
-            element.removeEventListener("load", loadCallback);
-            element.removeEventListener("error", errorCallback);
-            removeClass(element, settings.class_loading);
-            addClass(element, settings.class_error);
-            callCallback(settings.callback_error, element);
-        };
+		const errorCallback = function() {
+			/* As this method is asynchronous, it must be protected against external destroy() calls */
+			if (!settings) {
+				return;
+			}
+			element.removeEventListener("load", loadCallback);
+			element.removeEventListener("error", errorCallback);
+			removeClass(element, settings.class_loading);
+			addClass(element, settings.class_error);
+			callCallback(settings.callback_error, element);
+		};
 
-        const loadCallback = function () {
-            /* As this method is asynchronous, it must be protected against external destroy() calls */
-            if (!settings) { return; }
-            removeClass(element, settings.class_loading);
-            addClass(element, settings.class_loaded);
-            element.removeEventListener("load", loadCallback);
-            element.removeEventListener("error", errorCallback);
-            callCallback(settings.callback_load, element);
-        };
+		const loadCallback = function() {
+			/* As this method is asynchronous, it must be protected against external destroy() calls */
+			if (!settings) {
+				return;
+			}
+			removeClass(element, settings.class_loading);
+			addClass(element, settings.class_loaded);
+			element.removeEventListener("load", loadCallback);
+			element.removeEventListener("error", errorCallback);
+			callCallback(settings.callback_load, element);
+		};
 
-        callCallback(settings.callback_enter, element);
-        if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
-            element.addEventListener("load", loadCallback);
-            element.addEventListener("error", errorCallback);
-            addClass(element, settings.class_loading);
-        }
-        setSources(element, settings);
-        callCallback(settings.callback_set, element);
-    },
+		callCallback(settings.callback_enter, element);
+		if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
+			element.addEventListener("load", loadCallback);
+			element.addEventListener("error", errorCallback);
+			addClass(element, settings.class_loading);
+		}
+		setSources(element, settings);
+		callCallback(settings.callback_set, element);
+	},
 
-    _loopThroughElements: function (forceDownload) {
-        const settings = this._settings,
-            elements = this._elements,
-            elementsLength = (!elements) ? 0 : elements.length;
-        let i,
-            processedIndexes = [],
-            firstLoop = this._isFirstLoop;
+	_loopThroughElements: function(forceDownload) {
+		const settings = this._settings,
+			elements = this._elements,
+			elementsLength = !elements ? 0 : elements.length;
+		let i,
+			processedIndexes = [],
+			firstLoop = this._isFirstLoop;
 
-        for (i = 0; i < elementsLength; i++) {
-            let element = elements[i];
-            /* If must skip_invisible and element is invisible, skip it */
-            if (settings.skip_invisible && (element.offsetParent === null)) {
-                continue;
-            }
-            
-            if (isBot || forceDownload || isInsideViewport(element, settings.container, settings.threshold)) {
-                if (firstLoop) {
-                    addClass(element, settings.class_initial);
-                }
-                /* Start loading the image */
-                this._reveal(element);
-                /* Marking the element as processed. */
-                processedIndexes.push(i);
-                setData(element, "was-processed", true);
-            }
-        }
-        /* Removing processed elements from this._elements. */
-        while (processedIndexes.length) {
-            elements.splice(processedIndexes.pop(), 1);
-            callCallback(settings.callback_processed, elements.length);
-        }
-        /* Stop listening to scroll event when 0 elements remains */
-        if (elementsLength === 0) {
-            this._stopScrollHandler();
-        }
-        /* Sets isFirstLoop to false */
-        if (firstLoop) {
-            this._isFirstLoop = false;
-        }
-    },
+		for (i = 0; i < elementsLength; i++) {
+			let element = elements[i];
+			/* If must skip_invisible and element is invisible, skip it */
+			if (settings.skip_invisible && element.offsetParent === null) {
+				continue;
+			}
 
-    _purgeElements: function () {
-        const elements = this._elements,
-            elementsLength = elements.length;
-        let i,
-            elementsToPurge = [];
+			if (
+				isBot ||
+				forceDownload ||
+				isInsideViewport(
+					element,
+					settings.container,
+					settings.threshold
+				)
+			) {
+				if (firstLoop) {
+					addClass(element, settings.class_initial);
+				}
+				/* Start loading the image */
+				this.load(element);
+				/* Marking the element as processed. */
+				processedIndexes.push(i);
+				setWasProcessed(element);
+			}
+		}
+		/* Removing processed elements from this._elements. */
+		while (processedIndexes.length) {
+			elements.splice(processedIndexes.pop(), 1);
+			callCallback(settings.callback_processed, elements.length);
+		}
+		/* Stop listening to scroll event when 0 elements remains */
+		if (elementsLength === 0) {
+			this._stopScrollHandler();
+		}
+		/* Sets isFirstLoop to false */
+		if (firstLoop) {
+			this._isFirstLoop = false;
+		}
+	},
 
-        for (i = 0; i < elementsLength; i++) {
-            let element = elements[i];
-            /* If the element has already been processed, skip it */
-            if (getData(element, "was-processed")) {
-                elementsToPurge.push(i);
-            }
-        }
-        /* Removing elements to purge from this._elements. */
-        while (elementsToPurge.length > 0) {
-            elements.splice(elementsToPurge.pop(), 1);
-        }
-    },
+	_purgeElements: function() {
+		const elements = this._elements,
+			elementsLength = elements.length;
+		let i,
+			elementsToPurge = [];
 
-    _startScrollHandler: function () {
-        if (!this._isHandlingScroll) {
-            this._isHandlingScroll = true;
-            this._settings.container.addEventListener("scroll", this._boundHandleScroll);
-        }
-    },
+		for (i = 0; i < elementsLength; i++) {
+			let element = elements[i];
+			/* If the element has already been processed, skip it */
+			if (getWasProcessed(element)) {
+				elementsToPurge.push(i);
+			}
+		}
+		/* Removing elements to purge from this._elements. */
+		while (elementsToPurge.length > 0) {
+			elements.splice(elementsToPurge.pop(), 1);
+		}
+	},
 
-    _stopScrollHandler: function () {
-        if (this._isHandlingScroll) {
-            this._isHandlingScroll = false;
-            this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
-        }
-    },
+	_startScrollHandler: function() {
+		if (!this._isHandlingScroll) {
+			this._isHandlingScroll = true;
+			this._settings.container.addEventListener(
+				"scroll",
+				this._boundHandleScroll
+			);
+		}
+	},
 
-    /* 
-     * Public methods
-     */
+	_stopScrollHandler: function() {
+		if (this._isHandlingScroll) {
+			this._isHandlingScroll = false;
+			this._settings.container.removeEventListener(
+				"scroll",
+				this._boundHandleScroll
+			);
+		}
+	},
 
-    handleScroll: function () {
-        const throttle = this._settings.throttle;
+	handleScroll: function() {
+		const throttle = this._settings.throttle;
 
-        if (throttle !== 0) {
-            let now = Date.now();
-            let remainingTime = throttle - (now - this._previousLoopTime);
-            if (remainingTime <= 0 || remainingTime > throttle) {
-                if (this._loopTimeout) {
-                    clearTimeout(this._loopTimeout);
-                    this._loopTimeout = null;
-                }
-                this._previousLoopTime = now;
-                this._loopThroughElements();
-            } else if (!this._loopTimeout) {
-                this._loopTimeout = setTimeout(function () {
-                    this._previousLoopTime = Date.now();
-                    this._loopTimeout = null;
-                    this._loopThroughElements();
-                }.bind(this), remainingTime);
-            }
-        } else {
-            this._loopThroughElements();
-        }
-    },
+		if (throttle !== 0) {
+			let now = Date.now();
+			let remainingTime = throttle - (now - this._previousLoopTime);
+			if (remainingTime <= 0 || remainingTime > throttle) {
+				if (this._loopTimeout) {
+					clearTimeout(this._loopTimeout);
+					this._loopTimeout = null;
+				}
+				this._previousLoopTime = now;
+				this._loopThroughElements();
+			} else if (!this._loopTimeout) {
+				this._loopTimeout = setTimeout(
+					function() {
+						this._previousLoopTime = Date.now();
+						this._loopTimeout = null;
+						this._loopThroughElements();
+					}.bind(this),
+					remainingTime
+				);
+			}
+		} else {
+			this._loopThroughElements();
+		}
+	},
 
-    loadAll: function() {
-        this._loopThroughElements(true);
-    },
+	loadAll: function() {
+		this._loopThroughElements(true);
+	},
 
-    update: function () {
-        // Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
-        this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
-        this._purgeElements();
-        this._loopThroughElements();
-        this._startScrollHandler();
-    },
+	update: function() {
+		// Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
+		this._elements = Array.prototype.slice.call(
+			this._queryOriginNode.querySelectorAll(
+				this._settings.elements_selector
+			)
+		);
+		this._purgeElements();
+		this._loopThroughElements();
+		this._startScrollHandler();
+	},
 
-    destroy: function () {
-        window.removeEventListener("resize", this._boundHandleScroll);
-        if (this._loopTimeout) {
-            clearTimeout(this._loopTimeout);
-            this._loopTimeout = null;
-        }
-        this._stopScrollHandler();
-        this._elements = null;
-        this._queryOriginNode = null;
-        this._settings = null;
-    }
+	destroy: function() {
+		window.removeEventListener("resize", this._boundHandleScroll);
+		if (this._loopTimeout) {
+			clearTimeout(this._loopTimeout);
+			this._loopTimeout = null;
+		}
+		this._stopScrollHandler();
+		this._elements = null;
+		this._queryOriginNode = null;
+		this._settings = null;
+	},
+
+	load: function(element, force) {
+		this._reveal(element, force);
+	}
 };
 
 /* Automatic instances creation if required (useful for async script loading!) */
 let autoInitOptions = window.lazyLoadOptions;
-if (runningOnBrowser && autoInitOptions) { 
-    autoInitialize(LazyLoad, autoInitOptions);
+if (runningOnBrowser && autoInitOptions) {
+	autoInitialize(LazyLoad, autoInitOptions);
 }
 
 return LazyLoad;
