@@ -528,6 +528,30 @@ img[data-srcset] {
 
 ## API
 
+### Constructor arguments
+
+The `new LazyLoad()` instruction you execute on your page can take 2 parameters
+
+| Required | What to pass                                    | Type    | Default value |
+| -------- | ----------------------------------------------- | ------- | ------------- |
+| No       | The option object for this instance of LazyLoad | Plain Object | `{}`     |
+| No       | A NodeSet of elements to execute LazyLoad on    | NodeSet | `null`        |
+
+The most common usage of LazyLoad constructor is to pass only the options object (see "options" in the next section). For example:
+
+```js
+var lazyLoadOptions = { /* options here */ };
+var aLazyLoad = new LazyLoad(lazyLoadOptions);
+```
+
+In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as second parameter.
+
+```js
+var lazyLoadOptions = { /* options here */ };
+var elementsToLazyLoad = getElementSetFromSomewhere();
+var aLazyLoad = new LazyLoad(lazyLoadOptions, elementsToLazyLoad);
+```
+
 ### Options
 
 For every instance of _LazyLoad_ you can pass in some options, to alter its default behaviour.
@@ -553,11 +577,12 @@ Here's the list of the options.
 
 You can call the following public methods on any instance of LazyLoad.
 
-| Method name      | Effect                                                                                               |
-|------------------|------------------------------------------------------------------------------------------------------|
-| `update()`       | Tells _LazyLoad_ that new lazy images have arrived in the container, so it must start to manage them. |
-| `loadAll()`      | Forces _LazyLoad_ to load all the images at once, instead of lazily loading them. |
-| `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners. |
+| Method name      | Effect                                                                                                |
+|------------------|-------------------------------------------------------------------------------------------------------|
+| `update()`       | Make LazyLoad to check for new lazy images in the container, using the `elements_selector` option.    |
+| `loadAll()`      | Loads all the lazy images right away, no matter if they are inside or outside the viewport.           |
+| `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as second parameter. |
+| `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners.                           |
 
 ## Notable features
 

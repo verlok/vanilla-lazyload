@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.10.0
+
+Added a public `load` method to force loading any element.
+
 #### 10.9.0
 
 Added the ability to lazily set the `sizes` attribute via a `data-sizes` attribute.

@@ -25,19 +25,25 @@ var getInstanceSettings = (customSettings) => {
 };
 
 const dataPrefix = "data-";
+const processedDataName = "was-processed";
+const processedDataValue = "true";
 
 const getData = (element, attribute) => {
-    return element.getAttribute(dataPrefix + attribute);
+	return element.getAttribute(dataPrefix + attribute);
 };
 
 const setData = (element, attribute, value) => {
-    return element.setAttribute(dataPrefix + attribute, value);
+	return element.setAttribute(dataPrefix + attribute, value);
 };
 
-function purgeElements (elements) {
-    return elements.filter((element) => {
-        return !getData(element, "was-processed");
-    });
+const setWasProcessed = element =>
+	setData(element, processedDataName, processedDataValue);
+
+const getWasProcessed = element =>
+	getData(element, processedDataName) === processedDataValue;
+
+function purgeElements(elements) {
+	return elements.filter(element => !getWasProcessed(element));
 }
 
 /* Creates instance and notifies it through the window element */
@@ -100,30 +106,30 @@ const setSources = function(element, settings) {
 		data_src: srcDataName
 	} = settings;
 	const srcDataValue = getData(element, srcDataName);
-	const tagName = element.tagName;
-	if (tagName === "IMG") {
-		const parent = element.parentNode;
-		if (parent && parent.tagName === "PICTURE") {
-			setSourcesInChildren(parent, "srcset", srcsetDataName);
+	switch (element.tagName) {
+		case "IMG": {
+			const parent = element.parentNode;
+			if (parent && parent.tagName === "PICTURE") {
+				setSourcesInChildren(parent, "srcset", srcsetDataName);
+			}
+			const sizesDataValue = getData(element, sizesDataName);
+			setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
+			const srcsetDataValue = getData(element, srcsetDataName);
+			setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
+			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			break;
 		}
-		const sizesDataValue = getData(element, sizesDataName);
-		setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
-		const srcsetDataValue = getData(element, srcsetDataName);
-		setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
-		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-		return;
-	}
-	if (tagName === "IFRAME") {
-		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-		return;
-	}
-	if (tagName === "VIDEO") {
-		setSourcesInChildren(element, "src", srcDataName);
-		setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-		return;
-	}
-	if (srcDataValue) {
-		element.style.backgroundImage = `url("${srcDataValue}")`;
+		case "IFRAME":
+			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			break;
+		case "VIDEO":
+			setSourcesInChildren(element, "src", srcDataName);
+			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			break;
+		default:
+			if (srcDataValue) {
+				element.style.backgroundImage = `url("${srcDataValue}")`;
+			}
 	}
 };
 
@@ -134,139 +140,156 @@ const supportsIntersectionObserver = runningOnBrowser && ("IntersectionObserver"
 const supportsClassList = runningOnBrowser && ("classList" in document.createElement("p"));
 
 const addClass = (element, className) => {
-    if (supportsClassList) {
-        element.classList.add(className);
-        return;
-    }
-    element.className += (element.className ? " " : "") + className;
+	if (supportsClassList) {
+		element.classList.add(className);
+		return;
+	}
+	element.className += (element.className ? " " : "") + className;
 };
 
 const removeClass = (element, className) => {
-    if (supportsClassList) {
-        element.classList.remove(className);
-        return;
-    }
-    element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+	if (supportsClassList) {
+		element.classList.remove(className);
+		return;
+	}
+	element.className = element.className.
+		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
+		replace(/^\s+/, "").
+		replace(/\s+$/, "");
 };
 
-const callCallback = function (callback, argument) {
-    if (callback) {
-        callback(argument);
-    }
+const callCallback = function(callback, argument) {
+	if (callback) {
+		callback(argument);
+	}
 };
 
 const loadString = "load";
 const errorString = "error";
 
 const removeListeners = function(element, loadHandler, errorHandler) {
-    element.removeEventListener(loadString, loadHandler);
-    element.removeEventListener(errorString, errorHandler);
+	element.removeEventListener(loadString, loadHandler);
+	element.removeEventListener(errorString, errorHandler);
 };
 
 const addOneShotListeners = function(element, settings) {
-    const onLoad = (event) => {
-        onEvent(event, true, settings);
-        removeListeners(element, onLoad, onError);
-    };
-    const onError = (event) => {
-        onEvent(event, false, settings);
-        removeListeners(element, onLoad, onError);
-    };
-    element.addEventListener(loadString, onLoad);
-    element.addEventListener(errorString, onError);
+	const onLoad = event => {
+		onEvent(event, true, settings);
+		removeListeners(element, onLoad, onError);
+	};
+	const onError = event => {
+		onEvent(event, false, settings);
+		removeListeners(element, onLoad, onError);
+	};
+	element.addEventListener(loadString, onLoad);
+	element.addEventListener(errorString, onError);
 };
 
-const onEvent = function (event, success, settings) {
-    const element = event.target;
-    removeClass(element, settings.class_loading);
-    addClass(element, (success ? settings.class_loaded : settings.class_error)); // Setting loaded or error class
-    callCallback(success ? settings.callback_load : settings.callback_error, element); // Calling loaded or error callback
+const onEvent = function(event, success, settings) {
+	const element = event.target;
+	removeClass(element, settings.class_loading);
+	addClass(element, success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
+	callCallback(
+		success ? settings.callback_load : settings.callback_error,
+		element
+	);
 };
 
-function revealElement (element, settings) {
-    callCallback(settings.callback_enter, element);
-    if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
-        addOneShotListeners(element, settings);
-        addClass(element, settings.class_loading);
-    }
-    setSources(element, settings);
-    setData(element, "was-processed", true);
-    callCallback(settings.callback_set, element);
+function revealElement(element, settings, force) {
+	if (!force && getWasProcessed(element)) {
+		return; // element has already been processed and force wasn't true
+	}
+	callCallback(settings.callback_enter, element);
+	if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
+		addOneShotListeners(element, settings);
+		addClass(element, settings.class_loading);
+	}
+	setSources(element, settings);
+	setWasProcessed(element);
+	callCallback(settings.callback_set, element);
 }
 
 /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
    entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-const isIntersecting = (element) => element.isIntersecting || element.intersectionRatio > 0;
+const isIntersecting = element =>
+	element.isIntersecting || element.intersectionRatio > 0;
 
-const LazyLoad = function (customSettings, elements) {
-    this._settings = getInstanceSettings(customSettings);
-    this._setObserver();
-    this.update(elements);
+const getObserverSettings = settings => ({
+	root: settings.container === document ? null : settings.container,
+	rootMargin: settings.threshold + "px"
+});
+
+const LazyLoad = function(customSettings, elements) {
+	this._settings = getInstanceSettings(customSettings);
+	this._setObserver();
+	this.update(elements);
 };
 
 LazyLoad.prototype = {
-    _setObserver: function () {
-        if (!supportsIntersectionObserver) {
-            return;
-        }
+	_setObserver: function() {
+		if (!supportsIntersectionObserver) {
+			return;
+		}
+		const revealIntersectingElements = entries => {
+			entries.forEach(entry => {
+				if (isIntersecting(entry)) {
+					let element = entry.target;
+					this.load(element);
+					this._observer.unobserve(element);
+				}
+			});
+			this._elements = purgeElements(this._elements);
+		};
+		this._observer = new IntersectionObserver(
+			revealIntersectingElements,
+			getObserverSettings(this._settings)
+		);
+	},
 
-        const settings = this._settings;
-        const observerSettings = {
-            root: settings.container === document ? null : settings.container,
-            rootMargin: settings.threshold + "px"
-        };
-        const revealIntersectingElements = (entries) => {
-            entries.forEach(entry => {
-                if (isIntersecting(entry)) {
-                    let element = entry.target;
-                    revealElement(element, this._settings);
-                    this._observer.unobserve(element);
-                }
-            });
-            this._elements = purgeElements(this._elements);
-        };
-        this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
-    },
+	loadAll: function() {
+		this._elements.forEach(element => {
+			this.load(element);
+		});
+		this._elements = purgeElements(this._elements);
+	},
 
-    loadAll: function() {
-        const settings = this._settings;
-        // Fallback: load all elements at once
-        this._elements.forEach(element => {
-            revealElement(element, settings);
-        });
-        this._elements = purgeElements(this._elements);
-    },
+	update: function(elements) {
+		const settings = this._settings;
+		const nodeSet =
+			elements ||
+			settings.container.querySelectorAll(settings.elements_selector);
 
-    update: function (elements) {
-        const settings = this._settings;
-        const nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
+		this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
+		if (this._observer) {
+			this._elements.forEach(element => {
+				this._observer.observe(element);
+			});
+			return;
+		}
+		// Fallback: load all elements at once
+		this.loadAll();
+	},
 
-        this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
-        if (this._observer) {
-            this._elements.forEach(element => {
-                this._observer.observe(element);
-            });
-            return;
-        }
-        this.loadAll();
-    },
+	destroy: function() {
+		if (this._observer) {
+			purgeElements(this._elements).forEach(element => {
+				this._observer.unobserve(element);
+			});
+			this._observer = null;
+		}
+		this._elements = null;
+		this._settings = null;
+	},
 
-    destroy: function () {
-        if (this._observer) {
-            purgeElements(this._elements).forEach(element => {
-                this._observer.unobserve(element);
-            });
-            this._observer = null;
-        }
-        this._elements = null;
-        this._settings = null;
-    }
+	load: function(element, force) {
+		revealElement(element, this._settings, force);
+	}
 };
 
 /* Automatic instances creation if required (useful for async script loading!) */
 let autoInitOptions = window.lazyLoadOptions;
 if (runningOnBrowser && autoInitOptions) {
-    autoInitialize(LazyLoad, autoInitOptions);
+	autoInitialize(LazyLoad, autoInitOptions);
 }
 
 return LazyLoad;
