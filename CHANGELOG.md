@@ -112,6 +112,15 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.11.0
+
+Added a public `load` method to force loading any element.
+
+#### 8.10.0
+
+Added the ability to lazily set the `sizes` attribute via a `data-sizes` attribute.
+See the [README](README.md) file for more information.
+
 #### 8.9.0
 
 Added a public `loadAll` method to force loading all the images, as asked in #193.
