@@ -2,7 +2,10 @@ import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
-import { isIntersecting } from "./lazyload.intersectionObserver";
+import {
+	isIntersecting,
+	getObserverSettings
+} from "./lazyload.intersectionObserver";
 import {
 	runningOnBrowser,
 	supportsIntersectionObserver
@@ -19,17 +22,11 @@ LazyLoad.prototype = {
 		if (!supportsIntersectionObserver) {
 			return;
 		}
-
-		const settings = this._settings;
-		const observerSettings = {
-			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px"
-		};
 		const revealIntersectingElements = entries => {
 			entries.forEach(entry => {
 				if (isIntersecting(entry)) {
 					let element = entry.target;
-					revealElement(element, this._settings);
+					this.load(element);
 					this._observer.unobserve(element);
 				}
 			});
@@ -37,15 +34,13 @@ LazyLoad.prototype = {
 		};
 		this._observer = new IntersectionObserver(
 			revealIntersectingElements,
-			observerSettings
+			getObserverSettings(this._settings)
 		);
 	},
 
 	loadAll: function() {
-		const settings = this._settings;
-		// Fallback: load all elements at once
 		this._elements.forEach(element => {
-			revealElement(element, settings);
+			this.load(element);
 		});
 		this._elements = purgeElements(this._elements);
 	},
@@ -63,6 +58,7 @@ LazyLoad.prototype = {
 			});
 			return;
 		}
+		// Fallback: load all elements at once
 		this.loadAll();
 	},
 
@@ -77,8 +73,8 @@ LazyLoad.prototype = {
 		this._settings = null;
 	},
 
-	load: function(element) {
-		revealElement(element, this._settings);
+	load: function(element, force) {
+		revealElement(element, this._settings, force);
 	}
 };
 
