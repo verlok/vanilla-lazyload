@@ -225,7 +225,6 @@ LazyLoad.prototype = {
 			return;
 		}
 
-		const settings = this._settings;
 		const observerSettings = {
 			root: settings.container === document ? null : settings.container,
 			rootMargin: settings.threshold + "px"
@@ -234,7 +233,7 @@ LazyLoad.prototype = {
 			entries.forEach(entry => {
 				if (isIntersecting(entry)) {
 					let element = entry.target;
-					revealElement(element, this._settings);
+					this.load(element);
 					this._observer.unobserve(element);
 				}
 			});
@@ -247,10 +246,8 @@ LazyLoad.prototype = {
 	},
 
 	loadAll: function() {
-		const settings = this._settings;
-		// Fallback: load all elements at once
 		this._elements.forEach(element => {
-			revealElement(element, settings);
+			this.load(element);
 		});
 		this._elements = purgeElements(this._elements);
 	},
@@ -268,6 +265,7 @@ LazyLoad.prototype = {
 			});
 			return;
 		}
+		// Fallback: load all elements at once
 		this.loadAll();
 	},
 

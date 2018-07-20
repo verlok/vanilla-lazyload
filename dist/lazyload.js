@@ -225,7 +225,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				return;
 			}
 
-			var settings = this._settings;
 			var observerSettings = {
 				root: settings.container === document ? null : settings.container,
 				rootMargin: settings.threshold + "px"
@@ -234,7 +233,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				entries.forEach(function (entry) {
 					if (isIntersecting(entry)) {
 						var element = entry.target;
-						revealElement(element, _this._settings);
+						_this.load(element);
 						_this._observer.unobserve(element);
 					}
 				});
@@ -244,16 +243,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		},
 
 		loadAll: function loadAll() {
-			var settings = this._settings;
-			// Fallback: load all elements at once
+			var _this2 = this;
+
 			this._elements.forEach(function (element) {
-				revealElement(element, settings);
+				_this2.load(element);
 			});
 			this._elements = purgeElements(this._elements);
 		},
 
 		update: function update(elements) {
-			var _this2 = this;
+			var _this3 = this;
 
 			var settings = this._settings;
 			var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
@@ -261,19 +260,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
 			if (this._observer) {
 				this._elements.forEach(function (element) {
-					_this2._observer.observe(element);
+					_this3._observer.observe(element);
 				});
 				return;
 			}
+			// Fallback: load all elements at once
 			this.loadAll();
 		},
 
 		destroy: function destroy() {
-			var _this3 = this;
+			var _this4 = this;
 
 			if (this._observer) {
 				purgeElements(this._elements).forEach(function (element) {
-					_this3._observer.unobserve(element);
+					_this4._observer.unobserve(element);
 				});
 				this._observer = null;
 			}
