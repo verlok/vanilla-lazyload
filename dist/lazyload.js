@@ -211,6 +211,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return element.isIntersecting || element.intersectionRatio > 0;
 	};
 
+	var getObserverSettings = function getObserverSettings(settings) {
+		return {
+			root: settings.container === document ? null : settings.container,
+			rootMargin: settings.threshold + "px"
+		};
+	};
+
 	var LazyLoad = function LazyLoad(customSettings, elements) {
 		this._settings = getInstanceSettings(customSettings);
 		this._setObserver();
@@ -224,11 +231,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			if (!supportsIntersectionObserver) {
 				return;
 			}
-
-			var observerSettings = {
-				root: settings.container === document ? null : settings.container,
-				rootMargin: settings.threshold + "px"
-			};
 			var revealIntersectingElements = function revealIntersectingElements(entries) {
 				entries.forEach(function (entry) {
 					if (isIntersecting(entry)) {
@@ -239,7 +241,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				});
 				_this._elements = purgeElements(_this._elements);
 			};
-			this._observer = new IntersectionObserver(revealIntersectingElements, observerSettings);
+			this._observer = new IntersectionObserver(revealIntersectingElements, getObserverSettings(this._settings));
 		},
 
 		loadAll: function loadAll() {

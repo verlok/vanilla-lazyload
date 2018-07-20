@@ -2,7 +2,10 @@ import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
-import { isIntersecting } from "./lazyload.intersectionObserver";
+import {
+	isIntersecting,
+	getObserverSettings
+} from "./lazyload.intersectionObserver";
 import {
 	runningOnBrowser,
 	supportsIntersectionObserver
@@ -19,11 +22,6 @@ LazyLoad.prototype = {
 		if (!supportsIntersectionObserver) {
 			return;
 		}
-
-		const observerSettings = {
-			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px"
-		};
 		const revealIntersectingElements = entries => {
 			entries.forEach(entry => {
 				if (isIntersecting(entry)) {
@@ -36,7 +34,7 @@ LazyLoad.prototype = {
 		};
 		this._observer = new IntersectionObserver(
 			revealIntersectingElements,
-			observerSettings
+			getObserverSettings(this._settings)
 		);
 	},
 

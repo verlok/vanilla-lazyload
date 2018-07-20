@@ -211,7 +211,13 @@ function revealElement(element, settings, force) {
 
 /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
    entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-const isIntersecting = (element) => element.isIntersecting || element.intersectionRatio > 0;
+const isIntersecting = element =>
+	element.isIntersecting || element.intersectionRatio > 0;
+
+const getObserverSettings = settings => ({
+	root: settings.container === document ? null : settings.container,
+	rootMargin: settings.threshold + "px"
+});
 
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
@@ -224,11 +230,6 @@ LazyLoad.prototype = {
 		if (!supportsIntersectionObserver) {
 			return;
 		}
-
-		const observerSettings = {
-			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px"
-		};
 		const revealIntersectingElements = entries => {
 			entries.forEach(entry => {
 				if (isIntersecting(entry)) {
@@ -241,7 +242,7 @@ LazyLoad.prototype = {
 		};
 		this._observer = new IntersectionObserver(
 			revealIntersectingElements,
-			observerSettings
+			getObserverSettings(this._settings)
 		);
 	},
 
