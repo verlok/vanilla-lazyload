@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.11.0
+
+SEO! Version 10.x is now as SEO-friendly as version 8.x.
+
 #### 10.10.0
 
 Added a public `load` method to force loading any element.
