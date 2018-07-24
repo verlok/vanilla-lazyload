@@ -32,7 +32,7 @@ You can do it with the following script:
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
 	var s = d.createElement("script"); s.async = true;
-	var v = !("IntersectionObserver" in w) ? "8.8.0" : "10.10.0";
+	var v = !("IntersectionObserver" in w) ? "8.11.0" : "10.10.0";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
 	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
 	b.appendChild(s);
