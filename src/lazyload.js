@@ -7,6 +7,7 @@ import {
 	getObserverSettings
 } from "./lazyload.intersectionObserver";
 import {
+	isBot,
 	runningOnBrowser,
 	supportsIntersectionObserver
 } from "./lazyload.environment";
@@ -52,14 +53,15 @@ LazyLoad.prototype = {
 			settings.container.querySelectorAll(settings.elements_selector);
 
 		this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
-		if (this._observer) {
-			this._elements.forEach(element => {
-				this._observer.observe(element);
-			});
+
+		if (isBot || !this._observer) {
+			this.loadAll();
 			return;
 		}
-		// Fallback: load all elements at once
-		this.loadAll();
+
+		this._elements.forEach(element => {
+			this._observer.observe(element);
+		});
 	},
 
 	destroy: function() {
