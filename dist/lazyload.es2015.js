@@ -133,11 +133,16 @@ const setSources = function(element, settings) {
 	}
 };
 
-const runningOnBrowser = (typeof window !== "undefined");
+const isBot =
+	"onscroll" in window && !/glebot/.test(navigator.userAgent);
 
-const supportsIntersectionObserver = runningOnBrowser && ("IntersectionObserver" in window);
+const runningOnBrowser = typeof window !== "undefined";
 
-const supportsClassList = runningOnBrowser && ("classList" in document.createElement("p"));
+const supportsIntersectionObserver =
+	runningOnBrowser && "IntersectionObserver" in window;
+
+const supportsClassList =
+	runningOnBrowser && "classList" in document.createElement("p");
 
 const addClass = (element, className) => {
 	if (supportsClassList) {
@@ -260,14 +265,15 @@ LazyLoad.prototype = {
 			settings.container.querySelectorAll(settings.elements_selector);
 
 		this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
-		if (this._observer) {
-			this._elements.forEach(element => {
-				this._observer.observe(element);
-			});
+
+		if (isBot || !this._observer) {
+			this.loadAll();
 			return;
 		}
-		// Fallback: load all elements at once
-		this.loadAll();
+
+		this._elements.forEach(element => {
+			this._observer.observe(element);
+		});
 	},
 
 	destroy: function() {

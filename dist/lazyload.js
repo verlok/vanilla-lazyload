@@ -135,6 +135,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	};
 
+	var isBot = "onscroll" in window && !/glebot/.test(navigator.userAgent);
+
 	var runningOnBrowser = typeof window !== "undefined";
 
 	var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
@@ -260,14 +262,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
 
 			this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
-			if (this._observer) {
-				this._elements.forEach(function (element) {
-					_this3._observer.observe(element);
-				});
+
+			if (isBot || !this._observer) {
+				this.loadAll();
 				return;
 			}
-			// Fallback: load all elements at once
-			this.loadAll();
+
+			this._elements.forEach(function (element) {
+				_this3._observer.observe(element);
+			});
 		},
 
 		destroy: function destroy() {
