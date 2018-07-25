@@ -2,6 +2,14 @@
 
 ## Version 10
 
+#### 10.11.0
+
+SEO! Version 10.x is now as SEO-friendly as version 8.x.
+
+#### 10.10.0
+
+Added a public `load` method to force loading any element.
+
 #### 10.9.0
 
 Added the ability to lazily set the `sizes` attribute via a `data-sizes` attribute.
@@ -107,6 +115,15 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.11.0
+
+Added a public `load` method to force loading any element.
+
+#### 8.10.0
+
+Added the ability to lazily set the `sizes` attribute via a `data-sizes` attribute.
+See the [README](README.md) file for more information.
 
 #### 8.9.0
 
