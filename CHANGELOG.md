@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.11.1
+
+**BUGFIX**: Fixed issue #225. Due to mistyped BOT detection, in version 10.11.0 all images were loaded as soon as `LazyLoad` was created.
+
 #### 10.11.0
 
 SEO! Version 10.x is now as SEO-friendly as version 8.x.

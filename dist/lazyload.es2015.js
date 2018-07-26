@@ -134,7 +134,7 @@ const setSources = function(element, settings) {
 };
 
 const isBot =
-	"onscroll" in window && !/glebot/.test(navigator.userAgent);
+	!("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
 const runningOnBrowser = typeof window !== "undefined";
 
