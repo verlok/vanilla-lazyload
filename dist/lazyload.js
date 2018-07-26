@@ -135,7 +135,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	};
 
-	var isBot = "onscroll" in window && !/glebot/.test(navigator.userAgent);
+	var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
 	var runningOnBrowser = typeof window !== "undefined";
 
