@@ -1,5 +1,5 @@
 export const isBot =
-	"onscroll" in window && !/glebot/.test(navigator.userAgent);
+	!("onscroll" in window) || /glebot/.test(navigator.userAgent);
 
 export const runningOnBrowser = typeof window !== "undefined";
 
