@@ -72,6 +72,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	/* Auto initialization of one or more instances of lazyload, depending on the 
      options passed in (plain object or an array) */
 	function autoInitialize(classObj, options) {
+		if (!options) {
+			return;
+		}
 		if (!options.length) {
 			// Plain object
 			createInstance(classObj, options);
@@ -135,9 +138,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	};
 
-	var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
-
 	var runningOnBrowser = typeof window !== "undefined";
+
+	var isBot = runningOnBrowser && !("onscroll" in window) || /glebot|bingbot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
 
 	var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
 
@@ -291,10 +294,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	};
 
-	/* Automatic instances creation if required (useful for async script loading!) */
-	var autoInitOptions = window.lazyLoadOptions;
-	if (runningOnBrowser && autoInitOptions) {
-		autoInitialize(LazyLoad, autoInitOptions);
+	/* Automatic instances creation if required (useful for async script loading) */
+	if (runningOnBrowser) {
+		autoInitialize(LazyLoad, window.lazyLoadOptions);
 	}
 
 	return LazyLoad;
