@@ -1,11 +1,11 @@
 import getDefaultSettings from "./lazyload.defaults";
-import { isBot, callCallback } from "./lazyload.utils";
+import { callCallback } from "./lazyload.utils";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
 import setSources from "./lazyload.setSources";
 import { addClass, removeClass } from "./lazyload.class";
 import { getWasProcessed, setWasProcessed } from "./lazyload.data";
-import { runningOnBrowser } from "./lazyload.environment";
+import { isBot, runningOnBrowser } from "./lazyload.environment";
 
 /*
  * Constructor

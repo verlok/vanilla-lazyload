@@ -24,10 +24,10 @@ var getDefaultSettings = () => ({
 	callback_enter: null
 });
 
-const isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
-
-const callCallback = function (callback, argument) {
-    if (callback) { callback(argument); }
+const callCallback = function(callback, argument) {
+	if (callback) {
+		callback(argument);
+	}
 };
 
 const getTopOffset = function(element) {
@@ -187,9 +187,14 @@ function setSources(element, settings) {
 	}
 }
 
-const runningOnBrowser = (typeof window !== "undefined");
+const runningOnBrowser = typeof window !== "undefined";
 
-const supportsClassList = runningOnBrowser && ("classList" in document.createElement("p"));
+const supportsClassList =
+	runningOnBrowser && "classList" in document.createElement("p");
+
+const isBot =
+	(runningOnBrowser && !("onscroll" in window)) ||
+	/glebot|bingbot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
 
 const addClass = (element, className) => {
     if (supportsClassList) {

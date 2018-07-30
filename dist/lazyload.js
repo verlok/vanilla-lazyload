@@ -29,8 +29,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 	};
 
-	var isBot = !("onscroll" in window) || /glebot/.test(navigator.userAgent);
-
 	var callCallback = function callCallback(callback, argument) {
 		if (callback) {
 			callback(argument);
@@ -175,6 +173,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var runningOnBrowser = typeof window !== "undefined";
 
 	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
+
+	var isBot = runningOnBrowser && !("onscroll" in window) || /glebot|bingbot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
 
 	var addClass = function addClass(element, className) {
 		if (supportsClassList) {
