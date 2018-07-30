@@ -80,10 +80,9 @@ LazyLoad.prototype = {
 	}
 };
 
-/* Automatic instances creation if required (useful for async script loading!) */
-let autoInitOptions = window.lazyLoadOptions;
-if (runningOnBrowser && autoInitOptions) {
-	autoInitialize(LazyLoad, autoInitOptions);
+/* Automatic instances creation if required (useful for async script loading) */
+if (runningOnBrowser) {
+	autoInitialize(LazyLoad, window.lazyLoadOptions);
 }
 
 export default LazyLoad;
