@@ -20,7 +20,7 @@ Starting from version 9, LazyLoad uses the IntersectionObserver API, which is no
 To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.11.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.12.0/lazyload.min.js"></script>
 ```
 
 ### Advanced and best option: conditionally load version 8 or 10
@@ -32,7 +32,7 @@ You can do it with the following script:
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
 	var s = d.createElement("script"); s.async = true;
-	var v = !("IntersectionObserver" in w) ? "8.11.0" : "10.11.1";
+	var v = !("IntersectionObserver" in w) ? "8.11.0" : "10.12.0";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
 	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
 	b.appendChild(s);
@@ -532,10 +532,10 @@ img[data-srcset] {
 
 The `new LazyLoad()` instruction you execute on your page can take 2 parameters
 
-| Required | What to pass                                    | Type    | Default value |
-| -------- | ----------------------------------------------- | ------- | ------------- |
-| No       | The option object for this instance of LazyLoad | Plain Object | `{}`     |
-| No       | A NodeSet of elements to execute LazyLoad on    | NodeSet | `null`        |
+| Required | What to pass                                    | Type         | Default value |
+| -------- | ----------------------------------------------- | ------------ | ------------- |
+| No       | The option object for this instance of LazyLoad | Plain Object | `{}`          |
+| No       | A NodeSet of elements to execute LazyLoad on    | NodeSet      | `null`        |
 
 The most common usage of LazyLoad constructor is to pass only the options object (see "options" in the next section). For example:
 
@@ -557,32 +557,32 @@ var aLazyLoad = new LazyLoad(lazyLoadOptions, elementsToLazyLoad);
 For every instance of _LazyLoad_ you can pass in some options, to alter its default behaviour.
 Here's the list of the options.
 
-| Name | Meaning | Default value |
-| ---- | ----| ---- |
-| `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `document` |
-| `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. For multiple elements, you can add the css selectors for the same followed by a comma. E.g.: `'iframe, img, .container_class'`. This will lazy load images for iframe and img elements along with the images/background images under `'container_class'` | `"img"` |
-| `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `data_src` | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"` | `"src"` |
-| `data_srcset` | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"` | `"srcset"` |
-| `data_sizes` | The name of the data attribute containing the sizes attribute to use, excluding the `"data-"` part. E.g. if your data attribute is named `"data-sizes"`, just pass `"sizes"` | `"sizes"` |
-| `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
-| `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
-| `class_error` | The class applied to the elements when the element causes an error | `"error"` |
-| `callback_enter` | A function to be called when the DOM element enters the viewport. | `null` |
-| `callback_set` | A function to be called after the src of an image is set in the DOM. | `null` |
-| `callback_load` | A function to be called when an element was loaded. | `null` |
-| `callback_error` | A function to be called when an element triggers an error. | `null` |
+| Name                | Meaning                                                                                                                                                                                                                                                                                                                                                               | Default value |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `container`         | The scrolling container, and the container of the elements in the `elements_selector` option.                                                                                                                                                                                                                                                                         | `document`    |
+| `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. For multiple elements, you can add the css selectors for the same followed by a comma. E.g.: `'iframe, img, .container_class'`. This will lazy load images for iframe and img elements along with the images/background images under `'container_class'` | `"img"`       |
+| `threshold`         | The distance out of the viewport, expressed in pixel, before which to start loading the images                                                                                                                                                                                                                                                                        | `300`         |
+| `data_src`          | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"`                                                                                                                                                                                               | `"src"`       |
+| `data_srcset`       | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"`                                                                                                                                       | `"srcset"`    |
+| `data_sizes`        | The name of the data attribute containing the sizes attribute to use, excluding the `"data-"` part. E.g. if your data attribute is named `"data-sizes"`, just pass `"sizes"`                                                                                                                                                                                          | `"sizes"`     |
+| `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                   | `"loading"`   |
+| `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                        | `"loaded"`    |
+| `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                    | `"error"`     |
+| `callback_enter`    | A function to be called when the DOM element enters the viewport.                                                                                                                                                                                                                                                                                                     | `null`        |
+| `callback_set`      | A function to be called after the src of an image is set in the DOM.                                                                                                                                                                                                                                                                                                  | `null`        |
+| `callback_load`     | A function to be called when an element was loaded.                                                                                                                                                                                                                                                                                                                   | `null`        |
+| `callback_error`    | A function to be called when an element triggers an error.                                                                                                                                                                                                                                                                                                            | `null`        |
 
 ### Methods
 
 You can call the following public methods on any instance of LazyLoad.
 
-| Method name      | Effect                                                                                                |
-|------------------|-------------------------------------------------------------------------------------------------------|
-| `update()`       | Make LazyLoad to check for new lazy images in the container, using the `elements_selector` option.    |
-| `loadAll()`      | Loads all the lazy images right away, no matter if they are inside or outside the viewport.           |
+| Method name            | Effect                                                                                                                                                                                                                      |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `update()`             | Make LazyLoad to check for new lazy images in the container, using the `elements_selector` option.                                                                                                                          |
+| `loadAll()`            | Loads all the lazy images right away, no matter if they are inside or outside the viewport.                                                                                                                                 |
 | `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as second parameter. |
-| `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners.                           |
+| `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                 |
 
 ## Notable features
 

@@ -47,34 +47,36 @@ function purgeElements(elements) {
 }
 
 /* Creates instance and notifies it through the window element */
-const createInstance = function (classObj, options) { 
-    var event;
-    let eventString = "LazyLoad::Initialized";
-    let instance = new classObj(options);
-    try {
-        // Works in modern browsers
-        event = new CustomEvent(eventString, { detail: { instance } });
-    }
-    catch(err) {
-        // Works in Internet Explorer (all versions)
-        event = document.createEvent("CustomEvent");
-        event.initCustomEvent(eventString, false, false, { instance });
-    }
-    window.dispatchEvent(event);
+const createInstance = function(classObj, options) {
+	var event;
+	let eventString = "LazyLoad::Initialized";
+	let instance = new classObj(options);
+	try {
+		// Works in modern browsers
+		event = new CustomEvent(eventString, { detail: { instance } });
+	} catch (err) {
+		// Works in Internet Explorer (all versions)
+		event = document.createEvent("CustomEvent");
+		event.initCustomEvent(eventString, false, false, { instance });
+	}
+	window.dispatchEvent(event);
 };
 
 /* Auto initialization of one or more instances of lazyload, depending on the 
     options passed in (plain object or an array) */
-function autoInitialize (classObj, options) {
-    if (!options.length) {
-        // Plain object
-        createInstance(classObj, options);
-    } else {
-        // Array of objects
-        for (let i = 0, optionsItem; optionsItem = options[i]; i += 1) {
-            createInstance(classObj, optionsItem);
-        }
-    }
+function autoInitialize(classObj, options) {
+	if (!options) {
+		return;
+	}
+	if (!options.length) {
+		// Plain object
+		createInstance(classObj, options);
+	} else {
+		// Array of objects
+		for (let i = 0, optionsItem; (optionsItem = options[i]); i += 1) {
+			createInstance(classObj, optionsItem);
+		}
+	}
 }
 
 const setSourcesInChildren = function(
@@ -133,10 +135,11 @@ const setSources = function(element, settings) {
 	}
 };
 
-const isBot =
-	!("onscroll" in window) || /glebot/.test(navigator.userAgent);
-
 const runningOnBrowser = typeof window !== "undefined";
+
+const isBot =
+	(runningOnBrowser && !("onscroll" in window)) ||
+	/glebot|bingbot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
 
 const supportsIntersectionObserver =
 	runningOnBrowser && "IntersectionObserver" in window;
@@ -292,10 +295,9 @@ LazyLoad.prototype = {
 	}
 };
 
-/* Automatic instances creation if required (useful for async script loading!) */
-let autoInitOptions = window.lazyLoadOptions;
-if (runningOnBrowser && autoInitOptions) {
-	autoInitialize(LazyLoad, autoInitOptions);
+/* Automatic instances creation if required (useful for async script loading) */
+if (runningOnBrowser) {
+	autoInitialize(LazyLoad, window.lazyLoadOptions);
 }
 
 return LazyLoad;
