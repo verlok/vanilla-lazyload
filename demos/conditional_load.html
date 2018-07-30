@@ -4,7 +4,7 @@
 <head lang="en">
 	<meta charset="UTF-8">
 	<title>
-		Lazyload tests
+		Conditional load - LazyLoad Demos
 	</title>
 	<style>
 		ul,
@@ -33,15 +33,6 @@
 			img:-moz-loading {
 				visibility: hidden;
 			}
-		}
-
-		button {
-			position: fixed;
-			bottom: 10px;
-			width: 10em;
-			height: 3em;
-			left: 50%;
-			margin-left: -5em;
 		}
 	</style>
 </head>
@@ -251,32 +242,19 @@
 			</li>
 		</ul>
 	</div>
-	<button type="button" id="loadAll">
-		LOAD ALL
-	</button>
-	<script src="../dist/lazyload.min.js"></script>
 	<script>
-		(function () {
-			function logElementEvent(eventName, element) {
-				console.log(new Date().getTime(), eventName, element.getAttribute('data-src'));
-			}
+		(function (w, d) {
+			w.addEventListener('LazyLoad::Initialized', function (e) {
+				w.lazyLoadInstance = e.detail.instance;
+			}, false);
 
-			ll = new LazyLoad({
-				callback_load: function (element) {
-					logElementEvent("LOADED", element);
-				},
-				callback_set: function (element) {
-					logElementEvent("SET", element);
-				}
-			});
-
-			var loadAllButton = document.getElementById('loadAll');
-
-			loadAllButton.addEventListener('click', () => {
-				ll.loadAll();
-				loadAllButton.disabled = true;
-			});
-		}());
+			var b = d.getElementsByTagName('body')[0];
+			var s = d.createElement("script"); s.async = true;
+			var v = !("IntersectionObserver" in w) ? "8.11.0" : "10.10.0";
+			s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+			w.lazyLoadOptions = {};
+			b.appendChild(s);
+		}(window, document));
 	</script>
 </body>
 
