@@ -2,7 +2,7 @@ export const runningOnBrowser = typeof window !== "undefined";
 
 export const isBot =
 	(runningOnBrowser && !("onscroll" in window)) ||
-	/glebot|bingbot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+	/(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
 
 export const supportsIntersectionObserver =
 	runningOnBrowser && "IntersectionObserver" in window;
