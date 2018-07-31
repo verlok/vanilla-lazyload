@@ -59,6 +59,11 @@ LazyLoad.prototype = {
 			return;
 		}
 
+    // TODO: Find out why `this._observer.observe` is undefined sometimes
+    if (!this._observer.observe) { 
+      return;
+    }
+
 		this._elements.forEach(element => {
 			this._observer.observe(element);
 		});
