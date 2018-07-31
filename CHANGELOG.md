@@ -124,6 +124,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.12.0
+
+SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.
+
 #### 8.11.0
 
 Added a public `load` method to force loading any element.
