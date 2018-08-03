@@ -1,9 +1,3 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.LazyLoad = factory());
-}(this, (function () { 'use strict';
-
 var getDefaultSettings = () => ({
 	elements_selector: "img",
 	container: window,
@@ -189,12 +183,11 @@ function setSources(element, settings) {
 
 const runningOnBrowser = typeof window !== "undefined";
 
-const supportsClassList =
-	runningOnBrowser && "classList" in document.createElement("p");
-
 const isBot =
 	(runningOnBrowser && !("onscroll" in window)) ||
-	/glebot|bingbot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+	/(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
+const supportsClassList =
+	runningOnBrowser && "classList" in document.createElement("p");
 
 const addClass = (element, className) => {
     if (supportsClassList) {
@@ -429,6 +422,4 @@ if (runningOnBrowser && autoInitOptions) {
 	autoInitialize(LazyLoad, autoInitOptions);
 }
 
-return LazyLoad;
-
-})));
+export default LazyLoad;
