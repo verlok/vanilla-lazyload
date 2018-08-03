@@ -9,3 +9,5 @@ export const supportsIntersectionObserver =
 
 export const supportsClassList =
 	runningOnBrowser && "classList" in document.createElement("p");
+
+export const supportsWebP = runningOnBrowser && false; // && TODO
