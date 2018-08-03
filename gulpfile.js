@@ -32,7 +32,7 @@ gulp.task("dist-es", function() {
 					input: "./src/lazyload.js"
 				})
 			).
-			pipe(rename("lazyload-es.js")).
+			pipe(rename("lazyload.es2015.js")).
 			pipe(gulp.dest(destFolder)) // --> writing rolledup
 	);
 });
@@ -52,11 +52,11 @@ gulp.task("dist-amd", function() {
 			).
 			// ----------- babelizing --------------
 			pipe(babel()).
-			pipe(rename("lazyload-amd.js")).
+			pipe(rename("lazyload.amd.js")).
 			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
 			// ----------- minifying --------------
 			pipe(uglify()).
-			pipe(rename("lazyload-amd.min.js")).
+			pipe(rename("lazyload.amd.min.js")).
 			pipe(sourcemaps.write("")). // --> writing sourcemap
 			pipe(gulp.dest(destFolder)) // --> writing uglified
 	);
@@ -102,11 +102,11 @@ gulp.task("dist-iife", function() {
 			).
 			// ----------- babelizing --------------
 			pipe(babel()).
-			pipe(rename("lazyload-iife.js")).
+			pipe(rename("lazyload.iife.js")).
 			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
 			// ----------- minifying --------------
 			pipe(uglify()).
-			pipe(rename("lazyload-iife.min.js")).
+			pipe(rename("lazyload.iife.min.js")).
 			pipe(sourcemaps.write("")). // --> writing sourcemap
 			pipe(gulp.dest(destFolder)) // --> writing uglified
 	);
