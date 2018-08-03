@@ -147,3 +147,12 @@ gulp.task("watch", function() {
 		"dist-iife"
 	]);
 });
+
+gulp.task("default", [
+	"lint",
+	"dist-umd",
+	"dist-es",
+	"dist-cjs",
+	"dist-amd",
+	"dist-iife"
+]);
