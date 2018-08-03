@@ -12,7 +12,7 @@ Jump to:
 The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.11.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.12.0/lazyload.min.js"></script>
 ```
 
 Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
@@ -32,7 +32,7 @@ You can do it with the following script:
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
 	var s = d.createElement("script"); s.async = true;
-	var v = !("IntersectionObserver" in w) ? "8.11.0" : "10.12.0";
+	var v = !("IntersectionObserver" in w) ? "8.12.0" : "10.12.0";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
 	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
 	b.appendChild(s);
@@ -48,10 +48,10 @@ If you prefer to install LazyLoad locally in your project, you can either:
   The file you typically want to use is `lazyload.min.js`
   If you prefer the ES2015 version, use `lazyload.es2015.js`
 - **install it with npm**
-  Recommended version `npm install vanilla-lazyload@8.11.0`   
+  Recommended version `npm install vanilla-lazyload@8.12.0`
   Latest version `npm install vanilla-lazyload`
 - **install it with bower**
-  Recommended version `bower install vanilla-lazyload#8.11.0`
+  Recommended version `bower install vanilla-lazyload#8.12.0`
   Latest version `bower install vanilla-lazyload`
   
 ### Async script
