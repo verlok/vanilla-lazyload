@@ -140,9 +140,10 @@ gulp.task("dist-iife", function() {
 gulp.task("watch", function() {
 	gulp.watch("./src/**/*.js", [
 		"lint",
+		"dist-umd",
 		"dist-es",
 		"dist-cjs",
 		"dist-amd",
-		"dist-umd"
+		"dist-iife"
 	]);
 });
