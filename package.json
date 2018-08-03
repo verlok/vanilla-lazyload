@@ -1,20 +1,22 @@
 {
 	"name": "vanilla-lazyload",
-	"version": "8.12.0",
+	"version": "8.13.0",
 	"description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
 	"main": "dist/lazyload.min.js",
+	"module": "dist/lazyload.es2015.js",
+	"browser": "dist/lazyload.iife.min.js",
 	"devDependencies": {
 		"babel-core": "^6.26.0",
 		"babel-plugin-transform-object-assign": "^6.22.0",
-		"babel-preset-env": "^1.6.0",
 		"babel-preset-es2015": "^6.24.1",
 		"gulp": "^3.9.1",
-		"gulp-babel": "^7.0.0",
+		"gulp-babel": "^7.0.1",
 		"gulp-eslint": "^4.0.0",
-		"gulp-notify": "^3.0.0",
 		"gulp-rename": "^1.2.2",
-		"gulp-rollup": "^2.14.0",
-		"gulp-uglify": "^3.0.0"
+		"gulp-rollup": "^2.16.2",
+		"gulp-sourcemaps": "^2.6.4",
+		"gulp-uglify": "^3.0.0",
+		"jest-cli": "^20.0.4"
 	},
 	"scripts": {},
 	"repository": {
@@ -33,9 +35,8 @@
 		"progressive",
 		"performance",
 		"perfmatters",
-		"no-jquery",
-		"gulp",
-		"async"
+		"async",
+		"no-jquery"
 	],
 	"author": "Andrea \"verlok\" Verlicchi",
 	"license": "MIT",
