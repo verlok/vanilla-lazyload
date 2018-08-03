@@ -102,11 +102,36 @@ gulp.task("dist-umd", function() {
 			).
 			// ----------- babelizing --------------
 			pipe(babel()).
-			pipe(rename("lazyload-umd.js")).
+			pipe(rename("lazyload.js")).
 			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
 			// ----------- minifying --------------
 			pipe(uglify()).
-			pipe(rename("lazyload-umd.min.js")).
+			pipe(rename("lazyload.min.js")).
+			pipe(sourcemaps.write("")). // --> writing sourcemap
+			pipe(gulp.dest(destFolder)) // --> writing uglified
+	);
+});
+
+gulp.task("dist-iife", function() {
+	process.env.NODE_ENV = "release";
+	return (
+		gulp.
+			src("./src/**/*.js").
+			pipe(sourcemaps.init()).
+			// ----------- rolling up --------------
+			pipe(
+				rollup({
+					output: { name: "LazyLoad", format: "iife" },
+					input: "./src/lazyload.js"
+				})
+			).
+			// ----------- babelizing --------------
+			pipe(babel()).
+			pipe(rename("lazyload-iife.js")).
+			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
+			// ----------- minifying --------------
+			pipe(uglify()).
+			pipe(rename("lazyload-iife.min.js")).
 			pipe(sourcemaps.write("")). // --> writing sourcemap
 			pipe(gulp.dest(destFolder)) // --> writing uglified
 	);
