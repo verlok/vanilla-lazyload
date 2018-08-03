@@ -37,31 +37,6 @@ gulp.task("dist-es", function() {
 	);
 });
 
-gulp.task("dist-cjs", function() {
-	process.env.NODE_ENV = "release";
-	return (
-		gulp.
-			src("./src/**/*.js").
-			pipe(sourcemaps.init()).
-			// ----------- rolling up --------------
-			pipe(
-				rollup({
-					output: { name: "LazyLoad", format: "cjs" },
-					input: "./src/lazyload.js"
-				})
-			).
-			// ----------- babelizing --------------
-			pipe(babel()).
-			pipe(rename("lazyload-cjs.js")).
-			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
-			// ----------- minifying --------------
-			pipe(uglify()).
-			pipe(rename("lazyload-cjs.min.js")).
-			pipe(sourcemaps.write("")). // --> writing sourcemap
-			pipe(gulp.dest(destFolder)) // --> writing uglified
-	);
-});
-
 gulp.task("dist-amd", function() {
 	process.env.NODE_ENV = "release";
 	return (
@@ -142,17 +117,9 @@ gulp.task("watch", function() {
 		"lint",
 		"dist-umd",
 		"dist-es",
-		"dist-cjs",
 		"dist-amd",
 		"dist-iife"
 	]);
 });
 
-gulp.task("default", [
-	"lint",
-	"dist-umd",
-	"dist-es",
-	"dist-cjs",
-	"dist-amd",
-	"dist-iife"
-]);
+gulp.task("default", ["lint", "dist-umd", "dist-es", "dist-amd", "dist-iife"]);
