@@ -2,6 +2,19 @@
 
 ## Version 10
 
+#### 10.13.0
+
+- Shortened the RegEx for crawlers detection (shaved a few bytes)
+- Released LazyLoad in new module types! Enjoy the new flavours :)
+
+| Filename               | Module Type                                    | Advantages                                                         |
+| ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------ |
+| `lazyload.min.js`      | UMD (Universal Module Definition)              | Works pretty much everywhere, even in common-js contexts           |
+| `lazyload.iife.min.js` | IIFE (Immediately Invoked Function Expression) | Works as in-page `<script src="">`, ~0.5kb smaller minified        |
+| `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the *require.js* module loader, ~0.5kb smaller minified |
+| `lazyload.es.js`       | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
+| `lazyload.es2015.js`   | ES Module type wrapped in UMD                  | **Deprecated!** This file will be removed in the next version.     |
+
 #### 10.12.0
 
 SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.
