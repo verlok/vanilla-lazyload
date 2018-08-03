@@ -1,29 +1,59 @@
-LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images only as they enter the viewport**. LazyLoad is written in plain (vanilla) Javascript, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it's SEO friendly and it has some other [notable features](#notable-features). 
-
-Check out the [LazyLoad website](https://verlok.github.io/lazyload/), in case you're reading this on GitHub.
+LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images, video or iframes as they enter the viewport**. It's written in plain "vanilla" JavaScript, uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#notable-features).
 
 Jump to:
 
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
 
-## Include the script
+## Include the script / browser support
 
-### From [cdnjs](https://cdnjs.com/libraries/vanilla-lazyload)
+### Simple: direct include from cdnjs
 
-Just include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) script, e.g. like that:
+The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.0.1/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.13.0/lazyload.min.js"></script>
 ```
+
+Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
+
+To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.13.0/lazyload.min.js"></script>
+```
+
+### Advanced and best option: conditionally load version 8 or 10
+
+The best thing you can do is to conditionally load the best version of LazyLoad **depending on the browser's support of the IntersectionObserver API**.
+You can do it with the following script:
+
+```js
+(function(w, d){
+	var b = d.getElementsByTagName('body')[0];
+	var s = d.createElement("script"); s.async = true;
+	var v = !("IntersectionObserver" in w) ? "8.13.0" : "10.13.0";
+	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
+	b.appendChild(s);
+}(window, document));
+```
+
+See the conditional_load.html file in the demos folder to try it or play around with it.
 
 ### Local install
 
 If you prefer to install LazyLoad locally in your project, you can either:
-- [download it from the `dist` folder](https://github.com/verlok/lazyload/tree/master/dist). The file you typically want to use is **lazyload.min.js**.
-- install it with `npm install --save vanilla-lazyload`
-- install it with `bower install vanilla-lazyload`.
-
+- **download it** from the [`dist` folder](https://github.com/verlok/lazyload/tree/master/dist)
+  The file you typically want to use is `lazyload.min.js`
+  If you prefer the ES2015 version, use `lazyload.es2015.js`
+- **install it with npm**
+  Recommended version `npm install vanilla-lazyload@8.13.0`
+  Latest version `npm install vanilla-lazyload`
+- **install it with bower**
+  Recommended version `bower install vanilla-lazyload#8.13.0`
+  Latest version `bower install vanilla-lazyload`
+  
 ### Async script
 
 It's possible to include it as an `async` script, see [Recipes](#recipes) below.
@@ -37,7 +67,7 @@ It's possible to include it as an `async` script, see [Recipes](#recipes) below.
 HTML
 
 ```html
-<img alt="..." 
+<img class="lazy" alt="..." 
      data-src="../img/44721746JJ_15_a.jpg"
      width="220" height="280">
 ```
@@ -45,7 +75,9 @@ HTML
 Javascript
 
 ```js
-var myLazyLoad = new LazyLoad();
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api)
@@ -57,18 +89,20 @@ var myLazyLoad = new LazyLoad();
 HTML 
 
 ```html
-<img data-src="/your/image1.jpg"
+<img class="lazy" data-src="/your/image1.jpg"
     data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-    sizes="(min-width: 20em) 35vw, 100vw">
+    data-sizes="(min-width: 20em) 35vw, 100vw">
 ```
 
 Javascript
 
 ```js
-var myLazyLoad = new LazyLoad();
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_sizes.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) | [API](#api)
 
 ### Responsive images - picture
 
@@ -80,17 +114,64 @@ HTML
 <picture>
     <source media="(min-width: 1024px)" data-srcset="/your/image1a.jpg" />
     <source media="(min-width: 500px)" data-srcset="/your/image1b.jpg" />
-    <img alt="Stivaletti" data-src="/your/image1.jpg">
+    <img class="lazy" alt="Stivaletti" data-src="/your/image1.jpg">
 </picture>
 ```
 
 Javascript
 
 ```js
-var myLazyLoad = new LazyLoad();
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) | [API](#api)
+
+### Videos
+
+> **When to use**: you want to lazily load videos using the `video` tag.
+
+HTML
+
+```html
+<video class="lazy" controls width="620"
+    data-src="/your/video.mp4" poster="/your/poster.jpg">
+    <source type="video/mp4" data-src="/your/video.mp4">
+    <source type="video/ogg" data-src="/your/video.ogg">
+    <source type="video/avi" data-src="/your/video.avi">
+</video>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/video.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) | [API](#api)
+
+### Iframes
+
+> **When to use**: you want to lazily load `iframe`s.
+
+HTML
+
+```html
+<iframe class="lazy" data-src="https://some.page.com" frameborder="0"></iframe>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) | [API](#api)
 
 ### Async script + auto initialization
 
@@ -126,7 +207,7 @@ window.lazyLoadOptions = [{
 <script async src="https://.../lazyload.min.js"></script>
 ```
 
-Please note that if you put the script at the beginning of your HTML page, LazyLoad will be sometimes executed before the browser has loaded all the DOM. 
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
 
 [DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
@@ -182,7 +263,7 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 ```
 
 
-### Scolling panel
+### Scrolling panel
 
 > **When to use**: when your scrolling container is not the main browser window, but a scrolling container.
 
@@ -303,7 +384,7 @@ That's it. Whenever the element selected by `elements_selector` is not an `img` 
 
 ### Lazy LazyLoad
 
-> **When to use**: when you have a lot of scrolling containers in the page and you want to insantiate a LazyLoad only on the ones that are in the viewport.
+> **When to use**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
 
 HTML
 
@@ -398,7 +479,7 @@ There's also a **useful SASS mixin** to [maintain aspect ratio](https://css-tric
 
 ### Show the images *while* they load
 
-Images should be shown while they load, and not after, to give your users the best perceived performance. This is especially true if you use a progressive loading format like **progressive JPEG**.
+Images should be shown while they load, and not after, to give your users the best perceived performance. This is especially true if you use a progressive loading format like **Progressive JPEG**.
 
 In order to make your images visible as soon as LazyLoad sets the `src`/`srcset` attribute to it, you can either:
 
@@ -411,7 +492,18 @@ img:not([src]) {
 }
 ```
 
-Or do it using the **CSS classes** set by LazyLoad when loading starts - see [API](#api).
+Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#api).
+
+
+### Do NOT use placeholder images
+
+We do not recommend to use a placeholder image (like a transparent pixel GIF) in your HTML. 
+
+* For **best perceived preformance, leave the `src` and `srcset` attributes blank**. Doing so, the image will be shown as soon as LazyLoad starts loading the image. See [this video](https://youtu.be/2E3ociaFJS0) or [this pen](https://codepen.io/verlok/pen/bKYggE?editors=0110) to test the difference (remember to disable the cache and to set a slower connection speed if you have a very fast one).
+* If you put anything in the src (like a transparent GIF), then LazyLoad starts loading the image but it won't be shown by browsers until the new image is loaded, leading to a **worse perceived performance**.
+
+It's safe not to put any value in the `src` nor `srcset` attributes, even if your HTML won't validate by a static code analyzer. The reason is that once JavaScript is executed, those values will be set by LazyLoad. For SEO, if the client is a crawler like Googlebot, it will be detected by LazyLoad which will fix the HTML.
+
 
 <!--
 MOAR points to add to the README:
@@ -420,51 +512,83 @@ MOAR points to add to the README:
 * When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
 -->
 
+### Dealing with Microsoft Edge problems
+
+According to what reported in #152, for Microsoft Edge to fire the IntersectionObserver for an `img` element, it must have a size. Since `img`s are displayed `inline-block` as standard, MS Edge (version not specified) doesn't read them correctly.
+
+By setting the following, edge is able to see the images and they get loaded.
+
+```css
+img[data-src],
+img[data-srcset] {
+  display: block;
+  min-height: 1px;
+}
+```
+
 ## API
+
+### Constructor arguments
+
+The `new LazyLoad()` instruction you execute on your page can take 2 parameters
+
+| Required | What to pass                                    | Type         | Default value |
+| -------- | ----------------------------------------------- | ------------ | ------------- |
+| No       | The option object for this instance of LazyLoad | Plain Object | `{}`          |
+| No       | A NodeSet of elements to execute LazyLoad on    | NodeSet      | `null`        |
+
+The most common usage of LazyLoad constructor is to pass only the options object (see "options" in the next section). For example:
+
+```js
+var lazyLoadOptions = { /* options here */ };
+var aLazyLoad = new LazyLoad(lazyLoadOptions);
+```
+
+In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as second parameter.
+
+```js
+var lazyLoadOptions = { /* options here */ };
+var elementsToLazyLoad = getElementSetFromSomewhere();
+var aLazyLoad = new LazyLoad(lazyLoadOptions, elementsToLazyLoad);
+```
 
 ### Options
 
 For every instance of _LazyLoad_ you can pass in some options, to alter its default behaviour.
 Here's the list of the options.
 
-| Name | Meaning | Default value |
-| ---- | ----| ---- |
-| `container` | The scrolling container, and the container of the elements in the `elements_selector` option. | `window` |
-| `elements_selector` | The selector of the image elements inside the container, as descendants of the element in the `container` option | `"img"` |
-| `threshold` | The distance out of the viewport, expressed in pixel, before which to start loading the images | `300` |
-| `throttle` | The time that has to pass between one element parsing and the following, when fast scroll events occur | `150` |
-| `data_src` | The name of the data attribute containing the src image source, excluding the `data-`, e.g. if your data attribute is named `data-src`, just pass `src` | `"src"` |
-| `data_srcset` | The name of the data attribute containing the src image source set in either `img` and `source` tags. , e.g. if your data attribute is named `data-srcset`, just pass `srcset` | `"srcset"` |
-| `class_loading` | The class applied to the elements while the loading is in progress. | `"loading"` |
-| `class_loaded` | The class applied to the elements when the loading is complete | `"loaded"` |
-| `class_error` | The class applied to the elements when the element causes an error | `"error"` |
-| `class_initial` | The class applied to the first batch elements to be loaded in the page | `"initial"` |
-| `skip_invisible` | Specifies whether the script has to consider invisible images or not | `true` |
-| `callback_load` | A function to be called when an element was loaded. | `null` |
-| `callback_error` | A function to be called when an element triggers an error. | `null` |
-| `callback_set` | A function to be called when the src of an image is set in the DOM. | `null` |
-| `callback_processed` | A function to be called when an image was processed. | `null` |
-
+| Name                | Meaning                                                                                                                                                                                                                                                                                                                                                               | Default value |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `container`         | The scrolling container, and the container of the elements in the `elements_selector` option.                                                                                                                                                                                                                                                                         | `document`    |
+| `elements_selector` | The string selector of the elements to load lazily, to be selected as descendants of the `container` object. For multiple elements, you can add the css selectors for the same followed by a comma. E.g.: `'iframe, img, .container_class'`. This will lazy load images for iframe and img elements along with the images/background images under `'container_class'` | `"img"`       |
+| `threshold`         | The distance out of the viewport, expressed in pixel, before which to start loading the images                                                                                                                                                                                                                                                                        | `300`         |
+| `data_src`          | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"`                                                                                                                                                                                               | `"src"`       |
+| `data_srcset`       | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-original-set"`, just pass `"original-set"`                                                                                                                                       | `"srcset"`    |
+| `data_sizes`        | The name of the data attribute containing the sizes attribute to use, excluding the `"data-"` part. E.g. if your data attribute is named `"data-sizes"`, just pass `"sizes"`                                                                                                                                                                                          | `"sizes"`     |
+| `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                   | `"loading"`   |
+| `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                        | `"loaded"`    |
+| `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                    | `"error"`     |
+| `callback_enter`    | A function to be called when the DOM element enters the viewport.                                                                                                                                                                                                                                                                                                     | `null`        |
+| `callback_set`      | A function to be called after the src of an image is set in the DOM.                                                                                                                                                                                                                                                                                                  | `null`        |
+| `callback_load`     | A function to be called when an element was loaded.                                                                                                                                                                                                                                                                                                                   | `null`        |
+| `callback_error`    | A function to be called when an element triggers an error.                                                                                                                                                                                                                                                                                                            | `null`        |
 
 ### Methods
 
 You can call the following public methods on any instance of LazyLoad.
 
-| Method name      | Effect                                                                                               |
-|------------------|------------------------------------------------------------------------------------------------------|
-| `update()`       | Tells _LazyLoad_ that new lazy images have arrived in the container, so it must start to manage them |
-| `destroy()`      | Destroys the instance, unsetting instance variables and removing listeners.                          |
-| `handleScroll()` | A throttled scroll handler. This is called automatically from LazyLoad if the container element fires a `scroll` event, but it's exposed as a public method to allow you to use LazyLoad otherwise (i.g. when using iScroll) |
+| Method name            | Effect                                                                                                                                                                                                                      |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `update()`             | Make LazyLoad to check for new lazy images in the container, using the `elements_selector` option.                                                                                                                          |
+| `loadAll()`            | Loads all the lazy images right away, no matter if they are inside or outside the viewport.                                                                                                                                 |
+| `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as second parameter. |
+| `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                 |
 
 ## Notable features
 
 ### SEO friendly
 
-LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` you your image.
-
-### Progressive JPEG support --> improve perceived performance
-
-[Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
+LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
 
 ### It works with your favourite framework
 
@@ -474,10 +598,14 @@ As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using *
 
 _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
 
-### Throttled execution for optimized CPU usage
+### Progressive JPEG support --> improve perceived performance
 
-_LazyLoad_'s listeners to the container's `scroll` and `resize` events are throttled by default, meaning that the main function of the script will not overload the CPU of devices with a smooth scroll. 
+[Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
+
+### Intersection Observer API for optimized CPU usage
+
+Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
 
 ### Much faster than jQuery\_lazyload
 
-This script is comparable to the notorious jQuery\_lazyload, but **_LazyLoad_ is 6x faster**, because LazyLoad uses only optimized, **native javascript** functions and methods, instead of jQuery. Your users will see the difference, even in slow devices or computers.
+This script is comparable to the notorious jQuery\_lazyload, but **_LazyLoad_ is 10x faster**, because LazyLoad uses only optimized, **native javascript** functions and methods, instead of jQuery.
