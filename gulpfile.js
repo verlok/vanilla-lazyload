@@ -32,33 +32,8 @@ gulp.task("dist-es", function() {
 					input: "./src/lazyload.js"
 				})
 			).
-			pipe(rename("lazyload-es.js")).
+			pipe(rename("lazyload.es2015.js")).
 			pipe(gulp.dest(destFolder)) // --> writing rolledup
-	);
-});
-
-gulp.task("dist-cjs", function() {
-	process.env.NODE_ENV = "release";
-	return (
-		gulp.
-			src("./src/**/*.js").
-			pipe(sourcemaps.init()).
-			// ----------- rolling up --------------
-			pipe(
-				rollup({
-					output: { name: "LazyLoad", format: "cjs" },
-					input: "./src/lazyload.js"
-				})
-			).
-			// ----------- babelizing --------------
-			pipe(babel()).
-			pipe(rename("lazyload-cjs.js")).
-			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
-			// ----------- minifying --------------
-			pipe(uglify()).
-			pipe(rename("lazyload-cjs.min.js")).
-			pipe(sourcemaps.write("")). // --> writing sourcemap
-			pipe(gulp.dest(destFolder)) // --> writing uglified
 	);
 });
 
@@ -77,11 +52,11 @@ gulp.task("dist-amd", function() {
 			).
 			// ----------- babelizing --------------
 			pipe(babel()).
-			pipe(rename("lazyload-amd.js")).
+			pipe(rename("lazyload.amd.js")).
 			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
 			// ----------- minifying --------------
 			pipe(uglify()).
-			pipe(rename("lazyload-amd.min.js")).
+			pipe(rename("lazyload.amd.min.js")).
 			pipe(sourcemaps.write("")). // --> writing sourcemap
 			pipe(gulp.dest(destFolder)) // --> writing uglified
 	);
@@ -127,11 +102,11 @@ gulp.task("dist-iife", function() {
 			).
 			// ----------- babelizing --------------
 			pipe(babel()).
-			pipe(rename("lazyload-iife.js")).
+			pipe(rename("lazyload.iife.js")).
 			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
 			// ----------- minifying --------------
 			pipe(uglify()).
-			pipe(rename("lazyload-iife.min.js")).
+			pipe(rename("lazyload.iife.min.js")).
 			pipe(sourcemaps.write("")). // --> writing sourcemap
 			pipe(gulp.dest(destFolder)) // --> writing uglified
 	);
@@ -142,17 +117,9 @@ gulp.task("watch", function() {
 		"lint",
 		"dist-umd",
 		"dist-es",
-		"dist-cjs",
 		"dist-amd",
 		"dist-iife"
 	]);
 });
 
-gulp.task("default", [
-	"lint",
-	"dist-umd",
-	"dist-es",
-	"dist-cjs",
-	"dist-amd",
-	"dist-iife"
-]);
+gulp.task("default", ["lint", "dist-umd", "dist-es", "dist-amd", "dist-iife"]);
