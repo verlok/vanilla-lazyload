@@ -37,10 +37,10 @@ export const setSources = function(element, settings) {
 		data_src: srcDataName
 	} = settings;
 	const srcDataValue = getData(element, srcDataName);
+	const mustChangeToWebP = supportsWebP && settings.to_webp;
 	switch (element.tagName) {
 		case "IMG": {
 			const parent = element.parentNode;
-			const mustChangeToWebP = supportsWebP && settings.to_webp;
 			if (parent && parent.tagName === "PICTURE") {
 				setSourcesInChildren(
 					parent,
