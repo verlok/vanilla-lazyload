@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>
+		Lazyload tests
+	</title>
+	<style>
+		ul,
+		li {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		a,
+		img {
+			display: block;
+		}
+
+		img {
+			border: 0;
+		}
+
+		img:not([src]) {
+			visibility: hidden;
+		}
+
+		/* Fixes Firefox anomaly during image load */
+
+		@-moz-document url-prefix() {
+			img:-moz-loading {
+				visibility: hidden;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div id="results1" class="results">
+		<ul>
+			<li>
+				<a href="#">
+					<img alt="Stivaletti" src="https://placehold.it/220x280?text=01.jpg" srcset="https://placehold.it/220x280?text=01.jpg 1x, https://placehold.it/440x560?text=01.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Open toe" data-src="https://placehold.it/220x280?text=02.jpg" data-srcset="https://placehold.it/220x280?text=02.jpg 1x, https://placehold.it/440x560?text=02.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis" data-src="https://placehold.it/220x280?text=03.jpg" data-srcset="https://placehold.it/220x280?text=03.jpg 1x, https://placehold.it/440x560?text=03.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis shoes basse" data-src="https://placehold.it/220x280?text=04.jpg" data-srcset="https://placehold.it/220x280?text=04.jpg 1x, https://placehold.it/440x560?text=04.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis shoes alte" data-src="https://placehold.it/220x280?text=05.jpg" data-srcset="https://placehold.it/220x280?text=05.jpg 1x, https://placehold.it/440x560?text=05.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis shoes alte" data-src="https://placehold.it/220x280?text=06.jpg" data-srcset="https://placehold.it/220x280?text=06.jpg 1x, https://placehold.it/440x560?text=06.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis shoes basse" data-src="https://placehold.it/220x280?text=07.jpg" data-srcset="https://placehold.it/220x280?text=07.jpg 1x, https://placehold.it/440x560?text=07.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis shoes basse" data-src="https://placehold.it/220x280?text=08.jpg" data-srcset="https://placehold.it/220x280?text=08.jpg 1x, https://placehold.it/440x560?text=08.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivali" data-src="https://placehold.it/220x280?text=09.jpg" data-srcset="https://placehold.it/220x280?text=09.jpg 1x, https://placehold.it/440x560?text=09.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivali" data-src="https://placehold.it/220x280?text=10.jpg" data-srcset="https://placehold.it/220x280?text=10.jpg 1x, https://placehold.it/440x560?text=10.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy" alt="Stivaletti" data-src="https://placehold.it/220x280?text=11.jpg" data-srcset="https://placehold.it/220x280?text=11.jpg 1x, https://placehold.it/440x560?text=11.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=12.jpg" data-srcset="https://placehold.it/220x280?text=12.jpg 1x, https://placehold.it/440x560?text=12.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivali" data-src="https://placehold.it/220x280?text=13.jpg" data-srcset="https://placehold.it/220x280?text=13.jpg 1x, https://placehold.it/440x560?text=13.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=14.jpg" data-srcset="https://placehold.it/220x280?text=14.jpg 1x, https://placehold.it/440x560?text=14.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Décolleté" data-src="https://placehold.it/220x280?text=15.jpg" data-srcset="https://placehold.it/220x280?text=15.jpg 1x, https://placehold.it/440x560?text=15.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy" alt="Mocassini" data-src="https://placehold.it/220x280?text=16.jpg" data-srcset="https://placehold.it/220x280?text=16.jpg 1x, https://placehold.it/440x560?text=16.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=17.jpg" data-srcset="https://placehold.it/220x280?text=17.jpg 1x, https://placehold.it/440x560?text=17.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Décolleté" data-src="https://placehold.it/220x280?text=18.jpg" data-srcset="https://placehold.it/220x280?text=18.jpg 1x, https://placehold.it/440x560?text=18.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Décolleté" data-src="https://placehold.it/220x280?text=19.jpg" data-srcset="https://placehold.it/220x280?text=19.jpg 1x, https://placehold.it/440x560?text=19.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Francesine" data-src="https://placehold.it/220x280?text=20.jpg" data-srcset="https://placehold.it/220x280?text=20.jpg 1x, https://placehold.it/440x560?text=20.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=21.jpg" data-srcset="https://placehold.it/220x280?text=21.jpg 1x, https://placehold.it/440x560?text=21.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy" alt="Décolleté" data-src="https://placehold.it/220x280?text=22.jpg" data-srcset="https://placehold.it/220x280?text=22.jpg 1x, https://placehold.it/440x560?text=22.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Mocassini" data-src="https://placehold.it/220x280?text=23.jpg" data-srcset="https://placehold.it/220x280?text=23.jpg 1x, https://placehold.it/440x560?text=23.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Mocassini" data-src="https://placehold.it/220x280?text=24.jpg" data-srcset="https://placehold.it/220x280?text=24.jpg 1x, https://placehold.it/440x560?text=24.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivali" data-src="https://placehold.it/220x280?text=25.jpg" data-srcset="https://placehold.it/220x280?text=25.jpg 1x, https://placehold.it/440x560?text=25.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=26.jpg" data-srcset="https://placehold.it/220x280?text=26.jpg 1x, https://placehold.it/440x560?text=26.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=27.jpg" data-srcset="https://placehold.it/220x280?text=27.jpg 1x, https://placehold.it/440x560?text=27.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Mocassini" data-src="https://placehold.it/220x280?text=28.jpg" data-srcset="https://placehold.it/220x280?text=28.jpg 1x, https://placehold.it/440x560?text=28.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=29.jpg" data-srcset="https://placehold.it/220x280?text=29.jpg 1x, https://placehold.it/440x560?text=29.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=30.jpg" data-srcset="https://placehold.it/220x280?text=30.jpg 1x, https://placehold.it/440x560?text=30.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=31.jpg" data-srcset="https://placehold.it/220x280?text=31.jpg 1x, https://placehold.it/440x560?text=31.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=32.jpg" data-srcset="https://placehold.it/220x280?text=32.jpg 1x, https://placehold.it/440x560?text=32.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Cuissardes" data-src="https://placehold.it/220x280?text=33.jpg" data-srcset="https://placehold.it/220x280?text=33.jpg 1x, https://placehold.it/440x560?text=33.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Décolleté" data-src="https://placehold.it/220x280?text=34.jpg" data-srcset="https://placehold.it/220x280?text=34.jpg 1x, https://placehold.it/440x560?text=34.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Stivaletti" data-src="https://placehold.it/220x280?text=35.jpg" data-srcset="https://placehold.it/220x280?text=35.jpg 1x, https://placehold.it/440x560?text=35.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis shoes basse" data-src="https://placehold.it/220x280?text=36.jpg" data-srcset="https://placehold.it/220x280?text=36.jpg 1x, https://placehold.it/440x560?text=36.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Mocassini" data-src="https://placehold.it/220x280?text=37.jpg" data-srcset="https://placehold.it/220x280?text=37.jpg 1x, https://placehold.it/440x560?text=37.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Sneakers &amp; Tennis shoes basse" data-src="https://placehold.it/220x280?text=38.jpg" data-srcset="https://placehold.it/220x280?text=38.jpg 1x, https://placehold.it/440x560?text=38.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Mocassini" data-src="https://placehold.it/220x280?text=39.jpg" data-srcset="https://placehold.it/220x280?text=39.jpg 1x, https://placehold.it/440x560?text=39.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="lazy has-webp" alt="Mocassini" data-src="https://placehold.it/220x280?text=40.jpg" data-srcset="https://placehold.it/220x280?text=40.jpg 1x, https://placehold.it/440x560?text=40.jpg 2x"
+					 width="220" height="280">
+				</a>
+			</li>
+		</ul>
+	</div>
+	<script src="../dist/lazyload.min.js"></script>
+	<script>
+		(function () {
+			function logEvent(eventName, element) {
+				console.log(Date.now(), eventName, element.getAttribute('data-src'), element.getAttribute('src'));
+			}
+
+			var callback_enter = function (element) {
+				logEvent("ENTERED", element);
+			};
+			var callback_load = function (element) {
+				logEvent("LOADED", element);
+			};
+			var callback_set = function (element) {
+				logEvent("SET", element);
+			};
+			var callback_error = function (element) {
+				logEvent("ERROR", element);
+				element.src = "https://placehold.it/220x280?text=Placeholder";
+			};
+
+			var llWebp = new LazyLoad({
+				elements_selector: ".lazy.has-webp",
+				to_webp: true,
+				callback_enter: callback_enter,
+				callback_load: callback_load,
+				callback_set: callback_set,
+				callback_error: callback_error
+			});
+			var llStandard = new LazyLoad({
+				elements_selector: ".lazy:not(.has-webp)",
+				callback_enter: callback_enter,
+				callback_load: callback_load,
+				callback_set: callback_set,
+				callback_error: callback_error
+			});
+		}());
+	</script>
+</body>
+
+</html>
