@@ -40,9 +40,14 @@ export const setSources = function(element, settings) {
 	switch (element.tagName) {
 		case "IMG": {
 			const parent = element.parentNode;
-			const mustChangeToWebP = supportsWebP && settings.ext_to_webp;
+			const mustChangeToWebP = supportsWebP && settings.to_webp;
 			if (parent && parent.tagName === "PICTURE") {
-				setSourcesInChildren(parent, "srcset", srcsetDataName);
+				setSourcesInChildren(
+					parent,
+					"srcset",
+					srcsetDataName,
+					mustChangeToWebP
+				);
 			}
 			const sizesDataValue = getData(element, sizesDataName);
 			setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);

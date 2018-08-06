@@ -13,7 +13,7 @@ export default customSettings => {
 		callback_error: null,
 		callback_set: null,
 		callback_enter: null,
-		ext_to_webp: false
+		to_webp: false
 	};
 
 	return Object.assign({}, defaultSettings, customSettings);
