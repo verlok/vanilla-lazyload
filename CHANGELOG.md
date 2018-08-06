@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.14.0
+
+Now supporting WebP through dynamic extension rename if the user browser is compatible.
+
 #### 10.13.0
 
 - Shortened the RegEx for crawlers detection (shaved a few bytes)

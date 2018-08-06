@@ -17,7 +17,8 @@ var LazyLoad = function () {
 			callback_load: null,
 			callback_error: null,
 			callback_set: null,
-			callback_enter: null
+			callback_enter: null,
+			to_webp: false
 		};
 
 		return _extends({}, defaultSettings, customSettings);
@@ -82,22 +83,49 @@ var LazyLoad = function () {
 		}
 	}
 
-	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName) {
+	var runningOnBrowser = typeof window !== "undefined";
+
+	var isBot = runningOnBrowser && !("onscroll" in window) || /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
+
+	var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+
+	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
+
+	var detectWebP = function detectWebP() {
+		if (!runningOnBrowser) {
+			return false;
+		}
+
+		var webPString = "image/webp";
+		var elem = document.createElement("canvas");
+
+		if (elem.getContext && elem.getContext("2d")) {
+			return elem.toDataURL(webPString).indexOf("data:" + webPString) === 0;
+		}
+
+		return false;
+	};
+
+	var supportsWebP = detectWebP();
+
+	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebP) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
 			if (childTag.tagName === "SOURCE") {
-				var attributeValue = getData(childTag, dataAttrName);
-				if (attributeValue) {
-					childTag.setAttribute(attrName, attributeValue);
-				}
+				var attrValue = getData(childTag, dataAttrName);
+				setAttributeIfNotNullOrEmpty(childTag, attrName, attrValue, toWebP);
 			}
 		}
 	};
 
-	var setAttributeIfNotNullOrEmpty = function setAttributeIfNotNullOrEmpty(element, attrName, value) {
+	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
+		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
+	};
+
+	var setAttributeIfNotNullOrEmpty = function setAttributeIfNotNullOrEmpty(element, attrName, value, toWebP) {
 		if (!value) {
 			return;
 		}
-		element.setAttribute(attrName, value);
+		element.setAttribute(attrName, replaceExtToWebp(value, toWebP));
 	};
 
 	var setSources = function setSources(element, settings) {
@@ -110,14 +138,15 @@ var LazyLoad = function () {
 			case "IMG":
 				{
 					var parent = element.parentNode;
+					var _mustChangeToWebP = supportsWebP && settings.to_webp;
 					if (parent && parent.tagName === "PICTURE") {
-						setSourcesInChildren(parent, "srcset", srcsetDataName);
+						setSourcesInChildren(parent, "srcset", srcsetDataName, _mustChangeToWebP);
 					}
 					var sizesDataValue = getData(element, sizesDataName);
 					setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
 					var srcsetDataValue = getData(element, srcsetDataName);
-					setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
-					setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+					setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue, _mustChangeToWebP);
+					setAttributeIfNotNullOrEmpty(element, "src", srcDataValue, _mustChangeToWebP);
 					break;
 				}
 			case "IFRAME":
@@ -129,18 +158,11 @@ var LazyLoad = function () {
 				break;
 			default:
 				if (srcDataValue) {
-					element.style.backgroundImage = "url(\"" + srcDataValue + "\")";
+					var setValue = replaceExtToWebp(srcDataValue, mustChangeToWebP);
+					element.style.backgroundImage = "url(\"" + setValue + "\")";
 				}
 		}
 	};
-
-	var runningOnBrowser = typeof window !== "undefined";
-
-	var isBot = runningOnBrowser && !("onscroll" in window) || /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
-
-	var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
-
-	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
 	var addClass = function addClass(element, className) {
 		if (supportsClassList) {
