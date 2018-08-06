@@ -138,19 +138,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		    srcDataName = settings.data_src;
 
 		var srcDataValue = getData(element, srcDataName);
+		var mustChangeToWebP = supportsWebP && settings.to_webp;
 		switch (element.tagName) {
 			case "IMG":
 				{
 					var parent = element.parentNode;
-					var _mustChangeToWebP = supportsWebP && settings.to_webp;
 					if (parent && parent.tagName === "PICTURE") {
-						setSourcesInChildren(parent, "srcset", srcsetDataName, _mustChangeToWebP);
+						setSourcesInChildren(parent, "srcset", srcsetDataName, mustChangeToWebP);
 					}
 					var sizesDataValue = getData(element, sizesDataName);
 					setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
 					var srcsetDataValue = getData(element, srcsetDataName);
-					setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue, _mustChangeToWebP);
-					setAttributeIfNotNullOrEmpty(element, "src", srcDataValue, _mustChangeToWebP);
+					setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue, mustChangeToWebP);
+					setAttributeIfNotNullOrEmpty(element, "src", srcDataValue, mustChangeToWebP);
 					break;
 				}
 			case "IFRAME":
