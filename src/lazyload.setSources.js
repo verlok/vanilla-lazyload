@@ -28,7 +28,7 @@ export const setAttributeIfValue = function(
 	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
 };
 
-export const setSources = function(element, settings) {
+export const setSourcesIMG = (element, settings) => {
 	const {
 		data_sizes: sizesDataName,
 		data_srcset: srcsetDataName,
@@ -37,22 +37,24 @@ export const setSources = function(element, settings) {
 	} = settings;
 	const srcDataValue = getData(element, srcDataName);
 	const toWebpFlag = supportsWebp && toWebpSetting;
+	const parent = element.parentNode;
+	if (parent && parent.tagName === "PICTURE") {
+		setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
+	}
+	const sizesDataValue = getData(element, sizesDataName);
+	setAttributeIfValue(element, "sizes", sizesDataValue);
+	const srcsetDataValue = getData(element, srcsetDataName);
+	setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
+	setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+};
+
+export const setSources = function(element, settings) {
+	const { data_src: srcDataName, to_webp: toWebpSetting } = settings;
+	const srcDataValue = getData(element, srcDataName);
+	const toWebpFlag = supportsWebp && toWebpSetting;
 	switch (element.tagName) {
 		case "IMG": {
-			const parent = element.parentNode;
-			if (parent && parent.tagName === "PICTURE") {
-				setSourcesInChildren(
-					parent,
-					"srcset",
-					srcsetDataName,
-					toWebpFlag
-				);
-			}
-			const sizesDataValue = getData(element, sizesDataName);
-			setAttributeIfValue(element, "sizes", sizesDataValue);
-			const srcsetDataValue = getData(element, srcsetDataName);
-			setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
-			setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+			setSourcesIMG(element, settings);
 			break;
 		}
 		case "IFRAME":
