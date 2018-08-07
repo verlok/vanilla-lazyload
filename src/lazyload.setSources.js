@@ -11,17 +11,12 @@ export const setSourcesInChildren = function(
 	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
 		if (childTag.tagName === "SOURCE") {
 			let attrValue = getData(childTag, dataAttrName);
-			setAttributeIfNotNullOrEmpty(
-				childTag,
-				attrName,
-				attrValue,
-				toWebpFlag
-			);
+			setAttributeIfValue(childTag, attrName, attrValue, toWebpFlag);
 		}
 	}
 };
 
-export const setAttributeIfNotNullOrEmpty = function(
+export const setAttributeIfValue = function(
 	element,
 	attrName,
 	value,
@@ -54,28 +49,18 @@ export const setSources = function(element, settings) {
 				);
 			}
 			const sizesDataValue = getData(element, sizesDataName);
-			setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
+			setAttributeIfValue(element, "sizes", sizesDataValue);
 			const srcsetDataValue = getData(element, srcsetDataName);
-			setAttributeIfNotNullOrEmpty(
-				element,
-				"srcset",
-				srcsetDataValue,
-				toWebpFlag
-			);
-			setAttributeIfNotNullOrEmpty(
-				element,
-				"src",
-				srcDataValue,
-				toWebpFlag
-			);
+			setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
+			setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
 			break;
 		}
 		case "IFRAME":
-			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			setAttributeIfValue(element, "src", srcDataValue);
 			break;
 		case "VIDEO":
 			setSourcesInChildren(element, "src", srcDataName);
-			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+			setAttributeIfValue(element, "src", srcDataValue);
 			break;
 		default:
 			if (srcDataValue) {
