@@ -28,7 +28,7 @@ export const setAttributeIfValue = function(
 	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
 };
 
-export const setSourcesIMG = (element, settings) => {
+export const setSourcesImg = (element, settings) => {
 	const toWebpFlag = supportsWebp && settings.to_webp;
 	const srcsetDataName = settings.data_srcset;
 	const parent = element.parentNode;
@@ -44,40 +44,42 @@ export const setSourcesIMG = (element, settings) => {
 	setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
 };
 
-export const setSourcesIFRAME = (element, settings) => {
+export const setSourcesIframe = (element, settings) => {
 	const srcDataValue = getData(element, settings.data_src);
+
 	setAttributeIfValue(element, "src", srcDataValue);
 };
 
-export const setSourcesVIDEO = (element, settings) => {
+export const setSourcesVideo = (element, settings) => {
 	const srcDataName = settings.data_src;
 	const srcDataValue = getData(element, srcDataName);
+
 	setSourcesInChildren(element, "src", srcDataName);
 	setAttributeIfValue(element, "src", srcDataValue);
 };
 
-export const setSourcesBG = (element, settings) => {
+export const setSourcesBgImage = (element, settings) => {
 	const toWebpFlag = supportsWebp && settings.to_webp;
 	const srcDataValue = getData(element, settings.data_src);
+
 	if (srcDataValue) {
 		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
 		element.style.backgroundImage = `url("${setValue}")`;
 	}
 };
 
-export const setSources = function(element, settings) {
-	switch (element.tagName) {
-		case "IMG": {
-			setSourcesIMG(element, settings);
-			break;
-		}
-		case "IFRAME":
-			setSourcesIFRAME(element, settings);
-			break;
-		case "VIDEO":
-			setSourcesVIDEO(element, settings);
-			break;
-		default:
-			setSourcesBG(element, settings);
+const setSourcesFunctions = {
+	IMG: setSourcesImg,
+	IFRAME: setSourcesIframe,
+	VIDEO: setSourcesVideo
+};
+
+export const setSources = (element, settings) => {
+	const tagName = element.tagName;
+	const setSourcesFunction = setSourcesFunctions[tagName];
+	if (setSourcesFunction) {
+		setSourcesFunction(element, settings);
+		return;
 	}
+	setSourcesBgImage(element, settings);
 };
