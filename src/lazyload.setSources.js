@@ -1,8 +1,6 @@
 import { getData } from "./lazyload.data";
 import { supportsWebp } from "./lazyload.environment";
-
-export const replaceExtToWebp = (value, condition) =>
-	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
+import { replaceExtToWebp } from "./lazyload.webp";
 
 export const setSourcesInChildren = function(
 	parentTag,
