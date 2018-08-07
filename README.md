@@ -270,12 +270,21 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 HTML
 
 ```html
-<div id="scrollingPanel">
+<div class="scrollingPanel">
     <img alt="Image description" 
          data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
+```
+
+CSS
+
+```css
+.scrollingPanel {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 ```
 
 Javascript
@@ -295,18 +304,27 @@ var myLazyLoad = new LazyLoad({
 HTML
 
 ```html
-<div id="scrollingPanel1">
+<div id="scrollingPanel1" class="scrollingPanel">
     <img alt="Image description" 
          data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
-<div id="scrollingPanel2">
+<div id="scrollingPanel2" class="scrollingPanel">
     <img alt="Image description" 
          data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
+```
+
+CSS
+
+```css
+.scrollingPanel {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 ```
 
 Javascript
