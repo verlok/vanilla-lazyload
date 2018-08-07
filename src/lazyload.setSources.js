@@ -29,45 +29,55 @@ export const setAttributeIfValue = function(
 };
 
 export const setSourcesIMG = (element, settings) => {
-	const {
-		data_sizes: sizesDataName,
-		data_srcset: srcsetDataName,
-		data_src: srcDataName,
-		to_webp: toWebpSetting
-	} = settings;
-	const srcDataValue = getData(element, srcDataName);
-	const toWebpFlag = supportsWebp && toWebpSetting;
+	const toWebpFlag = supportsWebp && settings.to_webp;
+	const srcsetDataName = settings.data_srcset;
 	const parent = element.parentNode;
+
 	if (parent && parent.tagName === "PICTURE") {
 		setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
 	}
-	const sizesDataValue = getData(element, sizesDataName);
+	const sizesDataValue = getData(element, settings.data_sizes);
 	setAttributeIfValue(element, "sizes", sizesDataValue);
 	const srcsetDataValue = getData(element, srcsetDataName);
 	setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
+	const srcDataValue = getData(element, settings.data_src);
 	setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
 };
 
-export const setSources = function(element, settings) {
-	const { data_src: srcDataName, to_webp: toWebpSetting } = settings;
+export const setSourcesIFRAME = (element, settings) => {
+	const srcDataValue = getData(element, settings.data_src);
+	setAttributeIfValue(element, "src", srcDataValue);
+};
+
+export const setSourcesVIDEO = (element, settings) => {
+	const srcDataName = settings.data_src;
 	const srcDataValue = getData(element, srcDataName);
-	const toWebpFlag = supportsWebp && toWebpSetting;
+	setSourcesInChildren(element, "src", srcDataName);
+	setAttributeIfValue(element, "src", srcDataValue);
+};
+
+export const setSourcesBG = (element, settings) => {
+	const toWebpFlag = supportsWebp && settings.to_webp;
+	const srcDataValue = getData(element, settings.data_src);
+	if (srcDataValue) {
+		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+		element.style.backgroundImage = `url("${setValue}")`;
+	}
+};
+
+export const setSources = function(element, settings) {
 	switch (element.tagName) {
 		case "IMG": {
 			setSourcesIMG(element, settings);
 			break;
 		}
 		case "IFRAME":
-			setAttributeIfValue(element, "src", srcDataValue);
+			setSourcesIFRAME(element, settings);
 			break;
 		case "VIDEO":
-			setSourcesInChildren(element, "src", srcDataName);
-			setAttributeIfValue(element, "src", srcDataValue);
+			setSourcesVIDEO(element, settings);
 			break;
 		default:
-			if (srcDataValue) {
-				let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-				element.style.backgroundImage = `url("${setValue}")`;
-			}
+			setSourcesBG(element, settings);
 	}
 };
