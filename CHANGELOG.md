@@ -140,6 +140,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.14.0
+
+Now supporting WebP through dynamic extension rename if the user browser is compatible.
+
 #### 8.13.0
 
 - Shortened the RegEx for crawlers detection (shaved a few bytes)
