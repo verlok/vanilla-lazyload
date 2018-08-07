@@ -15,5 +15,6 @@ export default () => ({
 	callback_error: null,
 	callback_set: null,
 	callback_processed: null,
-	callback_enter: null
+	callback_enter: null,
+	to_webp: false
 });
