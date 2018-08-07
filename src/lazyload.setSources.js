@@ -1,43 +1,49 @@
 import { getData } from "./lazyload.data";
-import { supportsWebP } from "./lazyload.environment";
+import { supportsWebp } from "./lazyload.environment";
+
+export const replaceExtToWebp = (value, condition) =>
+	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
 
 export const setSourcesInChildren = function(
 	parentTag,
 	attrName,
 	dataAttrName,
-	toWebP
+	toWebpFlag
 ) {
 	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
 		if (childTag.tagName === "SOURCE") {
 			let attrValue = getData(childTag, dataAttrName);
-			setAttributeIfNotNullOrEmpty(childTag, attrName, attrValue, toWebP);
+			setAttributeIfNotNullOrEmpty(
+				childTag,
+				attrName,
+				attrValue,
+				toWebpFlag
+			);
 		}
 	}
 };
-
-const replaceExtToWebp = (value, condition) =>
-	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
 
 export const setAttributeIfNotNullOrEmpty = function(
 	element,
 	attrName,
 	value,
-	toWebP
+	toWebpFlag
 ) {
 	if (!value) {
 		return;
 	}
-	element.setAttribute(attrName, replaceExtToWebp(value, toWebP));
+	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
 };
 
 export const setSources = function(element, settings) {
 	const {
 		data_sizes: sizesDataName,
 		data_srcset: srcsetDataName,
-		data_src: srcDataName
+		data_src: srcDataName,
+		to_webp: toWebpSetting
 	} = settings;
 	const srcDataValue = getData(element, srcDataName);
-	const mustChangeToWebP = supportsWebP && settings.to_webp;
+	const toWebpFlag = supportsWebp && toWebpSetting;
 	switch (element.tagName) {
 		case "IMG": {
 			const parent = element.parentNode;
@@ -46,7 +52,7 @@ export const setSources = function(element, settings) {
 					parent,
 					"srcset",
 					srcsetDataName,
-					mustChangeToWebP
+					toWebpFlag
 				);
 			}
 			const sizesDataValue = getData(element, sizesDataName);
@@ -56,13 +62,13 @@ export const setSources = function(element, settings) {
 				element,
 				"srcset",
 				srcsetDataValue,
-				mustChangeToWebP
+				toWebpFlag
 			);
 			setAttributeIfNotNullOrEmpty(
 				element,
 				"src",
 				srcDataValue,
-				mustChangeToWebP
+				toWebpFlag
 			);
 			break;
 		}
@@ -75,7 +81,7 @@ export const setSources = function(element, settings) {
 			break;
 		default:
 			if (srcDataValue) {
-				let setValue = replaceExtToWebp(srcDataValue, mustChangeToWebP);
+				let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
 				element.style.backgroundImage = `url("${setValue}")`;
 			}
 	}
