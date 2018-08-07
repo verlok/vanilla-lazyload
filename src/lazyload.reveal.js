@@ -2,6 +2,8 @@ import { setSources } from "./lazyload.setSources";
 import { getWasProcessed, setWasProcessed } from "./lazyload.data";
 import { addClass, removeClass } from "./lazyload.class";
 
+const managedTags = ["IMG", "IFRAME", "VIDEO"];
+
 const callCallback = function(callback, argument) {
 	if (callback) {
 		callback(argument);
@@ -44,7 +46,7 @@ export default function(element, settings, force) {
 		return; // element has already been processed and force wasn't true
 	}
 	callCallback(settings.callback_enter, element);
-	if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
+	if (managedTags.indexOf(element.tagName) > -1) {
 		addOneShotListeners(element, settings);
 		addClass(element, settings.class_loading);
 	}
