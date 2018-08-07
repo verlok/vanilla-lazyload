@@ -21,7 +21,8 @@ var LazyLoad = function () {
 			callback_error: null,
 			callback_set: null,
 			callback_processed: null,
-			callback_enter: null
+			callback_enter: null,
+			to_webp: false
 		};
 	};
 
@@ -115,22 +116,46 @@ var LazyLoad = function () {
 		return getData(element, processedDataName) === processedDataValue;
 	};
 
-	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName) {
+	var runningOnBrowser = typeof window !== "undefined";
+
+	var isBot = runningOnBrowser && !("onscroll" in window) || /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
+	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
+
+	var detectWebP = function detectWebP() {
+		if (!runningOnBrowser) {
+			return false;
+		}
+
+		var webPString = "image/webp";
+		var elem = document.createElement("canvas");
+
+		if (elem.getContext && elem.getContext("2d")) {
+			return elem.toDataURL(webPString).indexOf("data:" + webPString) === 0;
+		}
+
+		return false;
+	};
+
+	var supportsWebP = detectWebP();
+
+	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebP) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
 			if (childTag.tagName === "SOURCE") {
-				var attributeValue = getData(childTag, dataAttrName);
-				if (attributeValue) {
-					childTag.setAttribute(attrName, attributeValue);
-				}
+				var attrValue = getData(childTag, dataAttrName);
+				setAttributeIfNotNullOrEmpty(childTag, attrName, attrValue, toWebP);
 			}
 		}
 	};
 
-	var setAttributeIfNotNullOrEmpty = function setAttributeIfNotNullOrEmpty(element, attrName, value) {
+	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
+		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
+	};
+
+	var setAttributeIfNotNullOrEmpty = function setAttributeIfNotNullOrEmpty(element, attrName, value, toWebP) {
 		if (!value) {
 			return;
 		}
-		element.setAttribute(attrName, value);
+		element.setAttribute(attrName, replaceExtToWebp(value, toWebP));
 	};
 
 	function setSources(element, settings) {
@@ -139,37 +164,35 @@ var LazyLoad = function () {
 		    srcDataName = settings.data_src;
 
 		var srcDataValue = getData(element, srcDataName);
-		var tagName = element.tagName;
-		if (tagName === "IMG") {
-			var parent = element.parentNode;
-			if (parent && parent.tagName === "PICTURE") {
-				setSourcesInChildren(parent, "srcset", srcsetDataName);
-			}
-			var sizesDataValue = getData(element, sizesDataName);
-			setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
-			var srcsetDataValue = getData(element, srcsetDataName);
-			setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue);
-			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-			return;
-		}
-		if (tagName === "IFRAME") {
-			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-			return;
-		}
-		if (tagName === "VIDEO") {
-			setSourcesInChildren(element, "src", srcDataName);
-			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-			return;
-		}
-		if (srcDataValue) {
-			element.style.backgroundImage = "url(\"" + srcDataValue + "\")";
+		var mustChangeToWebP = supportsWebP && settings.to_webp;
+		switch (element.tagName) {
+			case "IMG":
+				{
+					var parent = element.parentNode;
+					if (parent && parent.tagName === "PICTURE") {
+						setSourcesInChildren(parent, "srcset", srcsetDataName, mustChangeToWebP);
+					}
+					var sizesDataValue = getData(element, sizesDataName);
+					setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
+					var srcsetDataValue = getData(element, srcsetDataName);
+					setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue, mustChangeToWebP);
+					setAttributeIfNotNullOrEmpty(element, "src", srcDataValue, mustChangeToWebP);
+					break;
+				}
+			case "IFRAME":
+				setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+				break;
+			case "VIDEO":
+				setSourcesInChildren(element, "src", srcDataName);
+				setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
+				break;
+			default:
+				if (srcDataValue) {
+					var setValue = replaceExtToWebp(srcDataValue, mustChangeToWebP);
+					element.style.backgroundImage = "url(\"" + setValue + "\")";
+				}
 		}
 	}
-
-	var runningOnBrowser = typeof window !== "undefined";
-
-	var isBot = runningOnBrowser && !("onscroll" in window) || /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
-	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
 	var addClass = function addClass(element, className) {
 		if (supportsClassList) {
