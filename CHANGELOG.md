@@ -16,8 +16,7 @@ Now supporting WebP through dynamic extension rename if the user browser is comp
 | `lazyload.min.js`      | UMD (Universal Module Definition)              | Works pretty much everywhere, even in common-js contexts           |
 | `lazyload.iife.min.js` | IIFE (Immediately Invoked Function Expression) | Works as in-page `<script src="">`, ~0.5kb smaller minified        |
 | `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the *require.js* module loader, ~0.5kb smaller minified |
-| `lazyload.es.js`       | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
-| `lazyload.es2015.js`   | ES Module type wrapped in UMD                  | **Deprecated!** This file will be removed in the next version.     |
+| `lazyload.es2015.js`   | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
 
 #### 10.12.0
 
@@ -141,6 +140,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.14.0
+
+Now supporting WebP through dynamic extension rename if the user browser is compatible.
+
 #### 8.13.0
 
 - Shortened the RegEx for crawlers detection (shaved a few bytes)
@@ -151,8 +154,7 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 | `lazyload.min.js`      | UMD (Universal Module Definition)              | Works pretty much everywhere, even in common-js contexts           |
 | `lazyload.iife.min.js` | IIFE (Immediately Invoked Function Expression) | Works as in-page `<script src="">`, ~0.5kb smaller minified        |
 | `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the *require.js* module loader, ~0.5kb smaller minified |
-| `lazyload.es.js`       | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
-| `lazyload.es2015.js`   | ES Module type wrapped in UMD                  | **Deprecated!** This file will be removed in the next version.     |
+| `lazyload.es2015.js`   | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
 
 #### 8.12.0
 
