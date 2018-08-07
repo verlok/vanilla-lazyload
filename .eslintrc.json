@@ -74,7 +74,7 @@
         "prefer-promise-reject-errors": 1,
         "radix": 1,
         "require-await": 1,
-        "vars-on-top": 1,
+        "vars-on-top": 0,
         "wrap-iife": 1,
         "yoda": 1
     }
