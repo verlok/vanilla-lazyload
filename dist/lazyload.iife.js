@@ -83,6 +83,21 @@ var LazyLoad = function () {
 		}
 	}
 
+	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
+		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
+	};
+
+	var detectWebp = function detectWebp() {
+		var webpString = "image/webp";
+		var canvas = document.createElement("canvas");
+
+		if (canvas.getContext && canvas.getContext("2d")) {
+			return canvas.toDataURL(webpString).indexOf("data:" + webpString) === 0;
+		}
+
+		return false;
+	};
+
 	var runningOnBrowser = typeof window !== "undefined";
 
 	var isBot = runningOnBrowser && !("onscroll" in window) || /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
@@ -91,77 +106,78 @@ var LazyLoad = function () {
 
 	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
-	var detectWebP = function detectWebP() {
-		if (!runningOnBrowser) {
-			return false;
-		}
+	var supportsWebp = runningOnBrowser && detectWebp();
 
-		var webPString = "image/webp";
-		var elem = document.createElement("canvas");
-
-		if (elem.getContext && elem.getContext("2d")) {
-			return elem.toDataURL(webPString).indexOf("data:" + webPString) === 0;
-		}
-
-		return false;
-	};
-
-	var supportsWebP = detectWebP();
-
-	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebP) {
+	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
 			if (childTag.tagName === "SOURCE") {
 				var attrValue = getData(childTag, dataAttrName);
-				setAttributeIfNotNullOrEmpty(childTag, attrName, attrValue, toWebP);
+				setAttributeIfValue(childTag, attrName, attrValue, toWebpFlag);
 			}
 		}
 	};
 
-	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
-		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
-	};
-
-	var setAttributeIfNotNullOrEmpty = function setAttributeIfNotNullOrEmpty(element, attrName, value, toWebP) {
+	var setAttributeIfValue = function setAttributeIfValue(element, attrName, value, toWebpFlag) {
 		if (!value) {
 			return;
 		}
-		element.setAttribute(attrName, replaceExtToWebp(value, toWebP));
+		element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
+	};
+
+	var setSourcesImg = function setSourcesImg(element, settings) {
+		var toWebpFlag = supportsWebp && settings.to_webp;
+		var srcsetDataName = settings.data_srcset;
+		var parent = element.parentNode;
+
+		if (parent && parent.tagName === "PICTURE") {
+			setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
+		}
+		var sizesDataValue = getData(element, settings.data_sizes);
+		setAttributeIfValue(element, "sizes", sizesDataValue);
+		var srcsetDataValue = getData(element, srcsetDataName);
+		setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
+		var srcDataValue = getData(element, settings.data_src);
+		setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+	};
+
+	var setSourcesIframe = function setSourcesIframe(element, settings) {
+		var srcDataValue = getData(element, settings.data_src);
+
+		setAttributeIfValue(element, "src", srcDataValue);
+	};
+
+	var setSourcesVideo = function setSourcesVideo(element, settings) {
+		var srcDataName = settings.data_src;
+		var srcDataValue = getData(element, srcDataName);
+
+		setSourcesInChildren(element, "src", srcDataName);
+		setAttributeIfValue(element, "src", srcDataValue);
+	};
+
+	var setSourcesBgImage = function setSourcesBgImage(element, settings) {
+		var toWebpFlag = supportsWebp && settings.to_webp;
+		var srcDataValue = getData(element, settings.data_src);
+
+		if (srcDataValue) {
+			var setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+			element.style.backgroundImage = "url(\"" + setValue + "\")";
+		}
+	};
+
+	var setSourcesFunctions = {
+		IMG: setSourcesImg,
+		IFRAME: setSourcesIframe,
+		VIDEO: setSourcesVideo
 	};
 
 	var setSources = function setSources(element, settings) {
-		var sizesDataName = settings.data_sizes,
-		    srcsetDataName = settings.data_srcset,
-		    srcDataName = settings.data_src;
-
-		var srcDataValue = getData(element, srcDataName);
-		var mustChangeToWebP = supportsWebP && settings.to_webp;
-		switch (element.tagName) {
-			case "IMG":
-				{
-					var parent = element.parentNode;
-					if (parent && parent.tagName === "PICTURE") {
-						setSourcesInChildren(parent, "srcset", srcsetDataName, mustChangeToWebP);
-					}
-					var sizesDataValue = getData(element, sizesDataName);
-					setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
-					var srcsetDataValue = getData(element, srcsetDataName);
-					setAttributeIfNotNullOrEmpty(element, "srcset", srcsetDataValue, mustChangeToWebP);
-					setAttributeIfNotNullOrEmpty(element, "src", srcDataValue, mustChangeToWebP);
-					break;
-				}
-			case "IFRAME":
-				setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-				break;
-			case "VIDEO":
-				setSourcesInChildren(element, "src", srcDataName);
-				setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-				break;
-			default:
-				if (srcDataValue) {
-					var setValue = replaceExtToWebp(srcDataValue, mustChangeToWebP);
-					element.style.backgroundImage = "url(\"" + setValue + "\")";
-				}
+		var tagName = element.tagName;
+		var setSourcesFunction = setSourcesFunctions[tagName];
+		if (setSourcesFunction) {
+			setSourcesFunction(element, settings);
+			return;
 		}
+		setSourcesBgImage(element, settings);
 	};
 
 	var addClass = function addClass(element, className) {
@@ -179,6 +195,8 @@ var LazyLoad = function () {
 		}
 		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
 	};
+
+	var managedTags = ["IMG", "IFRAME", "VIDEO"];
 
 	var callCallback = function callCallback(callback, argument) {
 		if (callback) {
@@ -219,7 +237,7 @@ var LazyLoad = function () {
 			return; // element has already been processed and force wasn't true
 		}
 		callCallback(settings.callback_enter, element);
-		if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
+		if (managedTags.indexOf(element.tagName) > -1) {
 			addOneShotListeners(element, settings);
 			addClass(element, settings.class_loading);
 		}
