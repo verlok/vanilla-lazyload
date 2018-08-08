@@ -2,6 +2,11 @@
 
 ## Version 10
 
+#### 10.15.0
+
+- Refactorized code & improved script performance
+- **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
+
 #### 10.14.0
 
 Now supporting WebP through dynamic extension rename if the user browser is compatible.
@@ -16,8 +21,7 @@ Now supporting WebP through dynamic extension rename if the user browser is comp
 | `lazyload.min.js`      | UMD (Universal Module Definition)              | Works pretty much everywhere, even in common-js contexts           |
 | `lazyload.iife.min.js` | IIFE (Immediately Invoked Function Expression) | Works as in-page `<script src="">`, ~0.5kb smaller minified        |
 | `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the *require.js* module loader, ~0.5kb smaller minified |
-| `lazyload.es.js`       | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
-| `lazyload.es2015.js`   | ES Module type wrapped in UMD                  | **Deprecated!** This file will be removed in the next version.     |
+| `lazyload.es2015.js`   | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
 
 #### 10.12.0
 
@@ -127,7 +131,7 @@ Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.
   - default for `data_srcset` is now `srcset` (was `original-set`)
 
 ## Version 9
-
+ 
 #### 9.0.1
 
 - Restored tests using Jest
@@ -140,6 +144,11 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.15.0
+
+- Refactorized code & improved script performance
+- **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
 
 #### 8.14.0
 
@@ -155,8 +164,7 @@ Now supporting WebP through dynamic extension rename if the user browser is comp
 | `lazyload.min.js`      | UMD (Universal Module Definition)              | Works pretty much everywhere, even in common-js contexts           |
 | `lazyload.iife.min.js` | IIFE (Immediately Invoked Function Expression) | Works as in-page `<script src="">`, ~0.5kb smaller minified        |
 | `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the *require.js* module loader, ~0.5kb smaller minified |
-| `lazyload.es.js`       | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
-| `lazyload.es2015.js`   | ES Module type wrapped in UMD                  | **Deprecated!** This file will be removed in the next version.     |
+| `lazyload.es2015.js`   | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
 
 #### 8.12.0
 

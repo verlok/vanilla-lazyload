@@ -12,7 +12,7 @@ Jump to:
 The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.14.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.min.js"></script>
 ```
 
 Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
@@ -20,7 +20,7 @@ Starting from version 9, LazyLoad uses the IntersectionObserver API, which is no
 To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.14.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.15.0/lazyload.min.js"></script>
 ```
 
 ### Advanced and best option: conditionally load version 8 or 10
@@ -32,7 +32,7 @@ You can do it with the following script:
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
 	var s = d.createElement("script"); s.async = true;
-	var v = !("IntersectionObserver" in w) ? "8.14.0" : "10.14.0";
+	var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
 	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
 	b.appendChild(s);
@@ -48,10 +48,10 @@ If you prefer to install LazyLoad locally in your project, you can either:
   The file you typically want to use is `lazyload.min.js`
   If you prefer the ES2015 version, use `lazyload.es2015.js`
 - **install it with npm**
-  Recommended version `npm install vanilla-lazyload@8.14.0`
+  Recommended version `npm install vanilla-lazyload@8.15.0`
   Latest version `npm install vanilla-lazyload`
 - **install it with bower**
-  Recommended version `bower install vanilla-lazyload#8.14.0`
+  Recommended version `bower install vanilla-lazyload#8.15.0`
   Latest version `bower install vanilla-lazyload`
   
 ### Async script
@@ -270,12 +270,21 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 HTML
 
 ```html
-<div id="scrollingPanel">
+<div class="scrollingPanel">
     <img alt="Image description" 
          data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
+```
+
+CSS
+
+```css
+.scrollingPanel {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 ```
 
 Javascript
@@ -295,18 +304,27 @@ var myLazyLoad = new LazyLoad({
 HTML
 
 ```html
-<div id="scrollingPanel1">
+<div id="scrollingPanel1" class="scrollingPanel">
     <img alt="Image description" 
          data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
-<div id="scrollingPanel2">
+<div id="scrollingPanel2" class="scrollingPanel">
     <img alt="Image description" 
          data-src="../img/44721746JJ_15_a.jpg" 
          width="220" height="280">
     <!-- More images -->
 </div>
+```
+
+CSS
+
+```css
+.scrollingPanel {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 ```
 
 Javascript
