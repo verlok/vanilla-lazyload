@@ -2,7 +2,7 @@ import getDefaultSettings from "./lazyload.defaults";
 import { callCallback } from "./lazyload.utils";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
-import setSources from "./lazyload.setSources";
+import { setSources } from "./lazyload.setSources";
 import { addClass, removeClass } from "./lazyload.class";
 import { getWasProcessed, setWasProcessed } from "./lazyload.data";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
@@ -218,10 +218,9 @@ LazyLoad.prototype = {
 	}
 };
 
-/* Automatic instances creation if required (useful for async script loading!) */
-let autoInitOptions = window.lazyLoadOptions;
-if (runningOnBrowser && autoInitOptions) {
-	autoInitialize(LazyLoad, autoInitOptions);
+/* Automatic instances creation if required (useful for async script loading) */
+if (runningOnBrowser) {
+	autoInitialize(LazyLoad, window.lazyLoadOptions);
 }
 
 export default LazyLoad;
