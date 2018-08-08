@@ -74,6 +74,20 @@ function autoInitialize(classObj, options) {
 	}
 }
 
+const replaceExtToWebp = (value, condition) =>
+	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
+
+const detectWebp = () => {
+	var webpString = "image/webp";
+	var canvas = document.createElement("canvas");
+
+	if (canvas.getContext && canvas.getContext("2d")) {
+		return canvas.toDataURL(webpString).indexOf(`data:${webpString}`) === 0;
+	}
+
+	return false;
+};
+
 const runningOnBrowser = typeof window !== "undefined";
 
 const isBot =
@@ -86,101 +100,88 @@ const supportsIntersectionObserver =
 const supportsClassList =
 	runningOnBrowser && "classList" in document.createElement("p");
 
-const detectWebP = () => {
-	if (!runningOnBrowser) {
-		return false;
-	}
-
-	var webPString = "image/webp";
-	var elem = document.createElement("canvas");
-
-	if (elem.getContext && elem.getContext("2d")) {
-		return elem.toDataURL(webPString).indexOf("data:" + webPString) === 0;
-	}
-
-	return false;
-};
-
-const supportsWebP = detectWebP();
+const supportsWebp = runningOnBrowser && detectWebp();
 
 const setSourcesInChildren = function(
 	parentTag,
 	attrName,
 	dataAttrName,
-	toWebP
+	toWebpFlag
 ) {
 	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
 		if (childTag.tagName === "SOURCE") {
 			let attrValue = getData(childTag, dataAttrName);
-			setAttributeIfNotNullOrEmpty(childTag, attrName, attrValue, toWebP);
+			setAttributeIfValue(childTag, attrName, attrValue, toWebpFlag);
 		}
 	}
 };
 
-const replaceExtToWebp = (value, condition) =>
-	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
-
-const setAttributeIfNotNullOrEmpty = function(
+const setAttributeIfValue = function(
 	element,
 	attrName,
 	value,
-	toWebP
+	toWebpFlag
 ) {
 	if (!value) {
 		return;
 	}
-	element.setAttribute(attrName, replaceExtToWebp(value, toWebP));
+	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
 };
 
-const setSources = function(element, settings) {
-	const {
-		data_sizes: sizesDataName,
-		data_srcset: srcsetDataName,
-		data_src: srcDataName
-	} = settings;
-	const srcDataValue = getData(element, srcDataName);
-	const mustChangeToWebP = supportsWebP && settings.to_webp;
-	switch (element.tagName) {
-		case "IMG": {
-			const parent = element.parentNode;
-			if (parent && parent.tagName === "PICTURE") {
-				setSourcesInChildren(
-					parent,
-					"srcset",
-					srcsetDataName,
-					mustChangeToWebP
-				);
-			}
-			const sizesDataValue = getData(element, sizesDataName);
-			setAttributeIfNotNullOrEmpty(element, "sizes", sizesDataValue);
-			const srcsetDataValue = getData(element, srcsetDataName);
-			setAttributeIfNotNullOrEmpty(
-				element,
-				"srcset",
-				srcsetDataValue,
-				mustChangeToWebP
-			);
-			setAttributeIfNotNullOrEmpty(
-				element,
-				"src",
-				srcDataValue,
-				mustChangeToWebP
-			);
-			break;
-		}
-		case "IFRAME":
-			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-			break;
-		case "VIDEO":
-			setSourcesInChildren(element, "src", srcDataName);
-			setAttributeIfNotNullOrEmpty(element, "src", srcDataValue);
-			break;
-		default:
-			if (srcDataValue) {
-				let setValue = replaceExtToWebp(srcDataValue, mustChangeToWebP);
-				element.style.backgroundImage = `url("${setValue}")`;
-			}
+const setSourcesImg = (element, settings) => {
+	const toWebpFlag = supportsWebp && settings.to_webp;
+	const srcsetDataName = settings.data_srcset;
+	const parent = element.parentNode;
+
+	if (parent && parent.tagName === "PICTURE") {
+		setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
 	}
+	const sizesDataValue = getData(element, settings.data_sizes);
+	setAttributeIfValue(element, "sizes", sizesDataValue);
+	const srcsetDataValue = getData(element, srcsetDataName);
+	setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
+	const srcDataValue = getData(element, settings.data_src);
+	setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+};
+
+const setSourcesIframe = (element, settings) => {
+	const srcDataValue = getData(element, settings.data_src);
+
+	setAttributeIfValue(element, "src", srcDataValue);
+};
+
+const setSourcesVideo = (element, settings) => {
+	const srcDataName = settings.data_src;
+	const srcDataValue = getData(element, srcDataName);
+
+	setSourcesInChildren(element, "src", srcDataName);
+	setAttributeIfValue(element, "src", srcDataValue);
+};
+
+const setSourcesBgImage = (element, settings) => {
+	const toWebpFlag = supportsWebp && settings.to_webp;
+	const srcDataValue = getData(element, settings.data_src);
+
+	if (srcDataValue) {
+		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+		element.style.backgroundImage = `url("${setValue}")`;
+	}
+};
+
+const setSourcesFunctions = {
+	IMG: setSourcesImg,
+	IFRAME: setSourcesIframe,
+	VIDEO: setSourcesVideo
+};
+
+const setSources = (element, settings) => {
+	const tagName = element.tagName;
+	const setSourcesFunction = setSourcesFunctions[tagName];
+	if (setSourcesFunction) {
+		setSourcesFunction(element, settings);
+		return;
+	}
+	setSourcesBgImage(element, settings);
 };
 
 const addClass = (element, className) => {
@@ -201,6 +202,8 @@ const removeClass = (element, className) => {
 		replace(/^\s+/, "").
 		replace(/\s+$/, "");
 };
+
+const managedTags = ["IMG", "IFRAME", "VIDEO"];
 
 const callCallback = function(callback, argument) {
 	if (callback) {
@@ -244,7 +247,7 @@ function revealElement(element, settings, force) {
 		return; // element has already been processed and force wasn't true
 	}
 	callCallback(settings.callback_enter, element);
-	if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
+	if (managedTags.indexOf(element.tagName) > -1) {
 		addOneShotListeners(element, settings);
 		addClass(element, settings.class_loading);
 	}
