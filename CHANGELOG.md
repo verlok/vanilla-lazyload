@@ -2,6 +2,11 @@
 
 ## Version 10
 
+#### 10.15.0
+
+- Refactorized code & improved script performance
+- **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
+
 #### 10.14.0
 
 Now supporting WebP through dynamic extension rename if the user browser is compatible.
