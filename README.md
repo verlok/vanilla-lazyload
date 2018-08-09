@@ -184,6 +184,49 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](http://verlok.github.io/lazyload/demos/single_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) | [API](#api)
 
+### Multiple scrolling panels
+
+> **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
+
+HTML
+
+```html
+<div id="scrollingPanel1" class="scrollingPanel">
+    <img alt="Image description" 
+         data-src="../img/44721746JJ_15_a.jpg" 
+         width="220" height="280">
+    <!-- More images -->
+</div>
+<div id="scrollingPanel2" class="scrollingPanel">
+    <img alt="Image description" 
+         data-src="../img/44721746JJ_15_a.jpg" 
+         width="220" height="280">
+    <!-- More images -->
+</div>
+```
+
+CSS
+
+```css
+.scrollingPanel {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+```
+
+Javascript
+
+```js
+var myLazyLoad1 = new LazyLoad({
+    container: document.getElementById('scrollingPanel1')
+});
+var myLazyLoad2 = new LazyLoad({
+    container: document.getElementById('scrollingPanel2')
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) | [API](#api)
+
 ### Responsive images - srcset and sizes
 
 > **Use case**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
@@ -219,6 +262,8 @@ HTML
     <img class="lazy" alt="Stivaletti" data-src="/your/image1.jpg">
 </picture>
 ```
+
+Please note that you just need to put the `lazy` class on the `<img>` tag but **not in the `<source>` tags**.
 
 Javascript
 
@@ -363,50 +408,6 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
     window.CustomEvent = CustomEvent;
 })();
 ```
-
-
-### Multiple scrolling panels
-
-> **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
-
-HTML
-
-```html
-<div id="scrollingPanel1" class="scrollingPanel">
-    <img alt="Image description" 
-         data-src="../img/44721746JJ_15_a.jpg" 
-         width="220" height="280">
-    <!-- More images -->
-</div>
-<div id="scrollingPanel2" class="scrollingPanel">
-    <img alt="Image description" 
-         data-src="../img/44721746JJ_15_a.jpg" 
-         width="220" height="280">
-    <!-- More images -->
-</div>
-```
-
-CSS
-
-```css
-.scrollingPanel {
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-}
-```
-
-Javascript
-
-```js
-var myLazyLoad1 = new LazyLoad({
-    container: document.getElementById('scrollingPanel1')
-});
-var myLazyLoad2 = new LazyLoad({
-    container: document.getElementById('scrollingPanel2')
-});
-```
-
-[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) | [API](#api)
 
 ### Dynamic content
 
