@@ -5,64 +5,138 @@ Jump to:
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
 
-## Include the script / browser support
+## Include the script
 
-### Simple: direct include from cdnjs
+### Versions information
 
-The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
+The **universal, recommended version** of LazyLoad is **8.x** as it **supports ALL browsers** from IE9 up.
+
+Version **10.x** is best for performance since it leverages IntersectionObserver API, which is [not supported by Internet Explorer and Safari](https://caniuse.com/#feat=intersectionobserver), therefore all the images would be loaded at once in those browsers.
+
+Version **8.x** is recommended for [local install](#local-install), but you can be smart and [conditionally load the best version](#conditional-load) from cdnjs instead.
+
+### Include as `<script>` from cdnjs
+
+Version 8.x | [versions info](#versions-information)
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.min.js"></script>
 ```
 
-Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
-
-To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
+Version 10.x | [versions info](#versions-information)
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.15.0/lazyload.min.js"></script>
 ```
 
-### Advanced and best option: conditionally load version 8 or 10
+The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
+<br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
 
-The best thing you can do is to conditionally load the best version of LazyLoad **depending on the browser's support of the IntersectionObserver API**.
+#### Async script
+
+It's possible to include it as an `async` script, see the [recipes](#recipes) section for more information.
+
+#### Conditional load
+
+The best thing you can do for **runtime performance** is to **conditionally load** the appropriate version of LazyLoad depending on browser support of IntersectionObserver.
+
 You can do it with the following script:
 
 ```js
 (function(w, d){
 	var b = d.getElementsByTagName('body')[0];
-	var s = d.createElement("script"); s.async = true;
+	var s = d.createElement("script"); 
 	var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
+    s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
 	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
-	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
+	w.lazyLoadOptions = {/* Your options here */};
 	b.appendChild(s);
 }(window, document));
 ```
 
-See the conditional_load.html file in the demos folder to try it or play around with it.
+See `demos/conditional_load.html` to try and play around with it.
+
+The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
+<br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
+
+### Include via require.js
+
+If you use [require-js](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
+
+```js
+define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.amd.min.js"], function (LazyLoad) {
+    return LazyLoad;
+});
+```
+
+You can also [conditionally load](#conditional-load) the best version.
+
+```js
+(function (w) {
+    var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
+    define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.amd.min.js"], function (LazyLoad) {
+        return LazyLoad;
+    });
+}(window));
+```
 
 ### Local install
 
 If you prefer to install LazyLoad locally in your project, you can either:
-- **download it** from the [`dist` folder](https://github.com/verlok/lazyload/tree/master/dist)
-  The file you typically want to use is `lazyload.min.js`
-  If you prefer the ES2015 version, use `lazyload.es2015.js`
-- **install it with npm**
-  Recommended version `npm install vanilla-lazyload@8.15.0`
-  Latest version `npm install vanilla-lazyload`
-- **install it with bower**
-  Recommended version `bower install vanilla-lazyload#8.15.0`
-  Latest version `bower install vanilla-lazyload`
-  
-### Async script
 
-It's possible to include it as an `async` script, see [Recipes](#recipes) below.
+#### Install with npm
+
+Version 8.x, _recommended_ | [versions info](#versions-information)
+
+```
+npm install vanilla-lazyload@8.15.0
+```
+
+Version 10.x | [versions info](#versions-information)
+
+```
+npm install vanilla-lazyload@10.15.0
+```
+
+#### Install with bower
+
+Install with bower is also possible using `bower install vanilla-lazyload#{version}`
+
+
+#### Manual download
+
+Download one the latest [releases](https://github.com/verlok/lazyload/releases/). The files you need are inside the `dist` folder. 
+
+The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
+<br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
+
+### Bundles
+
+Inside `dist` folder you find different bundles.
+
+| Filename               | Module Type                                                   | Advantages                                                                                                                                 |
+| ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `lazyload.min.js`      | UMD <small>(Universal Module Definition)</small>              | Works pretty much everywhere, even in common-js contexts                                                                                   |
+| `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
+| `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *require.js* module loader, ~0.5kb smaller than UMD version                                                                     |
+| `lazyload.es2015.js`   | ES6 Module                                                    | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
+
+
+
+
+
+
+
+  
+
 
 ## Recipes
 
+This is the section where you can find _copy & paste_ code for your convenience.
+
 ### Simple
 
-**When to use**: your lazy images are (normally) located in the body of a scrolling page.
+> **Use case**: your lazy images are (normally) located in the body of a scrolling page.
 
 HTML
 
@@ -84,7 +158,7 @@ var myLazyLoad = new LazyLoad({
 
 ### Responsive images - srcset and sizes
 
-> **When to use**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
+> **Use case**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
 
 HTML 
 
@@ -106,7 +180,7 @@ var myLazyLoad = new LazyLoad({
 
 ### Responsive images - picture
 
-> **When to use**: you want to lazily load responsive images using the `picture` tag.
+> **Use case**: you want to lazily load responsive images using the `picture` tag.
 
 HTML
 
@@ -130,7 +204,7 @@ var myLazyLoad = new LazyLoad({
 
 ### Videos
 
-> **When to use**: you want to lazily load videos using the `video` tag.
+> **Use case**: you want to lazily load videos using the `video` tag.
 
 HTML
 
@@ -155,7 +229,7 @@ var myLazyLoad = new LazyLoad({
 
 ### Iframes
 
-> **When to use**: you want to lazily load `iframe`s.
+> **Use case**: you want to lazily load `iframe`s.
 
 HTML
 
@@ -175,7 +249,7 @@ var myLazyLoad = new LazyLoad({
 
 ### Async script + auto initialization
 
-> **When to use**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
+> **Use case**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
 
 Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
 
@@ -214,7 +288,7 @@ In that case, you need to store the instance in a variable and use the `update` 
 
 #### Auto init + store the instance in a variable
 
-> **When to use**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
+> **Use case**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
 
 HTML + Javascript
 
@@ -265,7 +339,7 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 
 ### Scrolling panel
 
-> **When to use**: when your scrolling container is not the main browser window, but a scrolling container.
+> **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
 
 HTML
 
@@ -299,7 +373,7 @@ var myLazyLoad = new LazyLoad({
 
 ### Multiple scrolling panels
 
-> **When to use**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
+> **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
 
 HTML
 
@@ -342,7 +416,7 @@ var myLazyLoad2 = new LazyLoad({
 
 ### Dynamic content
 
-> **When to use**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
+> **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
 
 HTML
 
@@ -360,7 +434,7 @@ myLazyLoad.update();
 
 ### Lazy iframes
 
-> **When to use**: you want to lazily load `iframe`s in your web page, maybe because you have many or just because you want to load only what your users actually want to see.
+> **Use case**: you want to lazily load `iframe`s in your web page, maybe because you have many or just because you want to load only what your users actually want to see.
 
 HTML
 
@@ -380,7 +454,7 @@ var myLazyLoad = new LazyLoad({
 
 ### Lazy background images
 
-> **When to use**: your images are set as CSS background images instead of real `img`, but you still want to lazily load them.
+> **Use case**: your images are set as CSS background images instead of real `img`, but you still want to lazily load them.
 
 HTML
 
@@ -402,7 +476,7 @@ That's it. Whenever the element selected by `elements_selector` is not an `img` 
 
 ### Lazy LazyLoad
 
-> **When to use**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
+> **Use case**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
 
 HTML
 
