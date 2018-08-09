@@ -44,13 +44,13 @@ You can do it with the following script:
 
 ```js
 (function(w, d){
-	var b = d.getElementsByTagName('body')[0];
-	var s = d.createElement("script"); 
-	var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
+    var b = d.getElementsByTagName('body')[0];
+    var s = d.createElement("script"); 
+    var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
     s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
-	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
-	w.lazyLoadOptions = {/* Your options here */};
-	b.appendChild(s);
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+    w.lazyLoadOptions = {/* Your options here */};
+    b.appendChild(s);
 }(window, document));
 ```
 
