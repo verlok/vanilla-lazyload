@@ -16,7 +16,7 @@ Version **10.x** is best for performance since it leverages IntersectionObserver
 
 Version **8.x** is recommended for [local install](#local-install), but you can be smart and [conditionally load the best version](#conditional-load) from cdnjs instead.
 
-### Include as `<script>` from cdnjs
+### Include as script from cdnjs
 
 Version 8.x | [versions info](#versions-information)
 
