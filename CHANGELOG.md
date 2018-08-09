@@ -131,7 +131,7 @@ Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.
   - default for `data_srcset` is now `srcset` (was `original-set`)
 
 ## Version 9
-
+ 
 #### 9.0.1
 
 - Restored tests using Jest
@@ -144,6 +144,11 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.15.0
+
+- Refactorized code & improved script performance
+- **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
 
 #### 8.14.0
 
