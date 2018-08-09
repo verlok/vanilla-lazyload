@@ -4,6 +4,7 @@ Jump to:
 
 [Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
 
+---
 
 ## Include the script
 
@@ -121,14 +122,7 @@ Inside `dist` folder you find different bundles.
 | `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *require.js* module loader, ~0.5kb smaller than UMD version                                                                     |
 | `lazyload.es2015.js`   | ES6 Module                                                    | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
-
-
-
-
-
-
-  
-
+---
 
 ## Recipes
 
@@ -155,6 +149,40 @@ var myLazyLoad = new LazyLoad({
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api)
+
+### Scrolling panel
+
+> **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
+
+HTML
+
+```html
+<div class="scrollingPanel">
+    <img alt="Image description" 
+         data-src="../img/44721746JJ_15_a.jpg" 
+         width="220" height="280">
+    <!-- More images -->
+</div>
+```
+
+CSS
+
+```css
+.scrollingPanel {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    container: document.getElementById('scrollingPanel')
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) | [API](#api)
 
 ### Responsive images - srcset and sizes
 
@@ -337,40 +365,6 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 ```
 
 
-### Scrolling panel
-
-> **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
-
-HTML
-
-```html
-<div class="scrollingPanel">
-    <img alt="Image description" 
-         data-src="../img/44721746JJ_15_a.jpg" 
-         width="220" height="280">
-    <!-- More images -->
-</div>
-```
-
-CSS
-
-```css
-.scrollingPanel {
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-}
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    container: document.getElementById('scrollingPanel')
-});
-```
-
-[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) | [API](#api)
-
 ### Multiple scrolling panels
 
 > **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
@@ -518,11 +512,15 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 [DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) | [API](#api)
 
+---
+
 ## Demos
 
 Didn't find the [recipe](#recipes) that exactly matches your case? We have demos!
 
 The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contains 15 use cases of LazyLoad. You might find there what you're looking for.
+
+---
 
 ## Tips & tricks
 
@@ -618,6 +616,8 @@ img[data-srcset] {
 }
 ```
 
+---
+
 ## API
 
 ### Constructor arguments
@@ -675,6 +675,7 @@ You can call the following public methods on any instance of LazyLoad.
 | `loadAll()`            | Loads all the lazy images right away, no matter if they are inside or outside the viewport.                                                                                                                                 |
 | `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as second parameter. |
 | `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                 |
+---
 
 ## Notable features
 
