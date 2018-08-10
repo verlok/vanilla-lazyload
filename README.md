@@ -1,8 +1,6 @@
 LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images, video or iframes as they enter the viewport**. It's written in plain "vanilla" JavaScript, uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#notable-features).
 
-Jump to:
-
-➡️ [Include the script](#include-the-script) - [Recipes](#recipes) - [Demos](#demos) - [Tips & tricks](#tips--tricks) - [API](#api) - [Notable features](#notable-features)
+➡️ Jump to: [Include the script](#include-the-script) - [Recipes](#recipes) - [Demos](#demos) - [Tips & tricks](#tips--tricks) - [API](#api) - [Notable features](#notable-features)
 
 ---
 
@@ -148,7 +146,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) - [API](#api)
 
 ### Scrolling panel
 
@@ -182,7 +180,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/single_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) - [API](#api)
 
 ### Multiple scrolling panels
 
@@ -225,7 +223,7 @@ var myLazyLoad2 = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) - [API](#api)
 
 ### Responsive images - img tag with srcset / sizes
 
@@ -247,7 +245,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) - [API](#api)
 
 ### Responsive images - picture tag
 
@@ -273,7 +271,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#api)
 
 ### Dynamic switch to WebP
 
@@ -298,7 +296,7 @@ var myLazyLoad = new LazyLoad({
 
 **Hint**: if you provide **only some images** in the WebP format, it's advisable to create 2 different instances of LazyLoad, as shown in the [this demo](http://verlok.github.io/lazyload/demos/to_webp_some.html) and [source code](https://github.com/verlok/lazyload/blob/master/demos/to_webp_some.html).
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#api)
 
 ### Videos
 
@@ -323,7 +321,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/video.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/video.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) - [API](#api)
 
 ### Iframes
 
@@ -343,7 +341,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
 
 ### Async script + auto initialization
 
@@ -382,7 +380,7 @@ window.lazyLoadOptions = [{
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
 
 #### Auto init + store the instance in a variable
 
@@ -410,7 +408,7 @@ lazyLoadOptions = {
 
 You will then have the auto-generated instance in the `lazyLoadInstance` variable.
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
 
 **Note about Internet Explorer**
 
@@ -450,7 +448,7 @@ var myLazyLoad = new LazyLoad();
 myLazyLoad.update();
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#api)
 
 ### Lazy iframes
 
@@ -470,7 +468,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
 
 ### Lazy background images
 
@@ -492,7 +490,7 @@ var myLazyLoad = new LazyLoad({
 
 That's it. Whenever the element selected by `elements_selector` is not an `img` or an `iframe`, LazyLoad puts the image found in the `data-src` attribute in the `background-image` of the element.
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/background_images.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/background_images.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) - [API](#api)
 
 ### Lazy LazyLoad
 
@@ -536,7 +534,7 @@ var lazyLazy = new LazyLoad({
 
 That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_set` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
 
-➡️ [DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#api)
 
 ---
 
