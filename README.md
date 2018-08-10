@@ -1,6 +1,6 @@
 LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images, video or iframes as they enter the viewport**. It's written in plain "vanilla" JavaScript, uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#notable-features).
 
-➡️ Jump to: [👨‍💻 Include the script](#👨‍💻-include-the-script) - [🥧 Recipes](#🥧-recipes) - [📺 Demos](#📺-demos) - [😋 Tips & tricks](#😋-tips--tricks) - [🔌 API](#🔌-api) - [😯 Notable features](#😯-notable-features)
+➡️ Jump to: [👨‍💻 Include the script](#-include-the-script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 Notable features](#-notable-features)
 
 ---
 
