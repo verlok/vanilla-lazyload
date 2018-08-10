@@ -1,10 +1,10 @@
 LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images, video or iframes as they enter the viewport**. It's written in plain "vanilla" JavaScript, uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#notable-features).
 
-➡️ Jump to: [Include the script](#include-the-script) - [Recipes](#recipes) - [Demos](#demos) - [Tips & tricks](#tips--tricks) - [API](#api) - [Notable features](#notable-features)
+➡️ Jump to: [👨‍💻 Include the script](#👨‍💻-include-the-script) - [🥧 Recipes](#🥧-recipes) - [📺 Demos](#📺-demos) - [😋 Tips & tricks](#😋-tips--tricks) - [🔌 API](#🔌-api) - [😯 Notable features](#😯-notable-features)
 
 ---
 
-## Include the script
+## 👨‍💻 Include the script
 
 ### Versions information
 
@@ -122,7 +122,7 @@ Inside `dist` folder you find different bundles.
 
 ---
 
-## Recipes
+## 🥧 Recipes
 
 This is the section where you can find _copy & paste_ code for your convenience.
 
@@ -538,7 +538,7 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 ---
 
-## Demos
+## 📺 Demos
 
 Didn't find the [recipe](#recipes) that exactly matches your case? We have demos!
 
@@ -546,7 +546,7 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 ---
 
-## Tips & tricks
+## 😋 Tips & tricks
 
 ### Occupy vertical space and maintain ratio
 
@@ -642,7 +642,7 @@ img[data-srcset] {
 
 ---
 
-## API
+## 🔌 API
 
 ### Constructor arguments
 
@@ -703,7 +703,7 @@ You can call the following public methods on any instance of LazyLoad.
 
 ---
 
-## Notable features
+## 😯 Notable features
 
 ### SEO friendly
 
