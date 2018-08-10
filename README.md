@@ -2,7 +2,7 @@ LazyLoad is a fast, lightweight and flexible script that _speeds up your web app
 
 Jump to:
 
-[Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
+➡️ [Include the script](#include-the-script) - [Recipes](#recipes) - [Demos](#demos) - [Tips & tricks](#tips--tricks) - [API](#api) - [Notable features](#notable-features)
 
 ---
 
@@ -18,13 +18,13 @@ Version **8.x** is recommended for [local install](#local-install), but you can 
 
 ### Include as script from cdnjs
 
-Version 8.x | [versions info](#versions-information)
+Version 8.x - [versions info](#versions-information)
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.min.js"></script>
 ```
 
-Version 10.x | [versions info](#versions-information)
+Version 10.x - [versions info](#versions-information)
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.15.0/lazyload.min.js"></script>
@@ -87,13 +87,13 @@ If you prefer to install LazyLoad locally in your project, you can either:
 
 #### Install with npm
 
-Version 8.x, _recommended_ | [versions info](#versions-information)
+Version 8.x, _recommended_ - [versions info](#versions-information)
 
 ```
 npm install vanilla-lazyload@8.15.0
 ```
 
-Version 10.x | [versions info](#versions-information)
+Version 10.x - [versions info](#versions-information)
 
 ```
 npm install vanilla-lazyload@10.15.0
@@ -130,7 +130,7 @@ This is the section where you can find _copy & paste_ code for your convenience.
 
 ### Simple
 
-> **Use case**: your lazy images are (normally) located in the body of a scrolling page.
+> 💡 **Use case**: your lazy images are (normally) located in the body of a scrolling page.
 
 HTML
 
@@ -148,11 +148,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) - [API](#api)
 
 ### Scrolling panel
 
-> **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
+> 💡 **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
 
 HTML
 
@@ -182,11 +182,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/single_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) - [API](#api)
 
 ### Multiple scrolling panels
 
-> **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
+> 💡 **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
 
 HTML
 
@@ -225,11 +225,11 @@ var myLazyLoad2 = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) - [API](#api)
 
-### Responsive images - srcset and sizes
+### Responsive images - img tag with srcset / sizes
 
-> **Use case**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
+> 💡 **Use case**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
 
 HTML 
 
@@ -247,11 +247,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) - [API](#api)
 
-### Responsive images - picture
+### Responsive images - picture tag
 
-> **Use case**: you want to lazily load responsive images using the `picture` tag.
+> 💡 **Use case**: you want to lazily load responsive images using the `picture` tag.
 
 HTML
 
@@ -273,11 +273,36 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#api)
+
+### Dynamic switch to WebP
+
+> 💡 **Use case**: you want to dynamically switch your images' filename extension to `.webp` if the user's browser supports it.
+
+HTML
+
+```html
+<img class="lazy" data-src="/your/image1.jpg"
+    data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+    data-sizes="(min-width: 20em) 35vw, 100vw">
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy",
+    to_webp: true
+});
+```
+
+**Hint**: if you provide **only some images** in the WebP format, it's advisable to create 2 different instances of LazyLoad, as shown in the [this demo](http://verlok.github.io/lazyload/demos/to_webp_some.html) and [source code](https://github.com/verlok/lazyload/blob/master/demos/to_webp_some.html).
+
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#api)
 
 ### Videos
 
-> **Use case**: you want to lazily load videos using the `video` tag.
+> 💡 **Use case**: you want to lazily load videos using the `video` tag.
 
 HTML
 
@@ -298,11 +323,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/video.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/video.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) - [API](#api)
 
 ### Iframes
 
-> **Use case**: you want to lazily load `iframe`s.
+> 💡 **Use case**: you want to lazily load `iframe`s.
 
 HTML
 
@@ -318,11 +343,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
 
 ### Async script + auto initialization
 
-> **Use case**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
+> 💡 **Use case**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
 
 Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
 
@@ -357,11 +382,11 @@ window.lazyLoadOptions = [{
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
 In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
 
-[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
 
 #### Auto init + store the instance in a variable
 
-> **Use case**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
+> 💡 **Use case**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
 
 HTML + Javascript
 
@@ -385,7 +410,7 @@ lazyLoadOptions = {
 
 You will then have the auto-generated instance in the `lazyLoadInstance` variable.
 
-[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
 
 **Note about Internet Explorer**
 
@@ -411,7 +436,7 @@ LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/do
 
 ### Dynamic content
 
-> **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
+> 💡 **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
 
 HTML
 
@@ -425,11 +450,11 @@ var myLazyLoad = new LazyLoad();
 myLazyLoad.update();
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#api)
 
 ### Lazy iframes
 
-> **Use case**: you want to lazily load `iframe`s in your web page, maybe because you have many or just because you want to load only what your users actually want to see.
+> 💡 **Use case**: you want to lazily load `iframe`s in your web page, maybe because you have many or just because you want to load only what your users actually want to see.
 
 HTML
 
@@ -445,11 +470,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
 
 ### Lazy background images
 
-> **Use case**: your images are set as CSS background images instead of real `img`, but you still want to lazily load them.
+> 💡 **Use case**: your images are set as CSS background images instead of real `img`, but you still want to lazily load them.
 
 HTML
 
@@ -467,11 +492,11 @@ var myLazyLoad = new LazyLoad({
 
 That's it. Whenever the element selected by `elements_selector` is not an `img` or an `iframe`, LazyLoad puts the image found in the `data-src` attribute in the `background-image` of the element.
 
-[DEMO](http://verlok.github.io/lazyload/demos/background_images.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/background_images.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) - [API](#api)
 
 ### Lazy LazyLoad
 
-> **Use case**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
+> 💡 **Use case**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
 
 HTML
 
@@ -511,7 +536,7 @@ var lazyLazy = new LazyLoad({
 
 That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_set` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
 
-[DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) | [API](#api)
+➡️ [DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#api)
 
 ---
 
@@ -661,6 +686,7 @@ Here's the list of the options.
 | `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                   | `"loading"`   |
 | `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                        | `"loaded"`    |
 | `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                    | `"error"`     |
+| `to_webp`           | A boolean flag that activates the dynamic switch to WEBP feature. [More info](#dynamic-switch-to-webp).                                                                                                                                                                                                                                                               | false         |
 | `callback_enter`    | A function to be called when the DOM element enters the viewport.                                                                                                                                                                                                                                                                                                     | `null`        |
 | `callback_set`      | A function to be called after the src of an image is set in the DOM.                                                                                                                                                                                                                                                                                                  | `null`        |
 | `callback_load`     | A function to be called when an element was loaded.                                                                                                                                                                                                                                                                                                                   | `null`        |
@@ -696,6 +722,10 @@ _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attribute
 ### Progressive JPEG support --> improve perceived performance
 
 [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
+
+### Dynamic switch to WEBP
+
+[WebP](https://developers.google.com/speed/webp/) is a modern image format that provides superior lossless and lossy compression for images on the web. If you are providing your images in the WebP format too, LazyLoad can switch the filenames extension to `.webp` before the image is loaded, given that the user's browser supports it. See [WebP support table](https://caniuse.com/#feat=webp).
 
 ### Intersection Observer API for optimized CPU usage
 
