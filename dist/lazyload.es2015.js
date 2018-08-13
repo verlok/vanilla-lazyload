@@ -9,6 +9,7 @@ var getInstanceSettings = customSettings => {
 		class_loading: "loading",
 		class_loaded: "loaded",
 		class_error: "error",
+		load_delay: 0,
 		callback_load: null,
 		callback_error: null,
 		callback_set: null,
@@ -273,22 +274,22 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
+	_onIntersection: function(entries) {
+		entries.forEach(entry => {
+			if (isIntersecting(entry)) {
+				let element = entry.target;
+				this.load(element);
+				this._observer.unobserve(element);
+			}
+		});
+		this._elements = purgeElements(this._elements);
+	},
 	_setObserver: function() {
 		if (!supportsIntersectionObserver) {
 			return;
 		}
-		const revealIntersectingElements = entries => {
-			entries.forEach(entry => {
-				if (isIntersecting(entry)) {
-					let element = entry.target;
-					this.load(element);
-					this._observer.unobserve(element);
-				}
-			});
-			this._elements = purgeElements(this._elements);
-		};
 		this._observer = new IntersectionObserver(
-			revealIntersectingElements,
+			this._onIntersection.bind(this),
 			getObserverSettings(this._settings)
 		);
 	},

@@ -18,6 +18,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			class_loading: "loading",
 			class_loaded: "loaded",
 			class_error: "error",
+			load_delay: 0,
 			callback_load: null,
 			callback_error: null,
 			callback_set: null,
@@ -270,23 +271,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	LazyLoad.prototype = {
-		_setObserver: function _setObserver() {
+		_onIntersection: function _onIntersection(entries) {
 			var _this = this;
 
+			entries.forEach(function (entry) {
+				if (isIntersecting(entry)) {
+					var element = entry.target;
+					_this.load(element);
+					_this._observer.unobserve(element);
+				}
+			});
+			this._elements = purgeElements(this._elements);
+		},
+		_setObserver: function _setObserver() {
 			if (!supportsIntersectionObserver) {
 				return;
 			}
-			var revealIntersectingElements = function revealIntersectingElements(entries) {
-				entries.forEach(function (entry) {
-					if (isIntersecting(entry)) {
-						var element = entry.target;
-						_this.load(element);
-						_this._observer.unobserve(element);
-					}
-				});
-				_this._elements = purgeElements(_this._elements);
-			};
-			this._observer = new IntersectionObserver(revealIntersectingElements, getObserverSettings(this._settings));
+			this._observer = new IntersectionObserver(this._onIntersection.bind(this), getObserverSettings(this._settings));
 		},
 
 		loadAll: function loadAll() {
