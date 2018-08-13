@@ -249,16 +249,15 @@ var LazyLoad = function () {
 
 	/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
     entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-	var isIntersecting = function isIntersecting(element, debugLabel) {
-		var returnValue = element.isIntersecting || element.intersectionRatio > 0;
-		console.log("isIntersecting " + debugLabel + "? \n\t\tisIntersecting: " + element.isIntersecting + ", \n\t\tintersectionRatio: " + element.intersectionRatio + ".\n\t\telement: " + element);
-		return returnValue;
+	var isIntersecting = function isIntersecting(entry) {
+		return entry.isIntersecting || entry.intersectionRatio > 0;
 	};
 
 	var getObserverSettings = function getObserverSettings(settings) {
 		return {
 			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px"
+			rootMargin: settings.threshold + "px",
+			threshold: 0
 		};
 	};
 
@@ -274,26 +273,35 @@ var LazyLoad = function () {
 			this.load(element);
 			this._observer.unobserve(element);
 		},
-		_onIntersection: function _onIntersection(entries) {
+		_manageIntersection: function _manageIntersection(entry) {
 			var _this = this;
 
 			var loadDelay = this._settings.load_delay;
-			entries.forEach(function (entry) {
-				if (isIntersecting(entry, "before")) {
-					if (loadDelay) {
-						setTimeout(function () {
-							if (isIntersecting(entry, "AFTER timeout")) {
-								console.log("Still intersecting", entry);
-								_this._loadObserved(entry);
-							} else {
-								console.log("Not intersecting anymore...", entry);
-							}
-						}, loadDelay);
-					} else {
-						_this._loadObserved(entry);
-					}
+			if (isIntersecting(entry)) {
+				if (loadDelay === 0) {
+					this._loadObserved(entry);
+				} else {
+					setTimeout(function () {
+						// Do something that checks if it's still inside, THEN
+						console.log("data-in-viewport at timeout? ", entry.target.getAttribute("data-in-viewport"));
+						if (entry.target.getAttribute("data-in-viewport") === "true") {
+							_this._loadObserved(entry);
+						}
+					}, loadDelay);
 				}
-			});
+			}
+
+			// Writes in and outs in a data-attribute
+			if (isIntersecting(entry)) {
+				console.log("Intersecting, write data-in-viewport: true");
+				entry.target.setAttribute("data-in-viewport", true);
+			} else {
+				console.log("No intersecting, write data-in-viewport: false");
+				entry.target.setAttribute("data-in-viewport", false);
+			}
+		},
+		_onIntersection: function _onIntersection(entries) {
+			entries.forEach(this._manageIntersection.bind(this));
 			this._elements = purgeElements(this._elements);
 		},
 		_setObserver: function _setObserver() {

@@ -24,24 +24,38 @@ LazyLoad.prototype = {
 		this.load(element);
 		this._observer.unobserve(element);
 	},
-	_onIntersection: function(entries) {
+	_manageIntersection: function(entry) {
 		var loadDelay = this._settings.load_delay;
-		entries.forEach(entry => {
-			if (isIntersecting(entry, "before")) {
-				if (loadDelay) {
-					setTimeout(() => {
-						if (isIntersecting(entry, "AFTER timeout")) {
-							console.log("Still intersecting", entry);
-							this._loadObserved(entry);
-						} else {
-							console.log("Not intersecting anymore...", entry);
-						}
-					}, loadDelay);
-				} else {
-					this._loadObserved(entry);
-				}
+		if (isIntersecting(entry)) {
+			if (loadDelay === 0) {
+				this._loadObserved(entry);
+			} else {
+				setTimeout(() => {
+					// Do something that checks if it's still inside, THEN
+					console.log(
+						"data-in-viewport at timeout? ",
+						entry.target.getAttribute("data-in-viewport")
+					);
+					if (
+						entry.target.getAttribute("data-in-viewport") === "true"
+					) {
+						this._loadObserved(entry);
+					}
+				}, loadDelay);
 			}
-		});
+		}
+
+		// Writes in and outs in a data-attribute
+		if (isIntersecting(entry)) {
+			console.log("Intersecting, write data-in-viewport: true");
+			entry.target.setAttribute("data-in-viewport", true);
+		} else {
+			console.log("No intersecting, write data-in-viewport: false");
+			entry.target.setAttribute("data-in-viewport", false);
+		}
+	},
+	_onIntersection: function(entries) {
+		entries.forEach(this._manageIntersection.bind(this));
 		this._elements = purgeElements(this._elements);
 	},
 	_setObserver: function() {
