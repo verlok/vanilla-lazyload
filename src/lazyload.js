@@ -19,12 +19,27 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
+	_loadObserved: function(entry) {
+		let element = entry.target;
+		this.load(element);
+		this._observer.unobserve(element);
+	},
 	_onIntersection: function(entries) {
+		var loadDelay = this._settings.load_delay;
 		entries.forEach(entry => {
-			if (isIntersecting(entry)) {
-				let element = entry.target;
-				this.load(element);
-				this._observer.unobserve(element);
+			if (isIntersecting(entry, "before")) {
+				if (loadDelay) {
+					setTimeout(() => {
+						if (isIntersecting(entry, "AFTER timeout")) {
+							console.log("Still intersecting", entry);
+							this._loadObserved(entry);
+						} else {
+							console.log("Not intersecting anymore...", entry);
+						}
+					}, loadDelay);
+				} else {
+					this._loadObserved(entry);
+				}
 			}
 		});
 		this._elements = purgeElements(this._elements);

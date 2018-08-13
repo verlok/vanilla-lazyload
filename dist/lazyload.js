@@ -253,8 +253,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
     entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-	var isIntersecting = function isIntersecting(element) {
-		return element.isIntersecting || element.intersectionRatio > 0;
+	var isIntersecting = function isIntersecting(element, debugLabel) {
+		var returnValue = element.isIntersecting || element.intersectionRatio > 0;
+		console.log('isIntersecting ' + debugLabel + '? \n\t\tisIntersecting: ' + element.isIntersecting + ', \n\t\tintersectionRatio: ' + element.intersectionRatio + '.\n\t\telement: ' + element);
+		return returnValue;
 	};
 
 	var getObserverSettings = function getObserverSettings(settings) {
@@ -271,14 +273,29 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	LazyLoad.prototype = {
+		_loadObserved: function _loadObserved(entry) {
+			var element = entry.target;
+			this.load(element);
+			this._observer.unobserve(element);
+		},
 		_onIntersection: function _onIntersection(entries) {
 			var _this = this;
 
+			var loadDelay = this._settings.load_delay;
 			entries.forEach(function (entry) {
-				if (isIntersecting(entry)) {
-					var element = entry.target;
-					_this.load(element);
-					_this._observer.unobserve(element);
+				if (isIntersecting(entry, "before")) {
+					if (loadDelay) {
+						setTimeout(function () {
+							if (isIntersecting(entry, "AFTER timeout")) {
+								console.log("Still intersecting", entry);
+								_this._loadObserved(entry);
+							} else {
+								console.log("Not intersecting anymore...", entry);
+							}
+						}, loadDelay);
+					} else {
+						_this._loadObserved(entry);
+					}
 				}
 			});
 			this._elements = purgeElements(this._elements);

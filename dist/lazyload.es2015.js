@@ -259,8 +259,14 @@ function revealElement(element, settings, force) {
 
 /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
    entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-const isIntersecting = element =>
-	element.isIntersecting || element.intersectionRatio > 0;
+const isIntersecting = (element, debugLabel) => {
+	var returnValue = element.isIntersecting || element.intersectionRatio > 0;
+	console.log(`isIntersecting ${debugLabel}? 
+		isIntersecting: ${element.isIntersecting}, 
+		intersectionRatio: ${element.intersectionRatio}.
+		element: ${element}`);
+	return returnValue;
+};
 
 const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
@@ -274,12 +280,27 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
+	_loadObserved: function(entry) {
+		let element = entry.target;
+		this.load(element);
+		this._observer.unobserve(element);
+	},
 	_onIntersection: function(entries) {
+		var loadDelay = this._settings.load_delay;
 		entries.forEach(entry => {
-			if (isIntersecting(entry)) {
-				let element = entry.target;
-				this.load(element);
-				this._observer.unobserve(element);
+			if (isIntersecting(entry, "before")) {
+				if (loadDelay) {
+					setTimeout(() => {
+						if (isIntersecting(entry, "AFTER timeout")) {
+							console.log("Still intersecting", entry);
+							this._loadObserved(entry);
+						} else {
+							console.log("Not intersecting anymore...", entry);
+						}
+					}, loadDelay);
+				} else {
+					this._loadObserved(entry);
+				}
 			}
 		});
 		this._elements = purgeElements(this._elements);
