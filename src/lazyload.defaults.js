@@ -9,6 +9,7 @@ export default customSettings => {
 		class_loading: "loading",
 		class_loaded: "loaded",
 		class_error: "error",
+		load_delay: 0,
 		callback_load: null,
 		callback_error: null,
 		callback_set: null,
