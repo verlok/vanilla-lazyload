@@ -1,6 +1,6 @@
 const dataPrefix = "data-";
 const processedDataName = "was-processed";
-const inViewportDataName = "in-viewport";
+const timeoutDataName = "ll-timeout";
 const trueString = "true";
 
 export const getData = (element, attribute) => {
@@ -8,7 +8,12 @@ export const getData = (element, attribute) => {
 };
 
 export const setData = (element, attribute, value) => {
-	return element.setAttribute(dataPrefix + attribute, value);
+	var attrName = dataPrefix + attribute;
+	if (value === null) {
+		element.removeAttribute(attrName);
+		return;
+	}
+	element.setAttribute(attrName, value);
 };
 
 export const setWasProcessed = element =>
@@ -17,8 +22,7 @@ export const setWasProcessed = element =>
 export const getWasProcessed = element =>
 	getData(element, processedDataName) === trueString;
 
-export const setInViewport = (element, value = trueString) =>
-	setData(element, inViewportDataName, value);
+export const setTimeoutData = (element, value) =>
+	setData(element, timeoutDataName, value);
 
-export const getInViewport = element =>
-	getData(element, inViewportDataName) === trueString;
+export const getTimeoutData = element => getData(element, timeoutDataName);

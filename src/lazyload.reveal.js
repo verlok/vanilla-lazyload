@@ -1,6 +1,7 @@
 import { setSources } from "./lazyload.setSources";
 import {
-	getInViewport,
+	setTimeoutData,
+	getTimeoutData,
 	getWasProcessed,
 	setWasProcessed
 } from "./lazyload.data";
@@ -45,18 +46,31 @@ const onEvent = function(event, success, settings) {
 	);
 };
 
-export const loadObserved = (element, observer, settings) => {
+export const loadAndUnobserve = (element, observer, settings) => {
 	revealElement(element, settings);
 	observer.unobserve(element);
 };
 
+export const cancelDelayLoad = element => {
+	var timeoutId = getTimeoutData(element);
+
+	if (!timeoutId) {
+		return; // do nothing if timeout doesn't exist
+	}
+	clearTimeout(timeoutId);
+	setTimeoutData(element, null);
+};
+
 export const delayLoad = (element, observer, settings) => {
 	var loadDelay = settings.load_delay;
-	setTimeout(function() {
-		if (getInViewport(element)) {
-			loadObserved(element, observer, settings);
-		}
+	var timeoutId = getTimeoutData(element);
+	if (timeoutId) {
+		return; // do nothing if timeout already set
+	}
+	timeoutId = setTimeout(function() {
+		loadAndUnobserve(element, observer, settings);
 	}, loadDelay);
+	setTimeoutData(element, timeoutId);
 };
 
 export function revealElement(element, settings, force) {

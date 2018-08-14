@@ -31,7 +31,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var dataPrefix = "data-";
 	var processedDataName = "was-processed";
-	var inViewportDataName = "in-viewport";
+	var timeoutDataName = "ll-timeout";
 	var trueString = "true";
 
 	var getData = function getData(element, attribute) {
@@ -39,7 +39,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	var setData = function setData(element, attribute, value) {
-		return element.setAttribute(dataPrefix + attribute, value);
+		var attrName = dataPrefix + attribute;
+		if (value === null) {
+			element.removeAttribute(attrName);
+			return;
+		}
+		element.setAttribute(attrName, value);
 	};
 
 	var setWasProcessed = function setWasProcessed(element) {
@@ -50,13 +55,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return getData(element, processedDataName) === trueString;
 	};
 
-	var setInViewport = function setInViewport(element) {
-		var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : trueString;
-		return setData(element, inViewportDataName, value);
+	var setTimeoutData = function setTimeoutData(element, value) {
+		return setData(element, timeoutDataName, value);
 	};
 
-	var getInViewport = function getInViewport(element) {
-		return getData(element, inViewportDataName) === trueString;
+	var getTimeoutData = function getTimeoutData(element) {
+		return getData(element, timeoutDataName);
 	};
 
 	function purgeElements(elements) {
@@ -247,18 +251,31 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		callCallback(success ? settings.callback_load : settings.callback_error, element);
 	};
 
-	var loadObserved = function loadObserved(element, observer, settings) {
+	var loadAndUnobserve = function loadAndUnobserve(element, observer, settings) {
 		revealElement(element, settings);
 		observer.unobserve(element);
 	};
 
+	var cancelDelayLoad = function cancelDelayLoad(element) {
+		var timeoutId = getTimeoutData(element);
+
+		if (!timeoutId) {
+			return; // do nothing if timeout doesn't exist
+		}
+		clearTimeout(timeoutId);
+		setTimeoutData(element, null);
+	};
+
 	var delayLoad = function delayLoad(element, observer, settings) {
 		var loadDelay = settings.load_delay;
-		setTimeout(function () {
-			if (getInViewport(element)) {
-				loadObserved(element, observer, settings);
-			}
+		var timeoutId = getTimeoutData(element);
+		if (timeoutId) {
+			return; // do nothing if timeout already set
+		}
+		timeoutId = setTimeout(function () {
+			loadAndUnobserve(element, observer, settings);
 		}, loadDelay);
+		setTimeoutData(element, timeoutId);
 	};
 
 	function revealElement(element, settings, force) {
@@ -302,18 +319,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			var loadDelay = this._settings.load_delay;
 			var element = entry.target;
 			if (isIntersecting(entry)) {
-				if (loadDelay === 0) {
-					loadObserved(element, observer, settings);
+				if (!loadDelay) {
+					loadAndUnobserve(element, observer, settings);
 				} else {
 					delayLoad(element, observer, settings);
 				}
 			}
 
 			// Writes in and outs in a data-attribute
-			if (isIntersecting(entry)) {
-				setInViewport(element);
-			} else {
-				setInViewport(element, false);
+			if (!isIntersecting(entry)) {
+				cancelDelayLoad(element);
 			}
 		},
 		_onIntersection: function _onIntersection(entries) {

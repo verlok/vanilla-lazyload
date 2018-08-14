@@ -22,7 +22,7 @@ var getInstanceSettings = customSettings => {
 
 const dataPrefix = "data-";
 const processedDataName = "was-processed";
-const inViewportDataName = "in-viewport";
+const timeoutDataName = "ll-timeout";
 const trueString = "true";
 
 const getData = (element, attribute) => {
@@ -30,7 +30,12 @@ const getData = (element, attribute) => {
 };
 
 const setData = (element, attribute, value) => {
-	return element.setAttribute(dataPrefix + attribute, value);
+	var attrName = dataPrefix + attribute;
+	if (value === null) {
+		element.removeAttribute(attrName);
+		return;
+	}
+	element.setAttribute(attrName, value);
 };
 
 const setWasProcessed = element =>
@@ -39,11 +44,10 @@ const setWasProcessed = element =>
 const getWasProcessed = element =>
 	getData(element, processedDataName) === trueString;
 
-const setInViewport = (element, value = trueString) =>
-	setData(element, inViewportDataName, value);
+const setTimeoutData = (element, value) =>
+	setData(element, timeoutDataName, value);
 
-const getInViewport = element =>
-	getData(element, inViewportDataName) === trueString;
+const getTimeoutData = element => getData(element, timeoutDataName);
 
 function purgeElements(elements) {
 	return elements.filter(element => !getWasProcessed(element));
@@ -250,18 +254,31 @@ const onEvent = function(event, success, settings) {
 	);
 };
 
-const loadObserved = (element, observer, settings) => {
+const loadAndUnobserve = (element, observer, settings) => {
 	revealElement(element, settings);
 	observer.unobserve(element);
 };
 
+const cancelDelayLoad = element => {
+	var timeoutId = getTimeoutData(element);
+
+	if (!timeoutId) {
+		return; // do nothing if timeout doesn't exist
+	}
+	clearTimeout(timeoutId);
+	setTimeoutData(element, null);
+};
+
 const delayLoad = (element, observer, settings) => {
 	var loadDelay = settings.load_delay;
-	setTimeout(function() {
-		if (getInViewport(element)) {
-			loadObserved(element, observer, settings);
-		}
+	var timeoutId = getTimeoutData(element);
+	if (timeoutId) {
+		return; // do nothing if timeout already set
+	}
+	timeoutId = setTimeout(function() {
+		loadAndUnobserve(element, observer, settings);
 	}, loadDelay);
+	setTimeoutData(element, timeoutId);
 };
 
 function revealElement(element, settings, force) {
@@ -302,18 +319,16 @@ LazyLoad.prototype = {
 		var loadDelay = this._settings.load_delay;
 		var element = entry.target;
 		if (isIntersecting(entry)) {
-			if (loadDelay === 0) {
-				loadObserved(element, observer, settings);
+			if (!loadDelay) {
+				loadAndUnobserve(element, observer, settings);
 			} else {
 				delayLoad(element, observer, settings);
 			}
 		}
 
 		// Writes in and outs in a data-attribute
-		if (isIntersecting(entry)) {
-			setInViewport(element);
-		} else {
-			setInViewport(element, false);
+		if (!isIntersecting(entry)) {
+			cancelDelayLoad(element);
 		}
 	},
 	_onIntersection: function(entries) {
