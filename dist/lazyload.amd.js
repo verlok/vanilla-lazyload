@@ -268,26 +268,29 @@ define(function () {
 	};
 
 	LazyLoad.prototype = {
-		_loadObserved: function _loadObserved(entry) {
-			var element = entry.target;
+		_loadObserved: function _loadObserved(element) {
 			this.load(element);
 			this._observer.unobserve(element);
 		},
-		_manageIntersection: function _manageIntersection(entry) {
+		_delayLoad: function _delayLoad(element, loadDelay) {
 			var _this = this;
 
+			setTimeout(function () {
+				// Do something that checks if it's still inside, THEN
+				console.log("data-in-viewport at timeout? ", element.getAttribute("data-in-viewport"));
+				if (element.getAttribute("data-in-viewport") === "true") {
+					_this._loadObserved(element);
+				}
+			}, loadDelay);
+		},
+		_manageIntersection: function _manageIntersection(entry) {
 			var loadDelay = this._settings.load_delay;
 			if (isIntersecting(entry)) {
+				var element = entry.target;
 				if (loadDelay === 0) {
-					this._loadObserved(entry);
+					this._loadObserved(element);
 				} else {
-					setTimeout(function () {
-						// Do something that checks if it's still inside, THEN
-						console.log("data-in-viewport at timeout? ", entry.target.getAttribute("data-in-viewport"));
-						if (entry.target.getAttribute("data-in-viewport") === "true") {
-							_this._loadObserved(entry);
-						}
-					}, loadDelay);
+					this._delayLoad(element, loadDelay);
 				}
 			}
 
