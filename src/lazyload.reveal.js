@@ -52,7 +52,7 @@ export const loadObserved = (element, observer, settings) => {
 
 export const delayLoad = (element, observer, settings) => {
 	var loadDelay = settings.load_delay;
-	setTimeout(() => {
+	setTimeout(function() {
 		if (getInViewport(element)) {
 			loadObserved(element, observer, settings);
 		}
