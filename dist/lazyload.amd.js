@@ -27,7 +27,7 @@ define(function () {
 
 	var dataPrefix = "data-";
 	var processedDataName = "was-processed";
-	var processedDataValue = "true";
+	var trueString = "true";
 
 	var getData = function getData(element, attribute) {
 		return element.getAttribute(dataPrefix + attribute);
@@ -38,11 +38,11 @@ define(function () {
 	};
 
 	var setWasProcessed = function setWasProcessed(element) {
-		return setData(element, processedDataName, processedDataValue);
+		return setData(element, processedDataName, trueString);
 	};
 
 	var getWasProcessed = function getWasProcessed(element) {
-		return getData(element, processedDataName) === processedDataValue;
+		return getData(element, processedDataName) === trueString;
 	};
 
 	function purgeElements(elements) {
@@ -276,17 +276,15 @@ define(function () {
 			var _this = this;
 
 			setTimeout(function () {
-				// Do something that checks if it's still inside, THEN
-				console.log("data-in-viewport at timeout? ", element.getAttribute("data-in-viewport"));
-				if (element.getAttribute("data-in-viewport") === "true") {
+				if (getData(element, "in-viewport") === "true") {
 					_this._loadObserved(element);
 				}
 			}, loadDelay);
 		},
 		_manageIntersection: function _manageIntersection(entry) {
 			var loadDelay = this._settings.load_delay;
+			var element = entry.target;
 			if (isIntersecting(entry)) {
-				var element = entry.target;
 				if (loadDelay === 0) {
 					this._loadObserved(element);
 				} else {
@@ -296,11 +294,9 @@ define(function () {
 
 			// Writes in and outs in a data-attribute
 			if (isIntersecting(entry)) {
-				console.log("Intersecting, write data-in-viewport: true");
-				entry.target.setAttribute("data-in-viewport", true);
+				setData(element, "in-viewport", true);
 			} else {
-				console.log("No intersecting, write data-in-viewport: false");
-				entry.target.setAttribute("data-in-viewport", false);
+				setData(element, "in-viewport", false);
 			}
 		},
 		_onIntersection: function _onIntersection(entries) {

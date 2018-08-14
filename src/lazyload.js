@@ -2,6 +2,7 @@ import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import revealElement from "./lazyload.reveal";
+import { getInViewport, setInViewport } from "./lazyload.data";
 import {
 	isIntersecting,
 	getObserverSettings
@@ -25,20 +26,15 @@ LazyLoad.prototype = {
 	},
 	_delayLoad: function(element, loadDelay) {
 		setTimeout(() => {
-			// Do something that checks if it's still inside, THEN
-			console.log(
-				"data-in-viewport at timeout? ",
-				element.getAttribute("data-in-viewport")
-			);
-			if (element.getAttribute("data-in-viewport") === "true") {
+			if (getInViewport(element)) {
 				this._loadObserved(element);
 			}
 		}, loadDelay);
 	},
 	_manageIntersection: function(entry) {
 		var loadDelay = this._settings.load_delay;
+		var element = entry.target;
 		if (isIntersecting(entry)) {
-			let element = entry.target;
 			if (loadDelay === 0) {
 				this._loadObserved(element);
 			} else {
@@ -48,11 +44,9 @@ LazyLoad.prototype = {
 
 		// Writes in and outs in a data-attribute
 		if (isIntersecting(entry)) {
-			console.log("Intersecting, write data-in-viewport: true");
-			entry.target.setAttribute("data-in-viewport", true);
+			setInViewport(element);
 		} else {
-			console.log("No intersecting, write data-in-viewport: false");
-			entry.target.setAttribute("data-in-viewport", false);
+			setInViewport(element, false);
 		}
 	},
 	_onIntersection: function(entries) {

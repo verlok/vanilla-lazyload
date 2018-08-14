@@ -1,6 +1,7 @@
 const dataPrefix = "data-";
 const processedDataName = "was-processed";
-const processedDataValue = "true";
+const inViewportDataName = "in-viewport";
+const trueString = "true";
 
 export const getData = (element, attribute) => {
 	return element.getAttribute(dataPrefix + attribute);
@@ -11,7 +12,13 @@ export const setData = (element, attribute, value) => {
 };
 
 export const setWasProcessed = element =>
-	setData(element, processedDataName, processedDataValue);
+	setData(element, processedDataName, trueString);
 
 export const getWasProcessed = element =>
-	getData(element, processedDataName) === processedDataValue;
+	getData(element, processedDataName) === trueString;
+
+export const setInViewport = (element, value = trueString) =>
+	setData(element, inViewportDataName, value);
+
+export const getInViewport = element =>
+	getData(element, inViewportDataName) === trueString;

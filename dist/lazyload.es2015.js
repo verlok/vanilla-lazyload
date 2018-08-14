@@ -22,7 +22,7 @@ var getInstanceSettings = customSettings => {
 
 const dataPrefix = "data-";
 const processedDataName = "was-processed";
-const processedDataValue = "true";
+const trueString = "true";
 
 const getData = (element, attribute) => {
 	return element.getAttribute(dataPrefix + attribute);
@@ -33,10 +33,10 @@ const setData = (element, attribute, value) => {
 };
 
 const setWasProcessed = element =>
-	setData(element, processedDataName, processedDataValue);
+	setData(element, processedDataName, trueString);
 
 const getWasProcessed = element =>
-	getData(element, processedDataName) === processedDataValue;
+	getData(element, processedDataName) === trueString;
 
 function purgeElements(elements) {
 	return elements.filter(element => !getWasProcessed(element));
@@ -281,20 +281,15 @@ LazyLoad.prototype = {
 	},
 	_delayLoad: function(element, loadDelay) {
 		setTimeout(() => {
-			// Do something that checks if it's still inside, THEN
-			console.log(
-				"data-in-viewport at timeout? ",
-				element.getAttribute("data-in-viewport")
-			);
-			if (element.getAttribute("data-in-viewport") === "true") {
+			if (getData(element, "in-viewport") === "true") {
 				this._loadObserved(element);
 			}
 		}, loadDelay);
 	},
 	_manageIntersection: function(entry) {
 		var loadDelay = this._settings.load_delay;
+		var element = entry.target;
 		if (isIntersecting(entry)) {
-			let element = entry.target;
 			if (loadDelay === 0) {
 				this._loadObserved(element);
 			} else {
@@ -304,11 +299,9 @@ LazyLoad.prototype = {
 
 		// Writes in and outs in a data-attribute
 		if (isIntersecting(entry)) {
-			console.log("Intersecting, write data-in-viewport: true");
-			entry.target.setAttribute("data-in-viewport", true);
+			setData(element, "in-viewport", true);
 		} else {
-			console.log("No intersecting, write data-in-viewport: false");
-			entry.target.setAttribute("data-in-viewport", false);
+			setData(element, "in-viewport", false);
 		}
 	},
 	_onIntersection: function(entries) {
