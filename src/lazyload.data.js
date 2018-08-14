@@ -16,10 +16,10 @@ export const setData = (element, attribute, value) => {
 	element.setAttribute(attrName, value);
 };
 
-export const setWasProcessed = element =>
+export const setWasProcessedData = element =>
 	setData(element, processedDataName, trueString);
 
-export const getWasProcessed = element =>
+export const getWasProcessedData = element =>
 	getData(element, processedDataName) === trueString;
 
 export const setTimeoutData = (element, value) =>

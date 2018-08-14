@@ -2,8 +2,8 @@ import { setSources } from "./lazyload.setSources";
 import {
 	setTimeoutData,
 	getTimeoutData,
-	getWasProcessed,
-	setWasProcessed
+	getWasProcessedData,
+	setWasProcessedData
 } from "./lazyload.data";
 import { addClass, removeClass } from "./lazyload.class";
 
@@ -53,7 +53,6 @@ export const loadAndUnobserve = (element, observer, settings) => {
 
 export const cancelDelayLoad = element => {
 	var timeoutId = getTimeoutData(element);
-
 	if (!timeoutId) {
 		return; // do nothing if timeout doesn't exist
 	}
@@ -69,12 +68,13 @@ export const delayLoad = (element, observer, settings) => {
 	}
 	timeoutId = setTimeout(function() {
 		loadAndUnobserve(element, observer, settings);
+		cancelDelayLoad(element);
 	}, loadDelay);
 	setTimeoutData(element, timeoutId);
 };
 
 export function revealElement(element, settings, force) {
-	if (!force && getWasProcessed(element)) {
+	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
 	}
 	callCallback(settings.callback_enter, element);
@@ -83,6 +83,6 @@ export function revealElement(element, settings, force) {
 		addClass(element, settings.class_loading);
 	}
 	setSources(element, settings);
-	setWasProcessed(element);
+	setWasProcessedData(element);
 	callCallback(settings.callback_set, element);
 }
