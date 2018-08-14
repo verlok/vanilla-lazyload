@@ -1,8 +1,8 @@
 import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
-import revealElement from "./lazyload.reveal";
-import { getInViewport, setInViewport } from "./lazyload.data";
+import { revealElement, loadObserved, delayLoad } from "./lazyload.reveal";
+import { setInViewport } from "./lazyload.data";
 import {
 	isIntersecting,
 	getObserverSettings
@@ -20,25 +20,14 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
-	_loadObserved: function(element) {
-		this.load(element);
-		this._observer.unobserve(element);
-	},
-	_delayLoad: function(element, loadDelay) {
-		setTimeout(() => {
-			if (getInViewport(element)) {
-				this._loadObserved(element);
-			}
-		}, loadDelay);
-	},
 	_manageIntersection: function(entry) {
 		var loadDelay = this._settings.load_delay;
 		var element = entry.target;
 		if (isIntersecting(entry)) {
 			if (loadDelay === 0) {
-				this._loadObserved(element);
+				loadObserved(element, this._observer, this._settings);
 			} else {
-				this._delayLoad(element, loadDelay);
+				delayLoad(element, this._observer, this._settings);
 			}
 		}
 

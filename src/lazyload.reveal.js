@@ -1,5 +1,9 @@
 import { setSources } from "./lazyload.setSources";
-import { getWasProcessed, setWasProcessed } from "./lazyload.data";
+import {
+	getInViewport,
+	getWasProcessed,
+	setWasProcessed
+} from "./lazyload.data";
 import { addClass, removeClass } from "./lazyload.class";
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
@@ -41,7 +45,21 @@ const onEvent = function(event, success, settings) {
 	);
 };
 
-export default function(element, settings, force) {
+export const loadObserved = (element, observer, settings) => {
+	revealElement(element, settings);
+	observer.unobserve(element);
+};
+
+export const delayLoad = (element, observer, settings) => {
+	var loadDelay = settings.load_delay;
+	setTimeout(() => {
+		if (getInViewport(element)) {
+			loadObserved(element, observer, settings);
+		}
+	}, loadDelay);
+};
+
+export function revealElement(element, settings, force) {
 	if (!force && getWasProcessed(element)) {
 		return; // element has already been processed and force wasn't true
 	}

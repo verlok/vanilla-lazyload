@@ -27,6 +27,7 @@ var LazyLoad = function () {
 
 	var dataPrefix = "data-";
 	var processedDataName = "was-processed";
+	var inViewportDataName = "in-viewport";
 	var trueString = "true";
 
 	var getData = function getData(element, attribute) {
@@ -43,6 +44,15 @@ var LazyLoad = function () {
 
 	var getWasProcessed = function getWasProcessed(element) {
 		return getData(element, processedDataName) === trueString;
+	};
+
+	var setInViewport = function setInViewport(element) {
+		var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : trueString;
+		return setData(element, inViewportDataName, value);
+	};
+
+	var getInViewport = function getInViewport(element) {
+		return getData(element, inViewportDataName) === trueString;
 	};
 
 	function purgeElements(elements) {
@@ -233,6 +243,20 @@ var LazyLoad = function () {
 		callCallback(success ? settings.callback_load : settings.callback_error, element);
 	};
 
+	var loadObserved = function loadObserved(element, observer, settings) {
+		revealElement(element, settings);
+		observer.unobserve(element);
+	};
+
+	var delayLoad = function delayLoad(element, observer, settings) {
+		var loadDelay = settings.load_delay;
+		setTimeout(function () {
+			if (getInViewport(element)) {
+				loadObserved(element, observer, settings);
+			}
+		}, loadDelay);
+	};
+
 	function revealElement(element, settings, force) {
 		if (!force && getWasProcessed(element)) {
 			return; // element has already been processed and force wasn't true
@@ -268,35 +292,22 @@ var LazyLoad = function () {
 	};
 
 	LazyLoad.prototype = {
-		_loadObserved: function _loadObserved(element) {
-			this.load(element);
-			this._observer.unobserve(element);
-		},
-		_delayLoad: function _delayLoad(element, loadDelay) {
-			var _this = this;
-
-			setTimeout(function () {
-				if (getData(element, "in-viewport") === "true") {
-					_this._loadObserved(element);
-				}
-			}, loadDelay);
-		},
 		_manageIntersection: function _manageIntersection(entry) {
 			var loadDelay = this._settings.load_delay;
 			var element = entry.target;
 			if (isIntersecting(entry)) {
 				if (loadDelay === 0) {
-					this._loadObserved(element);
+					loadObserved(element, this._observer, this._settings);
 				} else {
-					this._delayLoad(element, loadDelay);
+					delayLoad(element, this._observer, this._settings);
 				}
 			}
 
 			// Writes in and outs in a data-attribute
 			if (isIntersecting(entry)) {
-				setData(element, "in-viewport", true);
+				setInViewport(element);
 			} else {
-				setData(element, "in-viewport", false);
+				setInViewport(element, false);
 			}
 		},
 		_onIntersection: function _onIntersection(entries) {
@@ -311,16 +322,16 @@ var LazyLoad = function () {
 		},
 
 		loadAll: function loadAll() {
-			var _this2 = this;
+			var _this = this;
 
 			this._elements.forEach(function (element) {
-				_this2.load(element);
+				_this.load(element);
 			});
 			this._elements = purgeElements(this._elements);
 		},
 
 		update: function update(elements) {
-			var _this3 = this;
+			var _this2 = this;
 
 			var settings = this._settings;
 			var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
@@ -333,16 +344,16 @@ var LazyLoad = function () {
 			}
 
 			this._elements.forEach(function (element) {
-				_this3._observer.observe(element);
+				_this2._observer.observe(element);
 			});
 		},
 
 		destroy: function destroy() {
-			var _this4 = this;
+			var _this3 = this;
 
 			if (this._observer) {
 				purgeElements(this._elements).forEach(function (element) {
-					_this4._observer.unobserve(element);
+					_this3._observer.unobserve(element);
 				});
 				this._observer = null;
 			}

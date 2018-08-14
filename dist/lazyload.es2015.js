@@ -22,6 +22,7 @@ var getInstanceSettings = customSettings => {
 
 const dataPrefix = "data-";
 const processedDataName = "was-processed";
+const inViewportDataName = "in-viewport";
 const trueString = "true";
 
 const getData = (element, attribute) => {
@@ -37,6 +38,12 @@ const setWasProcessed = element =>
 
 const getWasProcessed = element =>
 	getData(element, processedDataName) === trueString;
+
+const setInViewport = (element, value = trueString) =>
+	setData(element, inViewportDataName, value);
+
+const getInViewport = element =>
+	getData(element, inViewportDataName) === trueString;
 
 function purgeElements(elements) {
 	return elements.filter(element => !getWasProcessed(element));
@@ -243,6 +250,20 @@ const onEvent = function(event, success, settings) {
 	);
 };
 
+const loadObserved = (element, observer, settings) => {
+	revealElement(element, settings);
+	observer.unobserve(element);
+};
+
+const delayLoad = (element, observer, settings) => {
+	var loadDelay = settings.load_delay;
+	setTimeout(() => {
+		if (getInViewport(element)) {
+			loadObserved(element, observer, settings);
+		}
+	}, loadDelay);
+};
+
 function revealElement(element, settings, force) {
 	if (!force && getWasProcessed(element)) {
 		return; // element has already been processed and force wasn't true
@@ -275,33 +296,22 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
-	_loadObserved: function(element) {
-		this.load(element);
-		this._observer.unobserve(element);
-	},
-	_delayLoad: function(element, loadDelay) {
-		setTimeout(() => {
-			if (getData(element, "in-viewport") === "true") {
-				this._loadObserved(element);
-			}
-		}, loadDelay);
-	},
 	_manageIntersection: function(entry) {
 		var loadDelay = this._settings.load_delay;
 		var element = entry.target;
 		if (isIntersecting(entry)) {
 			if (loadDelay === 0) {
-				this._loadObserved(element);
+				loadObserved(element, this._observer, this._settings);
 			} else {
-				this._delayLoad(element, loadDelay);
+				delayLoad(element, this._observer, this._settings);
 			}
 		}
 
 		// Writes in and outs in a data-attribute
 		if (isIntersecting(entry)) {
-			setData(element, "in-viewport", true);
+			setInViewport(element);
 		} else {
-			setData(element, "in-viewport", false);
+			setInViewport(element, false);
 		}
 	},
 	_onIntersection: function(entries) {
