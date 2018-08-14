@@ -293,13 +293,15 @@ var LazyLoad = function () {
 
 	LazyLoad.prototype = {
 		_manageIntersection: function _manageIntersection(entry) {
+			var observer = this._observer;
+			var settings = this._settings;
 			var loadDelay = this._settings.load_delay;
 			var element = entry.target;
 			if (isIntersecting(entry)) {
 				if (loadDelay === 0) {
-					loadObserved(element, this._observer, this._settings);
+					loadObserved(element, observer, settings);
 				} else {
-					delayLoad(element, this._observer, this._settings);
+					delayLoad(element, observer, settings);
 				}
 			}
 
