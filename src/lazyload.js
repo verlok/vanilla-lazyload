@@ -1,7 +1,12 @@
 import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
-import revealElement from "./lazyload.reveal";
+import {
+	revealElement,
+	loadAndUnobserve,
+	delayLoad,
+	cancelDelayLoad
+} from "./lazyload.reveal";
 import {
 	isIntersecting,
 	getObserverSettings
@@ -19,22 +24,34 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
+	_manageIntersection: function(entry) {
+		var observer = this._observer;
+		var settings = this._settings;
+		var loadDelay = this._settings.load_delay;
+		var element = entry.target;
+		if (isIntersecting(entry)) {
+			if (!loadDelay) {
+				loadAndUnobserve(element, observer, settings);
+			} else {
+				delayLoad(element, observer, settings);
+			}
+		}
+
+		// Writes in and outs in a data-attribute
+		if (!isIntersecting(entry)) {
+			cancelDelayLoad(element);
+		}
+	},
+	_onIntersection: function(entries) {
+		entries.forEach(this._manageIntersection.bind(this));
+		this._elements = purgeElements(this._elements);
+	},
 	_setObserver: function() {
 		if (!supportsIntersectionObserver) {
 			return;
 		}
-		const revealIntersectingElements = entries => {
-			entries.forEach(entry => {
-				if (isIntersecting(entry)) {
-					let element = entry.target;
-					this.load(element);
-					this._observer.unobserve(element);
-				}
-			});
-			this._elements = purgeElements(this._elements);
-		};
 		this._observer = new IntersectionObserver(
-			revealIntersectingElements,
+			this._onIntersection.bind(this),
 			getObserverSettings(this._settings)
 		);
 	},
