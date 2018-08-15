@@ -18,6 +18,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			class_loading: "loading",
 			class_loaded: "loaded",
 			class_error: "error",
+			load_delay: 0,
 			callback_load: null,
 			callback_error: null,
 			callback_set: null,
@@ -30,27 +31,41 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var dataPrefix = "data-";
 	var processedDataName = "was-processed";
-	var processedDataValue = "true";
+	var timeoutDataName = "ll-timeout";
+	var trueString = "true";
 
 	var getData = function getData(element, attribute) {
 		return element.getAttribute(dataPrefix + attribute);
 	};
 
 	var setData = function setData(element, attribute, value) {
-		return element.setAttribute(dataPrefix + attribute, value);
+		var attrName = dataPrefix + attribute;
+		if (value === null) {
+			element.removeAttribute(attrName);
+			return;
+		}
+		element.setAttribute(attrName, value);
 	};
 
-	var setWasProcessed = function setWasProcessed(element) {
-		return setData(element, processedDataName, processedDataValue);
+	var setWasProcessedData = function setWasProcessedData(element) {
+		return setData(element, processedDataName, trueString);
 	};
 
-	var getWasProcessed = function getWasProcessed(element) {
-		return getData(element, processedDataName) === processedDataValue;
+	var getWasProcessedData = function getWasProcessedData(element) {
+		return getData(element, processedDataName) === trueString;
+	};
+
+	var setTimeoutData = function setTimeoutData(element, value) {
+		return setData(element, timeoutDataName, value);
+	};
+
+	var getTimeoutData = function getTimeoutData(element) {
+		return getData(element, timeoutDataName);
 	};
 
 	function purgeElements(elements) {
 		return elements.filter(function (element) {
-			return !getWasProcessed(element);
+			return !getWasProcessedData(element);
 		});
 	}
 
@@ -236,8 +251,35 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		callCallback(success ? settings.callback_load : settings.callback_error, element);
 	};
 
+	var loadAndUnobserve = function loadAndUnobserve(element, observer, settings) {
+		revealElement(element, settings);
+		observer.unobserve(element);
+	};
+
+	var cancelDelayLoad = function cancelDelayLoad(element) {
+		var timeoutId = getTimeoutData(element);
+		if (!timeoutId) {
+			return; // do nothing if timeout doesn't exist
+		}
+		clearTimeout(timeoutId);
+		setTimeoutData(element, null);
+	};
+
+	var delayLoad = function delayLoad(element, observer, settings) {
+		var loadDelay = settings.load_delay;
+		var timeoutId = getTimeoutData(element);
+		if (timeoutId) {
+			return; // do nothing if timeout already set
+		}
+		timeoutId = setTimeout(function () {
+			loadAndUnobserve(element, observer, settings);
+			cancelDelayLoad(element);
+		}, loadDelay);
+		setTimeoutData(element, timeoutId);
+	};
+
 	function revealElement(element, settings, force) {
-		if (!force && getWasProcessed(element)) {
+		if (!force && getWasProcessedData(element)) {
 			return; // element has already been processed and force wasn't true
 		}
 		callCallback(settings.callback_enter, element);
@@ -246,20 +288,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			addClass(element, settings.class_loading);
 		}
 		setSources(element, settings);
-		setWasProcessed(element);
+		setWasProcessedData(element);
 		callCallback(settings.callback_set, element);
 	}
 
 	/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
     entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-	var isIntersecting = function isIntersecting(element) {
-		return element.isIntersecting || element.intersectionRatio > 0;
+	var isIntersecting = function isIntersecting(entry) {
+		return entry.isIntersecting || entry.intersectionRatio > 0;
 	};
 
 	var getObserverSettings = function getObserverSettings(settings) {
 		return {
 			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px"
+			rootMargin: settings.threshold + "px",
+			threshold: 0
 		};
 	};
 
@@ -270,36 +313,46 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	LazyLoad.prototype = {
-		_setObserver: function _setObserver() {
-			var _this = this;
+		_manageIntersection: function _manageIntersection(entry) {
+			var observer = this._observer;
+			var settings = this._settings;
+			var loadDelay = this._settings.load_delay;
+			var element = entry.target;
+			if (isIntersecting(entry)) {
+				if (!loadDelay) {
+					loadAndUnobserve(element, observer, settings);
+				} else {
+					delayLoad(element, observer, settings);
+				}
+			}
 
+			// Writes in and outs in a data-attribute
+			if (!isIntersecting(entry)) {
+				cancelDelayLoad(element);
+			}
+		},
+		_onIntersection: function _onIntersection(entries) {
+			entries.forEach(this._manageIntersection.bind(this));
+			this._elements = purgeElements(this._elements);
+		},
+		_setObserver: function _setObserver() {
 			if (!supportsIntersectionObserver) {
 				return;
 			}
-			var revealIntersectingElements = function revealIntersectingElements(entries) {
-				entries.forEach(function (entry) {
-					if (isIntersecting(entry)) {
-						var element = entry.target;
-						_this.load(element);
-						_this._observer.unobserve(element);
-					}
-				});
-				_this._elements = purgeElements(_this._elements);
-			};
-			this._observer = new IntersectionObserver(revealIntersectingElements, getObserverSettings(this._settings));
+			this._observer = new IntersectionObserver(this._onIntersection.bind(this), getObserverSettings(this._settings));
 		},
 
 		loadAll: function loadAll() {
-			var _this2 = this;
+			var _this = this;
 
 			this._elements.forEach(function (element) {
-				_this2.load(element);
+				_this.load(element);
 			});
 			this._elements = purgeElements(this._elements);
 		},
 
 		update: function update(elements) {
-			var _this3 = this;
+			var _this2 = this;
 
 			var settings = this._settings;
 			var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
@@ -312,16 +365,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 
 			this._elements.forEach(function (element) {
-				_this3._observer.observe(element);
+				_this2._observer.observe(element);
 			});
 		},
 
 		destroy: function destroy() {
-			var _this4 = this;
+			var _this3 = this;
 
 			if (this._observer) {
 				purgeElements(this._elements).forEach(function (element) {
-					_this4._observer.unobserve(element);
+					_this3._observer.unobserve(element);
 				});
 				this._observer = null;
 			}

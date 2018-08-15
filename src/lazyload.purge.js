@@ -1,5 +1,5 @@
-import { getWasProcessed } from "./lazyload.data";
+import { getWasProcessedData } from "./lazyload.data";
 
 export default function(elements) {
-	return elements.filter(element => !getWasProcessed(element));
+	return elements.filter(element => !getWasProcessedData(element));
 }

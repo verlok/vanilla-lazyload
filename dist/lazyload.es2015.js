@@ -9,6 +9,7 @@ var getInstanceSettings = customSettings => {
 		class_loading: "loading",
 		class_loaded: "loaded",
 		class_error: "error",
+		load_delay: 0,
 		callback_load: null,
 		callback_error: null,
 		callback_set: null,
@@ -21,24 +22,35 @@ var getInstanceSettings = customSettings => {
 
 const dataPrefix = "data-";
 const processedDataName = "was-processed";
-const processedDataValue = "true";
+const timeoutDataName = "ll-timeout";
+const trueString = "true";
 
 const getData = (element, attribute) => {
 	return element.getAttribute(dataPrefix + attribute);
 };
 
 const setData = (element, attribute, value) => {
-	return element.setAttribute(dataPrefix + attribute, value);
+	var attrName = dataPrefix + attribute;
+	if (value === null) {
+		element.removeAttribute(attrName);
+		return;
+	}
+	element.setAttribute(attrName, value);
 };
 
-const setWasProcessed = element =>
-	setData(element, processedDataName, processedDataValue);
+const setWasProcessedData = element =>
+	setData(element, processedDataName, trueString);
 
-const getWasProcessed = element =>
-	getData(element, processedDataName) === processedDataValue;
+const getWasProcessedData = element =>
+	getData(element, processedDataName) === trueString;
+
+const setTimeoutData = (element, value) =>
+	setData(element, timeoutDataName, value);
+
+const getTimeoutData = element => getData(element, timeoutDataName);
 
 function purgeElements(elements) {
-	return elements.filter(element => !getWasProcessed(element));
+	return elements.filter(element => !getWasProcessedData(element));
 }
 
 /* Creates instance and notifies it through the window element */
@@ -242,8 +254,35 @@ const onEvent = function(event, success, settings) {
 	);
 };
 
+const loadAndUnobserve = (element, observer, settings) => {
+	revealElement(element, settings);
+	observer.unobserve(element);
+};
+
+const cancelDelayLoad = element => {
+	var timeoutId = getTimeoutData(element);
+	if (!timeoutId) {
+		return; // do nothing if timeout doesn't exist
+	}
+	clearTimeout(timeoutId);
+	setTimeoutData(element, null);
+};
+
+const delayLoad = (element, observer, settings) => {
+	var loadDelay = settings.load_delay;
+	var timeoutId = getTimeoutData(element);
+	if (timeoutId) {
+		return; // do nothing if timeout already set
+	}
+	timeoutId = setTimeout(function() {
+		loadAndUnobserve(element, observer, settings);
+		cancelDelayLoad(element);
+	}, loadDelay);
+	setTimeoutData(element, timeoutId);
+};
+
 function revealElement(element, settings, force) {
-	if (!force && getWasProcessed(element)) {
+	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
 	}
 	callCallback(settings.callback_enter, element);
@@ -252,18 +291,19 @@ function revealElement(element, settings, force) {
 		addClass(element, settings.class_loading);
 	}
 	setSources(element, settings);
-	setWasProcessed(element);
+	setWasProcessedData(element);
 	callCallback(settings.callback_set, element);
 }
 
 /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
    entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-const isIntersecting = element =>
-	element.isIntersecting || element.intersectionRatio > 0;
+const isIntersecting = entry =>
+	entry.isIntersecting || entry.intersectionRatio > 0;
 
 const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
-	rootMargin: settings.threshold + "px"
+	rootMargin: settings.threshold + "px",
+	threshold: 0
 });
 
 const LazyLoad = function(customSettings, elements) {
@@ -273,22 +313,34 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
+	_manageIntersection: function(entry) {
+		var observer = this._observer;
+		var settings = this._settings;
+		var loadDelay = this._settings.load_delay;
+		var element = entry.target;
+		if (isIntersecting(entry)) {
+			if (!loadDelay) {
+				loadAndUnobserve(element, observer, settings);
+			} else {
+				delayLoad(element, observer, settings);
+			}
+		}
+
+		// Writes in and outs in a data-attribute
+		if (!isIntersecting(entry)) {
+			cancelDelayLoad(element);
+		}
+	},
+	_onIntersection: function(entries) {
+		entries.forEach(this._manageIntersection.bind(this));
+		this._elements = purgeElements(this._elements);
+	},
 	_setObserver: function() {
 		if (!supportsIntersectionObserver) {
 			return;
 		}
-		const revealIntersectingElements = entries => {
-			entries.forEach(entry => {
-				if (isIntersecting(entry)) {
-					let element = entry.target;
-					this.load(element);
-					this._observer.unobserve(element);
-				}
-			});
-			this._elements = purgeElements(this._elements);
-		};
 		this._observer = new IntersectionObserver(
-			revealIntersectingElements,
+			this._onIntersection.bind(this),
 			getObserverSettings(this._settings)
 		);
 	},
