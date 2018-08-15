@@ -47,11 +47,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		element.setAttribute(attrName, value);
 	};
 
-	var setWasProcessed = function setWasProcessed(element) {
+	var setWasProcessedData = function setWasProcessedData(element) {
 		return setData(element, processedDataName, trueString);
 	};
 
-	var getWasProcessed = function getWasProcessed(element) {
+	var getWasProcessedData = function getWasProcessedData(element) {
 		return getData(element, processedDataName) === trueString;
 	};
 
@@ -65,7 +65,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	function purgeElements(elements) {
 		return elements.filter(function (element) {
-			return !getWasProcessed(element);
+			return !getWasProcessedData(element);
 		});
 	}
 
@@ -258,7 +258,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var cancelDelayLoad = function cancelDelayLoad(element) {
 		var timeoutId = getTimeoutData(element);
-
 		if (!timeoutId) {
 			return; // do nothing if timeout doesn't exist
 		}
@@ -274,12 +273,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 		timeoutId = setTimeout(function () {
 			loadAndUnobserve(element, observer, settings);
+			cancelDelayLoad(element);
 		}, loadDelay);
 		setTimeoutData(element, timeoutId);
 	};
 
 	function revealElement(element, settings, force) {
-		if (!force && getWasProcessed(element)) {
+		if (!force && getWasProcessedData(element)) {
 			return; // element has already been processed and force wasn't true
 		}
 		callCallback(settings.callback_enter, element);
@@ -288,7 +288,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			addClass(element, settings.class_loading);
 		}
 		setSources(element, settings);
-		setWasProcessed(element);
+		setWasProcessedData(element);
 		callCallback(settings.callback_set, element);
 	}
 

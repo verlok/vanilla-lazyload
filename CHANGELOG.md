@@ -2,6 +2,11 @@
 
 ## Version 10
 
+#### 10.16.0-beta
+
+Added new option `load_delay` to skip loading when fast scrolling occurs, as requested in issues #235 and #166. 
+Pass in a number of milliseconds, and each image will be loaded after it stayed inside that viewport for that time.
+
 #### 10.15.0
 
 - Refactorized code & improved script performance

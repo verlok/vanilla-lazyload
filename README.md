@@ -122,14 +122,6 @@ Inside `dist` folder you find different bundles.
 | `lazyload.es2015.js`   | ES6 Module                                                    | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
 
-
-
-
-
-
-  
-
-
 ## Recipes
 
 This is the section where you can find _copy & paste_ code for your convenience.
@@ -201,6 +193,31 @@ var myLazyLoad = new LazyLoad({
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) | [API](#api)
+
+
+### Delay load
+
+> **Use case**: you want the images to stay inside the viewport for some time before to start loading them, e.g. to skip loading some images them if the user scrolled fast after them.
+
+HTML
+
+```html
+<img class="lazy" alt="..." 
+     data-src="../img/44721746JJ_15_a.jpg"
+     width="220" height="280">
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy",
+    load_delay: 300 //adjust according to use case
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#api)
+
 
 ### Videos
 
@@ -660,6 +677,7 @@ Here's the list of the options.
 | `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                   | `"loading"`   |
 | `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                        | `"loaded"`    |
 | `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                    | `"error"`     |
+| `load_delay`        | [**Available only in version 10.16.0-beta**] The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                       | 0             |
 | `callback_enter`    | A function to be called when the DOM element enters the viewport.                                                                                                                                                                                                                                                                                                     | `null`        |
 | `callback_set`      | A function to be called after the src of an image is set in the DOM.                                                                                                                                                                                                                                                                                                  | `null`        |
 | `callback_load`     | A function to be called when an element was loaded.                                                                                                                                                                                                                                                                                                                   | `null`        |

@@ -38,10 +38,10 @@ const setData = (element, attribute, value) => {
 	element.setAttribute(attrName, value);
 };
 
-const setWasProcessed = element =>
+const setWasProcessedData = element =>
 	setData(element, processedDataName, trueString);
 
-const getWasProcessed = element =>
+const getWasProcessedData = element =>
 	getData(element, processedDataName) === trueString;
 
 const setTimeoutData = (element, value) =>
@@ -50,7 +50,7 @@ const setTimeoutData = (element, value) =>
 const getTimeoutData = element => getData(element, timeoutDataName);
 
 function purgeElements(elements) {
-	return elements.filter(element => !getWasProcessed(element));
+	return elements.filter(element => !getWasProcessedData(element));
 }
 
 /* Creates instance and notifies it through the window element */
@@ -261,7 +261,6 @@ const loadAndUnobserve = (element, observer, settings) => {
 
 const cancelDelayLoad = element => {
 	var timeoutId = getTimeoutData(element);
-
 	if (!timeoutId) {
 		return; // do nothing if timeout doesn't exist
 	}
@@ -277,12 +276,13 @@ const delayLoad = (element, observer, settings) => {
 	}
 	timeoutId = setTimeout(function() {
 		loadAndUnobserve(element, observer, settings);
+		cancelDelayLoad(element);
 	}, loadDelay);
 	setTimeoutData(element, timeoutId);
 };
 
 function revealElement(element, settings, force) {
-	if (!force && getWasProcessed(element)) {
+	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
 	}
 	callCallback(settings.callback_enter, element);
@@ -291,7 +291,7 @@ function revealElement(element, settings, force) {
 		addClass(element, settings.class_loading);
 	}
 	setSources(element, settings);
-	setWasProcessed(element);
+	setWasProcessedData(element);
 	callCallback(settings.callback_set, element);
 }
 
