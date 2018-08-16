@@ -58,9 +58,9 @@ See `demos/conditional_load.html` to try and play around with it.
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
 <br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
 
-### Include via require.js
+### Include via RequireJS
 
-If you use [require-js](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
+If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
 define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.amd.min.js"], function (LazyLoad) {
@@ -117,7 +117,7 @@ Inside `dist` folder you find different bundles.
 | ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `lazyload.min.js`      | UMD <small>(Universal Module Definition)</small>              | Works pretty much everywhere, even in common-js contexts                                                                                   |
 | `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
-| `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *require.js* module loader, ~0.5kb smaller than UMD version                                                                     |
+| `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *RequireJS* module loader, ~0.5kb smaller than UMD version                                                                      |
 | `lazyload.es2015.js`   | ES6 Module                                                    | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
 ---
