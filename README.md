@@ -109,6 +109,14 @@ Download one the latest [releases](https://github.com/verlok/lazyload/releases/)
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
 <br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
 
+### Local usage
+
+Should you install LazyLoad locally, you can import it as ES module like the following:
+
+```js
+import LazyLoad from "vanilla-lazyload";
+```
+
 ### Bundles
 
 Inside `dist` folder you find different bundles.
