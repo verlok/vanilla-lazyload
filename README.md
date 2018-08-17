@@ -121,6 +121,12 @@ It's also possible (but unadvised) to use the `require` commonJS syntax.
 
 More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/lazyload-es2015-webpack-test).
 
+### Usage with React
+
+Take a look at this example of [usage of React with LazyLoad](https://codesandbox.io/s/20306yk96p) on Sandbox.
+
+This implementation takes the same props that you would normally pass to the `img` tag, but it renders a lazy image. Feel free to fork and improve it!
+
 ### Bundles
 
 Inside `dist` folder you find different bundles.
