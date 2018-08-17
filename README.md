@@ -117,6 +117,10 @@ Should you install LazyLoad locally, you can import it as ES module like the fol
 import LazyLoad from "vanilla-lazyload";
 ```
 
+It's also possible (but unadvised) to use the `require` commonJS syntax.
+
+More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/lazyload-es2015-webpack-test).
+
 ### Bundles
 
 Inside `dist` folder you find different bundles.
