@@ -58,9 +58,9 @@ See `demos/conditional_load.html` to try and play around with it.
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
 <br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
 
-### Include via require.js
+### Include via RequireJS
 
-If you use [require-js](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
+If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
 define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.amd.min.js"], function (LazyLoad) {
@@ -107,6 +107,24 @@ Download one the latest [releases](https://github.com/verlok/lazyload/releases/)
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
 <br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
 
+### Local usage
+
+Should you install LazyLoad locally, you can import it as ES module like the following:
+
+```js
+import LazyLoad from "vanilla-lazyload";
+```
+
+It's also possible (but unadvised) to use the `require` commonJS syntax.
+
+More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/lazyload-es2015-webpack-test).
+
+### Usage with React
+
+Take a look at this example of [usage of React with LazyLoad](https://codesandbox.io/s/20306yk96p) on Sandbox.
+
+This implementation takes the same props that you would normally pass to the `img` tag, but it renders a lazy image. Feel free to fork and improve it!
+
 ### Bundles
 
 Inside `dist` folder you find different bundles.
@@ -115,7 +133,7 @@ Inside `dist` folder you find different bundles.
 | ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `lazyload.min.js`      | UMD <small>(Universal Module Definition)</small>              | Works pretty much everywhere, even in common-js contexts                                                                                   |
 | `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
-| `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *require.js* module loader, ~0.5kb smaller than UMD version                                                                     |
+| `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *RequireJS* module loader, ~0.5kb smaller than UMD version                                                                      |
 | `lazyload.es2015.js`   | ES6 Module                                                    | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
 ---
@@ -144,7 +162,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) - [API](#-api)
 
 ### Scrolling panel
 
@@ -178,7 +196,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) - [API](#-api)
 
 ### Multiple scrolling panels
 
@@ -221,7 +239,7 @@ var myLazyLoad2 = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) - [API](#-api)
 
 ### Responsive images - img tag with srcset / sizes
 
@@ -243,7 +261,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) - [API](#-api)
 
 ### Responsive images - picture tag
 
@@ -269,7 +287,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#-api)
 
 ### Switch to WebP
 
@@ -294,7 +312,7 @@ var myLazyLoad = new LazyLoad({
 
 **Hint**: if you provide **only some images** in the WebP format, it's advisable to create 2 different instances of LazyLoad, as shown in the [this demo](http://verlok.github.io/lazyload/demos/to_webp_some.html) and [source code](https://github.com/verlok/lazyload/blob/master/demos/to_webp_some.html).
 
-[DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#-api)
 
 
 ### Delay load
@@ -318,7 +336,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
 
 
 ### Videos
@@ -344,7 +362,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/video.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/video.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) - [API](#-api)
 
 ### Iframes
 
@@ -364,7 +382,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#-api)
 
 ### Async script + auto initialization
 
@@ -401,13 +419,13 @@ window.lazyLoadOptions = [{
 ```
 
 Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
-In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
+In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#-api).
 
-[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#-api)
 
 #### Auto init + store the instance in a variable
 
-> 💡 **Use case**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
+> 💡 **Use case**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#-api) on it.
 
 HTML + Javascript
 
@@ -431,7 +449,7 @@ lazyLoadOptions = {
 
 You will then have the auto-generated instance in the `lazyLoadInstance` variable.
 
-[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#-api)
 
 **Note about Internet Explorer**
 
@@ -471,7 +489,7 @@ var myLazyLoad = new LazyLoad();
 myLazyLoad.update();
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
 
 ### Lazy iframes
 
@@ -491,7 +509,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#-api)
 
 ### Lazy background images
 
@@ -513,7 +531,7 @@ var myLazyLoad = new LazyLoad({
 
 That's it. Whenever the element selected by `elements_selector` is not an `img` or an `iframe`, LazyLoad puts the image found in the `data-src` attribute in the `background-image` of the element.
 
-[DEMO](http://verlok.github.io/lazyload/demos/background_images.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/background_images.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) - [API](#-api)
 
 ### Lazy LazyLoad
 
@@ -557,7 +575,7 @@ var lazyLazy = new LazyLoad({
 
 That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_set` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
 
-[DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
 ---
 
@@ -629,7 +647,7 @@ img:not([src]) {
 }
 ```
 
-Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#api).
+Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#-api).
 
 
 ### Do NOT use placeholder images
@@ -707,10 +725,8 @@ Here's the list of the options.
 | `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                   | `"loading"`   |
 | `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                        | `"loaded"`    |
 | `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                    | `"error"`     |
-| `to_webp`           | A boolean flag that activates the dynamic switch to WEBP feature. [More info](#switch-to-webp).                                                                                                                                                                                                                                                                       | false         |
-
-| `load_delay`        | [**Available only in version 10.16.0-beta**] The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                       | 0             |
-
+| `to_webp`           | A boolean flag that activates the dynamic switch to WEBP feature. [More info](#switch-to-webp).                                                                                                                                                                                                                                                                       | `false`       |
+| `load_delay`        | [**Available only in version 10.16.0-beta**] The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                       | `0`           |
 | `callback_enter`    | A function to be called when the DOM element enters the viewport.                                                                                                                                                                                                                                                                                                     | `null`        |
 | `callback_set`      | A function to be called after the src of an image is set in the DOM.                                                                                                                                                                                                                                                                                                  | `null`        |
 | `callback_load`     | A function to be called when an element was loaded.                                                                                                                                                                                                                                                                                                                   | `null`        |
