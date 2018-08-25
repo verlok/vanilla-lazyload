@@ -71,12 +71,10 @@ define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazy
 You can also [conditionally load](#conditional-load) the best version.
 
 ```js
-(function (w) {
-    var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
-    define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.amd.min.js"], function (LazyLoad) {
-        return LazyLoad;
-    });
-}(window));
+var v = !("IntersectionObserver" in window) ? "8.15.0" : "10.15.0";
+define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.amd.min.js"], function (LazyLoad) {
+    return LazyLoad;
+});
 ```
 
 ### Local install
