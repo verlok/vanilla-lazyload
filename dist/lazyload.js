@@ -7,25 +7,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
 	'use strict';
 
-	var getInstanceSettings = function getInstanceSettings(customSettings) {
-		var defaultSettings = {
-			elements_selector: "img",
-			container: document,
-			threshold: 300,
-			data_src: "src",
-			data_srcset: "srcset",
-			data_sizes: "sizes",
-			class_loading: "loading",
-			class_loaded: "loaded",
-			class_error: "error",
-			load_delay: 0,
-			callback_load: null,
-			callback_error: null,
-			callback_set: null,
-			callback_enter: null,
-			to_webp: false
-		};
+	var defaultSettings = {
+		elements_selector: "img",
+		container: document,
+		threshold: 300,
+		data_src: "src",
+		data_srcset: "srcset",
+		data_sizes: "sizes",
+		class_loading: "loading",
+		class_loaded: "loaded",
+		class_error: "error",
+		load_delay: 0,
+		callback_load: null,
+		callback_error: null,
+		callback_set: null,
+		callback_enter: null,
+		to_webp: false
+	};
 
+	var getInstanceSettings = function getInstanceSettings(customSettings) {
 		return _extends({}, defaultSettings, customSettings);
 	};
 
@@ -171,6 +171,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		setSourcesInChildren(element, "src", srcDataName);
 		setAttributeIfValue(element, "src", srcDataValue);
+		element.load();
 	};
 
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {

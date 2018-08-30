@@ -3,25 +3,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var LazyLoad = function () {
 	'use strict';
 
-	var getInstanceSettings = function getInstanceSettings(customSettings) {
-		var defaultSettings = {
-			elements_selector: "img",
-			container: document,
-			threshold: 300,
-			data_src: "src",
-			data_srcset: "srcset",
-			data_sizes: "sizes",
-			class_loading: "loading",
-			class_loaded: "loaded",
-			class_error: "error",
-			load_delay: 0,
-			callback_load: null,
-			callback_error: null,
-			callback_set: null,
-			callback_enter: null,
-			to_webp: false
-		};
+	var defaultSettings = {
+		elements_selector: "img",
+		container: document,
+		threshold: 300,
+		data_src: "src",
+		data_srcset: "srcset",
+		data_sizes: "sizes",
+		class_loading: "loading",
+		class_loaded: "loaded",
+		class_error: "error",
+		load_delay: 0,
+		callback_load: null,
+		callback_error: null,
+		callback_set: null,
+		callback_enter: null,
+		to_webp: false
+	};
 
+	var getInstanceSettings = function getInstanceSettings(customSettings) {
 		return _extends({}, defaultSettings, customSettings);
 	};
 
@@ -167,6 +167,7 @@ var LazyLoad = function () {
 
 		setSourcesInChildren(element, "src", srcDataName);
 		setAttributeIfValue(element, "src", srcDataValue);
+		element.load();
 	};
 
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {
