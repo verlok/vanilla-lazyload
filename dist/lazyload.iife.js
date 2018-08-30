@@ -167,7 +167,6 @@ var LazyLoad = function () {
 
 		setSourcesInChildren(element, "src", srcDataName);
 		setAttributeIfValue(element, "src", srcDataValue);
-
 		element.load();
 	};
 

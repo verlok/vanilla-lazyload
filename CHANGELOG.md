@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.16.1
+
+**BUGFIX**: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.
+
 #### 10.16.0
 
 Added new option `load_delay` to skip loading when fast scrolling occurs, as requested in issues #235 and #166. 
