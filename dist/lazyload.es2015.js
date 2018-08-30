@@ -168,6 +168,8 @@ const setSourcesVideo = (element, settings) => {
 
 	setSourcesInChildren(element, "src", srcDataName);
 	setAttributeIfValue(element, "src", srcDataValue);
+
+	element.load();
 };
 
 const setSourcesBgImage = (element, settings) => {
