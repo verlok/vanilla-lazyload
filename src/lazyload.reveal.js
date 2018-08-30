@@ -9,31 +9,46 @@ import { addClass, removeClass } from "./lazyload.class";
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-const callCallback = function(callback, argument) {
+const callCallback = (callback, argument) => {
 	if (callback) {
 		callback(argument);
 	}
 };
 
 const loadString = "load";
+const loadeddataString = "loadeddata";
 const errorString = "error";
 
-const removeListeners = function(element, loadHandler, errorHandler) {
-	element.removeEventListener(loadString, loadHandler);
-	element.removeEventListener(errorString, errorHandler);
+const addListener = (element, eventName, handler) => {
+	element.addEventListener(eventName, handler);
 };
 
-const addOneShotListeners = function(element, settings) {
-	const onLoad = event => {
+const removeListener = (element, eventName, handler) => {
+	element.removeEventListener(eventName, handler);
+};
+
+const addEventListeners = (element, loadHandler, errorHandler) => {
+	addListener(element, loadString, loadHandler);
+	addListener(element, loadeddataString, loadHandler);
+	addListener(element, errorString, errorHandler);
+};
+
+const removeListeners = (element, loadHandler, errorHandler) => {
+	removeListener(element, loadString, loadHandler);
+	removeListener(element, loadeddataString, loadHandler);
+	removeListener(element, errorString, errorHandler);
+};
+
+const addOneShotListeners = (element, settings) => {
+	const loadHandler = event => {
 		onEvent(event, true, settings);
-		removeListeners(element, onLoad, onError);
+		removeListeners(element, loadHandler, errorHandler);
 	};
-	const onError = event => {
+	const errorHandler = event => {
 		onEvent(event, false, settings);
-		removeListeners(element, onLoad, onError);
+		removeListeners(element, loadHandler, errorHandler);
 	};
-	element.addEventListener(loadString, onLoad);
-	element.addEventListener(errorString, onError);
+	addEventListeners(element, loadHandler, errorHandler);
 };
 
 const onEvent = function(event, success, settings) {
