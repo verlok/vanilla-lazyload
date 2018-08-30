@@ -25,7 +25,7 @@ Version 8.x - [versions info](#versions-information)
 Version 10.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.15.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.16.0/lazyload.min.js"></script>
 ```
 
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
@@ -45,7 +45,7 @@ You can do it with the following script:
 (function(w, d){
     var b = d.getElementsByTagName('body')[0];
     var s = d.createElement("script"); 
-    var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
+    var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.16.0";
     s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
     s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
     w.lazyLoadOptions = {/* Your options here */};
@@ -71,7 +71,7 @@ define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazy
 You can also [conditionally load](#conditional-load) the best version.
 
 ```js
-var v = !("IntersectionObserver" in window) ? "8.15.0" : "10.15.0";
+var v = !("IntersectionObserver" in window) ? "8.15.0" : "10.16.0";
 define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
@@ -92,7 +92,7 @@ npm install vanilla-lazyload@8.15.0
 Version 10.x - [versions info](#versions-information)
 
 ```
-npm install vanilla-lazyload@10.15.0
+npm install vanilla-lazyload@10.16.0
 ```
 
 #### Install with bower
