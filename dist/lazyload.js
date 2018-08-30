@@ -188,6 +188,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		setSourcesInChildren(element, "src", srcDataName);
 		setAttributeIfValue(element, "src", srcDataValue);
+		element.load();
 	};
 
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {

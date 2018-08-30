@@ -1,68 +1,150 @@
 LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading images, video or iframes as they enter the viewport**. It's written in plain "vanilla" JavaScript, uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), and supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#notable-features).
 
-Jump to:
+➡️ Jump to: [👨‍💻 Include the script](#-include-the-script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 Notable features](#-notable-features)
 
-[Include the script](#include-the-script) | [Recipes](#recipes) | [Demos](#demos) | [Tips & tricks](#tips--tricks) | [API](#api) | [Notable features](#notable-features)
+---
 
+## 👨‍💻 Include the script
 
-## Include the script / browser support
+### Versions information
 
-### Simple: direct include from cdnjs
+The **universal, recommended version** of LazyLoad is **8.x** as it **supports ALL browsers** from IE9 up.
 
-The **universal, recommended version** of LazyLoad is 8.x since it **supports ALL browsers** from IE9 up.
+Version **10.x** is best for performance since it leverages IntersectionObserver API, which is [not supported by Internet Explorer and Safari](https://caniuse.com/#feat=intersectionobserver), therefore all the images would be loaded at once in those browsers.
+
+Version **8.x** is recommended for [local install](#local-install), but you can be smart and [conditionally load the best version](#conditional-load) from cdnjs instead.
+
+### Include as script from cdnjs
+
+Version 8.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.1/lazyload.min.js"></script>
 ```
 
-Starting from version 9, LazyLoad uses the IntersectionObserver API, which is not supported by Internet Explorer and Safari (yet). As a result, if you included the latest version of LazyLoad, all the images would be loaded at once in those browsers. 
-
-To include the [latest version](https://cdnjs.com/libraries/vanilla-lazyload) of LazyLoad, use the following script:
+Version 10.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.15.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.16.1/lazyload.min.js"></script>
 ```
 
-### Advanced and best option: conditionally load version 8 or 10
+The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
+<br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
 
-The best thing you can do is to conditionally load the best version of LazyLoad **depending on the browser's support of the IntersectionObserver API**.
+#### Async script
+
+It's possible to include it as an `async` script, see the [recipes](#recipes) section for more information.
+
+#### Conditional load
+
+The best thing you can do for **runtime performance** is to **conditionally load** the appropriate version of LazyLoad depending on browser support of IntersectionObserver.
+
 You can do it with the following script:
 
 ```js
 (function(w, d){
-	var b = d.getElementsByTagName('body')[0];
-	var s = d.createElement("script"); s.async = true;
-	var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.15.0";
-	s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
-	w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
-	b.appendChild(s);
+    var b = d.getElementsByTagName('body')[0];
+    var s = d.createElement("script"); 
+    var v = !("IntersectionObserver" in w) ? "8.15.1" : "10.16.1";
+    s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+    w.lazyLoadOptions = {/* Your options here */};
+    b.appendChild(s);
 }(window, document));
 ```
 
-See the conditional_load.html file in the demos folder to try it or play around with it.
+See `demos/conditional_load.html` to try and play around with it.
+
+The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
+<br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
+
+### Include via RequireJS
+
+If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
+
+```js
+define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.1/lazyload.amd.min.js"], function (LazyLoad) {
+    return LazyLoad;
+});
+```
+
+You can also [conditionally load](#conditional-load) the best version.
+
+```js
+var v = !("IntersectionObserver" in window) ? "8.15.1" : "10.16.1";
+define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.amd.min.js"], function (LazyLoad) {
+    return LazyLoad;
+});
+```
 
 ### Local install
 
 If you prefer to install LazyLoad locally in your project, you can either:
-- **download it** from the [`dist` folder](https://github.com/verlok/lazyload/tree/master/dist)
-  The file you typically want to use is `lazyload.min.js`
-  If you prefer the ES2015 version, use `lazyload.es2015.js`
-- **install it with npm**
-  Recommended version `npm install vanilla-lazyload@8.15.0`
-  Latest version `npm install vanilla-lazyload`
-- **install it with bower**
-  Recommended version `bower install vanilla-lazyload#8.15.0`
-  Latest version `bower install vanilla-lazyload`
-  
-### Async script
 
-It's possible to include it as an `async` script, see [Recipes](#recipes) below.
+#### Install with npm
 
-## Recipes
+Version 8.x, _recommended_ - [versions info](#versions-information)
+
+```
+npm install vanilla-lazyload@8.15.1
+```
+
+Version 10.x - [versions info](#versions-information)
+
+```
+npm install vanilla-lazyload@10.16.1
+```
+
+#### Install with bower
+
+Install with bower is also possible using `bower install vanilla-lazyload#{version}`
+
+
+#### Manual download
+
+Download one the latest [releases](https://github.com/verlok/lazyload/releases/). The files you need are inside the `dist` folder. 
+
+The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
+<br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
+
+### Local usage
+
+Should you install LazyLoad locally, you can import it as ES module like the following:
+
+```js
+import LazyLoad from "vanilla-lazyload";
+```
+
+It's also possible (but unadvised) to use the `require` commonJS syntax.
+
+More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/lazyload-es2015-webpack-test).
+
+### Usage with React
+
+Take a look at this example of [usage of React with LazyLoad](https://codesandbox.io/s/20306yk96p) on Sandbox.
+
+This implementation takes the same props that you would normally pass to the `img` tag, but it renders a lazy image. Feel free to fork and improve it!
+
+### Bundles
+
+Inside `dist` folder you find different bundles.
+
+| Filename               | Module Type                                                   | Advantages                                                                                                                                 |
+| ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `lazyload.min.js`      | UMD <small>(Universal Module Definition)</small>              | Works pretty much everywhere, even in common-js contexts                                                                                   |
+| `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
+| `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *RequireJS* module loader, ~0.5kb smaller than UMD version                                                                      |
+| `lazyload.es2015.js`   | ES6 Module                                                    | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
+
+---
+
+## 🥧 Recipes
+
+This is the section where you can find _copy & paste_ code for your convenience.
 
 ### Simple
 
-**When to use**: your lazy images are (normally) located in the body of a scrolling page.
+> 💡 **Use case**: your lazy images are (normally) located in the body of a scrolling page.
 
 HTML
 
@@ -80,192 +162,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/simple.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) | [API](#api)
-
-### Responsive images - srcset and sizes
-
-> **When to use**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
-
-HTML 
-
-```html
-<img class="lazy" data-src="/your/image1.jpg"
-    data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-    data-sizes="(min-width: 20em) 35vw, 100vw">
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy"
-});
-```
-
-[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) | [API](#api)
-
-### Responsive images - picture
-
-> **When to use**: you want to lazily load responsive images using the `picture` tag.
-
-HTML
-
-```html
-<picture>
-    <source media="(min-width: 1024px)" data-srcset="/your/image1a.jpg" />
-    <source media="(min-width: 500px)" data-srcset="/your/image1b.jpg" />
-    <img class="lazy" alt="Stivaletti" data-src="/your/image1.jpg">
-</picture>
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy"
-});
-```
-
-[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) | [API](#api)
-
-### Videos
-
-> **When to use**: you want to lazily load videos using the `video` tag.
-
-HTML
-
-```html
-<video class="lazy" controls width="620"
-    data-src="/your/video.mp4" poster="/your/poster.jpg">
-    <source type="video/mp4" data-src="/your/video.mp4">
-    <source type="video/ogg" data-src="/your/video.ogg">
-    <source type="video/avi" data-src="/your/video.avi">
-</video>
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy"
-});
-```
-
-[DEMO](http://verlok.github.io/lazyload/demos/video.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) | [API](#api)
-
-### Iframes
-
-> **When to use**: you want to lazily load `iframe`s.
-
-HTML
-
-```html
-<iframe class="lazy" data-src="https://some.page.com" frameborder="0"></iframe>
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy"
-});
-```
-
-[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) | [API](#api)
-
-### Async script + auto initialization
-
-> **When to use**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
-
-Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
-
-HTML + Javascript
-
-```html
-<script>
-window.lazyLoadOptions = {
-    /* your lazyload options */
-};
-</script>
-
-<!-- Download the script and execute it after lazyLoadOptions is defined -->
-<script async src="https://.../lazyload.min.js"></script>
-```
-
-**If you need multiple async instances**, just pass `window.lazyLoadOptions` an array of settings.
-
-```html
-<script>
-window.lazyLoadOptions = [{
-    /* your instance 1 options */
-}, {
-    /* your instance 2 options */
-}];
-</script>
-
-<!-- Download the script and execute it after lazyLoadOptions is defined -->
-<script async src="https://.../lazyload.min.js"></script>
-```
-
-Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
-In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#api).
-
-[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
-
-#### Auto init + store the instance in a variable
-
-> **When to use**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#api) on it.
-
-HTML + Javascript
-
-```html
-<script>
-// Listen to the Initialized event
-window.addEventListener('LazyLoad::Initialized', function (e) {
-    // Get the instance and puts it in the lazyLoadInstance variable
-    lazyLoadInstance = e.detail.instance;
-}, false);
-
-// Set the lazyload options for async usage
-lazyLoadOptions = {
-    /* your lazyload options */
-};
-</script>
-
-<!-- Download the script and execute it after lazyLoadOptions is defined -->
-<script async src="https://.../lazyload.min.js"></script>
-```
-
-You will then have the auto-generated instance in the `lazyLoadInstance` variable.
-
-[DEMO](http://verlok.github.io/lazyload/demos/async.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) | [API](#api)
-
-**Note about Internet Explorer**
-
-LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) to trigger the `LazyLoad::Initialized`, but this event type is not natively supported by Internet Explorer. If you want to use asynchronous loading and need to store the instance you can use the following polyfill to enable support for Internet Explorer.
-
-```js
-(function () {
-    if (typeof window.CustomEvent === "function") {
-        return false;
-    }
-
-    function CustomEvent(event, params) {
-        params = params || {bubbles: false, cancelable: false, detail: undefined};
-        var evt = document.createEvent("CustomEvent");
-        evt.initCustomEvent (event, params.bubbles, params.cancelable, params.detail);
-        return evt;
-    }
-
-    CustomEvent.prototype = window.Event.prototype;
-    window.CustomEvent = CustomEvent;
-})();
-```
-
+[DEMO](http://verlok.github.io/lazyload/demos/simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) - [API](#-api)
 
 ### Scrolling panel
 
-> **When to use**: when your scrolling container is not the main browser window, but a scrolling container.
+> 💡 **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
 
 HTML
 
@@ -295,11 +196,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) - [API](#-api)
 
 ### Multiple scrolling panels
 
-> **When to use**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
+> 💡 **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
 
 HTML
 
@@ -338,11 +239,243 @@ var myLazyLoad2 = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) - [API](#-api)
+
+### Responsive images - img tag with srcset / sizes
+
+> 💡 **Use case**: you want to lazily load responsive images using the `srcset` and the `sizes` attribute. 
+
+HTML 
+
+```html
+<img class="lazy" data-src="/your/image1.jpg"
+    data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+    data-sizes="(min-width: 20em) 35vw, 100vw">
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) - [API](#-api)
+
+### Responsive images - picture tag
+
+> 💡 **Use case**: you want to lazily load responsive images using the `picture` tag.
+
+HTML
+
+```html
+<picture>
+    <source media="(min-width: 1024px)" data-srcset="/your/image1a.jpg" />
+    <source media="(min-width: 500px)" data-srcset="/your/image1b.jpg" />
+    <img class="lazy" alt="Stivaletti" data-src="/your/image1.jpg">
+</picture>
+```
+
+Please note that you just need to put the `lazy` class on the `<img>` tag but **not in the `<source>` tags**.
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#-api)
+
+### Switch to WebP
+
+> 💡 **Use case**: you want to dynamically switch your images' filename extension to `.webp` if the user's browser supports it.
+
+HTML
+
+```html
+<img class="lazy" data-src="/your/image1.jpg"
+    data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
+    data-sizes="(min-width: 20em) 35vw, 100vw">
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy",
+    to_webp: true
+});
+```
+
+**Hint**: if you provide **only some images** in the WebP format, it's advisable to create 2 different instances of LazyLoad, as shown in the [this demo](http://verlok.github.io/lazyload/demos/to_webp_some.html) and [source code](https://github.com/verlok/lazyload/blob/master/demos/to_webp_some.html).
+
+[DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#-api)
+
+
+### Delay load
+
+> 💡 **Use case**: you want the images to stay inside the viewport for some time before to start loading them, e.g. to skip loading some images them if the user scrolled fast after them.
+
+HTML
+
+```html
+<img class="lazy" alt="..." 
+     data-src="../img/44721746JJ_15_a.jpg"
+     width="220" height="280">
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy",
+    load_delay: 300 //adjust according to use case
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
+
+
+### Videos
+
+> 💡 **Use case**: you want to lazily load videos using the `video` tag.
+
+HTML
+
+```html
+<video class="lazy" controls width="620"
+    data-src="/your/video.mp4" poster="/your/poster.jpg">
+    <source type="video/mp4" data-src="/your/video.mp4">
+    <source type="video/ogg" data-src="/your/video.ogg">
+    <source type="video/avi" data-src="/your/video.avi">
+</video>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/video.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/video.html) - [API](#-api)
+
+### Iframes
+
+> 💡 **Use case**: you want to lazily load `iframe`s.
+
+HTML
+
+```html
+<iframe class="lazy" data-src="https://some.page.com" frameborder="0"></iframe>
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy"
+});
+```
+
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#-api)
+
+### Async script + auto initialization
+
+> 💡 **Use case**: you want to use a non-blocking script (which is faster), and you don't need to have control on the exact moment when LazyLoad is created.
+
+Include the following scripts **at the end of** your HTML page, right before closing the `body` tag.
+
+HTML + Javascript
+
+```html
+<script>
+window.lazyLoadOptions = {
+    /* your lazyload options */
+};
+</script>
+
+<!-- Download the script and execute it after lazyLoadOptions is defined -->
+<script async src="https://.../lazyload.min.js"></script>
+```
+
+**If you need multiple async instances**, just pass `window.lazyLoadOptions` an array of settings.
+
+```html
+<script>
+window.lazyLoadOptions = [{
+    /* your instance 1 options */
+}, {
+    /* your instance 2 options */
+}];
+</script>
+
+<!-- Download the script and execute it after lazyLoadOptions is defined -->
+<script async src="https://.../lazyload.min.js"></script>
+```
+
+Please note that if you put the script at the beginning of your HTML page, LazyLoad will sometimes be executed before the browser has loaded all the DOM. 
+In that case, you need to store the instance in a variable and use the `update` method on it. This will make it check the DOM again. See [API](#-api).
+
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#-api)
+
+#### Auto init + store the instance in a variable
+
+> 💡 **Use case**: you want to use a non-blocking script (which is faster), you don't need to have control on the exact moment when LazyLoad is created, but you need to assign the an auto-initialized instance to a variable, e.g. to use the [API](#-api) on it.
+
+HTML + Javascript
+
+```html
+<script>
+// Listen to the Initialized event
+window.addEventListener('LazyLoad::Initialized', function (e) {
+    // Get the instance and puts it in the lazyLoadInstance variable
+    lazyLoadInstance = e.detail.instance;
+}, false);
+
+// Set the lazyload options for async usage
+lazyLoadOptions = {
+    /* your lazyload options */
+};
+</script>
+
+<!-- Download the script and execute it after lazyLoadOptions is defined -->
+<script async src="https://.../lazyload.min.js"></script>
+```
+
+You will then have the auto-generated instance in the `lazyLoadInstance` variable.
+
+[DEMO](http://verlok.github.io/lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/async.html) - [API](#-api)
+
+**Note about Internet Explorer**
+
+LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) to trigger the `LazyLoad::Initialized`, but this event type is not natively supported by Internet Explorer. If you want to use asynchronous loading and need to store the instance you can use the following polyfill to enable support for Internet Explorer.
+
+```js
+(function () {
+    if (typeof window.CustomEvent === "function") {
+        return false;
+    }
+
+    function CustomEvent(event, params) {
+        params = params || {bubbles: false, cancelable: false, detail: undefined};
+        var evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent (event, params.bubbles, params.cancelable, params.detail);
+        return evt;
+    }
+
+    CustomEvent.prototype = window.Event.prototype;
+    window.CustomEvent = CustomEvent;
+})();
+```
 
 ### Dynamic content
 
-> **When to use**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
+> 💡 **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
 
 HTML
 
@@ -356,11 +489,11 @@ var myLazyLoad = new LazyLoad();
 myLazyLoad.update();
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
 
 ### Lazy iframes
 
-> **When to use**: you want to lazily load `iframe`s in your web page, maybe because you have many or just because you want to load only what your users actually want to see.
+> 💡 **Use case**: you want to lazily load `iframe`s in your web page, maybe because you have many or just because you want to load only what your users actually want to see.
 
 HTML
 
@@ -376,11 +509,11 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/iframes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/iframes.html) - [API](#-api)
 
 ### Lazy background images
 
-> **When to use**: your images are set as CSS background images instead of real `img`, but you still want to lazily load them.
+> 💡 **Use case**: your images are set as CSS background images instead of real `img`, but you still want to lazily load them.
 
 HTML
 
@@ -398,11 +531,11 @@ var myLazyLoad = new LazyLoad({
 
 That's it. Whenever the element selected by `elements_selector` is not an `img` or an `iframe`, LazyLoad puts the image found in the `data-src` attribute in the `background-image` of the element.
 
-[DEMO](http://verlok.github.io/lazyload/demos/background_images.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/background_images.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/background_images.html) - [API](#-api)
 
 ### Lazy LazyLoad
 
-> **When to use**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
+> 💡 **Use case**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
 
 HTML
 
@@ -442,15 +575,19 @@ var lazyLazy = new LazyLoad({
 
 That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_set` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
 
-[DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) | [API](#api)
+[DEMO](http://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
-## Demos
+---
+
+## 📺 Demos
 
 Didn't find the [recipe](#recipes) that exactly matches your case? We have demos!
 
 The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contains 15 use cases of LazyLoad. You might find there what you're looking for.
 
-## Tips & tricks
+---
+
+## 😋 Tips & tricks
 
 ### Occupy vertical space and maintain ratio
 
@@ -510,7 +647,7 @@ img:not([src]) {
 }
 ```
 
-Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#api).
+Or instead of the above `:not()` selector do it using the **CSS classes** of `class_loading` and `class_loaded` set by LazyLoad when loading starts or is completed - see [API](#-api).
 
 
 ### Do NOT use placeholder images
@@ -544,7 +681,9 @@ img[data-srcset] {
 }
 ```
 
-## API
+---
+
+## 🔌 API
 
 ### Constructor arguments
 
@@ -586,6 +725,8 @@ Here's the list of the options.
 | `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                   | `"loading"`   |
 | `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                        | `"loaded"`    |
 | `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                    | `"error"`     |
+| `to_webp`           | A boolean flag that activates the dynamic switch to WEBP feature. [More info](#switch-to-webp).                                                                                                                                                                                                                                                                       | `false`       |
+| `load_delay`        | [**Available only in version 10.16.1-beta**] The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                       | `0`           |
 | `callback_enter`    | A function to be called when the DOM element enters the viewport.                                                                                                                                                                                                                                                                                                     | `null`        |
 | `callback_set`      | A function to be called after the src of an image is set in the DOM.                                                                                                                                                                                                                                                                                                  | `null`        |
 | `callback_load`     | A function to be called when an element was loaded.                                                                                                                                                                                                                                                                                                                   | `null`        |
@@ -602,7 +743,9 @@ You can call the following public methods on any instance of LazyLoad.
 | `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as second parameter. |
 | `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                 |
 
-## Notable features
+---
+
+## 😯 Notable features
 
 ### SEO friendly
 
@@ -619,6 +762,10 @@ _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attribute
 ### Progressive JPEG support --> improve perceived performance
 
 [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
+
+### Dynamic switch to WEBP
+
+[WebP](https://developers.google.com/speed/webp/) is a modern image format that provides superior lossless and lossy compression for images on the web. If you are providing your images in the WebP format too, LazyLoad can switch the filenames extension to `.webp` before the image is loaded, given that the user's browser supports it. See [WebP support table](https://caniuse.com/#feat=webp).
 
 ### Intersection Observer API for optimized CPU usage
 

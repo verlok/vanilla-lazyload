@@ -2,6 +2,15 @@
 
 ## Version 10
 
+#### 10.16.1
+
+**BUGFIX**: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.
+
+#### 10.16.0
+
+Added new option `load_delay` to skip loading when fast scrolling occurs, as requested in issues #235 and #166. 
+Pass in a number of milliseconds, and each image will be loaded after it stayed inside that viewport for that time.
+
 #### 10.15.0
 
 - Refactorized code & improved script performance
@@ -144,6 +153,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.15.1
+
+**BUGFIX**: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.
 
 #### 8.15.0
 
