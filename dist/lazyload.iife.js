@@ -212,41 +212,59 @@ var LazyLoad = function () {
 		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
 	};
 
-	var managedTags = ["IMG", "IFRAME", "VIDEO"];
-
-	var callCallback = function callCallback(callback, argument) {
+	var callbackIfSet = function callbackIfSet(callback, argument) {
 		if (callback) {
 			callback(argument);
 		}
 	};
 
-	var loadString = "load";
-	var errorString = "error";
+	var genericLoadEventName = "load";
+	var mediaLoadEventName = "loadeddata";
+	var errorEventName = "error";
 
-	var removeListeners = function removeListeners(element, loadHandler, errorHandler) {
-		element.removeEventListener(loadString, loadHandler);
-		element.removeEventListener(errorString, errorHandler);
+	var addEventListener = function addEventListener(element, eventName, handler) {
+		element.addEventListener(eventName, handler);
 	};
 
-	var addOneShotListeners = function addOneShotListeners(element, settings) {
-		var onLoad = function onLoad(event) {
-			onEvent(event, true, settings);
-			removeListeners(element, onLoad, onError);
-		};
-		var onError = function onError(event) {
-			onEvent(event, false, settings);
-			removeListeners(element, onLoad, onError);
-		};
-		element.addEventListener(loadString, onLoad);
-		element.addEventListener(errorString, onError);
+	var removeEventListener = function removeEventListener(element, eventName, handler) {
+		element.removeEventListener(eventName, handler);
 	};
 
-	var onEvent = function onEvent(event, success, settings) {
+	var addAllEventListeners = function addAllEventListeners(element, loadHandler, errorHandler) {
+		addEventListener(element, genericLoadEventName, loadHandler);
+		addEventListener(element, mediaLoadEventName, loadHandler);
+		addEventListener(element, errorEventName, errorHandler);
+	};
+
+	var removeAllEventListeners = function removeAllEventListeners(element, loadHandler, errorHandler) {
+		removeEventListener(element, genericLoadEventName, loadHandler);
+		removeEventListener(element, mediaLoadEventName, loadHandler);
+		removeEventListener(element, errorEventName, errorHandler);
+	};
+
+	var eventHandler = function eventHandler(event, success, settings) {
+		var className = success ? settings.class_loaded : settings.class_error;
+		var callback = success ? settings.callback_load : settings.callback_error;
 		var element = event.target;
+
 		removeClass(element, settings.class_loading);
-		addClass(element, success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
-		callCallback(success ? settings.callback_load : settings.callback_error, element);
+		addClass(element, className);
+		callbackIfSet(callback, element);
 	};
+
+	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
+		var loadHandler = function loadHandler(event) {
+			eventHandler(event, true, settings);
+			removeAllEventListeners(element, loadHandler, errorHandler);
+		};
+		var errorHandler = function errorHandler(event) {
+			eventHandler(event, false, settings);
+			removeAllEventListeners(element, loadHandler, errorHandler);
+		};
+		addAllEventListeners(element, loadHandler, errorHandler);
+	};
+
+	var managedTags = ["IMG", "IFRAME", "VIDEO"];
 
 	var loadAndUnobserve = function loadAndUnobserve(element, observer, settings) {
 		revealElement(element, settings);
@@ -279,14 +297,14 @@ var LazyLoad = function () {
 		if (!force && getWasProcessedData(element)) {
 			return; // element has already been processed and force wasn't true
 		}
-		callCallback(settings.callback_enter, element);
+		callbackIfSet(settings.callback_enter, element);
 		if (managedTags.indexOf(element.tagName) > -1) {
-			addOneShotListeners(element, settings);
+			addOneShotEventListeners(element, settings);
 			addClass(element, settings.class_loading);
 		}
 		setSources(element, settings);
 		setWasProcessedData(element);
-		callCallback(settings.callback_set, element);
+		callbackIfSet(settings.callback_set, element);
 	}
 
 	/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
