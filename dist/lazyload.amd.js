@@ -212,56 +212,59 @@ define(function () {
 		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
 	};
 
-	var managedTags = ["IMG", "IFRAME", "VIDEO"];
-
-	var callCallback = function callCallback(callback, argument) {
+	var callbackIfSet = function callbackIfSet(callback, argument) {
 		if (callback) {
 			callback(argument);
 		}
 	};
 
-	var loadString = "load";
-	var loadeddataString = "loadeddata";
-	var errorString = "error";
+	var genericLoadEventName = "load";
+	var mediaLoadEventName = "loadeddata";
+	var errorEventName = "error";
 
-	var addListener = function addListener(element, eventName, handler) {
+	var addEventListener = function addEventListener(element, eventName, handler) {
 		element.addEventListener(eventName, handler);
 	};
 
-	var removeListener = function removeListener(element, eventName, handler) {
+	var removeEventListener = function removeEventListener(element, eventName, handler) {
 		element.removeEventListener(eventName, handler);
 	};
 
-	var addEventListeners = function addEventListeners(element, loadHandler, errorHandler) {
-		addListener(element, loadString, loadHandler);
-		addListener(element, loadeddataString, loadHandler);
-		addListener(element, errorString, errorHandler);
+	var addAllEventListeners = function addAllEventListeners(element, loadHandler, errorHandler) {
+		addEventListener(element, genericLoadEventName, loadHandler);
+		addEventListener(element, mediaLoadEventName, loadHandler);
+		addEventListener(element, errorEventName, errorHandler);
 	};
 
-	var removeListeners = function removeListeners(element, loadHandler, errorHandler) {
-		removeListener(element, loadString, loadHandler);
-		removeListener(element, loadeddataString, loadHandler);
-		removeListener(element, errorString, errorHandler);
+	var removeAllEventListeners = function removeAllEventListeners(element, loadHandler, errorHandler) {
+		removeEventListener(element, genericLoadEventName, loadHandler);
+		removeEventListener(element, mediaLoadEventName, loadHandler);
+		removeEventListener(element, errorEventName, errorHandler);
 	};
 
-	var addOneShotListeners = function addOneShotListeners(element, settings) {
+	var eventHandler = function eventHandler(event, success, settings) {
+		var className = success ? settings.class_loaded : settings.class_error;
+		var callback = success ? settings.callback_load : settings.callback_error;
+		var element = event.target;
+
+		removeClass(element, settings.class_loading);
+		addClass(element, className);
+		callbackIfSet(callback, element);
+	};
+
+	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
 		var loadHandler = function loadHandler(event) {
-			onEvent(event, true, settings);
-			removeListeners(element, loadHandler, errorHandler);
+			eventHandler(event, true, settings);
+			removeAllEventListeners(element, loadHandler, errorHandler);
 		};
 		var errorHandler = function errorHandler(event) {
-			onEvent(event, false, settings);
-			removeListeners(element, loadHandler, errorHandler);
+			eventHandler(event, false, settings);
+			removeAllEventListeners(element, loadHandler, errorHandler);
 		};
-		addEventListeners(element, loadHandler, errorHandler);
+		addAllEventListeners(element, loadHandler, errorHandler);
 	};
 
-	var onEvent = function onEvent(event, success, settings) {
-		var element = event.target;
-		removeClass(element, settings.class_loading);
-		addClass(element, success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
-		callCallback(success ? settings.callback_load : settings.callback_error, element);
-	};
+	var managedTags = ["IMG", "IFRAME", "VIDEO"];
 
 	var loadAndUnobserve = function loadAndUnobserve(element, observer, settings) {
 		revealElement(element, settings);
@@ -294,14 +297,14 @@ define(function () {
 		if (!force && getWasProcessedData(element)) {
 			return; // element has already been processed and force wasn't true
 		}
-		callCallback(settings.callback_enter, element);
+		callbackIfSet(settings.callback_enter, element);
 		if (managedTags.indexOf(element.tagName) > -1) {
-			addOneShotListeners(element, settings);
+			addOneShotEventListeners(element, settings);
 			addClass(element, settings.class_loading);
 		}
 		setSources(element, settings);
 		setWasProcessedData(element);
-		callCallback(settings.callback_set, element);
+		callbackIfSet(settings.callback_set, element);
 	}
 
 	/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and

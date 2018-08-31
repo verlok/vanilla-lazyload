@@ -216,59 +216,59 @@ const removeClass = (element, className) => {
 		replace(/\s+$/, "");
 };
 
-const managedTags = ["IMG", "IFRAME", "VIDEO"];
-
-const callCallback = (callback, argument) => {
+const callbackIfSet = (callback, argument) => {
 	if (callback) {
 		callback(argument);
 	}
 };
 
-const loadString = "load";
-const loadeddataString = "loadeddata";
-const errorString = "error";
+const genericLoadEventName = "load";
+const mediaLoadEventName = "loadeddata";
+const errorEventName = "error";
 
-const addListener = (element, eventName, handler) => {
+const addEventListener = (element, eventName, handler) => {
 	element.addEventListener(eventName, handler);
 };
 
-const removeListener = (element, eventName, handler) => {
+const removeEventListener = (element, eventName, handler) => {
 	element.removeEventListener(eventName, handler);
 };
 
-const addEventListeners = (element, loadHandler, errorHandler) => {
-	addListener(element, loadString, loadHandler);
-	addListener(element, loadeddataString, loadHandler);
-	addListener(element, errorString, errorHandler);
+const addAllEventListeners = (element, loadHandler, errorHandler) => {
+	addEventListener(element, genericLoadEventName, loadHandler);
+	addEventListener(element, mediaLoadEventName, loadHandler);
+	addEventListener(element, errorEventName, errorHandler);
 };
 
-const removeListeners = (element, loadHandler, errorHandler) => {
-	removeListener(element, loadString, loadHandler);
-	removeListener(element, loadeddataString, loadHandler);
-	removeListener(element, errorString, errorHandler);
+const removeAllEventListeners = (element, loadHandler, errorHandler) => {
+	removeEventListener(element, genericLoadEventName, loadHandler);
+	removeEventListener(element, mediaLoadEventName, loadHandler);
+	removeEventListener(element, errorEventName, errorHandler);
 };
 
-const addOneShotListeners = (element, settings) => {
+const eventHandler = function(event, success, settings) {
+	const className = success ? settings.class_loaded : settings.class_error;
+	const callback = success ? settings.callback_load : settings.callback_error;
+	const element = event.target;
+
+	removeClass(element, settings.class_loading);
+	addClass(element, className);
+	callbackIfSet(callback, element);
+};
+
+const addOneShotEventListeners = (element, settings) => {
 	const loadHandler = event => {
-		onEvent(event, true, settings);
-		removeListeners(element, loadHandler, errorHandler);
+		eventHandler(event, true, settings);
+		removeAllEventListeners(element, loadHandler, errorHandler);
 	};
 	const errorHandler = event => {
-		onEvent(event, false, settings);
-		removeListeners(element, loadHandler, errorHandler);
+		eventHandler(event, false, settings);
+		removeAllEventListeners(element, loadHandler, errorHandler);
 	};
-	addEventListeners(element, loadHandler, errorHandler);
+	addAllEventListeners(element, loadHandler, errorHandler);
 };
 
-const onEvent = function(event, success, settings) {
-	const element = event.target;
-	removeClass(element, settings.class_loading);
-	addClass(element, success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
-	callCallback(
-		success ? settings.callback_load : settings.callback_error,
-		element
-	);
-};
+const managedTags = ["IMG", "IFRAME", "VIDEO"];
 
 const loadAndUnobserve = (element, observer, settings) => {
 	revealElement(element, settings);
@@ -301,14 +301,14 @@ function revealElement(element, settings, force) {
 	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
 	}
-	callCallback(settings.callback_enter, element);
+	callbackIfSet(settings.callback_enter, element);
 	if (managedTags.indexOf(element.tagName) > -1) {
-		addOneShotListeners(element, settings);
+		addOneShotEventListeners(element, settings);
 		addClass(element, settings.class_loading);
 	}
 	setSources(element, settings);
 	setWasProcessedData(element);
-	callCallback(settings.callback_set, element);
+	callbackIfSet(settings.callback_set, element);
 }
 
 /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
