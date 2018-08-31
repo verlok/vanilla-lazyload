@@ -4,7 +4,7 @@
 
 #### 10.16.2
 
-**BUGFIX**: Class `loaded` not applied to a loaded video (issue #239).
+**BUGFIX**: Class `loaded` was not applied to a loaded video (issue #239).
 
 #### 10.16.1
 
