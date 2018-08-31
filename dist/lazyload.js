@@ -225,24 +225,39 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	var loadString = "load";
+	var loadeddataString = "loadeddata";
 	var errorString = "error";
 
+	var addListener = function addListener(element, eventName, handler) {
+		element.addEventListener(eventName, handler);
+	};
+
+	var removeListener = function removeListener(element, eventName, handler) {
+		element.removeEventListener(eventName, handler);
+	};
+
+	var addEventListeners = function addEventListeners(element, loadHandler, errorHandler) {
+		addListener(element, loadString, loadHandler);
+		addListener(element, loadeddataString, loadHandler);
+		addListener(element, errorString, errorHandler);
+	};
+
 	var removeListeners = function removeListeners(element, loadHandler, errorHandler) {
-		element.removeEventListener(loadString, loadHandler);
-		element.removeEventListener(errorString, errorHandler);
+		removeListener(element, loadString, loadHandler);
+		removeListener(element, loadeddataString, loadHandler);
+		removeListener(element, errorString, errorHandler);
 	};
 
 	var addOneShotListeners = function addOneShotListeners(element, settings) {
-		var onLoad = function onLoad(event) {
+		var loadHandler = function loadHandler(event) {
 			onEvent(event, true, settings);
-			removeListeners(element, onLoad, onError);
+			removeListeners(element, loadHandler, errorHandler);
 		};
-		var onError = function onError(event) {
+		var errorHandler = function errorHandler(event) {
 			onEvent(event, false, settings);
-			removeListeners(element, onLoad, onError);
+			removeListeners(element, loadHandler, errorHandler);
 		};
-		element.addEventListener(loadString, onLoad);
-		element.addEventListener(errorString, onError);
+		addEventListeners(element, loadHandler, errorHandler);
 	};
 
 	var onEvent = function onEvent(event, success, settings) {
