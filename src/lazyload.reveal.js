@@ -5,61 +5,11 @@ import {
 	getWasProcessedData,
 	setWasProcessedData
 } from "./lazyload.data";
-import { addClass, removeClass } from "./lazyload.class";
+import { addOneShotEventListeners } from "./lazyload.event";
+import { addClass } from "./lazyload.class";
+import { callbackIfSet } from "./lazyload.callback";
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
-
-const callCallback = (callback, argument) => {
-	if (callback) {
-		callback(argument);
-	}
-};
-
-const loadString = "load";
-const loadeddataString = "loadeddata";
-const errorString = "error";
-
-const addListener = (element, eventName, handler) => {
-	element.addEventListener(eventName, handler);
-};
-
-const removeListener = (element, eventName, handler) => {
-	element.removeEventListener(eventName, handler);
-};
-
-const addEventListeners = (element, loadHandler, errorHandler) => {
-	addListener(element, loadString, loadHandler);
-	addListener(element, loadeddataString, loadHandler);
-	addListener(element, errorString, errorHandler);
-};
-
-const removeListeners = (element, loadHandler, errorHandler) => {
-	removeListener(element, loadString, loadHandler);
-	removeListener(element, loadeddataString, loadHandler);
-	removeListener(element, errorString, errorHandler);
-};
-
-const addOneShotListeners = (element, settings) => {
-	const loadHandler = event => {
-		onEvent(event, true, settings);
-		removeListeners(element, loadHandler, errorHandler);
-	};
-	const errorHandler = event => {
-		onEvent(event, false, settings);
-		removeListeners(element, loadHandler, errorHandler);
-	};
-	addEventListeners(element, loadHandler, errorHandler);
-};
-
-const onEvent = function(event, success, settings) {
-	const element = event.target;
-	removeClass(element, settings.class_loading);
-	addClass(element, success ? settings.class_loaded : settings.class_error); // Setting loaded or error class
-	callCallback(
-		success ? settings.callback_load : settings.callback_error,
-		element
-	);
-};
 
 export const loadAndUnobserve = (element, observer, settings) => {
 	revealElement(element, settings);
@@ -92,12 +42,12 @@ export function revealElement(element, settings, force) {
 	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
 	}
-	callCallback(settings.callback_enter, element);
+	callbackIfSet(settings.callback_enter, element);
 	if (managedTags.indexOf(element.tagName) > -1) {
-		addOneShotListeners(element, settings);
+		addOneShotEventListeners(element, settings);
 		addClass(element, settings.class_loading);
 	}
 	setSources(element, settings);
 	setWasProcessedData(element);
-	callCallback(settings.callback_set, element);
+	callbackIfSet(settings.callback_set, element);
 }
