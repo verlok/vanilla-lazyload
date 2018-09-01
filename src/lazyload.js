@@ -1,11 +1,11 @@
 import getDefaultSettings from "./lazyload.defaults";
-import { callCallback } from "./lazyload.utils";
+import { callbackIfSet } from "./lazyload.callback";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
-import { setSources } from "./lazyload.setSources";
-import { addClass, removeClass } from "./lazyload.class";
+import { addClass } from "./lazyload.class";
 import { getWasProcessed, setWasProcessed } from "./lazyload.data";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
+import { revealElement } from "./lazyload.reveal";
 
 /*
  * Constructor
@@ -28,47 +28,6 @@ const LazyLoad = function(instanceSettings) {
 };
 
 LazyLoad.prototype = {
-	_reveal: function(element, force) {
-		if (!force && getWasProcessed(element)) {
-			return; // element has already been processed and force wasn't true
-		}
-
-		const settings = this._settings;
-
-		const errorCallback = function() {
-			/* As this method is asynchronous, it must be protected against external destroy() calls */
-			if (!settings) {
-				return;
-			}
-			element.removeEventListener("load", loadCallback);
-			element.removeEventListener("error", errorCallback);
-			removeClass(element, settings.class_loading);
-			addClass(element, settings.class_error);
-			callCallback(settings.callback_error, element);
-		};
-
-		const loadCallback = function() {
-			/* As this method is asynchronous, it must be protected against external destroy() calls */
-			if (!settings) {
-				return;
-			}
-			removeClass(element, settings.class_loading);
-			addClass(element, settings.class_loaded);
-			element.removeEventListener("load", loadCallback);
-			element.removeEventListener("error", errorCallback);
-			callCallback(settings.callback_load, element);
-		};
-
-		callCallback(settings.callback_enter, element);
-		if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
-			element.addEventListener("load", loadCallback);
-			element.addEventListener("error", errorCallback);
-			addClass(element, settings.class_loading);
-		}
-		setSources(element, settings);
-		callCallback(settings.callback_set, element);
-	},
-
 	_loopThroughElements: function(forceDownload) {
 		const settings = this._settings,
 			elements = this._elements,
@@ -106,7 +65,7 @@ LazyLoad.prototype = {
 		/* Removing processed elements from this._elements. */
 		while (processedIndexes.length) {
 			elements.splice(processedIndexes.pop(), 1);
-			callCallback(settings.callback_processed, elements.length);
+			callbackIfSet(settings.callback_processed, elements.length);
 		}
 		/* Stop listening to scroll event when 0 elements remains */
 		if (elementsLength === 0) {
@@ -214,7 +173,7 @@ LazyLoad.prototype = {
 	},
 
 	load: function(element, force) {
-		this._reveal(element, force);
+		revealElement(element, this._settings, force);
 	}
 };
 
