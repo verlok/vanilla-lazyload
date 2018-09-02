@@ -34,7 +34,18 @@ LazyLoad.prototype = {
 			elementsLength = !elements ? 0 : elements.length;
 		let i,
 			processedIndexes = [],
-			firstLoop = this._isFirstLoop;
+			isFirstLoop = this._isFirstLoop;
+
+		/* Sets isFirstLoop to false */
+		if (isFirstLoop) {
+			this._isFirstLoop = false;
+		}
+
+		/* Stop listening to scroll event when 0 elements remains */
+		if (elementsLength === 0) {
+			this._stopScrollHandler();
+			return;
+		}
 
 		for (i = 0; i < elementsLength; i++) {
 			let element = elements[i];
@@ -52,7 +63,7 @@ LazyLoad.prototype = {
 					settings.threshold
 				)
 			) {
-				if (firstLoop) {
+				if (isFirstLoop) {
 					addClass(element, settings.class_initial);
 				}
 				/* Start loading the image */
@@ -65,14 +76,6 @@ LazyLoad.prototype = {
 		while (processedIndexes.length) {
 			elements.splice(processedIndexes.pop(), 1);
 			callbackIfSet(settings.callback_processed, elements.length);
-		}
-		/* Stop listening to scroll event when 0 elements remains */
-		if (elementsLength === 0) {
-			this._stopScrollHandler();
-		}
-		/* Sets isFirstLoop to false */
-		if (firstLoop) {
-			this._isFirstLoop = false;
 		}
 	},
 
