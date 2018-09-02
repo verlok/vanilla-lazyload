@@ -30,12 +30,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		};
 	};
 
-	var callCallback = function callCallback(callback, argument) {
-		if (callback) {
-			callback(argument);
-		}
-	};
-
 	var getTopOffset = function getTopOffset(element) {
 		return element.getBoundingClientRect().top + window.pageYOffset - element.ownerDocument.documentElement.clientTop;
 	};
@@ -102,26 +96,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	}
 
-	var dataPrefix = "data-";
-	var processedDataName = "was-processed";
-	var processedDataValue = "true";
-
-	var getData = function getData(element, attribute) {
-		return element.getAttribute(dataPrefix + attribute);
-	};
-
-	var setData = function setData(element, attribute, value) {
-		return element.setAttribute(dataPrefix + attribute, value);
-	};
-
-	var setWasProcessed = function setWasProcessed(element) {
-		return setData(element, processedDataName, processedDataValue);
-	};
-
-	var getWasProcessed = function getWasProcessed(element) {
-		return getData(element, processedDataName) === processedDataValue;
-	};
-
 	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
 		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
 	};
@@ -143,6 +117,47 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
 	var supportsWebp = runningOnBrowser && detectWebp();
+
+	var addClass = function addClass(element, className) {
+		if (supportsClassList) {
+			element.classList.add(className);
+			return;
+		}
+		element.className += (element.className ? " " : "") + className;
+	};
+
+	var removeClass = function removeClass(element, className) {
+		if (supportsClassList) {
+			element.classList.remove(className);
+			return;
+		}
+		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+	};
+
+	var dataPrefix = "data-";
+	var processedDataName = "was-processed";
+	var processedDataValue = "true";
+
+	var getData = function getData(element, attribute) {
+		return element.getAttribute(dataPrefix + attribute);
+	};
+
+	var setData = function setData(element, attribute, value) {
+		var attrName = dataPrefix + attribute;
+		if (value === null) {
+			element.removeAttribute(attrName);
+			return;
+		}
+		element.setAttribute(attrName, value);
+	};
+
+	var setWasProcessedData = function setWasProcessedData(element) {
+		return setData(element, processedDataName, processedDataValue);
+	};
+
+	var getWasProcessedData = function getWasProcessedData(element) {
+		return getData(element, processedDataName) === processedDataValue;
+	};
 
 	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
@@ -217,20 +232,78 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		setSourcesBgImage(element, settings);
 	};
 
-	var addClass = function addClass(element, className) {
-		if (supportsClassList) {
-			element.classList.add(className);
-			return;
+	var callbackIfSet = function callbackIfSet(callback, argument) {
+		if (callback) {
+			callback(argument);
 		}
-		element.className += (element.className ? " " : "") + className;
 	};
 
-	var removeClass = function removeClass(element, className) {
-		if (supportsClassList) {
-			element.classList.remove(className);
-			return;
+	var genericLoadEventName = "load";
+	var mediaLoadEventName = "loadeddata";
+	var errorEventName = "error";
+
+	var addEventListener = function addEventListener(element, eventName, handler) {
+		element.addEventListener(eventName, handler);
+	};
+
+	var removeEventListener = function removeEventListener(element, eventName, handler) {
+		element.removeEventListener(eventName, handler);
+	};
+
+	var addAllEventListeners = function addAllEventListeners(element, loadHandler, errorHandler) {
+		addEventListener(element, genericLoadEventName, loadHandler);
+		addEventListener(element, mediaLoadEventName, loadHandler);
+		addEventListener(element, errorEventName, errorHandler);
+	};
+
+	var removeAllEventListeners = function removeAllEventListeners(element, loadHandler, errorHandler) {
+		removeEventListener(element, genericLoadEventName, loadHandler);
+		removeEventListener(element, mediaLoadEventName, loadHandler);
+		removeEventListener(element, errorEventName, errorHandler);
+	};
+
+	var eventHandler = function eventHandler(event, success, settings) {
+		var className = success ? settings.class_loaded : settings.class_error;
+		var callback = success ? settings.callback_load : settings.callback_error;
+		var element = event.target;
+
+		removeClass(element, settings.class_loading);
+		addClass(element, className);
+		callbackIfSet(callback, element);
+	};
+
+	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
+		var loadHandler = function loadHandler(event) {
+			eventHandler(event, true, settings);
+			removeAllEventListeners(element, loadHandler, errorHandler);
+		};
+		var errorHandler = function errorHandler(event) {
+			eventHandler(event, false, settings);
+			removeAllEventListeners(element, loadHandler, errorHandler);
+		};
+		addAllEventListeners(element, loadHandler, errorHandler);
+	};
+
+	var managedTags = ["IMG", "IFRAME", "VIDEO"];
+
+	function revealElement(element, settings, force) {
+		if (!force && getWasProcessedData(element)) {
+			return; // element has already been processed and force wasn't true
 		}
-		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+		callbackIfSet(settings.callback_enter, element);
+		if (managedTags.indexOf(element.tagName) > -1) {
+			addOneShotEventListeners(element, settings);
+			addClass(element, settings.class_loading);
+		}
+		setSources(element, settings);
+		setWasProcessedData(element);
+		callbackIfSet(settings.callback_set, element);
+	}
+
+	var removeFromArray = function removeFromArray(elements, indexes) {
+		while (indexes.length) {
+			elements.splice(indexes.pop(), 1);
+		}
 	};
 
 	/*
@@ -251,54 +324,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	LazyLoad.prototype = {
-		_reveal: function _reveal(element, force) {
-			if (!force && getWasProcessed(element)) {
-				return; // element has already been processed and force wasn't true
-			}
-
-			var settings = this._settings;
-
-			var errorCallback = function errorCallback() {
-				/* As this method is asynchronous, it must be protected against external destroy() calls */
-				if (!settings) {
-					return;
-				}
-				element.removeEventListener("load", loadCallback);
-				element.removeEventListener("error", errorCallback);
-				removeClass(element, settings.class_loading);
-				addClass(element, settings.class_error);
-				callCallback(settings.callback_error, element);
-			};
-
-			var loadCallback = function loadCallback() {
-				/* As this method is asynchronous, it must be protected against external destroy() calls */
-				if (!settings) {
-					return;
-				}
-				removeClass(element, settings.class_loading);
-				addClass(element, settings.class_loaded);
-				element.removeEventListener("load", loadCallback);
-				element.removeEventListener("error", errorCallback);
-				callCallback(settings.callback_load, element);
-			};
-
-			callCallback(settings.callback_enter, element);
-			if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
-				element.addEventListener("load", loadCallback);
-				element.addEventListener("error", errorCallback);
-				addClass(element, settings.class_loading);
-			}
-			setSources(element, settings);
-			callCallback(settings.callback_set, element);
-		},
-
 		_loopThroughElements: function _loopThroughElements(forceDownload) {
 			var settings = this._settings,
 			    elements = this._elements,
 			    elementsLength = !elements ? 0 : elements.length;
 			var i = void 0,
 			    processedIndexes = [],
-			    firstLoop = this._isFirstLoop;
+			    isFirstLoop = this._isFirstLoop;
+
+			if (isFirstLoop) {
+				this._isFirstLoop = false;
+			}
+
+			if (elementsLength === 0) {
+				this._stopScrollHandler();
+				return;
+			}
 
 			for (i = 0; i < elementsLength; i++) {
 				var element = elements[i];
@@ -308,48 +349,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				}
 
 				if (isBot || forceDownload || isInsideViewport(element, settings.container, settings.threshold)) {
-					if (firstLoop) {
+					if (isFirstLoop) {
 						addClass(element, settings.class_initial);
 					}
-					/* Start loading the image */
 					this.load(element);
-					/* Marking the element as processed. */
 					processedIndexes.push(i);
-					setWasProcessed(element);
 				}
 			}
-			/* Removing processed elements from this._elements. */
-			while (processedIndexes.length) {
-				elements.splice(processedIndexes.pop(), 1);
-				callCallback(settings.callback_processed, elements.length);
-			}
-			/* Stop listening to scroll event when 0 elements remains */
-			if (elementsLength === 0) {
-				this._stopScrollHandler();
-			}
-			/* Sets isFirstLoop to false */
-			if (firstLoop) {
-				this._isFirstLoop = false;
-			}
+
+			// Removing processed elements from this._elements.
+			removeFromArray(elements, processedIndexes);
 		},
 
 		_purgeElements: function _purgeElements() {
 			var elements = this._elements,
 			    elementsLength = elements.length;
 			var i = void 0,
-			    elementsToPurge = [];
+			    processedIndexes = [];
 
 			for (i = 0; i < elementsLength; i++) {
-				var element = elements[i];
-				/* If the element has already been processed, skip it */
-				if (getWasProcessed(element)) {
-					elementsToPurge.push(i);
+				if (getWasProcessedData(elements[i])) {
+					processedIndexes.push(i);
 				}
 			}
-			/* Removing elements to purge from this._elements. */
-			while (elementsToPurge.length > 0) {
-				elements.splice(elementsToPurge.pop(), 1);
-			}
+			removeFromArray(elements, processedIndexes);
 		},
 
 		_startScrollHandler: function _startScrollHandler() {
@@ -416,7 +439,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		},
 
 		load: function load(element, force) {
-			this._reveal(element, force);
+			revealElement(element, this._settings, force);
 		}
 	};
 

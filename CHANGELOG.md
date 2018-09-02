@@ -154,6 +154,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.15.2
+
+**BUGFIX**: Class `loaded` was not applied to a loaded video (issue #239).
+
 #### 8.15.1
 
 **BUGFIX**: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.

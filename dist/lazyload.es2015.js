@@ -19,12 +19,6 @@ var getDefaultSettings = () => ({
 	to_webp: false
 });
 
-const callCallback = function(callback, argument) {
-	if (callback) {
-		callback(argument);
-	}
-};
-
 const getTopOffset = function(element) {
 	return (
 		element.getBoundingClientRect().top +
@@ -112,24 +106,6 @@ function autoInitialize(classObj, options) {
 	}
 }
 
-const dataPrefix = "data-";
-const processedDataName = "was-processed";
-const processedDataValue = "true";
-
-const getData = (element, attribute) => {
-	return element.getAttribute(dataPrefix + attribute);
-};
-
-const setData = (element, attribute, value) => {
-	return element.setAttribute(dataPrefix + attribute, value);
-};
-
-const setWasProcessed = element =>
-	setData(element, processedDataName, processedDataValue);
-
-const getWasProcessed = element =>
-	getData(element, processedDataName) === processedDataValue;
-
 const replaceExtToWebp = (value, condition) =>
 	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
 
@@ -153,6 +129,48 @@ const supportsClassList =
 	runningOnBrowser && "classList" in document.createElement("p");
 
 const supportsWebp = runningOnBrowser && detectWebp();
+
+const addClass = (element, className) => {
+	if (supportsClassList) {
+		element.classList.add(className);
+		return;
+	}
+	element.className += (element.className ? " " : "") + className;
+};
+
+const removeClass = (element, className) => {
+	if (supportsClassList) {
+		element.classList.remove(className);
+		return;
+	}
+	element.className = element.className.
+		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
+		replace(/^\s+/, "").
+		replace(/\s+$/, "");
+};
+
+const dataPrefix = "data-";
+const processedDataName = "was-processed";
+const processedDataValue = "true";
+
+const getData = (element, attribute) => {
+	return element.getAttribute(dataPrefix + attribute);
+};
+
+const setData = (element, attribute, value) => {
+	var attrName = dataPrefix + attribute;
+	if (value === null) {
+		element.removeAttribute(attrName);
+		return;
+	}
+	element.setAttribute(attrName, value);
+};
+
+const setWasProcessedData = element =>
+	setData(element, processedDataName, processedDataValue);
+
+const getWasProcessedData = element =>
+	getData(element, processedDataName) === processedDataValue;
 
 const setSourcesInChildren = function(
 	parentTag,
@@ -237,23 +255,78 @@ const setSources = (element, settings) => {
 	setSourcesBgImage(element, settings);
 };
 
-const addClass = (element, className) => {
-	if (supportsClassList) {
-		element.classList.add(className);
-		return;
+const callbackIfSet = function(callback, argument) {
+	if (callback) {
+		callback(argument);
 	}
-	element.className += (element.className ? " " : "") + className;
 };
 
-const removeClass = (element, className) => {
-	if (supportsClassList) {
-		element.classList.remove(className);
-		return;
+const genericLoadEventName = "load";
+const mediaLoadEventName = "loadeddata";
+const errorEventName = "error";
+
+const addEventListener = (element, eventName, handler) => {
+	element.addEventListener(eventName, handler);
+};
+
+const removeEventListener = (element, eventName, handler) => {
+	element.removeEventListener(eventName, handler);
+};
+
+const addAllEventListeners = (element, loadHandler, errorHandler) => {
+	addEventListener(element, genericLoadEventName, loadHandler);
+	addEventListener(element, mediaLoadEventName, loadHandler);
+	addEventListener(element, errorEventName, errorHandler);
+};
+
+const removeAllEventListeners = (element, loadHandler, errorHandler) => {
+	removeEventListener(element, genericLoadEventName, loadHandler);
+	removeEventListener(element, mediaLoadEventName, loadHandler);
+	removeEventListener(element, errorEventName, errorHandler);
+};
+
+const eventHandler = function(event, success, settings) {
+	const className = success ? settings.class_loaded : settings.class_error;
+	const callback = success ? settings.callback_load : settings.callback_error;
+	const element = event.target;
+
+	removeClass(element, settings.class_loading);
+	addClass(element, className);
+	callbackIfSet(callback, element);
+};
+
+const addOneShotEventListeners = (element, settings) => {
+	const loadHandler = event => {
+		eventHandler(event, true, settings);
+		removeAllEventListeners(element, loadHandler, errorHandler);
+	};
+	const errorHandler = event => {
+		eventHandler(event, false, settings);
+		removeAllEventListeners(element, loadHandler, errorHandler);
+	};
+	addAllEventListeners(element, loadHandler, errorHandler);
+};
+
+const managedTags = ["IMG", "IFRAME", "VIDEO"];
+
+function revealElement(element, settings, force) {
+	if (!force && getWasProcessedData(element)) {
+		return; // element has already been processed and force wasn't true
 	}
-	element.className = element.className.
-		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
-		replace(/^\s+/, "").
-		replace(/\s+$/, "");
+	callbackIfSet(settings.callback_enter, element);
+	if (managedTags.indexOf(element.tagName) > -1) {
+		addOneShotEventListeners(element, settings);
+		addClass(element, settings.class_loading);
+	}
+	setSources(element, settings);
+	setWasProcessedData(element);
+	callbackIfSet(settings.callback_set, element);
+}
+
+const removeFromArray = (elements, indexes) => {
+	while (indexes.length) {
+		elements.splice(indexes.pop(), 1);
+	}
 };
 
 /*
@@ -277,54 +350,22 @@ const LazyLoad = function(instanceSettings) {
 };
 
 LazyLoad.prototype = {
-	_reveal: function(element, force) {
-		if (!force && getWasProcessed(element)) {
-			return; // element has already been processed and force wasn't true
-		}
-
-		const settings = this._settings;
-
-		const errorCallback = function() {
-			/* As this method is asynchronous, it must be protected against external destroy() calls */
-			if (!settings) {
-				return;
-			}
-			element.removeEventListener("load", loadCallback);
-			element.removeEventListener("error", errorCallback);
-			removeClass(element, settings.class_loading);
-			addClass(element, settings.class_error);
-			callCallback(settings.callback_error, element);
-		};
-
-		const loadCallback = function() {
-			/* As this method is asynchronous, it must be protected against external destroy() calls */
-			if (!settings) {
-				return;
-			}
-			removeClass(element, settings.class_loading);
-			addClass(element, settings.class_loaded);
-			element.removeEventListener("load", loadCallback);
-			element.removeEventListener("error", errorCallback);
-			callCallback(settings.callback_load, element);
-		};
-
-		callCallback(settings.callback_enter, element);
-		if (["IMG", "IFRAME", "VIDEO"].indexOf(element.tagName) > -1) {
-			element.addEventListener("load", loadCallback);
-			element.addEventListener("error", errorCallback);
-			addClass(element, settings.class_loading);
-		}
-		setSources(element, settings);
-		callCallback(settings.callback_set, element);
-	},
-
 	_loopThroughElements: function(forceDownload) {
 		const settings = this._settings,
 			elements = this._elements,
 			elementsLength = !elements ? 0 : elements.length;
 		let i,
 			processedIndexes = [],
-			firstLoop = this._isFirstLoop;
+			isFirstLoop = this._isFirstLoop;
+
+		if (isFirstLoop) {
+			this._isFirstLoop = false;
+		}
+
+		if (elementsLength === 0) {
+			this._stopScrollHandler();
+			return;
+		}
 
 		for (i = 0; i < elementsLength; i++) {
 			let element = elements[i];
@@ -342,48 +383,30 @@ LazyLoad.prototype = {
 					settings.threshold
 				)
 			) {
-				if (firstLoop) {
+				if (isFirstLoop) {
 					addClass(element, settings.class_initial);
 				}
-				/* Start loading the image */
 				this.load(element);
-				/* Marking the element as processed. */
 				processedIndexes.push(i);
-				setWasProcessed(element);
 			}
 		}
-		/* Removing processed elements from this._elements. */
-		while (processedIndexes.length) {
-			elements.splice(processedIndexes.pop(), 1);
-			callCallback(settings.callback_processed, elements.length);
-		}
-		/* Stop listening to scroll event when 0 elements remains */
-		if (elementsLength === 0) {
-			this._stopScrollHandler();
-		}
-		/* Sets isFirstLoop to false */
-		if (firstLoop) {
-			this._isFirstLoop = false;
-		}
+
+		// Removing processed elements from this._elements.
+		removeFromArray(elements, processedIndexes);
 	},
 
 	_purgeElements: function() {
 		const elements = this._elements,
 			elementsLength = elements.length;
 		let i,
-			elementsToPurge = [];
+			processedIndexes = [];
 
 		for (i = 0; i < elementsLength; i++) {
-			let element = elements[i];
-			/* If the element has already been processed, skip it */
-			if (getWasProcessed(element)) {
-				elementsToPurge.push(i);
+			if (getWasProcessedData(elements[i])) {
+				processedIndexes.push(i);
 			}
 		}
-		/* Removing elements to purge from this._elements. */
-		while (elementsToPurge.length > 0) {
-			elements.splice(elementsToPurge.pop(), 1);
-		}
+		removeFromArray(elements, processedIndexes);
 	},
 
 	_startScrollHandler: function() {
@@ -463,7 +486,7 @@ LazyLoad.prototype = {
 	},
 
 	load: function(element, force) {
-		this._reveal(element, force);
+		revealElement(element, this._settings, force);
 	}
 };
 
