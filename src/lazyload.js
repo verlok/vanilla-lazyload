@@ -36,12 +36,10 @@ LazyLoad.prototype = {
 			processedIndexes = [],
 			isFirstLoop = this._isFirstLoop;
 
-		/* Sets isFirstLoop to false */
 		if (isFirstLoop) {
 			this._isFirstLoop = false;
 		}
 
-		/* Stop listening to scroll event when 0 elements remains */
 		if (elementsLength === 0) {
 			this._stopScrollHandler();
 			return;
@@ -66,7 +64,6 @@ LazyLoad.prototype = {
 				if (isFirstLoop) {
 					addClass(element, settings.class_initial);
 				}
-				/* Start loading the image */
 				this.load(element);
 				/* Marking the element as processed. */
 				processedIndexes.push(i);
