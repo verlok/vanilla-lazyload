@@ -1,11 +1,11 @@
 import getDefaultSettings from "./lazyload.defaults";
-import { callbackIfSet } from "./lazyload.callback";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
 import { addClass } from "./lazyload.class";
 import { getWasProcessedData } from "./lazyload.data";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { revealElement } from "./lazyload.reveal";
+import { removeFromArray } from "./lazyload.array";
 
 /*
  * Constructor
@@ -65,34 +65,26 @@ LazyLoad.prototype = {
 					addClass(element, settings.class_initial);
 				}
 				this.load(element);
-				/* Marking the element as processed. */
 				processedIndexes.push(i);
 			}
 		}
-		/* Removing processed elements from this._elements. */
-		while (processedIndexes.length) {
-			elements.splice(processedIndexes.pop(), 1);
-			callbackIfSet(settings.callback_processed, elements.length);
-		}
+
+		// Removing processed elements from this._elements.
+		removeFromArray(elements, processedIndexes);
 	},
 
 	_purgeElements: function() {
 		const elements = this._elements,
 			elementsLength = elements.length;
 		let i,
-			elementsToPurge = [];
+			processedIndexes = [];
 
 		for (i = 0; i < elementsLength; i++) {
-			let element = elements[i];
-			/* If the element has already been processed, skip it */
-			if (getWasProcessedData(element)) {
-				elementsToPurge.push(i);
+			if (getWasProcessedData(elements[i])) {
+				processedIndexes.push(i);
 			}
 		}
-		/* Removing elements to purge from this._elements. */
-		while (elementsToPurge.length > 0) {
-			elements.splice(elementsToPurge.pop(), 1);
-		}
+		removeFromArray(elements, processedIndexes);
 	},
 
 	_startScrollHandler: function() {
