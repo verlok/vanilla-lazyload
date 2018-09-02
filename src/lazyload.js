@@ -3,7 +3,7 @@ import { callbackIfSet } from "./lazyload.callback";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
 import { addClass } from "./lazyload.class";
-import { getWasProcessed, setWasProcessed } from "./lazyload.data";
+import { getWasProcessedData } from "./lazyload.data";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { revealElement } from "./lazyload.reveal";
 
@@ -59,7 +59,6 @@ LazyLoad.prototype = {
 				this.load(element);
 				/* Marking the element as processed. */
 				processedIndexes.push(i);
-				setWasProcessed(element);
 			}
 		}
 		/* Removing processed elements from this._elements. */
@@ -86,7 +85,7 @@ LazyLoad.prototype = {
 		for (i = 0; i < elementsLength; i++) {
 			let element = elements[i];
 			/* If the element has already been processed, skip it */
-			if (getWasProcessed(element)) {
+			if (getWasProcessedData(element)) {
 				elementsToPurge.push(i);
 			}
 		}

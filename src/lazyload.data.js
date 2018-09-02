@@ -7,11 +7,16 @@ export const getData = (element, attribute) => {
 };
 
 export const setData = (element, attribute, value) => {
-	return element.setAttribute(dataPrefix + attribute, value);
+	var attrName = dataPrefix + attribute;
+	if (value === null) {
+		element.removeAttribute(attrName);
+		return;
+	}
+	element.setAttribute(attrName, value);
 };
 
-export const setWasProcessed = element =>
+export const setWasProcessedData = element =>
 	setData(element, processedDataName, processedDataValue);
 
-export const getWasProcessed = element =>
+export const getWasProcessedData = element =>
 	getData(element, processedDataName) === processedDataValue;
