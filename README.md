@@ -19,7 +19,7 @@ Version **8.x** is recommended for [local install](#local-install), but you can 
 Version 8.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.2/lazyload.min.js"></script>
 ```
 
 Version 10.x - [versions info](#versions-information)
@@ -45,7 +45,7 @@ You can do it with the following script:
 (function(w, d){
     var b = d.getElementsByTagName('body')[0];
     var s = d.createElement("script"); 
-    var v = !("IntersectionObserver" in w) ? "8.15.0" : "10.16.2";
+    var v = !("IntersectionObserver" in w) ? "8.15.2" : "10.16.2";
     s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
     s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
     w.lazyLoadOptions = {/* Your options here */};
@@ -63,7 +63,7 @@ The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definitio
 If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
-define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.0/lazyload.amd.min.js"], function (LazyLoad) {
+define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.15.2/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
 ```
@@ -71,7 +71,7 @@ define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazy
 You can also [conditionally load](#conditional-load) the best version.
 
 ```js
-var v = !("IntersectionObserver" in window) ? "8.15.0" : "10.16.2";
+var v = !("IntersectionObserver" in window) ? "8.15.2" : "10.16.2";
 define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
@@ -86,7 +86,7 @@ If you prefer to install LazyLoad locally in your project, you can either:
 Version 8.x, _recommended_ - [versions info](#versions-information)
 
 ```
-npm install vanilla-lazyload@8.15.0
+npm install vanilla-lazyload@8.15.2
 ```
 
 Version 10.x - [versions info](#versions-information)
