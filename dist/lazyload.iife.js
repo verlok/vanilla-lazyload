@@ -316,7 +316,7 @@ var LazyLoad = function () {
 	var getObserverSettings = function getObserverSettings(settings) {
 		return {
 			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px",
+			rootMargin: isNaN(settings.threshold) ? settings.threshold : settings.threshold + "px",
 			threshold: 0
 		};
 	};
