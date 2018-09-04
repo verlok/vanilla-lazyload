@@ -318,7 +318,7 @@ const isIntersecting = entry =>
 
 const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
-	rootMargin: isNaN(settings.threshold) ? settings.threshold : settings.threshold + "px",
+	rootMargin: settings.threshold + "px",
 	threshold: 0
 });
 
