@@ -3,15 +3,8 @@
 export const isIntersecting = entry =>
 	entry.isIntersecting || entry.intersectionRatio > 0;
 
-const getRootMarginString = threshold => {
-	return typeof threshold === "string" ? threshold : threshold + "px";
-	// add another check to avoid failure on string input without `px`?
-	// return isNaN(temp) ? temp : temp + "px";
-	// for now I'll just make it clear in the documentation? :)
-};
-
 export const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
-	rootMargin: getRootMarginString(settings.threshold),
+	rootMargin: settings.rootMargin || settings.threshold + "px",
 	threshold: 0
 });
