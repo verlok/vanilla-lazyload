@@ -317,10 +317,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return entry.isIntersecting || entry.intersectionRatio > 0;
 	};
 
+	var validateRootMargin = function validateRootMargin(value) {
+		if (typeof value === "number") {
+			return value + "px";
+		}
+
+		if (typeof value === "string") {
+			var isValid = /^(?:-*\d+(?:(?:px +|px$)|%) *)+/.test(value);
+
+			if (isValid) {
+				return value;
+			}
+
+			throw new Error("Value for `threshold` not valid. It must be specified in pixels or percent.");
+		}
+
+		throw new Error("Value type for `threshold` not valid. It must be a number or a string.");
+	};
+
 	var getObserverSettings = function getObserverSettings(settings) {
 		return {
 			root: settings.container === document ? null : settings.container,
-			rootMargin: isNaN(settings.threshold) ? settings.threshold : settings.threshold + "px",
+			rootMargin: validateRootMargin(settings.threshold),
 			threshold: 0
 		};
 	};
