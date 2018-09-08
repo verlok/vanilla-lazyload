@@ -196,7 +196,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/single_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/single_container.html) - [API](#-api)
+[DEMO](http://verlok.github.io/lazyload/demos/container_single.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/container_single.html) - [API](#-api)
 
 ### Multiple scrolling panels
 
@@ -239,7 +239,7 @@ var myLazyLoad2 = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/multiple_container.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/multiple_container.html) - [API](#-api)
+[DEMO](http://verlok.github.io/lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
 
 ### Responsive images - img tag with srcset / sizes
 
