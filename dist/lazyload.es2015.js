@@ -2,6 +2,7 @@ const defaultSettings = {
 	elements_selector: "img",
 	container: document,
 	threshold: 300,
+	thresholds: null,
 	data_src: "src",
 	data_srcset: "srcset",
 	data_sizes: "sizes",
@@ -318,8 +319,7 @@ const isIntersecting = entry =>
 
 const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
-	rootMargin: settings.threshold + "px",
-	threshold: 0
+	rootMargin: settings.thresholds || settings.threshold + "px"
 });
 
 const LazyLoad = function(customSettings, elements) {

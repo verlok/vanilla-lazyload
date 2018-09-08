@@ -5,6 +5,5 @@ export const isIntersecting = entry =>
 
 export const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
-	rootMargin: settings.threshold + "px",
-	threshold: 0
+	rootMargin: settings.thresholds || settings.threshold + "px"
 });

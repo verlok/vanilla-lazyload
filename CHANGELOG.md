@@ -2,6 +2,10 @@
 
 ## Version 10
 
+#### 10.17.0
+
+Added a new `thresholds` option that you can use when you need to have different thresholds for the scrolling area, so a single `threshold` option is not enough for your needs. Learn more in the API section of the [README](README.md) file.
+
 #### 10.16.2
 
 **BUGFIX**: Class `loaded` was not applied to a loaded video (issue #239).

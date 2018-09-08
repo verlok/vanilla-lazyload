@@ -11,6 +11,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		elements_selector: "img",
 		container: document,
 		threshold: 300,
+		thresholds: null,
 		data_src: "src",
 		data_srcset: "srcset",
 		data_sizes: "sizes",
@@ -320,8 +321,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var getObserverSettings = function getObserverSettings(settings) {
 		return {
 			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px",
-			threshold: 0
+			rootMargin: settings.thresholds || settings.threshold + "px"
 		};
 	};
 

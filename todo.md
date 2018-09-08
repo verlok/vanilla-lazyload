@@ -1,6 +1,11 @@
 TODO
 ====
 
+* Callbacks demo can be merged with all others
+* Enter callback should: 
+  * be changed to "before set" instead of enter
+  * be moved to the reveal function
+  * accept a return value in order to change the url of the image
 * Missing documenation
     * Constructor takes a nodeset as 2nd parameter, see 10.2 release
     * `update()` takes with the NodeSet object - see 10.2 release

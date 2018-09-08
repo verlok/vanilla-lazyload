@@ -6,7 +6,7 @@
 	<title>
 		Lazyload tests
 	</title>
-	<style>
+	<style type="text/css">
 		ul,
 		li {
 			list-style-type: none;
@@ -27,11 +27,15 @@
 			visibility: hidden;
 		}
 
-		/* Fixes Firefox anomaly during image load */
-		@-moz-document url-prefix() {
-			img:-moz-loading {
-				visibility: hidden;
-			}
+		body {
+			display: flex;
+		}
+
+		.results {
+			height: 564px;
+			overflow: scroll;
+			border: 1px dotted #F00;
+			flex-grow: 1;
 		}
 	</style>
 </head>
@@ -115,6 +119,10 @@
 				<a href="#/it/donna/decollete_cod44721796uk.html"><img alt="Décolleté" data-src="../img/44721796UK_15_a.jpg" width="220"
 					 height="280"></a>
 			</li>
+		</ul>
+	</div>
+	<div id="results2" class="results">
+		<ul>
 			<li>
 				<a href="#/it/donna/francesine_cod44717679mj.html"><img alt="Francesine" data-src="../img/44717679MJ_15_a.jpg"
 					 width="220" height="280"></a>
@@ -201,15 +209,42 @@
 			</li>
 		</ul>
 	</div>
+	<script src="../dist/lazyload.min.js"></script>
 	<script>
-		window.lazyLoadOptions = {
-			threshold: 0
-		};
-		window.addEventListener('LazyLoad::Initialized', function (e) {
-			console.log(e.detail.instance);
-		}, false);
+		(function () {
+
+			function logElementEvent(eventName, element) {
+				console.log(new Date().getTime(), eventName, element.getAttribute('data-src'));
+			}
+
+			function logEvent(eventName, elementsLeft) {
+				console.log(new Date().getTime(), eventName, elementsLeft + " images left");
+			}
+
+			var callbacks = {
+				callback_enter: function (element) {
+					logElementEvent("ENTERED", element);
+				},
+				callback_load: function (element) {
+					logElementEvent("LOADED", element);
+				},
+				callback_set: function (element) {
+					logElementEvent("SET", element);
+				}
+			}
+
+			new LazyLoad({
+				container: document.getElementById('results1'),
+				...callbacks
+			});
+
+			new LazyLoad({
+				container: document.getElementById('results2'),
+				...callbacks
+			});
+
+		}());
 	</script>
-	<script async src="../dist/lazyload.min.js"></script>
 </body>
 
 </html>
