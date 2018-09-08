@@ -2,6 +2,7 @@ const defaultSettings = {
 	elements_selector: "img",
 	container: document,
 	threshold: 300,
+	rootMargin: null,
 	data_src: "src",
 	data_srcset: "srcset",
 	data_sizes: "sizes",
