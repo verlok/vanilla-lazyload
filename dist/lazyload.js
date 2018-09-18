@@ -12,6 +12,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		container: document,
 		threshold: 300,
 		thresholds: null,
+		data_bg: "bg",
 		data_src: "src",
 		data_srcset: "srcset",
 		data_sizes: "sizes",
@@ -177,11 +178,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {
 		var toWebpFlag = supportsWebp && settings.to_webp;
-		var srcDataValue = getData(element, settings.data_src);
+		var srcDataValue = getData(element, settings.data_bg);
 
 		if (srcDataValue) {
-			var setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-			element.style.backgroundImage = 'url("' + setValue + '")';
+			var srcUrls = srcDataValue.split(",");
+			var backgroundImage = [];
+			for (var i = 0; i < srcUrls.length; i++) {
+				var setValue = replaceExtToWebp(srcUrls[i], toWebpFlag);
+				backgroundImage.push('url("' + setValue + '")');
+			}
+			element.style.backgroundImage = backgroundImage.join(",");
+		} else {
+			srcDataValue = getData(element, settings.data_src);
+			if (srcDataValue) {
+				var _setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+				element.style.backgroundImage = 'url("' + _setValue + '")';
+				console.warn("Using data-src to set background images is being depreciated, please use data-bg instead.");
+			}
 		}
 	};
 

@@ -3,6 +3,7 @@ const defaultSettings = {
 	container: document,
 	threshold: 300,
 	thresholds: null,
+	data_bg: "bg",
 	data_src: "src",
 	data_srcset: "srcset",
 	data_sizes: "sizes",

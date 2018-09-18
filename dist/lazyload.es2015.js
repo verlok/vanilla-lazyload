@@ -3,6 +3,7 @@ const defaultSettings = {
 	container: document,
 	threshold: 300,
 	thresholds: null,
+	data_bg: "bg",
 	data_src: "src",
 	data_srcset: "srcset",
 	data_sizes: "sizes",
@@ -174,11 +175,24 @@ const setSourcesVideo = (element, settings) => {
 
 const setSourcesBgImage = (element, settings) => {
 	const toWebpFlag = supportsWebp && settings.to_webp;
-	const srcDataValue = getData(element, settings.data_src);
+	let srcDataValue = getData(element, settings.data_bg);
 
 	if (srcDataValue) {
-		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-		element.style.backgroundImage = `url("${setValue}")`;
+		const srcUrls = srcDataValue.split(",");
+		let backgroundImage = [];
+		for (let i = 0; i < srcUrls.length; i++) {
+			const setValue = replaceExtToWebp(srcUrls[i], toWebpFlag);
+			backgroundImage.push(`url("${setValue}")`);
+		}
+		element.style.backgroundImage = backgroundImage.join(",");
+
+	} else {
+		srcDataValue = getData(element, settings.data_src);
+		if (srcDataValue) {
+            let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+            element.style.backgroundImage = `url("${setValue}")`;
+            console.warn("Using data-src to set background images is being depreciated, please use data-bg instead.");
+		}
 	}
 };
 
