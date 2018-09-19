@@ -175,25 +175,17 @@ const setSourcesVideo = (element, settings) => {
 
 const setSourcesBgImage = (element, settings) => {
 	const toWebpFlag = supportsWebp && settings.to_webp;
-	let srcDataValue = getData(element, settings.data_bg);
+	const srcDataValue = getData(element, settings.data_src);
+    const bgDataValue = getData(element, settings.data_bg);
 
-	if (srcDataValue) {
-		const srcUrls = srcDataValue.split(",");
-		let backgroundImage = [];
-		for (let i = 0; i < srcUrls.length; i++) {
-			const setValue = replaceExtToWebp(srcUrls[i], toWebpFlag);
-			backgroundImage.push(`url("${setValue}")`);
-		}
-		element.style.backgroundImage = backgroundImage.join(",");
+    if (srcDataValue) {
+        let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+        element.style.backgroundImage = `url("${setValue}")`;
+    }
 
-	} else {
-		srcDataValue = getData(element, settings.data_src);
-		if (srcDataValue) {
-            let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-            element.style.backgroundImage = `url("${setValue}")`;
-            console.warn("Using data-src to set background images is being depreciated, please use data-bg instead.");
-		}
-	}
+    if (bgDataValue) {
+        element.style.backgroundImage = bgDataValue;
+    }
 };
 
 const setSourcesFunctions = {
