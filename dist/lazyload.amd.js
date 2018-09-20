@@ -183,7 +183,8 @@ define(function () {
 		}
 
 		if (bgDataValue) {
-			element.style.backgroundImage = bgDataValue;
+			var _setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+			element.style.backgroundImage = _setValue;
 		}
 	};
 

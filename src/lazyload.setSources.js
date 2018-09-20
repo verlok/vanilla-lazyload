@@ -70,7 +70,8 @@ export const setSourcesBgImage = (element, settings) => {
     }
 
     if (bgDataValue) {
-        element.style.backgroundImage = bgDataValue;
+        let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+        element.style.backgroundImage = setValue;
     }
 };
 

@@ -187,7 +187,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 
 		if (bgDataValue) {
-			element.style.backgroundImage = bgDataValue;
+			var _setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+			element.style.backgroundImage = _setValue;
 		}
 	};
 
