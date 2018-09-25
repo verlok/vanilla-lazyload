@@ -2,9 +2,13 @@
 
 ## Version 10
 
+#### 10.17.0
+
+Added a new `thresholds` option that you can use when you need to have different thresholds for the scrolling area, so a single `threshold` option is not enough for your needs. Learn more in the API section of the [README](README.md) file.
+
 #### 10.16.2
 
-**BUGFIX**: Class `loaded` not applied to a loaded video (issue #239).
+**BUGFIX**: Class `loaded` was not applied to a loaded video (issue #239).
 
 #### 10.16.1
 
@@ -157,6 +161,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.15.2
+
+**BUGFIX**: Class `loaded` was not applied to a loaded video (issue #239).
 
 #### 8.15.1
 

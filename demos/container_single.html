@@ -27,11 +27,10 @@
 			visibility: hidden;
 		}
 
-		/* Fixes Firefox anomaly during image load */
-		@-moz-document url-prefix() {
-			img:-moz-loading {
-				visibility: hidden;
-			}
+		#results1 {
+			height: 564px;
+			overflow: scroll;
+			border: 1px dotted #F00;
 		}
 	</style>
 </head>
@@ -201,15 +200,36 @@
 			</li>
 		</ul>
 	</div>
+	<script src="../dist/lazyload.min.js"></script>
 	<script>
-		window.lazyLoadOptions = {
-			threshold: 0
-		};
-		window.addEventListener('LazyLoad::Initialized', function (e) {
-			console.log(e.detail.instance);
-		}, false);
+		(function () {
+
+			function logElementEvent(eventName, element) {
+				console.log(new Date().getTime(), eventName, element.getAttribute('data-src'));
+			}
+
+			function logEvent(eventName, elementsLeft) {
+				console.log(new Date().getTime(), eventName, elementsLeft + " images left");
+			}
+
+			/* Uncomment the callbacks in LazyLoad options to see the callbacks logs in your browser's console */
+
+			new LazyLoad({
+				container: document.getElementById('results1')
+				/*,
+				callback_load: function (element) {
+					logElementEvent("LOADED", element);
+				},
+				callback_set: function (element) {
+					logElementEvent("SET", element);
+				},
+				callback_processed: function(elementsLeft) {
+					logEvent("PROCESSED", elementsLeft);
+				}*/
+			});
+
+		}());
 	</script>
-	<script async src="../dist/lazyload.min.js"></script>
 </body>
 
 </html>

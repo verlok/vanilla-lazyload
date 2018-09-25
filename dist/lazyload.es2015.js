@@ -2,6 +2,8 @@ const defaultSettings = {
 	elements_selector: "img",
 	container: document,
 	threshold: 300,
+	thresholds: null,
+	data_bg: "bg",
 	data_src: "src",
 	data_srcset: "srcset",
 	data_sizes: "sizes",
@@ -174,11 +176,17 @@ const setSourcesVideo = (element, settings) => {
 const setSourcesBgImage = (element, settings) => {
 	const toWebpFlag = supportsWebp && settings.to_webp;
 	const srcDataValue = getData(element, settings.data_src);
+    const bgDataValue = getData(element, settings.data_bg);
 
-	if (srcDataValue) {
-		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-		element.style.backgroundImage = `url("${setValue}")`;
-	}
+    if (srcDataValue) {
+        let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+        element.style.backgroundImage = `url("${setValue}")`;
+    }
+
+    if (bgDataValue) {
+        let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+        element.style.backgroundImage = setValue;
+    }
 };
 
 const setSourcesFunctions = {
@@ -318,8 +326,7 @@ const isIntersecting = entry =>
 
 const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
-	rootMargin: settings.threshold + "px",
-	threshold: 0
+	rootMargin: settings.thresholds || settings.threshold + "px"
 });
 
 const LazyLoad = function(customSettings, elements) {

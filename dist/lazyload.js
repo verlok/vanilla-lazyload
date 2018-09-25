@@ -11,6 +11,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		elements_selector: "img",
 		container: document,
 		threshold: 300,
+		thresholds: null,
+		data_bg: "bg",
 		data_src: "src",
 		data_srcset: "srcset",
 		data_sizes: "sizes",
@@ -177,10 +179,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {
 		var toWebpFlag = supportsWebp && settings.to_webp;
 		var srcDataValue = getData(element, settings.data_src);
+		var bgDataValue = getData(element, settings.data_bg);
 
 		if (srcDataValue) {
 			var setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
 			element.style.backgroundImage = 'url("' + setValue + '")';
+		}
+
+		if (bgDataValue) {
+			var _setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+			element.style.backgroundImage = _setValue;
 		}
 	};
 
@@ -320,8 +328,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var getObserverSettings = function getObserverSettings(settings) {
 		return {
 			root: settings.container === document ? null : settings.container,
-			rootMargin: settings.threshold + "px",
-			threshold: 0
+			rootMargin: settings.thresholds || settings.threshold + "px"
 		};
 	};
 
