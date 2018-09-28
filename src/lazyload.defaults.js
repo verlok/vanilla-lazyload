@@ -6,6 +6,7 @@ const defaultSettings = {
 	data_src: "src",
 	data_srcset: "srcset",
 	data_sizes: "sizes",
+	data_bg: "bg",
 	class_loading: "loading",
 	class_loaded: "loaded",
 	class_error: "error",
