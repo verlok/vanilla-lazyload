@@ -4,11 +4,11 @@
 
 #### 10.18.0
 
-Added the ability to have multiple background images, through a new `data_bg` option.
+Added the ability to have multiple background images, through the new `data_bg` option.
 
 #### 10.17.0
 
-Added the ability to set different thresholds for the scrolling area, through a new `thresholds` option.
+Added the ability to set different thresholds for the scrolling area, through the new `thresholds` option.
 
 #### 10.16.2
 
