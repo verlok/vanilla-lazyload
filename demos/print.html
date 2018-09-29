@@ -279,24 +279,6 @@
 			}
 		});
 
-		if (isSafari) {
-            /* The following code allows us to solve this on Safari too
-               since Safari doesn't support the onbeforeprint event */
-			var mediaQueryList = window.matchMedia('print');
-			mediaQueryList.addListener(async function (mql) {
-				if (mql.matches) {
-					await wLazyLoad.loadAllPromise();
-				}
-			});
-		}
-		else {
-            /* The onbeforeprint function must then be defined as async
-			   to allow await-ing for loadAllImages()'s promise to be resolved */
-			window.onbeforeprint = async function () {
-				await wLazyLoad.loadAllPromise();
-			};
-		}
-
 		/* The best way to print it is to provide a custom button which 
 		   first download all the remaining images, then open the print dialog */
 		document.querySelector(".print").addEventListener("click", async (ev) => {
@@ -309,6 +291,28 @@
 			button.disabled = false;
 			window.print();
 		});
+
+		/* The following code tries to patch the user printing using the browser's
+		   print command... but this works only partially since onbeforeprint can't block
+		   the browser's print dialog, which appears almost immediately */
+
+		if (isSafari) {
+			/* The following code allows us to solve this on Safari too
+			   since Safari doesn't support the onbeforeprint event */
+			var mediaQueryList = window.matchMedia('print');
+			mediaQueryList.addListener(async function (mql) {
+				if (mql.matches) {
+					await wLazyLoad.loadAllPromise();
+				}
+			});
+		}
+		else {
+			/* The onbeforeprint function must then be defined as async
+			   to allow await-ing for loadAllImages()'s promise to be resolved */
+			window.onbeforeprint = async function () {
+				await wLazyLoad.loadAllPromise();
+			};
+		}
 	</script>
 </body>
 
