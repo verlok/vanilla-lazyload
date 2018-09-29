@@ -46,3 +46,15 @@ export const addOneShotEventListeners = (element, settings) => {
 	};
 	addAllEventListeners(element, loadHandler, errorHandler);
 };
+
+export const addOneShotPromiseEventListners = (element, resolve, reject) => {
+	const loadHandler = () => {
+		resolve(element);
+		removeAllEventListeners(element, loadHandler, errorHandler);
+	};
+	const errorHandler = () => {
+		reject(element);
+		removeAllEventListeners(element, loadHandler, errorHandler);
+	};
+	addAllEventListeners(element, loadHandler, errorHandler);
+};
