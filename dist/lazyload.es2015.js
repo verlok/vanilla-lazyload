@@ -410,31 +410,20 @@ LazyLoad.prototype = {
 	},
 
 	load: function(element, force) {
-		revealElement(element, this._settings, force);
+		return new Promise((resolve, reject) => {
+			addOneShotPromiseEventListners(element, resolve, reject);
+			revealElement(element, this._settings, force);
+		});
 	},
 
 	loadAll: function() {
-		const elements = this._elements;
-		elements.forEach(element => {
-			this.load(element);
-		});
-		this._elements = purgeElements(elements);
-	},
-
-	loadPromise: function(element, force) {
-		return new Promise((resolve, reject) => {
-			addOneShotPromiseEventListners(element, resolve, reject);
-			this.load(element, force);
-		});
-	},
-
-	loadAllPromise: function() {
 		return new Promise((resolve, reject) => {
 			const loadPromises = this._elements.map(element => {
-				return this.loadPromise(element);
+				return this.load(element);
 			});
 			Promise.all(loadPromises).
 				then(elements => {
+					this._elements = purgeElements(elements);
 					resolve(elements);
 				}).
 				catch(error => {

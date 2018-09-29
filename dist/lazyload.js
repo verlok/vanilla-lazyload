@@ -412,36 +412,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		},
 
 		load: function load(element, force) {
-			revealElement(element, this._settings, force);
-		},
-
-		loadAll: function loadAll() {
 			var _this3 = this;
-
-			var elements = this._elements;
-			elements.forEach(function (element) {
-				_this3.load(element);
-			});
-			this._elements = purgeElements(elements);
-		},
-
-		loadPromise: function loadPromise(element, force) {
-			var _this4 = this;
 
 			return new Promise(function (resolve, reject) {
 				addOneShotPromiseEventListners(element, resolve, reject);
-				_this4.load(element, force);
+				revealElement(element, _this3._settings, force);
 			});
 		},
 
-		loadAllPromise: function loadAllPromise() {
-			var _this5 = this;
+		loadAll: function loadAll() {
+			var _this4 = this;
 
 			return new Promise(function (resolve, reject) {
-				var loadPromises = _this5._elements.map(function (element) {
-					return _this5.loadPromise(element);
+				var loadPromises = _this4._elements.map(function (element) {
+					return _this4.load(element);
 				});
 				Promise.all(loadPromises).then(function (elements) {
+					_this4._elements = purgeElements(elements);
 					resolve(elements);
 				}).catch(function (error) {
 					reject(error);
