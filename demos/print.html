@@ -243,7 +243,13 @@
 	</div>
 	<script src="../dist/lazyload.min.js"></script>
 	<script>
+		// We have our global instance of LazyLoad in wLazyLoad
 		var wLazyLoad = new LazyLoad({ elements_selector: '.lazy' });
+
+		/* We need to create a function that returns a Promise
+		 * that executes the loadAll() method and resolves only when 
+		 * there are no more images managed by LazyLoad,
+		 * which means it already loaded them all */
 		var loadAllImages = () => new Promise(function (resolve, reject) {
 			wLazyLoad.loadAll();
 			var intervalId = setInterval(() => {
@@ -253,11 +259,14 @@
 				}
 			}, 100);
 		});
+
+		/* The onbeforeprint function must then be defined as async
+		 * to allow await-ing for loadAllImages()'s promise to be resolved */
 		window.onbeforeprint = async () => {
-			// Maybe show a message to the user telling him 
-			// that the print is being prepared...
+			// NOTE: Maybe it's a best practice to show HERE a message to the user
+			// telling him that the print is being prepared...
 			await loadAllImages();
-			// ...and hide the message here
+			// ...then hide the above shown message HERE
 		};
 	</script>
 </body>
