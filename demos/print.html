@@ -7,6 +7,10 @@
 		Print - Lazyload tests
 	</title>
 	<style>
+		body {
+			margin: 0;
+		}
+
 		ul,
 		li {
 			list-style-type: none;
@@ -28,12 +32,22 @@
 		}
 
 		.topBar {
-			position: sticky;
+			position: fixed;
 			padding: 10px;
-			background-color: #00000033;
-			top: 10px;
+			background-image: linear-gradient(to top, #FFFFFF66, #FFFFFFFF);
+			top: 0;
+			right: 0;
 			left: 0;
 			text-align: right;
+		}
+
+		.topBar button {
+			background-color: burlywood;
+
+		}
+
+		.topBar button:disabled {
+			opacity: 0.5;
 		}
 
 		/* Fixes Firefox anomaly during image load */
