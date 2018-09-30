@@ -242,13 +242,13 @@ const removeEventListener = (element, eventName, handler) => {
 	element.removeEventListener(eventName, handler);
 };
 
-const addAllEventListeners = (element, loadHandler, errorHandler) => {
+const addEventListeners = (element, loadHandler, errorHandler) => {
 	addEventListener(element, genericLoadEventName, loadHandler);
 	addEventListener(element, mediaLoadEventName, loadHandler);
 	addEventListener(element, errorEventName, errorHandler);
 };
 
-const removeAllEventListeners = (element, loadHandler, errorHandler) => {
+const removeEventListeners = (element, loadHandler, errorHandler) => {
 	removeEventListener(element, genericLoadEventName, loadHandler);
 	removeEventListener(element, mediaLoadEventName, loadHandler);
 	removeEventListener(element, errorEventName, errorHandler);
@@ -267,13 +267,13 @@ const eventHandler = function(event, success, settings) {
 const addOneShotEventListeners = (element, settings) => {
 	const loadHandler = event => {
 		eventHandler(event, true, settings);
-		removeAllEventListeners(element, loadHandler, errorHandler);
+		removeEventListeners(element, loadHandler, errorHandler);
 	};
 	const errorHandler = event => {
 		eventHandler(event, false, settings);
-		removeAllEventListeners(element, loadHandler, errorHandler);
+		removeEventListeners(element, loadHandler, errorHandler);
 	};
-	addAllEventListeners(element, loadHandler, errorHandler);
+	addEventListeners(element, loadHandler, errorHandler);
 };
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
@@ -368,13 +368,6 @@ LazyLoad.prototype = {
 		);
 	},
 
-	loadAll: function() {
-		this._elements.forEach(element => {
-			this.load(element);
-		});
-		this._elements = purgeElements(this._elements);
-	},
-
 	update: function(elements) {
 		const settings = this._settings;
 		const nodeSet =
@@ -406,6 +399,14 @@ LazyLoad.prototype = {
 
 	load: function(element, force) {
 		revealElement(element, this._settings, force);
+	},
+
+	loadAll: function() {
+		var elements = this._elements;
+		elements.forEach(element => {
+			this.load(element);
+		});
+		this._elements = purgeElements(elements);
 	}
 };
 
