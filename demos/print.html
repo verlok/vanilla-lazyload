@@ -283,14 +283,18 @@
 	<script src="../dist/lazyload.min.js"></script>
 	<script>
 		var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-		var loadedImages = 0;
+		var loadingImages = 0;
 
 		// We have our global instance of LazyLoad in wLazyLoad
 		var wLazyLoad = new LazyLoad({
 			elements_selector: '.lazy',
 			callback_load: (el) => {
-				console.log("Loaded", el.src);
-				loadedImages += 1;
+				loadingImages -= 1;
+				console.log("Finished loading. Currently loading " + loadingImages);
+			},
+			callback_set: (el) => {
+				loadingImages += 1;
+				console.log("Started loading. Currently loading " + loadingImages);
 			}
 		});
 
@@ -309,14 +313,12 @@
 		function printButtonHandler(event) {
 			var button = event.target;
 			var oldContent = disableButtonAndGetContent(button);
-			var imagesToLoad = wLazyLoad._elements.length;
 			// Start counting how many images were loaded from now
-			loadedImages = 0;
 			wLazyLoad.loadAll();
 			var intervalId = setInterval(function () {
 				// WAITING FOR ALL THE IMAGES TO BE LOADED
-				console.log("Loaded " + loadedImages + " of " + imagesToLoad);
-				if (loadedImages >= imagesToLoad) {
+				console.log("::Check:: Currently loading " + loadingImages);
+				if (loadingImages <= 0) {
 					clearInterval(intervalId);
 					enableButtonAndSetContent(button, oldContent);
 					window.print();
