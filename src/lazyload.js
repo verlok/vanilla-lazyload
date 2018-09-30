@@ -56,13 +56,6 @@ LazyLoad.prototype = {
 		);
 	},
 
-	loadAll: function() {
-		this._elements.forEach(element => {
-			this.load(element);
-		});
-		this._elements = purgeElements(this._elements);
-	},
-
 	update: function(elements) {
 		const settings = this._settings;
 		const nodeSet =
@@ -94,6 +87,14 @@ LazyLoad.prototype = {
 
 	load: function(element, force) {
 		revealElement(element, this._settings, force);
+	},
+
+	loadAll: function() {
+		var elements = this._elements;
+		elements.forEach(element => {
+			this.load(element);
+		});
+		this._elements = purgeElements(elements);
 	}
 };
 

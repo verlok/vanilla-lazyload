@@ -242,13 +242,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		element.removeEventListener(eventName, handler);
 	};
 
-	var addAllEventListeners = function addAllEventListeners(element, loadHandler, errorHandler) {
+	var addEventListeners = function addEventListeners(element, loadHandler, errorHandler) {
 		addEventListener(element, genericLoadEventName, loadHandler);
 		addEventListener(element, mediaLoadEventName, loadHandler);
 		addEventListener(element, errorEventName, errorHandler);
 	};
 
-	var removeAllEventListeners = function removeAllEventListeners(element, loadHandler, errorHandler) {
+	var removeEventListeners = function removeEventListeners(element, loadHandler, errorHandler) {
 		removeEventListener(element, genericLoadEventName, loadHandler);
 		removeEventListener(element, mediaLoadEventName, loadHandler);
 		removeEventListener(element, errorEventName, errorHandler);
@@ -267,13 +267,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
 		var loadHandler = function loadHandler(event) {
 			eventHandler(event, true, settings);
-			removeAllEventListeners(element, loadHandler, errorHandler);
+			removeEventListeners(element, loadHandler, errorHandler);
 		};
 		var errorHandler = function errorHandler(event) {
 			eventHandler(event, false, settings);
-			removeAllEventListeners(element, loadHandler, errorHandler);
+			removeEventListeners(element, loadHandler, errorHandler);
 		};
-		addAllEventListeners(element, loadHandler, errorHandler);
+		addEventListeners(element, loadHandler, errorHandler);
 	};
 
 	var managedTags = ["IMG", "IFRAME", "VIDEO"];
@@ -368,17 +368,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			this._observer = new IntersectionObserver(this._onIntersection.bind(this), getObserverSettings(this._settings));
 		},
 
-		loadAll: function loadAll() {
-			var _this = this;
-
-			this._elements.forEach(function (element) {
-				_this.load(element);
-			});
-			this._elements = purgeElements(this._elements);
-		},
-
 		update: function update(elements) {
-			var _this2 = this;
+			var _this = this;
 
 			var settings = this._settings;
 			var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
@@ -391,16 +382,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 
 			this._elements.forEach(function (element) {
-				_this2._observer.observe(element);
+				_this._observer.observe(element);
 			});
 		},
 
 		destroy: function destroy() {
-			var _this3 = this;
+			var _this2 = this;
 
 			if (this._observer) {
 				purgeElements(this._elements).forEach(function (element) {
-					_this3._observer.unobserve(element);
+					_this2._observer.unobserve(element);
 				});
 				this._observer = null;
 			}
@@ -410,6 +401,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		load: function load(element, force) {
 			revealElement(element, this._settings, force);
+		},
+
+		loadAll: function loadAll() {
+			var _this3 = this;
+
+			var elements = this._elements;
+			elements.forEach(function (element) {
+				_this3.load(element);
+			});
+			this._elements = purgeElements(elements);
 		}
 	};
 
