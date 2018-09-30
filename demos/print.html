@@ -34,16 +34,23 @@
 		.topBar {
 			position: fixed;
 			padding: 10px;
-			background-image: linear-gradient(to top, #FFFFFF66, #FFFFFFFF);
+			background-image: linear-gradient(to top, #FFF3, #FFFF);
 			top: 0;
 			right: 0;
 			left: 0;
-			text-align: right;
 		}
 
 		.topBar button {
-			background-color: burlywood;
-
+			background-color: rgb(0, 157, 255);
+			background-image: linear-gradient(to bottom, #0000, #0003);
+			color: white;
+			padding: 10px;
+			font-size: 16px;
+			width: 100%;
+			max-width: 400px;
+			display: block;
+			min-height: 48px;
+			box-sizing: border-box;
 		}
 
 		.topBar button:disabled {
@@ -61,7 +68,7 @@
 
 <body>
 	<div class="topBar">
-		<button class="print">Print</button>
+		<button class="print">🖨️ ️Print</button>
 	</div>
 	<div id="results1" class="results">
 		<ul>
@@ -286,7 +293,7 @@
 			const oldContent = button.innerHTML;
 			button.innerHTML = "Preparing...";
 			button.disabled = true;
-			await wLazyLoad.loadAllPromise();
+			await wLazyLoad.loadAll();
 			button.innerHTML = oldContent;
 			button.disabled = false;
 			window.print();
@@ -301,7 +308,7 @@
 			var mediaQueryList = window.matchMedia('print');
 			mediaQueryList.addListener(async function (mql) {
 				if (mql.matches) {
-					await wLazyLoad.loadAllPromise();
+					await wLazyLoad.loadAll();
 				}
 			});
 		}
@@ -309,7 +316,7 @@
 			/* The onbeforeprint function must then be defined as async
 			   to allow await-ing for loadAllImages()'s promise to be resolved */
 			window.onbeforeprint = async function () {
-				await wLazyLoad.loadAllPromise();
+				await wLazyLoad.loadAll();
 			};
 		}
 	</script>
