@@ -57,6 +57,12 @@
 			opacity: 0.5;
 		}
 
+		@media print {
+			.topBar {
+				display: none;
+			}
+		}
+
 		/* Fixes Firefox anomaly during image load */
 		@-moz-document url-prefix() {
 			img:-moz-loading {
