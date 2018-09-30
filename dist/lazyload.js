@@ -129,6 +129,86 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var supportsWebp = runningOnBrowser && detectWebp();
 
+	var addClass = function addClass(element, className) {
+		if (supportsClassList) {
+			element.classList.add(className);
+			return;
+		}
+		element.className += (element.className ? " " : "") + className;
+	};
+
+	var removeClass = function removeClass(element, className) {
+		if (supportsClassList) {
+			element.classList.remove(className);
+			return;
+		}
+		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+	};
+
+	var callbackIfSet = function callbackIfSet(callback, argument) {
+		if (callback) {
+			callback(argument);
+		}
+	};
+
+	var genericLoadEventName = "load";
+	var mediaLoadEventName = "loadeddata";
+	var errorEventName = "error";
+
+	var addEventListener = function addEventListener(element, eventName, handler) {
+		element.addEventListener(eventName, handler);
+	};
+
+	var removeEventListener = function removeEventListener(element, eventName, handler) {
+		element.removeEventListener(eventName, handler);
+	};
+
+	var addEventListeners = function addEventListeners(element, loadHandler, errorHandler) {
+		addEventListener(element, genericLoadEventName, loadHandler);
+		addEventListener(element, mediaLoadEventName, loadHandler);
+		addEventListener(element, errorEventName, errorHandler);
+	};
+
+	var removeEventListeners = function removeEventListeners(element, loadHandler, errorHandler) {
+		removeEventListener(element, genericLoadEventName, loadHandler);
+		removeEventListener(element, mediaLoadEventName, loadHandler);
+		removeEventListener(element, errorEventName, errorHandler);
+	};
+
+	var eventHandler = function eventHandler(event, success, settings) {
+		var className = success ? settings.class_loaded : settings.class_error;
+		var callback = success ? settings.callback_load : settings.callback_error;
+		var element = event.target;
+
+		removeClass(element, settings.class_loading);
+		addClass(element, className);
+		callbackIfSet(callback, element);
+	};
+
+	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
+		var loadHandler = function loadHandler(event) {
+			eventHandler(event, true, settings);
+			removeEventListeners(element, loadHandler, errorHandler);
+		};
+		var errorHandler = function errorHandler(event) {
+			eventHandler(event, false, settings);
+			removeEventListeners(element, loadHandler, errorHandler);
+		};
+		addEventListeners(element, loadHandler, errorHandler);
+	};
+
+	var addOneShotPromiseEventListners = function addOneShotPromiseEventListners(element, resolve, reject) {
+		var loadHandler = function loadHandler() {
+			resolve(element);
+			removeEventListeners(element, loadHandler, errorHandler);
+		};
+		var errorHandler = function errorHandler() {
+			reject(element);
+			removeEventListeners(element, loadHandler, errorHandler);
+		};
+		addEventListeners(element, loadHandler, errorHandler);
+	};
+
 	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
 			if (childTag.tagName === "SOURCE") {
@@ -206,74 +286,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			return;
 		}
 		setSourcesBgImage(element, settings);
-	};
-
-	var addClass = function addClass(element, className) {
-		if (supportsClassList) {
-			element.classList.add(className);
-			return;
-		}
-		element.className += (element.className ? " " : "") + className;
-	};
-
-	var removeClass = function removeClass(element, className) {
-		if (supportsClassList) {
-			element.classList.remove(className);
-			return;
-		}
-		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
-	};
-
-	var callbackIfSet = function callbackIfSet(callback, argument) {
-		if (callback) {
-			callback(argument);
-		}
-	};
-
-	var genericLoadEventName = "load";
-	var mediaLoadEventName = "loadeddata";
-	var errorEventName = "error";
-
-	var addEventListener = function addEventListener(element, eventName, handler) {
-		element.addEventListener(eventName, handler);
-	};
-
-	var removeEventListener = function removeEventListener(element, eventName, handler) {
-		element.removeEventListener(eventName, handler);
-	};
-
-	var addAllEventListeners = function addAllEventListeners(element, loadHandler, errorHandler) {
-		addEventListener(element, genericLoadEventName, loadHandler);
-		addEventListener(element, mediaLoadEventName, loadHandler);
-		addEventListener(element, errorEventName, errorHandler);
-	};
-
-	var removeAllEventListeners = function removeAllEventListeners(element, loadHandler, errorHandler) {
-		removeEventListener(element, genericLoadEventName, loadHandler);
-		removeEventListener(element, mediaLoadEventName, loadHandler);
-		removeEventListener(element, errorEventName, errorHandler);
-	};
-
-	var eventHandler = function eventHandler(event, success, settings) {
-		var className = success ? settings.class_loaded : settings.class_error;
-		var callback = success ? settings.callback_load : settings.callback_error;
-		var element = event.target;
-
-		removeClass(element, settings.class_loading);
-		addClass(element, className);
-		callbackIfSet(callback, element);
-	};
-
-	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
-		var loadHandler = function loadHandler(event) {
-			eventHandler(event, true, settings);
-			removeAllEventListeners(element, loadHandler, errorHandler);
-		};
-		var errorHandler = function errorHandler(event) {
-			eventHandler(event, false, settings);
-			removeAllEventListeners(element, loadHandler, errorHandler);
-		};
-		addAllEventListeners(element, loadHandler, errorHandler);
 	};
 
 	var managedTags = ["IMG", "IFRAME", "VIDEO"];
@@ -368,17 +380,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			this._observer = new IntersectionObserver(this._onIntersection.bind(this), getObserverSettings(this._settings));
 		},
 
-		loadAll: function loadAll() {
-			var _this = this;
-
-			this._elements.forEach(function (element) {
-				_this.load(element);
-			});
-			this._elements = purgeElements(this._elements);
-		},
-
 		update: function update(elements) {
-			var _this2 = this;
+			var _this = this;
 
 			var settings = this._settings;
 			var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
@@ -391,16 +394,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 
 			this._elements.forEach(function (element) {
-				_this2._observer.observe(element);
+				_this._observer.observe(element);
 			});
 		},
 
 		destroy: function destroy() {
-			var _this3 = this;
+			var _this2 = this;
 
 			if (this._observer) {
 				purgeElements(this._elements).forEach(function (element) {
-					_this3._observer.unobserve(element);
+					_this2._observer.unobserve(element);
 				});
 				this._observer = null;
 			}
@@ -409,7 +412,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		},
 
 		load: function load(element, force) {
-			revealElement(element, this._settings, force);
+			var _this3 = this;
+
+			return new Promise(function (resolve, reject) {
+				addOneShotPromiseEventListners(element, resolve, reject);
+				revealElement(element, _this3._settings, force);
+			});
+		},
+
+		loadAll: function loadAll() {
+			var _this4 = this;
+
+			return new Promise(function (resolve, reject) {
+				var loadPromises = _this4._elements.map(function (element) {
+					return _this4.load(element);
+				});
+				Promise.all(loadPromises).then(function (elements) {
+					_this4._elements = purgeElements(elements);
+					resolve(elements);
+				}).catch(function (error) {
+					reject(error);
+				});
+			});
 		}
 	};
 

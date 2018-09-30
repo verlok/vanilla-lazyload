@@ -116,6 +116,89 @@ const supportsClassList =
 
 const supportsWebp = runningOnBrowser && detectWebp();
 
+const addClass = (element, className) => {
+	if (supportsClassList) {
+		element.classList.add(className);
+		return;
+	}
+	element.className += (element.className ? " " : "") + className;
+};
+
+const removeClass = (element, className) => {
+	if (supportsClassList) {
+		element.classList.remove(className);
+		return;
+	}
+	element.className = element.className.
+		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
+		replace(/^\s+/, "").
+		replace(/\s+$/, "");
+};
+
+const callbackIfSet = (callback, argument) => {
+	if (callback) {
+		callback(argument);
+	}
+};
+
+const genericLoadEventName = "load";
+const mediaLoadEventName = "loadeddata";
+const errorEventName = "error";
+
+const addEventListener = (element, eventName, handler) => {
+	element.addEventListener(eventName, handler);
+};
+
+const removeEventListener = (element, eventName, handler) => {
+	element.removeEventListener(eventName, handler);
+};
+
+const addEventListeners = (element, loadHandler, errorHandler) => {
+	addEventListener(element, genericLoadEventName, loadHandler);
+	addEventListener(element, mediaLoadEventName, loadHandler);
+	addEventListener(element, errorEventName, errorHandler);
+};
+
+const removeEventListeners = (element, loadHandler, errorHandler) => {
+	removeEventListener(element, genericLoadEventName, loadHandler);
+	removeEventListener(element, mediaLoadEventName, loadHandler);
+	removeEventListener(element, errorEventName, errorHandler);
+};
+
+const eventHandler = function(event, success, settings) {
+	const className = success ? settings.class_loaded : settings.class_error;
+	const callback = success ? settings.callback_load : settings.callback_error;
+	const element = event.target;
+
+	removeClass(element, settings.class_loading);
+	addClass(element, className);
+	callbackIfSet(callback, element);
+};
+
+const addOneShotEventListeners = (element, settings) => {
+	const loadHandler = event => {
+		eventHandler(event, true, settings);
+		removeEventListeners(element, loadHandler, errorHandler);
+	};
+	const errorHandler = event => {
+		eventHandler(event, false, settings);
+		removeEventListeners(element, loadHandler, errorHandler);
+	};
+	addEventListeners(element, loadHandler, errorHandler);
+};
+
+const addOneShotPromiseEventListners = (element, resolve, reject) => {
+	const loadHandler = () => {
+		resolve(element);
+		removeEventListeners(element, loadHandler, errorHandler);
+	};
+	const errorHandler = () => {
+		reject(element);
+		removeEventListeners(element, loadHandler, errorHandler);
+	};
+	addEventListeners(element, loadHandler, errorHandler);
+};
+
 const setSourcesInChildren = function(
 	parentTag,
 	attrName,
@@ -203,77 +286,6 @@ const setSources = (element, settings) => {
 		return;
 	}
 	setSourcesBgImage(element, settings);
-};
-
-const addClass = (element, className) => {
-	if (supportsClassList) {
-		element.classList.add(className);
-		return;
-	}
-	element.className += (element.className ? " " : "") + className;
-};
-
-const removeClass = (element, className) => {
-	if (supportsClassList) {
-		element.classList.remove(className);
-		return;
-	}
-	element.className = element.className.
-		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
-		replace(/^\s+/, "").
-		replace(/\s+$/, "");
-};
-
-const callbackIfSet = (callback, argument) => {
-	if (callback) {
-		callback(argument);
-	}
-};
-
-const genericLoadEventName = "load";
-const mediaLoadEventName = "loadeddata";
-const errorEventName = "error";
-
-const addEventListener = (element, eventName, handler) => {
-	element.addEventListener(eventName, handler);
-};
-
-const removeEventListener = (element, eventName, handler) => {
-	element.removeEventListener(eventName, handler);
-};
-
-const addAllEventListeners = (element, loadHandler, errorHandler) => {
-	addEventListener(element, genericLoadEventName, loadHandler);
-	addEventListener(element, mediaLoadEventName, loadHandler);
-	addEventListener(element, errorEventName, errorHandler);
-};
-
-const removeAllEventListeners = (element, loadHandler, errorHandler) => {
-	removeEventListener(element, genericLoadEventName, loadHandler);
-	removeEventListener(element, mediaLoadEventName, loadHandler);
-	removeEventListener(element, errorEventName, errorHandler);
-};
-
-const eventHandler = function(event, success, settings) {
-	const className = success ? settings.class_loaded : settings.class_error;
-	const callback = success ? settings.callback_load : settings.callback_error;
-	const element = event.target;
-
-	removeClass(element, settings.class_loading);
-	addClass(element, className);
-	callbackIfSet(callback, element);
-};
-
-const addOneShotEventListeners = (element, settings) => {
-	const loadHandler = event => {
-		eventHandler(event, true, settings);
-		removeAllEventListeners(element, loadHandler, errorHandler);
-	};
-	const errorHandler = event => {
-		eventHandler(event, false, settings);
-		removeAllEventListeners(element, loadHandler, errorHandler);
-	};
-	addAllEventListeners(element, loadHandler, errorHandler);
 };
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
@@ -368,13 +380,6 @@ LazyLoad.prototype = {
 		);
 	},
 
-	loadAll: function() {
-		this._elements.forEach(element => {
-			this.load(element);
-		});
-		this._elements = purgeElements(this._elements);
-	},
-
 	update: function(elements) {
 		const settings = this._settings;
 		const nodeSet =
@@ -405,7 +410,26 @@ LazyLoad.prototype = {
 	},
 
 	load: function(element, force) {
-		revealElement(element, this._settings, force);
+		return new Promise((resolve, reject) => {
+			addOneShotPromiseEventListners(element, resolve, reject);
+			revealElement(element, this._settings, force);
+		});
+	},
+
+	loadAll: function() {
+		return new Promise((resolve, reject) => {
+			const loadPromises = this._elements.map(element => {
+				return this.load(element);
+			});
+			Promise.all(loadPromises).
+				then(elements => {
+					this._elements = purgeElements(elements);
+					resolve(elements);
+				}).
+				catch(error => {
+					reject(error);
+				});
+		});
 	}
 };
 

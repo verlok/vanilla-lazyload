@@ -7,6 +7,10 @@
 		Print - Lazyload tests
 	</title>
 	<style>
+		body {
+			margin: 0;
+		}
+
 		ul,
 		li {
 			list-style-type: none;
@@ -27,6 +31,38 @@
 			visibility: hidden;
 		}
 
+		.topBar {
+			position: fixed;
+			padding: 10px;
+			background-image: linear-gradient(to top, #FFF3, #FFFF);
+			top: 0;
+			right: 0;
+			left: 0;
+		}
+
+		.topBar button {
+			background-color: rgb(0, 157, 255);
+			background-image: linear-gradient(to bottom, #0000, #0003);
+			color: white;
+			padding: 10px;
+			font-size: 16px;
+			width: 100%;
+			max-width: 400px;
+			display: block;
+			min-height: 48px;
+			box-sizing: border-box;
+		}
+
+		.topBar button:disabled {
+			opacity: 0.5;
+		}
+
+		@media print {
+			.topBar {
+				display: none;
+			}
+		}
+
 		/* Fixes Firefox anomaly during image load */
 		@-moz-document url-prefix() {
 			img:-moz-loading {
@@ -37,6 +73,9 @@
 </head>
 
 <body>
+	<div class="topBar">
+		<button class="print">🖨️ ️Print</button>
+	</div>
 	<div id="results1" class="results">
 		<ul>
 			<li>
@@ -243,45 +282,48 @@
 	</div>
 	<script src="../dist/lazyload.min.js"></script>
 	<script>
-		// We have our global instance of LazyLoad in wLazyLoad
-		var wLazyLoad = new LazyLoad({ elements_selector: '.lazy' });
 		var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-		/* We need to create a function that returns a Promise
-		   that executes the loadAll() method and resolves only when 
-		   there are no more images managed by LazyLoad,
-		   which means it already loaded them all */
-		var loadAllImages = () => new Promise(function (resolve, reject) {
-			wLazyLoad.loadAll();
-			var intervalId = setInterval(() => {
-				if (!wLazyLoad._elements.length) {
-					clearInterval(intervalId);
-					resolve();
-				}
-			}, 500);
+		// We have our global instance of LazyLoad in wLazyLoad
+		var wLazyLoad = new LazyLoad({
+			elements_selector: '.lazy',
+			callback_load: (el) => {
+				console.log("Loaded", el.src);
+			}
 		});
 
-		loadAllAsync = async () => {
-			/* NOTE: Maybe it's a best practice to show HERE a message to the user
-			   telling him that the print is being prepared... */
-			await loadAllImages();
-			// ...then hide the above shown message HERE
-		};
+		/* The best way to print it is to provide a custom button which 
+		   first download all the remaining images, then open the print dialog */
+		document.querySelector(".print").addEventListener("click", async (ev) => {
+			var button = ev.target;
+			const oldContent = button.innerHTML;
+			button.innerHTML = "Preparing...";
+			button.disabled = true;
+			await wLazyLoad.loadAll();
+			button.innerHTML = oldContent;
+			button.disabled = false;
+			window.print();
+		});
 
+		/* The following code tries to patch the user printing using the browser's
+		   print command... but this works only partially since onbeforeprint can't block
+		   the browser's print dialog, which appears almost immediately */
 		if (isSafari) {
-            /* The following code allows us to solve this on Safari too
-               since Safari doesn't support the onbeforeprint event */
+			/* The following code allows us to solve this on Safari too
+			   since Safari doesn't support the onbeforeprint event */
 			var mediaQueryList = window.matchMedia('print');
-			mediaQueryList.addListener(function (mql) {
+			mediaQueryList.addListener(async function (mql) {
 				if (mql.matches) {
-					loadAllAsync();
+					await wLazyLoad.loadAll();
 				}
 			});
 		}
 		else {
-            /* The onbeforeprint function must then be defined as async
-               to allow await-ing for loadAllImages()'s promise to be resolved */
-			window.onbeforeprint = loadAllAsync;
+			/* The onbeforeprint function must then be defined as async
+			   to allow await-ing for loadAllImages()'s promise to be resolved */
+			window.onbeforeprint = async function () {
+				await wLazyLoad.loadAll();
+			};
 		}
 	</script>
 </body>

@@ -1,6 +1,7 @@
 import getInstanceSettings from "./lazyload.defaults";
 import purgeElements from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
+import { addOneShotPromiseEventListners } from "./lazyload.event";
 import {
 	revealElement,
 	loadAndUnobserve,
@@ -56,13 +57,6 @@ LazyLoad.prototype = {
 		);
 	},
 
-	loadAll: function() {
-		this._elements.forEach(element => {
-			this.load(element);
-		});
-		this._elements = purgeElements(this._elements);
-	},
-
 	update: function(elements) {
 		const settings = this._settings;
 		const nodeSet =
@@ -93,7 +87,26 @@ LazyLoad.prototype = {
 	},
 
 	load: function(element, force) {
-		revealElement(element, this._settings, force);
+		return new Promise((resolve, reject) => {
+			addOneShotPromiseEventListners(element, resolve, reject);
+			revealElement(element, this._settings, force);
+		});
+	},
+
+	loadAll: function() {
+		return new Promise((resolve, reject) => {
+			const loadPromises = this._elements.map(element => {
+				return this.load(element);
+			});
+			Promise.all(loadPromises).
+				then(elements => {
+					this._elements = purgeElements(elements);
+					resolve(elements);
+				}).
+				catch(error => {
+					reject(error);
+				});
+		});
 	}
 };
 

@@ -13,13 +13,13 @@ const removeEventListener = (element, eventName, handler) => {
 	element.removeEventListener(eventName, handler);
 };
 
-const addAllEventListeners = (element, loadHandler, errorHandler) => {
+const addEventListeners = (element, loadHandler, errorHandler) => {
 	addEventListener(element, genericLoadEventName, loadHandler);
 	addEventListener(element, mediaLoadEventName, loadHandler);
 	addEventListener(element, errorEventName, errorHandler);
 };
 
-const removeAllEventListeners = (element, loadHandler, errorHandler) => {
+const removeEventListeners = (element, loadHandler, errorHandler) => {
 	removeEventListener(element, genericLoadEventName, loadHandler);
 	removeEventListener(element, mediaLoadEventName, loadHandler);
 	removeEventListener(element, errorEventName, errorHandler);
@@ -38,11 +38,23 @@ const eventHandler = function(event, success, settings) {
 export const addOneShotEventListeners = (element, settings) => {
 	const loadHandler = event => {
 		eventHandler(event, true, settings);
-		removeAllEventListeners(element, loadHandler, errorHandler);
+		removeEventListeners(element, loadHandler, errorHandler);
 	};
 	const errorHandler = event => {
 		eventHandler(event, false, settings);
-		removeAllEventListeners(element, loadHandler, errorHandler);
+		removeEventListeners(element, loadHandler, errorHandler);
 	};
-	addAllEventListeners(element, loadHandler, errorHandler);
+	addEventListeners(element, loadHandler, errorHandler);
+};
+
+export const addOneShotPromiseEventListners = (element, resolve, reject) => {
+	const loadHandler = () => {
+		resolve(element);
+		removeEventListeners(element, loadHandler, errorHandler);
+	};
+	const errorHandler = () => {
+		reject(element);
+		removeEventListeners(element, loadHandler, errorHandler);
+	};
+	addEventListeners(element, loadHandler, errorHandler);
 };
