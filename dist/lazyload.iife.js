@@ -159,13 +159,13 @@ var LazyLoad = function () {
 		element.removeEventListener(eventName, handler);
 	};
 
-	var addAllEventListeners = function addAllEventListeners(element, loadHandler, errorHandler) {
+	var addEventListeners = function addEventListeners(element, loadHandler, errorHandler) {
 		addEventListener(element, genericLoadEventName, loadHandler);
 		addEventListener(element, mediaLoadEventName, loadHandler);
 		addEventListener(element, errorEventName, errorHandler);
 	};
 
-	var removeAllEventListeners = function removeAllEventListeners(element, loadHandler, errorHandler) {
+	var removeEventListeners = function removeEventListeners(element, loadHandler, errorHandler) {
 		removeEventListener(element, genericLoadEventName, loadHandler);
 		removeEventListener(element, mediaLoadEventName, loadHandler);
 		removeEventListener(element, errorEventName, errorHandler);
@@ -184,25 +184,25 @@ var LazyLoad = function () {
 	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
 		var loadHandler = function loadHandler(event) {
 			eventHandler(event, true, settings);
-			removeAllEventListeners(element, loadHandler, errorHandler);
+			removeEventListeners(element, loadHandler, errorHandler);
 		};
 		var errorHandler = function errorHandler(event) {
 			eventHandler(event, false, settings);
-			removeAllEventListeners(element, loadHandler, errorHandler);
+			removeEventListeners(element, loadHandler, errorHandler);
 		};
-		addAllEventListeners(element, loadHandler, errorHandler);
+		addEventListeners(element, loadHandler, errorHandler);
 	};
 
 	var addOneShotPromiseEventListners = function addOneShotPromiseEventListners(element, resolve, reject) {
 		var loadHandler = function loadHandler() {
 			resolve(element);
-			removeAllEventListeners(element, loadHandler, errorHandler);
+			removeEventListeners(element, loadHandler, errorHandler);
 		};
 		var errorHandler = function errorHandler() {
 			reject(element);
-			removeAllEventListeners(element, loadHandler, errorHandler);
+			removeEventListeners(element, loadHandler, errorHandler);
 		};
-		addAllEventListeners(element, loadHandler, errorHandler);
+		addEventListeners(element, loadHandler, errorHandler);
 	};
 
 	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
