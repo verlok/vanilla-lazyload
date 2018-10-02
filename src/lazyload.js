@@ -16,6 +16,7 @@ import {
 	runningOnBrowser,
 	supportsIntersectionObserver
 } from "./lazyload.environment";
+import { callbackIfSet } from "./lazyload.callback";
 
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
@@ -63,8 +64,9 @@ LazyLoad.prototype = {
 	_updateLoadingCount: function(plusMinus) {
 		this._loadingCount += plusMinus;
 		console.log("Loading count is now " + this._loadingCount);
-		if (this._loadingCount === 0 && this._elements.length === 0) {
-			console.log("(Y) ALL IMAGES LOADED"); // TODO: FIRE CALLBACK
+		if (this._elements.length === 0 && this._loadingCount === 0) {
+			callbackIfSet(this._settings.callback_finish);
+			console.log("(Y) ALL IMAGES LOADED");
 		}
 	},
 
