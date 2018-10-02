@@ -166,6 +166,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.16.0
+
+Added the ability to have multiple background images, through the new `data_bg` option.
+
 #### 8.15.2
 
 **BUGFIX**: Class `loaded` was not applied to a loaded video (issue #239).
