@@ -1,6 +1,7 @@
 import { getData } from "./lazyload.data";
 import { supportsWebp } from "./lazyload.environment";
 import { replaceExtToWebp } from "./lazyload.webp";
+import { purgeOneElement } from "./lazyload.purge";
 
 export const setSourcesInChildren = function(
 	parentTag,
@@ -62,17 +63,17 @@ export const setSourcesVideo = (element, settings) => {
 export const setSourcesBgImage = (element, settings) => {
 	const toWebpFlag = supportsWebp && settings.to_webp;
 	const srcDataValue = getData(element, settings.data_src);
-    const bgDataValue = getData(element, settings.data_bg);
+	const bgDataValue = getData(element, settings.data_bg);
 
-    if (srcDataValue) {
-        let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-        element.style.backgroundImage = `url("${setValue}")`;
-    }
+	if (srcDataValue) {
+		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+		element.style.backgroundImage = `url("${setValue}")`;
+	}
 
-    if (bgDataValue) {
-        let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
-        element.style.backgroundImage = setValue;
-    }
+	if (bgDataValue) {
+		let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+		element.style.backgroundImage = setValue;
+	}
 };
 
 const setSourcesFunctions = {
@@ -81,11 +82,14 @@ const setSourcesFunctions = {
 	VIDEO: setSourcesVideo
 };
 
-export const setSources = (element, settings) => {
+export const setSources = (element, instance) => {
+	const settings = instance._settings;
 	const tagName = element.tagName;
 	const setSourcesFunction = setSourcesFunctions[tagName];
 	if (setSourcesFunction) {
 		setSourcesFunction(element, settings);
+		instance._updateLoadingCount(1);
+		instance._elements = purgeOneElement(instance._elements, element);
 		return;
 	}
 	setSourcesBgImage(element, settings);

@@ -282,72 +282,76 @@
 	</div>
 	<script src="../dist/lazyload.min.js"></script>
 	<script>
-		var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-		var loadingImages = 0;
+		/*
+		CUSTOM PRINT BUTTON MANAGEMENT 
+		------------------------------
+		The best way to print it is to provide a custom button which 
+		first download all the remaining images, then open the print dialog */
 
-		// We have our global instance of LazyLoad in wLazyLoad
-		var wLazyLoad = new LazyLoad({
-			elements_selector: '.lazy',
-			callback_load: (el) => {
-				loadingImages -= 1;
-				console.log("Finished loading. Currently loading " + loadingImages);
-			},
-			callback_set: (el) => {
-				loadingImages += 1;
-				console.log("Started loading. Currently loading " + loadingImages);
-			}
-		});
-
-		function disableButtonAndGetContent(button) {
-			var oldContent = button.innerHTML;
-			button.innerHTML = "Preparing...";
-			button.disabled = true;
-			return oldContent;
-		};
-
-		function enableButtonAndSetContent(button, content) {
-			button.innerHTML = content;
-			button.disabled = false;
-		};
+		var printRequested = false;
+		var allLoaded = false;
 
 		function printButtonHandler(event) {
-			var button = event.target;
-			var oldContent = disableButtonAndGetContent(button);
-			// Start counting how many images were loaded from now
-			wLazyLoad.loadAll();
-			var intervalId = setInterval(function () {
-				// WAITING FOR ALL THE IMAGES TO BE LOADED
-				console.log("::Check:: Currently loading " + loadingImages);
-				if (loadingImages <= 0) {
-					clearInterval(intervalId);
-					enableButtonAndSetContent(button, oldContent);
-					window.print();
-				}
-			}, 500);
+			printButton.innerHTML = "Preparing...";
+			printButton.disabled = true;
+			if (allLoaded) {
+				openPrintDialog();
+			}
+			else {
+				printRequested = true;
+				wLazyLoad.loadAll();
+			}
 		}
 
-		/* The best way to print it is to provide a custom button which 
-		   first download all the remaining images, then open the print dialog */
-		document.querySelector(".print").addEventListener("click", printButtonHandler);
+		function openPrintDialog() {
+			printButton.innerHTML = printButtonContent;
+			printButton.disabled = false;
+			window.print();
+		}
 
-		/* The following code tries to patch the user printing using the browser's
-		   print command, but it works only partially. */
-		if (isSafari) {
-			/* The following code allows us to solve this on Safari too
-			   since Safari doesn't support the onbeforeprint event */
+		function finishLoadHandler() {
+			allLoaded = true;
+			if (printRequested) {
+				openPrintDialog();
+			}
+		}
+
+		var printButton = document.querySelector(".print");
+		printButtonContent = printButton.innerHTML;
+		printButton.addEventListener("click", printButtonHandler);
+
+		/*
+		LAZYLOAD DEFINITION
+		-------------------
+		Global instance of LazyLoad in wLazyLoad,
+		used to call the loadAll method in different points	*/
+
+		var wLazyLoad = new LazyLoad({
+			elements_selector: '.lazy',
+			callback_finish: finishLoadHandler
+		});
+
+		/* 
+		BROWSER'S NATIVE PRINT EVENTS LISTENERS
+		--------------------------------------- 
+		In order to make browsers load all the images before printing
+		even if the user doesn't press the custom print button. 
+		NOTE that this works only partially in some browsers! */
+
+		var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+		if (!isSafari) {
+			window.onbeforeprint = function () {
+				wLazyLoad.loadAll();
+			};
+		}
+		else {
+			// Safari doesn't support the onbeforeprint event
 			var mediaQueryList = window.matchMedia('print');
 			mediaQueryList.addListener(function (mql) {
 				if (mql.matches) {
 					wLazyLoad.loadAll();
 				}
 			});
-		}
-		/* Tries to dowload all images before printing, but even using async/await 
-		   this can't block some browsers' print dialog */
-		else {
-			window.onbeforeprint = function () {
-				wLazyLoad.loadAll();
-			};
 		}
 	</script>
 </body>
