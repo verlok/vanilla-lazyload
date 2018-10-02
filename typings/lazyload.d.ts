@@ -1,25 +1,30 @@
 ﻿interface ILazyLoadOptions {
-    threshold?: number;
-    container?: HTMLElement;
-    elements_selector?: any;
-    throttle?: number;
-    data_src?: string;
-    data_srcset?: string;
-    class_loading?: string;
-    class_loaded?: string;
-    class_error?: string;
-    skip_invisible?: boolean;
-    show_while_loading?: boolean;
-    callback_set?: (elt:HTMLImageElement) => void;
-    callback_load?: (elt:HTMLImageElement) => void;
-    callback_error?: (elt:HTMLImageElement) => void;
-    callback_processed?: (elts:HTMLImageElement[]) => void;
-    placeholder?: string;
+	elements_selector?: string;
+	container?: HTMLElement;
+	threshold?: number;
+	thresholds?: string;
+	throttle?: number;
+	data_src?: string;
+	data_srcset?: string;
+	data_sizes?: string;
+	data_bg?: string;
+	class_loading?: string;
+	class_loaded?: string;
+	class_error?: string;
+	skip_invisible?: boolean;
+	callback_load?: (elt: HTMLImageElement) => void;
+	callback_error?: (elt: HTMLImageElement) => void;
+	callback_set?: (elt: HTMLImageElement) => void;
+	callback_enter?: (elt: HTMLImageElement) => void;
+	callback_finish?: () => void;
+	to_webp?: boolean;
 }
 interface ILazyLoad {
-    new (options?: ILazyLoadOptions);
-    update();
-    destroy();
-    handleScroll();
+	new (options?: ILazyLoadOptions);
+	update();
+	destroy();
+	handleScroll();
+	load();
+	loadAll();
 }
 declare var LazyLoad: ILazyLoad;
