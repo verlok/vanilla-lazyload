@@ -2,6 +2,18 @@
 
 ## Version 10
 
+#### 10.18.0
+
+Added the ability to have multiple background images, through the new `data_bg` option.
+
+#### 10.17.0
+
+Added the ability to set different thresholds for the scrolling area, through the new `thresholds` option.
+
+#### 10.16.2
+
+**BUGFIX**: Class `loaded` was not applied to a loaded video (issue #239).
+
 #### 10.16.1
 
 **BUGFIX**: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.
@@ -153,6 +165,10 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 ## Version 8
+
+#### 8.16.0
+
+Added the ability to have multiple background images, through the new `data_bg` option.
 
 #### 8.15.2
 
