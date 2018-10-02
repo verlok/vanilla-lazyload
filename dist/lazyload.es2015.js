@@ -6,6 +6,7 @@ var getDefaultSettings = () => ({
 	data_src: "src",
 	data_srcset: "srcset",
 	data_sizes: "sizes",
+	data_bg: "bg",
 	class_loading: "loading",
 	class_loaded: "loaded",
 	class_error: "error",
@@ -232,10 +233,16 @@ const setSourcesVideo = (element, settings) => {
 const setSourcesBgImage = (element, settings) => {
 	const toWebpFlag = supportsWebp && settings.to_webp;
 	const srcDataValue = getData(element, settings.data_src);
+	const bgDataValue = getData(element, settings.data_bg);
 
 	if (srcDataValue) {
 		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
 		element.style.backgroundImage = `url("${setValue}")`;
+	}
+
+	if (bgDataValue) {
+		let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+		element.style.backgroundImage = setValue;
 	}
 };
 

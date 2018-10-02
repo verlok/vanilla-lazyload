@@ -12,6 +12,7 @@ var LazyLoad = function () {
 			data_src: "src",
 			data_srcset: "srcset",
 			data_sizes: "sizes",
+			data_bg: "bg",
 			class_loading: "loading",
 			class_loaded: "loaded",
 			class_error: "error",
@@ -205,10 +206,16 @@ var LazyLoad = function () {
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {
 		var toWebpFlag = supportsWebp && settings.to_webp;
 		var srcDataValue = getData(element, settings.data_src);
+		var bgDataValue = getData(element, settings.data_bg);
 
 		if (srcDataValue) {
 			var setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
 			element.style.backgroundImage = "url(\"" + setValue + "\")";
+		}
+
+		if (bgDataValue) {
+			var _setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+			element.style.backgroundImage = _setValue;
 		}
 	};
 
