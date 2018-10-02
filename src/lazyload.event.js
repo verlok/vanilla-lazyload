@@ -25,7 +25,8 @@ const removeEventListeners = (element, loadHandler, errorHandler) => {
 	removeEventListener(element, errorEventName, errorHandler);
 };
 
-const eventHandler = function(event, success, settings) {
+const eventHandler = function(event, success, instance) {
+	var settings = instance._settings;
 	const className = success ? settings.class_loaded : settings.class_error;
 	const callback = success ? settings.callback_load : settings.callback_error;
 	const element = event.target;
@@ -33,15 +34,17 @@ const eventHandler = function(event, success, settings) {
 	removeClass(element, settings.class_loading);
 	addClass(element, className);
 	callbackIfSet(callback, element);
+
+	instance._updateLoadingCount(-1);
 };
 
-export const addOneShotEventListeners = (element, settings) => {
+export const addOneShotEventListeners = (element, instance) => {
 	const loadHandler = event => {
-		eventHandler(event, true, settings);
+		eventHandler(event, true, instance);
 		removeEventListeners(element, loadHandler, errorHandler);
 	};
 	const errorHandler = event => {
-		eventHandler(event, false, settings);
+		eventHandler(event, false, instance);
 		removeEventListeners(element, loadHandler, errorHandler);
 	};
 	addEventListeners(element, loadHandler, errorHandler);

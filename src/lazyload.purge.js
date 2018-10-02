@@ -1,5 +1,9 @@
 import { getWasProcessedData } from "./lazyload.data";
 
-export default function(elements) {
+export const purgeProcessedElements = elements => {
 	return elements.filter(element => !getWasProcessedData(element));
-}
+};
+
+export const purgeOneElement = (elements, elementToPurge) => {
+	return elements.filter(element => element !== elementToPurge);
+};

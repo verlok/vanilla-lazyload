@@ -11,8 +11,8 @@ import { callbackIfSet } from "./lazyload.callback";
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-export const loadAndUnobserve = (element, observer, settings) => {
-	revealElement(element, settings);
+export const loadAndUnobserve = (element, observer, instance) => {
+	revealElement(element, instance);
 	observer.unobserve(element);
 };
 
@@ -25,29 +25,30 @@ export const cancelDelayLoad = element => {
 	setTimeoutData(element, null);
 };
 
-export const delayLoad = (element, observer, settings) => {
-	var loadDelay = settings.load_delay;
+export const delayLoad = (element, observer, instance) => {
+	var loadDelay = instance._settings.load_delay;
 	var timeoutId = getTimeoutData(element);
 	if (timeoutId) {
 		return; // do nothing if timeout already set
 	}
 	timeoutId = setTimeout(function() {
-		loadAndUnobserve(element, observer, settings);
+		loadAndUnobserve(element, observer, instance);
 		cancelDelayLoad(element);
 	}, loadDelay);
 	setTimeoutData(element, timeoutId);
 };
 
-export function revealElement(element, settings, force) {
+export function revealElement(element, instance, force) {
+	var settings = instance._settings;
 	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
 	}
 	callbackIfSet(settings.callback_enter, element);
 	if (managedTags.indexOf(element.tagName) > -1) {
-		addOneShotEventListeners(element, settings);
+		addOneShotEventListeners(element, instance);
 		addClass(element, settings.class_loading);
 	}
-	setSources(element, settings);
+	setSources(element, instance);
 	setWasProcessedData(element);
 	callbackIfSet(settings.callback_set, element);
 }
