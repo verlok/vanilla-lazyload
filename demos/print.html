@@ -292,9 +292,8 @@
 		var allLoaded = false;
 
 		function printButtonHandler(event) {
-			var button = event.target;
-			button.innerHTML = "Preparing...";
-			button.disabled = true;
+			printButton.innerHTML = "Preparing...";
+			printButton.disabled = true;
 			if (allLoaded) {
 				openPrintDialog();
 			}
@@ -318,8 +317,8 @@
 		}
 
 		var printButton = document.querySelector(".print");
-		printButton.addEventListener("click", printButtonHandler);
 		printButtonContent = printButton.innerHTML;
+		printButton.addEventListener("click", printButtonHandler);
 
 		/*
 		LAZYLOAD DEFINITION
