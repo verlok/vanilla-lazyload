@@ -1,6 +1,6 @@
 import { revealElement } from "../src/lazyload.reveal";
-import getSettings from "../src/lazyload.defaults";
 import expectExtend from "./lib/expectExtend";
+import getFakeInstance from "./lib/getFakeInstance";
 
 test("revealElement is defined", () => {
 	expect(typeof revealElement).toBe("function");
@@ -34,7 +34,7 @@ describe("revealElement...", () => {
 	});
 
 	test("...data-was-processed is set", () => {
-		revealElement(img, getSettings());
+		revealElement(img, getFakeInstance());
 		expect(img).toHaveAttributeValue("data-was-processed", "true");
 	});
 
@@ -43,7 +43,7 @@ describe("revealElement...", () => {
 		var callbackSetMock = jest.fn();
 		revealElement(
 			img,
-			getSettings({
+			getFakeInstance({
 				callback_enter: callbackEnterMock,
 				callback_set: callbackSetMock
 			}),
