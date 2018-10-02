@@ -1,5 +1,5 @@
 import getInstanceSettings from "./lazyload.defaults";
-import purgeElements from "./lazyload.purge";
+import { purgeProcessedElements } from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import {
 	revealElement,
@@ -16,36 +16,41 @@ import {
 	runningOnBrowser,
 	supportsIntersectionObserver
 } from "./lazyload.environment";
+import { callbackIfSet } from "./lazyload.callback";
 
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
 	this._setObserver();
+	this._loadingCount = 0;
 	this.update(elements);
 };
 
 LazyLoad.prototype = {
 	_manageIntersection: function(entry) {
 		var observer = this._observer;
-		var settings = this._settings;
 		var loadDelay = this._settings.load_delay;
 		var element = entry.target;
-		if (isIntersecting(entry)) {
-			if (!loadDelay) {
-				loadAndUnobserve(element, observer, settings);
-			} else {
-				delayLoad(element, observer, settings);
+
+		// WITHOUT LOAD DELAY
+		if (!loadDelay) {
+			if (isIntersecting(entry)) {
+				loadAndUnobserve(element, observer, this);
 			}
+			return;
 		}
 
-		// Writes in and outs in a data-attribute
-		if (!isIntersecting(entry)) {
+		// WITH LOAD DELAY
+		if (isIntersecting(entry)) {
+			delayLoad(element, observer, this);
+		} else {
 			cancelDelayLoad(element);
 		}
 	},
+
 	_onIntersection: function(entries) {
 		entries.forEach(this._manageIntersection.bind(this));
-		this._elements = purgeElements(this._elements);
 	},
+
 	_setObserver: function() {
 		if (!supportsIntersectionObserver) {
 			return;
@@ -56,13 +61,22 @@ LazyLoad.prototype = {
 		);
 	},
 
+	_updateLoadingCount: function(plusMinus) {
+		this._loadingCount += plusMinus;
+		if (this._elements.length === 0 && this._loadingCount === 0) {
+			callbackIfSet(this._settings.callback_finish);
+		}
+	},
+
 	update: function(elements) {
 		const settings = this._settings;
 		const nodeSet =
 			elements ||
 			settings.container.querySelectorAll(settings.elements_selector);
 
-		this._elements = purgeElements(Array.prototype.slice.call(nodeSet)); // nodeset to array for IE compatibility
+		this._elements = purgeProcessedElements(
+			Array.prototype.slice.call(nodeSet) // NOTE: nodeset to array for IE compatibility
+		);
 
 		if (isBot || !this._observer) {
 			this.loadAll();
@@ -76,7 +90,7 @@ LazyLoad.prototype = {
 
 	destroy: function() {
 		if (this._observer) {
-			purgeElements(this._elements).forEach(element => {
+			this._elements.forEach(element => {
 				this._observer.unobserve(element);
 			});
 			this._observer = null;
@@ -86,7 +100,7 @@ LazyLoad.prototype = {
 	},
 
 	load: function(element, force) {
-		revealElement(element, this._settings, force);
+		revealElement(element, this, force);
 	},
 
 	loadAll: function() {
@@ -94,7 +108,6 @@ LazyLoad.prototype = {
 		elements.forEach(element => {
 			this.load(element);
 		});
-		this._elements = purgeElements(elements);
 	}
 };
 
