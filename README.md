@@ -12,20 +12,20 @@ The **universal, recommended version** of LazyLoad is **8.x** as it **supports A
 
 Version **10.x** is best for performance since it leverages IntersectionObserver API, which is [not supported by Internet Explorer and Safari](https://caniuse.com/#feat=intersectionobserver), therefore all the images would be loaded at once in those browsers.
 
-Version **8.x** is recommended for [local install](#local-install), but you can be smart and [conditionally load the best version](#conditional-load) from cdnjs instead.
+Version **8.x** is recommended for [local install](#local-install), but you can be smart and [conditionally load the best version](#conditional-load) from [jsdelivr](https://www.jsdelivr.com) instead.
 
-### Include as script from cdnjs
+### Include as script from jsdelivr
 
 Version 8.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.16.0/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@8.16.0/dist/lazyload.min.js"></script>
 ```
 
 Version 10.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/10.17.0/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.19.0/dist/lazyload.min.js"></script>
 ```
 
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
@@ -45,9 +45,9 @@ You can do it with the following script:
 (function(w, d){
     var b = d.getElementsByTagName('body')[0];
     var s = d.createElement("script"); 
-    var v = !("IntersectionObserver" in w) ? "8.16.0" : "10.17.0";
+    var v = !("IntersectionObserver" in w) ? "8.16.0" : "10.19.0";
     s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+    s.src = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.min.js";
     w.lazyLoadOptions = {/* Your options here */};
     b.appendChild(s);
 }(window, document));
@@ -63,7 +63,7 @@ The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definitio
 If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
-define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.16.0/lazyload.amd.min.js"], function (LazyLoad) {
+define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.19.0/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
 ```
@@ -71,8 +71,8 @@ define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazy
 You can also [conditionally load](#conditional-load) the best version.
 
 ```js
-var v = !("IntersectionObserver" in window) ? "8.16.0" : "10.17.0";
-define("vanilla-lazyLoad", ["https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.amd.min.js"], function (LazyLoad) {
+var v = !("IntersectionObserver" in window) ? "8.16.0" : "10.19.0";
+define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
 ```
@@ -92,7 +92,7 @@ npm install vanilla-lazyload@8.16.0
 Version 10.x - [versions info](#versions-information)
 
 ```
-npm install vanilla-lazyload@10.17.0
+npm install vanilla-lazyload@10.19.0
 ```
 
 #### Install with bower
