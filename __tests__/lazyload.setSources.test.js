@@ -1,5 +1,6 @@
 import { setSources, setSourcesInChildren } from "../src/lazyLoad.setSources";
 import expectExtend from "./lib/expectExtend";
+import getFakeInstance from "./lib/getFakeInstance";
 
 const lazyloadSettings = {
 	data_src: "src",
@@ -27,7 +28,7 @@ describe("setSources for image", () => {
 	test("...with initially empty src and srcset", () => {
 		img.setAttribute("data-src", img200);
 		img.setAttribute("data-srcset", img400);
-		setSources(img, lazyloadSettings);
+		setSources(img, getFakeInstance(lazyloadSettings));
 		expect(img).toHaveAttributeValue("src", img200);
 		expect(img).toHaveAttributeValue("srcset", img400);
 	});
@@ -37,7 +38,7 @@ describe("setSources for image", () => {
 		img.setAttribute("data-srcset", img400);
 		img.setAttribute("src", img1);
 		img.setAttribute("srcset", img1);
-		setSources(img, lazyloadSettings);
+		setSources(img, getFakeInstance(lazyloadSettings));
 		expect(img).toHaveAttributeValue("src", img200);
 		expect(img).toHaveAttributeValue("srcset", img400);
 	});
@@ -46,7 +47,7 @@ describe("setSources for image", () => {
 		img.setAttribute("data-srcset", "");
 		img.setAttribute("src", img200);
 		img.setAttribute("srcset", img400);
-		setSources(img, lazyloadSettings);
+		setSources(img, getFakeInstance(lazyloadSettings));
 		expect(img).toHaveAttributeValue("src", img200);
 		expect(img).toHaveAttributeValue("srcset", img400);
 	});
@@ -62,19 +63,19 @@ describe("setSources for iframe", () => {
 	});
 	test("...with initially empty src", () => {
 		iframe.setAttribute("data-src", srcToLoad);
-		setSources(iframe, lazyloadSettings);
+		setSources(iframe, getFakeInstance(lazyloadSettings));
 		expect(iframe).toHaveAttributeValue("src", srcToLoad);
 	});
 	test("...with initial value in src", () => {
 		iframe.setAttribute("data-src", srcToLoad);
 		iframe.setAttribute("src", preloadedSrc);
-		setSources(iframe, lazyloadSettings);
+		setSources(iframe, getFakeInstance(lazyloadSettings));
 		expect(iframe).toHaveAttributeValue("src", srcToLoad);
 	});
 	test("...with initial value in src and empty data-src", () => {
 		iframe.setAttribute("data-src", "");
 		iframe.setAttribute("src", preloadedSrc);
-		setSources(iframe, lazyloadSettings);
+		setSources(iframe, getFakeInstance(lazyloadSettings));
 		expect(iframe).toHaveAttributeValue("src", preloadedSrc);
 	});
 });
@@ -90,7 +91,7 @@ describe("setSources for background image", () => {
 
 	test("...with initially empty style attribute", () => {
 		element.setAttribute("data-src", img200);
-		setSources(element, lazyloadSettings);
+		setSources(element, getFakeInstance(lazyloadSettings));
 		// Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
 		expect(element.style.backgroundImage).toBe(`url(${img200})`);
 	});
@@ -99,7 +100,7 @@ describe("setSources for background image", () => {
 		element.style = {
 			padding: "1px"
 		};
-		setSources(element, lazyloadSettings);
+		setSources(element, getFakeInstance(lazyloadSettings));
 		// Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
 		expect(element.style.backgroundImage).toBe(`url(${img100})`);
 	});
@@ -109,7 +110,7 @@ describe("setSources for background image", () => {
 			padding: "1px",
 			backgroundImage: "url(" + img100 + ")"
 		};
-		setSources(element, lazyloadSettings);
+		setSources(element, getFakeInstance(lazyloadSettings));
 		// Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
 		expect(element.style.backgroundImage).toBe(`url(${img200})`);
 	});
@@ -197,7 +198,7 @@ describe("setSources for video", () => {
 
 	test("...with initially empty src", () => {
 		video.setAttribute("data-src", videoUrl);
-		setSources(video, lazyloadSettings);
+		setSources(video, getFakeInstance(lazyloadSettings));
 		expect(video).toHaveAttributeValue("src", videoUrl);
 	});
 });
@@ -217,7 +218,7 @@ describe("setSources for picture", () => {
 	test("...with initially empty srcset", () => {
 		img.setAttribute("data-src", img200);
 		img.setAttribute("data-srcset", img400);
-		setSources(img, lazyloadSettings);
+		setSources(img, getFakeInstance(lazyloadSettings));
 		expect(img).toHaveAttributeValue("src", img200);
 		expect(img).toHaveAttributeValue("srcset", img400);
 	});
