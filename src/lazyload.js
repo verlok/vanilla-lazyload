@@ -1,11 +1,12 @@
 import getDefaultSettings from "./lazyload.defaults";
+import { purgeProcessedElements } from "./lazyload.purge";
 import isInsideViewport from "./lazyload.viewport";
 import autoInitialize from "./lazyload.autoInitialize";
 import { addClass } from "./lazyload.class";
-import { getWasProcessedData } from "./lazyload.data";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { revealElement } from "./lazyload.reveal";
 import { removeFromArray } from "./lazyload.array";
+import { callbackIfSet } from "./lazyload.callback";
 
 /*
  * Constructor
@@ -13,6 +14,7 @@ import { removeFromArray } from "./lazyload.array";
 
 const LazyLoad = function(instanceSettings) {
 	this._settings = Object.assign({}, getDefaultSettings(), instanceSettings);
+	this._loadingCount = 0;
 	this._queryOriginNode =
 		this._settings.container === window
 			? document
@@ -53,7 +55,6 @@ LazyLoad.prototype = {
 			}
 
 			if (
-				isBot ||
 				forceDownload ||
 				isInsideViewport(
 					element,
@@ -70,20 +71,6 @@ LazyLoad.prototype = {
 		}
 
 		// Removing processed elements from this._elements.
-		removeFromArray(elements, processedIndexes);
-	},
-
-	_purgeElements: function() {
-		const elements = this._elements,
-			elementsLength = elements.length;
-		let i,
-			processedIndexes = [];
-
-		for (i = 0; i < elementsLength; i++) {
-			if (getWasProcessedData(elements[i])) {
-				processedIndexes.push(i);
-			}
-		}
 		removeFromArray(elements, processedIndexes);
 	},
 
@@ -104,6 +91,13 @@ LazyLoad.prototype = {
 				"scroll",
 				this._boundHandleScroll
 			);
+		}
+	},
+
+	_updateLoadingCount: function(plusMinus) {
+		this._loadingCount += plusMinus;
+		if (this._elements.length === 0 && this._loadingCount === 0) {
+			callbackIfSet(this._settings.callback_finish);
 		}
 	},
 
@@ -139,14 +133,21 @@ LazyLoad.prototype = {
 		this._loopThroughElements(true);
 	},
 
-	update: function() {
-		// Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
-		this._elements = Array.prototype.slice.call(
-			this._queryOriginNode.querySelectorAll(
-				this._settings.elements_selector
-			)
+	update: function(elements) {
+		const settings = this._settings;
+		const nodeSet =
+			elements ||
+			this._queryOriginNode.querySelectorAll(settings.elements_selector);
+
+		this._elements = purgeProcessedElements(
+			Array.prototype.slice.call(nodeSet) // NOTE: nodeset to array for IE compatibility
 		);
-		this._purgeElements();
+
+		if (isBot) {
+			this.loadAll();
+			return;
+		}
+
 		this._loopThroughElements();
 		this._startScrollHandler();
 	},
@@ -164,7 +165,7 @@ LazyLoad.prototype = {
 	},
 
 	load: function(element, force) {
-		revealElement(element, this._settings, force);
+		revealElement(element, this, force);
 	}
 };
 
