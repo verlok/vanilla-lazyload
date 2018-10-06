@@ -171,6 +171,11 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.17.0
+
+- Added the ability to know when all images have been downloaded through the `callback_finish` callback.
+- Added the file `demos/print.html` to demo how to print lazy images.
+
 #### 8.16.0
 
 Added the ability to have multiple background images, through the new `data_bg` option.

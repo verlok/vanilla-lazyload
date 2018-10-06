@@ -19,7 +19,7 @@ Version **8.x** is recommended for [local install](#local-install), but you can 
 Version 8.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@8.16.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@8.17.0/dist/lazyload.min.js"></script>
 ```
 
 Version 10.x - [versions info](#versions-information)
@@ -45,7 +45,7 @@ You can do it with the following script:
 (function(w, d){
     var b = d.getElementsByTagName('body')[0];
     var s = d.createElement("script"); 
-    var v = !("IntersectionObserver" in w) ? "8.16.0" : "10.19.0";
+    var v = !("IntersectionObserver" in w) ? "8.17.0" : "10.19.0";
     s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
     s.src = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.min.js";
     w.lazyLoadOptions = {/* Your options here */};
@@ -71,7 +71,7 @@ define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.19
 You can also [conditionally load](#conditional-load) the best version.
 
 ```js
-var v = !("IntersectionObserver" in window) ? "8.16.0" : "10.19.0";
+var v = !("IntersectionObserver" in window) ? "8.17.0" : "10.19.0";
 define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
@@ -86,7 +86,7 @@ If you prefer to install LazyLoad locally in your project, you can either:
 Version 8.x, _recommended_ - [versions info](#versions-information)
 
 ```
-npm install vanilla-lazyload@8.16.0
+npm install vanilla-lazyload@8.17.0
 ```
 
 Version 10.x - [versions info](#versions-information)
