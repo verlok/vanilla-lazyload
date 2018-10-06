@@ -21,10 +21,47 @@ define(function () {
 			callback_load: null,
 			callback_error: null,
 			callback_set: null,
-			callback_processed: null,
 			callback_enter: null,
+			callback_finish: null,
 			to_webp: false
 		};
+	};
+
+	var dataPrefix = "data-";
+	var processedDataName = "was-processed";
+	var processedDataValue = "true";
+
+	var getData = function getData(element, attribute) {
+		return element.getAttribute(dataPrefix + attribute);
+	};
+
+	var setData = function setData(element, attribute, value) {
+		var attrName = dataPrefix + attribute;
+		if (value === null) {
+			element.removeAttribute(attrName);
+			return;
+		}
+		element.setAttribute(attrName, value);
+	};
+
+	var setWasProcessedData = function setWasProcessedData(element) {
+		return setData(element, processedDataName, processedDataValue);
+	};
+
+	var getWasProcessedData = function getWasProcessedData(element) {
+		return getData(element, processedDataName) === processedDataValue;
+	};
+
+	var purgeProcessedElements = function purgeProcessedElements(elements) {
+		return elements.filter(function (element) {
+			return !getWasProcessedData(element);
+		});
+	};
+
+	var purgeOneElement = function purgeOneElement(elements, elementToPurge) {
+		return elements.filter(function (element) {
+			return element !== elementToPurge;
+		});
 	};
 
 	var getTopOffset = function getTopOffset(element) {
@@ -131,31 +168,6 @@ define(function () {
 		element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
 	};
 
-	var dataPrefix = "data-";
-	var processedDataName = "was-processed";
-	var processedDataValue = "true";
-
-	var getData = function getData(element, attribute) {
-		return element.getAttribute(dataPrefix + attribute);
-	};
-
-	var setData = function setData(element, attribute, value) {
-		var attrName = dataPrefix + attribute;
-		if (value === null) {
-			element.removeAttribute(attrName);
-			return;
-		}
-		element.setAttribute(attrName, value);
-	};
-
-	var setWasProcessedData = function setWasProcessedData(element) {
-		return setData(element, processedDataName, processedDataValue);
-	};
-
-	var getWasProcessedData = function getWasProcessedData(element) {
-		return getData(element, processedDataName) === processedDataValue;
-	};
-
 	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
 			if (childTag.tagName === "SOURCE") {
@@ -225,11 +237,14 @@ define(function () {
 		VIDEO: setSourcesVideo
 	};
 
-	var setSources = function setSources(element, settings) {
+	var setSources = function setSources(element, instance) {
+		var settings = instance._settings;
 		var tagName = element.tagName;
 		var setSourcesFunction = setSourcesFunctions[tagName];
 		if (setSourcesFunction) {
 			setSourcesFunction(element, settings);
+			instance._updateLoadingCount(1);
+			instance._elements = purgeOneElement(instance._elements, element);
 			return;
 		}
 		setSourcesBgImage(element, settings);
@@ -265,7 +280,8 @@ define(function () {
 		removeEventListener(element, errorEventName, errorHandler);
 	};
 
-	var eventHandler = function eventHandler(event, success, settings) {
+	var eventHandler = function eventHandler(event, success, instance) {
+		var settings = instance._settings;
 		var className = success ? settings.class_loaded : settings.class_error;
 		var callback = success ? settings.callback_load : settings.callback_error;
 		var element = event.target;
@@ -273,15 +289,17 @@ define(function () {
 		removeClass(element, settings.class_loading);
 		addClass(element, className);
 		callbackIfSet(callback, element);
+
+		instance._updateLoadingCount(-1);
 	};
 
-	var addOneShotEventListeners = function addOneShotEventListeners(element, settings) {
+	var addOneShotEventListeners = function addOneShotEventListeners(element, instance) {
 		var loadHandler = function loadHandler(event) {
-			eventHandler(event, true, settings);
+			eventHandler(event, true, instance);
 			removeAllEventListeners(element, loadHandler, errorHandler);
 		};
 		var errorHandler = function errorHandler(event) {
-			eventHandler(event, false, settings);
+			eventHandler(event, false, instance);
 			removeAllEventListeners(element, loadHandler, errorHandler);
 		};
 		addAllEventListeners(element, loadHandler, errorHandler);
@@ -289,16 +307,17 @@ define(function () {
 
 	var managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-	function revealElement(element, settings, force) {
+	function revealElement(element, instance, force) {
+		var settings = instance._settings;
 		if (!force && getWasProcessedData(element)) {
 			return; // element has already been processed and force wasn't true
 		}
 		callbackIfSet(settings.callback_enter, element);
 		if (managedTags.indexOf(element.tagName) > -1) {
-			addOneShotEventListeners(element, settings);
+			addOneShotEventListeners(element, instance);
 			addClass(element, settings.class_loading);
 		}
-		setSources(element, settings);
+		setSources(element, instance);
 		setWasProcessedData(element);
 		callbackIfSet(settings.callback_set, element);
 	}
@@ -315,6 +334,7 @@ define(function () {
 
 	var LazyLoad = function LazyLoad(instanceSettings) {
 		this._settings = _extends({}, getDefaultSettings(), instanceSettings);
+		this._loadingCount = 0;
 		this._queryOriginNode = this._settings.container === window ? document : this._settings.container;
 
 		this._previousLoopTime = 0;
@@ -351,7 +371,7 @@ define(function () {
 					continue;
 				}
 
-				if (isBot || forceDownload || isInsideViewport(element, settings.container, settings.threshold)) {
+				if (forceDownload || isInsideViewport(element, settings.container, settings.threshold)) {
 					if (isFirstLoop) {
 						addClass(element, settings.class_initial);
 					}
@@ -361,20 +381,6 @@ define(function () {
 			}
 
 			// Removing processed elements from this._elements.
-			removeFromArray(elements, processedIndexes);
-		},
-
-		_purgeElements: function _purgeElements() {
-			var elements = this._elements,
-			    elementsLength = elements.length;
-			var i = void 0,
-			    processedIndexes = [];
-
-			for (i = 0; i < elementsLength; i++) {
-				if (getWasProcessedData(elements[i])) {
-					processedIndexes.push(i);
-				}
-			}
 			removeFromArray(elements, processedIndexes);
 		},
 
@@ -389,6 +395,13 @@ define(function () {
 			if (this._isHandlingScroll) {
 				this._isHandlingScroll = false;
 				this._settings.container.removeEventListener("scroll", this._boundHandleScroll);
+			}
+		},
+
+		_updateLoadingCount: function _updateLoadingCount(plusMinus) {
+			this._loadingCount += plusMinus;
+			if (this._elements.length === 0 && this._loadingCount === 0) {
+				callbackIfSet(this._settings.callback_finish);
 			}
 		},
 
@@ -421,10 +434,18 @@ define(function () {
 			this._loopThroughElements(true);
 		},
 
-		update: function update() {
-			// Converts to array the nodeset obtained querying the DOM from _queryOriginNode with elements_selector
-			this._elements = Array.prototype.slice.call(this._queryOriginNode.querySelectorAll(this._settings.elements_selector));
-			this._purgeElements();
+		update: function update(elements) {
+			var settings = this._settings;
+			var nodeSet = elements || this._queryOriginNode.querySelectorAll(settings.elements_selector);
+
+			this._elements = purgeProcessedElements(Array.prototype.slice.call(nodeSet) // NOTE: nodeset to array for IE compatibility
+			);
+
+			if (isBot) {
+				this.loadAll();
+				return;
+			}
+
 			this._loopThroughElements();
 			this._startScrollHandler();
 		},
@@ -442,7 +463,7 @@ define(function () {
 		},
 
 		load: function load(element, force) {
-			revealElement(element, this._settings, force);
+			revealElement(element, this, force);
 		}
 	};
 
