@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>
+		Print - Lazyload tests
+	</title>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		ul,
+		li {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		a,
+		img {
+			display: block;
+		}
+
+		img {
+			border: 0;
+		}
+
+		img:not([src]) {
+			visibility: hidden;
+		}
+
+		.topBar {
+			position: fixed;
+			padding: 10px;
+			background-image: linear-gradient(to top, #FFF3, #FFFF);
+			top: 0;
+			right: 0;
+			left: 0;
+		}
+
+		.topBar button {
+			background-color: rgb(0, 157, 255);
+			background-image: linear-gradient(to bottom, #0000, #0003);
+			color: white;
+			padding: 10px;
+			font-size: 16px;
+			width: 100%;
+			max-width: 400px;
+			display: block;
+			min-height: 48px;
+			box-sizing: border-box;
+		}
+
+		.topBar button:disabled {
+			opacity: 0.5;
+		}
+
+		@media print {
+			.topBar {
+				display: none;
+			}
+		}
+
+		/* Fixes Firefox anomaly during image load */
+		@-moz-document url-prefix() {
+			img:-moz-loading {
+				visibility: hidden;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="topBar">
+		<button class="print">🖨️ ️Print</button>
+	</div>
+	<div id="results1" class="results">
+		<ul>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44721746jj.html">
+					<img alt="Stivaletti" src="../img/44721746JJ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/open-toe_cod44740806jx.html">
+					<img alt="Open toe" src="../img/44740806JX_15_r.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-basse_cod44735977gr.html">
+					<img alt="Sneakers &amp; Tennis" src="../img/44735977GR_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-basse_cod44738717am.html">
+					<img alt="Sneakers &amp; Tennis shoes basse" class="lazy" data-src="../img/44738717AM_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-alte_cod44739940cb.html">
+					<img alt="Sneakers &amp; Tennis shoes alte" class="lazy" data-src="../img/44739940CB_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-alte_cod44740860xg.html">
+					<img alt="Sneakers &amp; Tennis shoes alte" class="lazy" data-src="../img/44740860XG_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-basse_cod44738719vn.html">
+					<img alt="Sneakers &amp; Tennis shoes basse" class="lazy" data-src="../img/44738719VN_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-basse_cod44739938wk.html">
+					<img alt="Sneakers &amp; Tennis shoes basse" class="lazy" data-src="../img/44739938WK_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivali_cod44736534fq.html">
+					<img alt="Stivali" class="lazy" data-src="../img/44736534FQ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivali_cod44735388ui.html">
+					<img alt="Stivali" class="lazy" data-src="../img/44735388UI_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44739165ev.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44739165EV_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44739454hf.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44739454HF_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivali_cod44719480km.html">
+					<img alt="Stivali" class="lazy" data-src="../img/44719480KM_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44719687td.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44719687TD_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/decollete_cod44721899ng.html">
+					<img alt="Décolleté" class="lazy" data-src="../img/44721899NG_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/mocassini_cod44721744sl.html">
+					<img alt="Mocassini" class="lazy" data-src="../img/44721744SL_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44716730kr.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44716730KR_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/decollete_cod44718734xl.html">
+					<img alt="Décolleté" class="lazy" data-src="../img/44718734XL_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/decollete_cod44721796uk.html">
+					<img alt="Décolleté" class="lazy" data-src="../img/44721796UK_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/francesine_cod44717679mj.html">
+					<img alt="Francesine" class="lazy" data-src="../img/44717679MJ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44724594vu.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44724594VU_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/decollete_cod44726148aq.html">
+					<img alt="Décolleté" class="lazy" data-src="../img/44726148AQ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/mocassini_cod44719629nt.html">
+					<img alt="Mocassini" class="lazy" data-src="../img/44719629NT_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/mocassini_cod44725329kq.html">
+					<img alt="Mocassini" class="lazy" data-src="../img/44725329KQ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivali_cod44724026qs.html">
+					<img alt="Stivali" class="lazy" data-src="../img/44724026QS_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44720256gw.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44720256GW_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44722062id.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44722062ID_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/mocassini_cod44722402rh.html">
+					<img alt="Mocassini" class="lazy" data-src="../img/44722402RH_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44726296vu.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44726296VU_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44725755ct.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44725755CT_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44725348nv.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44725348NV_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44721879xx.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44721879XX_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/cuissardes_cod44729472iq.html">
+					<img alt="Cuissardes" class="lazy" data-src="../img/44729472IQ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/decollete_cod44725388jv.html">
+					<img alt="Décolleté" class="lazy" data-src="../img/44725388JV_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/stivaletti_cod44721854ce.html">
+					<img alt="Stivaletti" class="lazy" data-src="../img/44721854CE_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-basse_cod44727690jp.html">
+					<img alt="Sneakers &amp; Tennis shoes basse" class="lazy" data-src="../img/44727690JP_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/mocassini_cod44727501hh.html">
+					<img alt="Mocassini" class="lazy" data-src="../img/44727501HH_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/sneakers-tennis-shoes-basse_cod44727038aq.html">
+					<img alt="Sneakers &amp; Tennis shoes basse" class="lazy" data-src="../img/44727038AQ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/mocassini_cod44704882bq.html">
+					<img alt="Mocassini" class="lazy" data-src="../img/44704882BQ_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+			<li>
+				<a href="#/it/donna/mocassini_cod44734002vc.html">
+					<img alt="Mocassini" class="lazy" data-src="../img/44734002VC_15_a.jpg" width="220" height="280">
+				</a>
+			</li>
+		</ul>
+	</div>
+	<script src="../dist/lazyload.min.js"></script>
+	<script>
+		/*
+		CUSTOM PRINT BUTTON MANAGEMENT 
+		------------------------------
+		The best way to print it is to provide a custom button which 
+		first download all the remaining images, then open the print dialog */
+
+		var printRequested = false;
+		var allLoaded = false;
+
+		function printButtonHandler(event) {
+			printButton.innerHTML = "Preparing...";
+			printButton.disabled = true;
+			if (allLoaded) {
+				openPrintDialog();
+			}
+			else {
+				printRequested = true;
+				wLazyLoad.loadAll();
+			}
+		}
+
+		function openPrintDialog() {
+			printButton.innerHTML = printButtonContent;
+			printButton.disabled = false;
+			window.print();
+		}
+
+		function finishLoadHandler() {
+			allLoaded = true;
+			if (printRequested) {
+				openPrintDialog();
+			}
+		}
+
+		var printButton = document.querySelector(".print");
+		printButtonContent = printButton.innerHTML;
+		printButton.addEventListener("click", printButtonHandler);
+
+		/*
+		LAZYLOAD DEFINITION
+		-------------------
+		Global instance of LazyLoad in wLazyLoad,
+		used to call the loadAll method in different points	*/
+
+		var wLazyLoad = new LazyLoad({
+			elements_selector: '.lazy',
+			callback_finish: finishLoadHandler
+		});
+
+		/* 
+		BROWSER'S NATIVE PRINT EVENTS LISTENERS
+		--------------------------------------- 
+		In order to make browsers load all the images before printing
+		even if the user doesn't press the custom print button. 
+		NOTE that this works only partially in some browsers! */
+
+		var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+		if (!isSafari) {
+			window.onbeforeprint = function () {
+				wLazyLoad.loadAll();
+			};
+		}
+		else {
+			// Safari doesn't support the onbeforeprint event
+			var mediaQueryList = window.matchMedia('print');
+			mediaQueryList.addListener(function (mql) {
+				if (mql.matches) {
+					wLazyLoad.loadAll();
+				}
+			});
+		}
+	</script>
+</body>
+
+</html>
