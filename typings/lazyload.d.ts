@@ -20,11 +20,10 @@
 	to_webp?: boolean;
 }
 interface ILazyLoad {
-	new (options?: ILazyLoadOptions);
-	update();
-	destroy();
-	handleScroll();
-	load();
-	loadAll();
+	new (options?: ILazyLoadOptions, elements?: NodeListOf<HTMLImageElement>);
+	update: (elements?: NodeListOf<HTMLImageElement>) => void;
+	destroy: () => void;
+	load:(element: HTMLImageElement, force?: boolean) => void;
+	loadAll: () => void;
 }
 declare var LazyLoad: ILazyLoad;
