@@ -4,7 +4,10 @@ export const runningOnBrowser = typeof window !== "undefined";
 
 export const isBot =
 	(runningOnBrowser && !("onscroll" in window)) ||
-	/(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
+	(
+		typeof navigator !== "undefined" &&
+		/(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent)
+	);
 
 export const supportsIntersectionObserver =
 	runningOnBrowser && "IntersectionObserver" in window;

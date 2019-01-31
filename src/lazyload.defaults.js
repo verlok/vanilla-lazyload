@@ -1,6 +1,8 @@
+import { isBot, runningOnBrowser } from "./lazyload.environment";
+
 const defaultSettings = {
 	elements_selector: "img",
-	container: document,
+	container: isBot || runningOnBrowser ? document : null,
 	threshold: 300,
 	thresholds: null,
 	data_src: "src",
