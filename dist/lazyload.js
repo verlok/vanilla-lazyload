@@ -7,9 +7,34 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
 	'use strict';
 
+	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
+		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
+	};
+
+	var detectWebp = function detectWebp() {
+		var webpString = "image/webp";
+		var canvas = document.createElement("canvas");
+
+		if (canvas.getContext && canvas.getContext("2d")) {
+			return canvas.toDataURL(webpString).indexOf('data:' + webpString) === 0;
+		}
+
+		return false;
+	};
+
+	var runningOnBrowser = typeof window !== "undefined";
+
+	var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
+
+	var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+
+	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
+
+	var supportsWebp = runningOnBrowser && detectWebp();
+
 	var defaultSettings = {
 		elements_selector: "img",
-		container: document,
+		container: isBot || runningOnBrowser ? document : null,
 		threshold: 300,
 		thresholds: null,
 		data_src: "src",
@@ -110,31 +135,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 		}
 	}
-
-	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
-		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
-	};
-
-	var detectWebp = function detectWebp() {
-		var webpString = "image/webp";
-		var canvas = document.createElement("canvas");
-
-		if (canvas.getContext && canvas.getContext("2d")) {
-			return canvas.toDataURL(webpString).indexOf('data:' + webpString) === 0;
-		}
-
-		return false;
-	};
-
-	var runningOnBrowser = typeof window !== "undefined";
-
-	var isBot = runningOnBrowser && !("onscroll" in window) || /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
-
-	var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
-
-	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
-
-	var supportsWebp = runningOnBrowser && detectWebp();
 
 	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
