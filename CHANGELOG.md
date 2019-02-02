@@ -2,6 +2,14 @@
 
 ## Version 10
 
+#### 10.19.1
+
+- Fixed build for those using React + SSR, see #287
+- TypeScript definitions clearified, see #283
+- Gulp updated to v.4.0.0 to make it work with node 10
+
+Thanks to @AlexCSR and @muturgan for contributing.
+
 #### 10.19.0
 
 - Added the ability to know when all images have been downloaded through the `callback_finish` callback.
