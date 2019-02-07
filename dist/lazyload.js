@@ -11,15 +11,26 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
 	};
 
-	var detectWebp = function detectWebp() {
-		var webpString = "image/webp";
-		var canvas = document.createElement("canvas");
+	var detectWebp = function detectWebp(callback) {
+		var webpData = "data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA=";
 
-		if (canvas.getContext && canvas.getContext("2d")) {
-			return canvas.toDataURL(webpString).indexOf('data:' + webpString) === 0;
+		if (!supportsCreateImageBitmap || !supportsFetch) {
+			return callback(false);
 		}
 
-		return false;
+		return fetch(webpData).then(function (response) {
+			if (!response || typeof response.blob === "undefined") {
+				return callback(false);
+			}
+
+			return response.blob();
+		}).then(function (blob) {
+			if (window.createImageBitmap(blob)) {
+				return callback(true);
+			}
+
+			return callback(false);
+		});
 	};
 
 	var runningOnBrowser = typeof window !== "undefined";
@@ -30,7 +41,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 
-	var supportsWebp = runningOnBrowser && detectWebp();
+	var supportsCreateImageBitmap = runningOnBrowser && "createImageBitmap" in window;
+
+	var supportsFetch = runningOnBrowser && "fetch" in window;
+
+	var supportsWebp = false;
+
+	detectWebp(function (result) {
+		supportsWebp = result; // Async
+	});
 
 	var defaultSettings = {
 		elements_selector: "img",
