@@ -66,14 +66,20 @@ export const setSourcesBgImage = (element, settings) => {
 	const srcDataValue = getData(element, settings.data_src);
 	const bgDataValue = getData(element, settings.data_bg);
 
+	if (supportsWebp) {
+		const srcWebpDataValue = getData(element, settings.data_src + '-webp');
+
+		if (srcWebpDataValue) {
+			element.style.backgroundImage = `url("${srcWebpDataValue}")`;
+		}
+	}
+
 	if (srcDataValue) {
-		let setValue = srcDataValue;
-		element.style.backgroundImage = `url("${setValue}")`;
+		element.style.backgroundImage = `url("${srcDataValue}")`;
 	}
 
 	if (bgDataValue) {
-		let setValue = bgDataValue;
-		element.style.backgroundImage = setValue;
+		element.style.backgroundImage = bgDataValue;
 	}
 };
 

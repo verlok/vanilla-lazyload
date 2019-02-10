@@ -213,14 +213,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var srcDataValue = getData(element, settings.data_src);
 		var bgDataValue = getData(element, settings.data_bg);
 
+		if (supportsWebp) {
+			var srcWebpDataValue = getData(element, settings.data_src + '-webp');
+
+			if (srcWebpDataValue) {
+				element.style.backgroundImage = 'url("' + srcWebpDataValue + '")';
+			}
+		}
+
 		if (srcDataValue) {
-			var setValue = srcDataValue;
-			element.style.backgroundImage = 'url("' + setValue + '")';
+			element.style.backgroundImage = 'url("' + srcDataValue + '")';
 		}
 
 		if (bgDataValue) {
-			var _setValue = bgDataValue;
-			element.style.backgroundImage = _setValue;
+			element.style.backgroundImage = bgDataValue;
 		}
 	};
 
