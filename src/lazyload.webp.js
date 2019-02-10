@@ -3,9 +3,6 @@ import {
 	supportsFetch
 } from "./lazyload.environment";
 
-export const replaceExtToWebp = (value, condition) =>
-	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
-
 export const detectWebp = callback => {
 	var webpData =
 		"data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA=";

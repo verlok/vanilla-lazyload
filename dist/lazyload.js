@@ -7,10 +7,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
 	'use strict';
 
-	var replaceExtToWebp = function replaceExtToWebp(value, condition) {
-		return condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
-	};
-
 	var detectWebp = function detectWebp(callback) {
 		var webpData = "data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA=";
 
@@ -47,9 +43,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	var supportsWebp = false;
 
-	detectWebp(function (result) {
-		supportsWebp = result; // Async
-	});
+	var envReady = function envReady(callback) {
+		detectWebp(function (result) {
+			supportsWebp = result;
+
+			if (callback) {
+				callback();
+			}
+		});
+	};
 
 	var defaultSettings = {
 		elements_selector: "img",
@@ -155,36 +157,41 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	}
 
-	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
+	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName) {
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
 			if (childTag.tagName === "SOURCE") {
 				var attrValue = getData(childTag, dataAttrName);
-				setAttributeIfValue(childTag, attrName, attrValue, toWebpFlag);
+				setAttributeIfValue(childTag, attrName, attrValue);
 			}
 		}
 	};
 
-	var setAttributeIfValue = function setAttributeIfValue(element, attrName, value, toWebpFlag) {
+	var setAttributeIfValue = function setAttributeIfValue(element, attrName, value) {
 		if (!value) {
 			return;
 		}
-		element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
+		element.setAttribute(attrName, value);
 	};
 
 	var setSourcesImg = function setSourcesImg(element, settings) {
-		var toWebpFlag = supportsWebp && settings.to_webp;
 		var srcsetDataName = settings.data_srcset;
 		var parent = element.parentNode;
 
 		if (parent && parent.tagName === "PICTURE") {
-			setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
+			setSourcesInChildren(parent, "srcset", srcsetDataName);
 		}
 		var sizesDataValue = getData(element, settings.data_sizes);
 		setAttributeIfValue(element, "sizes", sizesDataValue);
 		var srcsetDataValue = getData(element, srcsetDataName);
-		setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
+		setAttributeIfValue(element, "srcset", srcsetDataValue);
+
+		if (supportsWebp) {
+			var srcsetWebpDataValue = getData(element, srcsetDataName + '-webp');
+			setAttributeIfValue(element, "srcset", srcsetWebpDataValue);
+		}
+
 		var srcDataValue = getData(element, settings.data_src);
-		setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+		setAttributeIfValue(element, "src", srcDataValue);
 	};
 
 	var setSourcesIframe = function setSourcesIframe(element, settings) {
@@ -203,17 +210,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {
-		var toWebpFlag = supportsWebp && settings.to_webp;
 		var srcDataValue = getData(element, settings.data_src);
 		var bgDataValue = getData(element, settings.data_bg);
 
 		if (srcDataValue) {
-			var setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
+			var setValue = srcDataValue;
 			element.style.backgroundImage = 'url("' + setValue + '")';
 		}
 
 		if (bgDataValue) {
-			var _setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
+			var _setValue = bgDataValue;
 			element.style.backgroundImage = _setValue;
 		}
 	};
@@ -366,10 +372,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	};
 
 	var LazyLoad = function LazyLoad(customSettings, elements) {
+		var _this = this;
+
 		this._settings = getInstanceSettings(customSettings);
 		this._setObserver();
 		this._loadingCount = 0;
-		this.update(elements);
+
+		envReady(function () {
+			_this.update(elements);
+		});
 	};
 
 	LazyLoad.prototype = {
@@ -413,7 +424,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		},
 
 		update: function update(elements) {
-			var _this = this;
+			var _this2 = this;
 
 			var settings = this._settings;
 			var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
@@ -427,16 +438,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			}
 
 			this._elements.forEach(function (element) {
-				_this._observer.observe(element);
+				_this2._observer.observe(element);
 			});
 		},
 
 		destroy: function destroy() {
-			var _this2 = this;
+			var _this3 = this;
 
 			if (this._observer) {
 				this._elements.forEach(function (element) {
-					_this2._observer.unobserve(element);
+					_this3._observer.unobserve(element);
 				});
 				this._observer = null;
 			}
@@ -449,11 +460,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		},
 
 		loadAll: function loadAll() {
-			var _this3 = this;
+			var _this4 = this;
 
 			var elements = this._elements;
 			elements.forEach(function (element) {
-				_this3.load(element);
+				_this4.load(element);
 			});
 		}
 	};
