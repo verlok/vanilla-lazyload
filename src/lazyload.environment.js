@@ -20,6 +20,12 @@ export const supportsFetch = runningOnBrowser && "fetch" in window;
 
 export var supportsWebp = false;
 
-detectWebp(result => {
-	supportsWebp = result; // Async
-});
+export const envReady = (callback) => {
+	detectWebp(result => {
+		supportsWebp = result;
+
+		if (callback) {
+			callback()
+		}
+	});
+};

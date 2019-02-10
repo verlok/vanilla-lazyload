@@ -1,5 +1,6 @@
 import getInstanceSettings from "./lazyload.defaults";
 import { purgeProcessedElements } from "./lazyload.purge";
+import { envReady } from "./lazyload.environment";
 import autoInitialize from "./lazyload.autoInitialize";
 import {
 	revealElement,
@@ -22,7 +23,10 @@ const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
 	this._setObserver();
 	this._loadingCount = 0;
-	this.update(elements);
+
+	envReady(() => {
+		this.update(elements);
+	})
 };
 
 LazyLoad.prototype = {
