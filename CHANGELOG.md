@@ -2,9 +2,13 @@
 
 ## Version 10
 
+#### 10.20.1
+
+Fixed a bug for which LazyLoad didn't copy the `data-sizes` attribute value to `sizes` in `source` tags inside `picture`. See #307.
+
 #### 10.20.0
 
-- Improved WebP detection to work correctly on Firefox too, see #298.
+Improved WebP detection to work correctly on Firefox too, see #298.
 
 Thanks to @ipernet for contributing.
 
