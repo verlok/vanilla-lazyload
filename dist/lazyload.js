@@ -155,13 +155,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		}
 	}
 
-	var setSourcesInChildren = function setSourcesInChildren(parentTag, attrName, dataAttrName, toWebpFlag) {
+	var getSourceTags = function getSourceTags(parentTag) {
+		var sourceTags = [];
 		for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
 			if (childTag.tagName === "SOURCE") {
-				var attrValue = getData(childTag, dataAttrName);
-				setAttributeIfValue(childTag, attrName, attrValue, toWebpFlag);
+				sourceTags.push(childTag);
 			}
 		}
+		return sourceTags;
 	};
 
 	var setAttributeIfValue = function setAttributeIfValue(element, attrName, value, toWebpFlag) {
@@ -171,39 +172,41 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
 	};
 
+	var setImageAttributes = function setImageAttributes(element, settings, toWebpFlag) {
+		setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
+		setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset), toWebpFlag);
+		setAttributeIfValue(element, "src", getData(element, settings.data_src), toWebpFlag);
+	};
+
 	var setSourcesImg = function setSourcesImg(element, settings) {
-		var toWebpFlag = supportsWebp && settings.to_webp;
-		var srcsetDataName = settings.data_srcset;
+		var toWebpFlag = settings.to_webp && supportsWebp;
 		var parent = element.parentNode;
 
 		if (parent && parent.tagName === "PICTURE") {
-			setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
+			var sourceTags = getSourceTags(parent);
+			sourceTags.forEach(function (sourceTag) {
+				setImageAttributes(sourceTag, settings, toWebpFlag);
+			});
 		}
-		var sizesDataValue = getData(element, settings.data_sizes);
-		setAttributeIfValue(element, "sizes", sizesDataValue);
-		var srcsetDataValue = getData(element, srcsetDataName);
-		setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
-		var srcDataValue = getData(element, settings.data_src);
-		setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+
+		setImageAttributes(element, settings, toWebpFlag);
 	};
 
 	var setSourcesIframe = function setSourcesIframe(element, settings) {
-		var srcDataValue = getData(element, settings.data_src);
-
-		setAttributeIfValue(element, "src", srcDataValue);
+		setAttributeIfValue(element, "src", getData(element, settings.data_src));
 	};
 
 	var setSourcesVideo = function setSourcesVideo(element, settings) {
-		var srcDataName = settings.data_src;
-		var srcDataValue = getData(element, srcDataName);
-
-		setSourcesInChildren(element, "src", srcDataName);
-		setAttributeIfValue(element, "src", srcDataValue);
+		var sourceTags = getSourceTags(element);
+		sourceTags.forEach(function (sourceTag) {
+			setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
+		});
+		setAttributeIfValue(element, "src", getData(element, settings.data_src));
 		element.load();
 	};
 
 	var setSourcesBgImage = function setSourcesBgImage(element, settings) {
-		var toWebpFlag = supportsWebp && settings.to_webp;
+		var toWebpFlag = settings.to_webp && supportsWebp;
 		var srcDataValue = getData(element, settings.data_src);
 		var bgDataValue = getData(element, settings.data_bg);
 

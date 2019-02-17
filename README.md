@@ -25,7 +25,7 @@ Version 8.x - [versions info](#versions-information)
 Version 10.x - [versions info](#versions-information)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.1/dist/lazyload.min.js"></script>
 ```
 
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
@@ -45,7 +45,7 @@ You can do it with the following script:
 (function(w, d){
     var b = d.getElementsByTagName('body')[0];
     var s = d.createElement("script"); 
-    var v = !("IntersectionObserver" in w) ? "8.17.0" : "10.20.0";
+    var v = !("IntersectionObserver" in w) ? "8.17.0" : "10.20.1";
     s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
     s.src = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.min.js";
     w.lazyLoadOptions = {/* Your options here */};
@@ -63,7 +63,7 @@ The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definitio
 If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
-define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.0/dist/lazyload.amd.min.js"], function (LazyLoad) {
+define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.1/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
 ```
@@ -71,7 +71,7 @@ define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20
 You can also [conditionally load](#conditional-load) the best version.
 
 ```js
-var v = !("IntersectionObserver" in window) ? "8.17.0" : "10.20.0";
+var v = !("IntersectionObserver" in window) ? "8.17.0" : "10.20.1";
 define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
@@ -92,7 +92,7 @@ npm install vanilla-lazyload@8.17.0
 Version 10.x - [versions info](#versions-information)
 
 ```
-npm install vanilla-lazyload@10.20.0
+npm install vanilla-lazyload@10.20.1
 ```
 
 #### Install with bower
