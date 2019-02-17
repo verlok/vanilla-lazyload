@@ -2,6 +2,12 @@
 
 ## Version 10
 
+#### 10.20.0
+
+- Improved WebP detection to work correctly on Firefox too, see #298.
+
+Thanks to @ipernet for contributing.
+
 #### 10.19.1
 
 - Fixed build for those using React + SSR, see #287
