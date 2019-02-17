@@ -145,18 +145,14 @@ function autoInitialize(classObj, options) {
 	}
 }
 
-const setSourcesInChildren = function(
-	parentTag,
-	attrName,
-	dataAttrName,
-	toWebpFlag
-) {
+const getSourceTags = parentTag => {
+	let sourceTags = [];
 	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
 		if (childTag.tagName === "SOURCE") {
-			let attrValue = getData(childTag, dataAttrName);
-			setAttributeIfValue(childTag, attrName, attrValue, toWebpFlag);
+			sourceTags.push(childTag);
 		}
 	}
+	return sourceTags;
 };
 
 const setAttributeIfValue = function(
@@ -171,39 +167,59 @@ const setAttributeIfValue = function(
 	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
 };
 
+const setImageAttributes = (element, settings, toWebpFlag) => {
+	setAttributeIfValue(
+		element,
+		"sizes",
+		getData(element, settings.data_sizes)
+	);
+	setAttributeIfValue(
+		element,
+		"srcset",
+		getData(element, settings.data_srcset),
+		toWebpFlag
+	);
+	setAttributeIfValue(
+		element,
+		"src",
+		getData(element, settings.data_src),
+		toWebpFlag
+	);
+};
+
 const setSourcesImg = (element, settings) => {
-	const toWebpFlag = supportsWebp && settings.to_webp;
-	const srcsetDataName = settings.data_srcset;
+	const toWebpFlag = settings.to_webp && supportsWebp;
 	const parent = element.parentNode;
 
 	if (parent && parent.tagName === "PICTURE") {
-		setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
+		let sourceTags = getSourceTags(parent);
+		sourceTags.forEach(sourceTag => {
+			setImageAttributes(sourceTag, settings, toWebpFlag);
+		});
 	}
-	const sizesDataValue = getData(element, settings.data_sizes);
-	setAttributeIfValue(element, "sizes", sizesDataValue);
-	const srcsetDataValue = getData(element, srcsetDataName);
-	setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
-	const srcDataValue = getData(element, settings.data_src);
-	setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+
+	setImageAttributes(element, settings, toWebpFlag);
 };
 
 const setSourcesIframe = (element, settings) => {
-	const srcDataValue = getData(element, settings.data_src);
-
-	setAttributeIfValue(element, "src", srcDataValue);
+	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 const setSourcesVideo = (element, settings) => {
-	const srcDataName = settings.data_src;
-	const srcDataValue = getData(element, srcDataName);
-
-	setSourcesInChildren(element, "src", srcDataName);
-	setAttributeIfValue(element, "src", srcDataValue);
+	let sourceTags = getSourceTags(element);
+	sourceTags.forEach(sourceTag => {
+		setAttributeIfValue(
+			sourceTag,
+			"src",
+			getData(sourceTag, settings.data_src)
+		);
+	});
+	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 	element.load();
 };
 
 const setSourcesBgImage = (element, settings) => {
-	const toWebpFlag = supportsWebp && settings.to_webp;
+	const toWebpFlag = settings.to_webp && supportsWebp;
 	const srcDataValue = getData(element, settings.data_src);
 	const bgDataValue = getData(element, settings.data_bg);
 
