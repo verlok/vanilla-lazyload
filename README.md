@@ -8,8 +8,8 @@ LazyLoad is a fast, lightweight and flexible script that _speeds up your web app
 
 The latest, recommended version of LazyLoad is `10.20.1`.
 
-- On [browsers supporting](https://caniuse.com/#feat=intersectionobserver) the `IntersectionObserver` API, it will load your images as they enter the viewport.
-- On browsers *NOT* supporting the `IntersectionObserver` API, it will load ALL your lazy content immediately, unless you loaded an `IntersectionObserver` polyfill [like this](https://github.com/w3c/IntersectionObserver/) in your page (before LazyLoad).
+- On browsers supporting the `IntersectionObserver` API, it will load your images as they enter the viewport.
+- On [browsers not supporting it](https://caniuse.com/#feat=intersectionobserver) it will load all your lazy content immediately, **unless** you load an `IntersectionObserver` polyfill [like this](https://github.com/w3c/IntersectionObserver/) in your page (before LazyLoad). [Polyfill.io](https://polyfill.io/) is a way to do that.
 
 Legacy browsers support is from IE 9 up.
 
