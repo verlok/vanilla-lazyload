@@ -13,6 +13,12 @@ The latest, recommended version of LazyLoad is `10.20.1`.
 
 Legacy browsers support is from IE 9 up.
 
+### What about version 8.x?
+
+Version 8.x still exists and works on npm, cdnjs and jsdelivr but it's now deprecated. The reason is that [`IntersectionObserver` support](https://caniuse.com/intersectionobserver) is very wide now. IE 11 will soon disappear from our radars, in the meantime you can use the polyfill there. [Or not](https://www.zdnet.com/article/microsoft-security-chief-ie-is-not-a-browser-so-stop-using-it-as-your-default/).
+
+The [official w3c polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) could be loaded _conditionally_ on less recent versions of Safari and Internet Explorer, using [Polyfill.io](https://cdn.polyfill.io/v3/).
+
 ### Include as script from jsdelivr
 
 ```html
