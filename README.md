@@ -6,23 +6,14 @@ LazyLoad is a fast, lightweight and flexible script that _speeds up your web app
 
 ## 👨‍💻 Include the script
 
-### Versions information
+The latest, recommended version of LazyLoad is `10.20.1`.
 
-The **universal, recommended version** of LazyLoad is **8.x** as it **supports ALL browsers** from IE9 up.
+- On [browsers supporting](https://caniuse.com/#feat=intersectionobserver) the `IntersectionObserver` API, it will load your images as they enter the viewport.
+- On browsers *NOT* supporting the `IntersectionObserver` API, it will load ALL your lazy content immediately, unless you loaded an `IntersectionObserver` polyfill [like this](https://github.com/w3c/IntersectionObserver/) in your page (before LazyLoad).
 
-Version **10.x** is best for performance since it leverages IntersectionObserver API, which is [not supported by Internet Explorer and Safari](https://caniuse.com/#feat=intersectionobserver), therefore all the images would be loaded at once in those browsers.
-
-Version **8.x** is recommended for [local install](#local-install), but you can be smart and [conditionally load the best version](#conditional-load) from [jsdelivr](https://www.jsdelivr.com) instead.
+Legacy browsers support is from IE 9 up.
 
 ### Include as script from jsdelivr
-
-Version 8.x - [versions info](#versions-information)
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@8.17.0/dist/lazyload.min.js"></script>
-```
-
-Version 10.x - [versions info](#versions-information)
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.1/dist/lazyload.min.js"></script>
@@ -31,32 +22,9 @@ Version 10.x - [versions info](#versions-information)
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
 <br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
 
-#### Async script
+#### Async script + immediate init
 
-It's possible to include it as an `async` script, see the [recipes](#recipes) section for more information.
-
-#### Conditional load
-
-The best thing you can do for **runtime performance** is to **conditionally load** the appropriate version of LazyLoad depending on browser support of IntersectionObserver.
-
-You can do it with the following script:
-
-```js
-(function(w, d){
-    var b = d.getElementsByTagName('body')[0];
-    var s = d.createElement("script"); 
-    var v = !("IntersectionObserver" in w) ? "8.17.0" : "10.20.1";
-    s.async = true; // This includes the script as async. See the "recipes" section for more information about async loading of LazyLoad.
-    s.src = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.min.js";
-    w.lazyLoadOptions = {/* Your options here */};
-    b.appendChild(s);
-}(window, document));
-```
-
-See `demos/conditional_load.html` to try and play around with it.
-
-The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
-<br>See [bundles](#bundles) for more module types like AMD, IIFE and ES6 module.
+It's possible to include it as an `async` script and make it work as soon as it's loaded. See the [recipes](#recipes) section for more information.
 
 ### Include via RequireJS
 
@@ -68,14 +36,11 @@ define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20
 });
 ```
 
-You can also [conditionally load](#conditional-load) the best version.
-
-```js
-var v = !("IntersectionObserver" in window) ? "8.17.0" : "10.20.1";
-define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@" + v + "/dist/lazyload.amd.min.js"], function (LazyLoad) {
-    return LazyLoad;
-});
-```
+<!--
+TODO: Add here info on 
+- how to load the polyfill as a dependency...
+- ...only if browser doesn't support IObserver
+-->
 
 ### Local install
 
@@ -83,22 +48,13 @@ If you prefer to install LazyLoad locally in your project, you can either:
 
 #### Install with npm
 
-Version 8.x, _recommended_ - [versions info](#versions-information)
-
 ```
-npm install vanilla-lazyload@8.17.0
-```
-
-Version 10.x - [versions info](#versions-information)
-
-```
-npm install vanilla-lazyload@10.20.1
+npm install vanilla-lazyload
 ```
 
 #### Install with bower
 
-Install with bower is also possible using `bower install vanilla-lazyload#{version}`
-
+Install with bower is also possible using `bower install vanilla-lazyload`
 
 #### Manual download
 
@@ -668,7 +624,6 @@ It's safe not to put any value in the `src` nor `srcset` attributes, even if you
 <!--
 MOAR points to add to the README:
 
-* When your scrolling container isn't native
 * When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
 -->
 
