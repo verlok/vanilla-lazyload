@@ -30,7 +30,7 @@ The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definitio
 
 #### Async script + immediate init
 
-It's possible to include it as an `async` script and make it work as soon as it's loaded. See the [recipes](#recipes) section for more information.
+It's possible to include it as an `async` script and make it work as soon as it's loaded. See the [recipes](#-recipes) section for more information.
 
 ### Include via RequireJS
 
@@ -548,7 +548,7 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 ## 📺 Demos
 
-Didn't find the [recipe](#recipes) that exactly matches your case? We have demos!
+Didn't find the [recipe](#-recipes) that exactly matches your case? We have demos!
 
 The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contains 15 use cases of LazyLoad. You might find there what you're looking for.
 
