@@ -17,7 +17,6 @@
 	callback_set?: (elt: HTMLImageElement) => void;
 	callback_enter?: (elt: HTMLImageElement) => void;
 	callback_finish?: () => void;
-	to_webp?: boolean;
 }
 interface ILazyLoad {
 	new (options?: ILazyLoadOptions, elements?: NodeListOf<HTMLImageElement>);

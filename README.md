@@ -251,31 +251,6 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#-api)
 
-### Switch to WebP
-
-> 💡 **Use case**: you want to dynamically switch your images' filename extension to `.webp` if the user's browser supports it.
-
-HTML
-
-```html
-<img class="lazy" data-src="/your/image1.jpg"
-    data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-    data-sizes="(min-width: 20em) 35vw, 100vw">
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy",
-    to_webp: true
-});
-```
-
-**Hint**: if you provide **only some images** in the WebP format, it's advisable to create 2 different instances of LazyLoad, as shown in the [this demo](http://verlok.github.io/lazyload/demos/to_webp_some.html) and [source code](https://github.com/verlok/lazyload/blob/master/demos/to_webp_some.html).
-
-[DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#-api)
-
 
 ### Delay load
 
@@ -693,7 +668,6 @@ Here's the list of the options.
 | `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                                                                                                            | `"loading"`   | `"lazy-loading"`                         |
 | `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                                                                                                                 | `"loaded"`    | `"lazy-loaded"`                          |
 | `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                                                                                                             | `"error"`     | `"lazy-error"`                           |
-| `to_webp`           | A boolean flag that activates the dynamic switch to WEBP feature. [More info](#switch-to-webp).                                                                                                                                                                                                                                                                                                                                                                | `false`       | `true`                                   |
 | `load_delay`        | The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                                                                                                                                                             | `0`           | `300`                                    |
 | `callback_enter`    | A function which is called when an element enters the viewport.                                                                                                                                                                                                                                                                                                                                                                                                | `null`        | `(el)=>{console.log("Entered", el)}`     |
 | `callback_set`      | A function which is called after the `src`/`srcset` of an element is set in the DOM.                                                                                                                                                                                                                                                                                                                                                                           | `null`        | `(el)=>{console.log("Set", el)}`         |
@@ -731,10 +705,6 @@ _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attribute
 ### Progressive JPEG support --> improve perceived performance
 
 [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
-
-### Dynamic switch to WEBP
-
-[WebP](https://developers.google.com/speed/webp/) is a modern image format that provides superior lossless and lossy compression for images on the web. If you are providing your images in the WebP format too, LazyLoad can switch the filenames extension to `.webp` before the image is loaded, given that the user's browser supports it. See [WebP support table](https://caniuse.com/#feat=webp).
 
 ### Intersection Observer API for optimized CPU usage
 

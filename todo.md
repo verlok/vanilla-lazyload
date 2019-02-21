@@ -2,7 +2,7 @@ TODO v11
 ========
 
 * [x] Review dist file names
-* [ ] Remove webP option, it isn't needed
+* [x] Remove webP option
 * [ ] Review API names
 * [ ] Review callbacks - now that .load() and .loadAll() exist, in the `reveal` function we should have another callback to notify "start loading" and `callback_enter` should be moved outside of the `reveal` function, just to notify that the element entered the viewport -- BREAKING CHANGE!
 

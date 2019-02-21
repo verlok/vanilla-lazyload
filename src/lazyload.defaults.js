@@ -17,8 +17,7 @@ const defaultSettings = {
 	callback_error: null,
 	callback_set: null,
 	callback_enter: null,
-	callback_finish: null,
-	to_webp: false
+	callback_finish: null
 };
 
 export default customSettings => {
