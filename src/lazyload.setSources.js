@@ -2,6 +2,7 @@ import { getData } from "./lazyload.data";
 import { supportsWebp } from "./lazyload.environment";
 import { replaceExtToWebp } from "./lazyload.webp";
 import { purgeOneElement } from "./lazyload.purge";
+import { updateLoadingCount } from "./lazyload.loadingCount";
 
 export const getSourceTags = parentTag => {
 	let sourceTags = [];
@@ -104,7 +105,7 @@ export const setSources = (element, instance) => {
 	const setSourcesFunction = setSourcesFunctions[tagName];
 	if (setSourcesFunction) {
 		setSourcesFunction(element, settings);
-		instance._updateLoadingCount(1);
+		updateLoadingCount(instance, 1);
 		instance._elements = purgeOneElement(instance._elements, element);
 		return;
 	}
