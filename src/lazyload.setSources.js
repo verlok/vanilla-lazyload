@@ -1,6 +1,4 @@
 import { getData } from "./lazyload.data";
-import { supportsWebp } from "./lazyload.environment";
-import { replaceExtToWebp } from "./lazyload.webp";
 import { purgeOneElement } from "./lazyload.purge";
 import { updateLoadingCount } from "./lazyload.loadingCount";
 
@@ -14,19 +12,14 @@ export const getSourceTags = parentTag => {
 	return sourceTags;
 };
 
-export const setAttributeIfValue = function(
-	element,
-	attrName,
-	value,
-	toWebpFlag
-) {
+export const setAttributeIfValue = (element, attrName, value) => {
 	if (!value) {
 		return;
 	}
-	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
+	element.setAttribute(attrName, value);
 };
 
-export const setImageAttributes = (element, settings, toWebpFlag) => {
+export const setImageAttributes = (element, settings) => {
 	setAttributeIfValue(
 		element,
 		"sizes",
@@ -35,29 +28,22 @@ export const setImageAttributes = (element, settings, toWebpFlag) => {
 	setAttributeIfValue(
 		element,
 		"srcset",
-		getData(element, settings.data_srcset),
-		toWebpFlag
+		getData(element, settings.data_srcset)
 	);
-	setAttributeIfValue(
-		element,
-		"src",
-		getData(element, settings.data_src),
-		toWebpFlag
-	);
+	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 export const setSourcesImg = (element, settings) => {
-	const toWebpFlag = settings.to_webp && supportsWebp;
 	const parent = element.parentNode;
 
 	if (parent && parent.tagName === "PICTURE") {
 		let sourceTags = getSourceTags(parent);
 		sourceTags.forEach(sourceTag => {
-			setImageAttributes(sourceTag, settings, toWebpFlag);
+			setImageAttributes(sourceTag, settings);
 		});
 	}
 
-	setImageAttributes(element, settings, toWebpFlag);
+	setImageAttributes(element, settings);
 };
 
 export const setSourcesIframe = (element, settings) => {
@@ -78,18 +64,15 @@ export const setSourcesVideo = (element, settings) => {
 };
 
 export const setSourcesBgImage = (element, settings) => {
-	const toWebpFlag = settings.to_webp && supportsWebp;
 	const srcDataValue = getData(element, settings.data_src);
 	const bgDataValue = getData(element, settings.data_bg);
 
 	if (srcDataValue) {
-		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-		element.style.backgroundImage = `url("${setValue}")`;
+		element.style.backgroundImage = `url("${srcDataValue}")`;
 	}
 
 	if (bgDataValue) {
-		let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
-		element.style.backgroundImage = setValue;
+		element.style.backgroundImage = bgDataValue;
 	}
 };
 
