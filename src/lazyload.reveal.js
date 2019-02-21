@@ -55,7 +55,7 @@ export const delayLoad = (element, instance) => {
 	setTimeoutData(element, timeoutId);
 };
 
-export function revealElement(element, instance, force) {
+export const revealElement = (element, instance, force) => {
 	var settings = instance._settings;
 	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
@@ -67,4 +67,4 @@ export function revealElement(element, instance, force) {
 	setSources(element, instance);
 	setWasProcessedData(element);
 	callbackIfSet(settings.callback_reveal, element);
-}
+};
