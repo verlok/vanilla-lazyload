@@ -20,48 +20,7 @@ gulp.task("lint", function() {
 	);
 });
 
-gulp.task("dist-es", function() {
-	process.env.NODE_ENV = "release";
-	return (
-		gulp.
-			src("./src/**/*.js").
-			// ----------- rolling up --------------
-			pipe(
-				rollup({
-					output: { name: "LazyLoad", format: "es" },
-					input: "./src/lazyload.js"
-				})
-			).
-			pipe(rename("lazyload.es2015.js")).
-			pipe(gulp.dest(destFolder)) // --> writing rolledup
-	);
-});
-
-gulp.task("dist-amd", function() {
-	process.env.NODE_ENV = "release";
-	return (
-		gulp.
-			src("./src/**/*.js").
-			pipe(sourcemaps.init()).
-			// ----------- rolling up --------------
-			pipe(
-				rollup({
-					output: { name: "LazyLoad", format: "amd" },
-					input: "./src/lazyload.js"
-				})
-			).
-			// ----------- babelizing --------------
-			pipe(babel()).
-			pipe(rename("lazyload.amd.js")).
-			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
-			// ----------- minifying --------------
-			pipe(uglify()).
-			pipe(rename("lazyload.amd.min.js")).
-			pipe(sourcemaps.write("")). // --> writing sourcemap
-			pipe(gulp.dest(destFolder)) // --> writing uglified
-	);
-});
-
+// browser-friendly UMD build
 gulp.task("dist-umd", function() {
 	process.env.NODE_ENV = "release";
 	return (
@@ -87,6 +46,51 @@ gulp.task("dist-umd", function() {
 	);
 });
 
+// requireJS-friendly AMD build
+gulp.task("dist-amd", function() {
+	process.env.NODE_ENV = "release";
+	return (
+		gulp.
+			src("./src/**/*.js").
+			pipe(sourcemaps.init()).
+			// ----------- rolling up --------------
+			pipe(
+				rollup({
+					output: { name: "LazyLoad", format: "amd" },
+					input: "./src/lazyload.js"
+				})
+			).
+			// ----------- babelizing --------------
+			pipe(babel()).
+			pipe(rename("lazyload.amd.js")).
+			pipe(gulp.dest(destFolder)). // --> writing babelized ES5
+			// ----------- minifying --------------
+			pipe(uglify()).
+			pipe(rename("lazyload.amd.min.js")).
+			pipe(sourcemaps.write("")). // --> writing sourcemap
+			pipe(gulp.dest(destFolder)) // --> writing uglified
+	);
+});
+
+// ES module (for bundlers) build.
+gulp.task("dist-esm", function() {
+	process.env.NODE_ENV = "release";
+	return (
+		gulp.
+			src("./src/**/*.js").
+			// ----------- rolling up --------------
+			pipe(
+				rollup({
+					output: { name: "LazyLoad", format: "es" },
+					input: "./src/lazyload.js"
+				})
+			).
+			pipe(rename("lazyload.esm.js")).
+			pipe(gulp.dest(destFolder)) // --> writing rolledup
+	);
+});
+
+// IIFE module (for browsers) build.
 gulp.task("dist-iife", function() {
 	process.env.NODE_ENV = "release";
 	return (
@@ -113,13 +117,19 @@ gulp.task("dist-iife", function() {
 });
 
 gulp.task("watch", function() {
-	gulp.watch("./src/**/*.js", [
-		"lint",
-		"dist-umd",
-		"dist-es",
-		"dist-amd",
-		"dist-iife"
-	]);
+	gulp.watch(
+		"./src/**/*.js",
+		gulp.series(
+			"lint",
+			gulp.parallel("dist-umd", "dist-esm", "dist-amd", "dist-iife")
+		)
+	);
 });
 
-gulp.task("default", gulp.parallel("lint", "dist-umd", "dist-es", "dist-amd", "dist-iife"));
+gulp.task(
+	"default",
+	gulp.series(
+		"lint",
+		gulp.parallel("dist-umd", "dist-esm", "dist-amd", "dist-iife")
+	)
+);

@@ -1,9 +1,11 @@
 {
 	"name": "vanilla-lazyload",
-	"version": "10.20.1",
+	"version": "11.0.0",
 	"description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
-	"main": "dist/lazyload.min.js",
-	"module": "dist/lazyload.es2015.js",
+	"main": "dist/lazyload.cjs.min.js",
+	"module": "dist/lazyload.esm.min.js",
+	"browser": "dist/lazyload.min.js",
+	"dependencies": {},
 	"devDependencies": {
 		"babel-core": "^6.26.0",
 		"babel-plugin-transform-object-assign": "^6.22.0",
@@ -17,7 +19,14 @@
 		"gulp-uglify": "^3.0.0",
 		"jest-cli": "^20.0.4"
 	},
-	"scripts": {},
+	"scripts": {
+		"build": "gulp",
+		"dev": "gulp watch",
+		"test": "jest"
+	},
+	"files": [
+		"dist"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/verlok/lazyload"
