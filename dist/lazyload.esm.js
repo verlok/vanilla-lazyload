@@ -417,7 +417,7 @@ LazyLoad.prototype = {
 	loadAll: function() {
 		var elements = this._elements;
 		elements.forEach(element => {
-			this.load(element);
+			revealAndUnobserve(element, this);
 		});
 	}
 };

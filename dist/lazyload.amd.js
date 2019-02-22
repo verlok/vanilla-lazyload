@@ -442,7 +442,7 @@ define(function () {
 
       var elements = this._elements;
       elements.forEach(function (element) {
-        _this3.load(element);
+        revealAndUnobserve(element, _this3);
       });
     }
   };

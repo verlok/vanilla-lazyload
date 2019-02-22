@@ -1,7 +1,7 @@
 import getInstanceSettings from "./lazyload.defaults";
 import { purgeProcessedElements } from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
-import { revealElement } from "./lazyload.reveal";
+import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
 import { setObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 
@@ -51,7 +51,7 @@ LazyLoad.prototype = {
 	loadAll: function() {
 		var elements = this._elements;
 		elements.forEach(element => {
-			this.load(element);
+			revealAndUnobserve(element, this);
 		});
 	}
 };
