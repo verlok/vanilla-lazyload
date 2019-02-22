@@ -13,12 +13,13 @@ const defaultSettings = {
 	class_loaded: "loaded",
 	class_error: "error",
 	load_delay: 0,
-	callback_load: null,
-	callback_error: null,
-	callback_set: null,
+	auto_unobserve: true,
 	callback_enter: null,
-	callback_finish: null,
-	to_webp: false
+	callback_exit: null,
+	callback_reveal: null,
+	callback_loaded: null,
+	callback_error: null,
+	callback_finish: null
 };
 
 export default customSettings => {

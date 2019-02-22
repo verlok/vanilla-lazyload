@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## Version 11
+
+#### 11.0.0
+
+- Changed bundle file name of ES Module from `lazyload.es2015.js` to `lazyload.esm.js`
+- Removed the `to_webp` option (see issue #288)
+- Ceased support and development of LazyLoad v.8 (see issue #306)
+- Callbacks renewal :: **POSSIBLE BREAKING CHANGE**
+  - Callback `callback_enter` has **changed** its meaning! It is now called whenever an element enters the viewport, even if `load_delay` is set
+  - Callback `callback_exit` (**new**) is called whenever an element exits the viewport, even if `load_delay` is set
+  - Callback `callback_reveal` (**new**) is called when an element is about to be revealed, and its attribute values were copied from the `data-` attributes to the actual ones.
+  - Callback `callback_set` was **removed**. You can use `callback_reveal` instead.
+- Private methods like `_setObserver`, `_onIntersection` etc. are now hidden and protected.
+- Added the `auto_unobserve` boolean option.
+
 ## Version 10
 
 #### 10.20.1
@@ -261,7 +276,7 @@ With these changes in place, simply importing vanilla-lazyload without using it 
 
 #### 8.6.0
 
-Added the callback_enter callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
+Added the `callback_enter` callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
 
 #### 8.5.2
 

@@ -1,5 +1,3 @@
-import { detectWebp } from "./lazyload.webp";
-
 export const runningOnBrowser = typeof window !== "undefined";
 
 export const isBot =
@@ -17,9 +15,3 @@ export const supportsCreateImageBitmap =
 	runningOnBrowser && "createImageBitmap" in window;
 
 export const supportsFetch = runningOnBrowser && "fetch" in window;
-
-export var supportsWebp = false;
-
-detectWebp(result => {
-	supportsWebp = result; // Async
-});
