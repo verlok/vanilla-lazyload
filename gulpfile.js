@@ -4,7 +4,7 @@ var rollup = require("gulp-rollup");
 var sourcemaps = require("gulp-sourcemaps");
 var rename = require("gulp-rename");
 var babel = require("gulp-babel");
-var uglify = require("gulp-uglify");
+var uglify = require("gulp-uglify-es").default;
 
 var destFolder = "./dist";
 
@@ -86,7 +86,14 @@ gulp.task("dist-esm", function() {
 				})
 			).
 			pipe(rename("lazyload.esm.js")).
-			pipe(gulp.dest(destFolder)) // --> writing rolledup
+			pipe(
+				gulp.dest(destFolder)
+			) /* // --> writing rolledup
+			// ----------- minifying --------------
+			pipe(uglify()).
+			pipe(rename("lazyload.esm.min.js")).
+			pipe(sourcemaps.write("")). // --> writing sourcemap
+			pipe(gulp.dest(destFolder)) // --> writing uglified*/
 	);
 });
 
