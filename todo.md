@@ -9,8 +9,7 @@ TODO v11
 Demos
 ---
 
-* [ ] Callbacks demo can be merged with all others
-* [ ] Document inclusione via script sync, script async with auto init, async with auto init + store the instance, 
+* [x] Callbacks demo merged with others
 
 Reveal callback review
 ---
@@ -20,6 +19,7 @@ Reveal callback review
 Documentation
 ---
 
+* [ ] Document inclusion via script sync, script async with auto init, async with auto init + store the instance, 
 * [ ] Remove that Array.prototype.slice.call and use Array.from on the elements nodeset?
 
 * [ ] PurgeElements can be avoided if we `querySelectorAll` with a "not `[data-was-processed]`" selector?
