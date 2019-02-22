@@ -11,14 +11,15 @@
 		"@babel/plugin-transform-object-assign": "^7.0.0",
 		"@babel/preset-env": "^7.0.0",
 		"babel-core": "^7.0.0-bridge.0",
-		"babel-jest": "^23.6.0",
+		"babel-jest": "^24.1.0",
 		"gulp": "^4.0.0",
 		"gulp-babel": "^8.0.0",
 		"gulp-eslint": "^5.0.0",
 		"gulp-rename": "^1.2.2",
 		"gulp-rollup": "^2.16.2",
 		"gulp-sourcemaps": "^2.6.4",
-		"gulp-uglify-es": "^1.0.4"
+		"gulp-uglify-es": "^1.0.4",
+		"jest": "^24.1.0"
 	},
 	"scripts": {
 		"build": "gulp",
