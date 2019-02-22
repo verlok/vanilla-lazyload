@@ -5,18 +5,25 @@
     "env": {
         "test": {
             "presets": [
-                "es2015"
+                "@babel/preset-env"
             ],
-            "plugins": ["transform-object-assign"]
+            "plugins": [
+                "@babel/plugin-transform-object-assign"
+            ]
         },
         "release": {
             "presets": [
-                ["es2015", {
-                    "modules": false
-                }]
+                [
+                    "@babel/preset-env",
+                    {
+                        "modules": false
+                    }
+                ]
             ],
             "sourceMap": false,
-            "plugins": ["transform-object-assign"]
+            "plugins": [
+                "@babel/plugin-transform-object-assign"
+            ]
         }
     }
 }
