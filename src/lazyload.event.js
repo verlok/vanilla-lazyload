@@ -29,7 +29,9 @@ const removeEventListeners = (element, loadHandler, errorHandler) => {
 const eventHandler = function(event, success, instance) {
 	var settings = instance._settings;
 	const className = success ? settings.class_loaded : settings.class_error;
-	const callback = success ? settings.callback_load : settings.callback_error;
+	const callback = success
+		? settings.callback_loaded
+		: settings.callback_error;
 	const element = event.target;
 
 	removeClass(element, settings.class_loading);
