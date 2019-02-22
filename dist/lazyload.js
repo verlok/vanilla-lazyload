@@ -446,7 +446,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       var elements = this._elements;
       elements.forEach(function (element) {
-        _this3.load(element);
+        revealAndUnobserve(element, _this3);
       });
     }
   };

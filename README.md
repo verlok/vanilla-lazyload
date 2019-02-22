@@ -6,7 +6,7 @@ LazyLoad is a fast, lightweight and flexible script that _speeds up your web app
 
 ## 👨‍💻 Include the script
 
-The latest, recommended version of LazyLoad is `10.20.1`.
+The latest, recommended version of LazyLoad is `11.0.0`.
 
 - On browsers supporting the `IntersectionObserver` API, it will load your images as they enter the viewport.
 - On [browsers not supporting it](https://caniuse.com/#feat=intersectionobserver) it will load all your lazy content immediately, **unless** you load an `IntersectionObserver` polyfill [like this](https://github.com/w3c/IntersectionObserver/) in your page (before LazyLoad). [Polyfill.io](https://polyfill.io/) is a way to do that.
@@ -22,7 +22,7 @@ The [official w3c polyfill](https://github.com/w3c/IntersectionObserver/tree/mas
 ### Include as script from jsdelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.0/dist/lazyload.min.js"></script>
 ```
 
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
@@ -37,7 +37,7 @@ It's possible to include it as an `async` script and make it work as soon as it'
 If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
-define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.1/dist/lazyload.amd.min.js"], function (LazyLoad) {
+define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.0/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
 ```

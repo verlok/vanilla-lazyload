@@ -14,6 +14,9 @@
   - Callback `callback_set` was **removed**. You can use `callback_reveal` instead.
 - Private methods like `_setObserver`, `_onIntersection` etc. are now hidden and protected.
 - Added the `auto_unobserve` boolean option.
+- Bugfix: `loadAll()` didn't unobserve elements.
+- Updated to Jest 24, Babel 7, etc.
+- Fixed dev dependencies vulnerabilities
 
 ## Version 10
 
