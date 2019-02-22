@@ -39,19 +39,15 @@ describe("revealElement...", () => {
 	});
 
 	test("...callbacks are called", () => {
-		var callbackEnterMock = jest.fn();
-		var callbackSetMock = jest.fn();
+		var callbackRevealMock = jest.fn();
 		revealElement(
 			img,
 			getFakeInstance({
-				callback_enter: callbackEnterMock,
-				callback_set: callbackSetMock
+				callback_reveal: callbackRevealMock
 			}),
 			true
 		);
-		expect(callbackEnterMock).toHaveBeenCalledTimes(1);
-		expect(callbackSetMock).toHaveBeenCalledTimes(1);
-		expect(callbackEnterMock).toHaveBeenCalledWith(img);
-		expect(callbackSetMock).toHaveBeenCalledWith(img);
+		expect(callbackRevealMock).toHaveBeenCalledTimes(1);
+		expect(callbackRevealMock).toHaveBeenCalledWith(img);
 	});
 });

@@ -6,7 +6,7 @@ LazyLoad is a fast, lightweight and flexible script that _speeds up your web app
 
 ## 👨‍💻 Include the script
 
-The latest, recommended version of LazyLoad is `10.20.1`.
+The latest, recommended version of LazyLoad is `11.0.0`.
 
 - On browsers supporting the `IntersectionObserver` API, it will load your images as they enter the viewport.
 - On [browsers not supporting it](https://caniuse.com/#feat=intersectionobserver) it will load all your lazy content immediately, **unless** you load an `IntersectionObserver` polyfill [like this](https://github.com/w3c/IntersectionObserver/) in your page (before LazyLoad). [Polyfill.io](https://polyfill.io/) is a way to do that.
@@ -22,7 +22,7 @@ The [official w3c polyfill](https://github.com/w3c/IntersectionObserver/tree/mas
 ### Include as script from jsdelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.0/dist/lazyload.min.js"></script>
 ```
 
 The file `lazyload.min.js` is provided as UMD (<small>Universal Module Definition</small>).
@@ -37,7 +37,7 @@ It's possible to include it as an `async` script and make it work as soon as it'
 If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
-define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@10.20.1/dist/lazyload.amd.min.js"], function (LazyLoad) {
+define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.0/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
 ```
@@ -96,7 +96,7 @@ Inside `dist` folder you find different bundles.
 | `lazyload.min.js`      | UMD <small>(Universal Module Definition)</small>              | Works pretty much everywhere, even in common-js contexts                                                                                   |
 | `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
 | `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *RequireJS* module loader, ~0.5kb smaller than UMD version                                                                      |
-| `lazyload.es2015.js`   | ES6 Module                                                    | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
+| `lazyload.esm.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
 ---
 
@@ -250,31 +250,6 @@ var myLazyLoad = new LazyLoad({
 ```
 
 [DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#-api)
-
-### Switch to WebP
-
-> 💡 **Use case**: you want to dynamically switch your images' filename extension to `.webp` if the user's browser supports it.
-
-HTML
-
-```html
-<img class="lazy" data-src="/your/image1.jpg"
-    data-srcset="/your/image1.jpg 200w, /your/image1@2x.jpg 400w"
-    data-sizes="(min-width: 20em) 35vw, 100vw">
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy",
-    to_webp: true
-});
-```
-
-**Hint**: if you provide **only some images** in the WebP format, it's advisable to create 2 different instances of LazyLoad, as shown in the [this demo](http://verlok.github.io/lazyload/demos/to_webp_some.html) and [source code](https://github.com/verlok/lazyload/blob/master/demos/to_webp_some.html).
-
-[DEMO](http://verlok.github.io/lazyload/demos/to_webp_all.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/to_webp_all.html) - [API](#-api)
 
 
 ### Delay load
@@ -653,26 +628,28 @@ img[data-srcset] {
 
 ### Constructor arguments
 
-The `new LazyLoad()` instruction you execute on your page can take 2 parameters
+The `new LazyLoad()` instruction you execute on your page can take two parameters:
 
-| Required | What to pass                                    | Type         | Default value |
-| -------- | ----------------------------------------------- | ------------ | ------------- |
-| No       | The option object for this instance of LazyLoad | Plain Object | `{}`          |
-| No       | A NodeSet of elements to execute LazyLoad on    | NodeSet      | `null`        |
+| Parameter | What to pass                                    | Required | Default value | Type         |
+| --------- | ----------------------------------------------- | -------- | ------------- | ------------ |
+| Options   | The option object for this instance of LazyLoad | No       | `{}`          | Plain Object |
+| Nodeset   | A NodeSet of elements to execute LazyLoad on    | No       | `null`        | NodeSet      |
 
 The most common usage of LazyLoad constructor is to pass only the options object (see "options" in the next section). For example:
 
 ```js
-var lazyLoadOptions = { /* options here */ };
-var aLazyLoad = new LazyLoad(lazyLoadOptions);
+var aLazyLoad = new LazyLoad({ 
+    /* options here */ 
+});
 ```
 
 In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as second parameter.
 
 ```js
-var lazyLoadOptions = { /* options here */ };
 var elementsToLazyLoad = getElementSetFromSomewhere();
-var aLazyLoad = new LazyLoad(lazyLoadOptions, elementsToLazyLoad);
+var aLazyLoad = new LazyLoad({ 
+    /* options here */ 
+}, elementsToLazyLoad);
 ```
 
 ### Options
@@ -682,24 +659,25 @@ Here's the list of the options.
 
 | Name                | Meaning                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Default value | Example value                            |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------------------------------------- |
-| `container`         | The scrolling container, and the container of the elements in the `elements_selector` option.                                                                                                                                                                                                                                                                                                                                                                  | `document`    | `document.querySelector('.scrollPanel')` |
-| `elements_selector` | The string CSS selector of the elements to load lazily, to be selected as descendants of the `container` object.                                                                                                                                                                                                                                                                                                                                               | `"img"`       | `".images img.lazy"`                     |
-| `threshold`         | A number of pixels representing the outer distance from of the scrolling area from which to start loading the elements.                                                                                                                                                                                                                                                                                                                                        | `300`         | `0`                                      |
+| `container`         | The container of the elements in the `elements_selector` option.                                                                                                                                                                                                                                                                                                                                                                                               | `document`    | `document.querySelector('.scrollPanel')` |
+| `elements_selector` | The CSS selector of the elements to load lazily, which will be selected as descendants of the `container` object.                                                                                                                                                                                                                                                                                                                                              | `"img"`       | `".images img.lazy"`                     |
+| `threshold`         | A number of pixels representing the outer distance off the scrolling area from which to start loading the elements.                                                                                                                                                                                                                                                                                                                                            | `300`         | `0`                                      |
 | `thresholds`        | Similar to `threshold`, but accepting multiple values and both `px` and `%` units. It maps directly to the `rootMargin` property of `IntersectionObserver` ([read more](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin)), so it must be a string with a syntax similar to the CSS `margin` property. You can use it when you need to have different thresholds for the scrolling area. It overrides `threshold` when passed. | `null`        | `"500px 10%"`                            |
 | `data_src`          | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"`                                                                                                                                                                                                                                                                                        | `"src"`       | `"original"`                             |
 | `data_srcset`       | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-srcset"`, just pass `"srcset"`                                                                                                                                                                                                                                            | `"srcset"`    | `"original-set"`                         |
 | `data_sizes`        | The name of the data attribute containing the sizes attribute to use, excluding the `"data-"` part. E.g. if your data attribute is named `"data-sizes"`, just pass `"sizes"`                                                                                                                                                                                                                                                                                   | `"sizes"`     | `null`                                   |
 | `data_bg`           | The name of the data attribute containing the value of `background-image` to load lazily, excluding the `"data-"` part. E.g. if your data attribute is named `"data-bg"`, just pass `"bg"`. The attribute value must be a valid value for `background-image`, including the `url()` part of the CSS instruction.                                                                                                                                               | `"bg"`        | `"url(img1.jpg), url(img2.jpg)"`         |
 | `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                                                                                                            | `"loading"`   | `"lazy-loading"`                         |
-| `class_loaded`      | The class applied to the elements when the loading is complete                                                                                                                                                                                                                                                                                                                                                                                                 | `"loaded"`    | `"lazy-loaded"`                          |
-| `class_error`       | The class applied to the elements when the element causes an error                                                                                                                                                                                                                                                                                                                                                                                             | `"error"`     | `"lazy-error"`                           |
-| `to_webp`           | A boolean flag that activates the dynamic switch to WEBP feature. [More info](#switch-to-webp).                                                                                                                                                                                                                                                                                                                                                                | `false`       | `true`                                   |
+| `class_loaded`      | The class applied to the elements when the loading is complete.                                                                                                                                                                                                                                                                                                                                                                                                | `"loaded"`    | `"lazy-loaded"`                          |
+| `class_error`       | The class applied to the elements when the element causes an error.                                                                                                                                                                                                                                                                                                                                                                                            | `"error"`     | `"lazy-error"`                           |
 | `load_delay`        | The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                                                                                                                                                             | `0`           | `300`                                    |
-| `callback_enter`    | A function which is called when an element enters the viewport.                                                                                                                                                                                                                                                                                                                                                                                                | `null`        | `(el)=>{console.log("Entered", el)}`     |
-| `callback_set`      | A function which is called after the `src`/`srcset` of an element is set in the DOM.                                                                                                                                                                                                                                                                                                                                                                           | `null`        | `(el)=>{console.log("Set", el)}`         |
-| `callback_load`     | A function which is called when an element was loaded.                                                                                                                                                                                                                                                                                                                                                                                                         | `null`        | `(el)=>{console.log("Loaded", el)}`      |
-| `callback_error`    | A function which is called when an element triggers an error.                                                                                                                                                                                                                                                                                                                                                                                                  | `null`        | `(el)=>{console.log("Error", el)}`       |
-| `callback_finish`   | A function which is called when there are no more elements to load and all elements have been downloaded.                                                                                                                                                                                                                                                                                                                                                      | `null`        | `()=>{console.log("Finish")}`            |
+| `auto_unobserve`    | A boolean that defines whether or not to automatically unobserve elements that was already revealed                                                                                                                                                                                                                                                                                                                                                            | `true`        | `false`                                  |
+| `callback_enter`    | A callback function which is called when an element enters the viewport.                                                                                                                                                                                                                                                                                                                                                                                       | `null`        | `(el)=>{console.log("Entered", el)}`     |
+| `callback_exit`     | A callback function which is called when an element exits the viewport.                                                                                                                                                                                                                                                                                                                                                                                        | `null`        | `(el)=>{console.log("Exited", el)}`      |
+| `callback_reveal`   | A callback function which is called when an element is activated (usually when it starts loading).                                                                                                                                                                                                                                                                                                                                                             | `null`        | `(el)=>{console.log("Loading", el)}`     |
+| `callback_loaded`   | A callback function which is called when an element was loaded.                                                                                                                                                                                                                                                                                                                                                                                                | `null`        | `(el)=>{console.log("Loaded", el)}`      |
+| `callback_error`    | A callback function which is called when an element triggered an error.                                                                                                                                                                                                                                                                                                                                                                                        | `null`        | `(el)=>{console.log("Error", el)}`       |
+| `callback_finish`   | A callback function which is called when there are no more elements to load and all elements have been downloaded.                                                                                                                                                                                                                                                                                                                                             | `null`        | `()=>{console.log("Finish")}`            |
 
 ### Methods
 
@@ -731,10 +709,6 @@ _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attribute
 ### Progressive JPEG support --> improve perceived performance
 
 [Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
-
-### Dynamic switch to WEBP
-
-[WebP](https://developers.google.com/speed/webp/) is a modern image format that provides superior lossless and lossy compression for images on the web. If you are providing your images in the WebP format too, LazyLoad can switch the filenames extension to `.webp` before the image is loaded, given that the user's browser supports it. See [WebP support table](https://caniuse.com/#feat=webp).
 
 ### Intersection Observer API for optimized CPU usage
 

@@ -13,6 +13,10 @@
 				padding: 0;
 			}
 
+			li {
+				min-height: 280px;
+			}
+
 			a,
 			img {
 				display: block;
@@ -22,25 +26,8 @@
 				border: 0;
 			}
 
-			img:not([src]) {
+			img:not([src]):not([srcset]) {
 				visibility: hidden;
-			}
-
-			/* Fixes Firefox anomaly during image load */
-
-			@-moz-document url-prefix() {
-				img:-moz-loading {
-					visibility: hidden;
-				}
-			}
-
-			button {
-				position: fixed;
-				bottom: 10px;
-				width: 10em;
-				height: 3em;
-				left: 50%;
-				margin-left: -5em;
 			}
 		</style>
 	</head>
@@ -52,9 +39,12 @@
 					<a href="#/it/donna/stivaletti_cod44721746jj.html">
 						<img
 							alt="Stivaletti"
-							data-src="../img/44721746JJ_15_a.jpg"
-							width="220"
-							height="280"
+							src="../img/44721746JJ_15_a.jpg"
+							srcset="
+								../img/44721746JJ_15_a.jpg 220w,
+								../img/44721746JJ_11_a.jpg 330w
+							"
+							sizes="220px"
 						/>
 					</a>
 				</li>
@@ -62,9 +52,12 @@
 					<a href="#/it/donna/open-toe_cod44740806jx.html">
 						<img
 							alt="Open toe"
-							data-src="../img/44740806JX_15_r.jpg"
-							width="220"
-							height="280"
+							src="../img/44740806JX_15_r.jpg"
+							srcset="
+								../img/44740806JX_15_r.jpg 220w,
+								../img/44740806JX_11_r.jpg 330w
+							"
+							sizes="220px"
 						/>
 					</a>
 				</li>
@@ -74,9 +67,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis"
+							class="lazy"
 							data-src="../img/44735977GR_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44735977GR_15_a.jpg 220w, ../img/44735977GR_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -86,9 +80,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44738717AM_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44738717AM_15_a.jpg 220w, ../img/44738717AM_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -98,9 +93,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes alte"
+							class="lazy"
 							data-src="../img/44739940CB_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44739940CB_15_a.jpg 220w, ../img/44739940CB_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -110,9 +106,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes alte"
+							class="lazy"
 							data-src="../img/44740860XG_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44740860XG_15_a.jpg 220w, ../img/44740860XG_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -122,9 +119,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44738719VN_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44738719VN_15_a.jpg 220w, ../img/44738719VN_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -134,9 +132,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44739938WK_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44739938WK_15_a.jpg 220w, ../img/44739938WK_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -144,9 +143,10 @@
 					<a href="#/it/donna/stivali_cod44736534fq.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44736534FQ_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44736534FQ_15_a.jpg 220w, ../img/44736534FQ_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -154,9 +154,10 @@
 					<a href="#/it/donna/stivali_cod44735388ui.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44735388UI_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44735388UI_15_a.jpg 220w, ../img/44735388UI_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -164,9 +165,10 @@
 					<a href="#/it/donna/stivaletti_cod44739165ev.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44739165EV_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44739165EV_15_a.jpg 220w, ../img/44739165EV_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -174,9 +176,10 @@
 					<a href="#/it/donna/stivaletti_cod44739454hf.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44739454HF_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44739454HF_15_a.jpg 220w, ../img/44739454HF_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -184,9 +187,10 @@
 					<a href="#/it/donna/stivali_cod44719480km.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44719480KM_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44719480KM_15_a.jpg 220w, ../img/44719480KM_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -194,9 +198,10 @@
 					<a href="#/it/donna/stivaletti_cod44719687td.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44719687TD_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44719687TD_15_a.jpg 220w, ../img/44719687TD_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -204,9 +209,10 @@
 					<a href="#/it/donna/decollete_cod44721899ng.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44721899NG_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44721899NG_15_a.jpg 220w, ../img/44721899NG_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -214,9 +220,10 @@
 					<a href="#/it/donna/mocassini_cod44721744sl.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44721744SL_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44721744SL_15_a.jpg 220w, ../img/44721744SL_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -224,9 +231,10 @@
 					<a href="#/it/donna/stivaletti_cod44716730kr.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44716730KR_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44716730KR_15_a.jpg 220w, ../img/44716730KR_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -234,9 +242,10 @@
 					<a href="#/it/donna/decollete_cod44718734xl.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44718734XL_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44718734XL_15_a.jpg 220w, ../img/44718734XL_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -244,9 +253,10 @@
 					<a href="#/it/donna/decollete_cod44721796uk.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44721796UK_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44721796UK_15_a.jpg 220w, ../img/44721796UK_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -254,9 +264,10 @@
 					<a href="#/it/donna/francesine_cod44717679mj.html">
 						<img
 							alt="Francesine"
+							class="lazy"
 							data-src="../img/44717679MJ_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44717679MJ_15_a.jpg 220w, ../img/44717679MJ_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -264,9 +275,10 @@
 					<a href="#/it/donna/stivaletti_cod44724594vu.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44724594VU_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44724594VU_15_a.jpg 220w, ../img/44724594VU_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -274,9 +286,10 @@
 					<a href="#/it/donna/decollete_cod44726148aq.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44726148AQ_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44726148AQ_15_a.jpg 220w, ../img/44726148AQ_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -284,9 +297,10 @@
 					<a href="#/it/donna/mocassini_cod44719629nt.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44719629NT_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44719629NT_15_a.jpg 220w, ../img/44719629NT_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -294,9 +308,10 @@
 					<a href="#/it/donna/mocassini_cod44725329kq.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44725329KQ_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44725329KQ_15_a.jpg 220w, ../img/44725329KQ_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -304,9 +319,10 @@
 					<a href="#/it/donna/stivali_cod44724026qs.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44724026QS_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44724026QS_15_a.jpg 220w, ../img/44724026QS_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -314,9 +330,10 @@
 					<a href="#/it/donna/stivaletti_cod44720256gw.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44720256GW_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44720256GW_15_a.jpg 220w, ../img/44720256GW_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -324,9 +341,10 @@
 					<a href="#/it/donna/stivaletti_cod44722062id.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44722062ID_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44722062ID_15_a.jpg 220w, ../img/44722062ID_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -334,9 +352,10 @@
 					<a href="#/it/donna/mocassini_cod44722402rh.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44722402RH_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44722402RH_15_a.jpg 220w, ../img/44722402RH_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -344,9 +363,10 @@
 					<a href="#/it/donna/stivaletti_cod44726296vu.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44726296VU_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44726296VU_15_a.jpg 220w, ../img/44726296VU_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -354,9 +374,10 @@
 					<a href="#/it/donna/stivaletti_cod44725755ct.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44725755CT_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44725755CT_15_a.jpg 220w, ../img/44725755CT_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -364,9 +385,10 @@
 					<a href="#/it/donna/stivaletti_cod44725348nv.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44725348NV_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44725348NV_15_a.jpg 220w, ../img/44725348NV_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -374,9 +396,10 @@
 					<a href="#/it/donna/stivaletti_cod44721879xx.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44721879XX_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44721879XX_15_a.jpg 220w, ../img/44721879XX_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -384,9 +407,10 @@
 					<a href="#/it/donna/cuissardes_cod44729472iq.html">
 						<img
 							alt="Cuissardes"
+							class="lazy"
 							data-src="../img/44729472IQ_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44729472IQ_15_a.jpg 220w, ../img/44729472IQ_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -394,9 +418,10 @@
 					<a href="#/it/donna/decollete_cod44725388jv.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44725388JV_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44725388JV_15_a.jpg 220w, ../img/44725388JV_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -404,9 +429,10 @@
 					<a href="#/it/donna/stivaletti_cod44721854ce.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44721854CE_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44721854CE_15_a.jpg 220w, ../img/44721854CE_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -416,9 +442,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44727690JP_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44727690JP_15_a.jpg 220w, ../img/44727690JP_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -426,9 +453,10 @@
 					<a href="#/it/donna/mocassini_cod44727501hh.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44727501HH_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44727501HH_15_a.jpg 220w, ../img/44727501HH_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -438,9 +466,10 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44727038AQ_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44727038AQ_15_a.jpg 220w, ../img/44727038AQ_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -448,9 +477,10 @@
 					<a href="#/it/donna/mocassini_cod44704882bq.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44704882BQ_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44704882BQ_15_a.jpg 220w, ../img/44704882BQ_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
@@ -458,29 +488,29 @@
 					<a href="#/it/donna/mocassini_cod44734002vc.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44734002VC_15_a.jpg"
-							width="220"
-							height="280"
+							data-srcset="../img/44734002VC_15_a.jpg 220w, ../img/44734002VC_11_a.jpg 330w"
+							data-sizes="220px"
 						/>
 					</a>
 				</li>
 			</ul>
 		</div>
-		<button type="button" id="loadAll">
-			LOAD ALL
-		</button>
 		<script src="../dist/lazyload.js"></script>
 		<script>
 			(function() {
 				function logElementEvent(eventName, element) {
 					console.log(
-						new Date().getTime(),
+						Date.now(),
 						eventName,
 						element.getAttribute("data-src")
 					);
 				}
 
 				ll = new LazyLoad({
+					elements_selector: ".lazy",
+
 					callback_enter: function(element) {
 						logElementEvent("--> ENTERED", element);
 					},
@@ -504,13 +534,6 @@
 							document.documentElement
 						);
 					}
-				});
-
-				var loadAllButton = document.getElementById("loadAll");
-
-				loadAllButton.addEventListener("click", () => {
-					ll.loadAll();
-					loadAllButton.disabled = true;
 				});
 			})();
 		</script>

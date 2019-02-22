@@ -1,4 +1,4 @@
-import { setSources, setSourcesInChildren } from "../src/lazyLoad.setSources";
+import { setSources } from "../src/lazyLoad.setSources";
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
 
@@ -15,9 +15,9 @@ test("setSources is defined", () => {
 
 describe("setSources for image", () => {
 	let img;
-	let img1 = "http://placehold.it/1x1";
-	let img200 = "http://placehold.it/200x200";
-	let img400 = "http://placehold.it/400x400";
+	let img1 = "1.gif";
+	let img200 = "200.gif";
+	let img400 = "400.gif";
 
 	beforeEach(() => {
 		// Parent is a div
@@ -82,8 +82,8 @@ describe("setSources for iframe", () => {
 
 describe("setSources for background image", () => {
 	let element;
-	let img100 = "http://placehold.it/100x100";
-	let img200 = "http://placehold.it/200x200";
+	let img100 = "100.gif";
+	let img200 = "200.gif";
 
 	beforeEach(() => {
 		element = document.createElement("div");
@@ -116,97 +116,46 @@ describe("setSources for background image", () => {
 	});
 });
 
-describe("setSourcesInChildren", () => {
-	let container, source1, source2, img;
-	let img1 = "http://placehold.it/1x1";
-	let img200 = "http://placehold.it/200x200";
-	let img400 = "http://placehold.it/400x400";
-
-	beforeEach(() => {
-		container = document.createElement("picture");
-		container.appendChild((source1 = document.createElement("source")));
-		container.appendChild((source2 = document.createElement("source")));
-		container.appendChild((img = document.createElement("img")));
-	});
-
-	test("...with initially empty srcset", () => {
-		source1.setAttribute("data-srcset", img200);
-		source2.setAttribute("data-srcset", img400);
-		setSourcesInChildren(container, "srcset", "srcset");
-		expect(source1).toHaveAttributeValue("srcset", img200);
-		expect(source2).toHaveAttributeValue("srcset", img400);
-	});
-
-	test("...with initial value in srcset", () => {
-		source1.setAttribute("data-srcset", img200);
-		source2.setAttribute("data-srcset", img400);
-		source1.setAttribute("srcset", img1);
-		source2.setAttribute("srcset", img1);
-		setSourcesInChildren(container, "srcset", "srcset");
-		expect(source1).toHaveAttributeValue("srcset", img200);
-		expect(source2).toHaveAttributeValue("srcset", img400);
-	});
-
-	test("...with initial value in srcset and empty data-srcset", () => {
-		source1.setAttribute("data-srcset", "");
-		source2.setAttribute("data-srcset", "");
-		source1.setAttribute("srcset", img200);
-		source2.setAttribute("srcset", img400);
-		setSourcesInChildren(container, "srcset", "srcset");
-		expect(source1).toHaveAttributeValue("srcset", img200);
-		expect(source2).toHaveAttributeValue("srcset", img400);
-	});
-
-	test("...with initially empty src", () => {
-		source1.setAttribute("data-src", img200);
-		source2.setAttribute("data-src", img400);
-		setSourcesInChildren(container, "src", "src");
-		expect(source1).toHaveAttributeValue("src", img200);
-		expect(source2).toHaveAttributeValue("src", img400);
-	});
-
-	test("...with initial value in src", () => {
-		source1.setAttribute("data-src", img200);
-		source2.setAttribute("data-src", img400);
-		source1.setAttribute("src", img1);
-		source2.setAttribute("src", img1);
-		setSourcesInChildren(container, "src", "src");
-		expect(source1).toHaveAttributeValue("src", img200);
-		expect(source2).toHaveAttributeValue("src", img400);
-	});
-
-	test("...with initial value in src and empty data-src", () => {
-		source1.setAttribute("data-src", "");
-		source2.setAttribute("data-src", "");
-		source1.setAttribute("src", img200);
-		source2.setAttribute("src", img400);
-		setSourcesInChildren(container, "src", "src");
-		expect(source1).toHaveAttributeValue("src", img200);
-		expect(source2).toHaveAttributeValue("src", img400);
-	});
-});
-
 describe("setSources for video", () => {
-	let video, source1, source2;
-	let videoUrl = "https://youtu.be/foobar";
+	let source1, source2, video;
+	let videoUrlMp4 = "foobar.mp4";
+	let videoUrlAvi = "foobar.avi";
+	let videoUrlWebm = "foobar.webm";
 
 	beforeEach(() => {
 		video = document.createElement("video");
-		video.appendChild((source1 = document.createElement("source")));
-		video.appendChild((source2 = document.createElement("source")));
+		video.appendChild(document.createElement("source"));
+		video.appendChild(document.createElement("source"));
 	});
 
 	test("...with initially empty src", () => {
-		video.setAttribute("data-src", videoUrl);
+		video.load = jest.fn();
+		video.setAttribute("data-src", videoUrlAvi);
 		setSources(video, getFakeInstance(lazyloadSettings));
-		expect(video).toHaveAttributeValue("src", videoUrl);
+		expect(video).toHaveAttributeValue("src", videoUrlAvi);
+		expect(video.load).toHaveBeenCalled();
+	});
+
+	test("...with source elements", () => {
+		video.load = jest.fn();
+		video.setAttribute("data-src", videoUrlAvi);
+		video.appendChild((source1 = document.createElement("source")));
+		video.appendChild((source2 = document.createElement("source")));
+		source1.setAttribute("data-src", videoUrlMp4);
+		source2.setAttribute("data-src", videoUrlWebm);
+		setSources(video, getFakeInstance(lazyloadSettings));
+		expect(video).toHaveAttributeValue("src", videoUrlAvi);
+		expect(source1).toHaveAttributeValue("src", videoUrlMp4);
+		expect(source2).toHaveAttributeValue("src", videoUrlWebm);
+		expect(video.load).toHaveBeenCalled();
 	});
 });
 
 describe("setSources for picture", () => {
 	let picture, source1, source2, img;
-	let img200 = "http://placehold.it/200x200";
-	let img400 = "http://placehold.it/400x400";
+	let img200 = "200.gif";
+	let img400 = "400.gif";
+	let img1 = "1.gif";
 
 	beforeEach(() => {
 		picture = document.createElement("picture");
@@ -216,10 +165,37 @@ describe("setSources for picture", () => {
 	});
 
 	test("...with initially empty srcset", () => {
-		img.setAttribute("data-src", img200);
-		img.setAttribute("data-srcset", img400);
+		source1.setAttribute("data-srcset", img200);
+		source2.setAttribute("data-srcset", img400);
 		setSources(img, getFakeInstance(lazyloadSettings));
-		expect(img).toHaveAttributeValue("src", img200);
-		expect(img).toHaveAttributeValue("srcset", img400);
+		expect(source1).toHaveAttributeValue("srcset", img200);
+		expect(source2).toHaveAttributeValue("srcset", img400);
+	});
+
+	test("...with initial value in srcset", () => {
+		source1.setAttribute("data-srcset", img200);
+		source2.setAttribute("data-srcset", img400);
+		source1.setAttribute("srcset", img1);
+		source2.setAttribute("srcset", img1);
+		setSources(img, getFakeInstance(lazyloadSettings));
+		expect(source1).toHaveAttributeValue("srcset", img200);
+		expect(source2).toHaveAttributeValue("srcset", img400);
+	});
+
+	test("...with initial value in srcset and empty data-srcset", () => {
+		source1.setAttribute("data-srcset", "");
+		source2.setAttribute("data-srcset", "");
+		source1.setAttribute("srcset", img200);
+		source2.setAttribute("srcset", img400);
+		setSources(img, getFakeInstance(lazyloadSettings));
+		expect(source1).toHaveAttributeValue("srcset", img200);
+		expect(source2).toHaveAttributeValue("srcset", img400);
 	});
 });
+
+/*
+TO TEST:
+- getSourceTags
+- setSourcesBgImage with data_bg option
+- 
+*/
