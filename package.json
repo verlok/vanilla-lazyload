@@ -14,7 +14,7 @@
 		"babel-jest": "^23.4.2",
 		"gulp": "^4.0.0",
 		"gulp-babel": "^8.0.0",
-		"gulp-eslint": "^4.0.0",
+		"gulp-eslint": "^5.0.0",
 		"gulp-rename": "^1.2.2",
 		"gulp-rollup": "^2.16.2",
 		"gulp-sourcemaps": "^2.6.4",
