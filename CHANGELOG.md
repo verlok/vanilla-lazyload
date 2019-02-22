@@ -12,7 +12,8 @@
   - Callback `callback_exit` (**new**) is called whenever an element exits the viewport, even if `load_delay` is set
   - Callback `callback_reveal` (**new**) is called when an element is about to be revealed, and its attribute values were copied from the `data-` attributes to the actual ones.
   - Callback `callback_set` was **removed**. You can use `callback_reveal` instead.
-- Private methods like `_setObserver`, `_onIntersection` etc. are now hidden and protected
+- Private methods like `_setObserver`, `_onIntersection` etc. are now hidden and protected.
+- Added the `auto_unobserve` boolean option.
 
 ## Version 10
 

@@ -13,6 +13,7 @@ const defaultSettings = {
 	class_loaded: "loaded",
 	class_error: "error",
 	load_delay: 0,
+	auto_unobserve: true,
 	callback_enter: null,
 	callback_exit: null,
 	callback_reveal: null,
