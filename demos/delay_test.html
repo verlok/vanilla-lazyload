@@ -1,96 +1,114 @@
 <!DOCTYPE html>
 <html>
+	<head lang="en">
+		<meta charset="UTF-8" />
+		<title>
+			Lazyload tests
+		</title>
+		<style>
+			html {
+				box-sizing: border-box;
+			}
 
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>
-		Lazyload tests
-	</title>
-	<style>
-		html {
-			box-sizing: border-box;
-		}
+			* {
+				box-sizing: inherit;
+			}
 
-		* {
-			box-sizing: inherit;
-		}
+			ul,
+			li {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
 
-		ul,
-		li {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
+			a,
+			img {
+				display: block;
+			}
 
-		a,
-		img {
-			display: block;
-		}
+			img {
+				border: 1px solid black;
+			}
 
-		img {
-			border: 1px solid black;
-		}
-
-		img:not([src]) {
-			visibility: hidden;
-		}
-
-		.space {
-			background-color: burlywood;
-			text-align: center;
-			padding: 60vh 0;
-		}
-
-		/* Fixes Firefox anomaly during image load */
-
-		@-moz-document url-prefix() {
-			img:-moz-loading {
+			img:not([src]) {
 				visibility: hidden;
 			}
-		}
-	</style>
-</head>
 
-<body>
-	<div class="space">
-		Here's some space
-	</div>
-	<div>
-		<a href="#/it/donna/stivaletti_cod44721746jj.html">
-			<img alt="Stivaletti" class="lazy" data-src="../img/44721746JJ_15_a.jpg" width="220" height="280">
-		</a>
-	</div>
-	<div class="space">
-		Here's some space
-	</div>
-	<script src="../dist/lazyload.js"></script>
-	<script>
-		(function () {
-			function logElementEvent(eventName, element) {
-				console.log(Date.now(), eventName, element.getAttribute("data-src"));
+			.space {
+				background-color: burlywood;
+				text-align: center;
+				padding: 60vh 0;
 			}
 
-			ll = new LazyLoad({
-				elements_selector: '.lazy',
-				load_delay: 1000,
-				threshold: 0,
+			/* Fixes Firefox anomaly during image load */
 
-				callback_enter: function (element) {
-					logElementEvent("ENTERED", element);
-				},
-				callback_load: function (element) {
-					logElementEvent("LOADED", element);
-				},
-				callback_set: function (element) {
-					logElementEvent("SET", element);
-				},
-				callback_error: function (element) {
-					logElementEvent("ERROR", element);
-					element.src = "https://placeholdit.imgix.net/~text?txtsize=21&txt=Fallback%20image&w=220&h=280";
+			@-moz-document url-prefix() {
+				img:-moz-loading {
+					visibility: hidden;
 				}
-			});
-		}());
-	</script>
-</body>
+			}
+		</style>
+	</head>
 
+	<body>
+		<div class="space">
+			Here's some space
+		</div>
+		<div>
+			<a href="#/it/donna/stivaletti_cod44721746jj.html">
+				<img
+					alt="Stivaletti"
+					class="lazy"
+					data-src="../img/44721746JJ_15_a.jpg"
+					width="220"
+					height="280"
+				/>
+			</a>
+		</div>
+		<div class="space">
+			Here's some space
+		</div>
+		<script src="../dist/lazyload.js"></script>
+		<script>
+			(function() {
+				function logElementEvent(eventName, element) {
+					console.log(
+						Date.now(),
+						eventName,
+						element.getAttribute("data-src")
+					);
+				}
+
+				ll = new LazyLoad({
+					elements_selector: ".lazy",
+					load_delay: 1000,
+					threshold: 0,
+
+					callback_enter: function(element) {
+						logElementEvent("--> ENTERED", element);
+					},
+					callback_exit: function(element) {
+						logElementEvent("<-- EXITED", element);
+					},
+					callback_reveal: function(element) {
+						logElementEvent("-o- REVEALED", element);
+					},
+					callback_loaded: function(element) {
+						logElementEvent("-O- LOADED", element);
+					},
+					callback_error: function(element) {
+						logElementEvent("::: ERROR", element);
+						element.src =
+							"https://placeholdit.imgix.net/~text?txtsize=21&txt=Fallback%20image&w=220&h=280";
+					},
+					callback_finish: function() {
+						logElementEvent(
+							"\\o/ FINISHED",
+							document.documentElement
+						);
+					}
+				});
+			})();
+		</script>
+	</body>
 </html>
