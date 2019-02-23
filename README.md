@@ -19,25 +19,38 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 #### Lazy responsive image with `srcset` and `sizes`:
 
 ```html
-<img alt="A lazy image" class="lazy" data-src="sloth.jpg" data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w" data-sizes="100w">
+<img alt="A lazy image" class="lazy" 
+    data-src="sloth.jpg" 
+    data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w" 
+    data-sizes="100w">
 ```
 
-#### Lazy responsive image with the `picture` tag:
+#### Lazy responsive image with hi-dpi support using the `picture` tag:
 
 ```html
 <picture>
-    <source media="(min-width: 1200px)" data-srcset="sloth_1200.jpg 1200w, sloth_2400.jpg 2400w">
-    <source media="(min-width: 800px)" data-srcset="sloth_800.jpg 800w, sloth_1600.jpg 1600w">
-    <img alt="A lazy image" class="lazy" data-src="sloth.jpg" data-sizes="100w">
+    <source 
+        media="(min-width: 1200px)" 
+        data-srcset="sloth_1200.jpg 1x, sloth_2400.jpg 2x">
+    <source 
+        media="(min-width: 800px)" 
+        data-srcset="sloth_800.jpg 1x, sloth_1600.jpg 2x">
+    <img alt="A lazy image" class="lazy" 
+        data-src="sloth.jpg">
 </picture>
 ```
 
-#### Lazy responsive image with automatic **WebP** format selection, using the `picture` tag:
+#### Lazy responsive image with automatic _WebP_ format selection, using the `picture` tag:
 
 ```html
 <picture>
-    <source type="image/webp" data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w" data-sizes="100w">
-    <img alt="A lazy image" class="lazy" data-src="sloth.jpg" data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w" data-sizes="100w">
+    <source type="image/webp" 
+        data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w" 
+        data-sizes="100w">
+    <img alt="A lazy image" class="lazy" 
+        data-src="sloth.jpg" 
+        data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w"
+        data-sizes="100w">
 </picture>
 ```
 
@@ -52,7 +65,10 @@ Note that to load images you to use `url()` in the value of your `data-bg` attri
 #### Lazy multiple background image
 
 ```html
-<div class="lazy" data-bg="url(sloth-head.jpg), url(sloth-body.jpg), linear-gradient(#fff, #ccc)"></div>
+<div class="lazy" 
+    data-bg="url(sloth-head.jpg), url(sloth-body.jpg), linear-gradient(#fff, #ccc)">
+    ...
+</div>
 ```
 
 #### Lazy video
