@@ -91,7 +91,7 @@ Note that to load images you to use `url()` in the value of your `data-bg` attri
 ### Include LazyLoad in your project
 
 The latest version of LazyLoad is **11.0.0**.<br>
-**&rarr; [Read the note about versions and behaviour](#note-about-versions-and-behaviour)**
+&rarr; [Read the note about versions and behaviour](#note-about-versions-and-behaviour)
 
 #### The simplest way
 
