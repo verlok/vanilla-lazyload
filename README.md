@@ -15,12 +15,11 @@ Legacy browsers support is from IE 9 up.
 
 #### What about version 8.x?
 
-Version 8.x still exists and works (on npm, cdnjs and jsdelivr), and you still can load it conditionally, but it's being **deprecated**. The reason is:
+Version 8.x still exists and works (on npm, cdnjs and jsdelivr), you still can load it conditionally (if you do that, like [in this demo](demos/conditional_loading.html), use versions `8.17.0`/`10.20.1` which have similar API), but this method is being **deprecated**. The reason of is:
 
 - [`IntersectionObserver` support](https://caniuse.com/intersectionobserver) is very wide now, coming to Safari in the very next few days.
 - Internet Explorer will soon disappear from our radars, in the meantime you can use the polyfill there. [Or not](https://www.zdnet.com/article/microsoft-security-chief-ie-is-not-a-browser-so-stop-using-it-as-your-default/).
 - Version 8.x listens on the `scroll` event, so and it behaves differently (e.g. with sliders, or with different scrolling containers)
-
 
 The [official w3c polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) could be loaded _conditionally_ on less recent versions of Safari and Internet Explorer, using [Polyfill.io](https://cdn.polyfill.io/v3/).
 
