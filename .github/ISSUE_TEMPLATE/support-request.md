@@ -20,8 +20,9 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**LazyLoad version**
+Please report which version of LazyLoad you're using.
+- Version [e.g. 8.x.x, 10.x.x, 11.x.x]
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
@@ -33,6 +34,9 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
