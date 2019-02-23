@@ -128,7 +128,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/simple.html) - [API](#-api)
+[DEMO](http://verlok.github.io/lazyload/demos/image_simple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/image_simple.html) - [API](#-api)
 
 ### Scrolling panel
 
@@ -227,7 +227,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_srcset_lazy_sizes.html) - [API](#-api)
+[DEMO](http://verlok.github.io/lazyload/demos/image_srcset_lazy_sizes.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/image_srcset_lazy_sizes.html) - [API](#-api)
 
 ### Responsive images - picture tag
 
@@ -243,6 +243,15 @@ HTML
 </picture>
 ```
 
+or
+
+```html
+<picture>
+    <source type="image/webp" data-srcset="/your/image1.webp" />
+    <img class="lazy" alt="Stivaletti" data-src="/your/image1.jpg">
+</picture>
+```
+
 Please note that you just need to put the `lazy` class on the `<img>` tag but **not in the `<source>` tags**.
 
 Javascript
@@ -253,7 +262,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](http://verlok.github.io/lazyload/demos/with_picture.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/with_picture.html) - [API](#-api)
+[DEMO](http://verlok.github.io/lazyload/demos/picture_media.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/picture_media.html) - [API](#-api)
 
 
 ### Delay load
