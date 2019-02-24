@@ -2,6 +2,10 @@
 
 ## Version 11
 
+#### 11.0.2
+
+Applied a patch to resolve #293 a [Chromium bug](https://bugs.chromium.org/p/chromium/issues/detail?id=910741#c13) already fixed in Chrome 72. Thanks to @dverbovyi for reporting, analyzing and solving it.
+
 #### 11.0.1
 
 Squashed a nasty bug that occurred on IE 11 and Safari when the `IntersectionObserver` polyfill wasn't loaded before LazyLoad.
