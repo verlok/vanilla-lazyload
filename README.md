@@ -90,7 +90,7 @@ Note that to load images you to use `url()` in the value of your `data-bg` attri
 
 ### Include LazyLoad in your project
 
-The latest version of LazyLoad is **11.0.0**.<br>
+The latest version of LazyLoad is **11.0.1**.<br>
 &rarr; [Read the note about versions and behaviour](#note-about-versions-and-behaviour)
 
 #### The simplest way
@@ -98,7 +98,7 @@ The latest version of LazyLoad is **11.0.0**.<br>
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -137,7 +137,7 @@ If you prefer, it's possible to include LazyLoad's script using `async` script a
 Then include the script.
 
 ```html
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.0/dist/lazyload.min.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.1/dist/lazyload.min.js"></script>
 ```
 
 **Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again. 
@@ -177,7 +177,7 @@ This is because LazyLoad uses `CustomEvent` ([learn more](https://developer.mozi
 If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
 
 ```js
-define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.0/dist/lazyload.amd.min.js"], function (LazyLoad) {
+define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.1/dist/lazyload.amd.min.js"], function (LazyLoad) {
     return LazyLoad;
 });
 ```
@@ -239,7 +239,7 @@ Inside the `dist` folder you will find different bundles.
 
 #### Note about versions and behaviour
 
-The latest, recommended version of LazyLoad is `11.0.0`.
+The latest, recommended version of LazyLoad is `11.0.1`.
 
 - On [browsers supporting the `IntersectionObserver` API]((https://caniuse.com/#feat=intersectionobserver)), it will load your images as they enter the viewport.
 - On browsers _not_ supporting `IntersectionObserver`, it will load all your lazy content immediately, **unless** you load an `IntersectionObserver` polyfill like [this one](https://github.com/w3c/IntersectionObserver/) in your page (before LazyLoad). Using [Polyfill.io](https://polyfill.io/) is a way to do that.

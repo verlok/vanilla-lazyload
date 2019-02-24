@@ -307,10 +307,11 @@ define(function () {
   };
 
   var revealAndUnobserve = function revealAndUnobserve(element, instance) {
+    var observer = instance._observer;
     revealElement(element, instance);
 
-    if (instance._settings.auto_unobserve) {
-      instance._observer.unobserve(element);
+    if (observer && instance._settings.auto_unobserve) {
+      observer.unobserve(element);
     }
   };
 
