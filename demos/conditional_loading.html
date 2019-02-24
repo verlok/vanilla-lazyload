@@ -3,7 +3,7 @@
 	<head lang="en">
 		<meta charset="UTF-8" />
 		<title>
-			Lazyload tests
+			Conditional loading - LazyLoad Demos
 		</title>
 		<style>
 			ul,
@@ -33,15 +33,6 @@
 					visibility: hidden;
 				}
 			}
-
-			button {
-				position: fixed;
-				bottom: 10px;
-				width: 10em;
-				height: 3em;
-				left: 50%;
-				margin-left: -5em;
-			}
 		</style>
 	</head>
 
@@ -52,7 +43,7 @@
 					<a href="#/it/donna/stivaletti_cod44721746jj.html">
 						<img
 							alt="Stivaletti"
-							data-src="../img/44721746JJ_15_a.jpg"
+							src="../img/44721746JJ_15_a.jpg"
 							width="220"
 							height="280"
 						/>
@@ -62,7 +53,7 @@
 					<a href="#/it/donna/open-toe_cod44740806jx.html">
 						<img
 							alt="Open toe"
-							data-src="../img/44740806JX_15_r.jpg"
+							src="../img/44740806JX_15_r.jpg"
 							width="220"
 							height="280"
 						/>
@@ -74,6 +65,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis"
+							class="lazy"
 							data-src="../img/44735977GR_15_a.jpg"
 							width="220"
 							height="280"
@@ -86,6 +78,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44738717AM_15_a.jpg"
 							width="220"
 							height="280"
@@ -98,6 +91,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes alte"
+							class="lazy"
 							data-src="../img/44739940CB_15_a.jpg"
 							width="220"
 							height="280"
@@ -110,6 +104,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes alte"
+							class="lazy"
 							data-src="../img/44740860XG_15_a.jpg"
 							width="220"
 							height="280"
@@ -122,6 +117,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44738719VN_15_a.jpg"
 							width="220"
 							height="280"
@@ -134,6 +130,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44739938WK_15_a.jpg"
 							width="220"
 							height="280"
@@ -144,6 +141,7 @@
 					<a href="#/it/donna/stivali_cod44736534fq.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44736534FQ_15_a.jpg"
 							width="220"
 							height="280"
@@ -154,6 +152,7 @@
 					<a href="#/it/donna/stivali_cod44735388ui.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44735388UI_15_a.jpg"
 							width="220"
 							height="280"
@@ -164,6 +163,7 @@
 					<a href="#/it/donna/stivaletti_cod44739165ev.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44739165EV_15_a.jpg"
 							width="220"
 							height="280"
@@ -174,6 +174,7 @@
 					<a href="#/it/donna/stivaletti_cod44739454hf.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44739454HF_15_a.jpg"
 							width="220"
 							height="280"
@@ -184,6 +185,7 @@
 					<a href="#/it/donna/stivali_cod44719480km.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44719480KM_15_a.jpg"
 							width="220"
 							height="280"
@@ -194,6 +196,7 @@
 					<a href="#/it/donna/stivaletti_cod44719687td.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44719687TD_15_a.jpg"
 							width="220"
 							height="280"
@@ -204,6 +207,7 @@
 					<a href="#/it/donna/decollete_cod44721899ng.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44721899NG_15_a.jpg"
 							width="220"
 							height="280"
@@ -214,6 +218,7 @@
 					<a href="#/it/donna/mocassini_cod44721744sl.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44721744SL_15_a.jpg"
 							width="220"
 							height="280"
@@ -224,6 +229,7 @@
 					<a href="#/it/donna/stivaletti_cod44716730kr.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44716730KR_15_a.jpg"
 							width="220"
 							height="280"
@@ -234,6 +240,7 @@
 					<a href="#/it/donna/decollete_cod44718734xl.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44718734XL_15_a.jpg"
 							width="220"
 							height="280"
@@ -244,6 +251,7 @@
 					<a href="#/it/donna/decollete_cod44721796uk.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44721796UK_15_a.jpg"
 							width="220"
 							height="280"
@@ -254,6 +262,7 @@
 					<a href="#/it/donna/francesine_cod44717679mj.html">
 						<img
 							alt="Francesine"
+							class="lazy"
 							data-src="../img/44717679MJ_15_a.jpg"
 							width="220"
 							height="280"
@@ -264,6 +273,7 @@
 					<a href="#/it/donna/stivaletti_cod44724594vu.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44724594VU_15_a.jpg"
 							width="220"
 							height="280"
@@ -274,6 +284,7 @@
 					<a href="#/it/donna/decollete_cod44726148aq.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44726148AQ_15_a.jpg"
 							width="220"
 							height="280"
@@ -284,6 +295,7 @@
 					<a href="#/it/donna/mocassini_cod44719629nt.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44719629NT_15_a.jpg"
 							width="220"
 							height="280"
@@ -294,6 +306,7 @@
 					<a href="#/it/donna/mocassini_cod44725329kq.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44725329KQ_15_a.jpg"
 							width="220"
 							height="280"
@@ -304,6 +317,7 @@
 					<a href="#/it/donna/stivali_cod44724026qs.html">
 						<img
 							alt="Stivali"
+							class="lazy"
 							data-src="../img/44724026QS_15_a.jpg"
 							width="220"
 							height="280"
@@ -314,6 +328,7 @@
 					<a href="#/it/donna/stivaletti_cod44720256gw.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44720256GW_15_a.jpg"
 							width="220"
 							height="280"
@@ -324,6 +339,7 @@
 					<a href="#/it/donna/stivaletti_cod44722062id.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44722062ID_15_a.jpg"
 							width="220"
 							height="280"
@@ -334,6 +350,7 @@
 					<a href="#/it/donna/mocassini_cod44722402rh.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44722402RH_15_a.jpg"
 							width="220"
 							height="280"
@@ -344,6 +361,7 @@
 					<a href="#/it/donna/stivaletti_cod44726296vu.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44726296VU_15_a.jpg"
 							width="220"
 							height="280"
@@ -354,6 +372,7 @@
 					<a href="#/it/donna/stivaletti_cod44725755ct.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44725755CT_15_a.jpg"
 							width="220"
 							height="280"
@@ -364,6 +383,7 @@
 					<a href="#/it/donna/stivaletti_cod44725348nv.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44725348NV_15_a.jpg"
 							width="220"
 							height="280"
@@ -374,6 +394,7 @@
 					<a href="#/it/donna/stivaletti_cod44721879xx.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44721879XX_15_a.jpg"
 							width="220"
 							height="280"
@@ -384,6 +405,7 @@
 					<a href="#/it/donna/cuissardes_cod44729472iq.html">
 						<img
 							alt="Cuissardes"
+							class="lazy"
 							data-src="../img/44729472IQ_15_a.jpg"
 							width="220"
 							height="280"
@@ -394,6 +416,7 @@
 					<a href="#/it/donna/decollete_cod44725388jv.html">
 						<img
 							alt="Décolleté"
+							class="lazy"
 							data-src="../img/44725388JV_15_a.jpg"
 							width="220"
 							height="280"
@@ -404,6 +427,7 @@
 					<a href="#/it/donna/stivaletti_cod44721854ce.html">
 						<img
 							alt="Stivaletti"
+							class="lazy"
 							data-src="../img/44721854CE_15_a.jpg"
 							width="220"
 							height="280"
@@ -416,6 +440,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44727690JP_15_a.jpg"
 							width="220"
 							height="280"
@@ -426,6 +451,7 @@
 					<a href="#/it/donna/mocassini_cod44727501hh.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44727501HH_15_a.jpg"
 							width="220"
 							height="280"
@@ -438,6 +464,7 @@
 					>
 						<img
 							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
 							data-src="../img/44727038AQ_15_a.jpg"
 							width="220"
 							height="280"
@@ -448,6 +475,7 @@
 					<a href="#/it/donna/mocassini_cod44704882bq.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44704882BQ_15_a.jpg"
 							width="220"
 							height="280"
@@ -458,6 +486,7 @@
 					<a href="#/it/donna/mocassini_cod44734002vc.html">
 						<img
 							alt="Mocassini"
+							class="lazy"
 							data-src="../img/44734002VC_15_a.jpg"
 							width="220"
 							height="280"
@@ -466,53 +495,29 @@
 				</li>
 			</ul>
 		</div>
-		<button type="button" id="loadAll">
-			LOAD ALL
-		</button>
-		<script src="../dist/lazyload.js"></script>
 		<script>
 			(function() {
-				function logElementEvent(eventName, element) {
-					console.log(
-						new Date().getTime(),
-						eventName,
-						element.getAttribute("data-src")
-					);
-				}
+				window.addEventListener(
+					"LazyLoad::Initialized",
+					function(event) {
+						window.lazyLoadInstance = event.detail.instance;
+					},
+					false
+				);
 
-				ll = new LazyLoad({
-					callback_enter: function(element) {
-						logElementEvent("--> ENTERED", element);
-					},
-					callback_exit: function(element) {
-						logElementEvent("<-- EXITED", element);
-					},
-					callback_reveal: function(element) {
-						logElementEvent("-o- REVEALED", element);
-					},
-					callback_loaded: function(element) {
-						logElementEvent("-O- LOADED", element);
-					},
-					callback_error: function(element) {
-						logElementEvent("::: ERROR", element);
-						element.src =
-							"https://placeholdit.imgix.net/~text?txtsize=21&txt=Fallback%20image&w=220&h=280";
-					},
-					callback_finish: function() {
-						logElementEvent(
-							"\\o/ FINISHED",
-							document.documentElement
-						);
-					}
-				});
-
-				var loadAllButton = document.getElementById("loadAll");
-
-				loadAllButton.addEventListener("click", () => {
-					ll.loadAll();
-					loadAllButton.disabled = true;
-				});
-			})();
+				var body = document.getElementsByTagName("body")[0];
+				var script = document.createElement("script");
+				script.async = true;
+				var version = !("IntersectionObserver" in window)
+					? "8.17.0"
+					: "10.20.1";
+				script.src =
+					"https://cdn.jsdelivr.net/npm/vanilla-lazyload@" +
+					version +
+					"/dist/lazyload.min.js";
+				window.lazyLoadOptions = { elements_selector: ".lazy" };
+				body.appendChild(script);
+			})(window, document);
 		</script>
 	</body>
 </html>

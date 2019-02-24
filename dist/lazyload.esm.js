@@ -1,31 +1,3 @@
-const replaceExtToWebp = (value, condition) =>
-	condition ? value.replace(/\.(jpe?g|png)/gi, ".webp") : value;
-
-const detectWebp = callback => {
-	var webpData =
-		"data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA=";
-
-	if (!supportsCreateImageBitmap || !supportsFetch) {
-		return callback(false);
-	}
-
-	return fetch(webpData).
-		then(function(response) {
-			if (!response || typeof response.blob === "undefined") {
-				return callback(false);
-			}
-
-			return response.blob();
-		}).
-		then(function(blob) {
-			if (window.createImageBitmap(blob)) {
-				return callback(true);
-			}
-
-			return callback(false);
-		});
-};
-
 const runningOnBrowser = typeof window !== "undefined";
 
 const isBot =
@@ -38,17 +10,6 @@ const supportsIntersectionObserver =
 
 const supportsClassList =
 	runningOnBrowser && "classList" in document.createElement("p");
-
-const supportsCreateImageBitmap =
-	runningOnBrowser && "createImageBitmap" in window;
-
-const supportsFetch = runningOnBrowser && "fetch" in window;
-
-var supportsWebp = false;
-
-detectWebp(result => {
-	supportsWebp = result; // Async
-});
 
 const defaultSettings = {
 	elements_selector: "img",
@@ -63,12 +24,13 @@ const defaultSettings = {
 	class_loaded: "loaded",
 	class_error: "error",
 	load_delay: 0,
-	callback_load: null,
-	callback_error: null,
-	callback_set: null,
+	auto_unobserve: true,
 	callback_enter: null,
-	callback_finish: null,
-	to_webp: false
+	callback_exit: null,
+	callback_reveal: null,
+	callback_loaded: null,
+	callback_error: null,
+	callback_finish: null
 };
 
 var getInstanceSettings = customSettings => {
@@ -145,6 +107,19 @@ function autoInitialize(classObj, options) {
 	}
 }
 
+const callbackIfSet = (callback, argument) => {
+	if (callback) {
+		callback(argument);
+	}
+};
+
+const updateLoadingCount = (instance, plusMinus) => {
+	instance._loadingCount += plusMinus;
+	if (instance._elements.length === 0 && instance._loadingCount === 0) {
+		callbackIfSet(instance._settings.callback_finish);
+	}
+};
+
 const getSourceTags = parentTag => {
 	let sourceTags = [];
 	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
@@ -155,19 +130,14 @@ const getSourceTags = parentTag => {
 	return sourceTags;
 };
 
-const setAttributeIfValue = function(
-	element,
-	attrName,
-	value,
-	toWebpFlag
-) {
+const setAttributeIfValue = (element, attrName, value) => {
 	if (!value) {
 		return;
 	}
-	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
+	element.setAttribute(attrName, value);
 };
 
-const setImageAttributes = (element, settings, toWebpFlag) => {
+const setImageAttributes = (element, settings) => {
 	setAttributeIfValue(
 		element,
 		"sizes",
@@ -176,29 +146,22 @@ const setImageAttributes = (element, settings, toWebpFlag) => {
 	setAttributeIfValue(
 		element,
 		"srcset",
-		getData(element, settings.data_srcset),
-		toWebpFlag
+		getData(element, settings.data_srcset)
 	);
-	setAttributeIfValue(
-		element,
-		"src",
-		getData(element, settings.data_src),
-		toWebpFlag
-	);
+	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 const setSourcesImg = (element, settings) => {
-	const toWebpFlag = settings.to_webp && supportsWebp;
 	const parent = element.parentNode;
 
 	if (parent && parent.tagName === "PICTURE") {
 		let sourceTags = getSourceTags(parent);
 		sourceTags.forEach(sourceTag => {
-			setImageAttributes(sourceTag, settings, toWebpFlag);
+			setImageAttributes(sourceTag, settings);
 		});
 	}
 
-	setImageAttributes(element, settings, toWebpFlag);
+	setImageAttributes(element, settings);
 };
 
 const setSourcesIframe = (element, settings) => {
@@ -219,18 +182,15 @@ const setSourcesVideo = (element, settings) => {
 };
 
 const setSourcesBgImage = (element, settings) => {
-	const toWebpFlag = settings.to_webp && supportsWebp;
 	const srcDataValue = getData(element, settings.data_src);
 	const bgDataValue = getData(element, settings.data_bg);
 
 	if (srcDataValue) {
-		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-		element.style.backgroundImage = `url("${setValue}")`;
+		element.style.backgroundImage = `url("${srcDataValue}")`;
 	}
 
 	if (bgDataValue) {
-		let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
-		element.style.backgroundImage = setValue;
+		element.style.backgroundImage = bgDataValue;
 	}
 };
 
@@ -246,7 +206,7 @@ const setSources = (element, instance) => {
 	const setSourcesFunction = setSourcesFunctions[tagName];
 	if (setSourcesFunction) {
 		setSourcesFunction(element, settings);
-		instance._updateLoadingCount(1);
+		updateLoadingCount(instance, 1);
 		instance._elements = purgeOneElement(instance._elements, element);
 		return;
 	}
@@ -270,12 +230,6 @@ const removeClass = (element, className) => {
 		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
 		replace(/^\s+/, "").
 		replace(/\s+$/, "");
-};
-
-const callbackIfSet = (callback, argument) => {
-	if (callback) {
-		callback(argument);
-	}
 };
 
 const genericLoadEventName = "load";
@@ -305,14 +259,16 @@ const removeEventListeners = (element, loadHandler, errorHandler) => {
 const eventHandler = function(event, success, instance) {
 	var settings = instance._settings;
 	const className = success ? settings.class_loaded : settings.class_error;
-	const callback = success ? settings.callback_load : settings.callback_error;
+	const callback = success
+		? settings.callback_loaded
+		: settings.callback_error;
 	const element = event.target;
 
 	removeClass(element, settings.class_loading);
 	addClass(element, className);
 	callbackIfSet(callback, element);
 
-	instance._updateLoadingCount(-1);
+	updateLoadingCount(instance, -1);
 };
 
 const addOneShotEventListeners = (element, instance) => {
@@ -329,9 +285,31 @@ const addOneShotEventListeners = (element, instance) => {
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-const loadAndUnobserve = (element, observer, instance) => {
+const onEnter = (element, instance) => {
+	const settings = instance._settings;
+	callbackIfSet(settings.callback_enter, element);
+	if (!settings.load_delay) {
+		revealAndUnobserve(element, instance);
+		return;
+	}
+	delayLoad(element, instance);
+};
+
+const revealAndUnobserve = (element, instance) => {
+	var observer = instance._observer;
 	revealElement(element, instance);
-	observer.unobserve(element);
+	if (observer && instance._settings.auto_unobserve) {
+		observer.unobserve(element);
+	}
+};
+
+const onExit = (element, instance) => {
+	const settings = instance._settings;
+	callbackIfSet(settings.callback_exit, element);
+	if (!settings.load_delay) {
+		return;
+	}
+	cancelDelayLoad(element);
 };
 
 const cancelDelayLoad = element => {
@@ -343,33 +321,32 @@ const cancelDelayLoad = element => {
 	setTimeoutData(element, null);
 };
 
-const delayLoad = (element, observer, instance) => {
+const delayLoad = (element, instance) => {
 	var loadDelay = instance._settings.load_delay;
 	var timeoutId = getTimeoutData(element);
 	if (timeoutId) {
 		return; // do nothing if timeout already set
 	}
 	timeoutId = setTimeout(function() {
-		loadAndUnobserve(element, observer, instance);
+		revealAndUnobserve(element, instance);
 		cancelDelayLoad(element);
 	}, loadDelay);
 	setTimeoutData(element, timeoutId);
 };
 
-function revealElement(element, instance, force) {
+const revealElement = (element, instance, force) => {
 	var settings = instance._settings;
 	if (!force && getWasProcessedData(element)) {
 		return; // element has already been processed and force wasn't true
 	}
-	callbackIfSet(settings.callback_enter, element);
 	if (managedTags.indexOf(element.tagName) > -1) {
 		addOneShotEventListeners(element, instance);
 		addClass(element, settings.class_loading);
 	}
 	setSources(element, instance);
 	setWasProcessedData(element);
-	callbackIfSet(settings.callback_set, element);
-}
+	callbackIfSet(settings.callback_reveal, element);
+};
 
 /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
    entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
@@ -381,56 +358,28 @@ const getObserverSettings = settings => ({
 	rootMargin: settings.thresholds || settings.threshold + "px"
 });
 
+const setObserver = instance => {
+	if (!supportsIntersectionObserver) {
+		return false;
+	}
+	instance._observer = new IntersectionObserver(entries => {
+		entries.forEach(entry =>
+			isIntersecting(entry)
+				? onEnter(entry.target, instance)
+				: onExit(entry.target, instance)
+		);
+	}, getObserverSettings(instance._settings));
+	return true;
+};
+
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
-	this._setObserver();
 	this._loadingCount = 0;
+	setObserver(this);
 	this.update(elements);
 };
 
 LazyLoad.prototype = {
-	_manageIntersection: function(entry) {
-		var observer = this._observer;
-		var loadDelay = this._settings.load_delay;
-		var element = entry.target;
-
-		// WITHOUT LOAD DELAY
-		if (!loadDelay) {
-			if (isIntersecting(entry)) {
-				loadAndUnobserve(element, observer, this);
-			}
-			return;
-		}
-
-		// WITH LOAD DELAY
-		if (isIntersecting(entry)) {
-			delayLoad(element, observer, this);
-		} else {
-			cancelDelayLoad(element);
-		}
-	},
-
-	_onIntersection: function(entries) {
-		entries.forEach(this._manageIntersection.bind(this));
-	},
-
-	_setObserver: function() {
-		if (!supportsIntersectionObserver) {
-			return;
-		}
-		this._observer = new IntersectionObserver(
-			this._onIntersection.bind(this),
-			getObserverSettings(this._settings)
-		);
-	},
-
-	_updateLoadingCount: function(plusMinus) {
-		this._loadingCount += plusMinus;
-		if (this._elements.length === 0 && this._loadingCount === 0) {
-			callbackIfSet(this._settings.callback_finish);
-		}
-	},
-
 	update: function(elements) {
 		const settings = this._settings;
 		const nodeSet =
@@ -469,7 +418,7 @@ LazyLoad.prototype = {
 	loadAll: function() {
 		var elements = this._elements;
 		elements.forEach(element => {
-			this.load(element);
+			revealAndUnobserve(element, this);
 		});
 	}
 };

@@ -1,6 +1,46 @@
 # CHANGELOG
 
+## Version 11
+
+#### 11.0.1
+
+Squashed a nasty bug that occurred on IE 11 and Safari when the `IntersectionObserver` polyfill wasn't loaded before LazyLoad.
+
+#### 11.0.0
+
+- Changed bundle file name of ES Module from `lazyload.es2015.js` to `lazyload.esm.js`
+- Removed the `to_webp` option (see issue #288)
+- Ceased support and development of LazyLoad v.8 (see issue #306)
+- Callbacks renewal :: **POSSIBLE BREAKING CHANGE**
+  - Callback `callback_enter` has **changed** its meaning! It is now called whenever an element enters the viewport, even if `load_delay` is set
+  - Callback `callback_exit` (**new**) is called whenever an element exits the viewport, even if `load_delay` is set
+  - Callback `callback_reveal` (**new**) is called when an element is about to be revealed, and its attribute values were copied from the `data-` attributes to the actual ones.
+  - Callback `callback_set` was **removed**. You can use `callback_reveal` instead.
+- Private methods like `_setObserver`, `_onIntersection` etc. are now hidden and protected.
+- Added the `auto_unobserve` boolean option.
+- Bugfix: `loadAll()` didn't unobserve elements.
+- Updated to Jest 24, Babel 7, etc.
+- Fixed dev dependencies vulnerabilities
+
 ## Version 10
+
+#### 10.20.1
+
+Fixed a bug for which LazyLoad didn't copy the `data-sizes` attribute value to `sizes` in `source` tags inside `picture`. See #307.
+
+#### 10.20.0
+
+Improved WebP detection to work correctly on Firefox too, see #298.
+
+Thanks to @ipernet for contributing.
+
+#### 10.19.1
+
+- Fixed build for those using React + SSR, see #287
+- TypeScript definitions clearified, see #283
+- Gulp updated to v.4.0.0 to make it work with node 10
+
+Thanks to @AlexCSR and @muturgan for contributing.
 
 #### 10.19.0
 
@@ -171,6 +211,11 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 ## Version 8
 
+#### 8.17.0
+
+- Added the ability to know when all images have been downloaded through the `callback_finish` callback.
+- Added the file `demos/print.html` to demo how to print lazy images.
+
 #### 8.16.0
 
 Added the ability to have multiple background images, through the new `data_bg` option.
@@ -238,7 +283,7 @@ With these changes in place, simply importing vanilla-lazyload without using it 
 
 #### 8.6.0
 
-Added the callback_enter callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
+Added the `callback_enter` callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.
 
 #### 8.5.2
 

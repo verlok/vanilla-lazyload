@@ -1,78 +1,78 @@
 import { getData } from "./lazyload.data";
-import { supportsWebp } from "./lazyload.environment";
-import { replaceExtToWebp } from "./lazyload.webp";
 import { purgeOneElement } from "./lazyload.purge";
+import { updateLoadingCount } from "./lazyload.loadingCount";
 
-export const setSourcesInChildren = function(
-	parentTag,
-	attrName,
-	dataAttrName,
-	toWebpFlag
-) {
+export const getSourceTags = parentTag => {
+	let sourceTags = [];
 	for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
 		if (childTag.tagName === "SOURCE") {
-			let attrValue = getData(childTag, dataAttrName);
-			setAttributeIfValue(childTag, attrName, attrValue, toWebpFlag);
+			sourceTags.push(childTag);
 		}
 	}
+	return sourceTags;
 };
 
-export const setAttributeIfValue = function(
-	element,
-	attrName,
-	value,
-	toWebpFlag
-) {
+export const setAttributeIfValue = (element, attrName, value) => {
 	if (!value) {
 		return;
 	}
-	element.setAttribute(attrName, replaceExtToWebp(value, toWebpFlag));
+	element.setAttribute(attrName, value);
+};
+
+export const setImageAttributes = (element, settings) => {
+	setAttributeIfValue(
+		element,
+		"sizes",
+		getData(element, settings.data_sizes)
+	);
+	setAttributeIfValue(
+		element,
+		"srcset",
+		getData(element, settings.data_srcset)
+	);
+	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 export const setSourcesImg = (element, settings) => {
-	const toWebpFlag = supportsWebp && settings.to_webp;
-	const srcsetDataName = settings.data_srcset;
 	const parent = element.parentNode;
 
 	if (parent && parent.tagName === "PICTURE") {
-		setSourcesInChildren(parent, "srcset", srcsetDataName, toWebpFlag);
+		let sourceTags = getSourceTags(parent);
+		sourceTags.forEach(sourceTag => {
+			setImageAttributes(sourceTag, settings);
+		});
 	}
-	const sizesDataValue = getData(element, settings.data_sizes);
-	setAttributeIfValue(element, "sizes", sizesDataValue);
-	const srcsetDataValue = getData(element, srcsetDataName);
-	setAttributeIfValue(element, "srcset", srcsetDataValue, toWebpFlag);
-	const srcDataValue = getData(element, settings.data_src);
-	setAttributeIfValue(element, "src", srcDataValue, toWebpFlag);
+
+	setImageAttributes(element, settings);
 };
 
 export const setSourcesIframe = (element, settings) => {
-	const srcDataValue = getData(element, settings.data_src);
-
-	setAttributeIfValue(element, "src", srcDataValue);
+	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 export const setSourcesVideo = (element, settings) => {
-	const srcDataName = settings.data_src;
-	const srcDataValue = getData(element, srcDataName);
-
-	setSourcesInChildren(element, "src", srcDataName);
-	setAttributeIfValue(element, "src", srcDataValue);
+	let sourceTags = getSourceTags(element);
+	sourceTags.forEach(sourceTag => {
+		setAttributeIfValue(
+			sourceTag,
+			"src",
+			getData(sourceTag, settings.data_src)
+		);
+	});
+	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 	element.load();
 };
 
 export const setSourcesBgImage = (element, settings) => {
-	const toWebpFlag = supportsWebp && settings.to_webp;
 	const srcDataValue = getData(element, settings.data_src);
 	const bgDataValue = getData(element, settings.data_bg);
 
 	if (srcDataValue) {
-		let setValue = replaceExtToWebp(srcDataValue, toWebpFlag);
-		element.style.backgroundImage = `url("${setValue}")`;
+		element.style.backgroundImage = `url("${srcDataValue}")`;
 	}
 
 	if (bgDataValue) {
-		let setValue = replaceExtToWebp(bgDataValue, toWebpFlag);
-		element.style.backgroundImage = setValue;
+		element.style.backgroundImage = bgDataValue;
 	}
 };
 
@@ -88,7 +88,7 @@ export const setSources = (element, instance) => {
 	const setSourcesFunction = setSourcesFunctions[tagName];
 	if (setSourcesFunction) {
 		setSourcesFunction(element, settings);
-		instance._updateLoadingCount(1);
+		updateLoadingCount(instance, 1);
 		instance._elements = purgeOneElement(instance._elements, element);
 		return;
 	}
