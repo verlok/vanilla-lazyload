@@ -368,12 +368,9 @@ var LazyLoad = function () {
     setWasProcessedData(element);
     callbackIfSet(settings.callback_reveal, element);
   };
-  /* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
-     entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-
 
   var isIntersecting = function isIntersecting(entry) {
-    return entry.isIntersecting || entry.intersectionRatio > 0;
+    return entry.intersectionRatio > 0;
   };
 
   var getObserverSettings = function getObserverSettings(settings) {

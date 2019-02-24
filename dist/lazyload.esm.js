@@ -348,10 +348,7 @@ const revealElement = (element, instance, force) => {
 	callbackIfSet(settings.callback_reveal, element);
 };
 
-/* entry.isIntersecting needs fallback because is null on some versions of MS Edge, and
-   entry.intersectionRatio is not enough alone because it could be 0 on some intersecting elements */
-const isIntersecting = entry =>
-	entry.isIntersecting || entry.intersectionRatio > 0;
+const isIntersecting = entry => entry.intersectionRatio > 0;
 
 const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
