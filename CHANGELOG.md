@@ -2,6 +2,10 @@
 
 ## Version 11
 
+#### 11.0.1
+
+Squashed a nasty bug that occurred on IE 11 and Safari when the `IntersectionObserver` polyfill wasn't loaded before LazyLoad.
+
 #### 11.0.0
 
 - Changed bundle file name of ES Module from `lazyload.es2015.js` to `lazyload.esm.js`
