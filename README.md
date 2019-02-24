@@ -110,7 +110,7 @@ var lazyLoadInstance = new LazyLoad({
 });
 ```
 
-**Be sure that DOM is ready when you instantiate LazyLoad**. If you can't be sure, or other content may arrive in a later time via AJAX, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
+**Be sure that DOM for your lazy content is ready when you instantiate LazyLoad**. If you can't be sure, or other content may arrive in a later time via AJAX, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
 #### Using an `async` script
 
@@ -412,7 +412,7 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 ### Occupy vertical space and maintain ratio
 
-You need to be sure that the images that are going to be lazy loaded **occupy some vertical space (*)**, ideally the same space of the loaded images. Otherwise, all the images will be loaded at once.
+You need to be sure that the containers of the images that are going to be lazy loaded **occupy some vertical space**. This because if the images have an initial height of `0`, all of them will probably be inside the viewport before time, so they will be loaded all at once.
 
 In an elastic layout where images width change, you want to keep vertical space maintaining the images height, using a width/height ratio calculation.
 
