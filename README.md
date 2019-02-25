@@ -269,7 +269,7 @@ This is the section where you can find _copy & paste_ code for your convenience.
 HTML
 
 ```html
-<div id="scrollingPanel"> 
+<div class="scrollingPanel" id="scrollingPanel"> 
     <!-- Set of images -->
 </div>
 ```
