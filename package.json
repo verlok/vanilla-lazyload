@@ -49,7 +49,11 @@
 		"async",
 		"no-jquery"
 	],
-	"author": "Andrea \"verlok\" Verlicchi",
+	"author": {
+		"name": "Andrea \"verlok\" Verlicchi",
+		"email": "andrea.verlicchi@gmail.com",
+		"url": "http://andreaverlicchi.eu"
+	},
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/verlok/lazyload/issues"
