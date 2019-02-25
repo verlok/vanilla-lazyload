@@ -174,19 +174,67 @@ This is because LazyLoad uses `CustomEvent` ([learn more](https://developer.mozi
 
 ### Include via RequireJS
 
-If you use [RequireJS](https://requirejs.org) to dynamically load modules in your website, you can take advantage of it.
+You can use [RequireJS](https://requirejs.org) to dynamically and asynchronously load modules in your website.
 
-```js
-define("vanilla-lazyLoad", ["https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.amd.min.js"], function (LazyLoad) {
-    return LazyLoad;
-});
+Include RequireJS:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
 ```
 
-<!--
-TODO: Add here info on 
-- how to load the polyfill as a dependency...
-- ...only if browser doesn't support IObserver
--->
+Then `require` the AMD version of LazyLoad:
+
+```js
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.amd.min.js";
+
+/// Set lazyload AMD as a dependency
+var dependencies = [lazyLoadAmdUrl];
+
+// Initialize LazyLoad inside the callback
+require(dependencies, function(LazyLoad) {
+    var lazyLoadInstance = new LazyLoad({
+        elements_selector: ".lazy"
+        // ... more custom settings?
+    });
+}
+```
+
+[DEMO](https://verlok.github.io/lazyload/demos/amd.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/amd.html)
+
+### Include via RequireJS with/out IntersectionObserver polyfill
+
+Include RequireJS:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
+```
+
+The original, official [W3C IntersectionObserver Polyfill](https://github.com/w3c/IntersectionObserver), can be also packed in AMD ([find it here](https://github.com/verlok/IntersectionObserverAMD)), so you can `require` it conditionally, along with LazyLoad.
+
+Like this:
+
+```js
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.amd.min.js";
+
+/// Dinamically define the dependencies
+var dependencies = [
+    "IntersectionObserver" in window
+        ? null // <- Doesn't require the polyfill
+        : "./vendor/intersection-observer-amd.js",
+    lazyLoadAmdUrl
+];
+
+// Initialize LazyLoad inside the callback
+require(dependencies, function(LazyLoad) {
+    var lazyLoadInstance = new LazyLoad({
+        elements_selector: ".lazy"
+        // ... more custom settings?
+    });
+}
+```
+
+[DEMO](https://verlok.github.io/lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/amd_polyfill.html)
+
 
 ### Local install
 

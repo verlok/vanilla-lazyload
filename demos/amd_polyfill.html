@@ -456,13 +456,14 @@
 				);
 			}
 
-			var dependencies = [];
-			if (!("IntersectionObserver" in window)) {
-				dependencies.push("./vendor/intersection-observer-amd.js");
-			}
-			dependencies.push("../dist/lazyload.amd.js");
+			var dependencies = [
+				"IntersectionObserver" in window
+					? null
+					: "./vendor/intersection-observer-amd.js",
+				"../dist/lazyload.amd.js"
+			];
 
-			require(dependencies, function(io, LazyLoad) {
+			require(dependencies, function(_, LazyLoad) {
 				window.ll = new LazyLoad({
 					elements_selector: ".lazy",
 
