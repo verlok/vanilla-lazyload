@@ -28,6 +28,8 @@
 
 			img {
 				border: 1px solid black;
+				width: 220px;
+				height: auto;
 			}
 
 			img:not([src]) {
@@ -59,7 +61,7 @@
 				<img
 					alt="Stivaletti"
 					class="lazy"
-					data-src="../img/44721746JJ_15_a.jpg"
+					data-src="https://via.placeholder.com/440x560?text=Booya!"
 					width="220"
 					height="280"
 				/>
@@ -94,7 +96,7 @@
 				var callback_error = function(element) {
 					logElementEvent("::: ERROR", element);
 					element.src =
-						"https://via.placeholder.com/220x280/?text=Error+Placeholder";
+						"https://via.placeholder.com/440x560/?text=Error+Placeholder";
 				};
 				var callback_finish = function() {
 					logElementEvent("\\o/ FINISHED", document.documentElement);
