@@ -60,7 +60,7 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 <div class="lazy" data-bg="url(sloth.jpg)"></div>
 ```
 
-Note that to load images you to use `url()` in the value of your `data-bg` attribute.
+Note that to load background images, you need to use `url()` in the value of your `data-bg` attribute.
 
 #### Lazy multiple background image
 
@@ -216,7 +216,7 @@ Like this:
 ```js
 var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.amd.min.js";
 
-/// Dinamically define the dependencies
+/// Dynamically define the dependencies
 var dependencies = [
     "IntersectionObserver" in window
         ? null // <- Doesn't require the polyfill
@@ -523,7 +523,7 @@ Or instead of the above `:not()` selector do it using the **CSS classes** of `cl
 
 We do not recommend to use a placeholder image (like a transparent pixel GIF) in your HTML. 
 
-* For **best perceived preformance, leave the `src` and `srcset` attributes blank**. Doing so, the image will be shown as soon as LazyLoad starts loading the image. See [this video](https://youtu.be/2E3ociaFJS0) or [this pen](https://codepen.io/verlok/pen/bKYggE?editors=0110) to test the difference (remember to disable the cache and to set a slower connection speed if you have a very fast one).
+* For **best perceived performance, leave the `src` and `srcset` attributes blank**. Doing so, the image will be shown as soon as LazyLoad starts loading the image. See [this video](https://youtu.be/2E3ociaFJS0) or [this pen](https://codepen.io/verlok/pen/bKYggE?editors=0110) to test the difference (remember to disable the cache and to set a slower connection speed if you have a very fast one).
 * If you put anything in the src (like a transparent GIF), then LazyLoad starts loading the image but it won't be shown by browsers until the new image is loaded, leading to a **worse perceived performance**.
 
 It's safe not to put any value in the `src` nor `srcset` attributes, even if your HTML won't validate by a static code analyzer. The reason is that once JavaScript is executed, those values will be set by LazyLoad. For SEO, if the client is a crawler like Googlebot, it will be detected by LazyLoad which will fix the HTML.
@@ -538,7 +538,7 @@ MOAR points to add to the README:
 
 According to what reported in #152, for Microsoft Edge to fire the IntersectionObserver for an `img` element, it must have a size. Since `img`s are displayed `inline-block` as standard, MS Edge (version not specified) doesn't read them correctly.
 
-By setting the following, edge is able to see the images and they get loaded.
+By setting the following, Edge is able to see the images and they get loaded.
 
 ```css
 img[data-src],
@@ -569,7 +569,7 @@ var aLazyLoad = new LazyLoad({
 });
 ```
 
-In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as second parameter.
+In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as the second parameter.
 
 ```js
 var elementsToLazyLoad = getElementSetFromSomewhere();
@@ -613,7 +613,7 @@ You can call the following public methods on any instance of LazyLoad.
 | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `update()`             | Make LazyLoad to check for new lazy images in the container, using the `elements_selector` option.                                                                                                                          |
 | `loadAll()`            | Loads all the lazy images right away, no matter if they are inside or outside the viewport.                                                                                                                                 |
-| `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as second parameter. |
+| `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as the second parameter. |
 | `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                 |
 
 ---
