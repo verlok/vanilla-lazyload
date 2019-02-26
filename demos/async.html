@@ -21,7 +21,7 @@
 			img {
 				border: 0;
 				width: 220px;
-				height: auto;
+				height: 280px;
 			}
 
 			img:not([src]) {
@@ -411,6 +411,14 @@
 			</ul>
 		</div>
 		<script>
+			function logElementEvent(eventName, element) {
+				console.log(
+					Date.now(),
+					eventName,
+					element.getAttribute("data-src")
+				);
+			}
+
 			var callback_enter = function(element) {
 				logElementEvent("--> ENTERED", element);
 			};
