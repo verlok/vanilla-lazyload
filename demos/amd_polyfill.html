@@ -446,7 +446,7 @@
 				</li>
 			</ul>
 		</div>
-		<script src="./vendor/require.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
 		<script>
 			function logElementEvent(eventName, element) {
 				console.log(
@@ -459,7 +459,7 @@
 			var dependencies = [
 				"IntersectionObserver" in window
 					? null
-					: "./vendor/intersection-observer-amd.js",
+					: "https://cdn.jsdelivr.net/npm/intersection-observer-amd@1.0.0/intersection-observer-amd.js",
 				"../dist/lazyload.amd.js"
 			];
 
