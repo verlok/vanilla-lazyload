@@ -609,12 +609,12 @@ Here's the list of the options.
 
 You can call the following public methods on any instance of LazyLoad.
 
-| Method name            | Effect                                                                                                                                                                                                                      |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `update()`             | Make LazyLoad to check for new lazy images in the container, using the `elements_selector` option.                                                                                                                          |
-| `loadAll()`            | Loads all the lazy images right away, no matter if they are inside or outside the viewport.                                                                                                                                 |
+| Method name            | Effect                                                                                                                                                                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `update()`             | Make LazyLoad to check for new lazy images in the container, using the `elements_selector` option.                                                                                                                              |
+| `loadAll()`            | Loads all the lazy images right away, no matter if they are inside or outside the viewport.                                                                                                                                     |
 | `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as the second parameter. |
-| `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                 |
+| `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                     |
 
 ---
 
