@@ -640,10 +640,6 @@ _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attribute
 
 Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
 
-### Much faster than jQuery\_lazyload
-
-This script is comparable to the notorious jQuery\_lazyload, but **_LazyLoad_ is 10x faster**, because LazyLoad uses only optimized, **native javascript** functions and methods, instead of jQuery.
-
 ### Tested on real browsers
 
 This script is tested before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
