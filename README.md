@@ -13,17 +13,25 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 #### Lazy image:
 
 ```html
-<img alt="A lazy image" data-src="sloth.jpg">
+<img alt="A lazy image" data-src="lazy.jpg">
+```
+
+#### Lazy image with low quality placeholder:
+
+```html
+<img alt="A lazy image" src="lazy-lowQuality.jpg" data-src="lazy.jpg">
 ```
 
 #### Lazy responsive image with `srcset` and `sizes`:
 
 ```html
 <img alt="A lazy image" class="lazy" 
-    data-src="sloth.jpg" 
-    data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w" 
+    data-src="lazy.jpg" 
+    data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w" 
     data-sizes="100w">
 ```
+
+To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image. E.g. `src="lazy_10.jpg"`.
 
 #### Lazy responsive image with hi-dpi support using the `picture` tag:
 
@@ -31,61 +39,70 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 <picture>
     <source 
         media="(min-width: 1200px)" 
-        data-srcset="sloth_1200.jpg 1x, sloth_2400.jpg 2x">
+        data-srcset="lazy_1200.jpg 1x, lazy_2400.jpg 2x">
     <source 
         media="(min-width: 800px)" 
-        data-srcset="sloth_800.jpg 1x, sloth_1600.jpg 2x">
+        data-srcset="lazy_800.jpg 1x, lazy_1600.jpg 2x">
     <img alt="A lazy image" class="lazy" 
-        data-src="sloth.jpg">
+        data-src="lazy.jpg">
 </picture>
 ```
+
+To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image to the `img` tag. E.g. `src="lazy_10.jpg"`.
 
 #### Lazy responsive image with automatic _WebP_ format selection, using the `picture` tag:
 
 ```html
 <picture>
     <source type="image/webp" 
-        data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w" 
+        data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w" 
         data-sizes="100w">
     <img alt="A lazy image" class="lazy" 
-        data-src="sloth.jpg" 
-        data-srcset="sloth_400.jpg 400w, sloth_800.jpg 800w"
+        data-src="lazy.jpg" 
+        data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
         data-sizes="100w">
 </picture>
 ```
 
-#### Lazy single background image
+To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image to the `img` tag. E.g. `src="lazy_10.jpg"`.
+
+#### Lazy background image
+
+Single background
 
 ```html
-<div class="lazy" data-bg="url(sloth.jpg)"></div>
+<div class="lazy" data-bg="url(lazy.jpg)"></div>
 ```
 
-Note that to load background images, you need to use `url()` in the value of your `data-bg` attribute.
-
-#### Lazy multiple background image
+Multiple backgrounds
 
 ```html
 <div class="lazy" 
-    data-bg="url(sloth-head.jpg), url(sloth-body.jpg), linear-gradient(#fff, #ccc)">
+    data-bg="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)">
     ...
 </div>
 ```
+
+Notes: 
+- you need to use `url()` in the value of your `data-bg` attribute, also for single background
+- you shouldn't use background images to load content images, they're bad for SEO and for accessibility
+- on background images, `callback_loaded` won't be called and the `class_loaded` class won't be added
 
 #### Lazy video
 
 ```html
 <video class="lazy" controls width="620"
-    data-src="sloth.mp4" poster="sloth.jpg">
-    <source type="video/mp4" data-src="sloth.mp4">
-    <source type="video/ogg" data-src="sloth.ogg">
-    <source type="video/avi" data-src="sloth.avi">
+    data-src="lazy.mp4" poster="lazy.jpg">
+    <source type="video/mp4" data-src="lazy.mp4">
+    <source type="video/ogg" data-src="lazy.ogg">
+    <source type="video/avi" data-src="lazy.avi">
 </video>
 ```
 
 #### Lazy iframe
 
 ```html
-<iframe class="lazy" data-src="slothFrame.html" poster="sloth.jpg"></iframe>
+<iframe class="lazy" data-src="lazyFrame.html" poster="lazy.jpg"></iframe>
 ```
 
 ### Include LazyLoad in your project
@@ -368,7 +385,7 @@ HTML
 
 ```html
 <img class="lazy" alt="A lazy image" 
-     data-src="sloth.jpg"
+     data-src="lazy.jpg"
      width="220" height="280">
 ```
 
@@ -430,7 +447,7 @@ var lazyLoadInstances = [];
 var lazyLazy = new LazyLoad({
     elements_selector: ".horzContainer",
     // When the .horzContainer div enters the viewport...
-    callback_set: function(el) {
+    callback_enter: function(el) {
         // ...instantiate a new LazyLoad on it
         var oneLL = new LazyLoad({
             container: el
@@ -442,7 +459,7 @@ var lazyLazy = new LazyLoad({
 });
 ```
 
-That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_set` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
+That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_enter` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
 
 [DEMO](https://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
