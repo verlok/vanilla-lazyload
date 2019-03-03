@@ -165,12 +165,13 @@ Then `require` the AMD version of LazyLoad, like this:
 
 ```js
 var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.amd.min.js";
+var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@1.0.0/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
 var dependencies = [
     "IntersectionObserver" in window
         ? null // <- Doesn't require the polyfill
-        : "./vendor/intersection-observer-amd.js",
+        : polyfillAmdUrl,
     lazyLoadAmdUrl
 ];
 

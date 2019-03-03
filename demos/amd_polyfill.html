@@ -458,10 +458,11 @@
 				);
 			}
 
+			var polyfillAmdUrl =
+				"https://cdn.jsdelivr.net/npm/intersection-observer-amd@1.0.0/intersection-observer-amd.js";
+
 			var dependencies = [
-				"IntersectionObserver" in window
-					? null
-					: "https://cdn.jsdelivr.net/npm/intersection-observer-amd@1.0.0/intersection-observer-amd.js",
+				"IntersectionObserver" in window ? null : polyfillAmdUrl,
 				"../dist/lazyload.amd.js"
 			];
 
