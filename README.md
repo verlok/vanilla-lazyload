@@ -187,7 +187,7 @@ require(dependencies, function(_, LazyLoad) {
 [DEMO](https://verlok.github.io/lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/amd_polyfill.html)
 
 
-#### Using an `async` script
+### Using an `async` script
 
 If you prefer, it's possible to include LazyLoad's script using `async` script and initialize it as soon as it's loaded.	
 
@@ -214,7 +214,7 @@ Then include the script.
 
 **Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call its `update()` method to make it check the DOM again.
 
-#### Using an `async` script + getting the instance reference
+### Using an `async` script + getting the instance reference
 
 Same as above, but you must put the `addEventListener` code shown below before including the `async` script.
 
