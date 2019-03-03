@@ -203,7 +203,7 @@ var dependencies = [
 ];
 
 // Initialize LazyLoad inside the callback
-require(dependencies, function(LazyLoad) {
+require(dependencies, function(_, LazyLoad) {
     var lazyLoadInstance = new LazyLoad({
         elements_selector: ".lazy"
         // ... more custom settings?
