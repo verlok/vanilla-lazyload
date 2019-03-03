@@ -149,38 +149,11 @@ if (lazyLoadInstance) {
 }
 ```
 
-<!--
-**Note about Internet Explorer**
-
-If you want to use asynchronous loading and need to store the instance in a variable, you need to include the following "polyfill" code to enable support for Internet Explorer.
-
-This is because LazyLoad uses `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)) to trigger the `LazyLoad::Initialized` event, but this is not natively supported by Internet Explorer. 
-
-```js
-(function () {
-    if (typeof window.CustomEvent === "function") {
-        return false;
-    }
-
-    function CustomEvent(event, params) {
-        params = params || {bubbles: false, cancelable: false, detail: undefined};
-        var evt = document.createEvent("CustomEvent");
-        evt.initCustomEvent (event, params.bubbles, params.cancelable, params.detail);
-        return evt;
-    }
-
-    CustomEvent.prototype = window.Event.prototype;
-    window.CustomEvent = CustomEvent;
-})();
-```
--->
-
 ### Include via RequireJS
 
 You can use [RequireJS](https://requirejs.org) to dynamically and asynchronously load modules in your website.
 
-If you want, you can also find the original [W3C IntersectionObserver Polyfill packed in AMD](https://github.com/verlok/IntersectionObserverAMD) so you can `require` it conditionally, along with LazyLoad.
-
+You can also find the original W3C'S [IntersectionObserver Polyfill packed in AMD](https://github.com/verlok/IntersectionObserverAMD) so you can `require` it conditionally, along with LazyLoad.
 
 Include RequireJS:
 
@@ -188,8 +161,7 @@ Include RequireJS:
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
 ```
 
-Then `require` the AMD version of LazyLoad:
-Like this:
+Then `require` the AMD version of LazyLoad, like this:
 
 ```js
 var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.amd.min.js";
@@ -213,6 +185,88 @@ require(dependencies, function(_, LazyLoad) {
 
 [DEMO](https://verlok.github.io/lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/amd_polyfill.html)
 
+
+#### Using an `async` script
+
+If you prefer, it's possible to include LazyLoad's script using `async` script and initialize it as soon as it's loaded.	
+
+To do so, **you must define the options before including the script**. You can pass:
+
+- `{}` an object to get a single instance of LazyLoad
+- `[{}, {}]` an array of objects to get multiple instances of LazyLoad, each one with different options.
+
+```html	
+<script>	
+    // Set the options to make LazyLoad self-initialize	
+    window.lazyLoadOptions = {	
+        elements_selector: ".lazy",	
+        // ... more custom settings?	
+    };
+</script>	
+```
+
+Then include the script.
+
+```html	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.min.js"></script>	
+```
+
+**Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call its `update()` method to make it check the DOM again.
+
+#### Using an `async` script + getting the instance reference
+
+Same as above, but you must put the `addEventListener` code shown below before including the `async` script.
+
+```html	
+<script>	
+    // Set the options to make LazyLoad self-initialize	
+    window.lazyLoadOptions = {	
+        elements_selector: ".lazy",	
+        // ... more custom settings?	
+    };
+    // Listen to the initialization event and get the instance of LazyLoad	
+    window.addEventListener('LazyLoad::Initialized', function (event) {	
+        window.lazyLoadInstance = event.detail.instance;	
+    }, false);	
+</script>	
+```
+
+Then include the script.
+
+```html	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.min.js"></script>	
+```
+
+Now you'll be able to call its methods, like:
+
+```js
+if (lazyLoadInstance) {
+    lazyLoadInstance.update();
+}
+```
+
+Note about Internet Explorer: because this technique uses a `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)) to trigger the `LazyLoad::Initialized` event, you might want to add this micro polyfill to make it work on Internet Explorer.
+
+```html
+<script>
+// CustomEvent micro-polyfill for Internet Explorer
+(function () {
+    if (typeof window.CustomEvent === "function") {
+        return false;
+    }
+
+    function CustomEvent(event, params) {
+        params = params || {bubbles: false, cancelable: false, detail: undefined};
+        var evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent (event, params.bubbles, params.cancelable, params.detail);
+        return evt;
+    }
+
+    CustomEvent.prototype = window.Event.prototype;
+    window.CustomEvent = CustomEvent;
+})();
+</script>
+```
 
 ### Local install
 
