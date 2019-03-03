@@ -609,4 +609,4 @@ Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Inte
 
 Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative. 
 
-<a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="/img/browserstack-logo-600x315.png"  width="300" height="158"/></a>
+<a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="./img/browserstack-logo-600x315.png"  width="300" height="158"/></a>
