@@ -107,14 +107,28 @@ Notes:
 
 ### Include LazyLoad in your project
 
-The latest version of LazyLoad is **11.0.2**.<br>
-&rarr; [Read the note about versions and behaviour](#note-about-versions-and-behaviour)
+The latest, recommended version of LazyLoad is **11.0.2**. Which leverages the power and speed of the browser's **IntersectionObserver** API.
+
+#### IntersectionObserver: to polyfill or not to polyfill?
+
+On browser NOT supporting IntersectionObserver such as Internet explorer and older versions of Safari **you can choose whether or not to add a javascript polyfill** for it.
+
+If you **don't use a polyfill**, LazyLoad will **load all the images** as soon as it's downloaded and executed. The number of impacted users would be [relatively small](https://caniuse.com/intersectionobserver), so this is a completely acceptable choice.
+
+If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 
 #### The simplest way
 
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.min.js"></script>
+```
+
+Or, with the IntersectionObserver polyfill:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.5.1/intersection-observer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.min.js"></script>
 ```
 
@@ -127,37 +141,7 @@ var lazyLoadInstance = new LazyLoad({
 });
 ```
 
-**Be sure that DOM for your lazy content is ready when you instantiate LazyLoad**. If you can't be sure, or other content may arrive in a later time via AJAX, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
-
-#### Using an `async` script
-
-If you prefer, it's possible to include LazyLoad's script using `async` script and initialize it as soon as it's loaded.
-
-**Define the options before including the script**. You can pass:
-- `{}` an object to get a single instance of LazyLoad
-- `[{}, {}]` an array of objects to get multiple instances of LazyLoad, each one with different options.
-
-```html
-<script>
-    // Set the options to make LazyLoad self-initialize
-    window.lazyLoadOptions = {
-        elements_selector: ".lazy",
-        // ... more custom settings?
-    };
-    // Listen to the initialization event and get the instance of LazyLoad
-    window.addEventListener('LazyLoad::Initialized', function (event) {
-        window.lazyLoadInstance = event.detail.instance;
-    }, false);
-</script>
-```
-
-Then include the script.
-
-```html
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.min.js"></script>
-```
-
-**Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again. 
+To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
 ```js
 if (lazyLoadInstance) {
@@ -165,6 +149,7 @@ if (lazyLoadInstance) {
 }
 ```
 
+<!--
 **Note about Internet Explorer**
 
 If you want to use asynchronous loading and need to store the instance in a variable, you need to include the following "polyfill" code to enable support for Internet Explorer.
@@ -188,10 +173,14 @@ This is because LazyLoad uses `CustomEvent` ([learn more](https://developer.mozi
     window.CustomEvent = CustomEvent;
 })();
 ```
+-->
 
 ### Include via RequireJS
 
 You can use [RequireJS](https://requirejs.org) to dynamically and asynchronously load modules in your website.
+
+If you want, you can also find the original [W3C IntersectionObserver Polyfill packed in AMD](https://github.com/verlok/IntersectionObserverAMD) so you can `require` it conditionally, along with LazyLoad.
+
 
 Include RequireJS:
 
@@ -200,34 +189,6 @@ Include RequireJS:
 ```
 
 Then `require` the AMD version of LazyLoad:
-
-```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.2/dist/lazyload.amd.min.js";
-
-/// Set lazyload AMD as a dependency
-var dependencies = [lazyLoadAmdUrl];
-
-// Initialize LazyLoad inside the callback
-require(dependencies, function(LazyLoad) {
-    var lazyLoadInstance = new LazyLoad({
-        elements_selector: ".lazy"
-        // ... more custom settings?
-    });
-}
-```
-
-[DEMO](https://verlok.github.io/lazyload/demos/amd.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/amd.html)
-
-### Include via RequireJS with/out IntersectionObserver polyfill
-
-Include RequireJS:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
-```
-
-The original, official [W3C IntersectionObserver Polyfill](https://github.com/w3c/IntersectionObserver), can be also packed in AMD ([find it here](https://github.com/verlok/IntersectionObserverAMD)), so you can `require` it conditionally, along with LazyLoad.
-
 Like this:
 
 ```js
@@ -302,15 +263,8 @@ Inside the `dist` folder you will find different bundles.
 | `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *RequireJS* module loader, ~0.5kb smaller than UMD version                                                                      |
 | `lazyload.esm.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
-#### Note about versions and behaviour
-
-The latest, recommended version of LazyLoad is `11.0.2`.
-
-- On [browsers supporting the `IntersectionObserver` API]((https://caniuse.com/#feat=intersectionobserver)), it will load your images as they enter the viewport.
-- On browsers _not_ supporting `IntersectionObserver`, it will load all your lazy content immediately, **unless** you load an `IntersectionObserver` polyfill like [this one](https://github.com/w3c/IntersectionObserver/) in your page (before LazyLoad). Using [Polyfill.io](https://polyfill.io/) is a way to do that.
-
 Legacy browsers support is from IE 9 up.
-
+<!--
 ##### What about LazyLoad 8.x?
 
 Version 8.x of LazyLoad still works and exists on npm, cdnjs and jsdelivr, and you still can load it conditionally (if you do that, like [in this demo](demos/conditional_loading.html), you may use versions `8.17.0`/`10.20.1` which have similar API), but doing so is being **deprecated**. The reason of is:
@@ -320,8 +274,7 @@ Version 8.x of LazyLoad still works and exists on npm, cdnjs and jsdelivr, and y
 - Version 8.x listens on the container's `scroll` event, while version 10.x uses `IntersectionObserver`, so they behave differently (e.g. with sliders, or with different scrolling containers).
 
 The [official w3c polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) could be loaded _conditionally_ on less recent versions of Safari and Internet Explorer, using [Polyfill.io](https://cdn.polyfill.io/v3/).
-
----
+-->
 
 ## 🥧 Recipes
 
