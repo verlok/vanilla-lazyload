@@ -107,7 +107,7 @@ Notes:
 
 ### Include LazyLoad in your project
 
-The latest, recommended version of LazyLoad is **11.0.2**. Which leverages the power and speed of the browser's **IntersectionObserver** API.
+The latest, recommended version of LazyLoad is **11.0.2**, which leverages the power and speed of the browser's **IntersectionObserver** API.
 
 #### IntersectionObserver: to polyfill or not to polyfill?
 
@@ -263,7 +263,6 @@ Inside the `dist` folder you will find different bundles.
 | `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *RequireJS* module loader, ~0.5kb smaller than UMD version                                                                      |
 | `lazyload.esm.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
-Legacy browsers support is from IE 9 up.
 <!--
 ##### What about LazyLoad 8.x?
 
@@ -602,16 +601,12 @@ As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using *
 
 _LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
 
-### Progressive JPEG support --> improve perceived performance
-
-[Progressive JPEG](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) is an image format which is very good for perceived performance because it's rendered sooner, and refined in progressive passes. `LazyLoad` shows your images while they load, letting *progressive JPEG* do its magic.
-
 ### Intersection Observer API for optimized CPU usage
 
 Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
 
 ### Tested on real browsers
 
-This script is tested before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
+Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative. 
 
-[![BrowserStack Logo](/img/browserstack-logo-600x315.png)](http://browserstack.com/)
+[![BrowserStack Logo](/img/browserstack-logo-600x315.png =300x)](http://browserstack.com/)
