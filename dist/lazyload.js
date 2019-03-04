@@ -374,7 +374,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   };
 
   var isIntersecting = function isIntersecting(entry) {
-    return entry.intersectionRatio > 0;
+    return entry.isIntersecting || entry.intersectionRatio > 0;
   };
 
   var getObserverSettings = function getObserverSettings(settings) {
