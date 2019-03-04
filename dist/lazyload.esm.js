@@ -348,7 +348,8 @@ const revealElement = (element, instance, force) => {
 	callbackIfSet(settings.callback_reveal, element);
 };
 
-const isIntersecting = entry => entry.intersectionRatio > 0;
+const isIntersecting = entry =>
+	entry.isIntersecting || entry.intersectionRatio > 0;
 
 const getObserverSettings = settings => ({
 	root: settings.container === document ? null : settings.container,
