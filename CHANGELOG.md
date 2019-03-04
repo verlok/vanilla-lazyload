@@ -2,9 +2,13 @@
 
 ## Version 11
 
+#### 11.0.3
+
+Rollback of the patch applied in 11.0.2 since it gave strange results in some cases. See #293. Thanks to @davejamesmiller for the analysis and the report.
+
 #### 11.0.2
 
-Applied a patch to resolve #293 a [Chromium bug](https://bugs.chromium.org/p/chromium/issues/detail?id=910741#c13) already fixed in Chrome 72. Thanks to @dverbovyi for reporting, analyzing and solving it.
+Applied a patch to resolve #293 a [Chromium bug](https://bugs.chromium.org/p/chromium/issues/detail?id=910741#c13) already fixed in Chrome 72. Thanks to @dverbovyi for the analysis and the report.
 
 #### 11.0.1
 
