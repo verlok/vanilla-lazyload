@@ -318,17 +318,6 @@ Inside the `dist` folder you will find different bundles.
 | `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with *RequireJS* module loader, ~0.5kb smaller than UMD version                                                                      |
 | `lazyload.esm.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
-<!--
-##### What about LazyLoad 8.x?
-
-Version 8.x of LazyLoad still works and exists on npm, cdnjs and jsdelivr, and you still can load it conditionally (if you do that, like [in this demo](demos/conditional_loading.html), you may use versions `8.17.0`/`10.20.1` which have similar API), but doing so is being **deprecated**. The reason of is:
-
-- `IntersectionObserver` [support is very wide](https://caniuse.com/intersectionobserver) now, coming to Safari in the very next few days;
-- Internet Explorer will soon disappear from our radars, in the meantime you can load the polyfill on it. Or not, since [even Microsoft is telling users not to use it anymore](https://www.zdnet.com/article/microsoft-security-chief-ie-is-not-a-browser-so-stop-using-it-as-your-default/);
-- Version 8.x listens on the container's `scroll` event, while version 10.x uses `IntersectionObserver`, so they behave differently (e.g. with sliders, or with different scrolling containers).
-
-The [official w3c polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill) could be loaded _conditionally_ on less recent versions of Safari and Internet Explorer, using [Polyfill.io](https://cdn.polyfill.io/v3/).
--->
 
 ## 🥧 Recipes
 
