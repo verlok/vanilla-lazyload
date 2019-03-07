@@ -8,19 +8,19 @@ LazyLoad is a fast, lightweight and flexible script that _speeds up your web app
 
 In order to make your content be loaded by LazyLoad, you must use some `data-` attributes instead of the actual attributes. Examples below.
 
-### Lazy image:
+#### Lazy image:
 
 ```html
 <img alt="A lazy image" data-src="lazy.jpg">
 ```
 
-### Lazy image with low quality placeholder:
+#### Lazy image with low quality placeholder:
 
 ```html
 <img alt="A lazy image" src="lazy-lowQuality.jpg" data-src="lazy.jpg">
 ```
 
-### Lazy responsive image with `srcset` and `sizes`:
+#### Lazy responsive image with `srcset` and `sizes`:
 
 ```html
 <img alt="A lazy image" class="lazy" 
@@ -31,7 +31,7 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 
 To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image. E.g. `src="lazy_10.jpg"`.
 
-### Lazy responsive image with hi-dpi support using the `picture` tag:
+#### Lazy responsive image with hi-dpi support using the `picture` tag:
 
 ```html
 <picture>
@@ -48,7 +48,7 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image to the `img` tag. E.g. `src="lazy_10.jpg"`.
 
-### Lazy responsive image with automatic _WebP_ format selection, using the `picture` tag:
+#### Lazy responsive image with automatic _WebP_ format selection, using the `picture` tag:
 
 ```html
 <picture>
@@ -64,7 +64,7 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image to the `img` tag. E.g. `src="lazy_10.jpg"`.
 
-### Lazy background image
+#### Lazy background image
 
 Single background
 
@@ -86,7 +86,7 @@ Notes:
 - you shouldn't use background images to load content images, they're bad for SEO and for accessibility
 - on background images, `callback_loaded` won't be called and the `class_loaded` class won't be added
 
-### Lazy video
+#### Lazy video
 
 ```html
 <video class="lazy" controls width="620"
@@ -97,7 +97,7 @@ Notes:
 </video>
 ```
 
-### Lazy iframe
+#### Lazy iframe
 
 ```html
 <iframe class="lazy" data-src="lazyFrame.html" poster="lazy.jpg"></iframe>
