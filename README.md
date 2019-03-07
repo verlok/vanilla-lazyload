@@ -321,9 +321,27 @@ Inside the `dist` folder you will find different bundles.
 
 ## 🥧 Recipes
 
-This is the section where you can find _copy & paste_ code for your convenience.
+This is the section where you can find _ready to copy & paste_ code for your convenience.
 
-### Scrolling panel
+### Dynamic content
+
+> 💡 **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
+
+HTML
+
+*The HTML to use depends on your case, see other recipes' HTML*
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad();
+// After your content has changed...
+myLazyLoad.update();
+```
+
+[DEMO](https://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
+
+### Scrolling panel(s)
 
 > 💡 **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
 
@@ -345,9 +363,8 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/container_single.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/container_single.html) - [API](#-api)
 
-### Multiple scrolling panels
 
-> 💡 **Use case**: when your scrolling container is not the main browser window, and you have multiple scrolling containers.
+If you have _multiple_ scrolling panels, you can use the following markup and code.
 
 HTML
 
@@ -373,9 +390,9 @@ var myLazyLoad2 = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
 
-### Delay load
+### Delay loading
 
-> 💡 **Use case**: you want the images to stay inside the viewport for some time before to start loading them, e.g. to skip loading some images them if the user scrolled fast after them.
+> 💡 **Use case**: if a your scrolls fast over your images, you might wait a short time before the images start loading. This is how.
 
 HTML
 
@@ -396,24 +413,6 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
 
-
-### Dynamic content
-
-> 💡 **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
-
-HTML
-
-*The HTML to use depends on your case, see other recipes' HTML*
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad();
-// After your content has changed...
-myLazyLoad.update();
-```
-
-[DEMO](https://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
 
 ### Lazy LazyLoad
 
@@ -465,7 +464,38 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 Didn't find the [recipe](#-recipes) that exactly matches your case? We have demos!
 
-The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contains 15 use cases of LazyLoad. You might find there what you're looking for.
+The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contains 20+ use cases of LazyLoad. You might find there what you're looking for.
+
+| Type      | Title                                                                                     | Code                                       | Live demo                                                                          |
+| --------- | ----------------------------------------------------------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------- |
+| Content   | Simple lazy loaded image                                                                  | [Code](demos/image_simple.html)            | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_simple.html)            |
+| Content   | Lazy responsive images with `srcset`                                                      | [Code](demos/image_srcset.html)            | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_srcset.html)            |
+| Content   | Lazy responsive images with the `<picture>` tag and the `media` attribute (art direction) | [Code](demos/picture_media.html)           | [Live](https://www.andreaverlicchi.eu/lazyload/demos/picture_media.html)           |
+| Content   | Lazy responsive images with `srcset` and `sizes` (using `data-sizes`)                     | [Code](demos/image_srcset_lazy_sizes.html) | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_srcset_lazy_sizes.html) |
+| Content   | Lazy responsive images with `srcset` and `sizes` (using plain `sizes`)                    | [Code](demos/image_srcset_sizes.html)      | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_srcset_sizes.html)      |
+| Content   | Lazy video with multiple `<source>` tags                                                  | [Code](demos/video.html)                   | [Live](https://www.andreaverlicchi.eu/lazyload/demos/video.html)                   |
+| Content   | Lazy loading background images                                                            | [Code](demos/background_images.html)       | [Live](https://www.andreaverlicchi.eu/lazyload/demos/background_images.html)       |
+| Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP               | [Code](demos/picture_type_webp.html)       | [Live](https://www.andreaverlicchi.eu/lazyload/demos/picture_type_webp.html)       |
+| Loading   | Asynchronous loading LazyLoad with requireJS                                              | [Code](demos/amd.html)                     | [Live](https://www.andreaverlicchi.eu/lazyload/demos/amd.html)                     |
+| Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                      | [Code](demos/amd_polyfill.html)            | [Live](https://www.andreaverlicchi.eu/lazyload/demos/amd_polyfill.html)            |
+| Loading   | Asynchronous loading LazyLoad with `<script async>`                                       | [Code](demos/async.html)                   | [Live](https://www.andreaverlicchi.eu/lazyload/demos/async.html)                   |
+| Technique | Fade in images as they load                                                               | [Code](demos/fade_in.html)                 | [Live](https://www.andreaverlicchi.eu/lazyload/demos/fade_in.html)                 |
+| Technique | Lazily create lazyload instances                                                          | [Code](demos/lazily_load_lazyLoad.html)    | [Live](https://www.andreaverlicchi.eu/lazyload/demos/lazily_load_lazyLoad.html)    |
+| Technique | How to manage the print of a page with lazy images                                        | [Code](demos/print.html)                   | [Live](https://www.andreaverlicchi.eu/lazyload/demos/print.html)                   |
+| Technique | A popup layer containing lazy images in a scrolling container                             | [Code](demos/popup_layer.html)             | [Live](https://www.andreaverlicchi.eu/lazyload/demos/popup_layer.html)             |
+| Settings  | Multiple scrolling containers                                                             | [Code](demos/container_multiple.html)      | [Live](https://www.andreaverlicchi.eu/lazyload/demos/container_multiple.html)      |
+| Settings  | Single scrolling container                                                                | [Code](demos/container_single.html)        | [Live](https://www.andreaverlicchi.eu/lazyload/demos/container_single.html)        |
+| Settings  | Delay loading of lazy images                                                              | [Code](demos/delay.html)                   | [Live](https://www.andreaverlicchi.eu/lazyload/demos/delay.html)                   |
+| Methods   | How to `destroy()` LazyLoad                                                               | [Code](demos/destroy.html)                 | [Live](https://www.andreaverlicchi.eu/lazyload/demos/destroy.html)                 |
+| Methods   | Adding dynamic content, then `update()` LazyLoad                                          | [Code](demos/dynamic_content.html)         | [Live](https://www.andreaverlicchi.eu/lazyload/demos/dynamic_content.html)         |
+| Methods   | Adding dynamic content, then `update()` LazyLoad passing a NodeSet of elements            | [Code](demos/dynamic_content_nodeset.html) | [Live](https://www.andreaverlicchi.eu/lazyload/demos/dynamic_content_nodeset.html) |
+| Methods   | Load punctual images using the `load()` method                                            | [Code](demos/load.html)                    | [Live](https://www.andreaverlicchi.eu/lazyload/demos/load.html)                    |
+| Methods   | Load all images at once using `loadAll()`                                                 | [Code](demos/load_all.html)                | [Live](https://www.andreaverlicchi.eu/lazyload/demos/load_all.html)                |
+| Test      | Test for multiple thresholds                                                              | [Code](demos/thresholds.html)              | [Live](https://www.andreaverlicchi.eu/lazyload/demos/thresholds.html)              |
+| Test      | Test behaviour with hidden images                                                         | [Code](demos/image_hidden.html)            | [Live](https://www.andreaverlicchi.eu/lazyload/demos/ime_hidden.html)              |
+| Test      | Test of delay loading                                                                     | [Code](demos/delay_test.html)              | [Live](https://www.andreaverlicchi.eu/lazyload/demos/delay_test.html)              |
+| Test      | Test performance, lazy loading of hundreds of images                                      | [Code](demos/hundreds.html)                | [Live](https://www.andreaverlicchi.eu/lazyload/demos/hundreds.html)                |
+| (legacy)  | Conditional loading of v.8 or v.10 (no IntersectionObserver polyfill)                     | [Code](demos/conditional_loading.html)     | [Live](https://www.andreaverlicchi.eu/lazyload/demos/conditional_loading.html)     |
 
 ---
 
