@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="UTF-8" />
+		<title>
+			Lazyload tests
+		</title>
+		<style>
+			ul,
+			li {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			a,
+			img {
+				display: block;
+			}
+
+			img {
+				border: 0;
+				width: 220px;
+				height: 280px;
+			}
+
+			img:not([src]) {
+				visibility: hidden;
+			}
+
+			.dnone {
+				display: none;
+			}
+
+			.vhidden {
+				visibility: hidden;
+			}
+
+			.o0 {
+				opacity: 0;
+			}
+
+			/* Fixes Firefox anomaly during image load */
+			@-moz-document url-prefix() {
+				img:-moz-loading {
+					visibility: hidden;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="results1" class="results">
+			<ul>
+				<li>
+					<p>1. Visible and eagerly loaded</p>
+					<a href="#1"
+						><img
+							alt="Stivaletti"
+							src="https://via.placeholder.com/440x560?text=Img+01"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>2. Visible and eagerly loaded</p>
+					<a href="#2"
+						><img
+							alt="Open toe"
+							src="https://via.placeholder.com/440x560?text=Img+02"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>3. Visible and lazily loaded</p>
+					<a href="#3"
+						><img
+							alt="Sneakers &amp; Tennis"
+							class="lazy"
+							data-src="https://via.placeholder.com/440x560?text=Img+03"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>
+						4. Hidden with <code>display: none</code> on the image
+					</p>
+					<a href="#4"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy dnone"
+							data-src="https://via.placeholder.com/440x560?text=Img+04"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>5. Hidden with <code>display: none</code> on the link</p>
+					<a href="#5" class="dnone"
+						><img
+							alt="Sneakers &amp; Tennis shoes alte"
+							class="lazy"
+							data-src="https://via.placeholder.com/440x560?text=Img+05"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>
+						6. Hidden with <code>visibility: hidden</code> on the
+						image
+					</p>
+					<a href="#6"
+						><img
+							alt="Sneakers &amp; Tennis shoes alte"
+							class="lazy vhidden"
+							data-src="https://via.placeholder.com/440x560?text=Img+06"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>
+						7. Hidden with <code>visibility: hidden</code> on the
+						link
+					</p>
+					<a href="#7" class="vhidden"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy"
+							data-src="https://via.placeholder.com/440x560?text=Img+07"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>8. Hidden with <code>opacity: 0</code> on the image</p>
+					<a href="#8"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							class="lazy o0"
+							data-src="https://via.placeholder.com/440x560?text=Img+08"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>9. Hidden with <code>opacity: 0</code> on the link</p>
+					<a href="#9" class="o0"
+						><img
+							alt="Stivali"
+							class="lazy"
+							data-src="https://via.placeholder.com/440x560?text=Img+09"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<p>10. Visible and lazily loaded, again</p>
+					<a href="#10"
+						><img
+							alt="Stivali"
+							class="lazy"
+							data-src="https://via.placeholder.com/440x560?text=Img+10"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+			</ul>
+		</div>
+		<script src="../dist/lazyload.js"></script>
+		<script>
+			(function() {
+				function logElementEvent(eventName, element) {
+					console.log(
+						Date.now(),
+						eventName,
+						element.getAttribute("data-src")
+					);
+				}
+
+				var callback_enter = function(element) {
+					logElementEvent("--> ENTERED", element);
+				};
+				var callback_exit = function(element) {
+					logElementEvent("<-- EXITED", element);
+				};
+				var callback_reveal = function(element) {
+					logElementEvent("-o- REVEALED", element);
+				};
+				var callback_loaded = function(element) {
+					logElementEvent("-O- LOADED", element);
+				};
+				var callback_error = function(element) {
+					logElementEvent("::: ERROR", element);
+					element.src =
+						"https://via.placeholder.com/440x560/?text=Error+Placeholder";
+				};
+				var callback_finish = function() {
+					logElementEvent("\\o/ FINISHED", document.documentElement);
+				};
+
+				var ll = new LazyLoad({
+					elements_selector: ".lazy",
+					threshold: 0,
+					// Assign the callbacks defined above
+					callback_enter: callback_enter,
+					callback_exit: callback_exit,
+					callback_reveal: callback_reveal,
+					callback_loaded: callback_loaded,
+					callback_error: callback_error,
+					callback_finish: callback_finish
+				});
+			})();
+		</script>
+	</body>
+</html>
