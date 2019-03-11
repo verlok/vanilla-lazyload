@@ -2,6 +2,10 @@
 
 ## Version 11
 
+#### 11.0.4
+
+Fixed the `main` property of this package.json, which was pointing to a non-existing dist file.
+
 #### 11.0.3
 
 Rollback of the patch applied in 11.0.2 since it gave strange results in some cases. See #293. Thanks to @davejamesmiller for the analysis and the report.
