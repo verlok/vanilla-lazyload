@@ -1,8 +1,8 @@
 {
 	"name": "vanilla-lazyload",
-	"version": "11.0.3",
+	"version": "11.0.4",
 	"description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
-	"main": "dist/lazyload.cjs.min.js",
+	"main": "dist/lazyload.min.js",
 	"module": "dist/lazyload.esm.min.js",
 	"browser": "dist/lazyload.min.js",
 	"dependencies": {},
