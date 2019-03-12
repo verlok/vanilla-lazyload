@@ -2,6 +2,10 @@
 
 ## Version 11
 
+#### 11.0.5
+
+Fixed the `module` property of this package.json, which was pointing to a non-existing dist file.
+
 #### 11.0.4
 
 Fixed the `main` property of this package.json, which was pointing to a non-existing dist file.
