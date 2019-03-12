@@ -4,12 +4,14 @@ import autoInitialize from "./lazyload.autoInitialize";
 import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
 import { setObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
+import { setOnlineCheck } from "./lazyload.online";
 
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
 	this._loadingCount = 0;
 	setObserver(this);
 	this.update(elements);
+	setOnlineCheck(this);
 };
 
 LazyLoad.prototype = {
