@@ -22,6 +22,7 @@ LazyLoad.prototype = {
 			settings.container.querySelectorAll(settings.elements_selector);
 
 		this._elements = purgeProcessedElements(
+			//TODO: Convert to spread operator [...nodeset]
 			Array.prototype.slice.call(nodeSet) // NOTE: nodeset to array for IE compatibility
 		);
 
