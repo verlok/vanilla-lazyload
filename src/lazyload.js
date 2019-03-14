@@ -15,12 +15,12 @@ const LazyLoad = function(customSettings, elements) {
 LazyLoad.prototype = {
 	update: function(elements) {
 		const settings = this._settings;
-		const nodeSet =
+		const _elements =
 			elements ||
 			settings.container.querySelectorAll(settings.elements_selector);
 
 		this._elements = purgeProcessedElements(
-			Array.prototype.slice.call(nodeSet) // NOTE: nodeset to array for IE compatibility
+			Array.prototype.slice.call(_elements) // NOTE: nodeset to array for IE compatibility
 		);
 
 		if (isBot || !this._observer) {
