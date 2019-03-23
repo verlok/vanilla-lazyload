@@ -371,6 +371,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     setSources(element, instance);
     setWasProcessedData(element);
     callbackIfSet(settings.callback_reveal, element);
+    callbackIfSet(settings.callback_set, element);
   };
 
   var isIntersecting = function isIntersecting(entry) {
@@ -409,8 +410,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _this = this;
 
       var settings = this._settings;
-      var nodeSet = elements || settings.container.querySelectorAll(settings.elements_selector);
-      this._elements = purgeProcessedElements(Array.prototype.slice.call(nodeSet) // NOTE: nodeset to array for IE compatibility
+
+      var _elements = elements || settings.container.querySelectorAll(settings.elements_selector);
+
+      this._elements = purgeProcessedElements(Array.prototype.slice.call(_elements) // NOTE: nodeset to array for IE compatibility
       );
 
       if (isBot || !this._observer) {
