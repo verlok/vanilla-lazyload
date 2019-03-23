@@ -2,6 +2,10 @@
 
 ## Version 11
 
+#### 11.0.6
+
+Restored the `callback_set` callback as **deprecated**, in order to make the upgrade from v.10 easier.
+
 #### 11.0.5
 
 Fixed the `module` property of this package.json, which was pointing to a non-existing dist file.
@@ -31,7 +35,7 @@ Squashed a nasty bug that occurred on IE 11 and Safari when the `IntersectionObs
   - Callback `callback_enter` has **changed** its meaning! It is now called whenever an element enters the viewport, even if `load_delay` is set
   - Callback `callback_exit` (**new**) is called whenever an element exits the viewport, even if `load_delay` is set
   - Callback `callback_reveal` (**new**) is called when an element is about to be revealed, and its attribute values were copied from the `data-` attributes to the actual ones.
-  - Callback `callback_set` was **removed**. You can use `callback_reveal` instead.
+  - Callback `callback_set` is now **deprecated**. Use `callback_reveal` instead.
 - Private methods like `_setObserver`, `_onIntersection` etc. are now hidden and protected.
 - Added the `auto_unobserve` boolean option.
 - Bugfix: `loadAll()` didn't unobserve elements.
