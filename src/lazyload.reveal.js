@@ -72,4 +72,5 @@ export const revealElement = (element, instance, force) => {
 	setSources(element, instance);
 	setWasProcessedData(element);
 	callbackIfSet(settings.callback_reveal, element);
+	callbackIfSet(settings.callback_set, element);
 };
