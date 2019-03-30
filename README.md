@@ -53,7 +53,7 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 ```html
 <picture>
     <source type="image/webp" 
-        data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w" 
+        data-srcset="lazy_400.webp 400w, lazy_800.webp 800w" 
         data-sizes="100w">
     <img alt="A lazy image" class="lazy" 
         data-src="lazy.jpg" 
