@@ -17,11 +17,11 @@
 
 **Embedded in LazyLoad's code, before initialization.**
 
-* if `use_native` is `true` and `img`'s `loading` is supported
-  * Filter elements for `["IMG", "IFRAME"]`
-  * Set the `loading` attribute to `lazy`
-  * `reveal()` them
-* otherwise, initialize LazyLoad as usual
+* if `settings.use_native` && `('loading' in HTMLImageElement.prototype)`
+  * Filter elements for `["IMG", "IFRAME"]`, and for these
+    * Set the `loading` attribute to `lazy`
+    * `reveal()` them
+* then, initialize LazyLoad as usual (so they can lazyload videos too)
 
 ### Option 3
 
