@@ -31,16 +31,22 @@ Squashed a nasty bug that occurred on IE 11 and Safari when the `IntersectionObs
 - Changed bundle file name of ES Module from `lazyload.es2015.js` to `lazyload.esm.js`
 - Removed the `to_webp` option (see issue #288)
 - Ceased support and development of LazyLoad v.8 (see issue #306)
-- Callbacks renewal :: **POSSIBLE BREAKING CHANGE**
-  - Callback `callback_enter` has **changed** its meaning! It is now called whenever an element enters the viewport, even if `load_delay` is set
-  - Callback `callback_exit` (**new**) is called whenever an element exits the viewport, even if `load_delay` is set
-  - Callback `callback_reveal` (**new**) is called when an element is about to be revealed, and its attribute values were copied from the `data-` attributes to the actual ones.
-  - Callback `callback_set` is now **deprecated**. Use `callback_reveal` instead.
-- Private methods like `_setObserver`, `_onIntersection` etc. are now hidden and protected.
-- Added the `auto_unobserve` boolean option.
+version. If you were using it, please update your code to use `callback_reveal` instead.
+- Private methods like `_setObserver`, `_onIntersection` etc. are now hidden from the outside.
+- Added the `auto_unobserve` boolean option, see API.
 - Bugfix: `loadAll()` didn't unobserve elements.
 - Updated to Jest 24, Babel 7, etc.
 - Fixed dev dependencies vulnerabilities
+- Updated callbacks. See below:
+
+Callbacks updated:
+
+- **Changed** `callback_enter`. This callback is now called whenever an element enters the viewport, even when `load_delay` is set. In previous versions, this callback was delayed until an element started loading if a `load_delay` was set. Note that this is a **possible breaking change**, which you can fix using `callback_reveal` instead.
+- **Added** `callback_exit`. This callback is called whenever an element exits the viewport, even if a `load_delay` is set.
+- **Added** `callback_reveal`. This callback is called just after an element starts loading.
+- **Deprecated** `callback_set`. This callback still works*, but will be removed in the next major 
+
+\* it didn't work from versions 11.0.0 to 11.0.5, it still works from 11.0.6.
 
 ## Version 10
 
