@@ -17,6 +17,7 @@
 	callback_loaded?: (elt: HTMLElement) => void;
 	callback_error?: (elt: HTMLElement) => void;
 	callback_finish?: () => void;
+	use_native?: boolean;
 }
 interface ILazyLoad {
 	new (options?: ILazyLoadOptions, elements?: NodeListOf<HTMLElement>);
