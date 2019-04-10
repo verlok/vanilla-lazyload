@@ -1,5 +1,5 @@
-export const shouldUseNative = instance =>
-	instance._settings.use_native && "loading" in HTMLImageElement.prototype;
+export const shouldUseNative = (settings, force) =>
+	force || (settings.use_native && "loading" in HTMLImageElement.prototype);
 
 export const goNative = instance => {
 	/*
@@ -7,4 +7,5 @@ export const goNative = instance => {
 	 * Set the `loading` attribute to `lazy`
 	 * `reveal()` them
 	 */
+	instance._elements.forEach(element => console.log(element));
 };
