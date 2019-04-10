@@ -8,36 +8,34 @@ import { shouldUseNative, goNative } from "./lazyload.native";
 
 const nodesetToArray = nodeSet => Array.prototype.slice.call(nodeSet);
 
+const queryElements = settings =>
+	settings.container.querySelectorAll(settings.elements_selector);
+
+const getElements = (elements, settings) =>
+	nodesetToArray(elements || queryElements(settings));
+
 const LazyLoad = function(customSettings, elements) {
 	const settings = getInstanceSettings(customSettings);
 	this._settings = settings;
 	this._loadingCount = 0;
-	const selectedElements = settings.container.querySelectorAll(
-		settings.elements_selector
-	);
-	this._elements = nodesetToArray(elements || selectedElements);
-	if (shouldUseNative(this)) {
+	this._elements = getElements(elements, settings);
+	//TODO: Remove force parameter
+	if (shouldUseNative(settings, true)) {
 		goNative(this);
-	} else {
-		setObserver(this);
 	}
+	setObserver(this); // Still useful for elements other than IMG and IFRAME
 	this.update(elements);
 };
 
 LazyLoad.prototype = {
 	update: function(elements) {
-		const settings = this._settings;
-		const selectedElements = settings.container.querySelectorAll(
-			settings.elements_selector
+		this._elements = purgeProcessedElements(
+			getElements(elements, this._settings)
 		);
-		const _elements = nodesetToArray(elements || selectedElements);
-		this._elements = purgeProcessedElements(_elements);
-
 		if (isBot || !this._observer) {
 			this.loadAll();
 			return;
 		}
-
 		this._elements.forEach(element => {
 			this._observer.observe(element);
 		});
