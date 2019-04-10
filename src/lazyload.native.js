@@ -1,3 +1,5 @@
+import { revealElement } from "./lazyload.reveal";
+
 export const shouldUseNative = (settings, force) =>
 	force || (settings.use_native && "loading" in HTMLImageElement.prototype);
 
@@ -7,5 +9,12 @@ export const goNative = instance => {
 	 * Set the `loading` attribute to `lazy`
 	 * `reveal()` them
 	 */
-	instance._elements.forEach(element => console.log(element));
+	const nativeLazyTags = ["IMG", "IFRAME"];
+	instance._elements.forEach(element => {
+		if (nativeLazyTags.indexOf(element.tagName) === -1) {
+			return;
+		}
+		element.setAttribute("loading", "lazy");
+		revealElement(element, instance);
+	});
 };
