@@ -4,7 +4,7 @@ import autoInitialize from "./lazyload.autoInitialize";
 import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
 import { setObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
-import { shouldUseNative, goNative } from "./lazyload.native";
+import { shouldUseNative, loadAllNative } from "./lazyload.native";
 
 const nodesetToArray = nodeSet => Array.prototype.slice.call(nodeSet);
 
@@ -19,10 +19,6 @@ const LazyLoad = function(customSettings, elements) {
 	this._settings = settings;
 	this._loadingCount = 0;
 	this._elements = getElements(elements, settings);
-	//TODO: Remove force parameter
-	if (shouldUseNative(settings, true)) {
-		goNative(this);
-	}
 	setObserver(this); // Still useful for elements other than IMG and IFRAME
 	this.update(elements);
 };
@@ -35,6 +31,13 @@ LazyLoad.prototype = {
 		if (isBot || !this._observer) {
 			this.loadAll();
 			return;
+		}
+		if (shouldUseNative(settings, true)) {
+			//TODO: Remove force param ^^
+			loadAllNative(this);
+			this._elements = purgeProcessedElements(
+				nodesetToArray(queryElements(this._settings))
+			);
 		}
 		this._elements.forEach(element => {
 			this._observer.observe(element);
