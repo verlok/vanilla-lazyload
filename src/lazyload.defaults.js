@@ -19,7 +19,8 @@ const defaultSettings = {
 	callback_reveal: null,
 	callback_loaded: null,
 	callback_error: null,
-	callback_finish: null
+	callback_finish: null,
+	use_native: false
 };
 
 export default customSettings => {
