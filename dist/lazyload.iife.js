@@ -26,7 +26,8 @@ var LazyLoad = function () {
     callback_reveal: null,
     callback_loaded: null,
     callback_error: null,
-    callback_finish: null
+    callback_finish: null,
+    use_native: false
   };
 
   var getInstanceSettings = function getInstanceSettings(customSettings) {
@@ -394,10 +395,40 @@ var LazyLoad = function () {
     return true;
   };
 
+  var nativeLazyTags = ["IMG", "IFRAME"];
+
+  var shouldUseNative = function shouldUseNative(settings) {
+    return settings.use_native && "loading" in HTMLImageElement.prototype;
+  };
+
+  var loadAllNative = function loadAllNative(instance) {
+    instance._elements.forEach(function (element) {
+      if (nativeLazyTags.indexOf(element.tagName) === -1) {
+        return;
+      }
+
+      element.setAttribute("loading", "lazy");
+      revealElement(element, instance);
+    });
+  };
+
+  var nodeSetToArray = function nodeSetToArray(nodeSet) {
+    return Array.prototype.slice.call(nodeSet);
+  };
+
+  var queryElements = function queryElements(settings) {
+    return settings.container.querySelectorAll(settings.elements_selector);
+  };
+
+  var getElements = function getElements(elements, settings) {
+    return purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
+  };
+
   var LazyLoad = function LazyLoad(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
     this._loadingCount = 0;
-    setObserver(this);
+    setObserver(this); // Still useful for elements other than IMG and IFRAME
+
     this.update(elements);
   };
 
@@ -406,15 +437,16 @@ var LazyLoad = function () {
       var _this = this;
 
       var settings = this._settings;
-
-      var _elements = elements || settings.container.querySelectorAll(settings.elements_selector);
-
-      this._elements = purgeProcessedElements(Array.prototype.slice.call(_elements) // NOTE: nodeset to array for IE compatibility
-      );
+      this._elements = getElements(elements, settings);
 
       if (isBot || !this._observer) {
         this.loadAll();
         return;
+      }
+
+      if (shouldUseNative(settings)) {
+        loadAllNative(this);
+        this._elements = getElements(elements, settings);
       }
 
       this._elements.forEach(function (element) {
@@ -441,8 +473,7 @@ var LazyLoad = function () {
     loadAll: function loadAll() {
       var _this3 = this;
 
-      var elements = this._elements;
-      elements.forEach(function (element) {
+      this._elements.forEach(function (element) {
         revealAndUnobserve(element, _this3);
       });
     }

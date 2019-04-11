@@ -30,7 +30,8 @@ const defaultSettings = {
 	callback_reveal: null,
 	callback_loaded: null,
 	callback_error: null,
-	callback_finish: null
+	callback_finish: null,
+	use_native: false
 };
 
 var getInstanceSettings = customSettings => {
@@ -371,29 +372,48 @@ const setObserver = instance => {
 	return true;
 };
 
+const nativeLazyTags = ["IMG", "IFRAME"];
+
+const shouldUseNative = settings =>
+	settings.use_native && "loading" in HTMLImageElement.prototype;
+
+const loadAllNative = instance => {
+	instance._elements.forEach(element => {
+		if (nativeLazyTags.indexOf(element.tagName) === -1) {
+			return;
+		}
+		element.setAttribute("loading", "lazy");
+		revealElement(element, instance);
+	});
+};
+
+const nodeSetToArray = nodeSet => Array.prototype.slice.call(nodeSet);
+
+const queryElements = settings =>
+	settings.container.querySelectorAll(settings.elements_selector);
+
+const getElements = (elements, settings) =>
+	purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
+
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
 	this._loadingCount = 0;
-	setObserver(this);
+	setObserver(this); // Still useful for elements other than IMG and IFRAME
 	this.update(elements);
 };
 
 LazyLoad.prototype = {
 	update: function(elements) {
-		const settings = this._settings;
-		const _elements =
-			elements ||
-			settings.container.querySelectorAll(settings.elements_selector);
-
-		this._elements = purgeProcessedElements(
-			Array.prototype.slice.call(_elements) // NOTE: nodeset to array for IE compatibility
-		);
-
+		var settings = this._settings;
+		this._elements = getElements(elements, settings);
 		if (isBot || !this._observer) {
 			this.loadAll();
 			return;
 		}
-
+		if (shouldUseNative(settings)) {
+			loadAllNative(this);
+			this._elements = getElements(elements, settings);
+		}
 		this._elements.forEach(element => {
 			this._observer.observe(element);
 		});
@@ -415,8 +435,7 @@ LazyLoad.prototype = {
 	},
 
 	loadAll: function() {
-		var elements = this._elements;
-		elements.forEach(element => {
+		this._elements.forEach(element => {
 			revealAndUnobserve(element, this);
 		});
 	}
