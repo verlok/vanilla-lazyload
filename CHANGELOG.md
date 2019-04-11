@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Version 12
+
+### 12.0.0-beta.0
+
+- Added the `use_native` option which enables *native lazy loading* (where supported) with the `loading="lazy"` attribute. See #331
+- Added two demos:
+  - native_lazyload_conditional.html which you can use to test the `use_native` option
+  - native_lazyload.html which always uses native lazy loading (without JS) just to test how it works beyond the LazyLoad script
+- Refactored the constructor and the `update` method
+
 ## Version 11
 
 #### 11.0.6
