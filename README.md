@@ -493,6 +493,7 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 | Test      | Test behaviour with hidden images                                                         | [Code](demos/image_hidden.html)            | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_hidden.html)            |
 | Test      | Test of delay loading                                                                     | [Code](demos/delay_test.html)              | [Live](https://www.andreaverlicchi.eu/lazyload/demos/delay_test.html)              |
 | Test      | Test performance, lazy loading of hundreds of images                                      | [Code](demos/hundreds.html)                | [Live](https://www.andreaverlicchi.eu/lazyload/demos/hundreds.html)                |
+| Native    | Test native lazy loading of images                                                        | [Code](demos/native_lazyload.html)         | [Live](https://www.andreaverlicchi.eu/lazyload/demos/native_lazyload.html)         |
 | (legacy)  | Conditional loading of v.8 or v.10 (no IntersectionObserver polyfill)                     | [Code](demos/conditional_loading.html)     | [Live](https://www.andreaverlicchi.eu/lazyload/demos/conditional_loading.html)     |
 
 ---
