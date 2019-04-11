@@ -2,8 +2,8 @@ import { revealElement } from "./lazyload.reveal";
 
 const nativeLazyTags = ["IMG", "IFRAME"];
 
-export const shouldUseNative = (settings, force) =>
-	force || (settings.use_native && "loading" in HTMLImageElement.prototype);
+export const shouldUseNative = settings =>
+	settings.use_native && "loading" in HTMLImageElement.prototype;
 
 export const loadAllNative = instance => {
 	instance._elements.forEach(element => {
