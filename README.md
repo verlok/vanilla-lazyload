@@ -665,21 +665,21 @@ You can call the following public methods on any instance of LazyLoad.
 
 ## 😯 Notable features
 
-### SEO friendly
-
-LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
-
-### It works with your favourite framework
+### It works with your favourite library or framework
 
 As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using **Angular**, **React** or **Vue.js** without the need to include jQuery.
-
-### Support for responsive images. 
-
-_LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
 
 ### Intersection Observer API for optimized CPU usage
 
 Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
+
+### Support for responsive images
+
+_LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
+
+### SEO friendly
+
+LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
 
 ### Tested on real browsers
 
