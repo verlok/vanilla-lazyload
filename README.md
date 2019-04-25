@@ -1,4 +1,4 @@
-LazyLoad is a fast, lightweight and flexible script that _speeds up your web application_ by **loading your content images, video, iframes as they enter the viewport**. It's written in plain "vanilla" JavaScript, it uses the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, and it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice). It's also SEO-friendly and it has some other [notable features](#-notable-features).
+LazyLoad is a fast, lightweight and flexible script that **speeds up your web application** by loading your content images, videos and iframes only **as they enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it works with [responsive images](https://alistapart.com/article/responsive-images-in-practice) and it supports native lazy loading. See [notable features](#-notable-features) for more.
 
 ➡️ Jump to: [👨‍💻 Getting started - HTML](#-getting-started---html) - [👩‍💻 Getting started - Script](#-getting-started---script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 Notable features](#-notable-features)
 
@@ -665,21 +665,21 @@ You can call the following public methods on any instance of LazyLoad.
 
 ## 😯 Notable features
 
-### SEO friendly
-
-LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
-
-### It works with your favourite framework
+### It works with your favourite library or framework
 
 As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using **Angular**, **React** or **Vue.js** without the need to include jQuery.
-
-### Support for responsive images. 
-
-_LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
 
 ### Intersection Observer API for optimized CPU usage
 
 Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
+
+### Support for responsive images
+
+_LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
+
+### SEO friendly
+
+LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
 
 ### Tested on real browsers
 
