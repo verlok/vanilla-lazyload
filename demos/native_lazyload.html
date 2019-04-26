@@ -29,6 +29,14 @@
 				visibility: hidden;
 			}
 
+			.warning {
+				padding: 1em;
+				color: black;
+				background: lightyellow;
+				border-radius: 1em;
+				border: 1px solid gray;
+			}
+
 			/* Fixes Firefox anomaly during image load */
 			@-moz-document url-prefix() {
 				img:-moz-loading {
@@ -39,11 +47,15 @@
 	</head>
 
 	<body>
-		<p>
+		<p class="warning">
 			You can use this page to test browsers' implementations of
 			<strong>native lazy loading</strong>.
 		</p>
-		<p>
+		<p class="warning">
+			Please note that not even one line of JavaScript code is involved
+			here.
+		</p>
+		<p class="warning">
 			Be sure to check the
 			<strong>Enable lazy image loading</strong> flag on Chrome 75. Go to
 			chrome://flags/ to do it, then restart Chrome.
@@ -54,7 +66,7 @@
 					<a href="#/it/donna/stivaletti_cod44721746jj.html"
 						><img
 							alt="Stivaletti"
-							src="https://source.unsplash.com/random/440x560?text=Img+01"
+							src="https://images.unsplash.com/photo-1555923637-8e28485258ca?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="eager"
@@ -64,7 +76,7 @@
 					<a href="#/it/donna/open-toe_cod44740806jx.html"
 						><img
 							alt="Open toe"
-							src="https://source.unsplash.com/random/440x560?text=Img+02"
+							src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="eager"
@@ -76,7 +88,7 @@
 						><img
 							alt="Sneakers &amp; Tennis"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+03"
+							src="https://images.unsplash.com/photo-1554080450-0cf441c6eb68?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -88,7 +100,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+04"
+							src="https://images.unsplash.com/photo-1554194666-dd5e2510e694?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -100,7 +112,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes alte"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+05"
+							src="https://images.unsplash.com/photo-1555464735-4706a5ef4bf6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -112,7 +124,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes alte"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+06"
+							src="https://images.unsplash.com/photo-1556068791-9e3a08d59470?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -124,7 +136,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+07"
+							src="https://images.unsplash.com/photo-1554089672-043830ebaed9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -136,7 +148,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+08"
+							src="https://images.unsplash.com/flagged/photo-1555205774-050dd5ed6a20?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -147,7 +159,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+09"
+							src="https://images.unsplash.com/photo-1554676187-e9a89ddb659e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -158,7 +170,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+10"
+							src="https://images.unsplash.com/photo-1555617778-02518510b9fa?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -169,7 +181,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+11"
+							src="https://images.unsplash.com/photo-1555580142-0b82b6785a6c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -180,7 +192,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+12"
+							src="https://images.unsplash.com/photo-1554901889-eda8169e70f1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -191,7 +203,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+13"
+							src="https://images.unsplash.com/photo-1555532823-e2bc333c90e1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -202,7 +214,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+14"
+							src="https://images.unsplash.com/photo-1555643031-c91105925db0?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -213,7 +225,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+15"
+							src="https://images.unsplash.com/photo-1555801724-83dd9d58eea0?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -224,7 +236,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+16"
+							src="https://images.unsplash.com/photo-1553859272-133adb267011?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -235,7 +247,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+17"
+							src="https://images.unsplash.com/photo-1555940006-862eaae636bf?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -246,7 +258,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+18"
+							src="https://images.unsplash.com/photo-1554553546-f49660dfdd91?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -257,7 +269,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+19"
+							src="https://images.unsplash.com/photo-1556064379-35bf4c992ac6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -268,7 +280,7 @@
 						><img
 							alt="Francesine"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+20"
+							src="https://images.unsplash.com/photo-1554197000-3d0a2ac6e0a8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -279,7 +291,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+21"
+							src="https://images.unsplash.com/photo-1553835569-40485611296c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -290,7 +302,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+22"
+							src="https://images.unsplash.com/photo-1554584003-c049df926cd8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -301,7 +313,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+23"
+							src="https://images.unsplash.com/photo-1553634260-85dac7176cbc?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -312,7 +324,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+24"
+							src="https://images.unsplash.com/photo-1555940920-5d0a29a7e7dd?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -323,7 +335,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+25"
+							src="https://images.unsplash.com/photo-1554521718-e87e96d67ca5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -334,7 +346,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+26"
+							src="https://images.unsplash.com/photo-1556089175-54732507ad23?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -345,7 +357,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+27"
+							src="https://images.unsplash.com/photo-1556015048-4d3aa10df74c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -356,7 +368,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+28"
+							src="https://images.unsplash.com/photo-1555687190-9a37fce4ee91?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -367,7 +379,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+29"
+							src="https://images.unsplash.com/photo-1555882196-d35706cbb9ff?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -378,7 +390,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+30"
+							src="https://images.unsplash.com/photo-1555939498-c63ac1eb2e4d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -389,7 +401,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+31"
+							src="https://images.unsplash.com/photo-1554185624-d49be4319189?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -400,7 +412,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+32"
+							src="https://images.unsplash.com/photo-1555100126-259f18ae434e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -411,7 +423,7 @@
 						><img
 							alt="Cuissardes"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+33"
+							src="https://images.unsplash.com/photo-1554586944-fb6d32f8a519?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -422,7 +434,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+34"
+							src="https://images.unsplash.com/photo-1556127042-4304bd604607?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -433,7 +445,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+35"
+							src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -445,7 +457,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+36"
+							src="https://images.unsplash.com/photo-1554865587-cc3c9088b02f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -456,7 +468,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+37"
+							src="https://images.unsplash.com/photo-1555358206-512e80af4056?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -468,7 +480,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+38"
+							src="https://images.unsplash.com/photo-1554130666-d400f75197ad?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -479,7 +491,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+39"
+							src="https://images.unsplash.com/photo-1554668018-b76d73f358c2?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
@@ -490,7 +502,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
-							src="https://source.unsplash.com/random/440x560?text=Img+40"
+							src="https://images.unsplash.com/photo-1555401724-a4df51068fa5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
 							width="220"
 							height="280"
 							loading="lazy"
