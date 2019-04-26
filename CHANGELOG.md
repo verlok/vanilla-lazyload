@@ -2,7 +2,7 @@
 
 ## Version 12
 
-### 12.0.0-beta.0
+### 12.0.0
 
 - Added the `use_native` option which enables *native lazy loading* (where supported) with the `loading="lazy"` attribute. See #331
 - Added two demos:
