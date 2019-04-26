@@ -38,6 +38,39 @@ var getInstanceSettings = customSettings => {
 	return Object.assign({}, defaultSettings, customSettings);
 };
 
+/* Creates instance and notifies it through the window element */
+const createInstance = function(classObj, options) {
+	var event;
+	let eventString = "LazyLoad::Initialized";
+	let instance = new classObj(options);
+	try {
+		// Works in modern browsers
+		event = new CustomEvent(eventString, { detail: { instance } });
+	} catch (err) {
+		// Works in Internet Explorer (all versions)
+		event = document.createEvent("CustomEvent");
+		event.initCustomEvent(eventString, false, false, { instance });
+	}
+	window.dispatchEvent(event);
+};
+
+/* Auto initialization of one or more instances of lazyload, depending on the 
+    options passed in (plain object or an array) */
+function autoInitialize(classObj, options) {
+	if (!options) {
+		return;
+	}
+	if (!options.length) {
+		// Plain object
+		createInstance(classObj, options);
+	} else {
+		// Array of objects
+		for (let i = 0, optionsItem; (optionsItem = options[i]); i += 1) {
+			createInstance(classObj, optionsItem);
+		}
+	}
+}
+
 const dataPrefix = "data-";
 const processedDataName = "was-processed";
 const timeoutDataName = "ll-timeout";
@@ -74,39 +107,6 @@ const purgeProcessedElements = elements => {
 const purgeOneElement = (elements, elementToPurge) => {
 	return elements.filter(element => element !== elementToPurge);
 };
-
-/* Creates instance and notifies it through the window element */
-const createInstance = function(classObj, options) {
-	var event;
-	let eventString = "LazyLoad::Initialized";
-	let instance = new classObj(options);
-	try {
-		// Works in modern browsers
-		event = new CustomEvent(eventString, { detail: { instance } });
-	} catch (err) {
-		// Works in Internet Explorer (all versions)
-		event = document.createEvent("CustomEvent");
-		event.initCustomEvent(eventString, false, false, { instance });
-	}
-	window.dispatchEvent(event);
-};
-
-/* Auto initialization of one or more instances of lazyload, depending on the 
-    options passed in (plain object or an array) */
-function autoInitialize(classObj, options) {
-	if (!options) {
-		return;
-	}
-	if (!options.length) {
-		// Plain object
-		createInstance(classObj, options);
-	} else {
-		// Array of objects
-		for (let i = 0, optionsItem; (optionsItem = options[i]); i += 1) {
-			createInstance(classObj, optionsItem);
-		}
-	}
-}
 
 const callbackIfSet = (callback, argument) => {
 	if (callback) {
@@ -398,7 +398,7 @@ const getElements = (elements, settings) =>
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
 	this._loadingCount = 0;
-	setObserver(this); // Still useful for elements other than IMG and IFRAME
+	setObserver(this);
 	this.update(elements);
 };
 

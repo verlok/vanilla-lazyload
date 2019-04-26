@@ -1,23 +1,15 @@
 import getInstanceSettings from "./lazyload.defaults";
-import { purgeProcessedElements } from "./lazyload.purge";
 import autoInitialize from "./lazyload.autoInitialize";
 import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
 import { setObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
-
-const nodeSetToArray = nodeSet => Array.prototype.slice.call(nodeSet);
-
-const queryElements = settings =>
-	settings.container.querySelectorAll(settings.elements_selector);
-
-const getElements = (elements, settings) =>
-	purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
+import { getElements } from "./lazyload.getElements";
 
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
 	this._loadingCount = 0;
-	setObserver(this); // Still useful for elements other than IMG and IFRAME
+	setObserver(this);
 	this.update(elements);
 };
 

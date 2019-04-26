@@ -33,6 +33,50 @@ define(function () {
   var getInstanceSettings = function getInstanceSettings(customSettings) {
     return _extends({}, defaultSettings, customSettings);
   };
+  /* Creates instance and notifies it through the window element */
+
+
+  var createInstance = function createInstance(classObj, options) {
+    var event;
+    var eventString = "LazyLoad::Initialized";
+    var instance = new classObj(options);
+
+    try {
+      // Works in modern browsers
+      event = new CustomEvent(eventString, {
+        detail: {
+          instance: instance
+        }
+      });
+    } catch (err) {
+      // Works in Internet Explorer (all versions)
+      event = document.createEvent("CustomEvent");
+      event.initCustomEvent(eventString, false, false, {
+        instance: instance
+      });
+    }
+
+    window.dispatchEvent(event);
+  };
+  /* Auto initialization of one or more instances of lazyload, depending on the 
+      options passed in (plain object or an array) */
+
+
+  function autoInitialize(classObj, options) {
+    if (!options) {
+      return;
+    }
+
+    if (!options.length) {
+      // Plain object
+      createInstance(classObj, options);
+    } else {
+      // Array of objects
+      for (var i = 0, optionsItem; optionsItem = options[i]; i += 1) {
+        createInstance(classObj, optionsItem);
+      }
+    }
+  }
 
   var dataPrefix = "data-";
   var processedDataName = "was-processed";
@@ -81,50 +125,6 @@ define(function () {
       return element !== elementToPurge;
     });
   };
-  /* Creates instance and notifies it through the window element */
-
-
-  var createInstance = function createInstance(classObj, options) {
-    var event;
-    var eventString = "LazyLoad::Initialized";
-    var instance = new classObj(options);
-
-    try {
-      // Works in modern browsers
-      event = new CustomEvent(eventString, {
-        detail: {
-          instance: instance
-        }
-      });
-    } catch (err) {
-      // Works in Internet Explorer (all versions)
-      event = document.createEvent("CustomEvent");
-      event.initCustomEvent(eventString, false, false, {
-        instance: instance
-      });
-    }
-
-    window.dispatchEvent(event);
-  };
-  /* Auto initialization of one or more instances of lazyload, depending on the 
-      options passed in (plain object or an array) */
-
-
-  function autoInitialize(classObj, options) {
-    if (!options) {
-      return;
-    }
-
-    if (!options.length) {
-      // Plain object
-      createInstance(classObj, options);
-    } else {
-      // Array of objects
-      for (var i = 0, optionsItem; optionsItem = options[i]; i += 1) {
-        createInstance(classObj, optionsItem);
-      }
-    }
-  }
 
   var callbackIfSet = function callbackIfSet(callback, argument) {
     if (callback) {
@@ -427,8 +427,7 @@ define(function () {
   var LazyLoad = function LazyLoad(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
     this._loadingCount = 0;
-    setObserver(this); // Still useful for elements other than IMG and IFRAME
-
+    setObserver(this);
     this.update(elements);
   };
 
