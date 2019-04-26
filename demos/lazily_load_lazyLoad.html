@@ -1269,23 +1269,25 @@
 			// Optionally push it in the lazyLoadInstances
 			// array to keep track of the instances
 			lazyLoadInstances.push(oneLL);
+			logElementEvent("🔑 ENTERED", element);
 		};
+
 		var callback_exit = function(element) {
-			logElementEvent("<-- EXITED", element);
+			logElementEvent("🚪 EXITED", element);
 		};
 		var callback_reveal = function(element) {
-			logElementEvent("-o- REVEALED", element);
+			logElementEvent("👁️ REVEALED", element);
 		};
 		var callback_loaded = function(element) {
-			logElementEvent("-O- LOADED", element);
+			logElementEvent("👍 LOADED", element);
 		};
 		var callback_error = function(element) {
-			logElementEvent("::: ERROR", element);
+			logElementEvent("💀 ERROR", element);
 			element.src =
 				"https://via.placeholder.com/440x560/?text=Error+Placeholder";
 		};
 		var callback_finish = function() {
-			logElementEvent("\\o/ FINISHED", document.documentElement);
+			logElementEvent("✔️ FINISHED", document.documentElement);
 		};
 
 		// The "lazyLazy" instance of lazyload is used
