@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+		<meta charset="UTF-8" />
+		<title>
+			Lazyload tests
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<style>
+			ul,
+			li {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			a,
+			img {
+				display: block;
+			}
+
+			img {
+				border: 0;
+				width: 220px;
+				height: 280px;
+			}
+
+			img:not([src]) {
+				visibility: hidden;
+			}
+
+			.warning {
+				padding: 1em;
+				color: black;
+				background: lightyellow;
+				border-radius: 1em;
+				border: 1px solid gray;
+			}
+
+			/* Fixes Firefox anomaly during image load */
+			@-moz-document url-prefix() {
+				img:-moz-loading {
+					visibility: hidden;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<p class="warning">
+			To test browsers' implementations of
+			<strong>native lazy loading</strong>, be sure to check the
+			<strong>Enable lazy image loading</strong> flag on Chrome 75. Go to
+			chrome://flags/ to do it, then restart Chrome.
+		</p>
+		<div id="results1" class="results">
+			<ul>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44721746jj.html"
+						><img
+							alt="Stivaletti"
+							loading="eager"
+							src="https://images.unsplash.com/photo-1555923637-8e28485258ca?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/open-toe_cod44740806jx.html"
+						><img
+							alt="Open toe"
+							loading="eager"
+							src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-basse_cod44735977gr.html"
+						><img
+							alt="Sneakers &amp; Tennis"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554080450-0cf441c6eb68?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-basse_cod44738717am.html"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554194666-dd5e2510e694?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-alte_cod44739940cb.html"
+						><img
+							alt="Sneakers &amp; Tennis shoes alte"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555464735-4706a5ef4bf6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-alte_cod44740860xg.html"
+						><img
+							alt="Sneakers &amp; Tennis shoes alte"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1556068791-9e3a08d59470?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-basse_cod44738719vn.html"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554089672-043830ebaed9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-basse_cod44739938wk.html"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							loading="lazy"
+							data-src="https://images.unsplash.com/flagged/photo-1555205774-050dd5ed6a20?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivali_cod44736534fq.html"
+						><img
+							alt="Stivali"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554676187-e9a89ddb659e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivali_cod44735388ui.html"
+						><img
+							alt="Stivali"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555617778-02518510b9fa?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44739165ev.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555580142-0b82b6785a6c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44739454hf.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554901889-eda8169e70f1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivali_cod44719480km.html"
+						><img
+							alt="Stivali"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555532823-e2bc333c90e1?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44719687td.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555643031-c91105925db0?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/decollete_cod44721899ng.html"
+						><img
+							alt="Décolleté"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555801724-83dd9d58eea0?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/mocassini_cod44721744sl.html"
+						><img
+							alt="Mocassini"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1553859272-133adb267011?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44716730kr.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555940006-862eaae636bf?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/decollete_cod44718734xl.html"
+						><img
+							alt="Décolleté"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554553546-f49660dfdd91?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/decollete_cod44721796uk.html"
+						><img
+							alt="Décolleté"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1556064379-35bf4c992ac6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/francesine_cod44717679mj.html"
+						><img
+							alt="Francesine"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554197000-3d0a2ac6e0a8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44724594vu.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1553835569-40485611296c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/decollete_cod44726148aq.html"
+						><img
+							alt="Décolleté"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554584003-c049df926cd8?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/mocassini_cod44719629nt.html"
+						><img
+							alt="Mocassini"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1553634260-85dac7176cbc?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/mocassini_cod44725329kq.html"
+						><img
+							alt="Mocassini"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555940920-5d0a29a7e7dd?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivali_cod44724026qs.html"
+						><img
+							alt="Stivali"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554521718-e87e96d67ca5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44720256gw.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1556089175-54732507ad23?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44722062id.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1556015048-4d3aa10df74c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/mocassini_cod44722402rh.html"
+						><img
+							alt="Mocassini"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555687190-9a37fce4ee91?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44726296vu.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555882196-d35706cbb9ff?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44725755ct.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555939498-c63ac1eb2e4d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44725348nv.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554185624-d49be4319189?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44721879xx.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555100126-259f18ae434e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/cuissardes_cod44729472iq.html"
+						><img
+							alt="Cuissardes"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554586944-fb6d32f8a519?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/decollete_cod44725388jv.html"
+						><img
+							alt="Décolleté"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1556127042-4304bd604607?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/stivaletti_cod44721854ce.html"
+						><img
+							alt="Stivaletti"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-basse_cod44727690jp.html"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554865587-cc3c9088b02f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/mocassini_cod44727501hh.html"
+						><img
+							alt="Mocassini"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555358206-512e80af4056?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a
+						href="#/it/donna/sneakers-tennis-shoes-basse_cod44727038aq.html"
+						><img
+							alt="Sneakers &amp; Tennis shoes basse"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554130666-d400f75197ad?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/mocassini_cod44704882bq.html"
+						><img
+							alt="Mocassini"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1554668018-b76d73f358c2?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+				<li>
+					<a href="#/it/donna/mocassini_cod44734002vc.html"
+						><img
+							alt="Mocassini"
+							loading="lazy"
+							data-src="https://images.unsplash.com/photo-1555401724-a4df51068fa5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
+							width="220"
+							height="280"
+					/></a>
+				</li>
+			</ul>
+		</div>
+
+		<script>
+			(function() {
+				if ("loading" in HTMLImageElement.prototype) {
+					var lazyEls = document.querySelectorAll("[loading=lazy]");
+					lazyEls.forEach(function(lazyEl) {
+						lazyEl.setAttribute(
+							"src",
+							lazyEl.getAttribute("data-src")
+						);
+					});
+				} else {
+					// Dynamically include a lazy loading library of your choice
+					// Here including vanilla-lazyload
+					var script = document.createElement("script");
+					script.async = true;
+					script.src =
+						"https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js";
+					window.lazyLoadOptions = {
+						elements_selector: "[loading=lazy]"
+						//eventually more options here
+					};
+					document.body.appendChild(script);
+				}
+			})();
+		</script>
+	</body>
+</html>
