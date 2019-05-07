@@ -142,7 +142,7 @@ var lazyLoadInstance = new LazyLoad({
 To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
 ```js
-if (lazyLoadInstance) {
+if (window.lazyLoadInstance) {
     lazyLoadInstance.update();
 }
 ```
@@ -239,7 +239,7 @@ Then include the script.
 Now you'll be able to call its methods, like:
 
 ```js
-if (lazyLoadInstance) {
+if (window.lazyLoadInstance) {
     lazyLoadInstance.update();
 }
 ```
