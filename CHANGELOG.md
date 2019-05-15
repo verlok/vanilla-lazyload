@@ -2,13 +2,13 @@
 
 ## Version 12
 
-### 12.0.0 
+#### 12.0.0 
 
 - Reorganized code
 - Improved native lazy loading demos
 - Aligned console messages throughout all demos.
 
-### 12.0.0-beta.0
+#### 12.0.0-beta.0
 
 - Added the `use_native` option which enables *native lazy loading* (where supported) with the `loading="lazy"` attribute. See #331
 - Added two demos:
