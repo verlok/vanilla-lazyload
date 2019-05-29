@@ -18,6 +18,7 @@ describe("setSources for image", () => {
 	let img1 = "1.gif";
 	let img200 = "200.gif";
 	let img400 = "400.gif";
+	let imgAlt = 'imgAlt';
 
 	beforeEach(() => {
 		// Parent is a div
@@ -27,28 +28,35 @@ describe("setSources for image", () => {
 
 	test("...with initially empty src and srcset", () => {
 		img.setAttribute("data-src", img200);
+		img.setAttribute("data-alt", imgAlt);
 		img.setAttribute("data-srcset", img400);
 		setSources(img, getFakeInstance(lazyloadSettings));
 		expect(img).toHaveAttributeValue("src", img200);
+		expect(img).toHaveAttributeValue("alt", imgAlt);
 		expect(img).toHaveAttributeValue("srcset", img400);
 	});
 
 	test("...with initial values in src and srcset", () => {
 		img.setAttribute("data-src", img200);
+		img.setAttribute("data-alt", imgAlt);
 		img.setAttribute("data-srcset", img400);
 		img.setAttribute("src", img1);
 		img.setAttribute("srcset", img1);
 		setSources(img, getFakeInstance(lazyloadSettings));
 		expect(img).toHaveAttributeValue("src", img200);
+		expect(img).toHaveAttributeValue("alt", imgAlt);
 		expect(img).toHaveAttributeValue("srcset", img400);
 	});
 	test("...with initial values in src and srcset and empty data-*", () => {
 		img.setAttribute("data-src", "");
+		img.setAttribute("data-alt", "");
 		img.setAttribute("data-srcset", "");
 		img.setAttribute("src", img200);
+		img.setAttribute("alt", imgAlt);
 		img.setAttribute("srcset", img400);
 		setSources(img, getFakeInstance(lazyloadSettings));
 		expect(img).toHaveAttributeValue("src", img200);
+		expect(img).toHaveAttributeValue("alt", imgAlt);
 		expect(img).toHaveAttributeValue("srcset", img400);
 	});
 });

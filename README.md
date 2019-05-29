@@ -14,6 +14,12 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 <img alt="A lazy image" data-src="lazy.jpg">
 ```
 
+#### Lazy image with alt:
+
+```html
+<img data-alt="A lazy image" data-src="lazy.jpg">
+```
+
 #### Lazy image with low quality placeholder:
 
 ```html

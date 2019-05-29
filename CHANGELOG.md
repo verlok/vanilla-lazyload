@@ -2,7 +2,11 @@
 
 ## Version 12
 
-#### 12.0.0 
+#### 12.0.1
+
+- Added support to the alt attribute for images
+
+#### 12.0.0
 
 - Reorganized code
 - Improved native lazy loading demos

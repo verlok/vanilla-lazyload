@@ -4,6 +4,7 @@
 	threshold?: number;
 	thresholds?: string;
 	data_src?: string;
+	data_alt?: string;
 	data_srcset?: string;
 	data_sizes?: string;
 	data_bg?: string;

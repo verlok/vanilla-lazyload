@@ -13,6 +13,7 @@ define(function () {
     threshold: 300,
     thresholds: null,
     data_src: "src",
+    data_alt: "alt",
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
@@ -164,6 +165,7 @@ define(function () {
     setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
     setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    setAttributeIfValue(element, "alt", getData(element, settings.data_alt));
   };
 
   var setSourcesImg = function setSourcesImg(element, settings) {

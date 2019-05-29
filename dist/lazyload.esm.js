@@ -17,6 +17,7 @@ const defaultSettings = {
 	threshold: 300,
 	thresholds: null,
 	data_src: "src",
+	data_alt: "alt",
 	data_srcset: "srcset",
 	data_sizes: "sizes",
 	data_bg: "bg",
@@ -150,6 +151,7 @@ const setImageAttributes = (element, settings) => {
 		getData(element, settings.data_srcset)
 	);
 	setAttributeIfValue(element, "src", getData(element, settings.data_src));
+	setAttributeIfValue(element, "alt", getData(element, settings.data_alt));
 };
 
 const setSourcesImg = (element, settings) => {

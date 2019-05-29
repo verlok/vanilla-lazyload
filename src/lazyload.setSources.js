@@ -31,6 +31,7 @@ export const setImageAttributes = (element, settings) => {
 		getData(element, settings.data_srcset)
 	);
 	setAttributeIfValue(element, "src", getData(element, settings.data_src));
+	setAttributeIfValue(element, "alt", getData(element, settings.data_alt));
 };
 
 export const setSourcesImg = (element, settings) => {
