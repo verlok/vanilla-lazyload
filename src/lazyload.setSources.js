@@ -72,7 +72,11 @@ export const setSourcesBgImage = (element, settings) => {
 	}
 
 	if (bgDataValue) {
-		element.style.backgroundImage = bgDataValue[0] === "u" ? bgDataValue : `url("${bgDataValue}")`;
+		element.style.backgroundImage = bgDataValue[0] === "u" ?
+			bgDataValue :
+			bgDataValue.split(", ").length > 1 ?
+				bgDataValue :
+				`url("${bgDataValue}")`;
 	}
 };
 
