@@ -23,9 +23,9 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 #### Lazy responsive image with `srcset` and `sizes`:
 
 ```html
-<img alt="A lazy image" class="lazy" 
-    data-src="lazy.jpg" 
-    data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w" 
+<img alt="A lazy image" class="lazy"
+    data-src="lazy.jpg"
+    data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
     data-sizes="100w">
 ```
 
@@ -35,13 +35,13 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 ```html
 <picture>
-    <source 
-        media="(min-width: 1200px)" 
+    <source
+        media="(min-width: 1200px)"
         data-srcset="lazy_1200.jpg 1x, lazy_2400.jpg 2x">
-    <source 
-        media="(min-width: 800px)" 
+    <source
+        media="(min-width: 800px)"
         data-srcset="lazy_800.jpg 1x, lazy_1600.jpg 2x">
-    <img alt="A lazy image" class="lazy" 
+    <img alt="A lazy image" class="lazy"
         data-src="lazy.jpg">
 </picture>
 ```
@@ -52,11 +52,11 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 ```html
 <picture>
-    <source type="image/webp" 
-        data-srcset="lazy_400.webp 400w, lazy_800.webp 800w" 
+    <source type="image/webp"
+        data-srcset="lazy_400.webp 400w, lazy_800.webp 800w"
         data-sizes="100w">
-    <img alt="A lazy image" class="lazy" 
-        data-src="lazy.jpg" 
+    <img alt="A lazy image" class="lazy"
+        data-src="lazy.jpg"
         data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
         data-sizes="100w">
 </picture>
@@ -75,14 +75,15 @@ Single background
 Multiple backgrounds
 
 ```html
-<div class="lazy" 
+<div class="lazy"
     data-bg="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)">
     ...
 </div>
 ```
 
-Notes: 
-- you need to use `url()` in the value of your `data-bg` attribute, also for single background
+Notes:
+- you need to use `url()` in the value of your `data-bg` attribute if you are using multiple backgrounds
+- you can omit the `url()` in the value of your `data-bg` for single backgrounds, but its usage is recommended
 - you shouldn't use background images to load content images, they're bad for SEO and for accessibility
 - on background images, `callback_loaded` won't be called and the `class_loaded` class won't be added
 
@@ -187,27 +188,27 @@ require(dependencies, function(_, LazyLoad) {
 
 ### Using an `async` script
 
-If you prefer, it's possible to include LazyLoad's script using `async` script and initialize it as soon as it's loaded.	
+If you prefer, it's possible to include LazyLoad's script using `async` script and initialize it as soon as it's loaded.
 
 To do so, **you must define the options before including the script**. You can pass:
 
 - `{}` an object to get a single instance of LazyLoad
 - `[{}, {}]` an array of objects to get multiple instances of LazyLoad, each one with different options.
 
-```html	
-<script>	
-    // Set the options to make LazyLoad self-initialize	
-    window.lazyLoadOptions = {	
-        elements_selector: ".lazy",	
-        // ... more custom settings?	
+```html
+<script>
+    // Set the options to make LazyLoad self-initialize
+    window.lazyLoadOptions = {
+        elements_selector: ".lazy",
+        // ... more custom settings?
     };
-</script>	
+</script>
 ```
 
 Then include the script.
 
-```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>	
+```html
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
 ```
 
 **Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call its `update()` method to make it check the DOM again.
@@ -216,24 +217,24 @@ Then include the script.
 
 Same as above, but you must put the `addEventListener` code shown below before including the `async` script.
 
-```html	
-<script>	
-    // Set the options to make LazyLoad self-initialize	
-    window.lazyLoadOptions = {	
-        elements_selector: ".lazy",	
-        // ... more custom settings?	
+```html
+<script>
+    // Set the options to make LazyLoad self-initialize
+    window.lazyLoadOptions = {
+        elements_selector: ".lazy",
+        // ... more custom settings?
     };
-    // Listen to the initialization event and get the instance of LazyLoad	
-    window.addEventListener('LazyLoad::Initialized', function (event) {	
-        window.lazyLoadInstance = event.detail.instance;	
-    }, false);	
-</script>	
+    // Listen to the initialization event and get the instance of LazyLoad
+    window.addEventListener('LazyLoad::Initialized', function (event) {
+        window.lazyLoadInstance = event.detail.instance;
+    }, false);
+</script>
 ```
 
 Then include the script.
 
-```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>	
+```html
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
 ```
 
 Now you'll be able to call its methods, like:
@@ -346,7 +347,7 @@ myLazyLoad.update();
 HTML
 
 ```html
-<div class="scrollingPanel" id="scrollingPanel"> 
+<div class="scrollingPanel" id="scrollingPanel">
     <!-- Set of images -->
 </div>
 ```
@@ -395,7 +396,7 @@ var myLazyLoad2 = new LazyLoad({
 HTML
 
 ```html
-<img class="lazy" alt="A lazy image" 
+<img class="lazy" alt="A lazy image"
      data-src="lazy.jpg"
      width="220" height="280">
 ```
@@ -435,7 +436,7 @@ Javascript
 
 ```js
 var lazyLoadInstances = [];
-// The "lazyLazy" instance of lazyload is used (kinda improperly) 
+// The "lazyLazy" instance of lazyload is used (kinda improperly)
 // to check when the .horzContainer divs enter the viewport
 var lazyLazy = new LazyLoad({
     elements_selector: ".horzContainer",
@@ -445,7 +446,7 @@ var lazyLazy = new LazyLoad({
         var oneLL = new LazyLoad({
             container: el
         });
-        // Optionally push it in the lazyLoadInstances 
+        // Optionally push it in the lazyLoadInstances
         // array to keep track of the instances
         lazyLoadInstances.push(oneLL);
     }
@@ -564,7 +565,7 @@ Or instead of the above `:not()` selector do it using the **CSS classes** of `cl
 
 ### Do NOT use placeholder images
 
-We do not recommend to use a placeholder image (like a transparent pixel GIF) in your HTML. 
+We do not recommend to use a placeholder image (like a transparent pixel GIF) in your HTML.
 
 * For **best perceived performance, leave the `src` and `srcset` attributes blank**. Doing so, the image will be shown as soon as LazyLoad starts loading the image. See [this video](https://youtu.be/2E3ociaFJS0) or [this pen](https://codepen.io/verlok/pen/bKYggE?editors=0110) to test the difference (remember to disable the cache and to set a slower connection speed if you have a very fast one).
 * If you put anything in the src (like a transparent GIF), then LazyLoad starts loading the image but it won't be shown by browsers until the new image is loaded, leading to a **worse perceived performance**.
@@ -607,8 +608,8 @@ The `new LazyLoad()` instruction you execute on your page can take two parameter
 The most common usage of LazyLoad constructor is to pass only the options object (see "options" in the next section). For example:
 
 ```js
-var aLazyLoad = new LazyLoad({ 
-    /* options here */ 
+var aLazyLoad = new LazyLoad({
+    /* options here */
 });
 ```
 
@@ -616,8 +617,8 @@ In the rare cases where you can't or don't want to select the elements using `el
 
 ```js
 var elementsToLazyLoad = getElementSetFromSomewhere();
-var aLazyLoad = new LazyLoad({ 
-    /* options here */ 
+var aLazyLoad = new LazyLoad({
+    /* options here */
 }, elementsToLazyLoad);
 ```
 
@@ -683,6 +684,6 @@ LazyLoad **doesn't hide your images from search engines**, even if you don't spe
 
 ### Tested on real browsers
 
-Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative. 
+Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
 
 <a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="./img/browserstack-logo-600x315.png"  width="300" height="158"/></a>
