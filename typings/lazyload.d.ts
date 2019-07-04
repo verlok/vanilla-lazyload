@@ -27,3 +27,4 @@ interface ILazyLoad {
 	loadAll: () => void;
 }
 declare var LazyLoad: ILazyLoad;
+export default LazyLoad;
