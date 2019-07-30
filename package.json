@@ -5,6 +5,7 @@
 	"main": "dist/lazyload.min.js",
 	"module": "dist/lazyload.esm.js",
 	"browser": "dist/lazyload.min.js",
+	"typings": "typings/lazyload.d.ts",
 	"dependencies": {},
 	"devDependencies": {
 		"@babel/core": "^7.0.0",
@@ -27,7 +28,8 @@
 		"test": "jest"
 	},
 	"files": [
-		"dist"
+		"dist",
+		"typings"
 	],
 	"repository": {
 		"type": "git",
