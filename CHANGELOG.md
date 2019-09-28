@@ -2,6 +2,10 @@
 
 ## Version 12
 
+#### 12.0.1
+
+- Updated CHANGELOG.md and README.md to mention the change of the option name `callback_load` which is called `callback_loaded` in versions 11.0.0 and above.
+
 #### 12.0.0 
 
 - Reorganized code
