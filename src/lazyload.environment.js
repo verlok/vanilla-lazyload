@@ -6,7 +6,11 @@ export const isBot =
 		/(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent));
 
 export const supportsIntersectionObserver =
-	runningOnBrowser && "IntersectionObserver" in window;
+	runningOnBrowser &&
+	"IntersectionObserver" in window &&
+	"IntersectionObserverEntry" in window &&
+	"intersectionRatio" in window.IntersectionObserverEntry.prototype &&
+	"isIntersecting" in window.IntersectionObserverEntry.prototype;
 
 export const supportsClassList =
 	runningOnBrowser && "classList" in document.createElement("p");
