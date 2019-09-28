@@ -2,6 +2,14 @@
 
 ## Version 12
 
+#### 12.0.2
+
+Improved detection of browser support of IntersectionObserver, as suggested in #362. Thanks to @kaldonir
+
+#### 12.0.1
+
+Updated CHANGELOG.md and README.md to mention the change of the option name `callback_load` which is called `callback_loaded` in versions 11.0.0 and above.
+
 #### 12.0.0 
 
 - Reorganized code
