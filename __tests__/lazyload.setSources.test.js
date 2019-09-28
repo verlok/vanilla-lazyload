@@ -1,4 +1,4 @@
-import { setSources } from "../src/lazyLoad.setSources";
+import { setSources } from "../src/lazyload.setSources";
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
 
