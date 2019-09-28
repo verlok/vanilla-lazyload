@@ -58,6 +58,7 @@ version. If you were using it, please update your code to use `callback_reveal` 
 Callbacks updated:
 
 - **Changed** `callback_enter`. This callback is now called whenever an element enters the viewport, even when `load_delay` is set. In previous versions, this callback was delayed until an element started loading if a `load_delay` was set. Note that this is a **possible breaking change**, which you can fix using `callback_reveal` instead.
+- **Renamed** `callback_loaded` is the new name of `callback_load`.
 - **Added** `callback_exit`. This callback is called whenever an element exits the viewport, even if a `load_delay` is set.
 - **Added** `callback_reveal`. This callback is called just after an element starts loading.
 - **Deprecated** `callback_set`. This callback still works*, but will be removed in the next major 
