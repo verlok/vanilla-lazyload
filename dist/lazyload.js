@@ -9,7 +9,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var runningOnBrowser = typeof window !== "undefined";
   var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
-  var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+  var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window && "IntersectionObserverEntry" in window && "intersectionRatio" in window.IntersectionObserverEntry.prototype && "isIntersecting" in window.IntersectionObserverEntry.prototype;
   var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
   var defaultSettings = {
     elements_selector: "img",
