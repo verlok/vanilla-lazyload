@@ -508,7 +508,9 @@ It's a good idea to make sure that your lazy images occupy some space even **bef
 There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/), but my favourite one is to use an SVG placeholder of the same ratio of the lazy images.
 
 ```html
-<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E" data-src="//picsum.photos/900/600" alt="Lazy loading test image" />
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E" 
+    data-src="//picsum.photos/900/600" 
+    alt="Lazy loading test image" />
 ```
 
 Alternatively (but less efficiently) you can use a tiny, scaled-down version of your images as a placeholder, stretching them to the final size of the images, and obtain a blur-up effect when the full images load.
