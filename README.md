@@ -503,9 +503,9 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 ### Occupy space and avoid content reflow
 
-It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to `0`-height, causing your layout to reflow and making lazyload inefficient.
+It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to reflow and making lazyload inefficient.
 
-There are [many ways to do that](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/), but I recommend one is to use an SVG placeholder of the same ratio of the lazy images.
+There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/), but my favourite one is to use an SVG placeholder of the same ratio of the lazy images.
 
 ```html
 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E" data-src="//picsum.photos/900/600" alt="Lazy loading test image" />
