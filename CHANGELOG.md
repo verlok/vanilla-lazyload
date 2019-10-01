@@ -2,6 +2,10 @@
 
 ## Version 12
 
+#### 12.0.3
+
+Updated the IntersectionObserver polyfill to version 0.7.0.
+
 #### 12.0.2
 
 Improved detection of browser support of IntersectionObserver, as suggested in #362. Thanks to @kaldonir
