@@ -27,4 +27,3 @@ __tests__/ export-ignore
 demos/ export-ignore
 img/ export-ignore
 src/ export-ignore
-typings/ export-ignore
