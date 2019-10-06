@@ -29,13 +29,6 @@
 			img:not([src]) {
 				visibility: hidden;
 			}
-
-			/* Fixes Firefox anomaly during image load */
-			@-moz-document url-prefix() {
-				img:-moz-loading {
-					visibility: hidden;
-				}
-			}
 		</style>
 	</head>
 

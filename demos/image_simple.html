@@ -12,6 +12,7 @@
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
+				width: 220px;
 			}
 
 			a,
@@ -21,19 +22,12 @@
 
 			img {
 				border: 0;
-				width: 220px;
-				height: 280px;
+				width: 100%;
+				height: auto;
 			}
 
 			img:not([src]) {
 				visibility: hidden;
-			}
-
-			/* Fixes Firefox anomaly during image load */
-			@-moz-document url-prefix() {
-				img:-moz-loading {
-					visibility: hidden;
-				}
 			}
 		</style>
 	</head>
