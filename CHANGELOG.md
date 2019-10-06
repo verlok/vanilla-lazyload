@@ -10,7 +10,8 @@
 
 #### 12.0.3
 
-Updated the IntersectionObserver polyfill to version 0.7.0.
+- Updated the IntersectionObserver polyfill to version 0.7.0
+- Reduced the weight of the installed package via `.gitignore` file
 
 #### 12.0.2
 
