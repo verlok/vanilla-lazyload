@@ -2,9 +2,15 @@
 
 ## Version 12
 
+#### 12.1.0
+
+- Updated npm dev dependencies
+- Modified added an inline svg placeholder to the `image_simple.html` demo
+- Added the new `image_simple_external_ph.html`, with an external SVG placholder
+
 #### 12.0.3
 
-Updated the IntersectionObserver polyfill to version 0.7.0.
+Updated the IntersectionObserver polyfill to version 0.7.0
 
 #### 12.0.2
 

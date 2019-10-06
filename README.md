@@ -105,7 +105,7 @@ Notes:
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **12.0.3**.
+The latest, recommended version of LazyLoad is **12.1.0**.
 
 ### To polyfill or not to polyfill IntersectionObserver?
 
@@ -120,14 +120,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.3/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.3/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -162,7 +162,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.3/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.1.0/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -207,7 +207,7 @@ To do so, **you must define the options before including the script**. You can p
 Then include the script.
 
 ```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.3/dist/lazyload.min.js"></script>	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>	
 ```
 
 **Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call its `update()` method to make it check the DOM again.
@@ -233,7 +233,7 @@ Same as above, but you must put the `addEventListener` code shown below before i
 Then include the script.
 
 ```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.3/dist/lazyload.min.js"></script>	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>	
 ```
 
 Now you'll be able to call its methods, like:
@@ -466,7 +466,9 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 | Type      | Title                                                                                          | Code                                           | Live demo                                                                              |
 | --------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Content   | Simple lazy loaded image                                                                       | [Code](demos/image_simple.html)                | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_simple.html)                |
+| Content   | Simple lazy loaded images, not using any placeholder                                           | [Code](demos/image_basic.html)                 | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_basic.html)                 |
+| Content   | Lazy images that use an inline SVG as a placeholder                                            | [Code](demos/image_ph_inline.html)             | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_ph_inline.html)             |
+| Content   | Lazy images that use an external SVG file as a placeholder                                     | [Code](demos/image_ph_external.html)           | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_ph_external.html)           |
 | Content   | Lazy responsive images with `srcset`                                                           | [Code](demos/image_srcset.html)                | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_srcset.html)                |
 | Content   | Lazy responsive images with the `<picture>` tag and the `media` attribute (art direction)      | [Code](demos/picture_media.html)               | [Live](https://www.andreaverlicchi.eu/lazyload/demos/picture_media.html)               |
 | Content   | Lazy responsive images with `srcset` and `sizes` (using `data-sizes`)                          | [Code](demos/image_srcset_lazy_sizes.html)     | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_srcset_lazy_sizes.html)     |
