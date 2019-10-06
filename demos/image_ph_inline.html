@@ -29,6 +29,13 @@
 			img:not([src]) {
 				visibility: hidden;
 			}
+
+			/* Fixes Firefox anomaly during image load */
+			@-moz-document url-prefix() {
+				img:-moz-loading {
+					visibility: hidden;
+				}
+			}
 		</style>
 	</head>
 
@@ -59,6 +66,7 @@
 						><img
 							alt="Sneakers &amp; Tennis"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+03"
 							width="220"
 							height="280"
@@ -70,6 +78,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+04"
 							width="220"
 							height="280"
@@ -81,6 +90,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes alte"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+05"
 							width="220"
 							height="280"
@@ -92,6 +102,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes alte"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+06"
 							width="220"
 							height="280"
@@ -103,6 +114,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+07"
 							width="220"
 							height="280"
@@ -114,6 +126,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+08"
 							width="220"
 							height="280"
@@ -124,6 +137,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+09"
 							width="220"
 							height="280"
@@ -134,6 +148,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+10"
 							width="220"
 							height="280"
@@ -144,6 +159,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+11"
 							width="220"
 							height="280"
@@ -154,6 +170,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+12"
 							width="220"
 							height="280"
@@ -164,6 +181,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+13"
 							width="220"
 							height="280"
@@ -174,6 +192,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+14"
 							width="220"
 							height="280"
@@ -184,6 +203,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+15"
 							width="220"
 							height="280"
@@ -194,6 +214,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+16"
 							width="220"
 							height="280"
@@ -204,6 +225,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+17"
 							width="220"
 							height="280"
@@ -214,6 +236,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+18"
 							width="220"
 							height="280"
@@ -224,6 +247,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+19"
 							width="220"
 							height="280"
@@ -234,6 +258,7 @@
 						><img
 							alt="Francesine"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+20"
 							width="220"
 							height="280"
@@ -244,6 +269,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+21"
 							width="220"
 							height="280"
@@ -254,6 +280,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+22"
 							width="220"
 							height="280"
@@ -264,6 +291,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+23"
 							width="220"
 							height="280"
@@ -274,6 +302,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+24"
 							width="220"
 							height="280"
@@ -284,6 +313,7 @@
 						><img
 							alt="Stivali"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+25"
 							width="220"
 							height="280"
@@ -294,6 +324,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+26"
 							width="220"
 							height="280"
@@ -304,6 +335,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+27"
 							width="220"
 							height="280"
@@ -314,6 +346,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+28"
 							width="220"
 							height="280"
@@ -324,6 +357,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+29"
 							width="220"
 							height="280"
@@ -334,6 +368,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+30"
 							width="220"
 							height="280"
@@ -344,6 +379,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+31"
 							width="220"
 							height="280"
@@ -354,6 +390,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+32"
 							width="220"
 							height="280"
@@ -364,6 +401,7 @@
 						><img
 							alt="Cuissardes"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+33"
 							width="220"
 							height="280"
@@ -374,6 +412,7 @@
 						><img
 							alt="Décolleté"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+34"
 							width="220"
 							height="280"
@@ -384,6 +423,7 @@
 						><img
 							alt="Stivaletti"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+35"
 							width="220"
 							height="280"
@@ -395,6 +435,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+36"
 							width="220"
 							height="280"
@@ -405,6 +446,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+37"
 							width="220"
 							height="280"
@@ -416,6 +458,7 @@
 						><img
 							alt="Sneakers &amp; Tennis shoes basse"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+38"
 							width="220"
 							height="280"
@@ -426,6 +469,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+39"
 							width="220"
 							height="280"
@@ -436,6 +480,7 @@
 						><img
 							alt="Mocassini"
 							class="lazy"
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3C/svg%3E"
 							data-src="https://via.placeholder.com/440x560?text=Img+40"
 							width="220"
 							height="280"
