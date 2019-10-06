@@ -20,10 +20,3 @@
 *.PDF  diff=astextplain
 *.rtf  diff=astextplain
 *.RTF  diff=astextplain
-
-# Directories and files to ignore from release archives
-.github/ export-ignore
-__tests__/ export-ignore
-demos/ export-ignore
-img/ export-ignore
-src/ export-ignore
