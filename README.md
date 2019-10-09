@@ -509,7 +509,36 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to reflow and making lazyload inefficient.
 
-There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/), but my favourite one is to use an SVG placeholder of the same ratio of the lazy images.
+There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick. 
+
+#### Vertical padding trick
+
+```html
+<div class="image-wrapper">
+    <img class="lazy image" alt="An image" data-src="lazy.jpg">
+</div>
+```
+
+```css
+.image-wrapper {
+    width: 100%;
+    height: 0;
+    padding-bottom: 150%; /* You define this doing image height / width * 100% */
+    position: relative;
+}
+.image {
+    width: 100%;
+    height: auto;
+    position: absolute;
+}
+```
+
+More info in [Sizing Fluid Image Containers with a Little CSS Padding Hack](http://andyshora.com/css-image-container-padding-hack.html) by Andy Shora. Find also a useful [SASS mixin to maintain aspect ratio](https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/) on CSS tricks.
+
+
+#### Inline SVG
+
+If you can't use the vertical padding trick for some reason, the best option is to use an SVG placeholder of the same ratio of the lazy images.
 
 ```html
 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E" 
