@@ -89,6 +89,9 @@ const setData = (element, attribute, value) => {
 	element.setAttribute(attrName, value);
 };
 
+const resetWasProcessedData = element =>
+	setData(element, processedDataName, null);
+
 const setWasProcessedData = element =>
 	setData(element, processedDataName, trueString);
 
@@ -395,11 +398,33 @@ const queryElements = settings =>
 const getElements = (elements, settings) =>
 	purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
 
+const retryLazyLoad = instance => {
+	var settings = instance._settings;
+	var errorElements = settings.container.querySelectorAll(
+		"." + settings.class_error
+	);
+	[...errorElements].forEach(element => {
+		removeClass(element, settings.class_error);
+		resetWasProcessedData(element);
+	});
+	instance.update();
+};
+
+const setOnlineCheck = instance => {
+	if (!runningOnBrowser) {
+		return;
+	}
+	window.addEventListener("online", event => {
+		retryLazyLoad(instance);
+	});
+};
+
 const LazyLoad = function(customSettings, elements) {
 	this._settings = getInstanceSettings(customSettings);
 	this._loadingCount = 0;
 	setObserver(this);
 	this.update(elements);
+	setOnlineCheck(this);
 };
 
 LazyLoad.prototype = {

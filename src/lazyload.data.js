@@ -16,6 +16,9 @@ export const setData = (element, attribute, value) => {
 	element.setAttribute(attrName, value);
 };
 
+export const resetWasProcessedData = element =>
+	setData(element, processedDataName, null);
+
 export const setWasProcessedData = element =>
 	setData(element, processedDataName, trueString);
 
