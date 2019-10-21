@@ -2,12 +2,16 @@
 
 ## Version 12
 
+#### 12.1.1
+
+Solved a bug with Internet Explorer 11 and the W3C polyfill, as reported in #383.
+
 #### 12.1.0
 
 - Updated npm dev dependencies
-- Modified added an inline svg placeholder to the `image_simple.html` demo
-- Added the new `image_simple_external_ph.html`, with an external SVG placholder
-
+- Added the new `image_ph_inline.html`, with an inline SVG placeholder
+- Added the new `image_ph_external.html`, with an external SVG placeholder
+ 
 #### 12.0.3
 
 Updated the IntersectionObserver polyfill to version 0.7.0

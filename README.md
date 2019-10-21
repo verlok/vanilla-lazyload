@@ -1,5 +1,7 @@
 LazyLoad is a fast, lightweight and flexible script that **speeds up your web application** by loading your content images, videos and iframes only **as they enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it works with [responsive images](https://alistapart.com/article/responsive-images-in-practice) and it supports native lazy loading. See [notable features](#-notable-features) for more.
 
+[![](https://data.jsdelivr.com/v1/package/npm/vanilla-lazyload/badge)](https://www.jsdelivr.com/package/npm/vanilla-lazyload)
+
 ➡️ Jump to: [👨‍💻 Getting started - HTML](#-getting-started---html) - [👩‍💻 Getting started - Script](#-getting-started---script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 Notable features](#-notable-features)
 
 ---
@@ -105,7 +107,7 @@ Notes:
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **12.1.0**.
+The latest, recommended version of LazyLoad is **12.1.1**.
 
 ### To polyfill or not to polyfill IntersectionObserver?
 
@@ -120,14 +122,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.1/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -162,7 +164,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.1/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.1.0/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -207,7 +209,7 @@ To do so, **you must define the options before including the script**. You can p
 Then include the script.
 
 ```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.1/dist/lazyload.min.js"></script>	
 ```
 
 **Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call its `update()` method to make it check the DOM again.
@@ -233,7 +235,7 @@ Same as above, but you must put the `addEventListener` code shown below before i
 Then include the script.
 
 ```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.0/dist/lazyload.min.js"></script>	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.1.1/dist/lazyload.min.js"></script>	
 ```
 
 Now you'll be able to call its methods, like:
@@ -507,7 +509,36 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to reflow and making lazyload inefficient.
 
-There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/), but my favourite one is to use an SVG placeholder of the same ratio of the lazy images.
+There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick. 
+
+#### Vertical padding trick
+
+```html
+<div class="image-wrapper">
+    <img class="lazy image" alt="An image" data-src="lazy.jpg">
+</div>
+```
+
+```css
+.image-wrapper {
+    width: 100%;
+    height: 0;
+    padding-bottom: 150%; /* You define this doing image height / width * 100% */
+    position: relative;
+}
+.image {
+    width: 100%;
+    height: auto;
+    position: absolute;
+}
+```
+
+More info in [Sizing Fluid Image Containers with a Little CSS Padding Hack](http://andyshora.com/css-image-container-padding-hack.html) by Andy Shora. Find also a useful [SASS mixin to maintain aspect ratio](https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/) on CSS tricks.
+
+
+#### Inline SVG
+
+If you can't use the vertical padding trick for some reason, the best option is to use an SVG placeholder of the same ratio of the lazy images.
 
 ```html
 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E" 
