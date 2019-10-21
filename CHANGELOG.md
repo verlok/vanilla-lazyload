@@ -2,6 +2,10 @@
 
 ## Version 12
 
+#### 12.2.0
+
+Released new feature "retry when back online". Now if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.
+
 #### 12.1.1
 
 Solved a bug with Internet Explorer 11 and the W3C polyfill, as reported in #383.
