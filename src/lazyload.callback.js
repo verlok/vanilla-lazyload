@@ -1,5 +1,5 @@
-export const callbackIfSet = (callback, argument) => {
+export const safeCallback = (callback, arg1, arg2, arg3) => {
 	if (callback) {
-		callback(argument);
+		callback(arg1, arg2, arg3);
 	}
 };

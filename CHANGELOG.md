@@ -2,6 +2,18 @@
 
 ## Version 12
 
+#### 12.3.0.Beta (not released)
+
+Callbacks have now more arguments: the instance of lazyload and the intersectionObserverEntry
+
+- callback_load(el, instance)
+- callback_error(el, instance)
+- callback_finish(instance)
+- callback_reveal(el, instance)
+- callback_set(el, instance)
+- callback_enter(el, intersectionObserverEntry, instance)
+- callback_exit(el, intersectionObserverEntry, instance)
+
 #### 12.2.0
 
 Released new feature "retry when back online". Now if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.

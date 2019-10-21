@@ -1,5 +1,5 @@
 import { addClass, removeClass } from "./lazyload.class";
-import { callbackIfSet } from "./lazyload.callback";
+import { safeCallback } from "./lazyload.callback";
 import { updateLoadingCount } from "./lazyload.loadingCount";
 
 const genericLoadEventName = "load";
@@ -36,7 +36,7 @@ const eventHandler = function(event, success, instance) {
 
 	removeClass(element, settings.class_loading);
 	addClass(element, className);
-	callbackIfSet(callback, element);
+	safeCallback(callback, element, instance);
 
 	updateLoadingCount(instance, -1);
 };
