@@ -9,16 +9,25 @@ export const getObserverSettings = settings => ({
 	rootMargin: settings.thresholds || settings.threshold + "px"
 });
 
+export const processObserverEntries = entries => {
+	entries.forEach(entry =>
+		isIntersecting(entry)
+			? onEnter(entry.target, instance)
+			: onExit(entry.target, instance)
+	);
+};
+
+export const takeRecords = instance => {
+	if (!supportsIntersectionObserver || !instance._observer.takeRecords) {
+		return;
+	}
+	processObserverEntries(instance._observer.takeRecords());	
+};
+
 export const setObserver = instance => {
 	if (!supportsIntersectionObserver) {
 		return false;
 	}
-	instance._observer = new IntersectionObserver(entries => {
-		entries.forEach(entry =>
-			isIntersecting(entry)
-				? onEnter(entry.target, instance)
-				: onExit(entry.target, instance)
-		);
-	}, getObserverSettings(instance._settings));
+	instance._observer = new IntersectionObserver(processObserverEntries, getObserverSettings(instance._settings));
 	return true;
 };
