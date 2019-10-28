@@ -34,7 +34,7 @@ LazyLoad.prototype = {
             return;
         }
 
-        updateObserver(this._observer, elementsToLoad);
+        updateObserver(this, elementsToLoad);
     },
 
     destroy: function () {

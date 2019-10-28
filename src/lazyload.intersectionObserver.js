@@ -24,9 +24,12 @@ export const observeElements = (observer, elements) => {
     });
 };
 
-export const updateObserver = (observer, elementsToObserve) => {
+export const updateObserver = (instance, elementsToObserve) => {
+    const observer = instance._observer;
+    const settings = instance._settings;
     resetObserver(observer);
     observeElements(observer, elementsToObserve);
+    intersectionHandler(observer.takeRecords(), settings, instance);
 };
 
 export const setObserver = (settings, instance) => {
