@@ -7,13 +7,13 @@ import {
 } from "./lazyload.data";
 import { addOneShotEventListeners } from "./lazyload.event";
 import { addClass } from "./lazyload.class";
-import { callbackIfSet } from "./lazyload.callback";
+import { safeCallback } from "./lazyload.callback";
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-export const onEnter = (element, instance) => {
+export const onEnter = (element, entry, instance) => {
 	const settings = instance._settings;
-	callbackIfSet(settings.callback_enter, element);
+	safeCallback(settings.callback_enter, element, entry, instance);
 	if (!settings.load_delay) {
 		revealAndUnobserve(element, instance);
 		return;
@@ -29,9 +29,9 @@ export const revealAndUnobserve = (element, instance) => {
 	}
 };
 
-export const onExit = (element, instance) => {
+export const onExit = (element, entry, instance) => {
 	const settings = instance._settings;
-	callbackIfSet(settings.callback_exit, element);
+	safeCallback(settings.callback_exit, element, entry, instance);
 	if (!settings.load_delay) {
 		return;
 	}
@@ -71,6 +71,6 @@ export const revealElement = (element, instance, force) => {
 	}
 	setSources(element, instance);
 	setWasProcessedData(element);
-	callbackIfSet(settings.callback_reveal, element);
-	callbackIfSet(settings.callback_set, element);
+	safeCallback(settings.callback_reveal, element, instance);
+	safeCallback(settings.callback_set, element, instance);
 };
