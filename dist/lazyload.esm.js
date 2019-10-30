@@ -111,16 +111,26 @@ const purgeOneElement = (elements, elementToPurge) => {
 	return elements.filter(element => element !== elementToPurge);
 };
 
-const callbackIfSet = (callback, argument) => {
-	if (callback) {
-		callback(argument);
+const safeCallback = (callback, arg1, arg2, arg3) => {
+	if (!callback) {
+		return;
 	}
+
+	if (arg3 !== undefined) {
+		callback(arg1, arg2, arg3);
+		return;
+	}
+	if (arg2 !== undefined) {
+		callback(arg1, arg2);
+		return;
+	}
+	callback(arg1);
 };
 
 const updateLoadingCount = (instance, plusMinus) => {
 	instance._loadingCount += plusMinus;
 	if (instance._elements.length === 0 && instance._loadingCount === 0) {
-		callbackIfSet(instance._settings.callback_finish);
+		safeCallback(instance._settings.callback_finish, instance);
 	}
 };
 
@@ -270,7 +280,7 @@ const eventHandler = function(event, success, instance) {
 
 	removeClass(element, settings.class_loading);
 	addClass(element, className);
-	callbackIfSet(callback, element);
+	safeCallback(callback, element, instance);
 
 	updateLoadingCount(instance, -1);
 };
@@ -289,9 +299,9 @@ const addOneShotEventListeners = (element, instance) => {
 
 const managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-const onEnter = (element, instance) => {
+const onEnter = (element, entry, instance) => {
 	const settings = instance._settings;
-	callbackIfSet(settings.callback_enter, element);
+	safeCallback(settings.callback_enter, element, entry, instance);
 	if (!settings.load_delay) {
 		revealAndUnobserve(element, instance);
 		return;
@@ -307,9 +317,9 @@ const revealAndUnobserve = (element, instance) => {
 	}
 };
 
-const onExit = (element, instance) => {
+const onExit = (element, entry, instance) => {
 	const settings = instance._settings;
-	callbackIfSet(settings.callback_exit, element);
+	safeCallback(settings.callback_exit, element, entry, instance);
 	if (!settings.load_delay) {
 		return;
 	}
@@ -349,8 +359,8 @@ const revealElement = (element, instance, force) => {
 	}
 	setSources(element, instance);
 	setWasProcessedData(element);
-	callbackIfSet(settings.callback_reveal, element);
-	callbackIfSet(settings.callback_set, element);
+	safeCallback(settings.callback_reveal, element, instance);
+	safeCallback(settings.callback_set, element, instance);
 };
 
 const isIntersecting = entry =>
@@ -368,8 +378,8 @@ const setObserver = instance => {
 	instance._observer = new IntersectionObserver(entries => {
 		entries.forEach(entry =>
 			isIntersecting(entry)
-				? onEnter(entry.target, instance)
-				: onExit(entry.target, instance)
+				? onEnter(entry.target, entry, instance)
+				: onExit(entry.target, entry, instance)
 		);
 	}, getObserverSettings(instance._settings));
 	return true;

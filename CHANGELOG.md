@@ -2,6 +2,24 @@
 
 ## Version 12
 
+#### 12.3.0
+
+Callbacks now pass more arguments!
+
+`callback_enter`, `callback_exit` now pass:
+1. the DOM element that entered / exited the viewport
+2. the `IntersectionObserverEntry` that triggered the enter/exit event
+3. the LazyLoad instance
+
+`callback_load`, `callback_error`, `callback_reveal` now pass
+1. the DOM element that entered / exited the viewport
+2. the LazyLoad instance
+
+`callback_finish` now passes:
+1. the LazyLoad instance
+
+The README file has been updated accordingly.
+
 #### 12.2.0
 
 Released new feature "retry when back online". Now if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.

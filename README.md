@@ -107,7 +107,7 @@ Notes:
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **12.2.0**.
+The latest, recommended version of LazyLoad is **12.3.0**.
 
 ### To polyfill or not to polyfill IntersectionObserver?
 
@@ -122,14 +122,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.2.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.3.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.2.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.3.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -164,7 +164,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.2.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.3.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.1.0/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -209,7 +209,7 @@ To do so, **you must define the options before including the script**. You can p
 Then include the script.
 
 ```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.2.0/dist/lazyload.min.js"></script>	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.3.0/dist/lazyload.min.js"></script>	
 ```
 
 **Possibly place the script tag right before the closing `</body>` tag**. If you can't do that, LazyLoad could be executed before the browser has loaded all the DOM, and you'll need to call its `update()` method to make it check the DOM again.
@@ -235,7 +235,7 @@ Same as above, but you must put the `addEventListener` code shown below before i
 Then include the script.
 
 ```html	
-<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.2.0/dist/lazyload.min.js"></script>	
+<script async src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.3.0/dist/lazyload.min.js"></script>	
 ```
 
 Now you'll be able to call its methods, like:
@@ -606,13 +606,13 @@ Here's the list of the options.
 | `class_error`       | The class applied to the elements when the element causes an error.                                                                                                                                                                                                                                                                                                                                                                                          | `"error"`     | `"lazy-error"`                           |
 | `load_delay`        | The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                                                                                                                                                           | `0`           | `300`                                    |
 | `auto_unobserve`    | A boolean that defines whether or not to automatically unobserve elements that was already revealed                                                                                                                                                                                                                                                                                                                                                          | `true`        | `false`                                  |
-| `callback_enter`    | A callback function which is called whenever an element enters the viewport.                                                                                                                                                                                                                                                                                                                                                                                 | `null`        | `(el)=>{console.log("Entered", el)}`     |
-| `callback_exit`     | A callback function which is called whenever an element exits the viewport.                                                                                                                                                                                                                                                                                                                                                                                  | `null`        | `(el)=>{console.log("Exited", el)}`      |
-| `callback_reveal`   | A callback function which is called whenever an element starts loading.                                                                                                                                                                                                                                                                                                                                                                                      | `null`        | `(el)=>{console.log("Loading", el)}`     |
+| `callback_enter`    | A callback function which is called whenever an element enters the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                         | `null`        | `(el)=>{console.log("Entered", el)}`     |
+| `callback_exit`     | A callback function which is called whenever an element exits the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                          | `null`        | `(el)=>{console.log("Exited", el)}`      |
+| `callback_reveal`   | A callback function which is called whenever an element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                                           | `null`        | `(el)=>{console.log("Loading", el)}`     |
 | `callback_set`      | **Deprecated from version 11** &rarr; It still works, but please update your code to use `callback_reveal` instead.                                                                                                                                                                                                                                                                                                                                          | `null`        | `(el)=>{console.log("Loading", el)}`     |
-| `callback_loaded`   | A callback function which is called whenever an element finishes loading. Note that, in version older than 11.0.0, this option went under the name `callback_load`.                                                                                                                                                                                                                                                                                          | `null`        | `(el)=>{console.log("Loaded", el)}`      |
-| `callback_error`    | A callback function which is called whenever an element triggers an error.                                                                                                                                                                                                                                                                                                                                                                                   | `null`        | `(el)=>{console.log("Error", el)}`       |
-| `callback_finish`   | A callback function which is called when there are no more elements to load _and_ all elements have been downloaded.                                                                                                                                                                                                                                                                                                                                         | `null`        | `()=>{console.log("Finish")}`            |
+| `callback_loaded`   | A callback function which is called whenever an element finishes loading. Note that, in version older than 11.0.0, this option went under the name `callback_load`. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                               | `null`        | `(el)=>{console.log("Loaded", el)}`      |
+| `callback_error`    | A callback function which is called whenever an element triggers an error. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                                        | `null`        | `(el)=>{console.log("Error", el)}`       |
+| `callback_finish`   | A callback function which is called when there are no more elements to load _and_ all elements have been downloaded. Arguments: lazyload instance.                                                                                                                                                                                                                                                                                                           | `null`        | `()=>{console.log("Finish")}`            |
 | `use_native`        | This boolean sets whether or not to use [native lazy loading](https://addyosmani.com/blog/lazy-loading/). On browsers that supports it, LazyLoad will set the `loading="lazy"` attribute on images and iframes, and delegate their loading to the browser.                                                                                                                                                                                                   | `false`       | `true`                                   |
 
 ### Methods

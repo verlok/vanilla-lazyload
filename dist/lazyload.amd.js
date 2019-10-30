@@ -138,17 +138,29 @@ define(function () {
     });
   };
 
-  var callbackIfSet = function callbackIfSet(callback, argument) {
-    if (callback) {
-      callback(argument);
+  var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
+    if (!callback) {
+      return;
     }
+
+    if (arg3 !== undefined) {
+      callback(arg1, arg2, arg3);
+      return;
+    }
+
+    if (arg2 !== undefined) {
+      callback(arg1, arg2);
+      return;
+    }
+
+    callback(arg1);
   };
 
   var updateLoadingCount = function updateLoadingCount(instance, plusMinus) {
     instance._loadingCount += plusMinus;
 
     if (instance._elements.length === 0 && instance._loadingCount === 0) {
-      callbackIfSet(instance._settings.callback_finish);
+      safeCallback(instance._settings.callback_finish, instance);
     }
   };
 
@@ -287,7 +299,7 @@ define(function () {
     var element = event.target;
     removeClass(element, settings.class_loading);
     addClass(element, className);
-    callbackIfSet(callback, element);
+    safeCallback(callback, element, instance);
     updateLoadingCount(instance, -1);
   };
 
@@ -307,9 +319,9 @@ define(function () {
 
   var managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-  var onEnter = function onEnter(element, instance) {
+  var onEnter = function onEnter(element, entry, instance) {
     var settings = instance._settings;
-    callbackIfSet(settings.callback_enter, element);
+    safeCallback(settings.callback_enter, element, entry, instance);
 
     if (!settings.load_delay) {
       revealAndUnobserve(element, instance);
@@ -328,9 +340,9 @@ define(function () {
     }
   };
 
-  var onExit = function onExit(element, instance) {
+  var onExit = function onExit(element, entry, instance) {
     var settings = instance._settings;
-    callbackIfSet(settings.callback_exit, element);
+    safeCallback(settings.callback_exit, element, entry, instance);
 
     if (!settings.load_delay) {
       return;
@@ -379,8 +391,8 @@ define(function () {
 
     setSources(element, instance);
     setWasProcessedData(element);
-    callbackIfSet(settings.callback_reveal, element);
-    callbackIfSet(settings.callback_set, element);
+    safeCallback(settings.callback_reveal, element, instance);
+    safeCallback(settings.callback_set, element, instance);
   };
 
   var isIntersecting = function isIntersecting(entry) {
@@ -401,7 +413,7 @@ define(function () {
 
     instance._observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        return isIntersecting(entry) ? onEnter(entry.target, instance) : onExit(entry.target, instance);
+        return isIntersecting(entry) ? onEnter(entry.target, entry, instance) : onExit(entry.target, entry, instance);
       });
     }, getObserverSettings(instance._settings));
     return true;
