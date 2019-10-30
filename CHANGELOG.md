@@ -2,17 +2,23 @@
 
 ## Version 12
 
-#### 12.3.0.Beta (not released)
+#### 12.3.0
 
-Callbacks have now more arguments: the instance of lazyload and the intersectionObserverEntry
+Callbacks now pass more arguments!
 
-- callback_load(el, instance)
-- callback_error(el, instance)
-- callback_finish(instance)
-- callback_reveal(el, instance)
-- callback_set(el, instance)
-- callback_enter(el, intersectionObserverEntry, instance)
-- callback_exit(el, intersectionObserverEntry, instance)
+`callback_enter`, `callback_exit` now pass:
+1. the DOM element that entered / exited the viewport
+2. the `IntersectionObserverEntry` that triggered the enter/exit event
+3. the LazyLoad instance
+
+`callback_load`, `callback_error`, `callback_reveal` now pass
+1. the DOM element that entered / exited the viewport
+2. the LazyLoad instance
+
+`callback_finish` now passes:
+1. the LazyLoad instance
+
+The README file has been updated accordingly.
 
 #### 12.2.0
 
