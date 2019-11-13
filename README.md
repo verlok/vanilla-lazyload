@@ -144,9 +144,7 @@ var lazyLoadInstance = new LazyLoad({
 To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
 ```js
-if (lazyLoadInstance) {
-    lazyLoadInstance.update();
-}
+lazyLoadInstance.update();
 ```
 
 ### Include via RequireJS
@@ -241,9 +239,7 @@ Then include the script.
 Now you'll be able to call its methods, like:
 
 ```js
-if (lazyLoadInstance) {
-    lazyLoadInstance.update();
-}
+lazyLoadInstance.update();
 ```
 
 Note about Internet Explorer: because this technique uses a `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)) to trigger the `LazyLoad::Initialized` event, you might want to add this micro polyfill to make it work on Internet Explorer.
