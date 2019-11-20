@@ -59,6 +59,11 @@ export const setSourcesVideo = (element, settings) => {
 			getData(sourceTag, settings.data_src)
 		);
 	});
+	setAttributeIfValue(
+		element,
+		"poster",
+		getData(element, settings.data_poster)
+	);
 	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 	element.load();
 };
