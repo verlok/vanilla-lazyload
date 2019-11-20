@@ -20,6 +20,7 @@ const defaultSettings = {
 	data_srcset: "srcset",
 	data_sizes: "sizes",
 	data_bg: "bg",
+	data_poster: "poster",
 	class_loading: "loading",
 	class_loaded: "loaded",
 	class_error: "error",
@@ -191,6 +192,11 @@ const setSourcesVideo = (element, settings) => {
 			getData(sourceTag, settings.data_src)
 		);
 	});
+	setAttributeIfValue(
+		element,
+		"poster",
+		getData(element, settings.data_poster)
+	);
 	setAttributeIfValue(element, "src", getData(element, settings.data_src));
 	element.load();
 };
