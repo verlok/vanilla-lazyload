@@ -2,6 +2,10 @@
 
 ## Version 12
 
+#### 12.4.0
+
+Video `poster`s can now be loaded lazily, as requested in #365
+
 #### 12.3.0
 
 Callbacks now pass more arguments!
