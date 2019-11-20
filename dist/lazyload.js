@@ -28,6 +28,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_poster: "poster",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
@@ -216,6 +217,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     sourceTags.forEach(function (sourceTag) {
       setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
+    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
   };
