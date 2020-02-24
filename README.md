@@ -620,6 +620,14 @@ You can call the following public methods on any instance of LazyLoad.
 | `load(element, force)` | Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. Note that this method works only once on a specific `element`, unless you force it passing `true` as the second parameter. |
 | `destroy()`            | Destroys the instance, unsetting instance variables and removing listeners.                                                                                                                                                     |
 
+### Properties
+
+You can use the following properties on any instance of LazyLoad.
+
+| Property name  | Value                                                                                                                                                                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loadingCount` | The number of images that are currently downloading from the network (limitedly to the ones managed by this instance of LazyLoad). This is particularly useful to understand whether or not is safe to destroy this instance of LazyLoad. |
+
 ---
 
 ## 😯 Notable features
