@@ -162,9 +162,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   };
 
   var updateLoadingCount = function updateLoadingCount(instance, plusMinus) {
-    instance._loadingCount += plusMinus;
+    instance.loadingCount += plusMinus;
 
-    if (instance._elements.length === 0 && instance._loadingCount === 0) {
+    if (instance._elements.length === 0 && instance.loadingCount === 0) {
       safeCallback(instance._settings.callback_finish, instance);
     }
   };
@@ -478,7 +478,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var LazyLoad = function LazyLoad(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
-    this._loadingCount = 0;
+    this.loadingCount = 0;
     setObserver(this);
     this.update(elements);
     setOnlineCheck(this);

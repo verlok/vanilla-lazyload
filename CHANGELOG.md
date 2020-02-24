@@ -2,6 +2,12 @@
 
 ## Version 12
 
+#### 12.5.0
+
+The once-private `_loadingCount` property is now public and renamed to `loadingCount`. This property contains the number of images that are currently downloading from the network, limitedly to the ones managed by an instance of LazyLoad. This is particularly useful to understand whether or not is safe to destroy an instance of LazyLoad. See implementation in the [destroy demo](demos/destroy.html).
+
+Thanks to @wzhscript and @eugene-stativka.
+
 #### 12.4.0
 
 Video `poster`s can now be loaded lazily, as requested in #365
@@ -11,15 +17,18 @@ Video `poster`s can now be loaded lazily, as requested in #365
 Callbacks now pass more arguments!
 
 `callback_enter`, `callback_exit` now pass:
+
 1. the DOM element that entered / exited the viewport
 2. the `IntersectionObserverEntry` that triggered the enter/exit event
 3. the LazyLoad instance
 
 `callback_load`, `callback_error`, `callback_reveal` now pass
+
 1. the DOM element that entered / exited the viewport
 2. the LazyLoad instance
 
 `callback_finish` now passes:
+
 1. the LazyLoad instance
 
 The README file has been updated accordingly.
@@ -34,10 +43,10 @@ Solved a bug with Internet Explorer 11 and the W3C polyfill, as reported in #383
 
 #### 12.1.0
 
-- Updated npm dev dependencies
-- Added the new `image_ph_inline.html`, with an inline SVG placeholder
-- Added the new `image_ph_external.html`, with an external SVG placeholder
- 
+-   Updated npm dev dependencies
+-   Added the new `image_ph_inline.html`, with an inline SVG placeholder
+-   Added the new `image_ph_external.html`, with an external SVG placeholder
+
 #### 12.0.3
 
 Updated the IntersectionObserver polyfill to version 0.7.0
@@ -50,19 +59,19 @@ Improved detection of browser support of IntersectionObserver, as suggested in #
 
 Updated CHANGELOG.md and README.md to mention the change of the option name `callback_load` which is called `callback_loaded` in versions 11.0.0 and above.
 
-#### 12.0.0 
+#### 12.0.0
 
-- Reorganized code
-- Improved native lazy loading demos
-- Aligned console messages throughout all demos.
+-   Reorganized code
+-   Improved native lazy loading demos
+-   Aligned console messages throughout all demos.
 
 #### 12.0.0-beta.0
 
-- Added the `use_native` option which enables *native lazy loading* (where supported) with the `loading="lazy"` attribute. See #331
-- Added two demos:
-  - native_lazyload_conditional.html which you can use to test the `use_native` option
-  - native_lazyload.html which always uses native lazy loading (without JS) just to test how it works beyond the LazyLoad script
-- Refactored the constructor and the `update` method
+-   Added the `use_native` option which enables _native lazy loading_ (where supported) with the `loading="lazy"` attribute. See #331
+-   Added two demos:
+    -   native_lazyload_conditional.html which you can use to test the `use_native` option
+    -   native_lazyload.html which always uses native lazy loading (without JS) just to test how it works beyond the LazyLoad script
+-   Refactored the constructor and the `update` method
 
 ## Version 11
 
@@ -92,24 +101,24 @@ Squashed a nasty bug that occurred on IE 11 and Safari when the `IntersectionObs
 
 #### 11.0.0
 
-- Changed bundle file name of ES Module from `lazyload.es2015.js` to `lazyload.esm.js`
-- Removed the `to_webp` option (see issue #288)
-- Ceased support and development of LazyLoad v.8 (see issue #306)
-version. If you were using it, please update your code to use `callback_reveal` instead.
-- Private methods like `_setObserver`, `_onIntersection` etc. are now hidden from the outside.
-- Added the `auto_unobserve` boolean option, see API.
-- Bugfix: `loadAll()` didn't unobserve elements.
-- Updated to Jest 24, Babel 7, etc.
-- Fixed dev dependencies vulnerabilities
-- Updated callbacks. See below:
+-   Changed bundle file name of ES Module from `lazyload.es2015.js` to `lazyload.esm.js`
+-   Removed the `to_webp` option (see issue #288)
+-   Ceased support and development of LazyLoad v.8 (see issue #306)
+    version. If you were using it, please update your code to use `callback_reveal` instead.
+-   Private methods like `_setObserver`, `_onIntersection` etc. are now hidden from the outside.
+-   Added the `auto_unobserve` boolean option, see API.
+-   Bugfix: `loadAll()` didn't unobserve elements.
+-   Updated to Jest 24, Babel 7, etc.
+-   Fixed dev dependencies vulnerabilities
+-   Updated callbacks. See below:
 
 Callbacks updated:
 
-- **Changed** `callback_enter`. This callback is now called whenever an element enters the viewport, even when `load_delay` is set. In previous versions, this callback was delayed until an element started loading if a `load_delay` was set. Note that this is a **possible breaking change**, which you can fix using `callback_reveal` instead.
-- **Renamed** `callback_loaded` is the new name of `callback_load`.
-- **Added** `callback_exit`. This callback is called whenever an element exits the viewport, even if a `load_delay` is set.
-- **Added** `callback_reveal`. This callback is called just after an element starts loading.
-- **Deprecated** `callback_set`. This callback still works*, but will be removed in the next major 
+-   **Changed** `callback_enter`. This callback is now called whenever an element enters the viewport, even when `load_delay` is set. In previous versions, this callback was delayed until an element started loading if a `load_delay` was set. Note that this is a **possible breaking change**, which you can fix using `callback_reveal` instead.
+-   **Renamed** `callback_loaded` is the new name of `callback_load`.
+-   **Added** `callback_exit`. This callback is called whenever an element exits the viewport, even if a `load_delay` is set.
+-   **Added** `callback_reveal`. This callback is called just after an element starts loading.
+-   **Deprecated** `callback_set`. This callback still works\*, but will be removed in the next major
 
 \* it didn't work from versions 11.0.0 to 11.0.5, it still works from 11.0.6.
 
@@ -127,16 +136,16 @@ Thanks to @ipernet for contributing.
 
 #### 10.19.1
 
-- Fixed build for those using React + SSR, see #287
-- TypeScript definitions clearified, see #283
-- Gulp updated to v.4.0.0 to make it work with node 10
+-   Fixed build for those using React + SSR, see #287
+-   TypeScript definitions clearified, see #283
+-   Gulp updated to v.4.0.0 to make it work with node 10
 
 Thanks to @AlexCSR and @muturgan for contributing.
 
 #### 10.19.0
 
-- Added the ability to know when all images have been downloaded through the `callback_finish` callback.
-- Added the file `demos/print.html` to demo how to print lazy images.
+-   Added the ability to know when all images have been downloaded through the `callback_finish` callback.
+-   Added the file `demos/print.html` to demo how to print lazy images.
 
 #### 10.18.0
 
@@ -156,13 +165,13 @@ Added the ability to set different thresholds for the scrolling area, through th
 
 #### 10.16.0
 
-Added new option `load_delay` to skip loading when fast scrolling occurs, as requested in issues #235 and #166. 
+Added new option `load_delay` to skip loading when fast scrolling occurs, as requested in issues #235 and #166.
 Pass in a number of milliseconds, and each image will be loaded after it stayed inside that viewport for that time.
 
 #### 10.15.0
 
-- Refactorized code & improved script performance
-- **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
+-   Refactorized code & improved script performance
+-   **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
 
 #### 10.14.0
 
@@ -170,14 +179,14 @@ Now supporting WebP through dynamic extension rename if the user browser is comp
 
 #### 10.13.0
 
-- Shortened the RegEx for crawlers detection (shaved a few bytes)
-- Released LazyLoad in new module types! Enjoy the new flavours :)
+-   Shortened the RegEx for crawlers detection (shaved a few bytes)
+-   Released LazyLoad in new module types! Enjoy the new flavours :)
 
 | Filename               | Module Type                                    | Advantages                                                         |
 | ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------ |
 | `lazyload.min.js`      | UMD (Universal Module Definition)              | Works pretty much everywhere, even in common-js contexts           |
 | `lazyload.iife.min.js` | IIFE (Immediately Invoked Function Expression) | Works as in-page `<script src="">`, ~0.5kb smaller minified        |
-| `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the *require.js* module loader, ~0.5kb smaller minified |
+| `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the _require.js_ module loader, ~0.5kb smaller minified |
 | `lazyload.es2015.js`   | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
 
 #### 10.12.0
@@ -207,14 +216,14 @@ Added a public `loadAll` method to force loading all the images, as asked in #19
 
 #### 10.7.0
 
-- Added support for the `<video>` HTML tag and descending `<source>` tags. 
-  Now you can lazily load your videos too!
-- Created the `video.html` demo.
+-   Added support for the `<video>` HTML tag and descending `<source>` tags.
+    Now you can lazily load your videos too!
+-   Created the `video.html` demo.
 
 #### 10.6.0
 
-- Added a demo with a popup layer and images injected after popup open, to help with #196.
-- Updated the `background_images` demo with a custom management of the loading class and the loaded event callback.
+-   Added a demo with a popup layer and images injected after popup open, to help with #196.
+-   Updated the `background_images` demo with a custom management of the loading class and the loaded event callback.
 
 #### 10.5.2
 
@@ -270,8 +279,8 @@ Restored support to IE9 and IE10, as requested in #118 and #132.
 
 To solve cases when you can't select the elements to load using a string, added the ability to pass a `NodeList` object...
 
-- as a second parameter in the constructor, after the regular option object, e.g. `var ll = new Lazyload({}, myNodeList)`
-- as a single parameter to the `update()` method, e.g. `ll.update(myNodeList)`
+-   as a second parameter in the constructor, after the regular option object, e.g. `var ll = new Lazyload({}, myNodeList)`
+-   as a single parameter to the `update()` method, e.g. `ll.update(myNodeList)`
 
 #### 10.1.0
 
@@ -283,20 +292,20 @@ Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.
 
 #### 10.0.0
 
-- Change in default options:
-  - default for `data_src` is now `src` (was `original`)
-  - default for `data_srcset` is now `srcset` (was `original-set`)
+-   Change in default options:
+    -   default for `data_src` is now `src` (was `original`)
+    -   default for `data_srcset` is now `srcset` (was `original-set`)
 
 ## Version 9
- 
+
 #### 9.0.1
 
-- Restored tests using Jest
-- Squashed a bug which didn't make images inside `picture` load correctly
+-   Restored tests using Jest
+-   Squashed a bug which didn't make images inside `picture` load correctly
 
-#### 9.0.0 
+#### 9.0.0
 
-LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). 
+LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
 
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
@@ -304,8 +313,8 @@ LazyLoad is now _faster_ thanks to the [Intersection Observer API](https://devel
 
 #### 8.17.0
 
-- Added the ability to know when all images have been downloaded through the `callback_finish` callback.
-- Added the file `demos/print.html` to demo how to print lazy images.
+-   Added the ability to know when all images have been downloaded through the `callback_finish` callback.
+-   Added the file `demos/print.html` to demo how to print lazy images.
 
 #### 8.16.0
 
@@ -321,8 +330,8 @@ Added the ability to have multiple background images, through the new `data_bg` 
 
 #### 8.15.0
 
-- Refactorized code & improved script performance
-- **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
+-   Refactorized code & improved script performance
+-   **BUGFIX**: Fixed webpack import (issue #230) `TypeError: default is not a constructor`
 
 #### 8.14.0
 
@@ -330,14 +339,14 @@ Now supporting WebP through dynamic extension rename if the user browser is comp
 
 #### 8.13.0
 
-- Shortened the RegEx for crawlers detection (shaved a few bytes)
-- Released LazyLoad in new module types! Enjoy the new flavours :)
+-   Shortened the RegEx for crawlers detection (shaved a few bytes)
+-   Released LazyLoad in new module types! Enjoy the new flavours :)
 
 | Filename               | Module Type                                    | Advantages                                                         |
 | ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------ |
 | `lazyload.min.js`      | UMD (Universal Module Definition)              | Works pretty much everywhere, even in common-js contexts           |
 | `lazyload.iife.min.js` | IIFE (Immediately Invoked Function Expression) | Works as in-page `<script src="">`, ~0.5kb smaller minified        |
-| `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the *require.js* module loader, ~0.5kb smaller minified |
+| `lazyload.amd.min.js`  | AMD (Asynchronous Module Definition)           | Works with the _require.js_ module loader, ~0.5kb smaller minified |
 | `lazyload.es2015.js`   | ES Module type                                 | Exports `LazyLoad` so you can import it in your project            |
 
 #### 8.12.0
@@ -386,9 +395,9 @@ Fixed a CustomEvent bug which occured on IE when using async object initializati
 
 #### 8.5.0
 
-- Change in default options, in order to be aligned with version 10
-  - default for `data_src` is now `src` (was `original`)
-  - default for `data_srcset` is now `srcset` (was `original-set`)
+-   Change in default options, in order to be aligned with version 10
+    -   default for `data_src` is now `src` (was `original`)
+    -   default for `data_srcset` is now `srcset` (was `original-set`)
 
 #### 8.2.1
 
@@ -416,26 +425,26 @@ Fixed reference to old names in demo files.
 
 #### 8.0.0
 
-- The main file to include is now **`dist/lazyload.min.js`** as you would expect, and no longer `dist/lazyload.transpiled.min.js`. 
-- The non-transpiled version is now named lazyload.es2015.js
+-   The main file to include is now **`dist/lazyload.min.js`** as you would expect, and no longer `dist/lazyload.transpiled.min.js`.
+-   The non-transpiled version is now named lazyload.es2015.js
 
 ## Version 7
 
 #### 7.2.0
 
-- Now using `element.dataset` to read data attributes
-- New readme! New website!
+-   Now using `element.dataset` to read data attributes
+-   New readme! New website!
 
 Bug fixes:
 
-- Fixed #87
+-   Fixed #87
 
 **IMPORTANT!** Browser support changed. Find more information in the [README](README.md) file.
 
 #### 7.1.0
 
-- Refactored code now using more modules
-- Saving ~0.5 kb of transpiled code going back from ES2015 `class` to function's `prototype`
+-   Refactored code now using more modules
+-   Saving ~0.5 kb of transpiled code going back from ES2015 `class` to function's `prototype`
 
 #### 7.0.0
 
@@ -449,7 +458,7 @@ Added the class initial to all images (or iframes) inside the viewport at the mo
 
 #### 6.2.x
 
-* Added the ability to load LazyLoad using an async script
+-   Added the ability to load LazyLoad using an async script
 
 #### 6.1.x
 
@@ -457,39 +466,39 @@ SEO improvements for lazily loaded images
 
 #### 6.0.x
 
-* Source code migrated to ES6 / ES2015
-* Serving both minified ES6 version and minified transpiled-to-ES5 version
+-   Source code migrated to ES6 / ES2015
+-   Serving both minified ES6 version and minified transpiled-to-ES5 version
 
 ## Version 5
 
-* Exposed private functions for test coverage
-* Test coverage
+-   Exposed private functions for test coverage
+-   Test coverage
 
 ## Version 4
 
-* Lighter constructor
-* Performance improvements
-* Bugfix: null on background images
-* Removed code for legacy browsers - now supporting IE10+
+-   Lighter constructor
+-   Performance improvements
+-   Bugfix: null on background images
+-   Removed code for legacy browsers - now supporting IE10+
 
 ## Version 3
 
-* Added support to the picture tag
-* Removed the "show image only when fully loaded" mode
-  * Dumped the show_while_loading and placeholder options
+-   Added support to the picture tag
+-   Removed the "show image only when fully loaded" mode
+    -   Dumped the show_while_loading and placeholder options
 
 ## Version 2
 
-* Added support to lazily load iframes and background images
-* Added error management callback and error class option
-* Performance improvements
+-   Added support to lazily load iframes and background images
+-   Added error management callback and error class option
+-   Performance improvements
 
 ## Version 1
 
-* Added support to the srcset attribute for images
-* Added typescript typings + updated dist folder files
-* Performance improvements
-* Stable release of LazyLoad
+-   Added support to the srcset attribute for images
+-   Added typescript typings + updated dist folder files
+-   Performance improvements
+-   Stable release of LazyLoad
 
 ---
 
