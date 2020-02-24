@@ -16,8 +16,8 @@ export const setObserver = instance => {
 	instance._observer = new IntersectionObserver(entries => {
 		entries.forEach(entry =>
 			isIntersecting(entry)
-				? onEnter(entry.target, instance)
-				: onExit(entry.target, instance)
+				? onEnter(entry.target, entry, instance)
+				: onExit(entry.target, entry, instance)
 		);
 	}, getObserverSettings(instance._settings));
 	return true;

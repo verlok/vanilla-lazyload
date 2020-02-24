@@ -1,3 +1,11 @@
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 define(function () {
@@ -5,7 +13,7 @@ define(function () {
 
   var runningOnBrowser = typeof window !== "undefined";
   var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
-  var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window && "IntersectionObserverEntry" in window && "intersectionRatio" in window.IntersectionObserverEntry.prototype && "isIntersecting" in window.IntersectionObserverEntry.prototype;
+  var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
   var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
   var defaultSettings = {
     elements_selector: "img",
@@ -16,6 +24,7 @@ define(function () {
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_poster: "poster",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
@@ -98,6 +107,10 @@ define(function () {
     element.setAttribute(attrName, value);
   };
 
+  var resetWasProcessedData = function resetWasProcessedData(element) {
+    return setData(element, processedDataName, null);
+  };
+
   var setWasProcessedData = function setWasProcessedData(element) {
     return setData(element, processedDataName, trueString);
   };
@@ -126,17 +139,29 @@ define(function () {
     });
   };
 
-  var callbackIfSet = function callbackIfSet(callback, argument) {
-    if (callback) {
-      callback(argument);
+  var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
+    if (!callback) {
+      return;
     }
+
+    if (arg3 !== undefined) {
+      callback(arg1, arg2, arg3);
+      return;
+    }
+
+    if (arg2 !== undefined) {
+      callback(arg1, arg2);
+      return;
+    }
+
+    callback(arg1);
   };
 
   var updateLoadingCount = function updateLoadingCount(instance, plusMinus) {
     instance._loadingCount += plusMinus;
 
     if (instance._elements.length === 0 && instance._loadingCount === 0) {
-      callbackIfSet(instance._settings.callback_finish);
+      safeCallback(instance._settings.callback_finish, instance);
     }
   };
 
@@ -188,6 +213,7 @@ define(function () {
     sourceTags.forEach(function (sourceTag) {
       setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
+    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
   };
@@ -275,7 +301,7 @@ define(function () {
     var element = event.target;
     removeClass(element, settings.class_loading);
     addClass(element, className);
-    callbackIfSet(callback, element);
+    safeCallback(callback, element, instance);
     updateLoadingCount(instance, -1);
   };
 
@@ -295,9 +321,9 @@ define(function () {
 
   var managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-  var onEnter = function onEnter(element, instance) {
+  var onEnter = function onEnter(element, entry, instance) {
     var settings = instance._settings;
-    callbackIfSet(settings.callback_enter, element);
+    safeCallback(settings.callback_enter, element, entry, instance);
 
     if (!settings.load_delay) {
       revealAndUnobserve(element, instance);
@@ -316,9 +342,9 @@ define(function () {
     }
   };
 
-  var onExit = function onExit(element, instance) {
+  var onExit = function onExit(element, entry, instance) {
     var settings = instance._settings;
-    callbackIfSet(settings.callback_exit, element);
+    safeCallback(settings.callback_exit, element, entry, instance);
 
     if (!settings.load_delay) {
       return;
@@ -367,8 +393,8 @@ define(function () {
 
     setSources(element, instance);
     setWasProcessedData(element);
-    callbackIfSet(settings.callback_reveal, element);
-    callbackIfSet(settings.callback_set, element);
+    safeCallback(settings.callback_reveal, element, instance);
+    safeCallback(settings.callback_set, element, instance);
   };
 
   var isIntersecting = function isIntersecting(entry) {
@@ -389,7 +415,7 @@ define(function () {
 
     instance._observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        return isIntersecting(entry) ? onEnter(entry.target, instance) : onExit(entry.target, instance);
+        return isIntersecting(entry) ? onEnter(entry.target, entry, instance) : onExit(entry.target, entry, instance);
       });
     }, getObserverSettings(instance._settings));
     return true;
@@ -424,11 +450,34 @@ define(function () {
     return purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
   };
 
+  var retryLazyLoad = function retryLazyLoad(instance) {
+    var settings = instance._settings;
+    var errorElements = settings.container.querySelectorAll("." + settings.class_error);
+
+    _toConsumableArray(errorElements).forEach(function (element) {
+      removeClass(element, settings.class_error);
+      resetWasProcessedData(element);
+    });
+
+    instance.update();
+  };
+
+  var setOnlineCheck = function setOnlineCheck(instance) {
+    if (!runningOnBrowser) {
+      return;
+    }
+
+    window.addEventListener("online", function (event) {
+      retryLazyLoad(instance);
+    });
+  };
+
   var LazyLoad = function LazyLoad(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
     this._loadingCount = 0;
     setObserver(this);
     this.update(elements);
+    setOnlineCheck(this);
   };
 
   LazyLoad.prototype = {

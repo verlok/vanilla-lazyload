@@ -2,9 +2,45 @@
 
 ## Version 12
 
+#### 12.4.0
+
+Video `poster`s can now be loaded lazily, as requested in #365
+
+#### 12.3.0
+
+Callbacks now pass more arguments!
+
+`callback_enter`, `callback_exit` now pass:
+1. the DOM element that entered / exited the viewport
+2. the `IntersectionObserverEntry` that triggered the enter/exit event
+3. the LazyLoad instance
+
+`callback_load`, `callback_error`, `callback_reveal` now pass
+1. the DOM element that entered / exited the viewport
+2. the LazyLoad instance
+
+`callback_finish` now passes:
+1. the LazyLoad instance
+
+The README file has been updated accordingly.
+
+#### 12.2.0
+
+Released new feature "retry when back online". Now if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.
+
+#### 12.1.1
+
+Solved a bug with Internet Explorer 11 and the W3C polyfill, as reported in #383.
+
+#### 12.1.0
+
+- Updated npm dev dependencies
+- Added the new `image_ph_inline.html`, with an inline SVG placeholder
+- Added the new `image_ph_external.html`, with an external SVG placeholder
+ 
 #### 12.0.3
 
-Updated the IntersectionObserver polyfill to version 0.7.0.
+Updated the IntersectionObserver polyfill to version 0.7.0
 
 #### 12.0.2
 
