@@ -24,6 +24,7 @@ define(function () {
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_poster: "poster",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
@@ -157,9 +158,9 @@ define(function () {
   };
 
   var updateLoadingCount = function updateLoadingCount(instance, plusMinus) {
-    instance._loadingCount += plusMinus;
+    instance.loadingCount += plusMinus;
 
-    if (instance._elements.length === 0 && instance._loadingCount === 0) {
+    if (instance._elements.length === 0 && instance.loadingCount === 0) {
       safeCallback(instance._settings.callback_finish, instance);
     }
   };
@@ -212,6 +213,7 @@ define(function () {
     sourceTags.forEach(function (sourceTag) {
       setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
+    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
   };
@@ -472,7 +474,7 @@ define(function () {
 
   var LazyLoad = function LazyLoad(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
-    this._loadingCount = 0;
+    this.loadingCount = 0;
     setObserver(this);
     this.update(elements);
     setOnlineCheck(this);

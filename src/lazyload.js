@@ -8,55 +8,55 @@ import { getElements } from "./lazyload.getElements";
 import { setOnlineCheck } from "./lazyload.online";
 
 const LazyLoad = function(customSettings, elements) {
-	this._settings = getInstanceSettings(customSettings);
-	this._loadingCount = 0;
-	setObserver(this);
-	this.update(elements);
-	setOnlineCheck(this);
+    this._settings = getInstanceSettings(customSettings);
+    this.loadingCount = 0;
+    setObserver(this);
+    this.update(elements);
+    setOnlineCheck(this);
 };
 
 LazyLoad.prototype = {
-	update: function(elements) {
-		var settings = this._settings;
-		this._elements = getElements(elements, settings);
-		if (isBot || !this._observer) {
-			this.loadAll();
-			return;
-		}
-		if (shouldUseNative(settings)) {
-			loadAllNative(this);
-			this._elements = getElements(elements, settings);
-		}
-		this._elements.forEach(element => {
-			this._observer.observe(element);
-		});
-	},
+    update: function(elements) {
+        var settings = this._settings;
+        this._elements = getElements(elements, settings);
+        if (isBot || !this._observer) {
+            this.loadAll();
+            return;
+        }
+        if (shouldUseNative(settings)) {
+            loadAllNative(this);
+            this._elements = getElements(elements, settings);
+        }
+        this._elements.forEach(element => {
+            this._observer.observe(element);
+        });
+    },
 
-	destroy: function() {
-		if (this._observer) {
-			this._elements.forEach(element => {
-				this._observer.unobserve(element);
-			});
-			this._observer = null;
-		}
-		this._elements = null;
-		this._settings = null;
-	},
+    destroy: function() {
+        if (this._observer) {
+            this._elements.forEach(element => {
+                this._observer.unobserve(element);
+            });
+            this._observer = null;
+        }
+        this._elements = null;
+        this._settings = null;
+    },
 
-	load: function(element, force) {
-		revealElement(element, this, force);
-	},
+    load: function(element, force) {
+        revealElement(element, this, force);
+    },
 
-	loadAll: function() {
-		this._elements.forEach(element => {
-			revealAndUnobserve(element, this);
-		});
-	}
+    loadAll: function() {
+        this._elements.forEach(element => {
+            revealAndUnobserve(element, this);
+        });
+    }
 };
 
 /* Automatic instances creation if required (useful for async script loading) */
 if (runningOnBrowser) {
-	autoInitialize(LazyLoad, window.lazyLoadOptions);
+    autoInitialize(LazyLoad, window.lazyLoadOptions);
 }
 
 export default LazyLoad;

@@ -1,64 +1,64 @@
 {
-	"name": "vanilla-lazyload",
-	"version": "12.3.0",
-	"description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
-	"main": "dist/lazyload.min.js",
-	"module": "dist/lazyload.esm.js",
-	"browser": "dist/lazyload.min.js",
-	"typings": "typings/lazyload.d.ts",
-	"dependencies": {},
-	"devDependencies": {
-		"@babel/core": "^7.6.4",
-		"@babel/plugin-transform-object-assign": "^7.0.0",
-		"@babel/preset-env": "^7.6.3",
-		"babel-core": "^7.0.0-bridge.0",
-		"babel-jest": "^24.9.0",
-		"gulp": "^4.0.2",
-		"gulp-babel": "^8.0.0",
-		"gulp-eslint": "^5.0.0",
-		"gulp-rename": "^1.4.0",
-		"gulp-rollup": "^2.16.2",
-		"gulp-sourcemaps": "^2.6.5",
-		"gulp-uglify-es": "^1.0.4",
-		"jest": "^24.9.0"
-	},
-	"scripts": {
-		"build": "gulp",
-		"dev": "gulp watch",
-		"test": "jest"
-	},
-	"files": [
-		"dist",
-		"typings"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/verlok/lazyload"
-	},
-	"keywords": [
-		"lazyload",
-		"vanilla",
-		"responsive",
-		"images",
-		"picture",
-		"srcset",
-		"SEO",
-		"intersectionObserver",
-		"sizes",
-		"progressive",
-		"performance",
-		"perfmatters",
-		"async",
-		"no-jquery"
-	],
-	"author": {
-		"name": "Andrea \"verlok\" Verlicchi",
-		"email": "andrea.verlicchi@gmail.com",
-		"url": "http://andreaverlicchi.eu"
-	},
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/verlok/lazyload/issues"
-	},
-	"homepage": "http://verlok.github.io/lazyload"
+    "name": "vanilla-lazyload",
+    "version": "12.5.0",
+    "description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
+    "main": "dist/lazyload.min.js",
+    "module": "dist/lazyload.esm.js",
+    "browser": "dist/lazyload.min.js",
+    "typings": "typings/lazyload.d.ts",
+    "dependencies": {},
+    "devDependencies": {
+        "@babel/core": "^7.6.4",
+        "@babel/plugin-transform-object-assign": "^7.0.0",
+        "@babel/preset-env": "^7.6.3",
+        "babel-core": "^7.0.0-bridge.0",
+        "babel-jest": "^24.9.0",
+        "gulp": "^4.0.2",
+        "gulp-babel": "^8.0.0",
+        "gulp-eslint": "^5.0.0",
+        "gulp-rename": "^1.4.0",
+        "gulp-rollup": "^2.16.2",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-uglify-es": "^1.0.4",
+        "jest": "^24.9.0"
+    },
+    "scripts": {
+        "build": "gulp",
+        "dev": "gulp watch",
+        "test": "jest"
+    },
+    "files": [
+        "dist",
+        "typings"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/verlok/lazyload"
+    },
+    "keywords": [
+        "lazyload",
+        "vanilla",
+        "responsive",
+        "images",
+        "picture",
+        "srcset",
+        "SEO",
+        "intersectionObserver",
+        "sizes",
+        "progressive",
+        "performance",
+        "perfmatters",
+        "async",
+        "no-jquery"
+    ],
+    "author": {
+        "name": "Andrea \"verlok\" Verlicchi",
+        "email": "andrea.verlicchi@gmail.com",
+        "url": "http://andreaverlicchi.eu"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/verlok/lazyload/issues"
+    },
+    "homepage": "http://verlok.github.io/lazyload"
 }
