@@ -449,14 +449,13 @@
 
                 destroyButton.addEventListener("click", () => {
                     destroyButton.disabled = true;
-                    destroyButton.innerText = "Destroying...";
+                    destroyButton.innerText = "Waiting...";
                     const destroyInterval = setInterval(() => {
-                        if (ll.loadingCount === 0) {
-                            clearInterval(destroyInterval);
-                            ll.destroy();
-                            ll = null;
-                            destroyButton.innerText = "Destroyed";
-                        }
+                        if (ll.loadingCount > 0) return; // EXIT CONDITION
+                        clearInterval(destroyInterval);
+                        ll.destroy();
+                        ll = null;
+                        destroyButton.innerText = "Destroyed";
                     }, 250);
                 });
             })();
