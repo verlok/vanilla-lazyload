@@ -111,7 +111,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **12.4.0**.
+The latest, recommended version of LazyLoad is **12.5.0**.
 
 ### To polyfill or not to polyfill IntersectionObserver?
 
@@ -126,14 +126,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -168,7 +168,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.1.0/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -214,7 +214,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -247,7 +247,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"
 ></script>
 ```
 
