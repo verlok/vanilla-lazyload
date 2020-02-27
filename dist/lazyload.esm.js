@@ -419,7 +419,7 @@ const retryLazyLoad = instance => {
 	var errorElements = settings.container.querySelectorAll(
 		"." + settings.class_error
 	);
-	[...errorElements].forEach(element => {
+	errorElements.forEach(element => {
 		removeClass(element, settings.class_error);
 		resetWasProcessedData(element);
 	});
