@@ -2,6 +2,11 @@
 
 ## Version 12
 
+#### 12.5.1
+
+Restored IE 11 compatibility, which was broken since 12.2.0. See #414. 
+Thanks to @ninosaurus for reporting.
+
 #### 12.5.0
 
 The once-private `_loadingCount` property is now public and renamed to `loadingCount`. This property contains the number of images that are currently downloading from the network, limitedly to the ones managed by an instance of LazyLoad. This is particularly useful to understand whether or not is safe to destroy an instance of LazyLoad. See implementation in the [destroy demo](demos/destroy.html).

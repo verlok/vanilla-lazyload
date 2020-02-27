@@ -1,5 +1,7 @@
 LazyLoad is a fast, lightweight and flexible script that **speeds up your web application** by loading your content images, videos and iframes only **as they enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it works with [responsive images](https://alistapart.com/article/responsive-images-in-practice) and it supports native lazy loading. See [notable features](#-notable-features) for more.
 
+[![vanilla-lazyload (latest)](https://img.shields.io/npm/v/vanilla-lazyload/latest.svg)](https://www.npmjs.com/package/vanilla-lazyload)
+[![vanilla-lazyload (downloads)](http://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![](https://data.jsdelivr.com/v1/package/npm/vanilla-lazyload/badge)](https://www.jsdelivr.com/package/npm/vanilla-lazyload)
 
 ➡️ Jump to: [👨‍💻 Getting started - HTML](#-getting-started---html) - [👩‍💻 Getting started - Script](#-getting-started---script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 Notable features](#-notable-features)
@@ -111,7 +113,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **12.5.0**.
+The latest, recommended version of LazyLoad is **12.5.1**.
 
 ### To polyfill or not to polyfill IntersectionObserver?
 
@@ -126,14 +128,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.1/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -148,9 +150,7 @@ var lazyLoadInstance = new LazyLoad({
 To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
 ```js
-if (lazyLoadInstance) {
-    lazyLoadInstance.update();
-}
+lazyLoadInstance.update();
 ```
 
 ### Include via RequireJS
@@ -168,7 +168,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.1/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.1.0/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -214,7 +214,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -247,16 +247,14 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.5.1/dist/lazyload.min.js"
 ></script>
 ```
 
 Now you'll be able to call its methods, like:
 
 ```js
-if (lazyLoadInstance) {
-    lazyLoadInstance.update();
-}
+lazyLoadInstance.update();
 ```
 
 Note about Internet Explorer: because this technique uses a `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)) to trigger the `LazyLoad::Initialized` event, you might want to add this micro polyfill to make it work on Internet Explorer.
