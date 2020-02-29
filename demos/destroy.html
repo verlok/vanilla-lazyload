@@ -408,7 +408,7 @@
                 </li>
             </ul>
         </div>
-        <script src="../dist/lazyload.js"></script>
+        <script src="../dist/lazyload.min.js"></script>
         <script>
             (function() {
                 function logElementEvent(eventName, element) {
@@ -447,10 +447,10 @@
 
                 var destroyButton = document.getElementById("destroy");
 
-                destroyButton.addEventListener("click", () => {
+                destroyButton.addEventListener("click", function() {
                     destroyButton.disabled = true;
                     destroyButton.innerText = "Waiting...";
-                    const destroyInterval = setInterval(() => {
+                    var destroyInterval = setInterval(function() {
                         if (ll.loadingCount > 0) return; // EXIT CONDITION
                         clearInterval(destroyInterval);
                         ll.destroy();

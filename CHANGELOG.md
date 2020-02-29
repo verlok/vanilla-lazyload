@@ -5,10 +5,11 @@
 #### 13.0.0
 
 -   Added the minified version of `dist/lazyload.esm.js` as `dist/lazyload.esm.min.js`, so now you can effortlessly use it with an ES module `import` statement when using `type="module"`
+-   Reduced files weight even more! `dist/lazyload.iife.min.js` now weights only 2.03 KB GZipped
 -   Removed the `callback_set` callback that was **deprecated** since version 11 in favour of `callback_reveal`
 -   Removed sourcemaps (they were probably used only by the authors, but if anyone was actually needing them, we can bring them back)
 -   Hidden the `_extends` function inside LazyLoad's scope (it was global before)
--   Updated build tooling: removed Gulp, now using Rollup & Babel only.
+-   Updated build tooling: removed Gulp, now using Rollup & Babel only
 
 ## Version 12
 
