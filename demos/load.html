@@ -387,7 +387,7 @@
                 page_ll.load(lazyImg);
             };
 
-            const initializeMouseBehaviour = () => {
+            const initializeMouseBehaviour = function() {
                 const products = document.querySelectorAll(".product");
                 products.forEach(product => {
                     product.addEventListener("mouseover", mouseoverHandler, true);

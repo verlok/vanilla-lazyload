@@ -456,7 +456,7 @@
                     logElementEvent("✔️ FINISHED", document.documentElement);
                 };
 
-                window.ll1 = () => {
+                window.ll1 = function() {
                     new LazyLoad({
                         container: document.getElementById("results1"),
                         thresholds: "200% 0px",
@@ -469,7 +469,7 @@
                         callback_finish: callback_finish
                     });
                 };
-                window.ll2 = () => {
+                window.ll2 = function() {
                     new LazyLoad({
                         container: document.getElementById("results2"),
                         thresholds: "0px",
@@ -482,7 +482,7 @@
                         callback_finish: callback_finish
                     });
                 };
-                window.ll3 = () => {
+                window.ll3 = function() {
                     new LazyLoad({
                         container: document.getElementById("results3"),
                         threshold: 200,

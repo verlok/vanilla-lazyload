@@ -447,10 +447,10 @@
 
                 var destroyButton = document.getElementById("destroy");
 
-                destroyButton.addEventListener("click", () => {
+                destroyButton.addEventListener("click", function() {
                     destroyButton.disabled = true;
                     destroyButton.innerText = "Waiting...";
-                    const destroyInterval = setInterval(() => {
+                    var destroyInterval = setInterval(function() {
                         if (ll.loadingCount > 0) return; // EXIT CONDITION
                         clearInterval(destroyInterval);
                         ll.destroy();
