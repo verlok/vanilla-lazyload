@@ -11,7 +11,6 @@ Create an element
 call revealElement(element, settings) on it
 check that:
 - data-was-processed is set to true
-- callback_set is called (element)
 - setSources is called with (element, settings)
 - event listener to load and error have been set
 - class class_loading has been set

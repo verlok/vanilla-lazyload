@@ -1,6 +1,6 @@
 {
     "name": "vanilla-lazyload",
-    "version": "12.5.1",
+    "version": "13.0.0",
     "description": "A fast, lightweight script to load images as they enter the viewport. SEO friendly, it supports responsive images (both srcset + sizes and picture) and progressive JPEG",
     "main": "dist/lazyload.min.js",
     "module": "dist/lazyload.esm.js",
@@ -8,23 +8,18 @@
     "typings": "typings/lazyload.d.ts",
     "dependencies": {},
     "devDependencies": {
-        "@babel/core": "^7.6.4",
+        "@babel/core": "^7.8.6",
         "@babel/plugin-transform-object-assign": "^7.8.3",
-        "@babel/preset-env": "^7.6.3",
-        "babel-core": "^7.0.0-bridge.0",
-        "babel-jest": "^24.9.0",
-        "gulp": "^4.0.2",
-        "gulp-babel": "^8.0.0",
-        "gulp-eslint": "^5.0.0",
-        "gulp-rename": "^1.4.0",
-        "gulp-rollup": "^2.17.0",
-        "gulp-sourcemaps": "^2.6.5",
-        "gulp-uglify-es": "^1.0.4",
-        "jest": "^24.9.0"
+        "@babel/preset-env": "^7.8.6",
+        "@rollup/plugin-node-resolve": "^7.1.1",
+        "jest": "^25.1.0",
+        "rollup": "^1.32.0",
+        "rollup-plugin-babel": "^4.3.3",
+        "rollup-plugin-terser": "^5.2.0"
     },
     "scripts": {
-        "build": "gulp",
-        "dev": "gulp watch",
+        "build": "rollup -c",
+        "dev": "rollup -c --watch",
         "test": "jest"
     },
     "files": [
@@ -54,7 +49,7 @@
     "author": {
         "name": "Andrea \"verlok\" Verlicchi",
         "email": "andrea.verlicchi@gmail.com",
-        "url": "http://andreaverlicchi.eu"
+        "url": "https://www.andreaverlicchi.eu"
     },
     "license": "MIT",
     "bugs": {
