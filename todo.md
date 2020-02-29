@@ -1,12 +1,9 @@
-# TODO v12
+# TODO
 
-## FIX
+## Modernize
 
-```js
-// this doesn't exist
-var polyfillAmdUrl =
-    "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.1.0/intersection-observer-amd.js";
-```
+Remove `gulp` and move to `npx rollup`.
+
 
 ## Code
 
