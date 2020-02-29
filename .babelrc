@@ -1,29 +1,12 @@
 {
-    "ignore": [
-        "node_modules/**"
-    ],
+    "ignore": ["node_modules/**"],
+    "plugins": ["@babel/plugin-transform-object-assign"],
     "env": {
         "test": {
-            "presets": [
-                "@babel/preset-env"
-            ],
-            "plugins": [
-                "@babel/plugin-transform-object-assign"
-            ]
+            "presets": ["@babel/preset-env"]
         },
         "release": {
-            "presets": [
-                [
-                    "@babel/preset-env",
-                    {
-                        "modules": false
-                    }
-                ]
-            ],
-            "sourceMap": false,
-            "plugins": [
-                "@babel/plugin-transform-object-assign"
-            ]
+            "presets": [["@babel/env", { "modules": false }]]
         }
     }
 }
