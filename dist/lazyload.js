@@ -1,16 +1,32 @@
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 (function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.LazyLoad = factory());
-})(this, function () {
-  'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.LazyLoad = factory());
+}(this, (function () { 'use strict';
+
+  function _extends() {
+    _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+
+      return target;
+    };
+
+    return _extends.apply(this, arguments);
+  }
 
   var runningOnBrowser = typeof window !== "undefined";
   var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
   var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
   var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
+
   var defaultSettings = {
     elements_selector: "img",
     container: isBot || runningOnBrowser ? document : null,
@@ -34,13 +50,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     callback_finish: null,
     use_native: false
   };
-
-  var getInstanceSettings = function getInstanceSettings(customSettings) {
+  var getInstanceSettings = (function (customSettings) {
     return _extends({}, defaultSettings, customSettings);
-  };
+  });
+
   /* Creates instance and notifies it through the window element */
-
-
   var createInstance = function createInstance(classObj, options) {
     var event;
     var eventString = "LazyLoad::Initialized";
@@ -67,7 +81,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       options passed in (plain object or an array) */
 
 
-  function autoInitialize(classObj, options) {
+  function autoInitialize (classObj, options) {
     if (!options) {
       return;
     }
@@ -87,11 +101,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var processedDataName = "was-processed";
   var timeoutDataName = "ll-timeout";
   var trueString = "true";
-
   var getData = function getData(element, attribute) {
     return element.getAttribute(dataPrefix + attribute);
   };
-
   var setData = function setData(element, attribute, value) {
     var attrName = dataPrefix + attribute;
 
@@ -102,23 +114,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     element.setAttribute(attrName, value);
   };
-
   var resetWasProcessedData = function resetWasProcessedData(element) {
     return setData(element, processedDataName, null);
   };
-
   var setWasProcessedData = function setWasProcessedData(element) {
     return setData(element, processedDataName, trueString);
   };
-
   var getWasProcessedData = function getWasProcessedData(element) {
     return getData(element, processedDataName) === trueString;
   };
-
   var setTimeoutData = function setTimeoutData(element, value) {
     return setData(element, timeoutDataName, value);
   };
-
   var getTimeoutData = function getTimeoutData(element) {
     return getData(element, timeoutDataName);
   };
@@ -128,7 +135,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return !getWasProcessedData(element);
     });
   };
-
   var purgeOneElement = function purgeOneElement(elements, elementToPurge) {
     return elements.filter(function (element) {
       return element !== elementToPurge;
@@ -172,7 +178,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     return sourceTags;
   };
-
   var setAttributeIfValue = function setAttributeIfValue(element, attrName, value) {
     if (!value) {
       return;
@@ -180,13 +185,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     element.setAttribute(attrName, value);
   };
-
   var setImageAttributes = function setImageAttributes(element, settings) {
     setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
     setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
   };
-
   var setSourcesImg = function setSourcesImg(element, settings) {
     var parent = element.parentNode;
 
@@ -199,11 +202,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     setImageAttributes(element, settings);
   };
-
   var setSourcesIframe = function setSourcesIframe(element, settings) {
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
   };
-
   var setSourcesVideo = function setSourcesVideo(element, settings) {
     var sourceTags = getSourceTags(element);
     sourceTags.forEach(function (sourceTag) {
@@ -213,7 +214,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
   };
-
   var setSourcesBgImage = function setSourcesBgImage(element, settings) {
     var srcDataValue = getData(element, settings.data_src);
     var bgDataValue = getData(element, settings.data_bg);
@@ -226,13 +226,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       element.style.backgroundImage = bgDataValue;
     }
   };
-
   var setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
     VIDEO: setSourcesVideo
   };
-
   var setSources = function setSources(element, instance) {
     var settings = instance._settings;
     var tagName = element.tagName;
@@ -256,7 +254,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     element.className += (element.className ? " " : "") + className;
   };
-
   var removeClass = function removeClass(element, className) {
     if (supportsClassList) {
       element.classList.remove(className);
@@ -316,7 +313,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   };
 
   var managedTags = ["IMG", "IFRAME", "VIDEO"];
-
   var onEnter = function onEnter(element, entry, instance) {
     var settings = instance._settings;
     safeCallback(settings.callback_enter, element, entry, instance);
@@ -328,7 +324,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     delayLoad(element, instance);
   };
-
   var revealAndUnobserve = function revealAndUnobserve(element, instance) {
     var observer = instance._observer;
     revealElement(element, instance);
@@ -337,7 +332,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       observer.unobserve(element);
     }
   };
-
   var onExit = function onExit(element, entry, instance) {
     var settings = instance._settings;
     safeCallback(settings.callback_exit, element, entry, instance);
@@ -348,7 +342,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     cancelDelayLoad(element);
   };
-
   var cancelDelayLoad = function cancelDelayLoad(element) {
     var timeoutId = getTimeoutData(element);
 
@@ -359,7 +352,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     clearTimeout(timeoutId);
     setTimeoutData(element, null);
   };
-
   var delayLoad = function delayLoad(element, instance) {
     var loadDelay = instance._settings.load_delay;
     var timeoutId = getTimeoutData(element);
@@ -374,7 +366,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }, loadDelay);
     setTimeoutData(element, timeoutId);
   };
-
   var revealElement = function revealElement(element, instance, force) {
     var settings = instance._settings;
 
@@ -390,20 +381,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     setSources(element, instance);
     setWasProcessedData(element);
     safeCallback(settings.callback_reveal, element, instance);
-    safeCallback(settings.callback_set, element, instance);
   };
 
   var isIntersecting = function isIntersecting(entry) {
     return entry.isIntersecting || entry.intersectionRatio > 0;
   };
-
   var getObserverSettings = function getObserverSettings(settings) {
     return {
       root: settings.container === document ? null : settings.container,
       rootMargin: settings.thresholds || settings.threshold + "px"
     };
   };
-
   var setObserver = function setObserver(instance) {
     if (!supportsIntersectionObserver) {
       return false;
@@ -418,11 +406,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   };
 
   var nativeLazyTags = ["IMG", "IFRAME"];
-
   var shouldUseNative = function shouldUseNative(settings) {
     return settings.use_native && "loading" in HTMLImageElement.prototype;
   };
-
   var loadAllNative = function loadAllNative(instance) {
     instance._elements.forEach(function (element) {
       if (nativeLazyTags.indexOf(element.tagName) === -1) {
@@ -441,7 +427,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   var queryElements = function queryElements(settings) {
     return settings.container.querySelectorAll(settings.elements_selector);
   };
-
   var getElements = function getElements(elements, settings) {
     return purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
   };
@@ -455,7 +440,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
     instance.update();
   };
-
   var setOnlineCheck = function setOnlineCheck(instance) {
     if (!runningOnBrowser) {
       return;
@@ -527,4 +511,5 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   return LazyLoad;
-});
+
+})));

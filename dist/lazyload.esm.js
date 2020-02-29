@@ -366,7 +366,6 @@ const revealElement = (element, instance, force) => {
 	setSources(element, instance);
 	setWasProcessedData(element);
 	safeCallback(settings.callback_reveal, element, instance);
-	safeCallback(settings.callback_set, element, instance);
 };
 
 const isIntersecting = entry =>
