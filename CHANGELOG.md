@@ -1,10 +1,20 @@
 # CHANGELOG
 
+## Version 13
+
+#### 13.0.0
+
+-   Added the minified version of `dist/lazyload.esm.js` as `dist/lazyload.esm.min.js`, so now you can effortlessly use it with an ES module `import` statement when using `type="module"`
+-   Removed the `callback_set` callback that was **deprecated** since version 11 in favour of `callback_reveal`
+-   Removed sourcemaps (they were probably used only by the authors, but if anyone was actually needing them, we can bring them back)
+-   Hidden the `_extends` function inside LazyLoad's scope (it was global before)
+-   Updated build tooling: removed Gulp, now using Rollup & Babel only.
+
 ## Version 12
 
 #### 12.5.1
 
-Restored IE 11 compatibility, which was broken since 12.2.0. See #414. 
+Restored IE 11 compatibility, which was broken since 12.2.0. See #414.
 Thanks to @ninosaurus for reporting.
 
 #### 12.5.0
