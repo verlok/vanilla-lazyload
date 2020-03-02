@@ -2,6 +2,11 @@
 
 ## Version 13
 
+#### 13.0.1
+
+-   Fixed a JS error that could happen to IE11 users after going offline and back online
+-   Minor refactoring for better readibility and lighter code (and files)!
+
 #### 13.0.0
 
 -   Added the minified version of `dist/lazyload.esm.js` as `dist/lazyload.esm.min.js`, so now you can effortlessly use it with an ES module `import` statement when using `type="module"`
