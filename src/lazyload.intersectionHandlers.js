@@ -1,4 +1,6 @@
 import { delayLoad, cancelDelayLoad } from "./lazyload.delay";
+import { safeCallback } from "./lazyload.callback";
+import { revealAndUnobserve } from "./lazyload.reveal";
 
 export const onEnter = (element, entry, instance) => {
     const settings = instance._settings;
