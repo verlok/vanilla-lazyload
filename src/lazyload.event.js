@@ -1,6 +1,5 @@
 import { addClass, removeClass } from "./lazyload.class";
 import { safeCallback } from "./lazyload.callback";
-import { updateLoadingCount } from "./lazyload.loadingCount";
 
 const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
@@ -36,7 +35,11 @@ const eventHandler = function(event, success, instance) {
     addClass(element, className);
     safeCallback(callback, element, instance);
 
-    updateLoadingCount(instance, -1);
+    instance.loadingCount -= 1;
+
+    if (instance._elements.length === 0 && instance.loadingCount === 0) {
+        safeCallback(settings.callback_finish, instance);
+    }
 };
 
 export const addOneShotEventListeners = (element, instance) => {
