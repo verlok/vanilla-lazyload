@@ -343,7 +343,7 @@
         </div>
     </body>
 
-    <script src="../dist/lazyload.min.js"></script>
+    <script src="../dist/lazyload.js"></script>
     <script>
         (function(w, d) {
             function logElementEvent(eventName, element) {
@@ -381,18 +381,22 @@
                 callback_finish: callback_finish
             });
 
-            const mouseoverHandler = event => {
+            function mouseoverHandler(event) {
                 var product = event.currentTarget;
                 var lazyImg = product.querySelector(".lazy-hover");
                 page_ll.load(lazyImg);
-            };
+            }
 
-            const initializeMouseBehaviour = function() {
+            function nodeSetToArray(nodeSet) {
+                return Array.prototype.slice.call(nodeSet);
+            }
+
+            function initializeMouseBehaviour() {
                 const products = document.querySelectorAll(".product");
-                products.forEach(product => {
+                nodeSetToArray(products).forEach(function(product) {
                     product.addEventListener("mouseover", mouseoverHandler, true);
                 });
-            };
+            }
 
             initializeMouseBehaviour();
         })(window, document);
