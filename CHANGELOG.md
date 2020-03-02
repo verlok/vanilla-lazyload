@@ -5,7 +5,7 @@
 #### 13.0.1
 
 -   Fixed a JS error that could happen to IE11 users after going offline and back online
--   Minor refactoring
+-   Minor refactoring for better readibility and lighter code (and files)!
 
 #### 13.0.0
 
