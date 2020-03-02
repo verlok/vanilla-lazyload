@@ -1,5 +1,5 @@
-import getInstanceSettings from "./lazyload.defaults";
-import autoInitialize from "./lazyload.autoInitialize";
+import { getInstanceSettings } from "./lazyload.defaults";
+import { autoInitialize } from "./lazyload.autoInitialize";
 import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
 import { setObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
