@@ -4,7 +4,7 @@ import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
 import { setObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
-import { getElements } from "./lazyload.getElements";
+import { getElements } from "./lazyload.dom";
 import { setOnlineCheck } from "./lazyload.online";
 
 const LazyLoad = function(customSettings, elements) {

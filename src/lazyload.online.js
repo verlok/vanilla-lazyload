@@ -1,7 +1,7 @@
 import { runningOnBrowser } from "./lazyload.environment";
 import { resetWasProcessedData } from "./lazyload.data";
 import { removeClass } from "./lazyload.class";
-import { nodeSetToArray } from "./lazyload.nodeset";
+import { nodeSetToArray } from "./lazyload.dom";
 
 export const retryLazyLoad = instance => {
     var settings = instance._settings;
