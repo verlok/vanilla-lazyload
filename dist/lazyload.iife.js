@@ -47,9 +47,9 @@ var LazyLoad = (function () {
     callback_finish: null,
     use_native: false
   };
-  var getInstanceSettings = (function (customSettings) {
+  var getInstanceSettings = function getInstanceSettings(customSettings) {
     return _extends({}, defaultSettings, customSettings);
-  });
+  };
 
   /* Creates instance and notifies it through the window element */
   var createInstance = function createInstance(classObj, options) {
@@ -78,7 +78,7 @@ var LazyLoad = (function () {
       options passed in (plain object or an array) */
 
 
-  function autoInitialize (classObj, options) {
+  var autoInitialize = function autoInitialize(classObj, options) {
     if (!options) {
       return;
     }
@@ -92,7 +92,7 @@ var LazyLoad = (function () {
         createInstance(classObj, optionsItem);
       }
     }
-  }
+  };
 
   var dataPrefix = "data-";
   var processedDataName = "was-processed";
@@ -136,32 +136,6 @@ var LazyLoad = (function () {
     return elements.filter(function (element) {
       return element !== elementToPurge;
     });
-  };
-
-  var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
-    if (!callback) {
-      return;
-    }
-
-    if (arg3 !== undefined) {
-      callback(arg1, arg2, arg3);
-      return;
-    }
-
-    if (arg2 !== undefined) {
-      callback(arg1, arg2);
-      return;
-    }
-
-    callback(arg1);
-  };
-
-  var updateLoadingCount = function updateLoadingCount(instance, plusMinus) {
-    instance.loadingCount += plusMinus;
-
-    if (instance._elements.length === 0 && instance.loadingCount === 0) {
-      safeCallback(instance._settings.callback_finish, instance);
-    }
   };
 
   var getSourceTags = function getSourceTags(parentTag) {
@@ -235,7 +209,7 @@ var LazyLoad = (function () {
 
     if (setSourcesFunction) {
       setSourcesFunction(element, settings);
-      updateLoadingCount(instance, 1);
+      instance.loadingCount += 1;
       instance._elements = purgeOneElement(instance._elements, element);
       return;
     }
@@ -258,6 +232,24 @@ var LazyLoad = (function () {
     }
 
     element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+  };
+
+  var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
+    if (!callback) {
+      return;
+    }
+
+    if (arg3 !== undefined) {
+      callback(arg1, arg2, arg3);
+      return;
+    }
+
+    if (arg2 !== undefined) {
+      callback(arg1, arg2);
+      return;
+    }
+
+    callback(arg1);
   };
 
   var genericLoadEventName = "load";
@@ -292,7 +284,11 @@ var LazyLoad = (function () {
     removeClass(element, settings.class_loading);
     addClass(element, className);
     safeCallback(callback, element, instance);
-    updateLoadingCount(instance, -1);
+    instance.loadingCount -= 1;
+
+    if (instance._elements.length === 0 && instance.loadingCount === 0) {
+      safeCallback(settings.callback_finish, instance);
+    }
   };
 
   var addOneShotEventListeners = function addOneShotEventListeners(element, instance) {
@@ -310,17 +306,6 @@ var LazyLoad = (function () {
   };
 
   var managedTags = ["IMG", "IFRAME", "VIDEO"];
-  var onEnter = function onEnter(element, entry, instance) {
-    var settings = instance._settings;
-    safeCallback(settings.callback_enter, element, entry, instance);
-
-    if (!settings.load_delay) {
-      revealAndUnobserve(element, instance);
-      return;
-    }
-
-    delayLoad(element, instance);
-  };
   var revealAndUnobserve = function revealAndUnobserve(element, instance) {
     var observer = instance._observer;
     revealElement(element, instance);
@@ -329,16 +314,23 @@ var LazyLoad = (function () {
       observer.unobserve(element);
     }
   };
-  var onExit = function onExit(element, entry, instance) {
+  var revealElement = function revealElement(element, instance, force) {
     var settings = instance._settings;
-    safeCallback(settings.callback_exit, element, entry, instance);
 
-    if (!settings.load_delay) {
-      return;
+    if (!force && getWasProcessedData(element)) {
+      return; // element has already been processed and force wasn't true
     }
 
-    cancelDelayLoad(element);
+    if (managedTags.indexOf(element.tagName) > -1) {
+      addOneShotEventListeners(element, instance);
+      addClass(element, settings.class_loading);
+    }
+
+    setSources(element, instance);
+    setWasProcessedData(element);
+    safeCallback(settings.callback_reveal, element, instance);
   };
+
   var cancelDelayLoad = function cancelDelayLoad(element) {
     var timeoutId = getTimeoutData(element);
 
@@ -363,32 +355,40 @@ var LazyLoad = (function () {
     }, loadDelay);
     setTimeoutData(element, timeoutId);
   };
-  var revealElement = function revealElement(element, instance, force) {
+
+  var onEnter = function onEnter(element, entry, instance) {
     var settings = instance._settings;
+    safeCallback(settings.callback_enter, element, entry, instance);
 
-    if (!force && getWasProcessedData(element)) {
-      return; // element has already been processed and force wasn't true
+    if (!settings.load_delay) {
+      revealAndUnobserve(element, instance);
+      return;
     }
 
-    if (managedTags.indexOf(element.tagName) > -1) {
-      addOneShotEventListeners(element, instance);
-      addClass(element, settings.class_loading);
+    delayLoad(element, instance);
+  };
+  var onExit = function onExit(element, entry, instance) {
+    var settings = instance._settings;
+    safeCallback(settings.callback_exit, element, entry, instance);
+
+    if (!settings.load_delay) {
+      return;
     }
 
-    setSources(element, instance);
-    setWasProcessedData(element);
-    safeCallback(settings.callback_reveal, element, instance);
+    cancelDelayLoad(element);
   };
 
   var isIntersecting = function isIntersecting(entry) {
     return entry.isIntersecting || entry.intersectionRatio > 0;
   };
+
   var getObserverSettings = function getObserverSettings(settings) {
     return {
       root: settings.container === document ? null : settings.container,
       rootMargin: settings.thresholds || settings.threshold + "px"
     };
   };
+
   var setObserver = function setObserver(instance) {
     if (!supportsIntersectionObserver) {
       return false;
@@ -417,12 +417,12 @@ var LazyLoad = (function () {
     });
   };
 
-  var nodeSetToArray = function nodeSetToArray(nodeSet) {
-    return Array.prototype.slice.call(nodeSet);
-  };
-
   var queryElements = function queryElements(settings) {
     return settings.container.querySelectorAll(settings.elements_selector);
+  };
+
+  var nodeSetToArray = function nodeSetToArray(nodeSet) {
+    return Array.prototype.slice.call(nodeSet);
   };
   var getElements = function getElements(elements, settings) {
     return purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
@@ -431,7 +431,7 @@ var LazyLoad = (function () {
   var retryLazyLoad = function retryLazyLoad(instance) {
     var settings = instance._settings;
     var errorElements = settings.container.querySelectorAll("." + settings.class_error);
-    errorElements.forEach(function (element) {
+    nodeSetToArray(errorElements).forEach(function (element) {
       removeClass(element, settings.class_error);
       resetWasProcessedData(element);
     });
