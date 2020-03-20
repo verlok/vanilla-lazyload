@@ -1,8 +1,4 @@
-import { excludeElementsWithStatus } from "./lazyload.purge";
+export const queryElements = settings =>
+    settings.container.querySelectorAll(settings.elements_selector);
 
-const queryElements = settings => settings.container.querySelectorAll(settings.elements_selector);
-
-export const nodeSetToArray = nodeSet => Array.prototype.slice.call(nodeSet);
-
-export const getElements = (elements, settings) =>
-    excludeElementsWithStatus(nodeSetToArray(elements || queryElements(settings)));
+export const toArray = nodeSet => Array.prototype.slice.call(nodeSet);

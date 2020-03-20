@@ -21,7 +21,6 @@ export const setStatus = (element, status) => setData(element, statusDataName, s
 
 export const hasStatus = element => {
     const value = getData(element, statusDataName) !== null;
-    console.log(value);
     return value;
 };
 
