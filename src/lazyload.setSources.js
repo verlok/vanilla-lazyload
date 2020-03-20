@@ -1,5 +1,5 @@
 import { getData } from "./lazyload.data";
-import { purgeOneElement } from "./lazyload.purge";
+import { excludeOneElement } from "./lazyload.purge";
 
 export const getSourceTags = parentTag => {
     let sourceTags = [];
@@ -77,7 +77,7 @@ export const setSources = (element, instance) => {
     if (setSourcesFunction) {
         setSourcesFunction(element, settings);
         instance.loadingCount += 1;
-        instance._elements = purgeOneElement(instance._elements, element);
+        instance._elements = excludeOneElement(instance._elements, element);
         return;
     }
     setSourcesBgImage(element, settings);

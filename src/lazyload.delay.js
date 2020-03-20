@@ -1,5 +1,5 @@
 import { getTimeoutData, setTimeoutData } from "./lazyload.data";
-import { revealAndUnobserve } from "./lazyload.reveal";
+import { load } from "./lazyload.load";
 
 export const cancelDelayLoad = element => {
     var timeoutId = getTimeoutData(element);
@@ -17,7 +17,7 @@ export const delayLoad = (element, instance) => {
         return; // do nothing if timeout already set
     }
     timeoutId = setTimeout(function() {
-        revealAndUnobserve(element, instance);
+        load(element, instance);
         cancelDelayLoad(element);
     }, loadDelay);
     setTimeoutData(element, timeoutId);

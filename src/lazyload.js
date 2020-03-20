@@ -1,18 +1,19 @@
 import { getInstanceSettings } from "./lazyload.defaults";
 import { autoInitialize } from "./lazyload.autoInitialize";
-import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
+import { load } from "./lazyload.load";
 import { setObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { getElements } from "./lazyload.dom";
 import { setOnlineCheck } from "./lazyload.online";
+import { setStatus, resetStatus } from "./lazyload.data";
 
 const LazyLoad = function(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
     this.loadingCount = 0;
     setObserver(this);
-    this.update(elements);
     setOnlineCheck(this);
+    this.update(elements);
 };
 
 LazyLoad.prototype = {
@@ -25,10 +26,12 @@ LazyLoad.prototype = {
         }
         if (shouldUseNative(settings)) {
             loadAllNative(this);
-            this._elements = getElements(elements, settings);
+            return;
         }
         this._elements.forEach(element => {
             this._observer.observe(element);
+            console.log("Observing", element);
+            setStatus(element, "observing");
         });
     },
 
@@ -36,6 +39,7 @@ LazyLoad.prototype = {
         if (this._observer) {
             this._elements.forEach(element => {
                 this._observer.unobserve(element);
+                resetStatus(element);
             });
             this._observer = null;
         }
@@ -43,13 +47,13 @@ LazyLoad.prototype = {
         this._settings = null;
     },
 
-    load: function(element, force) {
-        revealElement(element, this, force);
+    load: function(element) {
+        load(element, this);
     },
 
     loadAll: function() {
         this._elements.forEach(element => {
-            revealAndUnobserve(element, this);
+            load(element, this);
         });
     }
 };

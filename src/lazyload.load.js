@@ -1,0 +1,41 @@
+import { setSources } from "./lazyload.setSources";
+import { setStatus } from "./lazyload.data";
+import { addOneShotEventListeners } from "./lazyload.event";
+import { addClass } from "./lazyload.class";
+import { safeCallback } from "./lazyload.callback";
+
+const manageableTags = ["IMG", "IFRAME", "VIDEO"];
+
+export const unobserve = (element, instance) => {
+    // Unobserve
+    const observer = instance._observer;
+    if (observer && instance._settings.auto_unobserve) {
+        observer.unobserve(element);
+    }
+};
+
+export const isManageableTag = element => manageableTags.indexOf(element.tagName) > -1;
+
+export const load = (element, instance) => {
+    const settings = instance._settings;
+    if (isManageableTag(element)) {
+        addOneShotEventListeners(element, instance);
+        addClass(element, settings.class_loading);
+    }
+    setSources(element, instance);
+    setStatus(element, "loading");
+    safeCallback(settings.callback_loading, element, instance);
+    /* DEPRECATED */ safeCallback(settings.callback_reveal, element, instance);
+    unobserve(element, instance);
+};
+
+export const loadNative = (element, instance) => {
+    const settings = instance._settings;
+    if (isManageableTag(element)) {
+        addOneShotEventListeners(element, instance);
+        addClass(element, settings.class_loading);
+    }
+    setSources(element, instance);
+    setStatus(element, "native");
+    unobserve(element, instance);
+};

@@ -1,9 +1,9 @@
-import { getWasProcessedData } from "./lazyload.data";
+import { hasStatus } from "./lazyload.data";
 
-export const purgeProcessedElements = elements => {
-	return elements.filter(element => !getWasProcessedData(element));
+export const excludeElementsWithStatus = elements => {
+    return elements.filter(element => !hasStatus(element));
 };
 
-export const purgeOneElement = (elements, elementToPurge) => {
-	return elements.filter(element => element !== elementToPurge);
+export const excludeOneElement = (elements, elementToExclude) => {
+    return elements.filter(element => element !== elementToExclude);
 };
