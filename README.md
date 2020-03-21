@@ -521,7 +521,6 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 | Test      | Test performance, lazy loading of hundreds of images                                           | [Code](demos/hundreds.html)                    | [Live](https://www.andreaverlicchi.eu/lazyload/demos/hundreds.html)                    |
 | Native    | Test the native lazy loading of images _WITHOUT_ any line of javascript, not even this script  | [Code](demos/native_lazyload.html)             | [Live](https://www.andreaverlicchi.eu/lazyload/demos/native_lazyload.html)             |
 | Native    | Test the native lazy loading of images _conditionally_ using the `use_native` option (see API) | [Code](demos/native_lazyload_conditional.html) | [Live](https://www.andreaverlicchi.eu/lazyload/demos/native_lazyload_conditional.html) |
-| (legacy)  | Conditional loading of v.8 or v.10 (no IntersectionObserver polyfill)                          | [Code](demos/conditional_loading.html)         | [Live](https://www.andreaverlicchi.eu/lazyload/demos/conditional_loading.html)         |
 
 ---
 
