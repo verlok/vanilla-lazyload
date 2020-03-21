@@ -81,3 +81,13 @@ export const setSources = (element, instance) => {
     }
     setSourcesBgImage(element, settings);
 };
+
+export const setSources__static = (element, settings) => {
+    const tagName = element.tagName;
+    const setSourcesFunction = setSourcesFunctions[tagName];
+    if (setSourcesFunction) {
+        setSourcesFunction(element, settings);
+        return;
+    }
+    setSourcesBgImage(element, settings);
+};

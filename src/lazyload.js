@@ -1,6 +1,6 @@
 import { getInstanceSettings } from "./lazyload.defaults";
 import { autoInitialize } from "./lazyload.autoInitialize";
-import { load } from "./lazyload.load";
+import { load, load__static } from "./lazyload.load";
 import { setObserver, observeElements, resetObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
@@ -45,16 +45,17 @@ LazyLoad.prototype = {
         delete this.toLoadCount;
     },
 
-    load: function(element) {
-        load(element, this);
-    },
-
     loadAll: function(elements) {
         const elementsToLoad = getElementsToLoad(elements, this._settings);
         elementsToLoad.forEach(element => {
             load(element, this);
         });
     }
+};
+
+LazyLoad.load = (element, customSettings) => {
+    const settings = getInstanceSettings(customSettings);
+    load__static(element, settings);
 };
 
 /* Automatic instances creation if required (useful for async script loading) */

@@ -1,6 +1,6 @@
-import { setSources } from "./lazyload.setSources";
+import { setSources, setSources__static } from "./lazyload.setSources";
 import { setStatus } from "./lazyload.data";
-import { addOneShotEventListeners } from "./lazyload.event";
+import { addOneShotEventListeners, addOneShotEventListeners__static } from "./lazyload.event";
 import { addClass } from "./lazyload.class";
 import { safeCallback } from "./lazyload.callback";
 import { statusLoading, statusNative } from "./lazyload.elementStatus";
@@ -28,6 +28,17 @@ export const load = (element, instance) => {
     safeCallback(settings.callback_loading, element, instance);
     /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
     unobserve(element, instance);
+};
+
+export const load__static = (element, settings) => {
+    if (isManageableTag(element)) {
+        addOneShotEventListeners__static(element, settings);
+        addClass(element, settings.class_loading);
+    }
+    setSources__static(element, settings);
+    setStatus(element, statusLoading);
+    safeCallback(settings.callback_loading, element);
+    /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element);
 };
 
 export const loadNative = (element, instance) => {

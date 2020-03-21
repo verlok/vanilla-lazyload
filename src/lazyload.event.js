@@ -46,6 +46,18 @@ const eventHandler = function(event, success, instance) {
     }
 };
 
+const eventHandler__static = function(event, success, settings) {
+    const className = success ? settings.class_loaded : settings.class_error;
+    const callback = success ? settings.callback_loaded : settings.callback_error;
+    const element = event.target;
+    const status = success ? statusLoaded : statusError;
+
+    setStatus(element, status);
+    removeClass(element, settings.class_loading);
+    addClass(element, className);
+    safeCallback(callback, element);
+};
+
 export const addOneShotEventListeners = (element, instance) => {
     const loadHandler = event => {
         eventHandler(event, true, instance);
@@ -53,6 +65,18 @@ export const addOneShotEventListeners = (element, instance) => {
     };
     const errorHandler = event => {
         eventHandler(event, false, instance);
+        removeEventListeners(element, loadHandler, errorHandler);
+    };
+    addEventListeners(element, loadHandler, errorHandler);
+};
+
+export const addOneShotEventListeners__static = (element, settings) => {
+    const loadHandler = event => {
+        eventHandler__static(event, true, settings);
+        removeEventListeners(element, loadHandler, errorHandler);
+    };
+    const errorHandler = event => {
+        eventHandler__static(event, false, settings);
         removeEventListeners(element, loadHandler, errorHandler);
     };
     addEventListeners(element, loadHandler, errorHandler);

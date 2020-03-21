@@ -370,7 +370,7 @@
                 logElementEvent("✔️ FINISHED", document.documentElement);
             };
 
-            var page_ll = new LazyLoad({
+            var options = {
                 elements_selector: "img.lazy",
                 // Assign the callbacks defined above
                 callback_enter: callback_enter,
@@ -379,12 +379,17 @@
                 callback_loaded: callback_loaded,
                 callback_error: callback_error,
                 callback_finish: callback_finish
-            });
+            };
+
+            var page_ll = new LazyLoad(options);
 
             function mouseoverHandler(event) {
                 var product = event.currentTarget;
                 var lazyImg = product.querySelector(".lazy-hover");
-                page_ll.load(lazyImg);
+                if (!!lazyImg.getAttribute("data-ll-status")) {
+                    return;
+                }
+                LazyLoad.load(lazyImg, options);
             }
 
             function nodeSetToArray(nodeSet) {
