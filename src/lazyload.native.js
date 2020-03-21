@@ -14,5 +14,5 @@ export const loadAllNative = (elements, instance) => {
         element.setAttribute(loadingString, "lazy");
         loadNative(element, instance);
     });
-    instance.itemsToLoad = 0;
+    instance.toLoadCount = 0;
 };

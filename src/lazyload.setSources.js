@@ -76,7 +76,7 @@ export const setSources = (element, instance) => {
     if (setSourcesFunction) {
         setSourcesFunction(element, settings);
         instance.loadingCount += 1;
-        instance.itemsToLoad -= 1;
+        instance.toLoadCount -= 1;
         return;
     }
     setSourcesBgImage(element, settings);

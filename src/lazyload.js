@@ -5,7 +5,7 @@ import { setObserver, observeElements, resetObserver } from "./lazyload.intersec
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
-import { toArray, queryElements, excludeManagedElements } from "./lazyload.dom";
+import { getElementsToLoad } from "./lazyload.dom";
 
 const LazyLoad = function(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
@@ -17,10 +17,8 @@ const LazyLoad = function(customSettings, elements) {
 
 LazyLoad.prototype = {
     update: function(givenNodeset) {
-        const settings = this._settings;
-        const elements = givenNodeset || queryElements(settings);
-        const elementsToLoad = excludeManagedElements(elements);
-        this.itemsToLoad = elementsToLoad.length;
+        const elementsToLoad = getElementsToLoad(givenNodeset, settings);
+        this.toLoadCount = elementsToLoad.length;
 
         if (isBot || !this._observer) {
             this.loadAll(elementsToLoad);
@@ -43,7 +41,7 @@ LazyLoad.prototype = {
         }
         // Public properties
         this.loadingCount = null;
-        this.itemsToLoad = null;
+        this.toLoadCount = null;
         this._settings = null;
         // Public methods
         this.update = null;
@@ -55,10 +53,8 @@ LazyLoad.prototype = {
         load(element, this);
     },
 
-    loadAll: function(givenElements) {
-        // TODO: Think again... DRY!
-        const elements = givenElements || queryElements(settings);
-        const elementsToLoad = excludeManagedElements(elements);
+    loadAll: function(elements) {
+        const elementsToLoad = getElementsToLoad(elements, this._settings);
         elementsToLoad.forEach(element => {
             load(element, this);
         });

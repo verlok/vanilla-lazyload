@@ -41,7 +41,7 @@ const eventHandler = function(event, success, instance) {
 
     instance.loadingCount -= 1;
 
-    if (instance.itemsToLoad === 0 && instance.loadingCount === 0) {
+    if (instance.toLoadCount === 0 && instance.loadingCount === 0) {
         safeCallback(settings.callback_finish, instance);
     }
 };
