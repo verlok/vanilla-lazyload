@@ -69,25 +69,17 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-export const setSources = (element, instance) => {
-    const settings = instance._settings;
+export const setSources = (element, settings, instance) => {
     const tagName = element.tagName;
     const setSourcesFunction = setSourcesFunctions[tagName];
-    if (setSourcesFunction) {
-        setSourcesFunction(element, settings);
-        instance.loadingCount += 1;
-        instance.toLoadCount -= 1;
+    if (!setSourcesFunction) {
+        setSourcesBgImage(element, settings);
         return;
     }
-    setSourcesBgImage(element, settings);
-};
-
-export const setSources__static = (element, settings) => {
-    const tagName = element.tagName;
-    const setSourcesFunction = setSourcesFunctions[tagName];
-    if (setSourcesFunction) {
-        setSourcesFunction(element, settings);
-        return;
+    setSourcesFunction(element, settings);
+    if (!instance) {
+        return; // Exit when called from static method
     }
-    setSourcesBgImage(element, settings);
+    instance.loadingCount += 1;
+    instance.toLoadCount -= 1;
 };

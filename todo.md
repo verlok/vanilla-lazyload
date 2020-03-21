@@ -2,7 +2,6 @@
 
 ## Code
 
--   Reduce \_\_static functions to single ones
 -   Test performance of the `hundreds.html` demo, especially the listeners number
 -   Test on other browsers: IE for not supporting IO, Safari for compatibility
 -   Test conditionaly native lazyloading

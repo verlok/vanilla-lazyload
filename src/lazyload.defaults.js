@@ -24,6 +24,6 @@ const defaultSettings = {
     use_native: false
 };
 
-export const getInstanceSettings = customSettings => {
+export const getExtendedSettings = customSettings => {
     return Object.assign({}, defaultSettings, customSettings);
 };

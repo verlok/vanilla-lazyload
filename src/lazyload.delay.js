@@ -10,15 +10,14 @@ export const cancelDelayLoad = element => {
     setTimeoutData(element, null);
 };
 
-export const delayLoad = (element, instance) => {
-    var loadDelay = instance._settings.load_delay;
+export const delayLoad = (element, settings, instance) => {
     var timeoutId = getTimeoutData(element);
     if (timeoutId) {
         return; // do nothing if timeout already set
     }
     timeoutId = setTimeout(function() {
-        load(element, instance);
+        load(element, settings, instance);
         cancelDelayLoad(element);
-    }, loadDelay);
+    }, settings.load_delay);
     setTimeoutData(element, timeoutId);
 };

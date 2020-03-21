@@ -6,10 +6,10 @@ export const onEnter = (element, entry, instance) => {
     const settings = instance._settings;
     safeCallback(settings.callback_enter, element, entry, instance);
     if (!settings.load_delay) {
-        load(element, instance);
+        load(element, settings, instance);
         return;
     }
-    delayLoad(element, instance);
+    delayLoad(element, settings, instance);
 };
 
 export const onExit = (element, entry, instance) => {
