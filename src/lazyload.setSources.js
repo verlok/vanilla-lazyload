@@ -1,5 +1,4 @@
 import { getData } from "./lazyload.data";
-import { excludeOneElement } from "./lazyload.purge";
 
 export const getSourceTags = parentTag => {
     let sourceTags = [];

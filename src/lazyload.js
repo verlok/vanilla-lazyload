@@ -1,14 +1,13 @@
 import { getInstanceSettings } from "./lazyload.defaults";
 import { autoInitialize } from "./lazyload.autoInitialize";
 import { load } from "./lazyload.load";
-import { setObserver } from "./lazyload.intersectionObserver";
+import { setObserver, observeElements } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
-import { setStatus } from "./lazyload.data";
 import { toArray, queryElements } from "./lazyload.dom";
 
-import { excludeElementsWithStatus } from "./lazyload.purge";
+//import { excludeElementsWithStatus } from "./lazyload.purge";
 
 const LazyLoad = function(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
@@ -18,18 +17,11 @@ const LazyLoad = function(customSettings, elements) {
     this.update(elements);
 };
 
-/* export const getElements = (givenNodeset, settings) =>
-    excludeElementsWithStatus(nodeSetToArray(givenNodeset || queryElements(settings)));
- */
-
-const observeElements = (observer, elements) => {
-    toArray(elements).forEach(element => {
-        observer.observe(element);
-        setStatus(element, "observing");
-    });
-};
-
 LazyLoad.prototype = {
+    /*
+    TODO: Should this method disconnect the IntersectionObserver and re-observe all elements not already managed?
+    */
+
     update: function(givenNodeset) {
         const settings = this._settings;
         const elements = givenNodeset || queryElements(settings);

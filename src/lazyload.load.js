@@ -3,6 +3,7 @@ import { setStatus } from "./lazyload.data";
 import { addOneShotEventListeners } from "./lazyload.event";
 import { addClass } from "./lazyload.class";
 import { safeCallback } from "./lazyload.callback";
+import { statusLoading, statusNative } from "./lazyload.elementStatus";
 
 const manageableTags = ["IMG", "IFRAME", "VIDEO"];
 
@@ -23,7 +24,7 @@ export const load = (element, instance) => {
         addClass(element, settings.class_loading);
     }
     setSources(element, instance);
-    setStatus(element, "loading");
+    setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
     /* DEPRECATED */ safeCallback(settings.callback_reveal, element, instance);
     unobserve(element, instance);
@@ -36,6 +37,6 @@ export const loadNative = (element, instance) => {
         addClass(element, settings.class_loading);
     }
     setSources(element, instance);
-    setStatus(element, "native");
+    setStatus(element, statusNative);
     unobserve(element, instance);
 };

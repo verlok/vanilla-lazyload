@@ -1,6 +1,7 @@
 import { addClass, removeClass } from "./lazyload.class";
 import { safeCallback } from "./lazyload.callback";
 import { setStatus } from "./lazyload.data";
+import { statusLoaded, statusError } from "./lazyload.elementStatus";
 
 const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
@@ -31,7 +32,7 @@ const eventHandler = function(event, success, instance) {
     const className = success ? settings.class_loaded : settings.class_error;
     const callback = success ? settings.callback_loaded : settings.callback_error;
     const element = event.target;
-    const status = success ? "loaded" : "error";
+    const status = success ? statusLoaded : statusError;
 
     setStatus(element, status);
     removeClass(element, settings.class_loading);
