@@ -17,6 +17,7 @@ const LazyLoad = function(customSettings, elements) {
 
 LazyLoad.prototype = {
     update: function(givenNodeset) {
+        const settings = this._settings;
         const elementsToLoad = getElementsToLoad(givenNodeset, settings);
         this.toLoadCount = elementsToLoad.length;
 
