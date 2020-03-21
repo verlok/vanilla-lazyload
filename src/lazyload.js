@@ -1,8 +1,13 @@
 import { getExtendedSettings } from "./lazyload.defaults";
 import { autoInitialize } from "./lazyload.autoInitialize";
 import { load } from "./lazyload.load";
-import { setObserver, observeElements, resetObserver } from "./lazyload.intersectionObserver";
-import { isBot, runningOnBrowser } from "./lazyload.environment";
+import {
+    setObserver,
+    observeElements,
+    resetObserver,
+    updateObserver
+} from "./lazyload.intersectionObserver";
+import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
 import { getElementsToLoad } from "./lazyload.dom";
@@ -10,7 +15,9 @@ import { getElementsToLoad } from "./lazyload.dom";
 const LazyLoad = function(customSettings, elements) {
     this._settings = getExtendedSettings(customSettings);
     this.loadingCount = 0;
-    setObserver(this);
+    if (!shouldUseNative(this._settings)) {
+        setObserver(this);
+    }
     setOnlineCheck(this);
     this.update(elements);
 };
@@ -21,17 +28,16 @@ LazyLoad.prototype = {
         const elementsToLoad = getElementsToLoad(givenNodeset, settings);
         this.toLoadCount = elementsToLoad.length;
 
-        if (isBot || !this._observer) {
+        if (isBot || !supportsIntersectionObserver) {
             this.loadAll(elementsToLoad);
             return;
         }
         if (shouldUseNative(settings)) {
-            loadAllNative(elementsToLoad, this);
+            loadAllNative(elementsToLoad, settings, this);
             return;
         }
 
-        resetObserver(this._observer);
-        observeElements(this._observer, elementsToLoad);
+        updateObserver(this._observer, elementsToLoad);
     },
 
     destroy: function() {

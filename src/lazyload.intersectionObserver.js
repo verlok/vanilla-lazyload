@@ -22,6 +22,11 @@ export const observeElements = (observer, elements) => {
     });
 };
 
+export const updateObserver = (observer, elementsToObserve) => {
+    resetObserver(observer);
+    observeElements(observer, elementsToObserve);
+};
+
 export const setObserver = instance => {
     if (!supportsIntersectionObserver) {
         return false;

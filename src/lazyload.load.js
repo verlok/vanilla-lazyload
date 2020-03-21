@@ -17,12 +17,16 @@ export const unobserve = (element, instance) => {
 
 export const isManageableTag = element => manageableTags.indexOf(element.tagName) > -1;
 
-export const load = (element, settings, instance) => {
+export const enableLoading = (element, settings, instance) => {
     if (isManageableTag(element)) {
         addOneShotEventListeners(element, settings, instance);
         addClass(element, settings.class_loading);
     }
     setSources(element, settings, instance);
+};
+
+export const load = (element, settings, instance) => {
+    enableLoading(element, settings, instance);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
     /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
@@ -32,13 +36,7 @@ export const load = (element, settings, instance) => {
     unobserve(element, instance);
 };
 
-export const loadNative = (element, instance) => {
-    const settings = instance._settings;
-    if (isManageableTag(element)) {
-        addOneShotEventListeners(element, settings, instance);
-        addClass(element, settings.class_loading);
-    }
-    setSources(element, instance);
+export const loadNative = (element, settings, instance) => {
+    enableLoading(element, settings, instance);
     setStatus(element, statusNative);
-    unobserve(element, instance);
 };
