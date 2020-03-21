@@ -1,4 +1,4 @@
-import { statusObserved } from "./lazyload.elementStatus";
+import { statusObserved, statusError } from "./lazyload.elementStatus";
 
 const dataPrefix = "data-";
 const statusDataName = "ll-status";
@@ -24,6 +24,8 @@ export const setStatus = (element, status) => setData(element, statusDataName, s
 export const hasAnyStatus = element => getData(element, statusDataName) !== null;
 
 export const hasStatusObserved = element => getData(element, statusDataName) === statusObserved;
+
+export const hasStatusError = element => getData(element, statusDataName) === statusError;
 
 export const setTimeoutData = (element, value) => setData(element, timeoutDataName, value);
 

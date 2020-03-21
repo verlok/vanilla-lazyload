@@ -59,7 +59,7 @@ LazyLoad.prototype = {
         // TODO: Think again... DRY!
         const elements = givenElements || queryElements(settings);
         const elementsToLoad = excludeManagedElements(elements);
-        toArray(elementsToLoad).forEach(element => {
+        elementsToLoad.forEach(element => {
             load(element, this);
         });
     }

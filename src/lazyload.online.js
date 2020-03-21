@@ -1,12 +1,12 @@
 import { runningOnBrowser } from "./lazyload.environment";
 import { resetStatus } from "./lazyload.data";
 import { removeClass } from "./lazyload.class";
-import { toArray } from "./lazyload.dom";
+import { queryElements, filterErrorElements } from "./lazyload.dom";
 
 export const retryLazyLoad = instance => {
-    var settings = instance._settings;
-    var errorElements = settings.container.querySelectorAll("[data-ll-status=error]"); //TODO: REFACTOR
-    toArray(errorElements).forEach(element => {
+    const settings = instance._settings;
+    const errorElements = filterErrorElements(queryElements(settings));
+    errorElements.forEach(element => {
         removeClass(element, settings.class_error);
         resetStatus(element);
     });

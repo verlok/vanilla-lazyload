@@ -16,7 +16,7 @@ export const resetObserver = observer => {
 };
 
 export const observeElements = (observer, elements) => {
-    toArray(elements).forEach(element => {
+    elements.forEach(element => {
         observer.observe(element);
         setStatus(element, statusObserved);
     });
