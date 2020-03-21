@@ -38,16 +38,11 @@ LazyLoad.prototype = {
         // Observer
         if (this._observer) {
             this._observer.disconnect();
-            this._observer = null;
         }
-        // Public properties
-        this.loadingCount = null;
-        this.toLoadCount = null;
-        this._settings = null;
-        // Public methods
-        this.update = null;
-        this.load = null;
-        this.loadAll = null;
+        delete this._observer;
+        delete this._settings;
+        delete this.loadingCount;
+        delete this.toLoadCount;
     },
 
     load: function(element) {
