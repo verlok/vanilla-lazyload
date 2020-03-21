@@ -1,14 +1,10 @@
-import { hasStatus } from "./lazyload.data";
+import { hasAnyStatus, hasStatusObserved } from "./lazyload.data";
 
-/* export const excludeDone = elements => {
-    return elements.filter(element => !hasStatus(element));
-}; */
-
-/* export const getElements = (givenNodeset, settings) =>
-    excludeElementsWithStatus(nodeSetToArray(givenNodeset || queryElements(settings)));
- */
+export const toArray = nodeSet => Array.prototype.slice.call(nodeSet);
 
 export const queryElements = settings =>
     settings.container.querySelectorAll(settings.elements_selector);
 
-export const toArray = nodeSet => Array.prototype.slice.call(nodeSet);
+const isToManage = element => !hasAnyStatus(element) || hasStatusObserved(element);
+
+export const excludeManagedElements = elements => toArray(elements).filter(isToManage);

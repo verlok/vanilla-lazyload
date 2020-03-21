@@ -1,13 +1,11 @@
 import { getInstanceSettings } from "./lazyload.defaults";
 import { autoInitialize } from "./lazyload.autoInitialize";
 import { load } from "./lazyload.load";
-import { setObserver, observeElements } from "./lazyload.intersectionObserver";
+import { setObserver, observeElements, resetObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
-import { toArray, queryElements } from "./lazyload.dom";
-
-//import { excludeElementsWithStatus } from "./lazyload.purge";
+import { toArray, queryElements, excludeManagedElements } from "./lazyload.dom";
 
 const LazyLoad = function(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
@@ -18,40 +16,38 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
-    /*
-    TODO: Should this method disconnect the IntersectionObserver and re-observe all elements not already managed?
-    */
-
     update: function(givenNodeset) {
         const settings = this._settings;
         const elements = givenNodeset || queryElements(settings);
-        // TODO: should I excludeElementsWithStatus == some status
-        // It works anyway, but it's probably better to exclude some
-        // for performance reasons. -- IMPORTANT: Exclude all
-        // statuses but "observing"
-        this.itemsToLoad = elements.length;
+        const elementsToLoad = excludeManagedElements(elements);
+        this.itemsToLoad = elementsToLoad.length;
         console.log("Update", "ItemsToLoad = ", this.itemsToLoad);
 
         if (isBot || !this._observer) {
-            this.loadAll(elements);
+            this.loadAll(elementsToLoad);
             return;
         }
         if (shouldUseNative(settings)) {
-            loadAllNative(elements, this);
+            loadAllNative(elementsToLoad, this);
             return;
         }
-        observeElements(this._observer, elements);
+
+        resetObserver(this._observer);
+        observeElements(this._observer, elementsToLoad);
     },
 
     destroy: function() {
+        // Observer
         if (this._observer) {
             this._observer.disconnect();
             this._observer = null;
         }
+        // Public properties
         this.loadingCount = null;
         this.itemsToLoad = null;
         console.log("Destroyed", "ItemsToLoad = ", this.itemsToLoad);
         this._settings = null;
+        // Public methods
         this.update = null;
         this.load = null;
         this.loadAll = null;
@@ -61,8 +57,10 @@ LazyLoad.prototype = {
         load(element, this);
     },
 
-    loadAll: function(elements) {
-        let elementsToLoad = elements || queryElements(settings);
+    loadAll: function(givenElements) {
+        // TODO: Think again... DRY!
+        const elements = givenElements || queryElements(settings);
+        const elementsToLoad = excludeManagedElements(elements);
         toArray(elementsToLoad).forEach(element => {
             load(element, this);
         });

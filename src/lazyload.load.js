@@ -26,7 +26,7 @@ export const load = (element, instance) => {
     setSources(element, instance);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    /* DEPRECATED */ safeCallback(settings.callback_reveal, element, instance);
+    /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
     unobserve(element, instance);
 };
 

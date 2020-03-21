@@ -11,6 +11,10 @@ const getObserverSettings = settings => ({
     rootMargin: settings.thresholds || settings.threshold + "px"
 });
 
+export const resetObserver = observer => {
+    observer.disconnect();
+};
+
 export const observeElements = (observer, elements) => {
     toArray(elements).forEach(element => {
         observer.observe(element);
