@@ -15,5 +15,4 @@ export const loadAllNative = (elements, instance) => {
         loadNative(element, instance);
     });
     instance.itemsToLoad = 0;
-    console.log("Load all native", "ItemsToLoad = ", instance.itemsToLoad);
 };

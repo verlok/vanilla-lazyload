@@ -21,7 +21,6 @@ LazyLoad.prototype = {
         const elements = givenNodeset || queryElements(settings);
         const elementsToLoad = excludeManagedElements(elements);
         this.itemsToLoad = elementsToLoad.length;
-        console.log("Update", "ItemsToLoad = ", this.itemsToLoad);
 
         if (isBot || !this._observer) {
             this.loadAll(elementsToLoad);
@@ -45,7 +44,6 @@ LazyLoad.prototype = {
         // Public properties
         this.loadingCount = null;
         this.itemsToLoad = null;
-        console.log("Destroyed", "ItemsToLoad = ", this.itemsToLoad);
         this._settings = null;
         // Public methods
         this.update = null;
