@@ -2941,8 +2941,8 @@
                 var callback_exit = function(element) {
                     logElementEvent("🚪 EXITED", element);
                 };
-                var callback_reveal = function(element) {
-                    logElementEvent("👁️ REVEALED", element);
+                var callback_loading = function(element) {
+                    logElementEvent("⌚ LOADING", element);
                 };
                 var callback_loaded = function(element) {
                     logElementEvent("👍 LOADED", element);
@@ -2959,7 +2959,7 @@
                     // Assign the callbacks defined above
                     callback_enter: callback_enter,
                     callback_exit: callback_exit,
-                    callback_reveal: callback_reveal,
+                    callback_loading: callback_loading,
                     callback_loaded: callback_loaded,
                     callback_error: callback_error,
                     callback_finish: callback_finish
