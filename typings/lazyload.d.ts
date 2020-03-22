@@ -14,11 +14,12 @@
     auto_unobserve?: boolean;
     callback_enter?: (elt: HTMLElement) => void;
     callback_exit?: (elt: HTMLElement) => void;
-    callback_reveal?: (elt: HTMLElement) => void;
+    callback_loading?: (elt: HTMLElement) => void;
     callback_loaded?: (elt: HTMLElement) => void;
     callback_error?: (elt: HTMLElement) => void;
     callback_finish?: () => void;
     use_native?: boolean;
+    /* DEPRECATED, WILL BE REMOVED IN V. 15 */ callback_reveal?: (elt: HTMLElement) => void;
 }
 interface ILazyLoad {
     new (options?: ILazyLoadOptions, elements?: NodeListOf<HTMLElement>): ILazyLoad;
@@ -27,6 +28,11 @@ interface ILazyLoad {
     load: (element: HTMLElement, force?: boolean) => void;
     loadAll: () => void;
     loadingCount: number;
+    toLoadCount: number;
 }
 declare var LazyLoad: ILazyLoad;
 export default LazyLoad;
+
+if (this._observer) {
+    this._observer.disconnect();
+}

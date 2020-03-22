@@ -17,13 +17,13 @@ const defaultSettings = {
     auto_unobserve: true,
     callback_enter: null,
     callback_exit: null,
-    callback_reveal: null,
+    callback_loading: null,
     callback_loaded: null,
     callback_error: null,
     callback_finish: null,
     use_native: false
 };
 
-export const getInstanceSettings = customSettings => {
+export const getExtendedSettings = customSettings => {
     return Object.assign({}, defaultSettings, customSettings);
 };

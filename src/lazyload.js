@@ -1,57 +1,68 @@
-import { getInstanceSettings } from "./lazyload.defaults";
+import { getExtendedSettings } from "./lazyload.defaults";
 import { autoInitialize } from "./lazyload.autoInitialize";
-import { revealElement, revealAndUnobserve } from "./lazyload.reveal";
-import { setObserver } from "./lazyload.intersectionObserver";
-import { isBot, runningOnBrowser } from "./lazyload.environment";
+import { load } from "./lazyload.load";
+import {
+    setObserver,
+    observeElements,
+    resetObserver,
+    updateObserver
+} from "./lazyload.intersectionObserver";
+import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
-import { getElements } from "./lazyload.dom";
 import { setOnlineCheck } from "./lazyload.online";
+import { getElementsToLoad } from "./lazyload.dom";
 
 const LazyLoad = function(customSettings, elements) {
-    this._settings = getInstanceSettings(customSettings);
+    this._settings = getExtendedSettings(customSettings);
     this.loadingCount = 0;
-    setObserver(this);
-    this.update(elements);
+    if (!shouldUseNative(this._settings)) {
+        setObserver(this);
+    }
     setOnlineCheck(this);
+    this.update(elements);
 };
 
 LazyLoad.prototype = {
-    update: function(elements) {
-        var settings = this._settings;
-        this._elements = getElements(elements, settings);
-        if (isBot || !this._observer) {
-            this.loadAll();
+    update: function(givenNodeset) {
+        const settings = this._settings;
+        const elementsToLoad = getElementsToLoad(givenNodeset, settings);
+        this.toLoadCount = elementsToLoad.length;
+
+        if (isBot || !supportsIntersectionObserver) {
+            this.loadAll(elementsToLoad);
             return;
         }
         if (shouldUseNative(settings)) {
-            loadAllNative(this);
-            this._elements = getElements(elements, settings);
+            loadAllNative(elementsToLoad, settings, this);
+            return;
         }
-        this._elements.forEach(element => {
-            this._observer.observe(element);
-        });
+
+        updateObserver(this._observer, elementsToLoad);
     },
 
     destroy: function() {
+        // Observer
         if (this._observer) {
-            this._elements.forEach(element => {
-                this._observer.unobserve(element);
-            });
-            this._observer = null;
+            this._observer.disconnect();
         }
-        this._elements = null;
-        this._settings = null;
+        delete this._observer;
+        delete this._settings;
+        delete this.loadingCount;
+        delete this.toLoadCount;
     },
 
-    load: function(element, force) {
-        revealElement(element, this, force);
-    },
-
-    loadAll: function() {
-        this._elements.forEach(element => {
-            revealAndUnobserve(element, this);
+    loadAll: function(elements) {
+        const settings = this._settings;
+        const elementsToLoad = getElementsToLoad(elements, settings);
+        elementsToLoad.forEach(element => {
+            load(element, settings, this);
         });
     }
+};
+
+LazyLoad.load = (element, customSettings) => {
+    const settings = getExtendedSettings(customSettings);
+    load(element, settings);
 };
 
 /* Automatic instances creation if required (useful for async script loading) */
