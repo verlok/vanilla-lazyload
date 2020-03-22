@@ -27,36 +27,38 @@ const removeEventListeners = (element, loadHandler, errorHandler) => {
     removeEventListener(element, errorEventName, errorHandler);
 };
 
-const eventHandler = function(event, success, settings, instance) {
-    const className = success ? settings.class_loaded : settings.class_error;
-    const callback = success ? settings.callback_loaded : settings.callback_error;
-    const element = event.target;
-    const status = success ? statusLoaded : statusError;
-
-    setStatus(element, status);
-    removeClass(element, settings.class_loading);
-    addClass(element, className);
-    safeCallback(callback, element, instance);
-
-    if (!instance) {
-        return; // Exit when called from static method
-    }
-
+const decreaseLoadingCount = (settings, instance) => {
     instance.loadingCount -= 1;
+    if (instance.toLoadCount || instance.loadingCount) return;
+    safeCallback(settings.callback_finish, instance);
+};
 
-    if (instance.toLoadCount === 0 && instance.loadingCount === 0) {
-        safeCallback(settings.callback_finish, instance);
-    }
+const loadHandler = (event, settings, instance) => {
+    const element = event.target;
+    setStatus(element, statusLoaded);
+    removeClass(element, settings.class_loading);
+    addClass(element, settings.class_loaded);
+    safeCallback(settings.callback_loaded, element, instance);
+    if (instance) decreaseLoadingCount(settings, instance);
+};
+
+const errorHandler = (event, settings, instance) => {
+    const element = event.target;
+    setStatus(element, statusError);
+    removeClass(element, settings.class_loading);
+    addClass(element, settings.class_error);
+    safeCallback(settings.callback_error, element, instance);
+    if (instance) decreaseLoadingCount(settings, instance);
 };
 
 export const addOneShotEventListeners = (element, settings, instance) => {
-    const loadHandler = event => {
-        eventHandler(event, true, settings, instance);
-        removeEventListeners(element, loadHandler, errorHandler);
+    const _loadHandler = event => {
+        loadHandler(event, settings, instance);
+        removeEventListeners(element, _loadHandler, _errorHandler);
     };
-    const errorHandler = event => {
-        eventHandler(event, false, settings, instance);
-        removeEventListeners(element, loadHandler, errorHandler);
+    const _errorHandler = event => {
+        errorHandler(event, settings, instance);
+        removeEventListeners(element, _loadHandler, _errorHandler);
     };
-    addEventListeners(element, loadHandler, errorHandler);
+    addEventListeners(element, _loadHandler, _errorHandler);
 };
