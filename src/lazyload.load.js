@@ -30,10 +30,7 @@ export const load = (element, settings, instance) => {
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
     /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
-    if (!instance) {
-        return; // Exit when called from static method
-    }
-    unobserve(element, instance);
+    if (instance) unobserve(element, instance);
 };
 
 export const loadNative = (element, settings, instance) => {
