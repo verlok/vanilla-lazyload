@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## Version 14
+
+#### 14.0.0
+
+Major refactoring and performance improvement!
+File size stays tiny: 2.07 KB gZipped
+
+**Settings**
+
+-   `callback_loading` is called when an element started loading
+-   `callback_reveal` is now _DEPRECATED_, use `callback_loading` instead. It's the same thing, it was just renamed. `callback_revealed` will be removed and will stop working in version 15.
+
+**API**
+
+-   `update()` method now also unobserves deleted elements, instead of just looking for and observing new elements
+-   `load()` method made static, so now you can do `LazyLoad.load(element, settings)` instead of `aLazyLoadInstance.load(element)`, which meant you needed a reference to a lazyload instance. If you need to use settings different than the default, you need to pass your `settings` directly to the `load` method.
+-   `destroy()` destroys even better than it did before, `delete`ing properties instead of setting their values to `null`
+-   New `toLoadCount` public property with the count of the number of elements still to load
+
+**DOM**
+
+-   Removed the `data-was-processed` attribute, that was added to mark lazy DOM elements as "already managed"
+-   The `data-ll-status` is now used to mark the status of a lazy DOM element. The values it can take are `observing`, `loading`, `loaded`, `error`, `native` and they are detailed in the [readme file](README.md).
+-
+
 ## Version 13
 
 #### 13.0.1
