@@ -12,6 +12,11 @@ const decreaseLoadingCount = (settings, instance) => {
     checkFinish(settings, instance);
 };
 
+export const checkFinish = (settings, instance) => {
+    if (instance.toLoadCount || instance.loadingCount) return;
+    safeCallback(settings.callback_finish, instance);
+};
+
 const addEventListener = (element, eventName, handler) => {
     element.addEventListener(eventName, handler);
 };

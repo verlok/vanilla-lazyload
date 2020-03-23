@@ -1,16 +1,11 @@
 import { setSources } from "./lazyload.setSources";
 import { setStatus } from "./lazyload.data";
-import { addOneShotEventListeners } from "./lazyload.event";
+import { addOneShotEventListeners, checkFinish } from "./lazyload.event";
 import { addClass } from "./lazyload.class";
 import { safeCallback } from "./lazyload.callback";
 import { statusLoading, statusNative } from "./lazyload.elementStatus";
 
 const manageableTags = ["IMG", "IFRAME", "VIDEO"];
-
-export const checkFinish = (settings, instance) => {
-    if (instance.toLoadCount || instance.loadingCount) return;
-    safeCallback(settings.callback_finish, instance);
-};
 
 export const decreaseToLoadCount = (settings, instance) => {
     if (instance) instance.toLoadCount -= 1;
