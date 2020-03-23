@@ -1,12 +1,7 @@
 import { getExtendedSettings } from "./lazyload.defaults";
 import { autoInitialize } from "./lazyload.autoInitialize";
 import { load } from "./lazyload.load";
-import {
-    setObserver,
-    observeElements,
-    resetObserver,
-    updateObserver
-} from "./lazyload.intersectionObserver";
+import { setObserver, updateObserver } from "./lazyload.intersectionObserver";
 import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./lazyload.environment";
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
