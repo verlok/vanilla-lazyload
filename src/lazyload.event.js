@@ -7,6 +7,11 @@ const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
 const errorEventName = "error";
 
+const decreaseLoadingCount = (settings, instance) => {
+    instance.loadingCount -= 1;
+    checkFinish(settings, instance);
+};
+
 const addEventListener = (element, eventName, handler) => {
     element.addEventListener(eventName, handler);
 };
@@ -25,12 +30,6 @@ const removeEventListeners = (element, loadHandler, errorHandler) => {
     removeEventListener(element, genericLoadEventName, loadHandler);
     removeEventListener(element, mediaLoadEventName, loadHandler);
     removeEventListener(element, errorEventName, errorHandler);
-};
-
-const decreaseLoadingCount = (settings, instance) => {
-    instance.loadingCount -= 1;
-    if (instance.toLoadCount || instance.loadingCount) return;
-    safeCallback(settings.callback_finish, instance);
 };
 
 const loadHandler = (event, settings, instance) => {

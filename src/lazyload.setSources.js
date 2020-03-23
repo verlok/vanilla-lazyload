@@ -1,5 +1,9 @@
 import { getData } from "./lazyload.data";
 
+export const increaseLoadingCount = instance => {
+    if (instance) instance.loadingCount += 1;
+};
+
 export const getSourceTags = parentTag => {
     let sourceTags = [];
     for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
@@ -72,14 +76,10 @@ const setSourcesFunctions = {
 export const setSources = (element, settings, instance) => {
     const tagName = element.tagName;
     const setSourcesFunction = setSourcesFunctions[tagName];
-    if (!setSourcesFunction) {
+    if (setSourcesFunction) {
+        setSourcesFunction(element, settings);
+        increaseLoadingCount(instance);
+    } else {
         setSourcesBgImage(element, settings);
-        return;
     }
-    setSourcesFunction(element, settings);
-    if (!instance) {
-        return; // Exit when called from static method
-    }
-    instance.loadingCount += 1;
-    instance.toLoadCount -= 1;
 };
