@@ -2,11 +2,11 @@
 
 ## Code
 
--   TODO: Refactor eventHandler to 2 functions: loadhandler and errorHandler
--   Test performance of any demo, especially the listeners number
+-   Reflect what is resumed in CHANGELOG in the README file
 
 ## Test
 
+-   Rewrite tests from scratch
 -   Test native `img`, native `iframe`, alone or in conjunction with `video`s.
 
 Test more modules
