@@ -249,7 +249,7 @@ SEO! Version 10.x is now as SEO-friendly as version 8.x.
 
 #### 10.10.0
 
-Added a public `load` method to force loading any element.
+Added a public `load` method to lazyload any element.
 
 #### 10.9.0
 
@@ -258,7 +258,7 @@ See the [README](README.md) file for more information.
 
 #### 10.8.0
 
-Added a public `loadAll` method to force loading all the images, as asked in #193.
+Added a public `loadAll` method to loading all the images at once, as asked in #193.
 
 #### 10.7.0
 
@@ -401,7 +401,7 @@ SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.
 
 #### 8.11.0
 
-Added a public `load` method to force loading any element.
+Added a public `load` method to lazyload any element.
 
 #### 8.10.0
 
@@ -410,7 +410,7 @@ See the [README](README.md) file for more information.
 
 #### 8.9.0
 
-Added a public `loadAll` method to force loading all the images, as asked in #193.
+Added a public `loadAll` method to load all the images, as asked in #193.
 
 #### 8.8.0
 
