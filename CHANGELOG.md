@@ -10,20 +10,26 @@ File size stays tiny: 2.07 KB gZipped
 **Settings**
 
 -   `callback_loading` is called when an element started loading
--   `callback_reveal` is now _DEPRECATED_, use `callback_loading` instead. It's the same thing, it was just renamed. `callback_revealed` will be removed and will stop working in version 15.
+-   `callback_reveal` is now **⚠ DEPRECATED, use `callback_loading` instead**. It's the same thing, it was just renamed. `callback_revealed` will be removed and will stop working in version 15.
 
-**API**
+**Instance methods**
 
 -   `update()` method now also unobserves deleted elements, instead of just looking for and observing new elements
--   `load()` method made static, so now you can do `LazyLoad.load(element, settings)` instead of `aLazyLoadInstance.load(element)`, which meant you needed a reference to a lazyload instance. If you need to use settings different than the default, you need to pass your `settings` directly to the `load` method.
 -   `destroy()` destroys even better than it did before, `delete`ing properties instead of setting their values to `null`
--   New `toLoadCount` public property with the count of the number of elements still to load
+-   `load()` method (as an instance method) is now **⚠ DEPRECATED, use the static method instead**. If you were using `aLazyLoadInstance.load(element)` you should change it to `LazyLoad.load(element, settings)`.
+
+**Static methods**
+
+-   `load()` was added as a static method. Note that if you need to use custom settings, you need to pass them in the `settings` parameter.
+
+**Instance properties**
+
+-   Added `toLoadCount`. It's the counter of the elements that haven't been lazyloaded yet.
 
 **DOM**
 
 -   Removed the `data-was-processed` attribute, that was added to mark lazy DOM elements as "already managed"
--   The `data-ll-status` is now used to mark the status of a lazy DOM element. The values it can take are `observing`, `loading`, `loaded`, `error`, `native` and they are detailed in the [readme file](README.md).
--
+-   The `data-ll-status` is now used to mark the status of a lazy DOM element. The values of it are: `observing` (not loaded yet), `loading` (loading started), `loaded` (load completed), `error` (an error has occured), `native` (similar to `observing`, but managed by native lazy loading).
 
 ## Version 13
 
