@@ -1,9 +1,5 @@
 # TODO
 
-## Code
-
--   Reflect what is resumed in CHANGELOG in the README file
-
 ## Test
 
 -   Rewrite tests from scratch
@@ -14,3 +10,7 @@ Test more modules
 -   [ ] autoinitialize
 -   [ ] purge
 -   [ ] reveal
+
+## Ideas for next versions
+
+-   Should I add a `resetStatus` method (static for a single image, not static to affect all the lazy images) to help whose just update the data-src attributes and want to lazy load again?
