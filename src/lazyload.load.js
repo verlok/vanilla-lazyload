@@ -27,7 +27,7 @@ export const enableLoading = (element, settings, instance) => {
         addClass(element, settings.class_loading);
     }
     setSources(element, settings, instance);
-    decreaseToLoadCount(settings, instance);
+    if (instance) decreaseToLoadCount(settings, instance);
 };
 
 export const load = (element, settings, instance) => {
