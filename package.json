@@ -20,7 +20,8 @@
     "scripts": {
         "build": "rollup -c",
         "dev": "rollup -c --watch",
-        "test": "jest"
+        "test": "jest",
+        "devtest": "jest --watch"
     },
     "files": [
         "dist",
