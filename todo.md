@@ -2,7 +2,7 @@
 
 ## Test
 
--   Rewrite tests from scratch
+-   Test more modules and functions, coverage!!!
 -   Test native `img`, native `iframe`, alone or in conjunction with `video`s.
 
 Test more modules
