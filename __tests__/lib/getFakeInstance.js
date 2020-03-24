@@ -1,9 +1,6 @@
-import { getExtendedSettings } from "../../src/lazyload.defaults";
-
-export default customSettings => {
+export default () => {
     return {
-        _elements: [],
-        _settings: getExtendedSettings(customSettings),
-        loadingCount: 0
+        loadingCount: 0,
+        toLoadCount: 0
     };
 };
