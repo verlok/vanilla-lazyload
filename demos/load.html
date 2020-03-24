@@ -389,6 +389,7 @@
                 if (!!lazyImg.getAttribute("data-ll-status")) {
                     return;
                 }
+                // page_ll.load(lazyImg); STILL WORKS, BUT DEPRECATED
                 LazyLoad.load(lazyImg, options);
             }
 
