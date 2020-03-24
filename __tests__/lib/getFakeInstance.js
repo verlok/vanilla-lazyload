@@ -1,9 +1,9 @@
-import { getInstanceSettings } from "../../src/lazyload.defaults";
+import { getExtendedSettings } from "../../src/lazyload.defaults";
 
 export default customSettings => {
     return {
         _elements: [],
-        _settings: getInstanceSettings(customSettings),
+        _settings: getExtendedSettings(customSettings),
         loadingCount: 0
     };
 };
