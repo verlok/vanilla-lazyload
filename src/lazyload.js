@@ -10,9 +10,7 @@ import { getElementsToLoad } from "./lazyload.dom";
 const LazyLoad = function(customSettings, elements) {
     this._settings = getExtendedSettings(customSettings);
     this.loadingCount = 0;
-    if (!shouldUseNative(this._settings)) {
-        setObserver(this);
-    }
+    setObserver(this);
     setOnlineCheck(this);
     this.update(elements);
 };

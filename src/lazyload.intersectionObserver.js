@@ -2,7 +2,7 @@ import { supportsIntersectionObserver } from "./lazyload.environment";
 import { onEnter, onExit } from "./lazyload.intersectionHandlers";
 import { setStatus } from "./lazyload.data";
 import { statusObserved } from "./lazyload.elementStatus";
-import { toArray } from "./lazyload.dom";
+import { shouldUseNative } from "./lazyload.native";
 
 export const isIntersecting = entry => entry.isIntersecting || entry.intersectionRatio > 0;
 
@@ -28,8 +28,8 @@ export const updateObserver = (observer, elementsToObserve) => {
 };
 
 export const setObserver = instance => {
-    if (!supportsIntersectionObserver) {
-        return false;
+    if (!supportsIntersectionObserver || shouldUseNative(instance._settings)) {
+        return;
     }
     instance._observer = new IntersectionObserver(entries => {
         entries.forEach(entry =>
@@ -38,5 +38,4 @@ export const setObserver = instance => {
                 : onExit(entry.target, entry, instance)
         );
     }, getObserverSettings(instance._settings));
-    return true;
 };

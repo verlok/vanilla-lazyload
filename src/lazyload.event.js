@@ -7,7 +7,8 @@ const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
 const errorEventName = "error";
 
-const decreaseLoadingCount = (settings, instance) => {
+export const decreaseLoadingCount = (settings, instance) => {
+    if (!instance) return;
     instance.loadingCount -= 1;
     checkFinish(settings, instance);
 };
@@ -17,42 +18,42 @@ export const checkFinish = (settings, instance) => {
     safeCallback(settings.callback_finish, instance);
 };
 
-const addEventListener = (element, eventName, handler) => {
+export const addEventListener = (element, eventName, handler) => {
     element.addEventListener(eventName, handler);
 };
 
-const removeEventListener = (element, eventName, handler) => {
+export const removeEventListener = (element, eventName, handler) => {
     element.removeEventListener(eventName, handler);
 };
 
-const addEventListeners = (element, loadHandler, errorHandler) => {
+export const addEventListeners = (element, loadHandler, errorHandler) => {
     addEventListener(element, genericLoadEventName, loadHandler);
     addEventListener(element, mediaLoadEventName, loadHandler);
     addEventListener(element, errorEventName, errorHandler);
 };
 
-const removeEventListeners = (element, loadHandler, errorHandler) => {
+export const removeEventListeners = (element, loadHandler, errorHandler) => {
     removeEventListener(element, genericLoadEventName, loadHandler);
     removeEventListener(element, mediaLoadEventName, loadHandler);
     removeEventListener(element, errorEventName, errorHandler);
 };
 
-const loadHandler = (event, settings, instance) => {
+export const loadHandler = (event, settings, instance) => {
     const element = event.target;
     setStatus(element, statusLoaded);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_loaded);
     safeCallback(settings.callback_loaded, element, instance);
-    if (instance) decreaseLoadingCount(settings, instance);
+    decreaseLoadingCount(settings, instance);
 };
 
-const errorHandler = (event, settings, instance) => {
+export const errorHandler = (event, settings, instance) => {
     const element = event.target;
     setStatus(element, statusError);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_error);
     safeCallback(settings.callback_error, element, instance);
-    if (instance) decreaseLoadingCount(settings, instance);
+    decreaseLoadingCount(settings, instance);
 };
 
 export const addOneShotEventListeners = (element, settings, instance) => {

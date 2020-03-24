@@ -1,7 +1,8 @@
 import { getData } from "./lazyload.data";
 
 export const increaseLoadingCount = instance => {
-    if (instance) instance.loadingCount += 1;
+    if (!instance) return;
+    instance.loadingCount += 1;
 };
 
 export const getSourceTags = parentTag => {
