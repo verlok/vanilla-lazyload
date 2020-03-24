@@ -1,5 +1,9 @@
 import { getData } from "./lazyload.data";
-import { purgeOneElement } from "./lazyload.purge";
+
+export const increaseLoadingCount = instance => {
+    if (!instance) return;
+    instance.loadingCount += 1;
+};
 
 export const getSourceTags = parentTag => {
     let sourceTags = [];
@@ -70,15 +74,13 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-export const setSources = (element, instance) => {
-    const settings = instance._settings;
+export const setSources = (element, settings, instance) => {
     const tagName = element.tagName;
     const setSourcesFunction = setSourcesFunctions[tagName];
     if (setSourcesFunction) {
         setSourcesFunction(element, settings);
-        instance.loadingCount += 1;
-        instance._elements = purgeOneElement(instance._elements, element);
-        return;
+        increaseLoadingCount(instance);
+    } else {
+        setSourcesBgImage(element, settings);
     }
-    setSourcesBgImage(element, settings);
 };

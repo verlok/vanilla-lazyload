@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## Version 14
+
+#### 14.0.0
+
+Major refactoring and performance improvement!
+File size stays tiny: only 2.07 KB gZipped
+
+**Settings**
+
+-   `callback_loading` is called when an element started loading
+-   `callback_reveal` is now **⚠ DEPRECATED, use `callback_loading` instead** (it's the same thing, it was just renamed). `callback_reveal` will be removed and will stop working in version 15.
+
+**Instance methods**
+
+-   `update()` method now **also unobserves deleted elements**, instead of just looking for and observing new elements
+-   `destroy()` **destroys better** than it did before, `delete`-ing properties instead of setting their values to `null`
+-   `load()` method (as an instance method) is now **⚠ DEPRECATED, use the static method instead**. If you were using `aLazyLoadInstance.load(element)` you should change it to `LazyLoad.load(element, settings)`.
+
+**Static methods**
+
+-   `load()` was added as a static method. Note that if you need to use custom settings, you need to pass them in the `settings` parameter.
+
+**Instance properties**
+
+-   Added `toLoadCount`. It's the counter of the elements that haven't been lazyloaded yet.
+
+**DOM**
+
+-   Removed the `data-was-processed` attribute, that was added to mark lazy DOM elements as "already managed". If you were manually handling that attribute to obtain some goal, this is a potentially breaking change. You should now refer to the `data-ll-status` instead.
+-   Added the `data-ll-status` attribute, which is now used to mark the status of a lazy DOM element. The values it can take are: `observing` (not loaded yet), `loading` (loading started), `loaded` (load completed), `error` (an error has occured), `native` (similar to `observing`, but managed by native lazy loading).
+
 ## Version 13
 
 #### 13.0.1
@@ -224,7 +255,7 @@ SEO! Version 10.x is now as SEO-friendly as version 8.x.
 
 #### 10.10.0
 
-Added a public `load` method to force loading any element.
+Added a public `load` method to lazyload any element.
 
 #### 10.9.0
 
@@ -233,7 +264,7 @@ See the [README](README.md) file for more information.
 
 #### 10.8.0
 
-Added a public `loadAll` method to force loading all the images, as asked in #193.
+Added a public `loadAll` method to loading all the images at once, as asked in #193.
 
 #### 10.7.0
 
@@ -376,7 +407,7 @@ SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.
 
 #### 8.11.0
 
-Added a public `load` method to force loading any element.
+Added a public `load` method to lazyload any element.
 
 #### 8.10.0
 
@@ -385,7 +416,7 @@ See the [README](README.md) file for more information.
 
 #### 8.9.0
 
-Added a public `loadAll` method to force loading all the images, as asked in #193.
+Added a public `loadAll` method to load all the images, as asked in #193.
 
 #### 8.8.0
 

@@ -1,14 +1,14 @@
 import { runningOnBrowser } from "./lazyload.environment";
-import { resetWasProcessedData } from "./lazyload.data";
+import { resetStatus } from "./lazyload.data";
 import { removeClass } from "./lazyload.class";
-import { nodeSetToArray } from "./lazyload.dom";
+import { queryElements, filterErrorElements } from "./lazyload.dom";
 
 export const retryLazyLoad = instance => {
-    var settings = instance._settings;
-    var errorElements = settings.container.querySelectorAll("." + settings.class_error);
-    nodeSetToArray(errorElements).forEach(element => {
+    const settings = instance._settings;
+    const errorElements = filterErrorElements(queryElements(settings));
+    errorElements.forEach(element => {
         removeClass(element, settings.class_error);
-        resetWasProcessedData(element);
+        resetStatus(element);
     });
     instance.update();
 };

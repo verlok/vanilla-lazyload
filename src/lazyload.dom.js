@@ -1,8 +1,15 @@
-import { purgeProcessedElements } from "./lazyload.purge";
+import { hasAnyStatus, hasStatusObserved, hasStatusError } from "./lazyload.data";
 
-const queryElements = settings => settings.container.querySelectorAll(settings.elements_selector);
+export const toArray = nodeSet => Array.prototype.slice.call(nodeSet);
 
-export const nodeSetToArray = nodeSet => Array.prototype.slice.call(nodeSet);
+export const queryElements = settings =>
+    settings.container.querySelectorAll(settings.elements_selector);
 
-export const getElements = (elements, settings) =>
-    purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
+export const isToManage = element => !hasAnyStatus(element) || hasStatusObserved(element);
+export const excludeManagedElements = elements => toArray(elements).filter(isToManage);
+
+export const hasError = element => hasStatusError(element);
+export const filterErrorElements = elements => toArray(elements).filter(hasError);
+
+export const getElementsToLoad = (elements, settings) =>
+    excludeManagedElements(elements || queryElements(settings));

@@ -1,55 +1,69 @@
 import { addClass, removeClass } from "./lazyload.class";
 import { safeCallback } from "./lazyload.callback";
+import { setStatus } from "./lazyload.data";
+import { statusLoaded, statusError } from "./lazyload.elementStatus";
 
 const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
 const errorEventName = "error";
 
-const addEventListener = (element, eventName, handler) => {
+export const decreaseLoadingCount = (settings, instance) => {
+    if (!instance) return;
+    instance.loadingCount -= 1;
+    checkFinish(settings, instance);
+};
+
+export const checkFinish = (settings, instance) => {
+    if (instance.toLoadCount || instance.loadingCount) return;
+    safeCallback(settings.callback_finish, instance);
+};
+
+export const addEventListener = (element, eventName, handler) => {
     element.addEventListener(eventName, handler);
 };
 
-const removeEventListener = (element, eventName, handler) => {
+export const removeEventListener = (element, eventName, handler) => {
     element.removeEventListener(eventName, handler);
 };
 
-const addEventListeners = (element, loadHandler, errorHandler) => {
+export const addEventListeners = (element, loadHandler, errorHandler) => {
     addEventListener(element, genericLoadEventName, loadHandler);
     addEventListener(element, mediaLoadEventName, loadHandler);
     addEventListener(element, errorEventName, errorHandler);
 };
 
-const removeEventListeners = (element, loadHandler, errorHandler) => {
+export const removeEventListeners = (element, loadHandler, errorHandler) => {
     removeEventListener(element, genericLoadEventName, loadHandler);
     removeEventListener(element, mediaLoadEventName, loadHandler);
     removeEventListener(element, errorEventName, errorHandler);
 };
 
-const eventHandler = function(event, success, instance) {
-    var settings = instance._settings;
-    const className = success ? settings.class_loaded : settings.class_error;
-    const callback = success ? settings.callback_loaded : settings.callback_error;
+export const loadHandler = (event, settings, instance) => {
     const element = event.target;
-
+    setStatus(element, statusLoaded);
     removeClass(element, settings.class_loading);
-    addClass(element, className);
-    safeCallback(callback, element, instance);
-
-    instance.loadingCount -= 1;
-
-    if (instance._elements.length === 0 && instance.loadingCount === 0) {
-        safeCallback(settings.callback_finish, instance);
-    }
+    addClass(element, settings.class_loaded);
+    safeCallback(settings.callback_loaded, element, instance);
+    decreaseLoadingCount(settings, instance);
 };
 
-export const addOneShotEventListeners = (element, instance) => {
-    const loadHandler = event => {
-        eventHandler(event, true, instance);
-        removeEventListeners(element, loadHandler, errorHandler);
+export const errorHandler = (event, settings, instance) => {
+    const element = event.target;
+    setStatus(element, statusError);
+    removeClass(element, settings.class_loading);
+    addClass(element, settings.class_error);
+    safeCallback(settings.callback_error, element, instance);
+    decreaseLoadingCount(settings, instance);
+};
+
+export const addOneShotEventListeners = (element, settings, instance) => {
+    const _loadHandler = event => {
+        loadHandler(event, settings, instance);
+        removeEventListeners(element, _loadHandler, _errorHandler);
     };
-    const errorHandler = event => {
-        eventHandler(event, false, instance);
-        removeEventListeners(element, loadHandler, errorHandler);
+    const _errorHandler = event => {
+        errorHandler(event, settings, instance);
+        removeEventListeners(element, _loadHandler, _errorHandler);
     };
-    addEventListeners(element, loadHandler, errorHandler);
+    addEventListeners(element, _loadHandler, _errorHandler);
 };
