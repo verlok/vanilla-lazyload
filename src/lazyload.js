@@ -50,6 +50,11 @@ LazyLoad.prototype = {
         elementsToLoad.forEach(element => {
             load(element, settings, this);
         });
+    },
+
+    load: function(element) {
+        /* DEPRECATED, REMOVE IN V.15 */
+        load(element, this._settings, this);
     }
 };
 
