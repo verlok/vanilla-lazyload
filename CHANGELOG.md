@@ -4,8 +4,8 @@
 
 #### 14.0.0
 
-Major refactoring and performance improvement!
-File size stays tiny: only 2.07 KB gZipped
+🎉 **Major refactoring and performance improvement!**
+🔍 File size stays tiny: only 2.07 KB gZipped
 
 **Settings**
 
