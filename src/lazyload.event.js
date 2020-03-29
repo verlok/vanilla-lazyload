@@ -43,19 +43,19 @@ export const removeEventListeners = (element, loadHandler, errorHandler) => {
 };
 
 export const loadHandler = (event, element, settings, instance) => {
-    setStatus(element, statusLoaded);
+    decreaseLoadingCount(settings, instance);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_loaded);
+    setStatus(element, statusLoaded);
     safeCallback(settings.callback_loaded, element, instance);
-    decreaseLoadingCount(settings, instance);
 };
 
 export const errorHandler = (event, element, settings, instance) => {
-    setStatus(element, statusError);
+    decreaseLoadingCount(settings, instance);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_error);
+    setStatus(element, statusError);
     safeCallback(settings.callback_error, element, instance);
-    decreaseLoadingCount(settings, instance);
 };
 
 export const addOneShotEventListeners = (element, accessoryImg, settings, instance) => {

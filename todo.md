@@ -1,9 +1,13 @@
 # TODO
 
+## In progress
+
+-   Check if the double step load->setSources is still necessary
+-   Check if `accessoryImage` can be dealt without passing variables along but assigning a custom property to `element`
+-   Release everything as v15
+
 ## What's next
 
--   Check that order is always: 0) inc/decrease loading count, 1) add class, 2) set status, 3) call callback
--   Check if the double step load->setSources is still necessary
 -   Add `data-bg-2x` support
 -   Should I add a `resetStatus` method (static for a single image, not static to affect all the lazy images) to help whose just update the data-src attributes and want to lazy load again?
 
