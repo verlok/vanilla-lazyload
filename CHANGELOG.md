@@ -2,6 +2,10 @@
 
 ## Version 14
 
+#### 14.0.1
+
+-   Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427
+
 #### 14.0.0
 
 🎉 **Major refactoring and performance improvement!**
