@@ -1,7 +1,6 @@
 import { setSources } from "./lazyload.setSources";
-import { setStatus, getData } from "./lazyload.data";
-import { addOneShotEventListeners, checkFinish } from "./lazyload.event";
-import { safeCallback } from "./lazyload.callback";
+import { setStatus } from "./lazyload.data";
+import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./lazyload.event";
 import { statusNative } from "./lazyload.elementStatus";
 import { addClass } from "./lazyload.class";
 
@@ -19,10 +18,6 @@ export const unobserve = (element, instance) => {
     }
 };
 
-const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
-
-export const hasLoadEvent = element => elementsWithLoadEvent.indexOf(element.tagName) > -1;
-
 export const defineAccessoryImage = element =>
     hasLoadEvent(element) ? null : document.createElement("img");
 
@@ -37,9 +32,6 @@ export const enableLoading = (element, settings, instance) => {
 
 export const load = (element, settings, instance) => {
     enableLoading(element, settings, instance);
-    // TODO: MOVE CALLBACK:LOADING INSIDE SET SOURCES, SO I CAN CREATE CALLBACK_APPLIED
-    safeCallback(settings.callback_loading, element, instance);
-    /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
     unobserve(element, instance);
 };
 
