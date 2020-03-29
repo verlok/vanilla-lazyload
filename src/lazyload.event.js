@@ -38,8 +38,7 @@ export const removeEventListeners = (element, loadHandler, errorHandler) => {
     removeEventListener(element, errorEventName, errorHandler);
 };
 
-export const loadHandler = (event, settings, instance) => {
-    const element = event.target;
+export const loadHandler = (event, element, settings, instance) => {
     setStatus(element, statusLoaded);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_loaded);
@@ -47,8 +46,7 @@ export const loadHandler = (event, settings, instance) => {
     decreaseLoadingCount(settings, instance);
 };
 
-export const errorHandler = (event, settings, instance) => {
-    const element = event.target;
+export const errorHandler = (event, element, settings, instance) => {
     setStatus(element, statusError);
     removeClass(element, settings.class_loading);
     addClass(element, settings.class_error);
@@ -56,14 +54,17 @@ export const errorHandler = (event, settings, instance) => {
     decreaseLoadingCount(settings, instance);
 };
 
-export const addOneShotEventListeners = (element, settings, instance) => {
+export const addOneShotEventListeners = (element, accessoryImg, settings, instance) => {
+    const elementToListenTo = accessoryImg || element;
+
     const _loadHandler = event => {
-        loadHandler(event, settings, instance);
-        removeEventListeners(element, _loadHandler, _errorHandler);
+        loadHandler(event, element, settings, instance);
+        removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
     };
     const _errorHandler = event => {
-        errorHandler(event, settings, instance);
-        removeEventListeners(element, _loadHandler, _errorHandler);
+        errorHandler(event, element, settings, instance);
+        removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
     };
-    addEventListeners(element, _loadHandler, _errorHandler);
+
+    addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
 };

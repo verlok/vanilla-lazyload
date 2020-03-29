@@ -1,11 +1,9 @@
 import { setSources } from "./lazyload.setSources";
-import { setStatus } from "./lazyload.data";
+import { setStatus, getData } from "./lazyload.data";
 import { addOneShotEventListeners, checkFinish } from "./lazyload.event";
-import { addClass } from "./lazyload.class";
 import { safeCallback } from "./lazyload.callback";
-import { statusLoading, statusNative } from "./lazyload.elementStatus";
-
-const manageableTags = ["IMG", "IFRAME", "VIDEO"];
+import { statusNative } from "./lazyload.elementStatus";
+import { addClass } from "./lazyload.class";
 
 export const decreaseToLoadCount = (settings, instance) => {
     if (!instance) return;
@@ -21,20 +19,25 @@ export const unobserve = (element, instance) => {
     }
 };
 
-export const isManageableTag = element => manageableTags.indexOf(element.tagName) > -1;
+const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
+
+export const hasLoadEvent = element => elementsWithLoadEvent.indexOf(element.tagName) > -1;
+
+export const defineAccessoryImage = element =>
+    hasLoadEvent(element) ? null : document.createElement("img");
 
 export const enableLoading = (element, settings, instance) => {
-    if (isManageableTag(element)) {
-        addOneShotEventListeners(element, settings, instance);
-        addClass(element, settings.class_loading);
-    }
-    setSources(element, settings, instance);
+    const accessoryImg = defineAccessoryImage(element);
+    addOneShotEventListeners(element, accessoryImg, settings, instance);
+    setSources(element, accessoryImg, settings, instance);
+    // TODO: MOVE ADDCLASS:LOADING INSIDE SET SOURCES, SO I CAN CREATE CLASS_APPLIED
+    addClass(element, settings.class_loading);
     decreaseToLoadCount(settings, instance);
 };
 
 export const load = (element, settings, instance) => {
     enableLoading(element, settings, instance);
-    setStatus(element, statusLoading);
+    // TODO: MOVE CALLBACK:LOADING INSIDE SET SOURCES, SO I CAN CREATE CALLBACK_APPLIED
     safeCallback(settings.callback_loading, element, instance);
     /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
     unobserve(element, instance);

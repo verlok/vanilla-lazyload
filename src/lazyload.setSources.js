@@ -1,4 +1,5 @@
-import { getData } from "./lazyload.data";
+import { getData, setStatus } from "./lazyload.data";
+import { statusLoading, statusApplied } from "./lazyload.elementStatus";
 
 export const increaseLoadingCount = instance => {
     if (!instance) return;
@@ -55,17 +56,22 @@ export const setSourcesVideo = (element, settings) => {
     element.load();
 };
 
-export const setSourcesBgImage = (element, settings) => {
+export const setSourcesBgFromDataSrc = (element, accessoryImg, settings, instance) => {
     const srcDataValue = getData(element, settings.data_src);
+    if (!srcDataValue) return;
+    element.style.backgroundImage = `url("${srcDataValue}")`;
+    accessoryImg.setAttribute("src", srcDataValue);
+    setStatus(element, statusLoading);
+    increaseLoadingCount(instance);
+};
+
+// NOTE: THE ACCESSORY IMAGE TRICK CANNOT BE DONE WITH data-bg
+// BECAUSE INSIDE ITS VALUE THERE COULD BE 0, 1 or MULTIPLE IMAGES
+export const setSourcesBgFromDataBg = (element, settings) => {
     const bgDataValue = getData(element, settings.data_bg);
-
-    if (srcDataValue) {
-        element.style.backgroundImage = `url("${srcDataValue}")`;
-    }
-
-    if (bgDataValue) {
-        element.style.backgroundImage = bgDataValue;
-    }
+    if (!bgDataValue) return;
+    element.style.backgroundImage = bgDataValue;
+    setStatus(element, statusApplied);
 };
 
 const setSourcesFunctions = {
@@ -74,13 +80,14 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-export const setSources = (element, settings, instance) => {
+export const setSources = (element, accessoryImg, settings, instance) => {
     const tagName = element.tagName;
     const setSourcesFunction = setSourcesFunctions[tagName];
     if (setSourcesFunction) {
         setSourcesFunction(element, settings);
         increaseLoadingCount(instance);
     } else {
-        setSourcesBgImage(element, settings);
+        setSourcesBgFromDataSrc(element, accessoryImg, settings, instance);
+        setSourcesBgFromDataBg(element, settings);
     }
 };
