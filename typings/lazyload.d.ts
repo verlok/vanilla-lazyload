@@ -32,7 +32,3 @@ interface ILazyLoad {
 }
 declare var LazyLoad: ILazyLoad;
 export default LazyLoad;
-
-if (this._observer) {
-    this._observer.disconnect();
-}
