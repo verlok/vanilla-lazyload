@@ -2,6 +2,7 @@ import { getData, setStatus } from "./lazyload.data";
 import { statusLoading, statusApplied } from "./lazyload.elementStatus";
 import { hasLoadEvent } from "./lazyload.event";
 import { safeCallback } from "./lazyload.callback";
+import { addClass } from "./lazyload.class";
 
 export const increaseLoadingCount = instance => {
     if (!instance) return;
@@ -70,6 +71,7 @@ export const setSourcesElementsWithLoad = (element, settings, instance) => {
     setSourcesFunction(element, settings);
     // Annotate and notify loading
     increaseLoadingCount(instance);
+    addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
@@ -82,6 +84,7 @@ export const setBackgroundFromDataSrc = (element, accessoryImg, settings, instan
     accessoryImg.setAttribute("src", srcDataValue);
     // Annotate and notify loading
     increaseLoadingCount(instance);
+    addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
@@ -93,6 +96,7 @@ export const setBackgroundFromDataBg = (element, settings, instance) => {
     const bgDataValue = getData(element, settings.data_bg);
     if (!bgDataValue) return;
     element.style.backgroundImage = bgDataValue;
+    addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
     safeCallback(settings.callback_applied, element, instance);
 };

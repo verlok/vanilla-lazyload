@@ -10,6 +10,7 @@ const defaultSettings = {
     data_sizes: "sizes",
     data_bg: "bg",
     data_poster: "poster",
+    class_applied: "applied",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",

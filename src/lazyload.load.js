@@ -2,7 +2,6 @@ import { setSources } from "./lazyload.setSources";
 import { setStatus } from "./lazyload.data";
 import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./lazyload.event";
 import { statusNative } from "./lazyload.elementStatus";
-import { addClass } from "./lazyload.class";
 
 export const decreaseToLoadCount = (settings, instance) => {
     if (!instance) return;
@@ -25,8 +24,6 @@ export const enableLoading = (element, settings, instance) => {
     const accessoryImg = defineAccessoryImage(element);
     addOneShotEventListeners(element, accessoryImg, settings, instance);
     setSources(element, accessoryImg, settings, instance);
-    // TODO: MOVE ADDCLASS:LOADING INSIDE SET SOURCES, SO I CAN CREATE CLASS_APPLIED
-    addClass(element, settings.class_loading);
     decreaseToLoadCount(settings, instance);
 };
 
