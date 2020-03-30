@@ -18,7 +18,7 @@ export const decreaseLoadingCount = (settings, instance) => {
 };
 
 export const checkFinish = (settings, instance) => {
-    if (instance.toLoadCount || instance.loadingCount) return;
+    if (!instance || instance.toLoadCount || instance.loadingCount) return;
     safeCallback(settings.callback_finish, instance);
 };
 
