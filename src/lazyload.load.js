@@ -1,16 +1,16 @@
-import { setSources } from "./lazyload.setSources";
+import {
+    setSources,
+    setBackgroundFromDataSrc,
+    setBackgroundFromDataBg
+} from "./lazyload.setSources";
 import { setStatus } from "./lazyload.data";
-import { addOneShotEventListeners, checkFinish } from "./lazyload.event";
-import { addClass } from "./lazyload.class";
-import { safeCallback } from "./lazyload.callback";
-import { statusLoading, statusNative } from "./lazyload.elementStatus";
-
-const manageableTags = ["IMG", "IFRAME", "VIDEO"];
+import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./lazyload.event";
+import { statusNative } from "./lazyload.elementStatus";
+import { addTempImage } from "./lazyload.tempImage";
 
 export const decreaseToLoadCount = (settings, instance) => {
     if (!instance) return;
     instance.toLoadCount -= 1;
-    checkFinish(settings, instance);
 };
 
 export const unobserve = (element, instance) => {
@@ -21,26 +21,33 @@ export const unobserve = (element, instance) => {
     }
 };
 
-export const isManageableTag = element => manageableTags.indexOf(element.tagName) > -1;
+const loadWithTempImage = (element, settings, instance) => {
+    addTempImage(element);
+    addOneShotEventListeners(element, settings, instance);
+    setBackgroundFromDataSrc(element, settings, instance);
+    setBackgroundFromDataBg(element, settings, instance);
+};
 
-export const enableLoading = (element, settings, instance) => {
-    if (isManageableTag(element)) {
-        addOneShotEventListeners(element, settings, instance);
-        addClass(element, settings.class_loading);
-    }
+const loadRegular = (element, settings, instance) => {
+    addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
-    decreaseToLoadCount(settings, instance);
 };
 
 export const load = (element, settings, instance) => {
-    enableLoading(element, settings, instance);
-    setStatus(element, statusLoading);
-    safeCallback(settings.callback_loading, element, instance);
-    /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
+    if (hasLoadEvent(element)) {
+        loadRegular(element, settings, instance);
+    } else {
+        loadWithTempImage(element, settings, instance);
+    }
+    decreaseToLoadCount(settings, instance);
     unobserve(element, instance);
+    checkFinish(settings, instance);
 };
 
 export const loadNative = (element, settings, instance) => {
-    enableLoading(element, settings, instance);
+    addOneShotEventListeners(element, settings, instance);
+    setSources(element, settings, instance);
+    decreaseToLoadCount(settings, instance);
     setStatus(element, statusNative);
+    checkFinish(settings, instance);
 };

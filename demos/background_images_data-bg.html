@@ -302,6 +302,9 @@
             var callback_loading = function(element) {
                 logElementEvent("⌚ LOADING", element);
             };
+            var callback_applied = function(element) {
+                logElementEvent("👍 APPLIED", element);
+            };
             var callback_loaded = function(element) {
                 logElementEvent("👍 LOADED", element);
             };
@@ -318,6 +321,7 @@
                 // Assign the callbacks defined above
                 callback_enter: callback_enter,
                 callback_exit: callback_exit,
+                callback_applied: callback_applied,
                 callback_loading: callback_loading,
                 callback_loaded: callback_loaded,
                 callback_error: callback_error,

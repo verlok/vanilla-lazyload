@@ -52,8 +52,8 @@ LazyLoad.prototype = {
         });
     },
 
+    // DEPRECATED
     load: function(element) {
-        /* DEPRECATED, REMOVE IN V.15 */
         load(element, this._settings, this);
     }
 };
