@@ -2,8 +2,6 @@
 
 ## In progress
 
--   Check if the double step load->setSources is still necessary
--   Check if `accessoryImage` can be dealt without passing variables along but assigning a custom property to `element`
 -   Release everything as v15
 
 ## What's next

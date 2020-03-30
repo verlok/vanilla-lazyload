@@ -3,6 +3,7 @@ import { statusLoading, statusApplied } from "./lazyload.elementStatus";
 import { hasLoadEvent } from "./lazyload.event";
 import { safeCallback } from "./lazyload.callback";
 import { addClass } from "./lazyload.class";
+import { getTempImage, deleteTempImage } from "./lazyload.tempImage";
 
 export const increaseLoadingCount = instance => {
     if (!instance) return;
@@ -65,7 +66,7 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-export const setSourcesElementsWithLoad = (element, settings, instance) => {
+export const setSources = (element, settings, instance) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
     if (!setSourcesFunction) return;
     setSourcesFunction(element, settings);
@@ -77,11 +78,11 @@ export const setSourcesElementsWithLoad = (element, settings, instance) => {
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
-export const setBackgroundFromDataSrc = (element, accessoryImg, settings, instance) => {
+export const setBackgroundFromDataSrc = (element, settings, instance) => {
     const srcDataValue = getData(element, settings.data_src);
     if (!srcDataValue) return;
     element.style.backgroundImage = `url("${srcDataValue}")`;
-    accessoryImg.setAttribute("src", srcDataValue);
+    getTempImage(element).setAttribute("src", srcDataValue);
     // Annotate and notify loading
     increaseLoadingCount(instance);
     addClass(element, settings.class_loading);
@@ -95,18 +96,10 @@ export const setBackgroundFromDataSrc = (element, accessoryImg, settings, instan
 export const setBackgroundFromDataBg = (element, settings, instance) => {
     const bgDataValue = getData(element, settings.data_bg);
     if (!bgDataValue) return;
+    deleteTempImage(element);
     element.style.backgroundImage = bgDataValue;
+    // Annotate and notify applied
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
     safeCallback(settings.callback_applied, element, instance);
-};
-
-export const setSources = (element, accessoryImg, settings, instance) => {
-    if (hasLoadEvent(element)) {
-        setSourcesElementsWithLoad(element, settings, instance);
-        return;
-    }
-
-    setBackgroundFromDataSrc(element, accessoryImg, settings, instance);
-    setBackgroundFromDataBg(element, settings, instance);
 };
