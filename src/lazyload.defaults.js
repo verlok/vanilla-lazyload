@@ -9,6 +9,7 @@ const defaultSettings = {
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_bg_multi: "bg-multi",
     data_poster: "poster",
     class_applied: "applied",
     class_loading: "loading",

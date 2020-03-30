@@ -1,8 +1,4 @@
-import {
-    setSources,
-    setBackgroundFromDataSrc,
-    setBackgroundFromDataBg
-} from "../src/lazyload.setSources";
+import { setSources, setBackground, setMultiBackground } from "../src/lazyload.setSources";
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
 import { getExtendedSettings } from "../src/lazyload.defaults";
@@ -84,7 +80,7 @@ describe("setSources for iframe", () => {
     });
 });
 
-describe("setSources for background image with data-src", () => {
+describe("setBackground for single background image", () => {
     let element;
     let img100 = "100.gif";
     let img200 = "200.gif";
@@ -95,33 +91,33 @@ describe("setSources for background image with data-src", () => {
     });
 
     test("...with initially empty style attribute", () => {
-        element.setAttribute("data-src", img200);
-        setBackgroundFromDataSrc(element, settings, getFakeInstance());
+        element.setAttribute("data-bg", img200);
+        setBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
     test("...with initially present style attribute", () => {
-        element.setAttribute("data-src", img100);
+        element.setAttribute("data-bg", img100);
         element.style = {
             padding: "1px"
         };
-        setBackgroundFromDataSrc(element, settings, getFakeInstance());
+        setBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img100})`);
     });
     test("...with initially present style and background", () => {
-        element.setAttribute("data-src", img200);
+        element.setAttribute("data-bg", img200);
         element.style = {
             padding: "1px",
             backgroundImage: `url(${img100})`
         };
-        setBackgroundFromDataSrc(element, settings, getFakeInstance());
+        setBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
 });
 
-describe("setSources for background image with data-bg", () => {
+describe("setMultiBackground for multiple background image", () => {
     let element;
     let img100 = "100.gif";
     let img200 = "200.gif";
@@ -131,27 +127,27 @@ describe("setSources for background image with data-bg", () => {
     });
 
     test("...with initially empty style attribute", () => {
-        element.setAttribute("data-bg", `url(${img200})`);
-        setBackgroundFromDataBg(element, settings, getFakeInstance());
+        element.setAttribute("data-bg-multi", `url(${img200})`);
+        setMultiBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
     test("...with initially present style attribute", () => {
-        element.setAttribute("data-bg", `url(${img100})`);
+        element.setAttribute("data-bg-multi", `url(${img100})`);
         element.style = {
             padding: "1px"
         };
-        setBackgroundFromDataBg(element, settings, getFakeInstance());
+        setMultiBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img100})`);
     });
     test("...with initially present style and background", () => {
-        element.setAttribute("data-bg", `url(${img200})`);
+        element.setAttribute("data-bg-multi", `url(${img200})`);
         element.style = {
             padding: "1px",
             backgroundImage: `url(${img100})`
         };
-        setBackgroundFromDataBg(element, settings, getFakeInstance());
+        setMultiBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
