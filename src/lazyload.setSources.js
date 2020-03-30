@@ -1,9 +1,8 @@
 import { getData, setStatus } from "./lazyload.data";
 import { statusLoading, statusApplied } from "./lazyload.elementStatus";
-import { hasLoadEvent } from "./lazyload.event";
 import { safeCallback } from "./lazyload.callback";
 import { addClass } from "./lazyload.class";
-import { getTempImage, deleteTempImage } from "./lazyload.tempImage";
+import { getTempImage } from "./lazyload.tempImage";
 
 export const increaseLoadingCount = instance => {
     if (!instance) return;
@@ -78,8 +77,8 @@ export const setSources = (element, settings, instance) => {
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
-export const setBackgroundFromDataSrc = (element, settings, instance) => {
-    const srcDataValue = getData(element, settings.data_src);
+export const setBackground = (element, settings, instance) => {
+    const srcDataValue = getData(element, settings.data_bg); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
     if (!srcDataValue) return;
     element.style.backgroundImage = `url("${srcDataValue}")`;
     getTempImage(element).setAttribute("src", srcDataValue);
@@ -91,12 +90,12 @@ export const setBackgroundFromDataSrc = (element, settings, instance) => {
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
-// NOTE: THE ACCESSORY IMAGE TRICK CANNOT BE DONE WITH data-bg
-// BECAUSE INSIDE ITS VALUE THERE COULD BE 0, 1 or MULTIPLE IMAGES
-export const setBackgroundFromDataBg = (element, settings, instance) => {
-    const bgDataValue = getData(element, settings.data_bg);
+// NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
+// BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
+// COULD BE A GRADIENT BACKGROUND IMAGE
+export const setMultiBackground = (element, settings, instance) => {
+    const bgDataValue = getData(element, settings.data_bg_multi); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
     if (!bgDataValue) return;
-    deleteTempImage(element);
     element.style.backgroundImage = bgDataValue;
     // Annotate and notify applied
     addClass(element, settings.class_applied);
