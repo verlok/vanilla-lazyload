@@ -56,5 +56,9 @@
     "bugs": {
         "url": "https://github.com/verlok/lazyload/issues"
     },
-    "homepage": "http://verlok.github.io/lazyload"
+    "homepage": "http://verlok.github.io/lazyload",
+    "funding": {
+        "type": "individual",
+        "url": "https://www.buymeacoffee.com/verlok"
+    }
 }
