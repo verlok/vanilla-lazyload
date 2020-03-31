@@ -1,4 +1,8 @@
-import { getData } from "./lazyload.data";
+import { getData, setStatus } from "./lazyload.data";
+import { statusLoading, statusApplied } from "./lazyload.elementStatus";
+import { safeCallback } from "./lazyload.callback";
+import { addClass } from "./lazyload.class";
+import { getTempImage } from "./lazyload.tempImage";
 
 export const increaseLoadingCount = instance => {
     if (!instance) return;
@@ -55,19 +59,6 @@ export const setSourcesVideo = (element, settings) => {
     element.load();
 };
 
-export const setSourcesBgImage = (element, settings) => {
-    const srcDataValue = getData(element, settings.data_src);
-    const bgDataValue = getData(element, settings.data_bg);
-
-    if (srcDataValue) {
-        element.style.backgroundImage = `url("${srcDataValue}")`;
-    }
-
-    if (bgDataValue) {
-        element.style.backgroundImage = bgDataValue;
-    }
-};
-
 const setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
@@ -75,12 +66,39 @@ const setSourcesFunctions = {
 };
 
 export const setSources = (element, settings, instance) => {
-    const tagName = element.tagName;
-    const setSourcesFunction = setSourcesFunctions[tagName];
-    if (setSourcesFunction) {
-        setSourcesFunction(element, settings);
-        increaseLoadingCount(instance);
-    } else {
-        setSourcesBgImage(element, settings);
-    }
+    const setSourcesFunction = setSourcesFunctions[element.tagName];
+    if (!setSourcesFunction) return;
+    setSourcesFunction(element, settings);
+    // Annotate and notify loading
+    increaseLoadingCount(instance);
+    addClass(element, settings.class_loading);
+    setStatus(element, statusLoading);
+    safeCallback(settings.callback_loading, element, instance);
+    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
+};
+
+export const setBackground = (element, settings, instance) => {
+    const srcDataValue = getData(element, settings.data_bg); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    if (!srcDataValue) return;
+    element.style.backgroundImage = `url("${srcDataValue}")`;
+    getTempImage(element).setAttribute("src", srcDataValue);
+    // Annotate and notify loading
+    increaseLoadingCount(instance);
+    addClass(element, settings.class_loading);
+    setStatus(element, statusLoading);
+    safeCallback(settings.callback_loading, element, instance);
+    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
+};
+
+// NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
+// BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
+// COULD BE A GRADIENT BACKGROUND IMAGE
+export const setMultiBackground = (element, settings, instance) => {
+    const bgDataValue = getData(element, settings.data_bg_multi); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    if (!bgDataValue) return;
+    element.style.backgroundImage = bgDataValue;
+    // Annotate and notify applied
+    addClass(element, settings.class_applied);
+    setStatus(element, statusApplied);
+    safeCallback(settings.callback_applied, element, instance);
 };

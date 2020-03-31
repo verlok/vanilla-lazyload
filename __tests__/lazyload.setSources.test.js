@@ -1,4 +1,4 @@
-import { setSources } from "../src/lazyload.setSources";
+import { setSources, setBackground, setMultiBackground } from "../src/lazyload.setSources";
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
 import { getExtendedSettings } from "../src/lazyload.defaults";
@@ -80,7 +80,44 @@ describe("setSources for iframe", () => {
     });
 });
 
-describe("setSources for background image", () => {
+describe("setBackground for single background image", () => {
+    let element;
+    let img100 = "100.gif";
+    let img200 = "200.gif";
+
+    beforeEach(() => {
+        element = document.createElement("div");
+        element.llTempImage = document.createElement("img");
+    });
+
+    test("...with initially empty style attribute", () => {
+        element.setAttribute("data-bg", img200);
+        setBackground(element, settings, getFakeInstance());
+        // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
+        expect(element.style.backgroundImage).toBe(`url(${img200})`);
+    });
+    test("...with initially present style attribute", () => {
+        element.setAttribute("data-bg", img100);
+        element.style = {
+            padding: "1px"
+        };
+        setBackground(element, settings, getFakeInstance());
+        // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
+        expect(element.style.backgroundImage).toBe(`url(${img100})`);
+    });
+    test("...with initially present style and background", () => {
+        element.setAttribute("data-bg", img200);
+        element.style = {
+            padding: "1px",
+            backgroundImage: `url(${img100})`
+        };
+        setBackground(element, settings, getFakeInstance());
+        // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
+        expect(element.style.backgroundImage).toBe(`url(${img200})`);
+    });
+});
+
+describe("setMultiBackground for multiple background image", () => {
     let element;
     let img100 = "100.gif";
     let img200 = "200.gif";
@@ -90,27 +127,27 @@ describe("setSources for background image", () => {
     });
 
     test("...with initially empty style attribute", () => {
-        element.setAttribute("data-src", img200);
-        setSources(element, settings, getFakeInstance());
+        element.setAttribute("data-bg-multi", `url(${img200})`);
+        setMultiBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
     test("...with initially present style attribute", () => {
-        element.setAttribute("data-src", img100);
+        element.setAttribute("data-bg-multi", `url(${img100})`);
         element.style = {
             padding: "1px"
         };
-        setSources(element, settings, getFakeInstance());
+        setMultiBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img100})`);
     });
     test("...with initially present style and background", () => {
-        element.setAttribute("data-src", img200);
+        element.setAttribute("data-bg-multi", `url(${img200})`);
         element.style = {
             padding: "1px",
-            backgroundImage: "url(" + img100 + ")"
+            backgroundImage: `url(${img100})`
         };
-        setSources(element, settings, getFakeInstance());
+        setMultiBackground(element, settings, getFakeInstance());
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
         expect(element.style.backgroundImage).toBe(`url(${img200})`);
     });
