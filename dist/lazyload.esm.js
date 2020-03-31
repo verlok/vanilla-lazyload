@@ -20,7 +20,9 @@ const defaultSettings = {
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_bg_multi: "bg-multi",
     data_poster: "poster",
+    class_applied: "applied",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
@@ -28,6 +30,7 @@ const defaultSettings = {
     auto_unobserve: true,
     callback_enter: null,
     callback_exit: null,
+    callback_applied: null,
     callback_loading: null,
     callback_loaded: null,
     callback_error: null,
@@ -73,6 +76,7 @@ const autoInitialize = (classObj, options) => {
 };
 
 const statusObserved = "observed";
+const statusApplied = "applied";
 const statusLoading = "loading";
 const statusLoaded = "loaded";
 const statusError = "error";
@@ -108,6 +112,51 @@ const hasStatusError = element => getData(element, statusDataName) === statusErr
 const setTimeoutData = (element, value) => setData(element, timeoutDataName, value);
 
 const getTimeoutData = element => getData(element, timeoutDataName);
+
+const safeCallback = (callback, arg1, arg2, arg3) => {
+	if (!callback) {
+		return;
+	}
+
+	if (arg3 !== undefined) {
+		callback(arg1, arg2, arg3);
+		return;
+	}
+	if (arg2 !== undefined) {
+		callback(arg1, arg2);
+		return;
+	}
+	callback(arg1);
+};
+
+const addClass = (element, className) => {
+	if (supportsClassList) {
+		element.classList.add(className);
+		return;
+	}
+	element.className += (element.className ? " " : "") + className;
+};
+
+const removeClass = (element, className) => {
+	if (supportsClassList) {
+		element.classList.remove(className);
+		return;
+	}
+	element.className = element.className.
+		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
+		replace(/^\s+/, "").
+		replace(/\s+$/, "");
+};
+
+const addTempImage = element => {
+    element.llTempImage = document.createElement("img");
+};
+
+const deleteTempImage = element => {
+    delete element.llTempImage;
+};
+
+const getTempImage = element => element.llTempImage;
 
 const increaseLoadingCount = instance => {
     if (!instance) return;
@@ -164,19 +213,6 @@ const setSourcesVideo = (element, settings) => {
     element.load();
 };
 
-const setSourcesBgImage = (element, settings) => {
-    const srcDataValue = getData(element, settings.data_src);
-    const bgDataValue = getData(element, settings.data_bg);
-
-    if (srcDataValue) {
-        element.style.backgroundImage = `url("${srcDataValue}")`;
-    }
-
-    if (bgDataValue) {
-        element.style.backgroundImage = bgDataValue;
-    }
-};
-
 const setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
@@ -184,63 +220,58 @@ const setSourcesFunctions = {
 };
 
 const setSources = (element, settings, instance) => {
-    const tagName = element.tagName;
-    const setSourcesFunction = setSourcesFunctions[tagName];
-    if (setSourcesFunction) {
-        setSourcesFunction(element, settings);
-        increaseLoadingCount(instance);
-    } else {
-        setSourcesBgImage(element, settings);
-    }
+    const setSourcesFunction = setSourcesFunctions[element.tagName];
+    if (!setSourcesFunction) return;
+    setSourcesFunction(element, settings);
+    // Annotate and notify loading
+    increaseLoadingCount(instance);
+    addClass(element, settings.class_loading);
+    setStatus(element, statusLoading);
+    safeCallback(settings.callback_loading, element, instance);
+    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
-const addClass = (element, className) => {
-	if (supportsClassList) {
-		element.classList.add(className);
-		return;
-	}
-	element.className += (element.className ? " " : "") + className;
+const setBackground = (element, settings, instance) => {
+    const srcDataValue = getData(element, settings.data_bg); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    if (!srcDataValue) return;
+    element.style.backgroundImage = `url("${srcDataValue}")`;
+    getTempImage(element).setAttribute("src", srcDataValue);
+    // Annotate and notify loading
+    increaseLoadingCount(instance);
+    addClass(element, settings.class_loading);
+    setStatus(element, statusLoading);
+    safeCallback(settings.callback_loading, element, instance);
+    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
-const removeClass = (element, className) => {
-	if (supportsClassList) {
-		element.classList.remove(className);
-		return;
-	}
-	element.className = element.className.
-		replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
-		replace(/^\s+/, "").
-		replace(/\s+$/, "");
-};
-
-const safeCallback = (callback, arg1, arg2, arg3) => {
-	if (!callback) {
-		return;
-	}
-
-	if (arg3 !== undefined) {
-		callback(arg1, arg2, arg3);
-		return;
-	}
-	if (arg2 !== undefined) {
-		callback(arg1, arg2);
-		return;
-	}
-	callback(arg1);
+// NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
+// BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
+// COULD BE A GRADIENT BACKGROUND IMAGE
+const setMultiBackground = (element, settings, instance) => {
+    const bgDataValue = getData(element, settings.data_bg_multi); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    if (!bgDataValue) return;
+    element.style.backgroundImage = bgDataValue;
+    // Annotate and notify applied
+    addClass(element, settings.class_applied);
+    setStatus(element, statusApplied);
+    safeCallback(settings.callback_applied, element, instance);
 };
 
 const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
 const errorEventName = "error";
 
+const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
+
+const hasLoadEvent = element => elementsWithLoadEvent.indexOf(element.tagName) > -1;
+
 const decreaseLoadingCount = (settings, instance) => {
     if (!instance) return;
     instance.loadingCount -= 1;
-    checkFinish(settings, instance);
 };
 
 const checkFinish = (settings, instance) => {
-    if (instance.toLoadCount || instance.loadingCount) return;
+    if (!instance || instance.toLoadCount || instance.loadingCount) return;
     safeCallback(settings.callback_finish, instance);
 };
 
@@ -264,42 +295,46 @@ const removeEventListeners = (element, loadHandler, errorHandler) => {
     removeEventListener(element, errorEventName, errorHandler);
 };
 
-const loadHandler = (event, settings, instance) => {
-    const element = event.target;
-    setStatus(element, statusLoaded);
-    removeClass(element, settings.class_loading);
-    addClass(element, settings.class_loaded);
-    safeCallback(settings.callback_loaded, element, instance);
+const doneHandler = (element, settings, instance) => {
+    deleteTempImage(element);
     decreaseLoadingCount(settings, instance);
+    removeClass(element, settings.class_loading);
 };
 
-const errorHandler = (event, settings, instance) => {
-    const element = event.target;
-    setStatus(element, statusError);
-    removeClass(element, settings.class_loading);
+const loadHandler = (event, element, settings, instance) => {
+    doneHandler(element, settings, instance);
+    addClass(element, settings.class_loaded);
+    setStatus(element, statusLoaded);
+    safeCallback(settings.callback_loaded, element, instance);
+    checkFinish(settings, instance);
+};
+
+const errorHandler = (event, element, settings, instance) => {
+    doneHandler(element, settings, instance);
     addClass(element, settings.class_error);
+    setStatus(element, statusError);
     safeCallback(settings.callback_error, element, instance);
-    decreaseLoadingCount(settings, instance);
+    checkFinish(settings, instance);
 };
 
 const addOneShotEventListeners = (element, settings, instance) => {
+    const elementToListenTo = getTempImage(element) || element;
+
     const _loadHandler = event => {
-        loadHandler(event, settings, instance);
-        removeEventListeners(element, _loadHandler, _errorHandler);
+        loadHandler(event, element, settings, instance);
+        removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
     };
     const _errorHandler = event => {
-        errorHandler(event, settings, instance);
-        removeEventListeners(element, _loadHandler, _errorHandler);
+        errorHandler(event, element, settings, instance);
+        removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
     };
-    addEventListeners(element, _loadHandler, _errorHandler);
-};
 
-const manageableTags = ["IMG", "IFRAME", "VIDEO"];
+    addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
+};
 
 const decreaseToLoadCount = (settings, instance) => {
     if (!instance) return;
     instance.toLoadCount -= 1;
-    checkFinish(settings, instance);
 };
 
 const unobserve = (element, instance) => {
@@ -310,28 +345,35 @@ const unobserve = (element, instance) => {
     }
 };
 
-const isManageableTag = element => manageableTags.indexOf(element.tagName) > -1;
+const loadBackground = (element, settings, instance) => {
+    addTempImage(element);
+    addOneShotEventListeners(element, settings, instance);
+    setBackground(element, settings, instance);
+    setMultiBackground(element, settings, instance);
+};
 
-const enableLoading = (element, settings, instance) => {
-    if (isManageableTag(element)) {
-        addOneShotEventListeners(element, settings, instance);
-        addClass(element, settings.class_loading);
-    }
+const loadRegular = (element, settings, instance) => {
+    addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
-    decreaseToLoadCount(settings, instance);
 };
 
 const load = (element, settings, instance) => {
-    enableLoading(element, settings, instance);
-    setStatus(element, statusLoading);
-    safeCallback(settings.callback_loading, element, instance);
-    /* DEPRECATED, REMOVE IN V.15 => */ safeCallback(settings.callback_reveal, element, instance);
+    if (hasLoadEvent(element)) {
+        loadRegular(element, settings, instance);
+    } else {
+        loadBackground(element, settings, instance);
+    }
+    decreaseToLoadCount(settings, instance);
     unobserve(element, instance);
+    checkFinish(settings, instance);
 };
 
 const loadNative = (element, settings, instance) => {
-    enableLoading(element, settings, instance);
+    addOneShotEventListeners(element, settings, instance);
+    setSources(element, settings, instance);
+    decreaseToLoadCount(settings, instance);
     setStatus(element, statusNative);
+    checkFinish(settings, instance);
 };
 
 const cancelDelayLoad = element => {
@@ -506,8 +548,8 @@ LazyLoad.prototype = {
         });
     },
 
+    // DEPRECATED
     load: function(element) {
-        /* DEPRECATED, REMOVE IN V.15 */
         load(element, this._settings, this);
     }
 };
