@@ -76,22 +76,24 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 Single background
 
 ```html
-<div class="lazy" data-bg="url(lazy.jpg)"></div>
+<div class="lazy" data-bg="lazy.jpg"></div>
 ```
 
 Multiple backgrounds
 
 ```html
-<div class="lazy" data-bg="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)">
+<div
+    class="lazy"
+    data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
+>
     ...
 </div>
 ```
 
 Notes:
 
--   you need to use `url()` in the value of your `data-bg` attribute, also for single background
--   you shouldn't use background images to load content images, they're bad for SEO and for accessibility
--   on background images, `callback_loaded` won't be called and the `class_loaded` class won't be added
+-   you need to use `url()` in the values of your `data-bg-multi` attribute
+-   ⚠ you shouldn't use background images to load content images, they're bad for SEO and for accessibility
 
 #### Lazy video
 
@@ -113,7 +115,9 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **14.0.1**.
+The latest, recommended version of LazyLoad is **15.0.0**.
+
+Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
 ### To polyfill or not to polyfill IntersectionObserver?
 
@@ -128,14 +132,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@14.0.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.0.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@14.0.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.0.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -168,7 +172,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@14.0.1/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.0.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -214,7 +218,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@14.0.1/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -247,7 +251,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@14.0.1/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -622,11 +626,13 @@ Here's the list of the options.
 | `elements_selector` | The CSS selector of the elements to load lazily, which will be selected as descendants of the `container` object.                                                                                                                                                                                                                                                                                                                                            | `"img"`       | `".images img.lazy"`                     |
 | `threshold`         | A number of pixels representing the outer distance off the scrolling area from which to start loading the elements.                                                                                                                                                                                                                                                                                                                                          | `300`         | `0`                                      |
 | `thresholds`        | Similar to `threshold`, but accepting multiple values and both `px` and `%` units. It maps directly to the `rootMargin` property of IntersectionObserver ([read more](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin)), so it must be a string with a syntax similar to the CSS `margin` property. You can use it when you need to have different thresholds for the scrolling area. It overrides `threshold` when passed. | `null`        | `"500px 10%"`                            |
-| `data_src`          | The name of the data attribute containing the original image source, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"`                                                                                                                                                                                                                                                                                      | `"src"`       | `"lazy-src"`                             |
-| `data_srcset`       | The name of the data attribute containing the original image source set in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-srcset"`, just pass `"srcset"`                                                                                                                                                                                                                                          | `"srcset"`    | `"lazy-srcset"`                          |
+| `data_src`          | The name of the data attribute containing the element source to load, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"`                                                                                                                                                                                                                                                                                     | `"src"`       | `"lazy-src"`                             |
+| `data_srcset`       | The name of the data attribute containing the image source set to load, in either `img` and `source` tags, excluding the `"data-"` part. E.g. if your data attribute is named `"data-srcset"`, just pass `"srcset"`                                                                                                                                                                                                                                          | `"srcset"`    | `"lazy-srcset"`                          |
 | `data_sizes`        | The name of the data attribute containing the sizes attribute to use, excluding the `"data-"` part. E.g. if your data attribute is named `"data-sizes"`, just pass `"sizes"`                                                                                                                                                                                                                                                                                 | `"sizes"`     | `"lazy-sizes"`                           |
 | `data_bg`           | The name of the data attribute containing the value of `background-image` to load lazily, excluding the `"data-"` part. E.g. if your data attribute is named `"data-bg"`, just pass `"bg"`. The attribute value must be a valid value for `background-image`, including the `url()` part of the CSS instruction.                                                                                                                                             | `"bg"`        | `"lazy-bg"`                              |
+| `data_bg_multi`     | The name of the data attribute containing the value of multiple `background-image` to load lazily, excluding the `"data-"` part. E.g. if your data attribute is named `"data-bg-multi"`, just pass `"bg-multi"`. The attribute value must be a valid value for `background-image`, including the `url()` part of the CSS instruction.                                                                                                                        | `"bg-multi"`  | `"lazy-bg-multi"`                        |
 | `data_poster`       | The name of the data attribute containing the value of `poster` to load lazily, excluding the `"data-"` part. E.g. if your data attribute is named `"data-poster"`, just pass `"poster"`.                                                                                                                                                                                                                                                                    | `"poster"`    | `"lazy-poster"`                          |
+| `class_applied`     | The class applied to the multiple background elements after the multiple background was applied                                                                                                                                                                                                                                                                                                                                                              | `"applied"`   | `"lazy-applied"`                         |
 | `class_loading`     | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                                                                                                          | `"loading"`   | `"lazy-loading"`                         |
 | `class_loaded`      | The class applied to the elements when the loading is complete.                                                                                                                                                                                                                                                                                                                                                                                              | `"loaded"`    | `"lazy-loaded"`                          |
 | `class_error`       | The class applied to the elements when the element causes an error.                                                                                                                                                                                                                                                                                                                                                                                          | `"error"`     | `"lazy-error"`                           |
@@ -634,6 +640,7 @@ Here's the list of the options.
 | `auto_unobserve`    | A boolean that defines whether or not to automatically unobserve elements that was already revealed                                                                                                                                                                                                                                                                                                                                                          | `true`        | `false`                                  |
 | `callback_enter`    | A callback function which is called whenever an element enters the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                         | `null`        | `(el)=>{console.log("Entered", el)}`     |
 | `callback_exit`     | A callback function which is called whenever an element exits the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                          | `null`        | `(el)=>{console.log("Exited", el)}`      |
+| `callback_applied`  | A callback function which is called whenever a multiple background element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                        | `null`        | `(el)=>{console.log("Applied", el)}`     |
 | `callback_loading`  | A callback function which is called whenever an element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                                           | `null`        | `(el)=>{console.log("Loading", el)}`     |
 | `callback_reveal`   | **⚠ DEPRECATED: use `callback_loading` instead.** A callback function which is called whenever an element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                         | `null`        | `(el)=>{console.log("Loading", el)}`     |
 | `callback_loaded`   | A callback function which is called whenever an element finishes loading. Note that, in version older than 11.0.0, this option went under the name `callback_load`. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                               | `null`        | `(el)=>{console.log("Loaded", el)}`      |
