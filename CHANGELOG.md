@@ -15,6 +15,12 @@
     -   background-images-multi.html -> multiple background images
 -   Added [UPGRADE.md](UPGRADE.md), a guide on how to upgrade from previous versions (from version 12 up)
 
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
+
 ## Version 14
 
 #### 14.0.1
@@ -49,6 +55,12 @@
 
 -   Removed the `data-was-processed` attribute, that was added to mark lazy DOM elements as "already managed". If you were manually handling that attribute to obtain some goal, this is a potentially breaking change. You should now refer to the `data-ll-status` instead.
 -   Added the `data-ll-status` attribute, which is now used to mark the status of a lazy DOM element. The values it can take are: `observing` (not loaded yet), `loading` (loading started), `loaded` (load completed), `error` (an error has occured), `native` (similar to `observing`, but managed by native lazy loading).
+
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
 
 ## Version 13
 
