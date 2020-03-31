@@ -1,15 +1,14 @@
 const runningOnBrowser = typeof window !== "undefined";
 
 const isBot =
-	(runningOnBrowser && !("onscroll" in window)) ||
-	(typeof navigator !== "undefined" &&
-		/(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent));
+    (runningOnBrowser && !("onscroll" in window)) ||
+    (typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent));
 
-const supportsIntersectionObserver =
-	runningOnBrowser && "IntersectionObserver" in window;
+const supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
 
-const supportsClassList =
-	runningOnBrowser && "classList" in document.createElement("p");
+const supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
+
+const isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
 const defaultSettings = {
     elements_selector: "img",
@@ -20,7 +19,9 @@ const defaultSettings = {
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_bg_hidpi: "bg-hidpi",
     data_bg_multi: "bg-multi",
+    data_bg_multi_hidpi: "bg-multi-hidpi",
     data_poster: "poster",
     class_applied: "applied",
     class_loading: "loading",
@@ -232,7 +233,7 @@ const setSources = (element, settings, instance) => {
 };
 
 const setBackground = (element, settings, instance) => {
-    const srcDataValue = getData(element, settings.data_bg); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    const srcDataValue = getData(element, isHiDpi ? settings.data_bg_hidpi : settings.data_bg);
     if (!srcDataValue) return;
     element.style.backgroundImage = `url("${srcDataValue}")`;
     getTempImage(element).setAttribute("src", srcDataValue);
@@ -248,7 +249,10 @@ const setBackground = (element, settings, instance) => {
 // BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
 // COULD BE A GRADIENT BACKGROUND IMAGE
 const setMultiBackground = (element, settings, instance) => {
-    const bgDataValue = getData(element, settings.data_bg_multi); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    const bgDataValue = getData(
+        element,
+        isHiDpi ? settings.data_bg_multi_hidpi : settings.data_bg_multi
+    );
     if (!bgDataValue) return;
     element.style.backgroundImage = bgDataValue;
     // Annotate and notify applied
