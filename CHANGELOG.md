@@ -4,17 +4,16 @@
 
 #### 15.0.0
 
-**🎉 Lazy background images now support the loaded and error state!**
+**Lazy background images gained loaded/error classes and callbacks! 🎉**
 
--   The lazy loading of **one background image**, using the `data-bg`\* attribute, now manages the `load` and `error` events, the `loading`/`loaded`/`error` status, the classes defined in the `class_loading`/`class_loaded`/`class_error`, and the callbacks defined in `callback_loading`/`callback_loaded`/`callback_error`.
--   The lazy loading of **multiple background images** is still possible using `data-bg-multi`\* attribute. In this case, the `load` and `error` events are not managed. The `class_applied` and `callback_applied` can be used to understand when the multiple background was applied to the element.
+**Breaking changes impacting lazy background images!** ⚠ See [UPGRADE.md](UPGRADE.md) to understand **if** you are impacted and **how** to upgrade from previous versions.
 
+-   Lazy loading of **one background image** using the `data-bg` attribute, now manages the `load` and `error` events, so they are applied the classes defined in the `class_loading`/`class_loaded`/`class_error`, and the callbacks defined in `callback_loading`/`callback_loaded`/`callback_error`.
+-   Lazy loading of **multiple background images** is still possible via the `data-bg-multi` attribute. In this case, the `load` and `error` events are not managed. The `class_applied` and `callback_applied` can be used to understand when the multiple background was applied to the element.
 -   Updated background images demos:
     -   background-images.html -> single background images
     -   background-images-multi.html -> multiple background images
--   Added [UPGRADE.md](UPGRADE.md), a guide on how to upgrade from previous versions (starting from version 12) \* The data-attributes showh here are the default, they can be changed passing different options in `data_bg`, `data_bg_multi` to LazyLoad.
-
-**⚠ Breaking changes were made! See [UPGRADE.md](UPGRADE.md) to understand if you are impacted and how to upgrade from previous versions.**
+-   Added [UPGRADE.md](UPGRADE.md), a guide on how to upgrade from previous versions (from version 12 up)
 
 ## Version 14
 
