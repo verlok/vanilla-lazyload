@@ -26,6 +26,7 @@
   var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
   var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
   var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
+  var isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
   var defaultSettings = {
     elements_selector: "img",
@@ -36,7 +37,9 @@
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_bg_hidpi: "bg-hidpi",
     data_bg_multi: "bg-multi",
+    data_bg_multi_hidpi: "bg-multi-hidpi",
     data_poster: "poster",
     class_applied: "applied",
     class_loading: "loading",
@@ -258,8 +261,7 @@
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
   };
   var setBackground = function setBackground(element, settings, instance) {
-    var srcDataValue = getData(element, settings.data_bg); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
-
+    var srcDataValue = getData(element, isHiDpi ? settings.data_bg_hidpi : settings.data_bg);
     if (!srcDataValue) return;
     element.style.backgroundImage = "url(\"".concat(srcDataValue, "\")");
     getTempImage(element).setAttribute("src", srcDataValue); // Annotate and notify loading
@@ -274,8 +276,7 @@
   // COULD BE A GRADIENT BACKGROUND IMAGE
 
   var setMultiBackground = function setMultiBackground(element, settings, instance) {
-    var bgDataValue = getData(element, settings.data_bg_multi); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
-
+    var bgDataValue = getData(element, isHiDpi ? settings.data_bg_multi_hidpi : settings.data_bg_multi);
     if (!bgDataValue) return;
     element.style.backgroundImage = bgDataValue; // Annotate and notify applied
 
