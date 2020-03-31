@@ -2,6 +2,12 @@
 
 ## Version 15
 
+#### 15.1.0
+
+Lazy background images just gained support for hiDPI ("retina") screens!
+Place your standard resolution images in the `data-bg` attribute and your hiDPI images in `data-bg-hidpi`.
+Same for `data-bg-multi` and `data-bg-multi-hidpi`.
+
 #### 15.0.0
 
 **Lazy background images gained loaded/error classes and callbacks! 🎉**
@@ -25,7 +31,7 @@
 
 #### 14.0.1
 
--   Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427
+Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427
 
 #### 14.0.0
 

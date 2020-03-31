@@ -3,6 +3,7 @@ import { statusLoading, statusApplied } from "./lazyload.elementStatus";
 import { safeCallback } from "./lazyload.callback";
 import { addClass } from "./lazyload.class";
 import { getTempImage } from "./lazyload.tempImage";
+import { isHiDpi } from "./lazyload.environment";
 
 export const increaseLoadingCount = instance => {
     if (!instance) return;
@@ -78,7 +79,7 @@ export const setSources = (element, settings, instance) => {
 };
 
 export const setBackground = (element, settings, instance) => {
-    const srcDataValue = getData(element, settings.data_bg); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    const srcDataValue = getData(element, isHiDpi ? settings.data_bg_hidpi : settings.data_bg);
     if (!srcDataValue) return;
     element.style.backgroundImage = `url("${srcDataValue}")`;
     getTempImage(element).setAttribute("src", srcDataValue);
@@ -94,7 +95,10 @@ export const setBackground = (element, settings, instance) => {
 // BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
 // COULD BE A GRADIENT BACKGROUND IMAGE
 export const setMultiBackground = (element, settings, instance) => {
-    const bgDataValue = getData(element, settings.data_bg_multi); // TODO: GET 2X WHEN DEVICEPIXELRATIO >= 1.5
+    const bgDataValue = getData(
+        element,
+        isHiDpi ? settings.data_bg_multi_hidpi : settings.data_bg_multi
+    );
     if (!bgDataValue) return;
     element.style.backgroundImage = bgDataValue;
     // Annotate and notify applied
