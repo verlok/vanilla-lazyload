@@ -41,6 +41,12 @@ You must change the attribute to `data-bg-multi`
 <div data-bg-multi="url(background1.jpg), url(background2.jpg)">...</div>
 ```
 
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
+
 ## Version 13 to 14
 
 **If you are using `callback_reveal`**
@@ -53,6 +59,12 @@ new LazyLoad({ /* other options? */ callback_reveal: () => {} });
 // TO
 new LazyLoad({ /* other options? */ callback_loading: () => {} });
 ```
+
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
 
 ## Version 12 to 13
 

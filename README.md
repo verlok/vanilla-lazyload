@@ -8,6 +8,10 @@ LazyLoad is a fast, lightweight and flexible script that **speeds up your web ap
 
 ---
 
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
+
 ## 👨‍💻 Getting started - HTML
 
 In order to make your content be loaded by LazyLoad, you must use some `data-` attributes instead of the actual attributes. Examples below.
@@ -131,9 +135,15 @@ Please note that the video poster can be lazily loaded too.
 <iframe class="lazy" data-src="lazyFrame.html"></iframe>
 ```
 
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
+
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **15.1.0**.
+The latest, recommended version of LazyLoad is **15.1.1**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -150,14 +160,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -190,7 +200,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -236,7 +246,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -269,7 +279,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -350,6 +360,12 @@ Inside the `dist` folder you will find different bundles.
 | `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
 | `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with _RequireJS_ module loader, ~0.5kb smaller than UMD version                                                                      |
 | `lazyload.esm.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
+
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
 
 ## 🥧 Recipes
 
@@ -504,6 +520,10 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 ---
 
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
+
 ## 📺 Demos
 
 Didn't find the [recipe](#-recipes) that exactly matches your case? We have demos!
@@ -543,6 +563,10 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 | Test      | Test performance, lazy loading of hundreds of images                                           | [Code](demos/hundreds.html)                    | [Live](https://www.andreaverlicchi.eu/lazyload/demos/hundreds.html)                    |
 | Native    | Test the native lazy loading of images _WITHOUT_ any line of javascript, not even this script  | [Code](demos/native_lazyload.html)             | [Live](https://www.andreaverlicchi.eu/lazyload/demos/native_lazyload.html)             |
 | Native    | Test the native lazy loading of images _conditionally_ using the `use_native` option (see API) | [Code](demos/native_lazyload_conditional.html) | [Live](https://www.andreaverlicchi.eu/lazyload/demos/native_lazyload_conditional.html) |
+
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
 
 ---
 
@@ -594,11 +618,9 @@ Alternatively (but less efficiently) you can use a tiny, scaled-down version of 
 
 Using a placeholder image will also make sure that browsers don't show your `alt` content instead of the images before the lazy-loading starts.
 
-<!--
-MOAR points to add to the README:
+---
 
-* When your images source change before or after they was lazily loaded - and you want to lazy load the change too. See issue #84 (closed)
--->
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
 
 ---
 
@@ -700,6 +722,10 @@ You can use the following properties on any instance of LazyLoad.
 
 ---
 
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
+
 ## 😯 Notable features
 
 ### It works with your favourite library or framework
@@ -727,3 +753,9 @@ Starting from version 12.2, if your users lose the internet connection causing e
 Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
 
 <a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="./img/browserstack-logo-600x315.png"  width="300" height="158"/></a>
+
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---

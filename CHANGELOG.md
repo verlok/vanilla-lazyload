@@ -2,6 +2,10 @@
 
 ## Version 15
 
+#### 15.1.1
+
+Fixed a bug when loading lazy background images on HiDPI screens, `data-bg-hidpi` was mandatory, not it fallbacks to `data-bg`. #430
+
 #### 15.1.0
 
 Lazy background images just gained support for hiDPI ("retina") screens!
@@ -20,6 +24,12 @@ Same for `data-bg-multi` and `data-bg-multi-hidpi`.
     -   background-images.html -> single background images
     -   background-images-multi.html -> multiple background images
 -   Added [UPGRADE.md](UPGRADE.md), a guide on how to upgrade from previous versions (from version 12 up)
+
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
 
 ## Version 14
 
@@ -55,6 +65,12 @@ Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427
 
 -   Removed the `data-was-processed` attribute, that was added to mark lazy DOM elements as "already managed". If you were manually handling that attribute to obtain some goal, this is a potentially breaking change. You should now refer to the `data-ll-status` instead.
 -   Added the `data-ll-status` attribute, which is now used to mark the status of a lazy DOM element. The values it can take are: `observing` (not loaded yet), `loading` (loading started), `loaded` (load completed), `error` (an error has occured), `native` (similar to `observing`, but managed by native lazy loading).
+
+---
+
+**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+
+---
 
 ## Version 13
 
