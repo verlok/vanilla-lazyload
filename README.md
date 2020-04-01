@@ -8,7 +8,7 @@ LazyLoad is a fast, lightweight and flexible script that **speeds up your web ap
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -137,7 +137,7 @@ Please note that the video poster can be lazily loaded too.
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -363,7 +363,7 @@ Inside the `dist` folder you will find different bundles.
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -520,7 +520,7 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -566,7 +566,7 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -620,7 +620,7 @@ Using a placeholder image will also make sure that browsers don't show your `alt
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -722,7 +722,7 @@ You can use the following properties on any instance of LazyLoad.
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -756,6 +756,6 @@ Legacy browsers support is from IE 9 up. This script is tested in every browser 
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://www.buymeacoffee.com/verlok)**
+**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
