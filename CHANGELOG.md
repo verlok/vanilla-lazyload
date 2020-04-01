@@ -2,6 +2,10 @@
 
 ## Version 15
 
+#### 15.1.1
+
+Fixed a bug when loading lazy background images on HiDPI screens, `data-bg-hidpi` was mandatory, not it fallbacks to `data-bg`. #430
+
 #### 15.1.0
 
 Lazy background images just gained support for hiDPI ("retina") screens!

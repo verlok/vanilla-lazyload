@@ -79,10 +79,12 @@ export const setSources = (element, settings, instance) => {
 };
 
 export const setBackground = (element, settings, instance) => {
-    const srcDataValue = getData(element, isHiDpi ? settings.data_bg_hidpi : settings.data_bg);
-    if (!srcDataValue) return;
-    element.style.backgroundImage = `url("${srcDataValue}")`;
-    getTempImage(element).setAttribute("src", srcDataValue);
+    const bg1xValue = getData(element, settings.data_bg);
+    const bgHiDpiValue = getData(element, settings.data_bg_hidpi);
+    const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
+    if (!bgDataValue) return;
+    element.style.backgroundImage = `url("${bgDataValue}")`;
+    getTempImage(element).setAttribute("src", bgDataValue);
     // Annotate and notify loading
     increaseLoadingCount(instance);
     addClass(element, settings.class_loading);
@@ -95,10 +97,9 @@ export const setBackground = (element, settings, instance) => {
 // BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
 // COULD BE A GRADIENT BACKGROUND IMAGE
 export const setMultiBackground = (element, settings, instance) => {
-    const bgDataValue = getData(
-        element,
-        isHiDpi ? settings.data_bg_multi_hidpi : settings.data_bg_multi
-    );
+    const bg1xValue = getData(element, settings.data_bg_multi);
+    const bgHiDpiValue = getData(element, settings.data_bg_multi_hidpi);
+    const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = bgDataValue;
     // Annotate and notify applied
