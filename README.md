@@ -1,4 +1,4 @@
-LazyLoad is a fast, lightweight and flexible script that **speeds up your web application** by loading your content images, videos and iframes only **as they enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it works with [responsive images](https://alistapart.com/article/responsive-images-in-practice) and it supports native lazy loading. See [notable features](#-notable-features) for more.
+LazyLoad is a fast, lightweight and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it works with [responsive images](https://alistapart.com/article/responsive-images-in-practice) and it supports native lazy loading. See [notable features](#-notable-features) for more.
 
 [![vanilla-lazyload (latest)](https://img.shields.io/npm/v/vanilla-lazyload/latest.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![vanilla-lazyload (downloads)](http://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/vanilla-lazyload)
@@ -736,17 +736,21 @@ As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using *
 
 Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
 
-### Support for responsive images
-
-_LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
-
 ### SEO friendly
 
-LazyLoad **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
+_LazyLoad_ **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
 
 ### Flaky connections supported
 
 Starting from version 12.2, if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.
+
+### Support for responsive images
+
+_LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
+
+### Support for single and background images, and HiDPI displays
+
+_LazyLoad_ supports single and multiple lazy background images, with standard resolution or HiDPI (retina) displays.
 
 ### Tested on real browsers
 
