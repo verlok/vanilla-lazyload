@@ -258,10 +258,12 @@ var LazyLoad = (function () {
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
   };
   var setBackground = function setBackground(element, settings, instance) {
-    var srcDataValue = getData(element, isHiDpi ? settings.data_bg_hidpi : settings.data_bg);
-    if (!srcDataValue) return;
-    element.style.backgroundImage = "url(\"".concat(srcDataValue, "\")");
-    getTempImage(element).setAttribute("src", srcDataValue); // Annotate and notify loading
+    var bg1xValue = getData(element, settings.data_bg);
+    var bgHiDpiValue = getData(element, settings.data_bg_hidpi);
+    var bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
+    if (!bgDataValue) return;
+    element.style.backgroundImage = "url(\"".concat(bgDataValue, "\")");
+    getTempImage(element).setAttribute("src", bgDataValue); // Annotate and notify loading
 
     increaseLoadingCount(instance);
     addClass(element, settings.class_loading);
@@ -273,7 +275,9 @@ var LazyLoad = (function () {
   // COULD BE A GRADIENT BACKGROUND IMAGE
 
   var setMultiBackground = function setMultiBackground(element, settings, instance) {
-    var bgDataValue = getData(element, isHiDpi ? settings.data_bg_multi_hidpi : settings.data_bg_multi);
+    var bg1xValue = getData(element, settings.data_bg_multi);
+    var bgHiDpiValue = getData(element, settings.data_bg_multi_hidpi);
+    var bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = bgDataValue; // Annotate and notify applied
 
