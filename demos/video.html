@@ -1,116 +1,169 @@
 <!DOCTYPE html>
 <html>
-    <head lang="en">
-        <meta charset="UTF-8" />
-        <title>
-            Lazyload tests
-        </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style>
-            ul,
-            li {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
-        </style>
-    </head>
+	<head lang="en">
+		<meta charset="UTF-8" />
+		<title>
+			Lazyload tests
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<style>
+			ul,
+			li {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
 
-    <body>
-        <div id="results1" class="results">
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <p>Scroll down</p>
-            <video
-                class="lazy"
-                autoplay
-                controls
-                width="620"
-                data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
-                data-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
-            >
-                <source
-                    type="video/mp4"
-                    data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
-                />
-                <source
-                    type="video/ogg"
-                    data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv"
-                />
-                <source
-                    type="video/avi"
-                    data-src="https://archive.org/download/ElephantsDream/ed_hd.avi"
-                />
-            </video>
-        </div>
-        <script src="../dist/lazyload.min.js"></script>
-        <script>
-            (function() {
-                function logElementEvent(eventName, element) {
-                    console.log(Date.now(), eventName, element.getAttribute("data-src"));
-                }
+	<body>
+		<div id="results1" class="results">
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<p>Scroll down</p>
+			<h2>Preload = metadata</h2>
+			<video
+				class="lazy"
+				autoplay
+				controls
+				preload="auto"
+				width="620"
+				data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+				data-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
+			>
+				<source
+					type="video/mp4"
+					data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
+				/>
+				<source
+					type="video/ogg"
+					data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv"
+				/>
+				<source
+					type="video/avi"
+					data-src="https://archive.org/download/ElephantsDream/ed_hd.avi"
+				/>
+			</video>
+			<h2>Preload = none</h2>
+			<video
+				class="lazy"
+				preload="none"
+				autoplay
+				controls
+				width="620"
+				data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+				data-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
+			>
+				<source
+					type="video/mp4"
+					data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
+				/>
+				<source
+					type="video/ogg"
+					data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv"
+				/>
+				<source
+					type="video/avi"
+					data-src="https://archive.org/download/ElephantsDream/ed_hd.avi"
+				/>
+			</video>
+			<h2>Preload = metadata</h2>
+			<video
+				class="lazy"
+				preload="metadata"
+				autoplay
+				controls
+				width="620"
+				data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+				data-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
+			>
+				<source
+					type="video/mp4"
+					data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
+				/>
+				<source
+					type="video/ogg"
+					data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv"
+				/>
+				<source
+					type="video/avi"
+					data-src="https://archive.org/download/ElephantsDream/ed_hd.avi"
+				/>
+			</video>
+		</div>
+		<script src="../dist/lazyload.min.js"></script>
+		<script>
+			(function() {
+				function logElementEvent(eventName, element) {
+					console.log(
+						Date.now(),
+						eventName,
+						element.getAttribute("data-src")
+					);
+				}
 
-                var callback_enter = function(element) {
-                    logElementEvent("🔑 ENTERED", element);
-                };
-                var callback_exit = function(element) {
-                    logElementEvent("🚪 EXITED", element);
-                };
-                var callback_loading = function(element) {
-                    logElementEvent("⌚ LOADING", element);
-                };
-                var callback_loaded = function(element) {
-                    logElementEvent("👍 LOADED", element);
-                };
-                var callback_error = function(element) {
-                    logElementEvent("💀 ERROR", element);
-                    element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
-                };
-                var callback_finish = function() {
-                    logElementEvent("✔️ FINISHED", document.documentElement);
-                };
+				var callback_enter = function(element) {
+					logElementEvent("🔑 ENTERED", element);
+				};
+				var callback_exit = function(element) {
+					logElementEvent("🚪 EXITED", element);
+				};
+				var callback_loading = function(element) {
+					logElementEvent("⌚ LOADING", element);
+				};
+				var callback_loaded = function(element) {
+					logElementEvent("👍 LOADED", element);
+				};
+				var callback_error = function(element) {
+					logElementEvent("💀 ERROR", element);
+					element.src =
+						"https://via.placeholder.com/440x560/?text=Error+Placeholder";
+				};
+				var callback_finish = function() {
+					logElementEvent("✔️ FINISHED", document.documentElement);
+				};
 
-                ll = new LazyLoad({
-                    elements_selector: ".lazy",
-                    // Assign the callbacks defined above
-                    callback_enter: callback_enter,
-                    callback_exit: callback_exit,
-                    callback_loading: callback_loading,
-                    callback_loaded: callback_loaded,
-                    callback_error: callback_error,
-                    callback_finish: callback_finish
-                });
-            })();
-        </script>
-    </body>
+				ll = new LazyLoad({
+					elements_selector: ".lazy",
+					// Assign the callbacks defined above
+					callback_enter: callback_enter,
+					callback_exit: callback_exit,
+					callback_loading: callback_loading,
+					callback_loaded: callback_loaded,
+					callback_error: callback_error,
+					callback_finish: callback_finish
+				});
+			})();
+		</script>
+	</body>
 </html>
