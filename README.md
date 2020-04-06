@@ -77,13 +77,19 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 #### Lazy background image
 
-Single background
+⚠ **IMPORTANT NOTE**: Before implementing a lazy load on your background images, you must understand if your images are background images or they should be content images.
+
+> To understand if your images are content or background, ask yourself: "would my website user like to see those images when printing out the page?". If the answer is "Yes", then your images are content images.
+
+To display content images on your pages, always use the `img` tag. This would also benefit the SEO and the accessibility of your website.
+
+Single background image
 
 ```html
 <div class="lazy" data-bg="lazy.jpg"></div>
 ```
 
-Single background, HiDPI screen support
+Single background, with HiDPI screen support
 
 ```html
 <div class="lazy" data-bg="lazy.jpg" data-bg-hidpi="lazy@2x.jpg"></div>
@@ -100,6 +106,8 @@ Multiple backgrounds
 </div>
 ```
 
+ℹ Please note that you must use `url()` to wrap the URLs in your `data-bg-multi` attributes.
+
 Multiple backgrounds, HiDPI screen support
 
 ```html
@@ -112,10 +120,7 @@ Multiple backgrounds, HiDPI screen support
 </div>
 ```
 
-Notes:
-
--   ⚠ you shouldn't use background images to load content images, they're bad for SEO and for accessibility
--   you need to use `url()` in the values of your `data-bg-multi` and `data-bg-multi-hidpi` attributes
+ℹ Please note that you must use `url()` to wrap the URLs in your `data-bg-multi-hidpi` attributes.
 
 #### Lazy video
 
@@ -266,7 +271,7 @@ Same as above, but you must put the `addEventListener` code shown below before i
     // Listen to the initialization event and get the instance of LazyLoad
     window.addEventListener(
         "LazyLoad::Initialized",
-        function(event) {
+        function (event) {
             window.lazyLoadInstance = event.detail.instance;
         },
         false
@@ -294,7 +299,7 @@ Note about Internet Explorer: because this technique uses a `CustomEvent` ([lear
 ```html
 <script>
     // CustomEvent micro-polyfill for Internet Explorer
-    (function() {
+    (function () {
         if (typeof window.CustomEvent === "function") {
             return false;
         }
@@ -502,7 +507,7 @@ var lazyLoadInstances = [];
 var lazyLazy = new LazyLoad({
     elements_selector: ".horzContainer",
     // When the .horzContainer div enters the viewport...
-    callback_enter: function(el) {
+    callback_enter: function (el) {
         // ...instantiate a new LazyLoad on it
         var oneLL = new LazyLoad({
             container: el
