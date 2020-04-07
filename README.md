@@ -77,11 +77,7 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 #### Lazy background image
 
-⚠ **IMPORTANT NOTE**: Before implementing a lazy load on your background images, you must understand if your images are background images or they should be content images.
-
-> To understand if your images are content or background, ask yourself: "would my website user like to see those images when printing out the page?". If the answer is "Yes", then your images are content images.
-
-To display content images on your pages, always use the `img` tag. This would also benefit the SEO and the accessibility of your website.
+⚠ **IMPORTANT NOTE**: To display content images on your pages, always use the `img` tag. This would benefit the SEO and the accessibility of your website. To understand if your images are content or background, ask yourself: "would my website user like to see those images when printing out the page?". If the answer is "yes", then your images are content images and you should avoid using background images to display them.
 
 Single background image
 
