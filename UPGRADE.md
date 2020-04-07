@@ -43,7 +43,7 @@ You must change the attribute to `data-bg-multi`
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -62,7 +62,7 @@ new LazyLoad({ /* other options? */ callback_loading: () => {} });
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 

@@ -27,7 +27,7 @@ Same for `data-bg-multi` and `data-bg-multi-hidpi`.
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -68,7 +68,7 @@ Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 

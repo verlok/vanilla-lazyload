@@ -8,7 +8,7 @@ LazyLoad is a lightweight and flexible script that **speeds up your web applicat
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -138,7 +138,7 @@ Please note that the video poster can be lazily loaded too.
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -364,7 +364,7 @@ Inside the `dist` folder you will find different bundles.
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -521,7 +521,7 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -567,7 +567,7 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -621,7 +621,7 @@ Using a placeholder image will also make sure that browsers don't show your `alt
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -723,7 +723,7 @@ You can use the following properties on any instance of LazyLoad.
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -761,6 +761,6 @@ Legacy browsers support is from IE 9 up. This script is tested in every browser 
 
 ---
 
-**Love this project? 😍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
