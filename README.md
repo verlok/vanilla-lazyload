@@ -390,6 +390,35 @@ myLazyLoad.update();
 
 [DEMO](https://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
 
+### Mixed native and JS-based lazy loading
+
+> 💡 **Use case**: you want to use the `use_native` option to delegate the loading of images to the browsers engine where supported, but you also want to lazily load backgroud images or videos.
+
+HTML
+
+```html
+<img class="lazy" alt="A lazy image" data-src="lazy.jpg" />
+<iframe class="lazy" data-src="lazyFrame.html"></iframe>
+<video class="lazy" controls data-src="lazy.mp4" data-poster="lazy.jpg">...</video>
+<div class="lazy" data-bg="lazy.jpg"></div>
+```
+
+Javascript
+
+```js
+// Instance using native lazy loading
+const lazyContent = new LazyLoad({
+    elements_selector: "img.lazy",
+    use_native: true // <-- there you go
+});
+
+// Instance without native lazy loading
+const lazyBackground = new LazyLoad({
+    elements_selector: "iframe.lazy, video.lazy, div.lazy"
+    // DON'T PASS use_native: true HERE
+});
+```
+
 ### Scrolling panel(s)
 
 > 💡 **Use case**: when your scrolling container is not the main browser window, but a scrolling container.
