@@ -79,19 +79,19 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 ⚠ **IMPORTANT NOTE**: To display content images on your pages, always use the `img` tag. This would benefit the SEO and the accessibility of your website. To understand if your images are content or background, ask yourself: "would my website user like to see those images when printing out the page?". If the answer is "yes", then your images are content images and you should avoid using background images to display them.
 
-Single background image
+Single background image:
 
 ```html
 <div class="lazy" data-bg="lazy.jpg"></div>
 ```
 
-Single background, with HiDPI screen support
+Single background, with HiDPI screen support:
 
 ```html
 <div class="lazy" data-bg="lazy.jpg" data-bg-hidpi="lazy@2x.jpg"></div>
 ```
 
-Multiple backgrounds
+Multiple backgrounds:
 
 ```html
 <div
@@ -104,7 +104,7 @@ Multiple backgrounds
 
 ℹ Please note that you must use `url()` to wrap the URLs in your `data-bg-multi` attributes.
 
-Multiple backgrounds, HiDPI screen support
+Multiple backgrounds, HiDPI screen support:
 
 ```html
 <div
