@@ -32,11 +32,11 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 
 ```html
 <img
-    alt="A lazy image"
-    class="lazy"
-    data-src="lazy.jpg"
-    data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
-    data-sizes="100w"
+	alt="A lazy image"
+	class="lazy"
+	data-src="lazy.jpg"
+	data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
+	data-sizes="100w"
 />
 ```
 
@@ -46,9 +46,9 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 ```html
 <picture>
-    <source media="(min-width: 1200px)" data-srcset="lazy_1200.jpg 1x, lazy_2400.jpg 2x" />
-    <source media="(min-width: 800px)" data-srcset="lazy_800.jpg 1x, lazy_1600.jpg 2x" />
-    <img alt="A lazy image" class="lazy" data-src="lazy.jpg" />
+	<source media="(min-width: 1200px)" data-srcset="lazy_1200.jpg 1x, lazy_2400.jpg 2x" />
+	<source media="(min-width: 800px)" data-srcset="lazy_800.jpg 1x, lazy_1600.jpg 2x" />
+	<img alt="A lazy image" class="lazy" data-src="lazy.jpg" />
 </picture>
 ```
 
@@ -58,18 +58,18 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 ```html
 <picture>
-    <source
-        type="image/webp"
-        data-srcset="lazy_400.webp 400w, lazy_800.webp 800w"
-        data-sizes="100w"
-    />
-    <img
-        alt="A lazy image"
-        class="lazy"
-        data-src="lazy.jpg"
-        data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
-        data-sizes="100w"
-    />
+	<source
+		type="image/webp"
+		data-srcset="lazy_400.webp 400w, lazy_800.webp 800w"
+		data-sizes="100w"
+	/>
+	<img
+		alt="A lazy image"
+		class="lazy"
+		data-src="lazy.jpg"
+		data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
+		data-sizes="100w"
+	/>
 </picture>
 ```
 
@@ -95,10 +95,10 @@ Multiple backgrounds:
 
 ```html
 <div
-    class="lazy"
-    data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
+	class="lazy"
+	data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
 >
-    ...
+	...
 </div>
 ```
 
@@ -108,11 +108,11 @@ Multiple backgrounds, HiDPI screen support:
 
 ```html
 <div
-    class="lazy"
-    data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
-    data-bg-multi-hidpi="url(lazy-head@2x.jpg), url(lazy-body@2x.jpg), linear-gradient(#fff, #ccc)"
+	class="lazy"
+	data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
+	data-bg-multi-hidpi="url(lazy-head@2x.jpg), url(lazy-body@2x.jpg), linear-gradient(#fff, #ccc)"
 >
-    ...
+	...
 </div>
 ```
 
@@ -122,9 +122,9 @@ Multiple backgrounds, HiDPI screen support:
 
 ```html
 <video class="lazy" controls width="620" data-src="lazy.mp4" data-poster="lazy.jpg">
-    <source type="video/mp4" data-src="lazy.mp4" />
-    <source type="video/ogg" data-src="lazy.ogg" />
-    <source type="video/avi" data-src="lazy.avi" />
+	<source type="video/mp4" data-src="lazy.mp4" />
+	<source type="video/ogg" data-src="lazy.ogg" />
+	<source type="video/avi" data-src="lazy.avi" />
 </video>
 ```
 
@@ -175,8 +175,8 @@ Then, in your javascript code:
 
 ```js
 var lazyLoadInstance = new LazyLoad({
-    elements_selector: ".lazy"
-    // ... more custom settings?
+	elements_selector: ".lazy"
+	// ... more custom settings?
 });
 ```
 
@@ -234,11 +234,11 @@ To do so, **you must define the options before including the script**. You can p
 
 ```html
 <script>
-    // Set the options to make LazyLoad self-initialize
-    window.lazyLoadOptions = {
-        elements_selector: ".lazy"
-        // ... more custom settings?
-    };
+	// Set the options to make LazyLoad self-initialize
+	window.lazyLoadOptions = {
+		elements_selector: ".lazy"
+		// ... more custom settings?
+	};
 </script>
 ```
 
@@ -246,8 +246,8 @@ Then include the script.
 
 ```html
 <script
-    async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"
+	async
+	src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -259,19 +259,19 @@ Same as above, but you must put the `addEventListener` code shown below before i
 
 ```html
 <script>
-    // Set the options to make LazyLoad self-initialize
-    window.lazyLoadOptions = {
-        elements_selector: ".lazy"
-        // ... more custom settings?
-    };
-    // Listen to the initialization event and get the instance of LazyLoad
-    window.addEventListener(
-        "LazyLoad::Initialized",
-        function (event) {
-            window.lazyLoadInstance = event.detail.instance;
-        },
-        false
-    );
+	// Set the options to make LazyLoad self-initialize
+	window.lazyLoadOptions = {
+		elements_selector: ".lazy"
+		// ... more custom settings?
+	};
+	// Listen to the initialization event and get the instance of LazyLoad
+	window.addEventListener(
+		"LazyLoad::Initialized",
+		function (event) {
+			window.lazyLoadInstance = event.detail.instance;
+		},
+		false
+	);
 </script>
 ```
 
@@ -279,8 +279,8 @@ Then include the script.
 
 ```html
 <script
-    async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"
+	async
+	src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.1.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -294,22 +294,22 @@ Note about Internet Explorer: because this technique uses a `CustomEvent` ([lear
 
 ```html
 <script>
-    // CustomEvent micro-polyfill for Internet Explorer
-    (function () {
-        if (typeof window.CustomEvent === "function") {
-            return false;
-        }
+	// CustomEvent micro-polyfill for Internet Explorer
+	(function () {
+		if (typeof window.CustomEvent === "function") {
+			return false;
+		}
 
-        function CustomEvent(event, params) {
-            params = params || { bubbles: false, cancelable: false, detail: undefined };
-            var evt = document.createEvent("CustomEvent");
-            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-            return evt;
-        }
+		function CustomEvent(event, params) {
+			params = params || { bubbles: false, cancelable: false, detail: undefined };
+			var evt = document.createEvent("CustomEvent");
+			evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+			return evt;
+		}
 
-        CustomEvent.prototype = window.Event.prototype;
-        window.CustomEvent = CustomEvent;
-    })();
+		CustomEvent.prototype = window.Event.prototype;
+		window.CustomEvent = CustomEvent;
+	})();
 </script>
 ```
 
@@ -398,7 +398,7 @@ HTML
 
 ```html
 <div class="scrollingPanel" id="scrollingPanel">
-    <!-- Set of images -->
+	<!-- Set of images -->
 </div>
 ```
 
@@ -406,7 +406,7 @@ Javascript
 
 ```js
 var myLazyLoad = new LazyLoad({
-    container: document.getElementById("scrollingPanel")
+	container: document.getElementById("scrollingPanel")
 });
 ```
 
@@ -418,10 +418,10 @@ HTML
 
 ```html
 <div id="scrollingPanel1" class="scrollingPanel">
-    <!-- Set of images -->
+	<!-- Set of images -->
 </div>
 <div id="scrollingPanel2" class="scrollingPanel">
-    <!-- Set of images -->
+	<!-- Set of images -->
 </div>
 ```
 
@@ -429,10 +429,10 @@ Javascript
 
 ```js
 var myLazyLoad1 = new LazyLoad({
-    container: document.getElementById("scrollingPanel1")
+	container: document.getElementById("scrollingPanel1")
 });
 var myLazyLoad2 = new LazyLoad({
-    container: document.getElementById("scrollingPanel2")
+	container: document.getElementById("scrollingPanel2")
 });
 ```
 
@@ -452,8 +452,8 @@ Javascript
 
 ```js
 var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy",
-    load_delay: 300 //adjust according to use case
+	elements_selector: ".lazy",
+	load_delay: 300 //adjust according to use case
 });
 ```
 
@@ -467,30 +467,30 @@ HTML
 
 ```html
 <div class="horzContainer">
-    <img
-        src=""
-        alt="Row 01, col 01"
-        data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_01&amp;w=200&amp;h=200"
-    />
-    <img
-        src=""
-        alt="Row 01, col 02"
-        data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_02&amp;w=200&amp;h=200"
-    />
-    <!-- ... -->
+	<img
+		src=""
+		alt="Row 01, col 01"
+		data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_01&amp;w=200&amp;h=200"
+	/>
+	<img
+		src=""
+		alt="Row 01, col 02"
+		data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_02&amp;w=200&amp;h=200"
+	/>
+	<!-- ... -->
 </div>
 <div class="horzContainer">
-    <img
-        src=""
-        alt="Row 02, col 01"
-        data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_01&amp;w=200&amp;h=200"
-    />
-    <img
-        src=""
-        alt="Row 02, col 02"
-        data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_02&amp;w=200&amp;h=200"
-    />
-    <!-- ... -->
+	<img
+		src=""
+		alt="Row 02, col 01"
+		data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_01&amp;w=200&amp;h=200"
+	/>
+	<img
+		src=""
+		alt="Row 02, col 02"
+		data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_02&amp;w=200&amp;h=200"
+	/>
+	<!-- ... -->
 </div>
 ```
 
@@ -501,17 +501,17 @@ var lazyLoadInstances = [];
 // The "lazyLazy" instance of lazyload is used (kinda improperly)
 // to check when the .horzContainer divs enter the viewport
 var lazyLazy = new LazyLoad({
-    elements_selector: ".horzContainer",
-    // When the .horzContainer div enters the viewport...
-    callback_enter: function (el) {
-        // ...instantiate a new LazyLoad on it
-        var oneLL = new LazyLoad({
-            container: el
-        });
-        // Optionally push it in the lazyLoadInstances
-        // array to keep track of the instances
-        lazyLoadInstances.push(oneLL);
-    }
+	elements_selector: ".horzContainer",
+	// When the .horzContainer div enters the viewport...
+	callback_enter: function (el) {
+		// ...instantiate a new LazyLoad on it
+		var oneLL = new LazyLoad({
+			container: el
+		});
+		// Optionally push it in the lazyLoadInstances
+		// array to keep track of the instances
+		lazyLoadInstances.push(oneLL);
+	}
 });
 ```
 
@@ -583,21 +583,21 @@ There are [many ways to avoid content reflow](https://css-tricks.com/preventing-
 
 ```html
 <div class="image-wrapper">
-    <img class="lazy image" alt="An image" data-src="lazy.jpg" />
+	<img class="lazy image" alt="An image" data-src="lazy.jpg" />
 </div>
 ```
 
 ```css
 .image-wrapper {
-    width: 100%;
-    height: 0;
-    padding-bottom: 150%; /* You define this doing image height / width * 100% */
-    position: relative;
+	width: 100%;
+	height: 0;
+	padding-bottom: 150%; /* You define this doing image height / width * 100% */
+	position: relative;
 }
 .image {
-    width: 100%;
-    height: auto;
-    position: absolute;
+	width: 100%;
+	height: auto;
+	position: absolute;
 }
 ```
 
@@ -609,9 +609,9 @@ If you can't use the vertical padding trick for some reason, the best option is 
 
 ```html
 <img
-    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E"
-    data-src="//picsum.photos/900/600"
-    alt="Lazy loading test image"
+	src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E"
+	data-src="//picsum.photos/900/600"
+	alt="Lazy loading test image"
 />
 ```
 
@@ -640,7 +640,7 @@ The most common usage of LazyLoad constructor is to pass only the options object
 
 ```js
 var aLazyLoad = new LazyLoad({
-    /* options here */
+	/* options here */
 });
 ```
 
@@ -649,10 +649,10 @@ In the rare cases where you can't or don't want to select the elements using `el
 ```js
 var elementsToLazyLoad = getElementSetFromSomewhere();
 var aLazyLoad = new LazyLoad(
-    {
-        /* options here */
-    },
-    elementsToLazyLoad
+	{
+		/* options here */
+	},
+	elementsToLazyLoad
 );
 ```
 
