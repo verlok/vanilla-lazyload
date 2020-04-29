@@ -2,6 +2,10 @@
 
 ## Version 15
 
+#### IN PROGRESS
+
+- Now `callback_exit` is not called before an element ever entered the viewport
+
 #### 15.1.1
 
 Fixed a bug when loading lazy background images on HiDPI screens, `data-bg-hidpi` was mandatory, not it fallbacks to `data-bg`. #430
