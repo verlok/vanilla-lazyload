@@ -2,8 +2,9 @@
 
 ## Coming next
 
--   Probably introduce the `reset()` method (public for all, static for one image).
-    Check how LazyLoad behaves when a page was updated using DOM morphing.
+-   DOING: Introduce the `reset()` method (public for all, static for one image).
+-   ?Rename `toLoadCount` to `toManageCount`, or something like that?
+-   Check how LazyLoad behaves when a page was updated using DOM morphing.
     If only the data-attributes were updated, how do one forces LazyLoad to read from them again?
 
 ## Test
