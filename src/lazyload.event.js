@@ -10,9 +10,9 @@ const errorEventName = "error";
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
 
-export const hasLoadEvent = element => elementsWithLoadEvent.indexOf(element.tagName) > -1;
+export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 
-export const decreaseLoadingCount = (settings, instance) => {
+export const decreaseLoadingCount = (instance) => {
     if (!instance) return;
     instance.loadingCount -= 1;
 };
@@ -44,7 +44,7 @@ export const removeEventListeners = (element, loadHandler, errorHandler) => {
 
 export const doneHandler = (element, settings, instance) => {
     deleteTempImage(element);
-    decreaseLoadingCount(settings, instance);
+    decreaseLoadingCount(instance);
     removeClass(element, settings.class_loading);
 };
 
@@ -67,11 +67,11 @@ export const errorHandler = (event, element, settings, instance) => {
 export const addOneShotEventListeners = (element, settings, instance) => {
     const elementToListenTo = getTempImage(element) || element;
 
-    const _loadHandler = event => {
+    const _loadHandler = (event) => {
         loadHandler(event, element, settings, instance);
         removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
     };
-    const _errorHandler = event => {
+    const _errorHandler = (event) => {
         errorHandler(event, element, settings, instance);
         removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
     };

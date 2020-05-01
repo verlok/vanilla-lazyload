@@ -4,9 +4,14 @@ import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./lazyload.
 import { statusNative } from "./lazyload.elementStatus";
 import { addTempImage } from "./lazyload.tempImage";
 
-export const decreaseToLoadCount = (settings, instance) => {
+export const decreaseToLoadCount = (instance) => {
     if (!instance) return;
     instance.toLoadCount -= 1;
+};
+
+export const increaseToLoadCount = (instance) => {
+    if (!instance) return;
+    instance.toLoadCount += 1;
 };
 
 export const unobserve = (element, instance) => {
@@ -35,7 +40,7 @@ export const load = (element, settings, instance) => {
     } else {
         loadBackground(element, settings, instance);
     }
-    decreaseToLoadCount(settings, instance);
+    decreaseToLoadCount(instance);
     unobserve(element, instance);
     checkFinish(settings, instance);
 };
@@ -43,7 +48,7 @@ export const load = (element, settings, instance) => {
 export const loadNative = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
-    decreaseToLoadCount(settings, instance);
+    decreaseToLoadCount(instance);
     setStatus(element, statusNative);
     checkFinish(settings, instance);
 };

@@ -6,9 +6,8 @@ import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./lazyloa
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
 import { getElementsToLoad } from "./lazyload.dom";
-import { reset } from "./lazyload.reset";
-import { getStatus } from "./lazyload.data";
-import { statusLoading } from "./lazyload.elementStatus";
+import { resetElement } from "./lazyload.reset";
+import { hasStatusLoading } from "./lazyload.data";
 
 const LazyLoad = function (customSettings, elements) {
     this._settings = getExtendedSettings(customSettings);
@@ -55,6 +54,10 @@ LazyLoad.prototype = {
         });
     },
 
+    resetElement: function (element) {
+        resetElement(element, this);
+    },
+
     // DEPRECATED
     load: function (element) {
         load(element, this._settings, this);
@@ -66,11 +69,7 @@ LazyLoad.load = (element, customSettings) => {
     load(element, settings);
 };
 
-LazyLoad.resetElement = (element) => {
-    reset(element);
-};
-
-LazyLoad.isElementLoading = (element) => getStatus(element) === statusLoading;
+LazyLoad.isElementLoading = (element) => hasStatusLoading(element);
 
 /* Automatic instances creation if required (useful for async script loading) */
 if (runningOnBrowser) {
