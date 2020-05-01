@@ -6,8 +6,11 @@ import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./lazyloa
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
 import { getElementsToLoad } from "./lazyload.dom";
+import { reset } from "./lazyload.reset";
+import { getStatus } from "./lazyload.data";
+import { statusLoading } from "./lazyload.elementStatus";
 
-const LazyLoad = function(customSettings, elements) {
+const LazyLoad = function (customSettings, elements) {
     this._settings = getExtendedSettings(customSettings);
     this.loadingCount = 0;
     setObserver(this);
@@ -16,7 +19,7 @@ const LazyLoad = function(customSettings, elements) {
 };
 
 LazyLoad.prototype = {
-    update: function(givenNodeset) {
+    update: function (givenNodeset) {
         const settings = this._settings;
         const elementsToLoad = getElementsToLoad(givenNodeset, settings);
         this.toLoadCount = elementsToLoad.length;
@@ -33,7 +36,7 @@ LazyLoad.prototype = {
         updateObserver(this._observer, elementsToLoad);
     },
 
-    destroy: function() {
+    destroy: function () {
         // Observer
         if (this._observer) {
             this._observer.disconnect();
@@ -44,16 +47,16 @@ LazyLoad.prototype = {
         delete this.toLoadCount;
     },
 
-    loadAll: function(elements) {
+    loadAll: function (elements) {
         const settings = this._settings;
         const elementsToLoad = getElementsToLoad(elements, settings);
-        elementsToLoad.forEach(element => {
+        elementsToLoad.forEach((element) => {
             load(element, settings, this);
         });
     },
 
     // DEPRECATED
-    load: function(element) {
+    load: function (element) {
         load(element, this._settings, this);
     }
 };
@@ -62,6 +65,12 @@ LazyLoad.load = (element, customSettings) => {
     const settings = getExtendedSettings(customSettings);
     load(element, settings);
 };
+
+LazyLoad.resetElement = (element) => {
+    reset(element);
+};
+
+LazyLoad.isElementLoading = (element) => getStatus(element) === statusLoading;
 
 /* Automatic instances creation if required (useful for async script loading) */
 if (runningOnBrowser) {

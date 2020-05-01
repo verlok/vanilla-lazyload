@@ -11,11 +11,11 @@ const getObserverSettings = (settings) => ({
     rootMargin: settings.thresholds || settings.threshold + "px"
 });
 
-const intersectionHandler = (entries, instance) => {
+const intersectionHandler = (entries, settings, instance) => {
     entries.forEach((entry) =>
         isIntersecting(entry)
-            ? onIntersecting(entry.target, entry, instance)
-            : onNotIntersecting(entry.target, entry, instance)
+            ? onIntersecting(entry.target, entry, settings, instance)
+            : onNotIntersecting(entry.target, entry, settings, instance)
     );
 };
 
@@ -36,10 +36,11 @@ export const updateObserver = (observer, elementsToObserve) => {
 };
 
 export const setObserver = (instance) => {
+    const settings = instance._settings;
     if (!supportsIntersectionObserver || shouldUseNative(instance._settings)) {
         return;
     }
     instance._observer = new IntersectionObserver((entries) => {
-        intersectionHandler(entries, instance);
-    }, getObserverSettings(instance._settings));
+        intersectionHandler(entries, settings, instance);
+    }, getObserverSettings(settings));
 };

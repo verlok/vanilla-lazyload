@@ -1,5 +1,4 @@
 export const statusObserved = "observed";
-export const statusEntered = "entered";
 export const statusApplied = "applied";
 export const statusLoading = "loading";
 export const statusLoaded = "loaded";
