@@ -475,6 +475,7 @@
                 };
                 var callback_finish = function () {
                     logElementEvent("✔️ FINISHED", document.documentElement);
+                    ll.destroy();
                 };
 
                 var ll = new LazyLoad({
