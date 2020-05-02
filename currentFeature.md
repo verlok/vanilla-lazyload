@@ -18,6 +18,8 @@ Storing event listeners inside the element object + making sure they are always 
 
 Is it REALLY necessary to delegate to the user the implementation of the canceling via `callback_cancel` or can it be done internally to LazyLoad?
 
+I'm starting to seriously consider to include in this library the code to cancel the download, instead of delegating it to the script user via `callback_cancel`. I'm starting to work on all the cases to consider. Not sure this is the right way, but I'll give it a try.
+
 Cases to manage:
 
 
