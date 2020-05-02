@@ -1,11 +1,13 @@
 # Current feature: resetElement
 
-Ability to reset an element status + created a working demo of how to use it to cancel the download of elements that exit while loading
+It all started with #438.
 
-I'm creating a new demo named `fresco_optimization.html` originated from #438.
+1. Ability to reset an element status via `resetElementStatus`, in case you need it (e.g. when changing )
+2. Introduced a new option `cancel_onexit` to cancel the download of the exiting images
+3. Introduced a new callback `callback_cancel` that **you MUST implement** to cancel the download of your images
+4. Created a working demo named `cancel_onexit` to demo point 2. and 3.
 
 The count loading / to load elements works now.
+The `isElementLoading` is not exposed anymore.
 
-The `isElementLoading` is not exposed anymore, now the users can enable the feature using `optimize_slow_connections` and need to implement `callback_cancel`.
-
-General refactoring applied.
+General refactoring was applied.
