@@ -17,7 +17,7 @@ export const increaseToLoadCount = (instance) => {
 export const unobserve = (element, settings, instance) => {
     if (!instance) return;
     const observer = instance._observer;
-    if (observer && settings.auto_unobserve && !settings.optimize_slow_connections) {
+    if (observer && settings.auto_unobserve && !settings.cancel_onexit) {
         observer.unobserve(element);
     }
 };

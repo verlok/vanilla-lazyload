@@ -476,7 +476,7 @@
 
                 var ll = new LazyLoad({
                     elements_selector: ".lazy",
-                    optimize_slow_connections: true,
+                    cancel_onexit: true,
                     // Assign the callbacks defined above
                     callback_enter: callback_enter,
                     callback_cancel: callback_cancel,

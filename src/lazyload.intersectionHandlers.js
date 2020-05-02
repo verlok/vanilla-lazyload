@@ -3,7 +3,7 @@ import { safeCallback } from "./lazyload.callback";
 import { load } from "./lazyload.load";
 import { hasStatusAfterLoading, hasStatusObserved, hasStatusLoading } from "./lazyload.data";
 
-const resetIfLoading = (element, entry, settings, instance) => {
+export const cancelIfLoading = (element, entry, settings, instance) => {
     if (hasStatusLoading(element)) {
         safeCallback(settings.callback_cancel, element, entry, instance);
         // setTimeout is needed because the "callback_cancel" implementation
@@ -16,7 +16,7 @@ const resetIfLoading = (element, entry, settings, instance) => {
 
 export const onIntersecting = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve or optimize_slow_connections
+    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve or cancel_onexit
     if (!settings.load_delay) {
         load(element, settings, instance);
         return;
@@ -26,8 +26,8 @@ export const onIntersecting = (element, entry, settings, instance) => {
 
 export const onNotIntersecting = (element, entry, settings, instance) => {
     if (hasStatusObserved(element)) return; //Ignore the first pass at landing
-    if (settings.optimize_slow_connections) {
-        resetIfLoading(element, entry, settings, instance);
+    if (settings.cancel_onexit) {
+        cancelIfLoading(element, entry, settings, instance);
     }
     safeCallback(settings.callback_exit, element, entry, instance);
     if (!settings.load_delay) return;

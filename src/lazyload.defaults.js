@@ -19,7 +19,7 @@ const defaultSettings = {
     class_error: "error",
     load_delay: 0,
     auto_unobserve: true,
-    optimize_slow_connections: false,
+    cancel_onexit: false,
     callback_enter: null,
     callback_exit: null,
     callback_applied: null,
