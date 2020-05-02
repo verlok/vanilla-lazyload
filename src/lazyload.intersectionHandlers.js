@@ -2,16 +2,17 @@ import { delayLoad, cancelDelayLoad } from "./lazyload.delay";
 import { safeCallback } from "./lazyload.callback";
 import { load } from "./lazyload.load";
 import { hasStatusAfterLoading, hasStatusObserved, hasStatusLoading } from "./lazyload.data";
+import { decreaseLoadingCount } from "./lazyload.event";
 
 export const cancelIfLoading = (element, entry, settings, instance) => {
-    if (hasStatusLoading(element)) {
-        safeCallback(settings.callback_cancel, element, entry, instance);
-        // setTimeout is needed because the "callback_cancel" implementation
-        // could be out of the main thread, e.g. `img.setAttribute("src", "")`
-        setTimeout(() => {
-            instance.resetElement(element);
-        }, 0);
-    }
+    if (!hasStatusLoading(element)) return;
+    safeCallback(settings.callback_cancel, element, entry, instance);
+    decreaseLoadingCount(instance);
+    // setTimeout is needed because the "callback_cancel" implementation
+    // could be out of the main thread, e.g. `img.setAttribute("src", "")`
+    setTimeout(() => {
+        instance.resetElementStatus(element);
+    }, 0);
 };
 
 export const onIntersecting = (element, entry, settings, instance) => {
