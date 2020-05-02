@@ -453,15 +453,12 @@
                 };
                 var callback_exit = function (element) {
                     logElementEvent("🚪 EXITED", element);
-                    if (LazyLoad.isElementLoading(element)) {
-                        console.log(
-                            'Element caught exited loading, setting its `src` to "" and resetting it'
-                        );
-                        element.setAttribute("src", "");
-                        setTimeout(() => {
-                            ll.resetElement(element);
-                        }, 0);
-                    }
+                };
+                var callback_cancel = function (element) {
+                    logElementEvent("❌ CANCEL", element);
+                    // 👈 USER MUST DO SOMETHING LIKE THE FOLLOWING TO CANCEL ELEMENT LOADING
+                    element.setAttribute("src", "");
+                    // 👀 CANCELING THE DOWNLOAD WILL TRIGGER AN ERROR, SO CALLBACK_ERROR WILL BE CALLED AFTERWARDS, THIS IS OK.
                 };
                 var callback_loading = function (element) {
                     logElementEvent("⌚ LOADING", element);
@@ -471,7 +468,6 @@
                 };
                 var callback_error = function (element) {
                     logElementEvent("💀 ERROR", element);
-                    //element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
                 };
                 var callback_finish = function () {
                     logElementEvent("✔️ FINISHED", document.documentElement);
@@ -480,9 +476,10 @@
 
                 var ll = new LazyLoad({
                     elements_selector: ".lazy",
-                    auto_unobserve: false,
+                    optimize_slow_connections: true,
                     // Assign the callbacks defined above
                     callback_enter: callback_enter,
+                    callback_cancel: callback_cancel,
                     callback_exit: callback_exit,
                     callback_loading: callback_loading,
                     callback_loaded: callback_loaded,

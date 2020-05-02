@@ -69,9 +69,7 @@ LazyLoad.load = (element, customSettings) => {
     load(element, settings);
 };
 
-LazyLoad.isElementLoading = (element) => hasStatusLoading(element);
-
-/* Automatic instances creation if required (useful for async script loading) */
+// Automatic instances creation if required (useful for async script loading)
 if (runningOnBrowser) {
     autoInitialize(LazyLoad, window.lazyLoadOptions);
 }

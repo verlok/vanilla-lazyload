@@ -6,7 +6,6 @@ I'm creating a new demo named `fresco_optimization.html` originated from #438.
 
 The count loading / to load elements works now.
 
-I'm also not sure I want to expose a new method `isElementLoading` just for this purpose...
-👉 Maybe I really need to manage everything as an option, except the "cancel loading" part which is tricky.
+The `isElementLoading` is not exposed anymore, now the users can enable the feature using `optimize_slow_connections` and need to implement `callback_cancel`.
 
-NOTE: Some of the refactoring work made in this branch is to keep anyway.
+General refactoring applied.

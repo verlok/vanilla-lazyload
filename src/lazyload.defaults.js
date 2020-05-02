@@ -19,6 +19,7 @@ const defaultSettings = {
     class_error: "error",
     load_delay: 0,
     auto_unobserve: true,
+    optimize_slow_connections: false,
     callback_enter: null,
     callback_exit: null,
     callback_applied: null,
@@ -26,6 +27,7 @@ const defaultSettings = {
     callback_loaded: null,
     callback_error: null,
     callback_finish: null,
+    callback_cancel: null,
     use_native: false
 };
 
