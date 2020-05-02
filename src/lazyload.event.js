@@ -24,6 +24,7 @@ export const checkFinish = (settings, instance) => {
 
 export const addEventListener = (element, eventName, handler) => {
     element.addEventListener(eventName, handler);
+    element.llEvLisnrs[eventName] = handler;
 };
 
 export const removeEventListener = (element, eventName, handler) => {
@@ -31,15 +32,20 @@ export const removeEventListener = (element, eventName, handler) => {
 };
 
 export const addEventListeners = (element, loadHandler, errorHandler) => {
+    if (!element.llEvLisnrs) element.llEvLisnrs = {};
     addEventListener(element, genericLoadEventName, loadHandler);
-    addEventListener(element, mediaLoadEventName, loadHandler);
+    addEventListener(element, mediaLoadEventName, loadHandler); //TODO: Do only if element is video
     addEventListener(element, errorEventName, errorHandler);
 };
 
-export const removeEventListeners = (element, loadHandler, errorHandler) => {
-    removeEventListener(element, genericLoadEventName, loadHandler);
-    removeEventListener(element, mediaLoadEventName, loadHandler);
-    removeEventListener(element, errorEventName, errorHandler);
+export const removeEventListeners = (element) => {
+    const eventListeners = element.llEvLisnrs;
+    if (!eventListeners) return;
+    for (let eventName in eventListeners) {
+        const handler = eventListeners[eventName];
+        removeEventListener(element, eventName, handler);
+    }
+    delete element.llEvLisnrs;
 };
 
 export const doneHandler = (element, settings, instance) => {
@@ -69,12 +75,13 @@ export const addOneShotEventListeners = (element, settings, instance) => {
 
     const _loadHandler = (event) => {
         loadHandler(event, element, settings, instance);
-        removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
+        removeEventListeners(elementToListenTo);
     };
     const _errorHandler = (event) => {
         errorHandler(event, element, settings, instance);
-        removeEventListeners(elementToListenTo, _loadHandler, _errorHandler);
+        removeEventListeners(elementToListenTo);
     };
 
+    removeEventListeners(elementToListenTo); // <- avoids adding double listeners when cancel_onexit: true
     addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
 };
