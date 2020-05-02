@@ -456,11 +456,14 @@
                 };
                 var callback_cancel = function (element) {
                     logElementEvent("❌ CANCEL", element);
-                    // 👇 YOU MUST DO SOMETHING like the following line to cancel element loading
+                    /* YOU MUST DO SOMETHING like the following line to cancel 
+                       the loading of your assets (images, iframes, videos).
+                       --
+                       NOTE that the following line will cancel the download 
+                       but will also trigger an error, so callback_error will 
+                       be called afterwards. */
                     element.removeAttribute("src");
-                    // 👀 NOTE that canceling the download will trigger an error, 
-                    //    so callback_error will be called afterwards. 
-                    //    Be careful to what you do in that callback.
+                    
                 };
                 var callback_loading = function (element) {
                     logElementEvent("⌚ LOADING", element);
