@@ -456,9 +456,11 @@
                 };
                 var callback_cancel = function (element) {
                     logElementEvent("❌ CANCEL", element);
-                    // 👈 USER MUST DO SOMETHING LIKE THE FOLLOWING TO CANCEL ELEMENT LOADING
-                    element.setAttribute("src", "");
-                    // 👀 CANCELING THE DOWNLOAD WILL TRIGGER AN ERROR, SO CALLBACK_ERROR WILL BE CALLED AFTERWARDS, THIS IS OK.
+                    // 👇 YOU MUST DO SOMETHING like the following line to cancel element loading
+                    element.removeAttribute("src");
+                    // 👀 NOTE that canceling the download will trigger an error, 
+                    //    so callback_error will be called afterwards. 
+                    //    Be careful to what you do in that callback.
                 };
                 var callback_loading = function (element) {
                     logElementEvent("⌚ LOADING", element);
