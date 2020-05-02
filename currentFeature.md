@@ -27,7 +27,7 @@ Cases to manage:
 <img alt="A lazy image" data-src="lazy.jpg" />
 ```
 
-💡 Remove the `src`.
+💡 Remove the `src`\*.
 
 
 ## Responsive image
@@ -40,7 +40,7 @@ Cases to manage:
     data-sizes="100w"
 />
 
-💡 Remove the `src`, then the `srcset`.
+💡 Remove the `src`\*, then the `srcset`.
 
 
 ## Responsive image with picture
@@ -53,8 +53,8 @@ Cases to manage:
 </picture>
 ```
 
-💡 Remove the `src`, then the `srcset` in the `img` tag, then 
-   Remove the `src`, then the `srcset` in the `source` tags, from top to bottom.
+💡 Remove the `src`\*, then the `srcset` in the `img` tag, then 
+   Remove the `src`\*, then the `srcset` in the `source` tags, from top to bottom.
 
 
 ## Iframes
@@ -99,3 +99,6 @@ Cases to manage:
 ```
 
 💡 DO NOTHING, JON SNOW!
+
+
+\* ...or replace it with the original `src` attribute (before it was overridden by `data-src` content).
