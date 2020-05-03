@@ -5,23 +5,31 @@ It all started with #438.
 1. Ability to reset an element status via `resetElementStatus`, in case you need it
    (e.g. some users want to change the `data-src` and make LazyLoad reconsider those images)
 2. Introduced a new option `cancel_onexit` to cancel the download of the exiting images
-3. Introduced a new callback `callback_cancel` that **you MUST implement** to cancel the download of your images
-4. Created a working demo named `cancel_onexit` to demo point 2. and 3.
+3. Introduces the new `callback_cancel` option, it will be called whenever a download gets canceled
+4. Created a working demo named `cancel_onexit` to demo the previous points
 
-The count loading / to load elements works now.
-The `isElementLoading` is not exposed anymore.
-
-General refactoring was applied.
+General (major!) refactoring was applied.
 Storing event listeners inside the element object + making sure they are always removed before adding new ones.
 
---
+---
 
-Is it REALLY necessary to delegate to the user the implementation of the canceling via `callback_cancel` or can it be done internally to LazyLoad?
+Previous issues:
 
-I'm starting to seriously consider to include in this library the code to cancel the download, instead of delegating it to the script user via `callback_cancel`. I'm starting to work on all the cases to consider. Not sure this is the right way, but I'll give it a try.
+- The count loading / to load elements works now.
+- The `isElementLoading` is not exposed anymore.
 
-Cases to manage:
+Current issues:
 
+- The callback_enter and callback_exit keep going after it finished. This is because the elements are not unobserved with the `cancel_onexit` option on.
+  Solution: put the unobserve after a loading or an error?
+
+Next up:
+
+- After canceling the download, restore the original `src` if there was one.content).
+
+---
+
+Cases managed:
 
 ## Simple image
 
@@ -82,6 +90,10 @@ Cases to manage:
    Remove the `src` in the `source` tags, from top to bottom.
 
 
+---
+
+Cases NOT managed (will do, probably?)
+
 ## Background images (single)
 
 ```htm
@@ -90,6 +102,10 @@ Cases to manage:
 
 💡 Remove the `style` attribute applied.
 
+
+---
+
+Cases LazyLoad cannot manage
 
 ## Background images (multiple)
 
