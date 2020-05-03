@@ -17,15 +17,12 @@ Previous issues:
 
 - The count loading / to load elements works now.
 - The `isElementLoading` is not exposed anymore.
-
-Current issues:
-
-- The callback_enter and callback_exit keep going after it finished. This is because the elements are not unobserved with the `cancel_onexit` option on.
-  Solution: put the unobserve after a loading or an error?
+- The elements are unobserved only when done (loaded|error), so the `cancel_onexit` option doesn't impact unobserving
 
 Next up:
 
-- After canceling the download, restore the original `src` if there was one.content).
+- Test the new options with `iframe` and `video`
+- After canceling the download, restore the original `src` (evil placeholders!) if there was one before it started loading.
 
 ---
 
