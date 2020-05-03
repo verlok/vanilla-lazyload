@@ -5,6 +5,5 @@ export const resetElementStatus = (element, instance) => {
     if (hasStatusAfterLoading(element)) {
         increaseToLoadCount(instance);
     }
-    
     setStatus(element, null);
 };

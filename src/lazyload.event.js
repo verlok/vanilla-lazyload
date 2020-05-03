@@ -9,7 +9,6 @@ const mediaLoadEventName = "loadeddata";
 const errorEventName = "error";
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
-
 export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 
 export const decreaseLoadingCount = (instance) => {

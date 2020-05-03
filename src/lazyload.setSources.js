@@ -5,12 +5,18 @@ import { addClass } from "./lazyload.class";
 import { getTempImage } from "./lazyload.tempImage";
 import { isHiDpi } from "./lazyload.environment";
 
-export const increaseLoadingCount = instance => {
+const _src_ = "src";
+const _srcset_ = "srcset";
+const _sizes_ = "sizes";
+const _poster_ = "poster";
+const _PICTURE_ = "PICTURE";
+
+export const increaseLoadingCount = (instance) => {
     if (!instance) return;
     instance.loadingCount += 1;
 };
 
-export const getSourceTags = parentTag => {
+export const getSourceTags = (parentTag) => {
     let sourceTags = [];
     for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
         if (childTag.tagName === "SOURCE") {
@@ -27,37 +33,69 @@ export const setAttributeIfValue = (element, attrName, value) => {
     element.setAttribute(attrName, value);
 };
 
+export const resetAttribute = (element, attrName) => {
+    element.removeAttribute(attrName);
+};
+
 export const setImageAttributes = (element, settings) => {
-    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
-    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
+    setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
+    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+};
+
+export const resetImageAttributes = (element) => {
+    resetAttribute(element, _src_);
+    resetAttribute(element, _srcset_);
+    resetAttribute(element, _sizes_);
+};
+
+export const forEachPictureSource = (element, fn) => {
+    const parent = element.parentNode;
+    if (!parent || parent.tagName !== _PICTURE_) return;
+
+    let sourceTags = getSourceTags(parent);
+    sourceTags.forEach(fn);
 };
 
 export const setSourcesImg = (element, settings) => {
-    const parent = element.parentNode;
-
-    if (parent && parent.tagName === "PICTURE") {
-        let sourceTags = getSourceTags(parent);
-        sourceTags.forEach(sourceTag => {
-            setImageAttributes(sourceTag, settings);
-        });
-    }
-
+    forEachPictureSource(element, (sourceTag) => {
+        setImageAttributes(sourceTag, settings);
+    });
     setImageAttributes(element, settings);
 };
 
+export const resetSourcesImg = (element) => {
+    forEachPictureSource(element, (sourceTag) => {
+        resetImageAttributes(sourceTag);
+    });
+    resetImageAttributes(element);
+};
+
 export const setSourcesIframe = (element, settings) => {
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+};
+
+export const resetSourcesIframe = (element) => {
+    resetAttribute(element, _src_);
 };
 
 export const setSourcesVideo = (element, settings) => {
     let sourceTags = getSourceTags(element);
-    sourceTags.forEach(sourceTag => {
-        setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
+    sourceTags.forEach((sourceTag) => {
+        setAttributeIfValue(sourceTag, _src_, getData(sourceTag, settings.data_src));
     });
-    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    setAttributeIfValue(element, _poster_, getData(element, settings.data_poster));
+    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
     element.load();
+};
+
+export const resetSourcesVideo = (element) => {
+    let sourceTags = getSourceTags(element);
+    resetAttribute(element, _src_);
+    resetAttribute(element, _poster_);
+    sourceTags.forEach((sourceTag) => {
+        resetAttribute(sourceTag, _src_);
+    });
 };
 
 const setSourcesFunctions = {
@@ -66,16 +104,10 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-export const setSources = (element, settings, instance) => {
-    const setSourcesFunction = setSourcesFunctions[element.tagName];
-    if (!setSourcesFunction) return;
-    setSourcesFunction(element, settings);
-    // Annotate and notify loading
-    increaseLoadingCount(instance);
-    addClass(element, settings.class_loading);
-    setStatus(element, statusLoading);
-    safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
+const resetSourcesFunctions = {
+    IMG: resetSourcesImg,
+    IFRAME: resetSourcesIframe ,
+    VIDEO: resetSourcesVideo
 };
 
 export const setBackground = (element, settings, instance) => {
@@ -84,7 +116,7 @@ export const setBackground = (element, settings, instance) => {
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = `url("${bgDataValue}")`;
-    getTempImage(element).setAttribute("src", bgDataValue);
+    getTempImage(element).setAttribute(_src_, bgDataValue);
     // Annotate and notify loading
     increaseLoadingCount(instance);
     addClass(element, settings.class_loading);
@@ -106,4 +138,31 @@ export const setMultiBackground = (element, settings, instance) => {
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
     safeCallback(settings.callback_applied, element, instance);
+};
+
+export const setSources = (element, settings, instance) => {
+    const setSourcesFunction = setSourcesFunctions[element.tagName];
+    if (!setSourcesFunction) return;
+    setSourcesFunction(element, settings);
+    // Annotate and notify loading
+    increaseLoadingCount(instance);
+    addClass(element, settings.class_loading);
+    setStatus(element, statusLoading);
+    safeCallback(settings.callback_loading, element, instance);
+    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
+};
+
+export const resetSources = (element) => {
+    const resetSourcesFunction = resetSourcesFunctions[element.tagName];
+    if (!resetSourcesFunction) return;
+    resetSourcesFunction(element);
+    /*
+    Depending on tag type:
+       - IMG -> 
+         REMOVE SRC, SRCSET, THEN SRC AND SRCSET IN SOURCES
+         EVENTUALLY RESTORE THE ORIGINAL SRC (SAVE IT BEFORE START LOADING)
+       - IFRAME -> REMOVE SRC
+       - VIDEO -> REMOVE SRC, THEN THE SRC IN SOURCES
+       - BGS -> TRICKY, DO NOTHING FOR NOW
+    */
 };
