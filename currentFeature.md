@@ -21,6 +21,7 @@ Previous issues:
 
 Next up:
 
+- CHANGE: the unobserve at loading is not possible with background images, so do that only for elements with a load event
 - Test the new options with `iframe` and `video`
 - After canceling the download, restore the original `src` (evil placeholders!) if there was one before it started loading.
 
