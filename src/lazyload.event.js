@@ -3,6 +3,7 @@ import { safeCallback } from "./lazyload.callback";
 import { setStatus } from "./lazyload.data";
 import { statusLoaded, statusError } from "./lazyload.elementStatus";
 import { deleteTempImage, getTempImage } from "./lazyload.tempImage";
+import { unobserve } from "./lazyload.load";
 
 const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
@@ -51,6 +52,7 @@ export const doneHandler = (element, settings, instance) => {
     deleteTempImage(element);
     decreaseLoadingCount(instance);
     removeClass(element, settings.class_loading);
+    unobserve(element, settings, instance);
 };
 
 export const loadHandler = (event, element, settings, instance) => {

@@ -6,7 +6,7 @@ import { cancelIfLoading } from "./lazyload.cancelOnExit";
 
 export const onIntersecting = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve or cancel_onexit
+    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve
     if (!settings.load_delay) {
         load(element, settings, instance);
         return;

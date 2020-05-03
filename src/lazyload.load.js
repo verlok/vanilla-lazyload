@@ -17,9 +17,8 @@ export const increaseToLoadCount = (instance) => {
 export const unobserve = (element, settings, instance) => {
     if (!instance) return;
     const observer = instance._observer;
-    if (observer && settings.auto_unobserve && !settings.cancel_onexit) {
-        observer.unobserve(element);
-    }
+    if (!observer || !settings.auto_unobserve) return;
+    observer.unobserve(element);
 };
 
 const loadBackground = (element, settings, instance) => {
@@ -41,7 +40,6 @@ export const load = (element, settings, instance) => {
         loadBackground(element, settings, instance);
     }
     decreaseToLoadCount(instance);
-    unobserve(element, settings, instance);
     checkFinish(settings, instance);
 };
 
