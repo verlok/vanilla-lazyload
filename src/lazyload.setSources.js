@@ -4,7 +4,7 @@ import { safeCallback } from "./lazyload.callback";
 import { addClass } from "./lazyload.class";
 import { getTempImage } from "./lazyload.tempImage";
 import { isHiDpi } from "./lazyload.environment";
-import { unobserve } from "./lazyload.load";
+import { unobserve } from "./lazyload.unobserve";
 
 const _src_ = "src";
 const _srcset_ = "srcset";

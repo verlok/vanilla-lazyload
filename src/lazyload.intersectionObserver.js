@@ -3,6 +3,7 @@ import { onIntersecting, onNotIntersecting } from "./lazyload.intersectionHandle
 import { setStatus } from "./lazyload.data";
 import { statusObserved } from "./lazyload.elementStatus";
 import { shouldUseNative } from "./lazyload.native";
+import { resetObserver } from "./lazyload.unobserve";
 
 export const isIntersecting = (entry) => entry.isIntersecting || entry.intersectionRatio > 0;
 
@@ -17,10 +18,6 @@ const intersectionHandler = (entries, settings, instance) => {
             ? onIntersecting(entry.target, entry, settings, instance)
             : onNotIntersecting(entry.target, entry, settings, instance)
     );
-};
-
-export const resetObserver = (observer) => {
-    observer.disconnect();
 };
 
 export const observeElements = (observer, elements) => {
