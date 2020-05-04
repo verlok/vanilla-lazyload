@@ -17,103 +17,18 @@ Previous issues:
 
 - The count loading / to load elements works now.
 - The `isElementLoading` is not exposed anymore.
-- The elements are unobserved only when done (loaded|error), so the `cancel_onexit` option doesn't impact unobserving
+- The elements are unobserved only when done (loaded|error) when possible, or on apply for multiple backgrounds
+
+Currently working on:
+
+- Tested  `cancel_onexit` options with `picture`, `iframe`, `video`, `bg-image`
+- It works with `picture`! 🎉
+- It doesn't work with iframes! -> remove `iframe` from the supported tags for this feature 
+- It doesn't work with videos! -> remove `video` from the supported tags for this feature 
+- It doesn't work with videos! -> remove `<any>` from the supported tags for this feature 
+
+👉 Make this work with the `IMG` tag only, exclude all other tags
 
 Next up:
 
-- Test the new options with `iframe` and `video`
 - After canceling the download, restore the original `src` (evil placeholders!) if there was one before it started loading.
-
----
-
-Cases managed:
-
-## Simple image
-
-```htm
-<img alt="A lazy image" data-src="lazy.jpg" />
-```
-
-💡 Remove the `src`\*.
-
-
-## Responsive image
-
-<img
-    alt="A lazy image"
-    class="lazy"
-    data-src="lazy.jpg"
-    data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
-    data-sizes="100w"
-/>
-
-💡 Remove the `src`\*, then the `srcset`.
-
-
-## Responsive image with picture
-
-```html
-<picture>
-    <source media="(min-width: 1200px)" data-srcset="lazy_1200.jpg 1x, lazy_2400.jpg 2x" />
-    <source media="(min-width: 800px)" data-srcset="lazy_800.jpg 1x, lazy_1600.jpg 2x" />
-    <img alt="A lazy image" class="lazy" data-src="lazy.jpg" />
-</picture>
-```
-
-💡 Remove the `src`\*, then the `srcset` in the `img` tag, then 
-   Remove the `src`\*, then the `srcset` in the `source` tags, from top to bottom.
-
-
-## Iframes
-
-```html
-<iframe class="lazy" data-src="lazyFrame.html"></iframe>
-```
-
-💡 Remove the `src`.
-
-
-## Videos
-
-```html
-<video class="lazy" controls width="620" data-src="lazy.mp4" data-poster="lazy.jpg">
-    <source type="video/mp4" data-src="lazy.mp4" />
-    <source type="video/ogg" data-src="lazy.ogg" />
-    <source type="video/avi" data-src="lazy.avi" />
-</video>
-```
-
-💡 Remove the `src` in the `video` tag, then 
-   Remove the `src` in the `source` tags, from top to bottom.
-
-
----
-
-Cases NOT managed (will do, probably?)
-
-## Background images (single)
-
-```htm
-<div class="lazy" data-bg="lazy.jpg" data-bg-hidpi="lazy@2x.jpg"></div>
-```
-
-💡 Remove the `style` attribute applied.
-
-
----
-
-Cases LazyLoad cannot manage
-
-## Background images (multiple)
-
-```htm
-<div
-    class="lazy"
-    data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
->
-```
-
-💡 DO NOTHING, JON SNOW!
-
-
-\* ...or replace it with the original `src` attribute (before it was overridden by `data-src` content).
