@@ -27,7 +27,7 @@ Currently working on:
 - It doesn't work with videos! -> remove `video` from the supported tags for this feature 
 - It doesn't work with videos! -> remove `<any>` from the supported tags for this feature 
 
-👉 Make this work with the `IMG` tag only, exclude all other tags
+👉 Make this work with the `IMG` tag only, exclude all other tags (change existing conditions)
 
 Next up:
 
