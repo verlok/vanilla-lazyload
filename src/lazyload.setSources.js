@@ -4,6 +4,7 @@ import { safeCallback } from "./lazyload.callback";
 import { addClass } from "./lazyload.class";
 import { getTempImage } from "./lazyload.tempImage";
 import { isHiDpi } from "./lazyload.environment";
+import { unobserve } from "./lazyload.load";
 
 const _src_ = "src";
 const _srcset_ = "srcset";
@@ -137,6 +138,7 @@ export const setMultiBackground = (element, settings, instance) => {
     // Annotate and notify applied
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
+    unobserve(element, settings, instance); // Unobserve here because we can't do it on load
     safeCallback(settings.callback_applied, element, instance);
 };
 
