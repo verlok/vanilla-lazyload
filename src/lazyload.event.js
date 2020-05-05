@@ -34,8 +34,9 @@ export const removeEventListener = (element, eventName, handler) => {
 export const addEventListeners = (element, loadHandler, errorHandler) => {
     if (!element.llEvLisnrs) element.llEvLisnrs = {};
     addEventListener(element, genericLoadEventName, loadHandler);
-    addEventListener(element, mediaLoadEventName, loadHandler); //TODO: Do only if element is video
     addEventListener(element, errorEventName, errorHandler);
+    if (element.tagName !== "VIDEO") return;
+    addEventListener(element, mediaLoadEventName, loadHandler);
 };
 
 export const removeEventListeners = (element) => {
