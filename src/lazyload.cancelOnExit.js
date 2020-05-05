@@ -4,7 +4,7 @@ import { resetSourcesImg } from "./lazyload.setSources";
 import { safeCallback } from "./lazyload.callback";
 
 export const cancelIfLoading = (element, entry, settings, instance) => {
-    if (!settings.cancel_onexit) return;
+    if (!settings.cancel_on_exit) return;
     if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return;
     resetSourcesImg(element, settings, instance);

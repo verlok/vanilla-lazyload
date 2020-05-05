@@ -83,6 +83,6 @@ export const addOneShotEventListeners = (element, settings, instance) => {
         removeEventListeners(elementToListenTo);
     };
 
-    removeEventListeners(elementToListenTo); // <- avoids adding double listeners when cancel_onexit: true
+    removeEventListeners(elementToListenTo); // <- avoids adding double listeners when cancel_on_exit: true
     addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
 };
