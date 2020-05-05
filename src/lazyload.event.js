@@ -31,8 +31,12 @@ export const removeEventListener = (element, eventName, handler) => {
     element.removeEventListener(eventName, handler);
 };
 
+export const hasEventListeners = (element) => {
+    return !!element.llEvLisnrs;
+}
+
 export const addEventListeners = (element, loadHandler, errorHandler) => {
-    if (!element.llEvLisnrs) element.llEvLisnrs = {};
+    if (!hasEventListeners(element)) element.llEvLisnrs = {};
     addEventListener(element, genericLoadEventName, loadHandler);
     addEventListener(element, errorEventName, errorHandler);
     if (element.tagName !== "VIDEO") return;
@@ -40,18 +44,14 @@ export const addEventListeners = (element, loadHandler, errorHandler) => {
 };
 
 export const removeEventListeners = (element) => {
+    if (!hasEventListeners(element)) return;
     const eventListeners = element.llEvLisnrs;
-    if (!eventListeners) return;
     for (let eventName in eventListeners) {
         const handler = eventListeners[eventName];
         removeEventListener(element, eventName, handler);
     }
     delete element.llEvLisnrs;
 };
-
-export const hasEventListeners = (element) => {
-    return !!element.llEvLisnrs;
-}
 
 export const doneHandler = (element, settings, instance) => {
     deleteTempImage(element);
