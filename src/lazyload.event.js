@@ -48,6 +48,10 @@ export const removeEventListeners = (element) => {
     delete element.llEvLisnrs;
 };
 
+export const hasEventListeners = (element) => {
+    return !!element.llEvLisnrs;
+}
+
 export const doneHandler = (element, settings, instance) => {
     deleteTempImage(element);
     decreaseLoadingCount(instance);
@@ -73,6 +77,7 @@ export const errorHandler = (event, element, settings, instance) => {
 
 export const addOneShotEventListeners = (element, settings, instance) => {
     const elementToListenTo = getTempImage(element) || element;
+    if (hasEventListeners(elementToListenTo)) return; // <- when retry loading, e.g. with cancel_on_exit
 
     const _loadHandler = (event) => {
         loadHandler(event, element, settings, instance);
@@ -83,6 +88,5 @@ export const addOneShotEventListeners = (element, settings, instance) => {
         removeEventListeners(elementToListenTo);
     };
 
-    removeEventListeners(elementToListenTo); // <- avoids adding double listeners when cancel_on_exit: true
     addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
 };
