@@ -105,12 +105,6 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-const resetSourcesFunctions = {
-    IMG: resetSourcesImg,
-    IFRAME: resetSourcesIframe ,
-    VIDEO: resetSourcesVideo
-};
-
 export const setBackground = (element, settings, instance) => {
     const bg1xValue = getData(element, settings.data_bg);
     const bgHiDpiValue = getData(element, settings.data_bg_hidpi);
@@ -152,19 +146,4 @@ export const setSources = (element, settings, instance) => {
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
     safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
-};
-
-export const resetSources = (element) => {
-    const resetSourcesFunction = resetSourcesFunctions[element.tagName];
-    if (!resetSourcesFunction) return;
-    resetSourcesFunction(element);
-    /*
-    Depending on tag type:
-       - IMG -> 
-         REMOVE SRC, SRCSET, THEN SRC AND SRCSET IN SOURCES
-         EVENTUALLY RESTORE THE ORIGINAL SRC (SAVE IT BEFORE START LOADING)
-       - IFRAME -> REMOVE SRC
-       - VIDEO -> REMOVE SRC, THEN THE SRC IN SOURCES
-       - BGS -> TRICKY, DO NOTHING FOR NOW
-    */
 };

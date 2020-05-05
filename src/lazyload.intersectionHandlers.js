@@ -16,9 +16,7 @@ export const onIntersecting = (element, entry, settings, instance) => {
 
 export const onNotIntersecting = (element, entry, settings, instance) => {
     if (hasStatusObserved(element)) return; //Ignore the first pass at landing
-    if (settings.cancel_onexit) {
-        cancelIfLoading(element, entry, settings, instance);
-    }
+    cancelIfLoading(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
     if (!settings.load_delay) return;
     cancelDelayLoad(element);
