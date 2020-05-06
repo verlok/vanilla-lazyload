@@ -1,7 +1,5 @@
 import { supportsIntersectionObserver } from "./lazyload.environment";
 import { onIntersecting, onNotIntersecting } from "./lazyload.intersectionHandlers";
-import { setStatus } from "./lazyload.data";
-import { statusObserved } from "./lazyload.elementStatus";
 import { shouldUseNative } from "./lazyload.native";
 import { resetObserver } from "./lazyload.unobserve";
 
@@ -23,7 +21,6 @@ const intersectionHandler = (entries, settings, instance) => {
 export const observeElements = (observer, elements) => {
     elements.forEach((element) => {
         observer.observe(element);
-        setStatus(element, statusObserved);
     });
 };
 
