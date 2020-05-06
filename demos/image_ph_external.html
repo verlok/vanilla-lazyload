@@ -480,7 +480,7 @@
                 </li>
             </ul>
         </div>
-        <script src="../dist/lazyload.min.js"></script>
+        <script src="../dist/lazyload.js"></script>
         <script>
             (function() {
                 function logElementEvent(eventName, element) {
@@ -506,11 +506,16 @@
                 var callback_finish = function() {
                     logElementEvent("✔️ FINISHED", document.documentElement);
                 };
+                var callback_cancel = function (element) {
+                    logElementEvent("🔥 CANCEL", element);
+                };
 
                 var ll = new LazyLoad({
                     elements_selector: ".lazy",
+                    cancel_on_exit: true,
                     // Assign the callbacks defined above
                     callback_enter: callback_enter,
+                    callback_cancel: callback_cancel,
                     callback_exit: callback_exit,
                     callback_loading: callback_loading,
                     callback_loaded: callback_loaded,
