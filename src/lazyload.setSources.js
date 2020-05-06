@@ -38,6 +38,27 @@ export const resetAttribute = (element, attrName) => {
     element.removeAttribute(attrName);
 };
 
+export const hasOriginalAttributes = (element) => {
+    return !!element.llOriginalAttrs;
+};
+
+export const saveOriginalImageAttributes = (element) => {
+    if (hasOriginalAttributes(element)) return;
+    const originalAttributes = {};
+    originalAttributes[_src_] = element.getAttribute(_src_);
+    originalAttributes[_srcset_] = element.getAttribute(_srcset_);
+    originalAttributes[_sizes_] = element.getAttribute(_sizes_);
+    element.llOriginalAttrs = originalAttributes;
+};
+
+export const restoreOriginalImageAttributes = (element) => {
+    if (!hasOriginalAttributes(element)) return;
+    const originalAttributes = element.llOriginalAttrs;
+    setAttributeIfValue(element, _src_, originalAttributes[_src_]);
+    setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
+    setAttributeIfValue(element, _sizes_, originalAttributes[_sizes_]);
+};
+
 export const setImageAttributes = (element, settings) => {
     setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
     setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
@@ -58,10 +79,19 @@ export const forEachPictureSource = (element, fn) => {
     sourceTags.forEach(fn);
 };
 
+export const restoreOriginalAttributesImg = (element) => {
+    forEachPictureSource(element, (sourceTag) => {
+        restoreOriginalImageAttributes(sourceTag);
+    });
+    restoreOriginalImageAttributes(element);
+};
+
 export const setSourcesImg = (element, settings) => {
     forEachPictureSource(element, (sourceTag) => {
+        saveOriginalImageAttributes(sourceTag);
         setImageAttributes(sourceTag, settings);
     });
+    saveOriginalImageAttributes(element);
     setImageAttributes(element, settings);
 };
 
