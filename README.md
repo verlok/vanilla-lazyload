@@ -437,9 +437,30 @@ var myLazyLoad2 = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
 
+### Optimize for slower connections
+
+> 💡 **Use case**: to cancel the loading of images that exited the viewport, in order to reserve bandwidth for the new images that entered the viewport.
+
+HTML
+
+```html
+<img class="lazy" alt="A lazy image" data-src="lazy.jpg" width="220" height="280" />
+```
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy",
+    cancel_on_exit: true
+});
+```
+
+[DEMO](https://verlok.github.io/lazyload/demos/cancel_on_exit.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/cancel_on_exit.html) | [API](#-api)
+
 ### Delay loading
 
-> 💡 **Use case**: if a your scrolls fast over your images, you might wait a short time before the images start loading. This is how.
+> 💡 **Use case**: to start loading elements that stayed inside the viewport for a given amount of time.
 
 HTML
 
