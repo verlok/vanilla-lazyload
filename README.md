@@ -742,7 +742,11 @@ _LazyLoad_ **doesn't hide your images from search engines**, even if you don't s
 
 ### Flaky connections supported
 
-Starting from version 12.2, if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.
+If your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.
+
+### Optimize for slow connections
+
+Activating the `cancel_on_exit` option, you can tell LazyLoad to optimize for slow connection by cancelling the download of images when they exit the viewport.
 
 ### Support for responsive images
 
