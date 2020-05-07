@@ -78,10 +78,10 @@ const autoInitialize = (classObj, options) => {
     }
 };
 
-const statusObserved = "observed";
-const statusApplied = "applied";
+const statusDelayed = "delayed";
 const statusLoading = "loading";
 const statusLoaded = "loaded";
+const statusApplied = "applied";
 const statusError = "error";
 const statusNative = "native";
 
@@ -106,19 +106,16 @@ const getStatus = (element) => getData(element, statusDataName);
 const setStatus = (element, status) => setData(element, statusDataName, status);
 const resetStatus = (element) => setStatus(element, null);
 
-const hasAnyStatus = (element) => getStatus(element) !== null;
-const hasStatusObserved = (element) => getStatus(element) === statusObserved;
+const hasEmptyStatus = (element) => getStatus(element) === null;
 const hasStatusLoading = (element) => getStatus(element) === statusLoading;
 const hasStatusError = (element) => getStatus(element) === statusError;
+const hasStatusDelayed = (element) => getStatus(element) === statusDelayed;
 
 const statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
 const hasStatusAfterLoading = (element) =>
     statusesAfterLoading.indexOf(getStatus(element)) > -1;
 
-const hasStatusToManage = (element) => !hasAnyStatus(element) || hasStatusObserved(element);
-
 const setTimeoutData = (element, value) => setData(element, timeoutDataName, value);
-
 const getTimeoutData = (element) => getData(element, timeoutDataName);
 
 const safeCallback = (callback, arg1, arg2, arg3) => {
@@ -209,6 +206,27 @@ const resetAttribute = (element, attrName) => {
     element.removeAttribute(attrName);
 };
 
+const hasOriginalAttributes = (element) => {
+    return !!element.llOriginalAttrs;
+};
+
+const saveOriginalImageAttributes = (element) => {
+    if (hasOriginalAttributes(element)) return;
+    const originalAttributes = {};
+    originalAttributes[_src_] = element.getAttribute(_src_);
+    originalAttributes[_srcset_] = element.getAttribute(_srcset_);
+    originalAttributes[_sizes_] = element.getAttribute(_sizes_);
+    element.llOriginalAttrs = originalAttributes;
+};
+
+const restoreOriginalImageAttributes = (element) => {
+    if (!hasOriginalAttributes(element)) return;
+    const originalAttributes = element.llOriginalAttrs;
+    setAttributeIfValue(element, _src_, originalAttributes[_src_]);
+    setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
+    setAttributeIfValue(element, _sizes_, originalAttributes[_sizes_]);
+};
+
 const setImageAttributes = (element, settings) => {
     setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
     setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
@@ -229,10 +247,19 @@ const forEachPictureSource = (element, fn) => {
     sourceTags.forEach(fn);
 };
 
+const restoreOriginalAttributesImg = (element) => {
+    forEachPictureSource(element, (sourceTag) => {
+        restoreOriginalImageAttributes(sourceTag);
+    });
+    restoreOriginalImageAttributes(element);
+};
+
 const setSourcesImg = (element, settings) => {
     forEachPictureSource(element, (sourceTag) => {
+        saveOriginalImageAttributes(sourceTag);
         setImageAttributes(sourceTag, settings);
     });
+    saveOriginalImageAttributes(element);
     setImageAttributes(element, settings);
 };
 
@@ -433,10 +460,13 @@ const loadNative = (element, settings, instance) => {
     checkFinish(settings, instance);
 };
 
-const cancelDelayLoad = element => {
+const cancelDelayLoad = (element) => {
     var timeoutId = getTimeoutData(element);
     if (!timeoutId) {
         return; // do nothing if timeout doesn't exist
+    }
+    if (hasStatusDelayed(element)) { // iffing because status could also be "loading"
+        resetStatus(element); 
     }
     clearTimeout(timeoutId);
     setTimeoutData(element, null);
@@ -448,18 +478,20 @@ const delayLoad = (element, settings, instance) => {
     if (timeoutId) {
         return; // do nothing if timeout already set
     }
-    timeoutId = setTimeout(function() {
+    timeoutId = setTimeout(function () {
         load(element, settings, instance);
         cancelDelayLoad(element);
     }, loadDelay);
+    setStatus(element, statusDelayed);
     setTimeoutData(element, timeoutId);
 };
 
 const cancelIfLoading = (element, entry, settings, instance) => {
-    if (!settings.cancel_on_exit) return;
-    if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return;
+    removeEventListeners(element);
     resetSourcesImg(element);
+    restoreOriginalAttributesImg(element);
+    removeClass(element, settings.class_loading);
     decreaseLoadingCount(instance);
     safeCallback(settings.callback_cancel, element, entry, instance);
     // setTimeout is needed because the "callback_cancel" implementation
@@ -472,19 +504,22 @@ const cancelIfLoading = (element, entry, settings, instance) => {
 const onIntersecting = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
     if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve
-    if (!settings.load_delay) {
-        load(element, settings, instance);
+    if (settings.load_delay) {
+        delayLoad(element, settings, instance);
         return;
     }
-    delayLoad(element, settings, instance);
+    load(element, settings, instance);
 };
 
 const onNotIntersecting = (element, entry, settings, instance) => {
-    if (hasStatusObserved(element)) return; //Ignore the first pass at landing
-    cancelIfLoading(element, entry, settings, instance);
+    if (hasEmptyStatus(element)) return; //Ignore the first pass at landing
+    if (settings.cancel_on_exit && hasStatusLoading(element)) {
+        cancelIfLoading(element, entry, settings, instance);
+    }
     safeCallback(settings.callback_exit, element, entry, instance);
-    if (!settings.load_delay) return;
-    cancelDelayLoad(element);
+    if (settings.load_delay && hasStatusDelayed(element)) {
+        cancelDelayLoad(element);
+    }
 };
 
 const nativeLazyTags = ["IMG", "IFRAME"];
@@ -522,7 +557,6 @@ const intersectionHandler = (entries, settings, instance) => {
 const observeElements = (observer, elements) => {
     elements.forEach((element) => {
         observer.observe(element);
-        setStatus(element, statusObserved);
     });
 };
 
@@ -541,16 +575,15 @@ const setObserver = (instance) => {
     }, getObserverSettings(settings));
 };
 
-const toArray = nodeSet => Array.prototype.slice.call(nodeSet);
+const toArray = (nodeSet) => Array.prototype.slice.call(nodeSet);
 
-const queryElements = settings =>
+const queryElements = (settings) =>
     settings.container.querySelectorAll(settings.elements_selector);
 
-const isToManage = element => !hasAnyStatus(element) || hasStatusToManage(element);
-const excludeManagedElements = elements => toArray(elements).filter(isToManage);
+const excludeManagedElements = (elements) => toArray(elements).filter(hasEmptyStatus);
 
-const hasError = element => hasStatusError(element);
-const filterErrorElements = elements => toArray(elements).filter(hasError);
+const hasError = (element) => hasStatusError(element);
+const filterErrorElements = (elements) => toArray(elements).filter(hasError);
 
 const getElementsToLoad = (elements, settings) =>
     excludeManagedElements(elements || queryElements(settings));

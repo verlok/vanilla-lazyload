@@ -101,10 +101,10 @@ define(function () { 'use strict';
     }
   };
 
-  var statusObserved = "observed";
-  var statusApplied = "applied";
+  var statusDelayed = "delayed";
   var statusLoading = "loading";
   var statusLoaded = "loaded";
+  var statusApplied = "applied";
   var statusError = "error";
   var statusNative = "native";
 
@@ -133,11 +133,8 @@ define(function () { 'use strict';
   var resetStatus = function resetStatus(element) {
     return setStatus(element, null);
   };
-  var hasAnyStatus = function hasAnyStatus(element) {
-    return getStatus(element) !== null;
-  };
-  var hasStatusObserved = function hasStatusObserved(element) {
-    return getStatus(element) === statusObserved;
+  var hasEmptyStatus = function hasEmptyStatus(element) {
+    return getStatus(element) === null;
   };
   var hasStatusLoading = function hasStatusLoading(element) {
     return getStatus(element) === statusLoading;
@@ -145,12 +142,12 @@ define(function () { 'use strict';
   var hasStatusError = function hasStatusError(element) {
     return getStatus(element) === statusError;
   };
+  var hasStatusDelayed = function hasStatusDelayed(element) {
+    return getStatus(element) === statusDelayed;
+  };
   var statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
   var hasStatusAfterLoading = function hasStatusAfterLoading(element) {
     return statusesAfterLoading.indexOf(getStatus(element)) > -1;
-  };
-  var hasStatusToManage = function hasStatusToManage(element) {
-    return !hasAnyStatus(element) || hasStatusObserved(element);
   };
   var setTimeoutData = function setTimeoutData(element, value) {
     return setData(element, timeoutDataName, value);
@@ -244,6 +241,24 @@ define(function () { 'use strict';
   var resetAttribute = function resetAttribute(element, attrName) {
     element.removeAttribute(attrName);
   };
+  var hasOriginalAttributes = function hasOriginalAttributes(element) {
+    return !!element.llOriginalAttrs;
+  };
+  var saveOriginalImageAttributes = function saveOriginalImageAttributes(element) {
+    if (hasOriginalAttributes(element)) return;
+    var originalAttributes = {};
+    originalAttributes[_src_] = element.getAttribute(_src_);
+    originalAttributes[_srcset_] = element.getAttribute(_srcset_);
+    originalAttributes[_sizes_] = element.getAttribute(_sizes_);
+    element.llOriginalAttrs = originalAttributes;
+  };
+  var restoreOriginalImageAttributes = function restoreOriginalImageAttributes(element) {
+    if (!hasOriginalAttributes(element)) return;
+    var originalAttributes = element.llOriginalAttrs;
+    setAttributeIfValue(element, _src_, originalAttributes[_src_]);
+    setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
+    setAttributeIfValue(element, _sizes_, originalAttributes[_sizes_]);
+  };
   var setImageAttributes = function setImageAttributes(element, settings) {
     setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
     setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
@@ -260,10 +275,18 @@ define(function () { 'use strict';
     var sourceTags = getSourceTags(parent);
     sourceTags.forEach(fn);
   };
+  var restoreOriginalAttributesImg = function restoreOriginalAttributesImg(element) {
+    forEachPictureSource(element, function (sourceTag) {
+      restoreOriginalImageAttributes(sourceTag);
+    });
+    restoreOriginalImageAttributes(element);
+  };
   var setSourcesImg = function setSourcesImg(element, settings) {
     forEachPictureSource(element, function (sourceTag) {
+      saveOriginalImageAttributes(sourceTag);
       setImageAttributes(sourceTag, settings);
     });
+    saveOriginalImageAttributes(element);
     setImageAttributes(element, settings);
   };
   var resetSourcesImg = function resetSourcesImg(element) {
@@ -457,6 +480,11 @@ define(function () { 'use strict';
       return; // do nothing if timeout doesn't exist
     }
 
+    if (hasStatusDelayed(element)) {
+      // iffing because status could also be "loading"
+      resetStatus(element);
+    }
+
     clearTimeout(timeoutId);
     setTimeoutData(element, null);
   };
@@ -472,14 +500,16 @@ define(function () { 'use strict';
       load(element, settings, instance);
       cancelDelayLoad(element);
     }, loadDelay);
+    setStatus(element, statusDelayed);
     setTimeoutData(element, timeoutId);
   };
 
   var cancelIfLoading = function cancelIfLoading(element, entry, settings, instance) {
-    if (!settings.cancel_on_exit) return;
-    if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return;
+    removeEventListeners(element);
     resetSourcesImg(element);
+    restoreOriginalAttributesImg(element);
+    removeClass(element, settings.class_loading);
     decreaseLoadingCount(instance);
     safeCallback(settings.callback_cancel, element, entry, instance); // setTimeout is needed because the "callback_cancel" implementation
     // could be out of the main thread, e.g. `img.setAttribute("src", "")`
@@ -493,20 +523,25 @@ define(function () { 'use strict';
     safeCallback(settings.callback_enter, element, entry, instance);
     if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve
 
-    if (!settings.load_delay) {
-      load(element, settings, instance);
+    if (settings.load_delay) {
+      delayLoad(element, settings, instance);
       return;
     }
 
-    delayLoad(element, settings, instance);
+    load(element, settings, instance);
   };
   var onNotIntersecting = function onNotIntersecting(element, entry, settings, instance) {
-    if (hasStatusObserved(element)) return; //Ignore the first pass at landing
+    if (hasEmptyStatus(element)) return; //Ignore the first pass at landing
 
-    cancelIfLoading(element, entry, settings, instance);
+    if (settings.cancel_on_exit && hasStatusLoading(element)) {
+      cancelIfLoading(element, entry, settings, instance);
+    }
+
     safeCallback(settings.callback_exit, element, entry, instance);
-    if (!settings.load_delay) return;
-    cancelDelayLoad(element);
+
+    if (settings.load_delay && hasStatusDelayed(element)) {
+      cancelDelayLoad(element);
+    }
   };
 
   var nativeLazyTags = ["IMG", "IFRAME"];
@@ -546,7 +581,6 @@ define(function () { 'use strict';
   var observeElements = function observeElements(observer, elements) {
     elements.forEach(function (element) {
       observer.observe(element);
-      setStatus(element, statusObserved);
     });
   };
   var updateObserver = function updateObserver(observer, elementsToObserve) {
@@ -571,11 +605,8 @@ define(function () { 'use strict';
   var queryElements = function queryElements(settings) {
     return settings.container.querySelectorAll(settings.elements_selector);
   };
-  var isToManage = function isToManage(element) {
-    return !hasAnyStatus(element) || hasStatusToManage(element);
-  };
   var excludeManagedElements = function excludeManagedElements(elements) {
-    return toArray(elements).filter(isToManage);
+    return toArray(elements).filter(hasEmptyStatus);
   };
   var hasError = function hasError(element) {
     return hasStatusError(element);
