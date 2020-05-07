@@ -556,7 +556,8 @@ var LazyLoad = (function () {
         return;
       }
 
-      element.setAttribute(loadingString, "lazy");
+      element.setAttribute(loadingString, "lazy"); //TODO: Move inside the loadNative method
+
       loadNative(element, settings, instance);
     });
     instance.toLoadCount = 0;
