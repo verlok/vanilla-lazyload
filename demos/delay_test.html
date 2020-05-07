@@ -71,39 +71,44 @@
         <div class="space">
             Here's some space
         </div>
-        <script src="../dist/lazyload.min.js"></script>
+        <script src="../dist/lazyload.js"></script>
         <script>
-            (function() {
+            (function () {
                 function logElementEvent(eventName, element) {
                     console.log(Date.now(), eventName, element.getAttribute("data-src"));
                 }
 
-                var callback_enter = function(element) {
+                var callback_enter = function (element) {
                     logElementEvent("🔑 ENTERED", element);
                 };
-                var callback_exit = function(element) {
+                var callback_exit = function (element) {
                     logElementEvent("🚪 EXITED", element);
                 };
-                var callback_loading = function(element) {
+                var callback_loading = function (element) {
                     logElementEvent("⌚ LOADING", element);
                 };
-                var callback_loaded = function(element) {
+                var callback_cancel = function (element) {
+                    logElementEvent("🔥 CANCEL", element);
+                };
+                var callback_loaded = function (element) {
                     logElementEvent("👍 LOADED", element);
                 };
-                var callback_error = function(element) {
+                var callback_error = function (element) {
                     logElementEvent("💀 ERROR", element);
                     element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
                 };
-                var callback_finish = function() {
+                var callback_finish = function () {
                     logElementEvent("✔️ FINISHED", document.documentElement);
                 };
 
                 ll = new LazyLoad({
                     elements_selector: ".lazy",
+                    cancel_on_exit: true,
                     load_delay: 1000,
                     threshold: 0,
                     // Assign the callbacks defined above
                     callback_enter: callback_enter,
+                    callback_cancel: callback_cancel,
                     callback_exit: callback_exit,
                     callback_loading: callback_loading,
                     callback_loaded: callback_loaded,

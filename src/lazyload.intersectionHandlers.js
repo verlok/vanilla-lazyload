@@ -1,26 +1,31 @@
 import { delayLoad, cancelDelayLoad } from "./lazyload.delay";
 import { safeCallback } from "./lazyload.callback";
 import { load } from "./lazyload.load";
-import { setStatus, getStatus } from "./lazyload.data";
-import { statusEntered, statusObserved } from "./lazyload.elementStatus";
+import {
+    hasStatusAfterLoading,
+    hasEmptyStatus,
+    hasStatusLoading,
+    hasStatusDelayed
+} from "./lazyload.data";
+import { cancelIfLoading } from "./lazyload.cancelOnExit";
 
-export const onIntersecting = (element, entry, instance) => {
-    setStatus(element, statusEntered);
-    const settings = instance._settings;
+export const onIntersecting = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (!settings.load_delay) {
-        load(element, settings, instance);
+    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve
+    if (settings.load_delay) {
+        delayLoad(element, settings, instance);
         return;
     }
-    delayLoad(element, settings, instance);
+    load(element, settings, instance);
 };
 
-
-export const onNotIntersecting = (element, entry, instance) => {
-    if (getStatus(element) !== statusEntered) return; //Keeps out status other than "entered"
-    setStatus(element, statusObserved);
-    const settings = instance._settings;
+export const onNotIntersecting = (element, entry, settings, instance) => {
+    if (hasEmptyStatus(element)) return; //Ignore the first pass at landing
+    if (settings.cancel_on_exit && hasStatusLoading(element)) {
+        cancelIfLoading(element, entry, settings, instance);
+    }
     safeCallback(settings.callback_exit, element, entry, instance);
-    if (!settings.load_delay) return;
-    cancelDelayLoad(element);
+    if (settings.load_delay && hasStatusDelayed(element)) {
+        cancelDelayLoad(element);
+    }
 };

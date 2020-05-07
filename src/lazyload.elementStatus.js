@@ -1,7 +1,6 @@
-export const statusObserved = "observed";
-export const statusEntered = "entered";
-export const statusApplied = "applied";
+export const statusDelayed = "delayed";
 export const statusLoading = "loading";
 export const statusLoaded = "loaded";
+export const statusApplied = "applied";
 export const statusError = "error";
 export const statusNative = "native";
