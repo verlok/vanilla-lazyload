@@ -266,7 +266,7 @@ Same as above, but you must put the `addEventListener` code shown below before i
     // Listen to the initialization event and get the instance of LazyLoad
     window.addEventListener(
         "LazyLoad::Initialized",
-        function(event) {
+        function (event) {
             window.lazyLoadInstance = event.detail.instance;
         },
         false
@@ -294,7 +294,7 @@ Note about Internet Explorer: because this technique uses a `CustomEvent` ([lear
 ```html
 <script>
     // CustomEvent micro-polyfill for Internet Explorer
-    (function() {
+    (function () {
         if (typeof window.CustomEvent === "function") {
             return false;
         }
@@ -523,7 +523,7 @@ var lazyLoadInstances = [];
 var lazyLazy = new LazyLoad({
     elements_selector: ".horzContainer",
     // When the .horzContainer div enters the viewport...
-    callback_enter: function(el) {
+    callback_enter: function (el) {
         // ...instantiate a new LazyLoad on it
         var oneLL = new LazyLoad({
             container: el
