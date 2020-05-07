@@ -19,12 +19,6 @@ It all started with #438.
 
 ---
 
-Next up:
-
--   Move `element.llOriginalAttrs` and `element.llEventLisnrs` to the same namespace, eg `element.lazyload.originals`, `element.lazyload.listeners`.
-
----
-
 Solved issues:
 
 -   The count loading / to load elements works now.
