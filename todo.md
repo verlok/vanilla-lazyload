@@ -2,8 +2,9 @@
 
 ## Coming next
 
--   DOING: Introduce the `reset()` method (public for all, static for one image).
--   ?Rename `toLoadCount` to `toManageCount`, or something like that?
+-   Consider not using the `load` event listener for videos.
+-   When `cancel_on_exit` is `false`, unobserve elements as soon as they start loading (as of before 15.2.0).
+-   Try setting the status inside the element using `element.llStatus` and `element.llTimeout` instead of using DOM attributes `data-ll-status` and `data-ll-timeout`? It would be more protected so harder to hack, and probably faster to read and write.
 -   Check how LazyLoad behaves when a page was updated using DOM morphing.
     If only the data-attributes were updated, how do one forces LazyLoad to read from them again?
 
