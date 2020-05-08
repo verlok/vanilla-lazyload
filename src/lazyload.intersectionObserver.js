@@ -29,8 +29,7 @@ export const updateObserver = (observer, elementsToObserve) => {
     observeElements(observer, elementsToObserve);
 };
 
-export const setObserver = (instance) => {
-    const settings = instance._settings;
+export const setObserver = (settings, instance) => {
     if (!supportsIntersectionObserver || shouldUseNative(settings)) {
         return;
     }

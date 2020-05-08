@@ -9,10 +9,11 @@ import { getElementsToLoad } from "./lazyload.dom";
 import { resetElementStatus } from "./lazyload.reset";
 
 const LazyLoad = function (customSettings, elements) {
-    this._settings = getExtendedSettings(customSettings);
+    const settings = getExtendedSettings(customSettings);
+    this._settings = settings;
     this.loadingCount = 0;
-    setObserver(this);
-    setOnlineCheck(this);
+    setObserver(settings, this);
+    setOnlineCheck(settings, this);
     this.update(elements);
 };
 
