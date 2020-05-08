@@ -9,9 +9,11 @@ import {
 } from "./lazyload.data";
 import { cancelIfLoading } from "./lazyload.cancelOnExit";
 
-export const onIntersecting = (element, entry, settings, instance) => {
+export const onEnter = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve
+    if (hasStatusAfterLoading(element)) {
+        return; //Prevent loading it again
+    } 
     if (settings.load_delay) {
         delayLoad(element, settings, instance);
         return;
@@ -19,8 +21,10 @@ export const onIntersecting = (element, entry, settings, instance) => {
     load(element, settings, instance);
 };
 
-export const onNotIntersecting = (element, entry, settings, instance) => {
-    if (hasEmptyStatus(element)) return; //Ignore the first pass at landing
+export const onExit = (element, entry, settings, instance) => {
+    if (hasEmptyStatus(element)) {
+        return; //Ignore the first pass, at landing
+    }
     if (settings.cancel_on_exit && hasStatusLoading(element)) {
         cancelIfLoading(element, entry, settings, instance);
     }
