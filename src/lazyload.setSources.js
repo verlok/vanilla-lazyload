@@ -161,8 +161,11 @@ export const setMultiBackground = (element, settings, instance) => {
     // Annotate and notify applied
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
-    unobserve(element, settings, instance); // Unobserve here because we can't do it on load
     safeCallback(settings.callback_applied, element, instance);
+    if (settings.unobserve_on_loaded) {
+        // Unobserve now because we can't do it on load
+        unobserve(element, settings, instance);
+    }
 };
 
 export const setSources = (element, settings, instance) => {

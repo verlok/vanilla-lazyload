@@ -6,4 +6,5 @@ Will release v. 16!
 
 1. Removed call to `callback_reveal` that was deprecated
 2. Removed deprecated instance `load()` method in favor of the static `LazyLoad.load()` method
+3. Replaced `auto_unobserve` with `unobserve_on_loaded`, still defaulting to `true`
 

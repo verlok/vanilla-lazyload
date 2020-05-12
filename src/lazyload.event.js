@@ -57,6 +57,9 @@ export const doneHandler = (element, settings, instance) => {
     deleteTempImage(element);
     decreaseLoadingCount(instance);
     removeClass(element, settings.class_loading);
+    if (!settings.unobserve_on_loaded) {
+        return;
+    }
     unobserve(element, settings, instance);
 };
 
