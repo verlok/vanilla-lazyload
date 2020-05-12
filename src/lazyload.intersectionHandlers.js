@@ -8,6 +8,7 @@ import {
     hasStatusDelayed
 } from "./lazyload.data";
 import { cancelIfLoading } from "./lazyload.cancelOnExit";
+import { unobserve } from "./lazyload.unobserve";
 
 export const onEnter = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
@@ -17,6 +18,9 @@ export const onEnter = (element, entry, settings, instance) => {
     if (settings.load_delay) {
         delayLoad(element, settings, instance);
         return;
+    }
+    if (settings.unobserve_on_enter) {
+        unobserve();
     }
     load(element, settings, instance);
 };
