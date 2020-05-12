@@ -56,11 +56,6 @@ LazyLoad.prototype = {
 
     resetElementStatus: function (element) {
         resetElementStatus(element, this);
-    },
-
-    // DEPRECATED
-    load: function (element) {
-        load(element, this._settings, this);
     }
 };
 
