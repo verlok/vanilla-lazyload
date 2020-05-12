@@ -4,7 +4,10 @@ import { safeCallback } from "./lazyload.callback";
 import { removeClass } from "./lazyload.class";
 
 export const cancelIfLoading = (element, entry, settings, instance) => {
-    if (element.tagName !== "IMG") return;
+    if (element.tagName !== "IMG") {
+        // Can't cancel loading on anything but images
+        return;
+    }
     removeEventListeners(element);
     resetSourcesImg(element, settings, instance);
     restoreOriginalAttributesImg(element);

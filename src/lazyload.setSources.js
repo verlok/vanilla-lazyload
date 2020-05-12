@@ -43,7 +43,9 @@ export const hasOriginalAttributes = (element) => {
 };
 
 export const saveOriginalImageAttributes = (element) => {
-    if (hasOriginalAttributes(element)) return;
+    if (hasOriginalAttributes(element)) {
+        return;
+    }
     const originalAttributes = {};
     originalAttributes[_src_] = element.getAttribute(_src_);
     originalAttributes[_srcset_] = element.getAttribute(_srcset_);
@@ -52,7 +54,9 @@ export const saveOriginalImageAttributes = (element) => {
 };
 
 export const restoreOriginalImageAttributes = (element) => {
-    if (!hasOriginalAttributes(element)) return;
+    if (!hasOriginalAttributes(element)) {
+        return;
+    }
     const originalAttributes = element.llOriginalAttrs;
     setAttributeIfValue(element, _src_, originalAttributes[_src_]);
     setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
@@ -73,8 +77,9 @@ export const resetImageAttributes = (element) => {
 
 export const forEachPictureSource = (element, fn) => {
     const parent = element.parentNode;
-    if (!parent || parent.tagName !== _PICTURE_) return;
-
+    if (!parent || parent.tagName !== _PICTURE_) {
+        return;
+    }
     let sourceTags = getSourceTags(parent);
     sourceTags.forEach(fn);
 };
@@ -156,7 +161,9 @@ export const setMultiBackground = (element, settings, instance) => {
     const bg1xValue = getData(element, settings.data_bg_multi);
     const bgHiDpiValue = getData(element, settings.data_bg_multi_hidpi);
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
-    if (!bgDataValue) return;
+    if (!bgDataValue) {
+        return;
+    }
     element.style.backgroundImage = bgDataValue;
     // Annotate and notify applied
     addClass(element, settings.class_applied);
@@ -170,7 +177,9 @@ export const setMultiBackground = (element, settings, instance) => {
 
 export const setSources = (element, settings, instance) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
-    if (!setSourcesFunction) return;
+    if (!setSourcesFunction) {
+        return;
+    }
     setSourcesFunction(element, settings);
     // Annotate and notify loading
     increaseLoadingCount(instance);
