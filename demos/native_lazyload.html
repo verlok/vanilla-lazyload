@@ -48,17 +48,8 @@
 
 	<body>
 		<p class="warning">
-			You can use this page to test browsers' implementations of
-			<strong>native lazy loading</strong>.
-		</p>
-		<p class="warning">
-			Please note that not even one line of JavaScript code is involved
-			here.
-		</p>
-		<p class="warning">
-			Be sure to check the
-			<strong>Enable lazy image loading</strong> flag on Chrome 75. Go to
-			chrome://flags/ to do it, then restart Chrome.
+			You can use this page to test browsers' implementations of <strong>native lazy loading</strong>.<br>
+            Please note that not even one line of JavaScript code is involved here.
 		</p>
 		<div id="results1" class="results">
 			<ul>
@@ -509,7 +500,10 @@
 					/></a>
 				</li>
 			</ul>
-		</div>
+        </div>
+        <iframe loading="lazy" src="iframes/i01.html" frameborder="0"></iframe>
+        <iframe loading="lazy" src="iframes/i02.html" frameborder="0"></iframe>
+        <iframe loading="lazy" src="iframes/i03.html" frameborder="0"></iframe>
 		<script>
 			console.log("Look ma! No javascript here!");
 		</script>

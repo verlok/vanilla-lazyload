@@ -2,6 +2,38 @@
 
 ## Version 15
 
+#### 15.2.0
+
+OPTIMIZE FOR SLOW CONNECTIONS WITH `cancel_on_exit`
+
+Want to optimize speed for users who scroll down fast on a slow connection? Just set `cancel_on_exit: true` and LazyLoad will cancel the download of images exiting the viewport while still loading, eventually restoring the original attributes.
+
+-   Introduced the new `cancel_on_exit` option.
+-   Introduced the `callback_cancel` option, just in case you want to perform any additional action whenever a download gets canceled by `cancel_on_exit`.
+-   Created a new demo named `cancel_on_exit.html` so you can try the new `cancel_on_exit` option live.
+-   Set `cancel_on_exit` to `true` in the following demos, so you can test how it behaves...
+    -   `image_ph_inline.html`, with an inline SVG placeholder
+    -   `image_ph_external.html`, with an external SVG placeholder
+    -   `delay_test.html`, in conjuction with the `delay_load` option
+    -   `fade_in.html`, with a beautiful fade-in effect.
+
+The `cancel_on_exit` option applies only to images so to the `img` (and `picture`) tags. It doesn't work for background images, `iframe`s nor `video`s.
+
+The `cancel_on_exit` option will probably default to `true` starting from the next major version, so give it a try! And please report your feedback in the comments of [#438](https://github.com/verlok/lazyload/issues/438).
+
+API
+
+-   Added the `resetElementStatus()` method for when you need to tell LazyLoad to consider an image (or other DOM element) again. This is particularly useful if you change the `data-src` attribute after the previous `data-src` was loaded). See the [API section](README.md#-api) in the README file for more information.
+
+FIX
+
+-   The `callback_exit` callback was called several times (for every images out of the viewport) at instance creation or upon `update()` calls. Now the callback is properly called only when any element exits the viewport.
+
+INTERNALS
+
+-   Improved script performance by reducing the number of event listeners used for loading elements.
+-   Changed the values that the (internally used) `data-ll-status` attribute can take. Removed the status `"observed"` (it was useless) and introduced status `"delayed"`.
+
 #### 15.1.1
 
 Fixed a bug when loading lazy background images on HiDPI screens, `data-bg-hidpi` was mandatory, not it fallbacks to `data-bg`. #430
@@ -27,7 +59,7 @@ Same for `data-bg-multi` and `data-bg-multi-hidpi`.
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
@@ -68,7 +100,7 @@ Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427
 
 ---
 
-**Like this project? 👍☕ [Buy me a coffee!](https://ko-fi.com/verlok)**
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
 
