@@ -147,7 +147,6 @@ export const setBackground = (element, settings, instance) => {
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
 // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
@@ -175,5 +174,4 @@ export const setSources = (element, settings, instance) => {
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
