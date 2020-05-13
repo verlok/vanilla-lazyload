@@ -9,13 +9,13 @@ Will release v. 16!
 3. Replaced `auto_unobserve` with `unobserve_on_loaded`, still defaulting to `true`
 4. Removed the `load_delay` option
 5. Introduced a new `unobserve_on_enter` option (useful to execute lazy scripts once)
+6. Simplified management of the `cancel_on_exit` with less increase/decrease of the `toLoadCount`
+7. Instance method `resetElementStatus` renamed and made static, as `resetStatus`
+8. Refactored counters functions in a new `lazyload.counters` file
 
 🤔 CONSIDERING
 
--   Move `decreaseToLoadCount` on "done" event, instead of in the `load` method?
-    This would mean that the `loading` status wouldn't be considered as "to load" and it's a good thing.
-    This would also mean that the method `increaseToLoadCount` in the `reset` method is no more necessary.
-    And that the `resetElementStatus` can become a static method because it doesn't need the instance anymore.
+...
 
 👉 TO DO
 

@@ -1,4 +1,5 @@
 import { loadNative } from "./lazyload.load";
+import { setToLoadCount } from "./lazyload.counters";
 
 const nativeLazyTags = ["IMG", "IFRAME"];
 const loadingString = "loading";
@@ -14,5 +15,5 @@ export const loadAllNative = (elements, settings, instance) => {
         element.setAttribute(loadingString, "lazy"); //TODO: Move inside the loadNative method
         loadNative(element, settings, instance);
     });
-    instance.toLoadCount = 0;
+    setToLoadCount(instance, 0);
 };

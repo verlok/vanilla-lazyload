@@ -4,6 +4,12 @@ import { setStatus } from "./lazyload.data";
 import { statusLoaded, statusError } from "./lazyload.elementStatus";
 import { deleteTempImage, getTempImage } from "./lazyload.tempImage";
 import { unobserve } from "./lazyload.unobserve";
+import {
+    decreaseToLoadCount,
+    updateLoadingCount,
+    haveElementsToLoad,
+    isSomethingLoading
+} from "./lazyload.counters";
 
 const genericLoadEventName = "load";
 const mediaLoadEventName = "loadeddata";
@@ -12,13 +18,8 @@ const errorEventName = "error";
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
 export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 
-export const decreaseLoadingCount = (instance) => {
-    if (!instance) return;
-    instance.loadingCount -= 1;
-};
-
 export const checkFinish = (settings, instance) => {
-    if (instance && instance.toLoadCount === 0 && instance.loadingCount === 0) {
+    if (instance && !isSomethingLoading(instance) && !haveElementsToLoad(instance)) {
         safeCallback(settings.callback_finish, instance);
     }
 };
@@ -59,7 +60,8 @@ export const removeEventListeners = (element) => {
 
 export const doneHandler = (element, settings, instance) => {
     deleteTempImage(element);
-    decreaseLoadingCount(instance);
+    updateLoadingCount(instance, -1);
+    decreaseToLoadCount(instance);
     removeClass(element, settings.class_loading);
     if (!settings.unobserve_on_loaded) {
         return;

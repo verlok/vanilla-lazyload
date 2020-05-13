@@ -5,17 +5,13 @@ import { addClass } from "./lazyload.class";
 import { getTempImage } from "./lazyload.tempImage";
 import { isHiDpi } from "./lazyload.environment";
 import { unobserve } from "./lazyload.unobserve";
+import { updateLoadingCount } from "./lazyload.counters";
 
 const _src_ = "src";
 const _srcset_ = "srcset";
 const _sizes_ = "sizes";
 const _poster_ = "poster";
 const _PICTURE_ = "PICTURE";
-
-export const increaseLoadingCount = (instance) => {
-    if (!instance) return;
-    instance.loadingCount += 1;
-};
 
 export const getSourceTags = (parentTag) => {
     let sourceTags = [];
@@ -148,7 +144,7 @@ export const setBackground = (element, settings, instance) => {
     element.style.backgroundImage = `url("${bgDataValue}")`;
     getTempImage(element).setAttribute(_src_, bgDataValue);
     // Annotate and notify loading
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
@@ -182,7 +178,7 @@ export const setSources = (element, settings, instance) => {
     }
     setSourcesFunction(element, settings);
     // Annotate and notify loading
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
