@@ -2,6 +2,7 @@
 
 ## Coming next
 
+-   DRY the `// Annotate and notify loading` part in `lazyload.setSources`
 -   Consider creating a subset of options and defaults for the static `load` method, and document it
 -   Consider not using the `load` event listener for videos.
 -   Update the `destroy` method so it also removes lazyload's modifications to DOM elements (`element.llStatus` and `element.llTimeout`)
