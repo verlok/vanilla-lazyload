@@ -2,6 +2,8 @@
 
 ## Coming next
 
+-   Use `requestAnimationFrame` before resetting the sources and calling the callbacks? See lazysizes.
+-   Check out how the plugin architecture of lazysizes work
 -   DRY the `// Annotate and notify loading` part in `lazyload.setSources`
 -   Consider creating a subset of options and defaults for the static `load` method, and document it
 -   Consider not using the `load` event listener for videos.
