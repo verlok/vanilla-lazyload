@@ -1,4 +1,3 @@
-export const statusDelayed = "delayed";
 export const statusLoading = "loading";
 export const statusLoaded = "loaded";
 export const statusApplied = "applied";

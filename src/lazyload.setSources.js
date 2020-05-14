@@ -5,17 +5,13 @@ import { addClass } from "./lazyload.class";
 import { getTempImage } from "./lazyload.tempImage";
 import { isHiDpi } from "./lazyload.environment";
 import { unobserve } from "./lazyload.unobserve";
+import { updateLoadingCount } from "./lazyload.counters";
 
 const _src_ = "src";
 const _srcset_ = "srcset";
 const _sizes_ = "sizes";
 const _poster_ = "poster";
 const _PICTURE_ = "PICTURE";
-
-export const increaseLoadingCount = (instance) => {
-    if (!instance) return;
-    instance.loadingCount += 1;
-};
 
 export const getSourceTags = (parentTag) => {
     let sourceTags = [];
@@ -43,7 +39,9 @@ export const hasOriginalAttributes = (element) => {
 };
 
 export const saveOriginalImageAttributes = (element) => {
-    if (hasOriginalAttributes(element)) return;
+    if (hasOriginalAttributes(element)) {
+        return;
+    }
     const originalAttributes = {};
     originalAttributes[_src_] = element.getAttribute(_src_);
     originalAttributes[_srcset_] = element.getAttribute(_srcset_);
@@ -52,7 +50,9 @@ export const saveOriginalImageAttributes = (element) => {
 };
 
 export const restoreOriginalImageAttributes = (element) => {
-    if (!hasOriginalAttributes(element)) return;
+    if (!hasOriginalAttributes(element)) {
+        return;
+    }
     const originalAttributes = element.llOriginalAttrs;
     setAttributeIfValue(element, _src_, originalAttributes[_src_]);
     setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
@@ -73,8 +73,9 @@ export const resetImageAttributes = (element) => {
 
 export const forEachPictureSource = (element, fn) => {
     const parent = element.parentNode;
-    if (!parent || parent.tagName !== _PICTURE_) return;
-
+    if (!parent || parent.tagName !== _PICTURE_) {
+        return;
+    }
     let sourceTags = getSourceTags(parent);
     sourceTags.forEach(fn);
 };
@@ -143,11 +144,10 @@ export const setBackground = (element, settings, instance) => {
     element.style.backgroundImage = `url("${bgDataValue}")`;
     getTempImage(element).setAttribute(_src_, bgDataValue);
     // Annotate and notify loading
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
 // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
@@ -157,23 +157,29 @@ export const setMultiBackground = (element, settings, instance) => {
     const bg1xValue = getData(element, settings.data_bg_multi);
     const bgHiDpiValue = getData(element, settings.data_bg_multi_hidpi);
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
-    if (!bgDataValue) return;
+    if (!bgDataValue) {
+        return;
+    }
     element.style.backgroundImage = bgDataValue;
     // Annotate and notify applied
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
-    unobserve(element, settings, instance); // Unobserve here because we can't do it on load
     safeCallback(settings.callback_applied, element, instance);
+    if (settings.unobserve_on_loaded) {
+        // Unobserve now because we can't do it on load
+        unobserve(element, settings, instance);
+    }
 };
 
 export const setSources = (element, settings, instance) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
-    if (!setSourcesFunction) return;
+    if (!setSourcesFunction) {
+        return;
+    }
     setSourcesFunction(element, settings);
     // Annotate and notify loading
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
