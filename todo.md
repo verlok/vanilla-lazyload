@@ -2,6 +2,7 @@
 
 ## Coming next
 
+-   Release a new beta major with `cancel_on_exit` defaulting to `true`
 -   Use `requestAnimationFrame` before resetting the sources and calling the callbacks? See lazysizes.
 -   Check out how the plugin architecture of lazysizes work
 -   DRY the `// Annotate and notify loading` part in `lazyload.setSources`
