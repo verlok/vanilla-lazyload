@@ -63,7 +63,7 @@ export const doneHandler = (element, settings, instance) => {
     updateLoadingCount(instance, -1);
     decreaseToLoadCount(instance);
     removeClass(element, settings.class_loading);
-    if (settings.unobserve_on_loaded) {
+    if (settings.unobserve_completed) {
         unobserve(element, instance);
     }
 };

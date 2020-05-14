@@ -6,9 +6,9 @@ Functional changes:
 
 -   Removed call to deprecated `callback_reveal`
 -   Removed deprecated instance `load()` method in favor of the static `LazyLoad.load()` method
--   Replaced `auto_unobserve` with `unobserve_on_loaded`, still defaulting to `true`
--   Introduced a new `unobserve_on_enter` option (useful to execute lazy functions once)
--   Created a demo to test the new `unobserve_on_enter` option
+-   Replaced `auto_unobserve` with `unobserve_completed`, still defaulting to `true`
+-   Introduced a new `unobserve_entered` option (useful to execute lazy functions once)
+-   Created a demo called `lazy_functions.html` to show how to execute functions as elements enter the viewport
 -   Wrote a new recipe to facilitate the lazy execution of scripts/functions
 -   Renamed instance method `resetElementStatus()` to the static `LazyLoad.resetStatus()`
 -   Removed the `load_delay` option since there's no more use for it

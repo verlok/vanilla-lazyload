@@ -165,7 +165,7 @@ export const setMultiBackground = (element, settings, instance) => {
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
     safeCallback(settings.callback_applied, element, instance);
-    if (settings.unobserve_on_loaded) {
+    if (settings.unobserve_completed) {
         // Unobserve now because we can't do it on load
         unobserve(element, settings, instance);
     }

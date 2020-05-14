@@ -22,14 +22,14 @@ Note that the settings object of the `load` method can be different. If none are
 
 **If you were using `auto_unobserve: false`**
 
-You should replace `auto_unobserve` with `unobserve_on_loaded`.
+You should replace `auto_unobserve` with `unobserve_completed`.
 
 ```js
 const myLazyLoad = new LazyLoad({
    // FROM
    auto_unobserve: false,
    // TO
-   unobserve_on_loaded: false,
+   unobserve_completed: false,
 });
 ```
 
