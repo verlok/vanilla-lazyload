@@ -27,8 +27,8 @@ const defaultSettings = {
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
-    load_delay: 0,
-    auto_unobserve: true,
+    unobserve_completed: true,
+    unobserve_entered: false,
     cancel_on_exit: false,
     callback_enter: null,
     callback_exit: null,
@@ -78,7 +78,6 @@ const autoInitialize = (classObj, options) => {
     }
 };
 
-const statusDelayed = "delayed";
 const statusLoading = "loading";
 const statusLoaded = "loaded";
 const statusApplied = "applied";
@@ -87,7 +86,6 @@ const statusNative = "native";
 
 const dataPrefix = "data-";
 const statusDataName = "ll-status";
-const timeoutDataName = "ll-timeout";
 
 const getData = (element, attribute) => {
     return element.getAttribute(dataPrefix + attribute);
@@ -109,14 +107,10 @@ const resetStatus = (element) => setStatus(element, null);
 const hasEmptyStatus = (element) => getStatus(element) === null;
 const hasStatusLoading = (element) => getStatus(element) === statusLoading;
 const hasStatusError = (element) => getStatus(element) === statusError;
-const hasStatusDelayed = (element) => getStatus(element) === statusDelayed;
 
 const statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
 const hasStatusAfterLoading = (element) =>
     statusesAfterLoading.indexOf(getStatus(element)) > -1;
-
-const setTimeoutData = (element, value) => setData(element, timeoutDataName, value);
-const getTimeoutData = (element) => getData(element, timeoutDataName);
 
 const safeCallback = (callback, arg1, arg2, arg3) => {
 	if (!callback) {
@@ -163,10 +157,10 @@ const deleteTempImage = element => {
 
 const getTempImage = element => element.llTempImage;
 
-const unobserve = (element, settings, instance) => {
+const unobserve = (element, instance) => {
     if (!instance) return;
     const observer = instance._observer;
-    if (!observer || !settings.auto_unobserve) return;
+    if (!observer) return;
     observer.unobserve(element);
 };
 
@@ -174,16 +168,30 @@ const resetObserver = (observer) => {
     observer.disconnect();
 };
 
+const updateLoadingCount = (instance, delta) => {
+    if (!instance) return;
+    instance.loadingCount += delta;
+};
+
+const decreaseToLoadCount = (instance) => {
+    if (!instance) return;
+    instance.toLoadCount -= 1;
+};
+
+const setToLoadCount = (instance, value) => {
+    if (!instance) return;
+    instance.toLoadCount = value;
+};
+
+const isSomethingLoading = (instance) => instance.loadingCount > 0;
+
+const haveElementsToLoad = (instance) => instance.toLoadCount > 0;
+
 const _src_ = "src";
 const _srcset_ = "srcset";
 const _sizes_ = "sizes";
 const _poster_ = "poster";
 const _PICTURE_ = "PICTURE";
-
-const increaseLoadingCount = (instance) => {
-    if (!instance) return;
-    instance.loadingCount += 1;
-};
 
 const getSourceTags = (parentTag) => {
     let sourceTags = [];
@@ -211,7 +219,9 @@ const hasOriginalAttributes = (element) => {
 };
 
 const saveOriginalImageAttributes = (element) => {
-    if (hasOriginalAttributes(element)) return;
+    if (hasOriginalAttributes(element)) {
+        return;
+    }
     const originalAttributes = {};
     originalAttributes[_src_] = element.getAttribute(_src_);
     originalAttributes[_srcset_] = element.getAttribute(_srcset_);
@@ -220,7 +230,9 @@ const saveOriginalImageAttributes = (element) => {
 };
 
 const restoreOriginalImageAttributes = (element) => {
-    if (!hasOriginalAttributes(element)) return;
+    if (!hasOriginalAttributes(element)) {
+        return;
+    }
     const originalAttributes = element.llOriginalAttrs;
     setAttributeIfValue(element, _src_, originalAttributes[_src_]);
     setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
@@ -241,8 +253,9 @@ const resetImageAttributes = (element) => {
 
 const forEachPictureSource = (element, fn) => {
     const parent = element.parentNode;
-    if (!parent || parent.tagName !== _PICTURE_) return;
-
+    if (!parent || parent.tagName !== _PICTURE_) {
+        return;
+    }
     let sourceTags = getSourceTags(parent);
     sourceTags.forEach(fn);
 };
@@ -298,11 +311,10 @@ const setBackground = (element, settings, instance) => {
     element.style.backgroundImage = `url("${bgDataValue}")`;
     getTempImage(element).setAttribute(_src_, bgDataValue);
     // Annotate and notify loading
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
 // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
@@ -312,25 +324,31 @@ const setMultiBackground = (element, settings, instance) => {
     const bg1xValue = getData(element, settings.data_bg_multi);
     const bgHiDpiValue = getData(element, settings.data_bg_multi_hidpi);
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
-    if (!bgDataValue) return;
+    if (!bgDataValue) {
+        return;
+    }
     element.style.backgroundImage = bgDataValue;
     // Annotate and notify applied
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
-    unobserve(element, settings, instance); // Unobserve here because we can't do it on load
     safeCallback(settings.callback_applied, element, instance);
+    if (settings.unobserve_completed) {
+        // Unobserve now because we can't do it on load
+        unobserve(element, settings);
+    }
 };
 
 const setSources = (element, settings, instance) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
-    if (!setSourcesFunction) return;
+    if (!setSourcesFunction) {
+        return;
+    }
     setSourcesFunction(element, settings);
     // Annotate and notify loading
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
 };
 
 const genericLoadEventName = "load";
@@ -340,14 +358,10 @@ const errorEventName = "error";
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
 const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 
-const decreaseLoadingCount = (instance) => {
-    if (!instance) return;
-    instance.loadingCount -= 1;
-};
-
 const checkFinish = (settings, instance) => {
-    if (!instance || instance.toLoadCount || instance.loadingCount) return;
-    safeCallback(settings.callback_finish, instance);
+    if (instance && !isSomethingLoading(instance) && !haveElementsToLoad(instance)) {
+        safeCallback(settings.callback_finish, instance);
+    }
 };
 
 const addEventListener = (element, eventName, handler) => {
@@ -367,12 +381,15 @@ const addEventListeners = (element, loadHandler, errorHandler) => {
     if (!hasEventListeners(element)) element.llEvLisnrs = {};
     addEventListener(element, genericLoadEventName, loadHandler);
     addEventListener(element, errorEventName, errorHandler);
-    if (element.tagName !== "VIDEO") return;
-    addEventListener(element, mediaLoadEventName, loadHandler);
+    if (element.tagName === "VIDEO") {
+        addEventListener(element, mediaLoadEventName, loadHandler);
+    }
 };
 
 const removeEventListeners = (element) => {
-    if (!hasEventListeners(element)) return;
+    if (!hasEventListeners(element)) {
+        return;
+    }
     const eventListeners = element.llEvLisnrs;
     for (let eventName in eventListeners) {
         const handler = eventListeners[eventName];
@@ -383,9 +400,12 @@ const removeEventListeners = (element) => {
 
 const doneHandler = (element, settings, instance) => {
     deleteTempImage(element);
-    decreaseLoadingCount(instance);
+    updateLoadingCount(instance, -1);
+    decreaseToLoadCount(instance);
     removeClass(element, settings.class_loading);
-    unobserve(element, settings, instance);
+    if (settings.unobserve_completed) {
+        unobserve(element, instance);
+    }
 };
 
 const loadHandler = (event, element, settings, instance) => {
@@ -406,8 +426,10 @@ const errorHandler = (event, element, settings, instance) => {
 
 const addOneShotEventListeners = (element, settings, instance) => {
     const elementToListenTo = getTempImage(element) || element;
-    if (hasEventListeners(elementToListenTo)) return; // <- when retry loading, e.g. with cancel_on_exit
-
+    if (hasEventListeners(elementToListenTo)) {
+        // This happens when loading is retried twice
+        return;
+    }
     const _loadHandler = (event) => {
         loadHandler(event, element, settings, instance);
         removeEventListeners(elementToListenTo);
@@ -416,18 +438,7 @@ const addOneShotEventListeners = (element, settings, instance) => {
         errorHandler(event, element, settings, instance);
         removeEventListeners(elementToListenTo);
     };
-
     addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
-};
-
-const decreaseToLoadCount = (instance) => {
-    if (!instance) return;
-    instance.toLoadCount -= 1;
-};
-
-const increaseToLoadCount = (instance) => {
-    if (!instance) return;
-    instance.toLoadCount += 1;
 };
 
 const loadBackground = (element, settings, instance) => {
@@ -448,78 +459,53 @@ const load = (element, settings, instance) => {
     } else {
         loadBackground(element, settings, instance);
     }
-    decreaseToLoadCount(instance);
     checkFinish(settings, instance);
 };
 
 const loadNative = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
-    decreaseToLoadCount(instance);
     setStatus(element, statusNative);
     checkFinish(settings, instance);
 };
 
-const cancelDelayLoad = (element) => {
-    var timeoutId = getTimeoutData(element);
-    if (!timeoutId) {
-        return; // do nothing if timeout doesn't exist
-    }
-    if (hasStatusDelayed(element)) { // iffing because status could also be "loading"
-        resetStatus(element); 
-    }
-    clearTimeout(timeoutId);
-    setTimeoutData(element, null);
-};
-
-const delayLoad = (element, settings, instance) => {
-    const loadDelay = settings.load_delay;
-    let timeoutId = getTimeoutData(element);
-    if (timeoutId) {
-        return; // do nothing if timeout already set
-    }
-    timeoutId = setTimeout(function () {
-        load(element, settings, instance);
-        cancelDelayLoad(element);
-    }, loadDelay);
-    setStatus(element, statusDelayed);
-    setTimeoutData(element, timeoutId);
-};
-
 const cancelIfLoading = (element, entry, settings, instance) => {
-    if (element.tagName !== "IMG") return;
-    removeEventListeners(element);
-    resetSourcesImg(element);
-    restoreOriginalAttributesImg(element);
-    removeClass(element, settings.class_loading);
-    decreaseLoadingCount(instance);
-    safeCallback(settings.callback_cancel, element, entry, instance);
-    // setTimeout is needed because the "callback_cancel" implementation
-    // could be out of the main thread, e.g. `img.setAttribute("src", "")`
-    setTimeout(() => {
-        instance.resetElementStatus(element, instance);
-    }, 0);
+	if (element.tagName !== "IMG") {
+		// Can't cancel loading on anything but images
+		return;
+	}
+	removeEventListeners(element);
+	resetSourcesImg(element);
+	restoreOriginalAttributesImg(element);
+	removeClass(element, settings.class_loading);
+	updateLoadingCount(instance, -1);
+	safeCallback(settings.callback_cancel, element, entry, instance);
+	// setTimeout is needed because the "callback_cancel" implementation
+	// could be out of the main thread, e.g. `img.setAttribute("src", "")`
+	setTimeout(() => {
+		resetStatus(element);
+	}, 0);
 };
 
-const onIntersecting = (element, entry, settings, instance) => {
+const onEnter = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve
-    if (settings.load_delay) {
-        delayLoad(element, settings, instance);
-        return;
+    if (hasStatusAfterLoading(element)) {
+        return; //Prevent loading it again
+    }
+    if (settings.unobserve_entered) {
+        unobserve(element, instance);
     }
     load(element, settings, instance);
 };
 
-const onNotIntersecting = (element, entry, settings, instance) => {
-    if (hasEmptyStatus(element)) return; //Ignore the first pass at landing
+const onExit = (element, entry, settings, instance) => {
+    if (hasEmptyStatus(element)) {
+        return; //Ignore the first pass, at landing
+    }
     if (settings.cancel_on_exit && hasStatusLoading(element)) {
         cancelIfLoading(element, entry, settings, instance);
     }
     safeCallback(settings.callback_exit, element, entry, instance);
-    if (settings.load_delay && hasStatusDelayed(element)) {
-        cancelDelayLoad(element);
-    }
 };
 
 const nativeLazyTags = ["IMG", "IFRAME"];
@@ -536,7 +522,7 @@ const loadAllNative = (elements, settings, instance) => {
         element.setAttribute(loadingString, "lazy"); //TODO: Move inside the loadNative method
         loadNative(element, settings, instance);
     });
-    instance.toLoadCount = 0;
+    setToLoadCount(instance, 0);
 };
 
 const isIntersecting = (entry) => entry.isIntersecting || entry.intersectionRatio > 0;
@@ -549,8 +535,8 @@ const getObserverSettings = (settings) => ({
 const intersectionHandler = (entries, settings, instance) => {
     entries.forEach((entry) =>
         isIntersecting(entry)
-            ? onIntersecting(entry.target, entry, settings, instance)
-            : onNotIntersecting(entry.target, entry, settings, instance)
+            ? onEnter(entry.target, entry, settings, instance)
+            : onExit(entry.target, entry, settings, instance)
     );
 };
 
@@ -565,9 +551,8 @@ const updateObserver = (observer, elementsToObserve) => {
     observeElements(observer, elementsToObserve);
 };
 
-const setObserver = (instance) => {
-    const settings = instance._settings;
-    if (!supportsIntersectionObserver || shouldUseNative(instance._settings)) {
+const setObserver = (settings, instance) => {
+    if (!supportsIntersectionObserver || shouldUseNative(settings)) {
         return;
     }
     instance._observer = new IntersectionObserver((entries) => {
@@ -588,8 +573,7 @@ const filterErrorElements = (elements) => toArray(elements).filter(hasError);
 const getElementsToLoad = (elements, settings) =>
     excludeManagedElements(elements || queryElements(settings));
 
-const retryLazyLoad = instance => {
-    const settings = instance._settings;
+const retryLazyLoad = (settings, instance) => {
     const errorElements = filterErrorElements(queryElements(settings));
     errorElements.forEach(element => {
         removeClass(element, settings.class_error);
@@ -598,27 +582,21 @@ const retryLazyLoad = instance => {
     instance.update();
 };
 
-const setOnlineCheck = instance => {
+const setOnlineCheck = (settings, instance) => {
     if (!runningOnBrowser) {
         return;
     }
-    window.addEventListener("online", event => {
-        retryLazyLoad(instance);
+    window.addEventListener("online", () => {
+        retryLazyLoad(settings, instance);
     });
 };
 
-const resetElementStatus = (element, instance) => {
-    if (hasStatusAfterLoading(element)) {
-        increaseToLoadCount(instance);
-    }
-    setStatus(element, null);
-};
-
 const LazyLoad = function (customSettings, elements) {
-    this._settings = getExtendedSettings(customSettings);
+    const settings = getExtendedSettings(customSettings);
+    this._settings = settings;
     this.loadingCount = 0;
-    setObserver(this);
-    setOnlineCheck(this);
+    setObserver(settings, this);
+    setOnlineCheck(settings, this);
     this.update(elements);
 };
 
@@ -626,7 +604,7 @@ LazyLoad.prototype = {
     update: function (givenNodeset) {
         const settings = this._settings;
         const elementsToLoad = getElementsToLoad(givenNodeset, settings);
-        this.toLoadCount = elementsToLoad.length;
+        setToLoadCount(this, elementsToLoad.length);
 
         if (isBot || !supportsIntersectionObserver) {
             this.loadAll(elementsToLoad);
@@ -657,21 +635,16 @@ LazyLoad.prototype = {
         elementsToLoad.forEach((element) => {
             load(element, settings, this);
         });
-    },
-
-    resetElementStatus: function (element) {
-        resetElementStatus(element, this);
-    },
-
-    // DEPRECATED
-    load: function (element) {
-        load(element, this._settings, this);
     }
 };
 
 LazyLoad.load = (element, customSettings) => {
     const settings = getExtendedSettings(customSettings);
     load(element, settings);
+};
+
+LazyLoad.resetStatus = (element) => {
+    resetStatus(element);
 };
 
 // Automatic instances creation if required (useful for async script loading)
