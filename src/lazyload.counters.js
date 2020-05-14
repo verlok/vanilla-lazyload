@@ -1,13 +1,3 @@
-/* export const decreaseLoadingCount = (instance) => {
-    if (!instance) return;
-    instance.loadingCount -= 1;
-};
-
-export const increaseLoadingCount = (instance) => {
-    if (!instance) return;
-    instance.loadingCount += 1;
-}; */
-
 export const updateLoadingCount = (instance, delta) => {
     if (!instance) return;
     instance.loadingCount += delta;
