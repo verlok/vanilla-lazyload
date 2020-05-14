@@ -8,7 +8,7 @@ import { removeClass } from "./lazyload.class";
 import { updateLoadingCount } from "./lazyload.counters";
 import { resetStatus, hasStatusLoading } from "./lazyload.data";
 
-export const checkIfMustCancelLoading = (element, entry, settings, instance) => {
+export const cancelLoadingIfRequired = (element, entry, settings, instance) => {
 	if (!settings.cancel_on_exit) return;
 	if (!hasStatusLoading(element)) return;
 	if (element.tagName !== "IMG") return; //Works only on images

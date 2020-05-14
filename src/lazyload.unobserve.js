@@ -8,3 +8,7 @@ export const unobserve = (element, instance) => {
 export const resetObserver = (observer) => {
     observer.disconnect();
 };
+
+export const unobserveIfRequired = (element, settings, instance) => {
+    if (settings.unobserve_entered) unobserve(element, instance);
+}
