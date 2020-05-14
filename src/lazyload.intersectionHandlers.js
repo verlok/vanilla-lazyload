@@ -9,7 +9,7 @@ export const onEnter = (element, entry, settings, instance) => {
     if (hasStatusAfterLoading(element)) {
         return; //Prevent loading it again
     }
-    if (settings.unobserve_on_enter) {
+    if (settings.unobserve_entered) {
         unobserve(element, instance);
     }
     load(element, settings, instance);

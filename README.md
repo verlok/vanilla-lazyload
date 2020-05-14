@@ -144,7 +144,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **15.2.0**.
+The latest, recommended version of LazyLoad is **16.0.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -161,14 +161,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.2.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.0.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.2.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.0.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -201,7 +201,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.2.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.0.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -247,7 +247,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.2.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -280,7 +280,7 @@ Then include the script.
 ```html
 <script
     async
-    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@15.2.0/dist/lazyload.min.js"
+    src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -509,7 +509,6 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
 
-
 ### Lazy functions
 
 > 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
@@ -550,7 +549,7 @@ window.lazyFunctions = {
 ```
 
 ```js
-function executeLazyFunction(element)  {
+function executeLazyFunction(element) {
     var lazyFunctionName = element.getAttribute("data-lazy-function");
     var lazyFunction = window.lazyFunctions[lazyFunctionName]; // window[lazyFunctionName] to call a global
     if (!lazyFunction) return;
@@ -559,15 +558,14 @@ function executeLazyFunction(element)  {
 
 var ll = new LazyLoad({
     elements_selector: "[data-lazy-function]",
-    unobserve_on_enter: true, // <- Avoid executing the function multiple times
+    unobserve_entered: true, // <- Avoid executing the function multiple times
     callback_enter: executeLazyFunction // Assigning the function defined above
 });
 ```
 
-That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it. 
+That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
 
 [DEMO](https://verlok.github.io/lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
-
 
 ### Lazy initialization of multiple LazyLoad instances
 
@@ -625,7 +623,7 @@ var initOneLazyLoad = function (horzContainerElement) {
 var lazyLazy = new LazyLoad({
     elements_selector: ".horzContainer",
     callback_enter: initOneLazyLoad,
-    unobserve_on_enter: true // Stop observing .horzContainer(s) after they entered
+    unobserve_entered: true // Stop observing .horzContainer(s) after they entered
 });
 ```
 
@@ -662,11 +660,11 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 | Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://www.andreaverlicchi.eu/lazyload/demos/async.html)                       |
 | Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/lazyload/demos/fade_in.html)                     |
 | Technique | Lazily create lazyload instances                                                               | [Code](demos/lazily_load_lazyLoad.html)        | [Live](https://www.andreaverlicchi.eu/lazyload/demos/lazily_load_lazyLoad.html)        |
+| Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://www.andreaverlicchi.eu/lazyload/demos/lazy_functions.html)              |
 | Technique | How to manage the print of a page with lazy images                                             | [Code](demos/print.html)                       | [Live](https://www.andreaverlicchi.eu/lazyload/demos/print.html)                       |
 | Technique | A popup layer containing lazy images in a scrolling container                                  | [Code](demos/popup_layer.html)                 | [Live](https://www.andreaverlicchi.eu/lazyload/demos/popup_layer.html)                 |
 | Settings  | Multiple scrolling containers                                                                  | [Code](demos/container_multiple.html)          | [Live](https://www.andreaverlicchi.eu/lazyload/demos/container_multiple.html)          |
 | Settings  | Single scrolling container                                                                     | [Code](demos/container_single.html)            | [Live](https://www.andreaverlicchi.eu/lazyload/demos/container_single.html)            |
-| Settings  | Delay loading of lazy images                                                                   | [Code](demos/delay.html)                       | [Live](https://www.andreaverlicchi.eu/lazyload/demos/delay.html)                       |
 | Settings  | Cancel downloads on exit, optimizing for slow connections                                      | [Code](demos/cancel_on_exit.html)              | [Live](https://www.andreaverlicchi.eu/lazyload/demos/cancel_on_exit.html)              |
 | Methods   | How to `destroy()` LazyLoad                                                                    | [Code](demos/destroy.html)                     | [Live](https://www.andreaverlicchi.eu/lazyload/demos/destroy.html)                     |
 | Methods   | Adding dynamic content, then `update()` LazyLoad                                               | [Code](demos/dynamic_content.html)             | [Live](https://www.andreaverlicchi.eu/lazyload/demos/dynamic_content.html)             |
@@ -675,7 +673,6 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 | Methods   | Load all images at once using `loadAll()`                                                      | [Code](demos/load_all.html)                    | [Live](https://www.andreaverlicchi.eu/lazyload/demos/load_all.html)                    |
 | Test      | Test for multiple thresholds                                                                   | [Code](demos/thresholds.html)                  | [Live](https://www.andreaverlicchi.eu/lazyload/demos/thresholds.html)                  |
 | Test      | Test behaviour with hidden images                                                              | [Code](demos/image_hidden.html)                | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_hidden.html)                |
-| Test      | Test of delay loading                                                                          | [Code](demos/delay_test.html)                  | [Live](https://www.andreaverlicchi.eu/lazyload/demos/delay_test.html)                  |
 | Test      | Test performance, lazy loading of hundreds of images                                           | [Code](demos/hundreds.html)                    | [Live](https://www.andreaverlicchi.eu/lazyload/demos/hundreds.html)                    |
 | Native    | Test the native lazy loading of images _WITHOUT_ any line of javascript, not even this script  | [Code](demos/native_lazyload.html)             | [Live](https://www.andreaverlicchi.eu/lazyload/demos/native_lazyload.html)             |
 | Native    | Test the native lazy loading of images _conditionally_ using the `use_native` option (see API) | [Code](demos/native_lazyload_conditional.html) | [Live](https://www.andreaverlicchi.eu/lazyload/demos/native_lazyload_conditional.html) |
@@ -795,12 +792,11 @@ Here's the list of the options.
 | `class_loaded`        | The class applied to the elements when the loading is complete.                                                                                                                                                                                                                                                                                                                                                                                              | `"loaded"`         | `"lazy-loaded"`                          |
 | `class_error`         | The class applied to the elements when the element causes an error.                                                                                                                                                                                                                                                                                                                                                                                          | `"error"`          | `"lazy-error"`                           |
 | `cancel_on_exit`      | A boolean that defines whether or not to cancel the download of the images that exit the viewport while they are still loading, eventually restoring the original attributes. It applies only to images so to the `img` (and `picture`) tags, so it doesn't apply to background images, `iframe`s nor `video`s.                                                                                                                                              | `false`            | `true`                                   |
-| `load_delay`          | The time (in milliseconds) each image needs to stay inside the viewport before its loading begins.                                                                                                                                                                                                                                                                                                                                                           | `0`                | `300`                                    |
-| `auto_unobserve`      | A boolean that defines whether or not to automatically unobserve elements that was already revealed                                                                                                                                                                                                                                                                                                                                                          | `true`             | `false`                                  |
+| `unobserve_entered`   | A boolean that defines whether or not to automatically unobserve elements once they entered the viewport                                                                                                                                                                                                                                                                                                                                                     | `true`             | `false`                                  |
+| `unobserve_completed` | A boolean that defines whether or not to automatically unobserve elements once they've loaded or throwed an error                                                                                                                                                                                                                                                                                                                                            | `false`            | `true`                                   |
 | `callback_enter`      | A callback function which is called whenever an element enters the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                         | `null`             | `(el)=>{console.log("Entered", el)}`     |
 | `callback_exit`       | A callback function which is called whenever an element exits the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                          | `null`             | `(el)=>{console.log("Exited", el)}`      |
 | `callback_loading`    | A callback function which is called whenever an element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                                           | `null`             | `(el)=>{console.log("Loading", el)}`     |
-| `callback_reveal`     | **⚠ DEPRECATED: use `callback_loading` instead.** A callback function which is called whenever an element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                         | `null`             | `(el)=>{console.log("Loading", el)}`     |
 | `callback_cancel`     | A callback function which is called whenever an element loading is canceled while loading, as for `cancel_on_exit: true`.                                                                                                                                                                                                                                                                                                                                    | `null`             | `(el)=>{console.log("Cancelled", el)}`   |
 | `callback_loaded`     | A callback function which is called whenever an element finishes loading. Note that, in version older than 11.0.0, this option went under the name `callback_load`. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                               | `null`             | `(el)=>{console.log("Loaded", el)}`      |
 | `callback_error`      | A callback function which is called whenever an element triggers an error. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                                        | `null`             | `(el)=>{console.log("Error", el)}`       |
@@ -814,21 +810,20 @@ Here's the list of the options.
 
 You can call the following methods on any instance of LazyLoad.
 
-| Method name                   | Effect                                                                                                                                                | Use case                                                                                                                                                                                 |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `update()`                    | Make LazyLoad to re-check the DOM for `elements_selector` elements inside its `container`.                                                            | Update LazyLoad after you added or removed DOM elements to the page.                                                                                                                     |
-| `loadAll()`                   | Loads all the lazy images right away, no matter if they are inside or outside the viewport.                                                           | To load all the remaining elements in advance                                                                                                                                            |
-| `load(element)`               | **⚠ DEPRECATED, use the static method instead**. Immediately loads any lazy `element`, even if it isn't selectable by the `elements_selector` option. | To load an element at mouseover or any other event different than "entering the viewport"                                                                                                |
-| `destroy()`                   | Destroys the instance, unsetting instance variables and removing listeners.                                                                           | Free up some memory. Especially useful for Single Page Applications.                                                                                                                     |
-| `resetElementStatus(element)` | Resets the internal status of the given `element`.                                                                                                    | To tell LazyLoad to consider this `element` again, for example if you changed the `data-src` attribute after the previous `data-src` was loaded, call this method, then call `update()`. |
+| Method name | Effect                                                                                      | Use case                                                             |
+| ----------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `update()`  | Make LazyLoad to re-check the DOM for `elements_selector` elements inside its `container`.  | Update LazyLoad after you added or removed DOM elements to the page. |
+| `loadAll()` | Loads all the lazy images right away, no matter if they are inside or outside the viewport. | To load all the remaining elements in advance                        |
+| `destroy()` | Destroys the instance, unsetting instance variables and removing listeners.                 | Free up some memory. Especially useful for Single Page Applications. |
 
 **Static methods**
 
 You can call the following static methods on the LazyLoad class itself (e.g. `LazyLoad.load(element, settings)`).
 
-| Method name               | Effect                                                                                                                                                                                                                                                                                 | Use case                                                                                       |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `load(element, settings)` | Immediately loads the lazy `element`. You can pass your custom options in the `settings` parameter. Note that the `elements_selector` option has no effect, since you are passing the element as a parameter. Also note that this method has effect only once on a specific `element`. | To load an `element` at mouseover or at any other event different than "entering the viewport" |
+| Method name               | Effect                                                                                                                                                                                                                                                                                 | Use case                                                                                                                                                                                 |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `load(element, settings)` | Immediately loads the lazy `element`. You can pass your custom options in the `settings` parameter. Note that the `elements_selector` option has no effect, since you are passing the element as a parameter. Also note that this method has effect only once on a specific `element`. | To load an `element` at mouseover or at any other event different than "entering the viewport"                                                                                           |
+| `resetStatus(element)`    | Resets the internal status of the given `element`.                                                                                                                                                                                                                                     | To tell LazyLoad to consider this `element` again, for example if you changed the `data-src` attribute after the previous `data-src` was loaded, call this method, then call `update()`. |
 
 ### Properties
 

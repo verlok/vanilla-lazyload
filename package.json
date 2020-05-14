@@ -1,6 +1,6 @@
 {
     "name": "vanilla-lazyload",
-    "version": "15.2.0",
+    "version": "16.0.0",
     "description": "LazyLoad is a lightweight and flexible script that speeds up your web application by deferring the loading of your below-the-fold images, videos and iframes to when they will enter the viewport. It's written in plain \"vanilla\" JavaScript, it leverages the IntersectionObserver API, it supports responsive images and enables native lazy loading.",
     "main": "dist/lazyload.min.js",
     "module": "dist/lazyload.esm.js",

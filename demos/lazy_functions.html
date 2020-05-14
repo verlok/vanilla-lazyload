@@ -282,7 +282,7 @@
 
                 var ll = new LazyLoad({
                     elements_selector: "[data-lazy-function]",
-                    unobserve_on_enter: true, // <- To avoid executing the script multiple times
+                    unobserve_entered: true, // <- To avoid executing the script multiple times
                     callback_enter: executeLazyScript // Assigning the function defined above
                 });
             })();

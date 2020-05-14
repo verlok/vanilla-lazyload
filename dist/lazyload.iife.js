@@ -42,8 +42,8 @@ var LazyLoad = (function () {
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
-    load_delay: 0,
-    auto_unobserve: true,
+    unobserve_completed: true,
+    unobserve_entered: false,
     cancel_on_exit: false,
     callback_enter: null,
     callback_exit: null,
@@ -102,7 +102,6 @@ var LazyLoad = (function () {
     }
   };
 
-  var statusDelayed = "delayed";
   var statusLoading = "loading";
   var statusLoaded = "loaded";
   var statusApplied = "applied";
@@ -111,7 +110,6 @@ var LazyLoad = (function () {
 
   var dataPrefix = "data-";
   var statusDataName = "ll-status";
-  var timeoutDataName = "ll-timeout";
   var getData = function getData(element, attribute) {
     return element.getAttribute(dataPrefix + attribute);
   };
@@ -143,18 +141,9 @@ var LazyLoad = (function () {
   var hasStatusError = function hasStatusError(element) {
     return getStatus(element) === statusError;
   };
-  var hasStatusDelayed = function hasStatusDelayed(element) {
-    return getStatus(element) === statusDelayed;
-  };
   var statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
   var hasStatusAfterLoading = function hasStatusAfterLoading(element) {
     return statusesAfterLoading.indexOf(getStatus(element)) > -1;
-  };
-  var setTimeoutData = function setTimeoutData(element, value) {
-    return setData(element, timeoutDataName, value);
-  };
-  var getTimeoutData = function getTimeoutData(element) {
-    return getData(element, timeoutDataName);
   };
 
   var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
@@ -202,14 +191,33 @@ var LazyLoad = (function () {
     return element.llTempImage;
   };
 
-  var unobserve = function unobserve(element, settings, instance) {
+  var unobserve = function unobserve(element, instance) {
     if (!instance) return;
     var observer = instance._observer;
-    if (!observer || !settings.auto_unobserve) return;
+    if (!observer) return;
     observer.unobserve(element);
   };
   var resetObserver = function resetObserver(observer) {
     observer.disconnect();
+  };
+
+  var updateLoadingCount = function updateLoadingCount(instance, delta) {
+    if (!instance) return;
+    instance.loadingCount += delta;
+  };
+  var decreaseToLoadCount = function decreaseToLoadCount(instance) {
+    if (!instance) return;
+    instance.toLoadCount -= 1;
+  };
+  var setToLoadCount = function setToLoadCount(instance, value) {
+    if (!instance) return;
+    instance.toLoadCount = value;
+  };
+  var isSomethingLoading = function isSomethingLoading(instance) {
+    return instance.loadingCount > 0;
+  };
+  var haveElementsToLoad = function haveElementsToLoad(instance) {
+    return instance.toLoadCount > 0;
   };
 
   var _src_ = "src";
@@ -217,10 +225,6 @@ var LazyLoad = (function () {
   var _sizes_ = "sizes";
   var _poster_ = "poster";
   var _PICTURE_ = "PICTURE";
-  var increaseLoadingCount = function increaseLoadingCount(instance) {
-    if (!instance) return;
-    instance.loadingCount += 1;
-  };
   var getSourceTags = function getSourceTags(parentTag) {
     var sourceTags = [];
 
@@ -246,7 +250,10 @@ var LazyLoad = (function () {
     return !!element.llOriginalAttrs;
   };
   var saveOriginalImageAttributes = function saveOriginalImageAttributes(element) {
-    if (hasOriginalAttributes(element)) return;
+    if (hasOriginalAttributes(element)) {
+      return;
+    }
+
     var originalAttributes = {};
     originalAttributes[_src_] = element.getAttribute(_src_);
     originalAttributes[_srcset_] = element.getAttribute(_srcset_);
@@ -254,7 +261,10 @@ var LazyLoad = (function () {
     element.llOriginalAttrs = originalAttributes;
   };
   var restoreOriginalImageAttributes = function restoreOriginalImageAttributes(element) {
-    if (!hasOriginalAttributes(element)) return;
+    if (!hasOriginalAttributes(element)) {
+      return;
+    }
+
     var originalAttributes = element.llOriginalAttrs;
     setAttributeIfValue(element, _src_, originalAttributes[_src_]);
     setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
@@ -272,7 +282,11 @@ var LazyLoad = (function () {
   };
   var forEachPictureSource = function forEachPictureSource(element, fn) {
     var parent = element.parentNode;
-    if (!parent || parent.tagName !== _PICTURE_) return;
+
+    if (!parent || parent.tagName !== _PICTURE_) {
+      return;
+    }
+
     var sourceTags = getSourceTags(parent);
     sourceTags.forEach(fn);
   };
@@ -321,11 +335,10 @@ var LazyLoad = (function () {
     element.style.backgroundImage = "url(\"".concat(bgDataValue, "\")");
     getTempImage(element).setAttribute(_src_, bgDataValue); // Annotate and notify loading
 
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
   }; // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
   // BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
   // COULD BE A GRADIENT BACKGROUND IMAGE
@@ -334,25 +347,35 @@ var LazyLoad = (function () {
     var bg1xValue = getData(element, settings.data_bg_multi);
     var bgHiDpiValue = getData(element, settings.data_bg_multi_hidpi);
     var bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
-    if (!bgDataValue) return;
+
+    if (!bgDataValue) {
+      return;
+    }
+
     element.style.backgroundImage = bgDataValue; // Annotate and notify applied
 
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
-    unobserve(element, settings, instance); // Unobserve here because we can't do it on load
-
     safeCallback(settings.callback_applied, element, instance);
+
+    if (settings.unobserve_completed) {
+      // Unobserve now because we can't do it on load
+      unobserve(element, settings);
+    }
   };
   var setSources = function setSources(element, settings, instance) {
     var setSourcesFunction = setSourcesFunctions[element.tagName];
-    if (!setSourcesFunction) return;
+
+    if (!setSourcesFunction) {
+      return;
+    }
+
     setSourcesFunction(element, settings); // Annotate and notify loading
 
-    increaseLoadingCount(instance);
+    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-    safeCallback(settings.callback_reveal, element, instance); // <== DEPRECATED
   };
 
   var genericLoadEventName = "load";
@@ -362,13 +385,10 @@ var LazyLoad = (function () {
   var hasLoadEvent = function hasLoadEvent(element) {
     return elementsWithLoadEvent.indexOf(element.tagName) > -1;
   };
-  var decreaseLoadingCount = function decreaseLoadingCount(instance) {
-    if (!instance) return;
-    instance.loadingCount -= 1;
-  };
   var checkFinish = function checkFinish(settings, instance) {
-    if (!instance || instance.toLoadCount || instance.loadingCount) return;
-    safeCallback(settings.callback_finish, instance);
+    if (instance && !isSomethingLoading(instance) && !haveElementsToLoad(instance)) {
+      safeCallback(settings.callback_finish, instance);
+    }
   };
   var addEventListener = function addEventListener(element, eventName, handler) {
     element.addEventListener(eventName, handler);
@@ -384,11 +404,16 @@ var LazyLoad = (function () {
     if (!hasEventListeners(element)) element.llEvLisnrs = {};
     addEventListener(element, genericLoadEventName, loadHandler);
     addEventListener(element, errorEventName, errorHandler);
-    if (element.tagName !== "VIDEO") return;
-    addEventListener(element, mediaLoadEventName, loadHandler);
+
+    if (element.tagName === "VIDEO") {
+      addEventListener(element, mediaLoadEventName, loadHandler);
+    }
   };
   var removeEventListeners = function removeEventListeners(element) {
-    if (!hasEventListeners(element)) return;
+    if (!hasEventListeners(element)) {
+      return;
+    }
+
     var eventListeners = element.llEvLisnrs;
 
     for (var eventName in eventListeners) {
@@ -400,9 +425,13 @@ var LazyLoad = (function () {
   };
   var doneHandler = function doneHandler(element, settings, instance) {
     deleteTempImage(element);
-    decreaseLoadingCount(instance);
+    updateLoadingCount(instance, -1);
+    decreaseToLoadCount(instance);
     removeClass(element, settings.class_loading);
-    unobserve(element, settings, instance);
+
+    if (settings.unobserve_completed) {
+      unobserve(element, instance);
+    }
   };
   var loadHandler = function loadHandler(event, element, settings, instance) {
     doneHandler(element, settings, instance);
@@ -420,7 +449,11 @@ var LazyLoad = (function () {
   };
   var addOneShotEventListeners = function addOneShotEventListeners(element, settings, instance) {
     var elementToListenTo = getTempImage(element) || element;
-    if (hasEventListeners(elementToListenTo)) return; // <- when retry loading, e.g. with cancel_on_exit
+
+    if (hasEventListeners(elementToListenTo)) {
+      // This happens when loading is retried twice
+      return;
+    }
 
     var _loadHandler = function _loadHandler(event) {
       loadHandler(event, element, settings, instance);
@@ -433,15 +466,6 @@ var LazyLoad = (function () {
     };
 
     addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
-  };
-
-  var decreaseToLoadCount = function decreaseToLoadCount(instance) {
-    if (!instance) return;
-    instance.toLoadCount -= 1;
-  };
-  var increaseToLoadCount = function increaseToLoadCount(instance) {
-    if (!instance) return;
-    instance.toLoadCount += 1;
   };
 
   var loadBackground = function loadBackground(element, settings, instance) {
@@ -463,86 +487,57 @@ var LazyLoad = (function () {
       loadBackground(element, settings, instance);
     }
 
-    decreaseToLoadCount(instance);
     checkFinish(settings, instance);
   };
   var loadNative = function loadNative(element, settings, instance) {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
-    decreaseToLoadCount(instance);
     setStatus(element, statusNative);
     checkFinish(settings, instance);
   };
 
-  var cancelDelayLoad = function cancelDelayLoad(element) {
-    var timeoutId = getTimeoutData(element);
-
-    if (!timeoutId) {
-      return; // do nothing if timeout doesn't exist
-    }
-
-    if (hasStatusDelayed(element)) {
-      // iffing because status could also be "loading"
-      resetStatus(element);
-    }
-
-    clearTimeout(timeoutId);
-    setTimeoutData(element, null);
-  };
-  var delayLoad = function delayLoad(element, settings, instance) {
-    var loadDelay = settings.load_delay;
-    var timeoutId = getTimeoutData(element);
-
-    if (timeoutId) {
-      return; // do nothing if timeout already set
-    }
-
-    timeoutId = setTimeout(function () {
-      load(element, settings, instance);
-      cancelDelayLoad(element);
-    }, loadDelay);
-    setStatus(element, statusDelayed);
-    setTimeoutData(element, timeoutId);
-  };
-
   var cancelIfLoading = function cancelIfLoading(element, entry, settings, instance) {
-    if (element.tagName !== "IMG") return;
+    if (element.tagName !== "IMG") {
+      // Can't cancel loading on anything but images
+      return;
+    }
+
     removeEventListeners(element);
     resetSourcesImg(element);
     restoreOriginalAttributesImg(element);
     removeClass(element, settings.class_loading);
-    decreaseLoadingCount(instance);
+    updateLoadingCount(instance, -1);
     safeCallback(settings.callback_cancel, element, entry, instance); // setTimeout is needed because the "callback_cancel" implementation
     // could be out of the main thread, e.g. `img.setAttribute("src", "")`
 
     setTimeout(function () {
-      instance.resetElementStatus(element, instance);
+      resetStatus(element);
     }, 0);
   };
 
-  var onIntersecting = function onIntersecting(element, entry, settings, instance) {
+  var onEnter = function onEnter(element, entry, settings, instance) {
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hasStatusAfterLoading(element)) return; //Prevent loading it again, e.g. on !auto_unobserve
 
-    if (settings.load_delay) {
-      delayLoad(element, settings, instance);
-      return;
+    if (hasStatusAfterLoading(element)) {
+      return; //Prevent loading it again
+    }
+
+    if (settings.unobserve_entered) {
+      unobserve(element, instance);
     }
 
     load(element, settings, instance);
   };
-  var onNotIntersecting = function onNotIntersecting(element, entry, settings, instance) {
-    if (hasEmptyStatus(element)) return; //Ignore the first pass at landing
+  var onExit = function onExit(element, entry, settings, instance) {
+    if (hasEmptyStatus(element)) {
+      return; //Ignore the first pass, at landing
+    }
 
     if (settings.cancel_on_exit && hasStatusLoading(element)) {
       cancelIfLoading(element, entry, settings, instance);
     }
 
     safeCallback(settings.callback_exit, element, entry, instance);
-
-    if (settings.load_delay && hasStatusDelayed(element)) {
-      cancelDelayLoad(element);
-    }
   };
 
   var nativeLazyTags = ["IMG", "IFRAME"];
@@ -560,7 +555,7 @@ var LazyLoad = (function () {
 
       loadNative(element, settings, instance);
     });
-    instance.toLoadCount = 0;
+    setToLoadCount(instance, 0);
   };
 
   var isIntersecting = function isIntersecting(entry) {
@@ -576,7 +571,7 @@ var LazyLoad = (function () {
 
   var intersectionHandler = function intersectionHandler(entries, settings, instance) {
     entries.forEach(function (entry) {
-      return isIntersecting(entry) ? onIntersecting(entry.target, entry, settings, instance) : onNotIntersecting(entry.target, entry, settings, instance);
+      return isIntersecting(entry) ? onEnter(entry.target, entry, settings, instance) : onExit(entry.target, entry, settings, instance);
     });
   };
 
@@ -589,10 +584,8 @@ var LazyLoad = (function () {
     resetObserver(observer);
     observeElements(observer, elementsToObserve);
   };
-  var setObserver = function setObserver(instance) {
-    var settings = instance._settings;
-
-    if (!supportsIntersectionObserver || shouldUseNative(instance._settings)) {
+  var setObserver = function setObserver(settings, instance) {
+    if (!supportsIntersectionObserver || shouldUseNative(settings)) {
       return;
     }
 
@@ -620,8 +613,7 @@ var LazyLoad = (function () {
     return excludeManagedElements(elements || queryElements(settings));
   };
 
-  var retryLazyLoad = function retryLazyLoad(instance) {
-    var settings = instance._settings;
+  var retryLazyLoad = function retryLazyLoad(settings, instance) {
     var errorElements = filterErrorElements(queryElements(settings));
     errorElements.forEach(function (element) {
       removeClass(element, settings.class_error);
@@ -629,29 +621,22 @@ var LazyLoad = (function () {
     });
     instance.update();
   };
-  var setOnlineCheck = function setOnlineCheck(instance) {
+  var setOnlineCheck = function setOnlineCheck(settings, instance) {
     if (!runningOnBrowser) {
       return;
     }
 
-    window.addEventListener("online", function (event) {
-      retryLazyLoad(instance);
+    window.addEventListener("online", function () {
+      retryLazyLoad(settings, instance);
     });
   };
 
-  var resetElementStatus = function resetElementStatus(element, instance) {
-    if (hasStatusAfterLoading(element)) {
-      increaseToLoadCount(instance);
-    }
-
-    setStatus(element, null);
-  };
-
   var LazyLoad = function LazyLoad(customSettings, elements) {
-    this._settings = getExtendedSettings(customSettings);
+    var settings = getExtendedSettings(customSettings);
+    this._settings = settings;
     this.loadingCount = 0;
-    setObserver(this);
-    setOnlineCheck(this);
+    setObserver(settings, this);
+    setOnlineCheck(settings, this);
     this.update(elements);
   };
 
@@ -659,7 +644,7 @@ var LazyLoad = (function () {
     update: function update(givenNodeset) {
       var settings = this._settings;
       var elementsToLoad = getElementsToLoad(givenNodeset, settings);
-      this.toLoadCount = elementsToLoad.length;
+      setToLoadCount(this, elementsToLoad.length);
 
       if (isBot || !supportsIntersectionObserver) {
         this.loadAll(elementsToLoad);
@@ -692,20 +677,16 @@ var LazyLoad = (function () {
       elementsToLoad.forEach(function (element) {
         load(element, settings, _this);
       });
-    },
-    resetElementStatus: function resetElementStatus$1(element) {
-      resetElementStatus(element, this);
-    },
-    // DEPRECATED
-    load: function load$1(element) {
-      load(element, this._settings, this);
     }
   };
 
   LazyLoad.load = function (element, customSettings) {
     var settings = getExtendedSettings(customSettings);
-
     load(element, settings);
+  };
+
+  LazyLoad.resetStatus = function (element) {
+    resetStatus(element);
   }; // Automatic instances creation if required (useful for async script loading)
 
 
