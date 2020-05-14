@@ -509,7 +509,6 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
 
-
 ### Lazy functions
 
 > 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
@@ -550,7 +549,7 @@ window.lazyFunctions = {
 ```
 
 ```js
-function executeLazyFunction(element)  {
+function executeLazyFunction(element) {
     var lazyFunctionName = element.getAttribute("data-lazy-function");
     var lazyFunction = window.lazyFunctions[lazyFunctionName]; // window[lazyFunctionName] to call a global
     if (!lazyFunction) return;
@@ -564,10 +563,9 @@ var ll = new LazyLoad({
 });
 ```
 
-That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it. 
+That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
 
 [DEMO](https://verlok.github.io/lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
-
 
 ### Lazy initialization of multiple LazyLoad instances
 
