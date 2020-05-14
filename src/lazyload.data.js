@@ -25,9 +25,5 @@ export const hasEmptyStatus = (element) => getStatus(element) === null;
 export const hasStatusLoading = (element) => getStatus(element) === statusLoading;
 export const hasStatusError = (element) => getStatus(element) === statusError;
 
-const statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
-export const hasStatusAfterLoading = (element) =>
-    statusesAfterLoading.indexOf(getStatus(element)) > -1;
-
 export const setTimeoutData = (element, value) => setData(element, timeoutDataName, value);
 export const getTimeoutData = (element) => getData(element, timeoutDataName);
