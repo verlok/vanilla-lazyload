@@ -2,7 +2,6 @@ import { statusError, statusLoading, statusLoaded, statusApplied } from "./lazyl
 
 const dataPrefix = "data-";
 const statusDataName = "ll-status";
-const timeoutDataName = "ll-timeout";
 
 export const getData = (element, attribute) => {
     return element.getAttribute(dataPrefix + attribute);
@@ -28,6 +27,3 @@ export const hasStatusError = (element) => getStatus(element) === statusError;
 const statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
 export const hasStatusAfterLoading = (element) =>
     statusesAfterLoading.indexOf(getStatus(element)) > -1;
-
-export const setTimeoutData = (element, value) => setData(element, timeoutDataName, value);
-export const getTimeoutData = (element) => getData(element, timeoutDataName);
