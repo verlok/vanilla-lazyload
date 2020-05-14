@@ -1,5 +1,57 @@
 # 🗺 HOW TO UPDATE FROM PREVIOUS VERSIONS
 
+## Version 15 to 16
+
+**If you were using the `callback_reveal` callback**
+
+You should replace `callback_reveal` with `callback_loading` in your JS code.
+
+**If you were using the instance `load(element)` method**
+
+You should replace the `load(element)` with `LazyLoad.load(element, settings)`
+
+```js
+const myLazyLoad = new LazyLoad({/* settings */});
+// FROM
+myLazyLoad.load(element);
+// TO
+LazyLoad.load(element, {/* settings */});
+```
+
+Note that the settings object of the `load` method can be different. If none are provided, the default options will apply.
+
+**If you were using `auto_unobserve: false`**
+
+You should replace `auto_unobserve` with `unobserve_completed`.
+
+```js
+const myLazyLoad = new LazyLoad({
+   // FROM
+   auto_unobserve: false,
+   // TO
+   unobserve_completed: false,
+});
+```
+
+**If you were using the `load_delay` option**
+
+You should change `load_delay: ___` with `cancel_on_exit: true`.
+
+```js
+const myLazyLoad = new LazyLoad({
+   // FROM
+   load_delay: 300,
+   // TO
+   cancel_on_exit: true,
+});
+```
+
+---
+
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
+
+---
+
 ## Version 14 to 15
 
 **If you have background images loaded via `data-src`**

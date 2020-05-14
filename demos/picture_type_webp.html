@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>
-            Native WebP with the lazy `picture` tag - Lazyload tests
+            Picture with type attribute in source to conditionally load WebP - Lazyload demos
         </title>
         <style>
             body {
@@ -59,6 +59,7 @@
     </head>
 
     <body>
+        <h1>Picture with type attribute in source to conditionally load WebP demo</h1>
         <div id="results1" class="results">
             <ul>
                 <li>
@@ -380,28 +381,28 @@
         </div>
         <script src="../dist/lazyload.min.js"></script>
         <script>
-            (function() {
+            (function () {
                 function logElementEvent(eventName, element) {
                     console.log(Date.now(), eventName, element.getAttribute("data-src"));
                 }
 
-                var callback_enter = function(element) {
+                var callback_enter = function (element) {
                     logElementEvent("🔑 ENTERED", element);
                 };
-                var callback_exit = function(element) {
+                var callback_exit = function (element) {
                     logElementEvent("🚪 EXITED", element);
                 };
-                var callback_loading = function(element) {
+                var callback_loading = function (element) {
                     logElementEvent("⌚ LOADING", element);
                 };
-                var callback_loaded = function(element) {
+                var callback_loaded = function (element) {
                     logElementEvent("👍 LOADED", element);
                 };
-                var callback_error = function(element) {
+                var callback_error = function (element) {
                     logElementEvent("💀 ERROR", element);
                     element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
                 };
-                var callback_finish = function() {
+                var callback_finish = function () {
                     logElementEvent("✔️ FINISHED", document.documentElement);
                 };
 

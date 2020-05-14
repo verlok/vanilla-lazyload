@@ -2,7 +2,11 @@
 
 ## Coming next
 
--   Consider removing the `delay_load` option, there's now a better way to do that. Open an issue to ask the community.
+-   Release a new beta major with `cancel_on_exit` defaulting to `true`
+-   Use `requestAnimationFrame` before resetting the sources and calling the callbacks? See lazysizes.
+-   Check out how the plugin architecture of lazysizes work
+-   DRY the `// Annotate and notify loading` part in `lazyload.setSources`
+-   Consider creating a subset of options and defaults for the static `load` method, and document it
 -   Consider not using the `load` event listener for videos.
 -   Update the `destroy` method so it also removes lazyload's modifications to DOM elements (`element.llStatus` and `element.llTimeout`)
 -   When `cancel_on_exit` is `false`, unobserve elements as soon as they start loading (as of before 15.2.0).

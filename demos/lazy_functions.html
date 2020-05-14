@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>
+            Lazy functions - Lazyload demos
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            ul,
+            li {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            a,
+            img {
+                display: block;
+            }
+
+            img {
+                border: 0;
+                width: 220px;
+                height: 280px;
+            }
+
+            img:not([src]) {
+                visibility: hidden;
+            }
+
+            .boo {
+                font-size: 160px;
+            }
+
+            /* Fixes Firefox anomaly during image load */
+            @-moz-document url-prefix() {
+                img:-moz-loading {
+                    visibility: hidden;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Lazy functions demo</h1>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quisquam laboriosam soluta
+            veniam! Beatae tempora dicta voluptate consequuntur, nesciunt sequi alias quidem
+            blanditiis obcaecati praesentium aut sint nobis aliquid ullam!
+        </p>
+        <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum cum unde aliquid ad
+            quidem hic temporibus obcaecati quas sunt! Eius nisi ex ipsa suscipit aliquid velit
+            sequi exercitationem itaque fuga!
+        </p>
+        <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio, quo, aliquid adipisci
+            rerum, in quas ratione cupiditate sapiente iure aliquam molestiae provident maiores qui
+            odit. Aut placeat deserunt libero quod?
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum deleniti dolorem hic
+            autem at rem error non quos pariatur fugit. Distinctio est accusamus exercitationem
+            nesciunt. Molestias blanditiis temporibus asperiores impedit!
+        </p>
+        <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti, aut ea. Perferendis
+            facere tempore nemo eos illo consequatur! Ad quibusdam quis porro ipsam praesentium
+            tenetur totam? Eum exercitationem laudantium praesentium!
+        </p>
+        <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorum, alias omnis eveniet
+            maxime rem nulla sed modi et, fugit eius ut praesentium exercitationem incidunt
+            accusamus excepturi a laudantium fugiat id.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, fuga dignissimos. Nihil
+            provident est quasi harum id sint enim officiis maxime facere incidunt quibusdam ab,
+            magni iusto veritatis doloremque expedita.
+        </p>
+        <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum numquam ipsam harum
+            voluptates? Excepturi laboriosam quasi saepe. Quia officiis odit minus cumque, corporis,
+            incidunt harum quod fuga placeat optio deserunt?
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto exercitationem,
+            dolorum quibusdam nihil nisi vitae veritatis recusandae nostrum cum enim iste unde
+            fugiat esse voluptatum, voluptatem magnam, repudiandae veniam. Doloribus.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat similique
+            necessitatibus minima atque sed debitis, sunt quasi esse consequatur qui, facilis
+            temporibus voluptate eaque labore. Distinctio et accusantium doloremque officia.
+        </p>
+        <div data-lazy-function="foo">Script execution here</div>
+        <p>
+            Cumque explicabo iusto voluptates nostrum dolor tempore et sequi doloremque aspernatur
+            id cum soluta rerum debitis mollitia numquam, officiis molestias optio? Placeat tempora
+            porro odit expedita a ipsam provident atque!
+        </p>
+        <p>
+            Id, alias reiciendis animi incidunt quibusdam beatae neque ipsum illum inventore
+            commodi, sunt similique labore at hic tempora. Sed est necessitatibus ea! Repellendus,
+            nemo fugit pariatur soluta omnis modi explicabo!
+        </p>
+        <p>
+            Quas quia illo harum qui distinctio earum ullam. Est incidunt temporibus, repellendus
+            rem fugiat dolor sit inventore! Soluta illum, minus totam autem fugiat recusandae
+            eveniet sed ipsam officia ullam modi.
+        </p>
+        <p>
+            Minima eveniet quisquam quaerat natus nam voluptatibus eum fuga, aliquid doloribus
+            reiciendis vero culpa eaque eligendi omnis delectus, dolores commodi tenetur optio eos
+            temporibus sapiente accusantium. Maxime similique odit iusto!
+        </p>
+        <p>
+            Quae quas explicabo mollitia neque at error molestiae debitis nisi, iusto eum repellat
+            doloribus sequi voluptatibus numquam quisquam quidem alias quibusdam enim? Id illo
+            veritatis inventore quo recusandae esse vero.
+        </p>
+        <p>
+            Cum suscipit quae, rem dolor corrupti commodi placeat atque numquam? Perferendis, modi?
+            Explicabo ad quisquam in id corporis labore. Reiciendis dolore magni voluptas ex, iste
+            officia eius accusamus facilis cumque.
+        </p>
+        <p>
+            Hic dignissimos voluptate fugit officia atque reiciendis cumque explicabo impedit esse
+            aperiam nesciunt beatae quibusdam illum unde facere, repellat ipsa optio nostrum
+            distinctio consectetur numquam. Eos delectus quaerat fugiat laboriosam!
+        </p>
+        <p>
+            Temporibus, corrupti fuga. Suscipit, quaerat laborum quod quos nisi quam quia earum
+            cupiditate cumque sed facilis, rerum modi soluta, ex placeat doloribus! Tempora
+            voluptates consequuntur distinctio eius modi amet qui!
+        </p>
+        <p>
+            Consectetur esse illo excepturi numquam voluptas temporibus voluptatem distinctio ipsa
+            nisi molestiae sint aliquam cumque quod sunt officiis, quibusdam a, beatae eum, suscipit
+            obcaecati? Ut non beatae corporis a quo.
+        </p>
+        <p>
+            Facere blanditiis minus laudantium alias explicabo assumenda tempora? Rerum eos, quo in
+            animi cupiditate eaque, vel corporis aut beatae distinctio labore dignissimos, adipisci
+            deserunt esse voluptatibus. Facere nemo sit fugiat.
+        </p>
+        <div data-lazy-function="bar">Script execution here</div>
+        <p>
+            Quo at deserunt hic molestiae. Veritatis vero labore consequatur, est, eaque nostrum
+            nesciunt velit, praesentium corporis obcaecati exercitationem voluptatem tempore. Quae
+            quod mollitia fugit iusto saepe veritatis qui ipsum magni?
+        </p>
+        <p>
+            Modi tenetur aperiam laudantium eveniet rem, soluta in fugit earum vero unde ipsam
+            cupiditate ducimus fuga hic velit libero temporibus maiores voluptatem adipisci.
+            Inventore ducimus expedita numquam ea ex deserunt!
+        </p>
+        <p>
+            Quisquam quam molestiae nemo veniam mollitia doloremque modi rerum tempore voluptate at
+            consequatur praesentium rem consequuntur eos provident tenetur quibusdam, et iste
+            similique. Delectus deleniti et, eaque illum itaque hic!
+        </p>
+        <p>
+            Quos, voluptates esse recusandae consequuntur omnis eaque explicabo expedita voluptate
+            ea perferendis, porro hic soluta nulla dolore. Excepturi accusamus reprehenderit
+            temporibus explicabo quo sint sed, nobis dolores, velit alias nostrum.
+        </p>
+        <p>
+            Culpa hic quasi modi similique voluptatum cumque beatae nulla autem esse mollitia natus
+            nihil aspernatur sed magnam, expedita est recusandae quisquam. Cumque accusamus ad porro
+            necessitatibus in adipisci nihil doloribus.
+        </p>
+        <p>
+            Atque modi possimus aliquid eum consequuntur. Pariatur, blanditiis autem? Placeat
+            repudiandae eius dolorum vero iusto ad fugit doloremque molestiae eum qui necessitatibus
+            deserunt blanditiis illum, ea, expedita corporis odit vel.
+        </p>
+        <p>
+            Vero obcaecati explicabo iure aperiam aut modi architecto consectetur voluptatibus eos.
+            Deleniti, temporibus! Aliquid dignissimos a, pariatur, voluptates hic dolores cupiditate
+            atque ratione aliquam voluptatum accusantium corrupti tempora, doloribus incidunt!
+        </p>
+        <p>
+            Nostrum hic deleniti tempora sunt laudantium ullam deserunt ut et vero recusandae! Nam
+            at, voluptatibus unde eveniet sunt reprehenderit tempore ut consequuntur eum dolores
+            harum, earum assumenda, eos eius mollitia!
+        </p>
+        <p>
+            Labore explicabo voluptas assumenda ratione? Amet sunt deleniti nulla minima ipsam vel
+            odit reprehenderit soluta et iste adipisci, minus illo, ea enim error debitis quidem
+            consequuntur quia! Tenetur, dolorem modi.
+        </p>
+        <p>
+            Voluptates eligendi tempore nostrum, quasi veritatis similique quibusdam consectetur
+            voluptatibus adipisci aliquid laborum dignissimos tempora excepturi soluta atque harum
+            recusandae eum iste enim maiores. Nesciunt tenetur error quisquam voluptatem amet?
+        </p>
+        <div data-lazy-function="buzz">Script execution here</div>
+        <p>
+            Eligendi aspernatur itaque esse nisi! Illo consequatur repellat, eius, laborum hic
+            corporis ad voluptates nesciunt quo maiores aut itaque animi odit ipsum deserunt minima
+            architecto maxime at quas repellendus debitis.
+        </p>
+        <p>
+            Sapiente, ipsum incidunt doloremque ipsam ullam laborum distinctio nemo facere
+            voluptatum saepe reiciendis iure tenetur voluptatibus modi adipisci! Pariatur possimus
+            dolores labore itaque autem dolore, accusantium omnis saepe incidunt veritatis?
+        </p>
+        <p>
+            Natus impedit eaque similique sint maiores? Cum dolores, non molestiae vitae expedita
+            inventore harum corporis porro iusto possimus ullam dolor, autem fugit earum deserunt
+            eum in quos commodi a sunt.
+        </p>
+        <p>
+            Architecto repellat nemo veritatis natus modi quod laudantium nulla quidem ipsa,
+            inventore, vitae reiciendis excepturi! Excepturi, esse ullam atque unde facilis
+            doloremque ipsum et aperiam ipsa facere! Esse, quibusdam odit!
+        </p>
+        <p>
+            Eveniet facere, sit dolorem natus maxime quasi voluptate possimus, temporibus maiores
+            doloribus laborum minus neque nam itaque voluptatibus. Eum nihil aperiam eos voluptatem
+            sunt natus quos cum expedita sapiente ea!
+        </p>
+        <p>
+            Voluptate nobis, dicta commodi ut id iure! Consequatur blanditiis aut ut quasi amet
+            magni tempore, natus repellat dolorem repudiandae, recusandae voluptates eveniet vitae,
+            officia non aspernatur ratione tempora distinctio porro?
+        </p>
+        <p>
+            Cum consectetur voluptatem natus odit alias, a dolore dicta fugit sunt amet dolores
+            repudiandae eaque facilis iure quae minima, voluptas praesentium ipsam! Praesentium
+            iusto soluta alias dolore amet minus odio?
+        </p>
+        <p>
+            Hic labore assumenda officiis ducimus iure aperiam at maiores natus quas quia nostrum,
+            enim eaque soluta, repellat dolore est quidem ab adipisci suscipit nesciunt doloremque!
+            Et expedita quis veniam dolore.
+        </p>
+        <p>
+            Harum, aliquid? Repellat, necessitatibus? Pariatur veniam atque vel dolorem fugiat ad
+            reiciendis, voluptate quia provident laborum incidunt minus dolorum nemo necessitatibus
+            earum, omnis ullam consequatur! Accusantium fuga animi incidunt nesciunt.
+        </p>
+        <p>
+            Quisquam a nulla veniam labore, quasi ipsa numquam saepe sint ratione ea. Doloribus quos
+            molestias vitae earum repellat corrupti ad corporis at, nam nobis officia dolores magni
+            illo fugiat a.
+        </p>
+        <div data-lazy-function="booya">Script execution here</div>
+        <script src="../dist/lazyload.min.js"></script>
+        <script>
+            window.lazyFunctions = {
+                foo: function (element) {
+                    element.style.color = "red";
+                    console.log("foo");
+                },
+                bar: function (element) {
+                    element.remove(element);
+                    console.log("bar");
+                },
+                buzz: function (element) {
+                    var span = document.createElement("span");
+                    span.innerText = " - buzz!";
+                    element.appendChild(span);
+                    console.log("buzz");
+                },
+                booya: function (element) {
+                    element.classList.add("boo");
+                    console.log("booya");
+                }
+            };
+        </script>
+        <script>
+            (function () {
+                function executeLazyScript(element)  {
+                    var lazyFunctionName = element.getAttribute("data-lazy-function");
+                    var lazyFunction = lazyFunctions[lazyFunctionName];
+                    if (!lazyFunction) return;
+                    lazyFunction(element);
+                }
+
+                var ll = new LazyLoad({
+                    elements_selector: "[data-lazy-function]",
+                    unobserve_entered: true, // <- To avoid executing the script multiple times
+                    callback_enter: executeLazyScript // Assigning the function defined above
+                });
+            })();
+        </script>
+    </body>
+</html>

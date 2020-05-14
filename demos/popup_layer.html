@@ -3,7 +3,7 @@
     <head lang="en">
         <meta charset="UTF-8" />
         <title>
-            Lazyload tests
+            Popup layer - Lazyload demos
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>
@@ -40,6 +40,7 @@
     </head>
 
     <body>
+        <h1>Popup layer demo</h1>
         <button id="openMagnific">Open magnific popup</button>
         <div id="results1" class="results-popup mfp-hide">
             <ul>
@@ -413,23 +414,23 @@
                 console.log(Date.now(), eventName, element.getAttribute("data-src"));
             }
 
-            var callback_enter = function(element) {
+            var callback_enter = function (element) {
                 logElementEvent("🔑 ENTERED", element);
             };
-            var callback_exit = function(element) {
+            var callback_exit = function (element) {
                 logElementEvent("🚪 EXITED", element);
             };
-            var callback_loading = function(element) {
+            var callback_loading = function (element) {
                 logElementEvent("⌚ LOADING", element);
             };
-            var callback_loaded = function(element) {
+            var callback_loaded = function (element) {
                 logElementEvent("👍 LOADED", element);
             };
-            var callback_error = function(element) {
+            var callback_error = function (element) {
                 logElementEvent("💀 ERROR", element);
                 element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
             };
-            var callback_finish = function() {
+            var callback_finish = function () {
                 logElementEvent("✔️ FINISHED", document.documentElement);
             };
 
@@ -439,7 +440,7 @@
                     type: "inline"
                 },
                 callbacks: {
-                    open: function() {
+                    open: function () {
                         $("#results1").show();
                         new LazyLoad({
                             // Assign the callbacks defined above

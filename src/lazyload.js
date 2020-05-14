@@ -6,13 +6,15 @@ import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./lazyloa
 import { shouldUseNative, loadAllNative } from "./lazyload.native";
 import { setOnlineCheck } from "./lazyload.online";
 import { getElementsToLoad } from "./lazyload.dom";
-import { resetElementStatus } from "./lazyload.reset";
+import { resetStatus } from "./lazyload.data";
+import { setToLoadCount } from "./lazyload.counters";
 
 const LazyLoad = function (customSettings, elements) {
-    this._settings = getExtendedSettings(customSettings);
+    const settings = getExtendedSettings(customSettings);
+    this._settings = settings;
     this.loadingCount = 0;
-    setObserver(this);
-    setOnlineCheck(this);
+    setObserver(settings, this);
+    setOnlineCheck(settings, this);
     this.update(elements);
 };
 
@@ -20,7 +22,7 @@ LazyLoad.prototype = {
     update: function (givenNodeset) {
         const settings = this._settings;
         const elementsToLoad = getElementsToLoad(givenNodeset, settings);
-        this.toLoadCount = elementsToLoad.length;
+        setToLoadCount(this, elementsToLoad.length);
 
         if (isBot || !supportsIntersectionObserver) {
             this.loadAll(elementsToLoad);
@@ -51,21 +53,16 @@ LazyLoad.prototype = {
         elementsToLoad.forEach((element) => {
             load(element, settings, this);
         });
-    },
-
-    resetElementStatus: function (element) {
-        resetElementStatus(element, this);
-    },
-
-    // DEPRECATED
-    load: function (element) {
-        load(element, this._settings, this);
     }
 };
 
 LazyLoad.load = (element, customSettings) => {
     const settings = getExtendedSettings(customSettings);
     load(element, settings);
+};
+
+LazyLoad.resetStatus = (element) => {
+    resetStatus(element);
 };
 
 // Automatic instances creation if required (useful for async script loading)
