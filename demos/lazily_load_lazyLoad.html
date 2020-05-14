@@ -1300,6 +1300,7 @@
                 // to check when the .horzContainer divs enter the viewport
                 var lazyLazy = new LazyLoad({
                     elements_selector: ".horzContainer",
+                    unobserve_on_enter: true, // <- To avoid executing the script multiple times
                     // Assign the callbacks defined above
                     callback_enter: callback_enter,
                     callback_exit: callback_exit,
