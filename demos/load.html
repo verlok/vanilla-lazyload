@@ -2,8 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>LazyLoad load() demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Static load method - LazyLoad demos</title>
         <style>
             html {
                 box-sizing: border-box;
@@ -73,6 +73,7 @@
     </head>
 
     <body>
+        <h1>Static load method demo</h1>
         <div class="products">
             <!-- Eagerly loading 8 -->
             <a href="#" class="product">
@@ -345,28 +346,28 @@
 
     <script src="../dist/lazyload.min.js"></script>
     <script>
-        (function(w, d) {
+        (function (w, d) {
             function logElementEvent(eventName, element) {
                 console.log(Date.now(), eventName, element.getAttribute("data-src"));
             }
 
-            var callback_enter = function(element) {
+            var callback_enter = function (element) {
                 logElementEvent("🔑 ENTERED", element);
             };
-            var callback_exit = function(element) {
+            var callback_exit = function (element) {
                 logElementEvent("🚪 EXITED", element);
             };
-            var callback_loading = function(element) {
+            var callback_loading = function (element) {
                 logElementEvent("⌚ LOADING", element);
             };
-            var callback_loaded = function(element) {
+            var callback_loaded = function (element) {
                 logElementEvent("👍 LOADED", element);
             };
-            var callback_error = function(element) {
+            var callback_error = function (element) {
                 logElementEvent("💀 ERROR", element);
                 element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
             };
-            var callback_finish = function() {
+            var callback_finish = function () {
                 logElementEvent("✔️ FINISHED", document.documentElement);
             };
 
@@ -399,7 +400,7 @@
 
             function initializeMouseBehaviour() {
                 const products = document.querySelectorAll(".product");
-                nodeSetToArray(products).forEach(function(product) {
+                nodeSetToArray(products).forEach(function (product) {
                     product.addEventListener("mouseover", mouseoverHandler, true);
                 });
             }

@@ -3,7 +3,7 @@
     <head lang="en">
         <meta charset="UTF-8" />
         <title>
-            Print - Lazyload tests
+            Print - Lazyload demos
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>
@@ -75,6 +75,7 @@
     </head>
 
     <body>
+        <h1>Print demo</h1>
         <div class="topBar">
             <button class="print">🖨️ ️Print</button>
         </div>
@@ -530,23 +531,23 @@
                 console.log(Date.now(), eventName, element.getAttribute("data-src"));
             }
 
-            var callback_enter = function(element) {
+            var callback_enter = function (element) {
                 logElementEvent("🔑 ENTERED", element);
             };
-            var callback_exit = function(element) {
+            var callback_exit = function (element) {
                 logElementEvent("🚪 EXITED", element);
             };
-            var callback_loading = function(element) {
+            var callback_loading = function (element) {
                 logElementEvent("⌚ LOADING", element);
             };
-            var callback_loaded = function(element) {
+            var callback_loaded = function (element) {
                 logElementEvent("👍 LOADED", element);
             };
-            var callback_error = function(element) {
+            var callback_error = function (element) {
                 logElementEvent("💀 ERROR", element);
                 element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
             };
-            var callback_finish = function() {
+            var callback_finish = function () {
                 logElementEvent("✔️ FINISHED", document.documentElement);
                 // Open print dialog here!
                 allLoaded = true;
@@ -611,13 +612,13 @@
 
             var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
             if (!isSafari) {
-                window.onbeforeprint = function() {
+                window.onbeforeprint = function () {
                     wLazyLoad.loadAll();
                 };
             } else {
                 // Safari doesn't support the onbeforeprint event
                 var mediaQueryList = window.matchMedia("print");
-                mediaQueryList.addListener(function(mql) {
+                mediaQueryList.addListener(function (mql) {
                     if (mql.matches) {
                         wLazyLoad.loadAll();
                     }

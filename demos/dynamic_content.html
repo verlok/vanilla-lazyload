@@ -3,7 +3,7 @@
     <head lang="en">
         <meta charset="UTF-8" />
         <title>
-            Lazyload tests
+            Dynamic content - Lazyload demos
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>
@@ -47,6 +47,7 @@
     </head>
 
     <body>
+        <h1>Dynamic content demo</h1>
         <div class="buttons">
             <button id="addContent">
                 ADD CONTENT
@@ -133,7 +134,7 @@
         </div>
         <script src="../dist/lazyload.min.js"></script>
         <script>
-            (function() {
+            (function () {
                 var count = 0,
                     addContentButton,
                     additionalContent,
@@ -143,23 +144,23 @@
                     console.log(Date.now(), eventName, element.getAttribute("data-src"));
                 }
 
-                var callback_enter = function(element) {
+                var callback_enter = function (element) {
                     logElementEvent("🔑 ENTERED", element);
                 };
-                var callback_exit = function(element) {
+                var callback_exit = function (element) {
                     logElementEvent("🚪 EXITED", element);
                 };
-                var callback_loading = function(element) {
+                var callback_loading = function (element) {
                     logElementEvent("⌚ LOADING", element);
                 };
-                var callback_loaded = function(element) {
+                var callback_loaded = function (element) {
                     logElementEvent("👍 LOADED", element);
                 };
-                var callback_error = function(element) {
+                var callback_error = function (element) {
                     logElementEvent("💀 ERROR", element);
                     element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
                 };
-                var callback_finish = function() {
+                var callback_finish = function () {
                     logElementEvent("✔️ FINISHED", document.documentElement);
                 };
 
@@ -183,7 +184,7 @@
                 addContentButton = document.getElementById("addContent");
                 target = document.querySelector("#results1 ul");
 
-                addContentButton.addEventListener("click", function() {
+                addContentButton.addEventListener("click", function () {
                     if (count === additionalContent.length) {
                         return;
                     }
@@ -194,7 +195,7 @@
 
                 // Remove the first 3 list items
                 removeContentButton = document.getElementById("removeContent");
-                removeContentButton.addEventListener("click", function() {
+                removeContentButton.addEventListener("click", function () {
                     var images = document.querySelectorAll("#results1 img");
                     var i = 0;
                     while (images[i] && i < 3) {
