@@ -1,4 +1,4 @@
-export const unobserve = (element, settings, instance) => {
+export const unobserve = (element, instance) => {
     if (!instance) return;
     const observer = instance._observer;
     if (!observer) return;

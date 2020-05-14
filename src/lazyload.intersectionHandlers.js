@@ -1,10 +1,6 @@
 import { safeCallback } from "./lazyload.callback";
 import { load } from "./lazyload.load";
-import {
-    hasStatusAfterLoading,
-    hasEmptyStatus,
-    hasStatusLoading
-} from "./lazyload.data";
+import { hasStatusAfterLoading, hasEmptyStatus, hasStatusLoading } from "./lazyload.data";
 import { cancelIfLoading } from "./lazyload.cancelOnExit";
 import { unobserve } from "./lazyload.unobserve";
 
@@ -12,9 +8,9 @@ export const onEnter = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
     if (hasStatusAfterLoading(element)) {
         return; //Prevent loading it again
-    } 
+    }
     if (settings.unobserve_on_enter) {
-        unobserve();
+        unobserve(element, instance);
     }
     load(element, settings, instance);
 };
