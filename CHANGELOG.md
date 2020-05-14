@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## Version 16
+
+Functional changes:
+
+-   Removed call to deprecated `callback_reveal`
+-   Removed deprecated instance `load()` method in favor of the static `LazyLoad.load()` method
+-   Replaced `auto_unobserve` with `unobserve_on_loaded`, still defaulting to `true`
+-   Introduced a new `unobserve_on_enter` option (useful to execute lazy functions once)
+-   Created a demo to test the new `unobserve_on_enter` option
+-   Wrote a new recipe to facilitate the lazy execution of scripts/functions
+-   Renamed instance method `resetElementStatus()` to the static `LazyLoad.resetStatus()`
+-   Removed the `load_delay` option since there's no more use for it
+-   Removed the `load_delay` related demos
+
+See [UPGRADE.md](UPGRADE.md) to understand **if** you are impacted by any breaking change and **how** to upgrade from previous versions.
+
+Internal changes:
+
+-   Simplified management of the `cancel_on_exit` with less increase/decrease of the `toLoadCount` property
+-   Refactored counters functions in a new `lazyload.counters` file
+
+---
+
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
+
+---
+
 ## Version 15
 
 #### 15.2.0
