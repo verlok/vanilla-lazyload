@@ -13,11 +13,4 @@ Will release v. 16!
 7. Instance method `resetElementStatus` renamed and made static, as `resetStatus`
 8. Refactored counters functions in a new `lazyload.counters` file
 9. Created a demo to test the new `unobserve_on_enter` option
-
-🤔 CONSIDERING
-
-...
-
-👉 TO DO
-
 10. Write a new recipe to facilitate the lazy execution of scripts

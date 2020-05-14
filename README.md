@@ -509,9 +509,69 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
 
-### Lazy LazyLoad
 
-> 💡 **Use case**: when you have a lot of scrolling containers in the page and you want to instantiate a LazyLoad only on the ones that are in the viewport.
+### Lazy functions
+
+> 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
+
+HTML
+
+```html
+<div data-lazy-function="foo">...</div>
+<div data-lazy-function="bar">...</div>
+<div data-lazy-function="buzz">...</div>
+<div data-lazy-function="booya">...</div>
+```
+
+JS
+
+```js
+// It's a best practice to scope the function names inside a namespace like `lazyFunctions`.
+window.lazyFunctions = {
+    foo: function (element) {
+        element.style.color = "red";
+        console.log("foo");
+    },
+    bar: function (element) {
+        element.remove(element);
+        console.log("bar");
+    },
+    buzz: function (element) {
+        var span = document.createElement("span");
+        span.innerText = " - buzz!";
+        element.appendChild(span);
+        console.log("buzz");
+    },
+    booya: function (element) {
+        element.classList.add("boo");
+        console.log("booya");
+    }
+};
+```
+
+```js
+function executeLazyFunction(element)  {
+    var lazyFunctionName = element.getAttribute("data-lazy-function");
+    var lazyFunction = window.lazyFunctions[lazyFunctionName]; // window[lazyFunctionName] to call a global
+    if (!lazyFunction) return;
+    lazyFunction(element);
+}
+
+var ll = new LazyLoad({
+    elements_selector: "[data-lazy-function]",
+    unobserve_on_enter: true, // <- Avoid executing the function multiple times
+    callback_enter: executeLazyFunction // Assigning the function defined above
+});
+```
+
+That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it. 
+
+[DEMO](https://verlok.github.io/lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
+
+
+### Lazy initialization of multiple LazyLoad instances
+
+> 💡 **Use case**: when you have a lot of horizontally scrolling containers and you want to instantiate a LazyLoad instance on them, but only when they entered the viewport.
 
 HTML
 
@@ -548,24 +608,28 @@ Javascript
 
 ```js
 var lazyLoadInstances = [];
-// The "lazyLazy" instance of lazyload is used (kinda improperly)
-// to check when the .horzContainer divs enter the viewport
+
+var initOneLazyLoad = function (horzContainerElement) {
+    // When the .horzContainer element enters the viewport,
+    // instantiate a new LazyLoad on the horzContainerElement
+    var oneLL = new LazyLoad({
+        container: horzContainerElement
+    });
+    // Optionally push it in the lazyLoadInstances
+    // array to keep track of the instances
+    lazyLoadInstances.push(oneLL);
+};
+
+// The "lazyLazy" instance of lazyload is used to check
+// when the .horzContainer divs enter the viewport
 var lazyLazy = new LazyLoad({
     elements_selector: ".horzContainer",
-    // When the .horzContainer div enters the viewport...
-    callback_enter: function (el) {
-        // ...instantiate a new LazyLoad on it
-        var oneLL = new LazyLoad({
-            container: el
-        });
-        // Optionally push it in the lazyLoadInstances
-        // array to keep track of the instances
-        lazyLoadInstances.push(oneLL);
-    }
+    callback_enter: initOneLazyLoad,
+    unobserve_on_enter: true // Stop observing .horzContainer(s) after they entered
 });
 ```
 
-That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `callback_enter` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
+That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `initOneLazyLoad` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
 
 [DEMO](https://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
