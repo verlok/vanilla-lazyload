@@ -6,13 +6,12 @@ import {
 import { safeCallback } from "./lazyload.callback";
 import { removeClass } from "./lazyload.class";
 import { updateLoadingCount } from "./lazyload.counters";
-import { resetStatus } from "./lazyload.data";
+import { resetStatus, hasStatusLoading } from "./lazyload.data";
 
-export const cancelIfLoading = (element, entry, settings, instance) => {
-	if (element.tagName !== "IMG") {
-		// Can't cancel loading on anything but images
-		return;
-	}
+export const cancelLoadingIfRequired = (element, entry, settings, instance) => {
+	if (!settings.cancel_on_exit) return;
+	if (!hasStatusLoading(element)) return;
+	if (element.tagName !== "IMG") return; //Works only on images
 	removeEventListeners(element);
 	resetSourcesImg(element, settings, instance);
 	restoreOriginalAttributesImg(element);
