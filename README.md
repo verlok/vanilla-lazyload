@@ -488,27 +488,6 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/cancel_on_exit.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/cancel_on_exit.html) | [API](#-api)
 
-### Delay loading
-
-> 💡 **Use case**: to start loading elements that stayed inside the viewport for a given amount of time.
-
-HTML
-
-```html
-<img class="lazy" alt="A lazy image" data-src="lazy.jpg" width="220" height="280" />
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy",
-    load_delay: 300 //adjust according to use case
-});
-```
-
-[DEMO](https://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
-
 ### Lazy functions
 
 > 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
