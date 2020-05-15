@@ -488,27 +488,6 @@ var myLazyLoad = new LazyLoad({
 
 [DEMO](https://verlok.github.io/lazyload/demos/cancel_on_exit.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/cancel_on_exit.html) | [API](#-api)
 
-### Delay loading
-
-> 💡 **Use case**: to start loading elements that stayed inside the viewport for a given amount of time.
-
-HTML
-
-```html
-<img class="lazy" alt="A lazy image" data-src="lazy.jpg" width="220" height="280" />
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-    elements_selector: ".lazy",
-    load_delay: 300 //adjust according to use case
-});
-```
-
-[DEMO](https://verlok.github.io/lazyload/demos/delay.html) | [SOURCE](https://github.com/verlok/lazyload/blob/master/demos/delay.html) | [API](#-api)
-
 ### Lazy functions
 
 > 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
@@ -654,6 +633,7 @@ The [demos](https://github.com/verlok/lazyload/tree/master/demos) folder contain
 | Content   | Lazy responsive images with `srcset` and `sizes` (using plain `sizes`)                         | [Code](demos/image_srcset_sizes.html)          | [Live](https://www.andreaverlicchi.eu/lazyload/demos/image_srcset_sizes.html)          |
 | Content   | Lazy video with multiple `<source>` tags                                                       | [Code](demos/video.html)                       | [Live](https://www.andreaverlicchi.eu/lazyload/demos/video.html)                       |
 | Content   | Lazy loading background images                                                                 | [Code](demos/background_images.html)           | [Live](https://www.andreaverlicchi.eu/lazyload/demos/background_images.html)           |
+| Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/lazyload/demos/background_images_multi.html)     |
 | Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://www.andreaverlicchi.eu/lazyload/demos/picture_type_webp.html)           |
 | Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://www.andreaverlicchi.eu/lazyload/demos/amd.html)                         |
 | Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://www.andreaverlicchi.eu/lazyload/demos/amd_polyfill.html)                |

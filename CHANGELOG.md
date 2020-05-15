@@ -2,6 +2,8 @@
 
 ## Version 16
 
+#### 16.0.0
+
 Functional changes:
 
 -   Removed call to deprecated `callback_reveal`

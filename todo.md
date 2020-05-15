@@ -2,17 +2,16 @@
 
 ## Coming next
 
--   Release a new beta major with `cancel_on_exit` defaulting to `true`
--   Use `requestAnimationFrame` before resetting the sources and calling the callbacks? See lazysizes.
--   Check out how the plugin architecture of lazysizes work
--   DRY the `// Annotate and notify loading` part in `lazyload.setSources`
--   Consider creating a subset of options and defaults for the static `load` method, and document it
--   Consider not using the `load` event listener for videos.
 -   Update the `destroy` method so it also removes lazyload's modifications to DOM elements (`element.llStatus` and `element.llTimeout`)
+-   Use `requestAnimationFrame` before resetting the sources and calling the callbacks? See lazysizes.
+-   Consider not using the `load` event listener for videos.
+-   Consider creating a subset of options and defaults for the static `load` method, and document it
+-   DRY the `// Annotate and notify loading` part in `lazyload.setSources`
+-   Release a new beta major with `cancel_on_exit` defaulting to `true`
 -   When `cancel_on_exit` is `false`, unobserve elements as soon as they start loading (as of before 15.2.0).
--   Try setting the status inside the element using `element.llStatus` and `element.llTimeout` instead of using DOM attributes `data-ll-status` and `data-ll-timeout`? It would be more protected so harder to hack, and probably faster to read and write.
 -   Check how LazyLoad behaves when a page was updated using DOM morphing.
     If only the data-attributes were updated, how do one forces LazyLoad to read from them again?
+-   Check out how the plugin architecture of lazysizes work
 
 ## Test
 
