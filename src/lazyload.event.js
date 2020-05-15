@@ -39,11 +39,9 @@ export const hasEventListeners = (element) => {
 
 export const addEventListeners = (element, loadHandler, errorHandler) => {
     if (!hasEventListeners(element)) element.llEvLisnrs = {};
-    addEventListener(element, genericLoadEventName, loadHandler);
+    const loadEventName = element.tagName === "VIDEO" ? mediaLoadEventName : genericLoadEventName;
+    addEventListener(element, loadEventName, loadHandler);
     addEventListener(element, errorEventName, errorHandler);
-    if (element.tagName === "VIDEO") {
-        addEventListener(element, mediaLoadEventName, loadHandler);
-    }
 };
 
 export const removeEventListeners = (element) => {

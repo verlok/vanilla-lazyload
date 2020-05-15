@@ -2,7 +2,6 @@
 
 ## Coming next
 
--   Consider not using the `load` event listener for videos.
 -   Consider creating a subset of options and defaults for the static `load` method, and document it
 -   DRY the `// Annotate and notify loading` part in `lazyload.setSources`
 -   Release a new beta major with `cancel_on_exit` defaulting to `true`
