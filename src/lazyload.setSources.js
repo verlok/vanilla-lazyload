@@ -7,12 +7,6 @@ import { isHiDpi } from "./lazyload.environment";
 import { unobserve } from "./lazyload.unobserve";
 import { updateLoadingCount } from "./lazyload.counters";
 
-const _src_ = "src";
-const _srcset_ = "srcset";
-const _sizes_ = "sizes";
-const _poster_ = "poster";
-const _PICTURE_ = "PICTURE";
-
 export const getSourceTags = (parentTag) => {
     let sourceTags = [];
     for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
@@ -43,9 +37,9 @@ export const saveOriginalImageAttributes = (element) => {
         return;
     }
     const originalAttributes = {};
-    originalAttributes[_src_] = element.getAttribute(_src_);
-    originalAttributes[_srcset_] = element.getAttribute(_srcset_);
-    originalAttributes[_sizes_] = element.getAttribute(_sizes_);
+    originalAttributes["src"] = element.getAttribute("src");
+    originalAttributes["srcset"] = element.getAttribute("srcset");
+    originalAttributes["sizes"] = element.getAttribute("sizes");
     element.llOriginalAttrs = originalAttributes;
 };
 
@@ -54,26 +48,26 @@ export const restoreOriginalImageAttributes = (element) => {
         return;
     }
     const originalAttributes = element.llOriginalAttrs;
-    setAttributeIfValue(element, _src_, originalAttributes[_src_]);
-    setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
-    setAttributeIfValue(element, _sizes_, originalAttributes[_sizes_]);
+    setAttributeIfValue(element, "src", originalAttributes["src"]);
+    setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
+    setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
 };
 
 export const setImageAttributes = (element, settings) => {
-    setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
-    setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
+    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 export const resetImageAttributes = (element) => {
-    resetAttribute(element, _src_);
-    resetAttribute(element, _srcset_);
-    resetAttribute(element, _sizes_);
+    resetAttribute(element, "src");
+    resetAttribute(element, "srcset");
+    resetAttribute(element, "sizes");
 };
 
 export const forEachPictureSource = (element, fn) => {
     const parent = element.parentNode;
-    if (!parent || parent.tagName !== _PICTURE_) {
+    if (!parent || parent.tagName !== "PICTURE") {
         return;
     }
     let sourceTags = getSourceTags(parent);
@@ -104,29 +98,29 @@ export const resetSourcesImg = (element) => {
 };
 
 export const setSourcesIframe = (element, settings) => {
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 export const resetSourcesIframe = (element) => {
-    resetAttribute(element, _src_);
+    resetAttribute(element, "src");
 };
 
 export const setSourcesVideo = (element, settings) => {
     let sourceTags = getSourceTags(element);
     sourceTags.forEach((sourceTag) => {
-        setAttributeIfValue(sourceTag, _src_, getData(sourceTag, settings.data_src));
+        setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
     setAttributeIfValue(element, _poster_, getData(element, settings.data_poster));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
 };
 
 export const resetSourcesVideo = (element) => {
     let sourceTags = getSourceTags(element);
-    resetAttribute(element, _src_);
+    resetAttribute(element, "src");
     resetAttribute(element, _poster_);
     sourceTags.forEach((sourceTag) => {
-        resetAttribute(sourceTag, _src_);
+        resetAttribute(sourceTag, "src");
     });
 };
 
@@ -142,7 +136,7 @@ export const setBackground = (element, settings, instance) => {
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = `url("${bgDataValue}")`;
-    getTempImage(element).setAttribute(_src_, bgDataValue);
+    getTempImage(element).setAttribute("src", bgDataValue);
     // Annotate and notify loading
     updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);

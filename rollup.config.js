@@ -2,6 +2,12 @@ import { terser } from "rollup-plugin-terser";
 import resolve from "@rollup/plugin-node-resolve";
 import babel from "rollup-plugin-babel";
 
+const terserOptions = {
+    compress: {
+        passes: 2
+    }
+};
+
 module.exports = [
     {
         input: "src/lazyload.js",
@@ -13,7 +19,7 @@ module.exports = [
             {
                 file: "dist/lazyload.amd.min.js",
                 format: "amd",
-                plugins: [terser()]
+                plugins: [terser(terserOptions)]
             },
 
             {
@@ -25,7 +31,7 @@ module.exports = [
                 file: "dist/lazyload.iife.min.js",
                 name: "LazyLoad",
                 format: "iife",
-                plugins: [terser()]
+                plugins: [terser(terserOptions)]
             },
             {
                 file: "dist/lazyload.js",
@@ -36,7 +42,7 @@ module.exports = [
                 file: "dist/lazyload.min.js",
                 name: "LazyLoad",
                 format: "umd",
-                plugins: [terser()]
+                plugins: [terser(terserOptions)]
             }
         ],
         plugins: [
@@ -56,7 +62,7 @@ module.exports = [
             {
                 file: "dist/lazyload.esm.min.js",
                 format: "esm",
-                plugins: [terser()]
+                plugins: [terser(terserOptions)]
             }
         ]
     }

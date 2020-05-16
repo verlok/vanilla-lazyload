@@ -1,7 +1,7 @@
 import { isBot, runningOnBrowser } from "./lazyload.environment";
 
 const defaultSettings = {
-    elements_selector: "img",
+    elements_selector: "IMG",
     container: isBot || runningOnBrowser ? document : null,
     threshold: 300,
     thresholds: null,
@@ -31,6 +31,6 @@ const defaultSettings = {
     use_native: false
 };
 
-export const getExtendedSettings = customSettings => {
+export const getExtendedSettings = (customSettings) => {
     return Object.assign({}, defaultSettings, customSettings);
 };
