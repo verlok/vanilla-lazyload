@@ -11,10 +11,6 @@ import {
     isSomethingLoading
 } from "./lazyload.counters";
 
-const genericLoadEventName = "load";
-const mediaLoadEventName = "loadeddata";
-const errorEventName = "error";
-
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
 export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 
@@ -39,9 +35,9 @@ export const hasEventListeners = (element) => {
 
 export const addEventListeners = (element, loadHandler, errorHandler) => {
     if (!hasEventListeners(element)) element.llEvLisnrs = {};
-    const loadEventName = element.tagName === "VIDEO" ? mediaLoadEventName : genericLoadEventName;
+    const loadEventName = element.tagName === "VIDEO" ? "loadeddata" : "load";
     addEventListener(element, loadEventName, loadHandler);
-    addEventListener(element, errorEventName, errorHandler);
+    addEventListener(element, "error", errorHandler);
 };
 
 export const removeEventListeners = (element) => {

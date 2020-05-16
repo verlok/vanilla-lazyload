@@ -1,9 +1,9 @@
-export const addTempImage = element => {
-    element.llTempImage = document.createElement("img");
+export const addTempImage = (element) => {
+    element.llTempImage = document.createElement("IMG");
 };
 
-export const deleteTempImage = element => {
+export const deleteTempImage = (element) => {
     delete element.llTempImage;
 };
 
-export const getTempImage = element => element.llTempImage;
+export const getTempImage = (element) => element.llTempImage;
