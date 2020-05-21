@@ -25,7 +25,7 @@ define(function () { 'use strict';
   var isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
   var defaultSettings = {
-    elements_selector: "img",
+    elements_selector: "IMG",
     container: isBot || runningOnBrowser ? document : null,
     threshold: 300,
     thresholds: null,
@@ -140,9 +140,11 @@ define(function () { 'use strict';
   var hasStatusError = function hasStatusError(element) {
     return getStatus(element) === statusError;
   };
-  var statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
-  var hasStatusAfterLoading = function hasStatusAfterLoading(element) {
-    return statusesAfterLoading.indexOf(getStatus(element)) > -1;
+  var hasStatusNative = function hasStatusNative(element) {
+    return getStatus(element) === statusNative;
+  };
+  var hadStartedLoading = function hadStartedLoading(element) {
+    return !hasEmptyStatus(element);
   };
 
   var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
@@ -181,7 +183,7 @@ define(function () { 'use strict';
   };
 
   var addTempImage = function addTempImage(element) {
-    element.llTempImage = document.createElement("img");
+    element.llTempImage = document.createElement("IMG");
   };
   var deleteTempImage = function deleteTempImage(element) {
     delete element.llTempImage;
@@ -198,6 +200,9 @@ define(function () { 'use strict';
   };
   var resetObserver = function resetObserver(observer) {
     observer.disconnect();
+  };
+  var unobserveIfRequired = function unobserveIfRequired(element, settings, instance) {
+    if (settings.unobserve_entered) unobserve(element, instance);
   };
 
   var updateLoadingCount = function updateLoadingCount(instance, delta) {
@@ -219,11 +224,6 @@ define(function () { 'use strict';
     return instance.toLoadCount > 0;
   };
 
-  var _src_ = "src";
-  var _srcset_ = "srcset";
-  var _sizes_ = "sizes";
-  var _poster_ = "poster";
-  var _PICTURE_ = "PICTURE";
   var getSourceTags = function getSourceTags(parentTag) {
     var sourceTags = [];
 
@@ -254,9 +254,9 @@ define(function () { 'use strict';
     }
 
     var originalAttributes = {};
-    originalAttributes[_src_] = element.getAttribute(_src_);
-    originalAttributes[_srcset_] = element.getAttribute(_srcset_);
-    originalAttributes[_sizes_] = element.getAttribute(_sizes_);
+    originalAttributes["src"] = element.getAttribute("src");
+    originalAttributes["srcset"] = element.getAttribute("srcset");
+    originalAttributes["sizes"] = element.getAttribute("sizes");
     element.llOriginalAttrs = originalAttributes;
   };
   var restoreOriginalImageAttributes = function restoreOriginalImageAttributes(element) {
@@ -265,28 +265,32 @@ define(function () { 'use strict';
     }
 
     var originalAttributes = element.llOriginalAttrs;
-    setAttributeIfValue(element, _src_, originalAttributes[_src_]);
-    setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
-    setAttributeIfValue(element, _sizes_, originalAttributes[_sizes_]);
+    setAttributeIfValue(element, "src", originalAttributes["src"]);
+    setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
+    setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
   };
   var setImageAttributes = function setImageAttributes(element, settings) {
-    setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
-    setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
+    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
   };
   var resetImageAttributes = function resetImageAttributes(element) {
-    resetAttribute(element, _src_);
-    resetAttribute(element, _srcset_);
-    resetAttribute(element, _sizes_);
+    resetAttribute(element, "src");
+    resetAttribute(element, "srcset");
+    resetAttribute(element, "sizes");
   };
   var forEachPictureSource = function forEachPictureSource(element, fn) {
     var parent = element.parentNode;
 
-    if (!parent || parent.tagName !== _PICTURE_) {
+    if (!parent || parent.tagName !== "PICTURE") {
       return;
     }
 
     var sourceTags = getSourceTags(parent);
+    sourceTags.forEach(fn);
+  };
+  var forEachVideoSource = function forEachVideoSource(element, fn) {
+    var sourceTags = getSourceTags(element);
     sourceTags.forEach(fn);
   };
   var restoreOriginalAttributesImg = function restoreOriginalAttributesImg(element) {
@@ -310,15 +314,14 @@ define(function () { 'use strict';
     resetImageAttributes(element);
   };
   var setSourcesIframe = function setSourcesIframe(element, settings) {
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
   };
   var setSourcesVideo = function setSourcesVideo(element, settings) {
-    var sourceTags = getSourceTags(element);
-    sourceTags.forEach(function (sourceTag) {
-      setAttributeIfValue(sourceTag, _src_, getData(sourceTag, settings.data_src));
+    forEachVideoSource(element, function (sourceTag) {
+      setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
-    setAttributeIfValue(element, _poster_, getData(element, settings.data_poster));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
   };
   var setSourcesFunctions = {
@@ -332,12 +335,8 @@ define(function () { 'use strict';
     var bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = "url(\"".concat(bgDataValue, "\")");
-    getTempImage(element).setAttribute(_src_, bgDataValue); // Annotate and notify loading
-
-    updateLoadingCount(instance, +1);
-    addClass(element, settings.class_loading);
-    setStatus(element, statusLoading);
-    safeCallback(settings.callback_loading, element, instance);
+    getTempImage(element).setAttribute("src", bgDataValue);
+    manageLoading(element, settings, instance);
   }; // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
   // BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
   // COULD BE A GRADIENT BACKGROUND IMAGE
@@ -351,35 +350,80 @@ define(function () { 'use strict';
       return;
     }
 
-    element.style.backgroundImage = bgDataValue; // Annotate and notify applied
-
-    addClass(element, settings.class_applied);
-    setStatus(element, statusApplied);
-    safeCallback(settings.callback_applied, element, instance);
-
-    if (settings.unobserve_completed) {
-      // Unobserve now because we can't do it on load
-      unobserve(element, settings);
-    }
+    element.style.backgroundImage = bgDataValue;
+    manageApplied(element, settings, instance);
   };
-  var setSources = function setSources(element, settings, instance) {
+  var setSources = function setSources(element, settings) {
     var setSourcesFunction = setSourcesFunctions[element.tagName];
 
     if (!setSourcesFunction) {
       return;
     }
 
-    setSourcesFunction(element, settings); // Annotate and notify loading
+    setSourcesFunction(element, settings);
+  };
+  var manageApplied = function manageApplied(element, settings, instance) {
+    addClass(element, settings.class_applied);
+    setStatus(element, statusApplied);
+    removeDataMultiBackground(element, settings);
 
+    if (settings.unobserve_completed) {
+      // Unobserve now because we can't do it on load
+      unobserve(element, settings);
+    }
+
+    safeCallback(settings.callback_applied, element, instance);
+  };
+  var manageLoading = function manageLoading(element, settings, instance) {
     updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
+  }; // REMOVE DATA ATTRIBUTES --------------
+
+  var removeDataImg = function removeDataImg(element, settings) {
+    setData(element, settings.data_src, null);
+    setData(element, settings.data_srcset, null);
+    setData(element, settings.data_sizes, null);
+    forEachPictureSource(element, function (sourceTag) {
+      setData(sourceTag, settings.data_srcset, null);
+      setData(sourceTag, settings.data_sizes, null);
+    });
+  };
+  var removeDataIframe = function removeDataIframe(element, settings) {
+    setData(element, settings.data_src, null);
+  };
+  var removeDataVideo = function removeDataVideo(element, settings) {
+    setData(element, settings.data_src, null);
+    setData(element, settings.data_poster, null);
+    forEachVideoSource(element, function (sourceTag) {
+      setData(sourceTag, settings.data_src, null);
+    });
+  };
+  var removeDataFunctions = {
+    IMG: removeDataImg,
+    IFRAME: removeDataIframe,
+    VIDEO: removeDataVideo
+  };
+  var removeDataBackground = function removeDataBackground(element, settings) {
+    setData(element, settings.data_bg, null);
+    setData(element, settings.data_bg_hidpi, null);
+  };
+  var removeDataMultiBackground = function removeDataMultiBackground(element, settings) {
+    setData(element, settings.data_bg_multi, null);
+    setData(element, settings.data_bg_multi_hidpi, null);
+  };
+  var removeDataAttributes = function removeDataAttributes(element, settings) {
+    var removeDataFunction = removeDataFunctions[element.tagName];
+
+    if (removeDataFunction) {
+      removeDataFunction(element, settings);
+      return;
+    }
+
+    removeDataBackground(element, settings);
   };
 
-  var genericLoadEventName = "load";
-  var mediaLoadEventName = "loadeddata";
-  var errorEventName = "error";
   var elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
   var hasLoadEvent = function hasLoadEvent(element) {
     return elementsWithLoadEvent.indexOf(element.tagName) > -1;
@@ -401,12 +445,9 @@ define(function () { 'use strict';
   };
   var addEventListeners = function addEventListeners(element, loadHandler, errorHandler) {
     if (!hasEventListeners(element)) element.llEvLisnrs = {};
-    addEventListener(element, genericLoadEventName, loadHandler);
-    addEventListener(element, errorEventName, errorHandler);
-
-    if (element.tagName === "VIDEO") {
-      addEventListener(element, mediaLoadEventName, loadHandler);
-    }
+    var loadEventName = element.tagName === "VIDEO" ? "loadeddata" : "load";
+    addEventListener(element, loadEventName, loadHandler);
+    addEventListener(element, "error", errorHandler);
   };
   var removeEventListeners = function removeEventListeners(element) {
     if (!hasEventListeners(element)) {
@@ -433,18 +474,21 @@ define(function () { 'use strict';
     }
   };
   var loadHandler = function loadHandler(event, element, settings, instance) {
+    var goingNative = hasStatusNative(element);
     doneHandler(element, settings, instance);
     addClass(element, settings.class_loaded);
     setStatus(element, statusLoaded);
+    removeDataAttributes(element, settings);
     safeCallback(settings.callback_loaded, element, instance);
-    checkFinish(settings, instance);
+    if (!goingNative) checkFinish(settings, instance);
   };
   var errorHandler = function errorHandler(event, element, settings, instance) {
+    var goingNative = hasStatusNative(element);
     doneHandler(element, settings, instance);
     addClass(element, settings.class_error);
     setStatus(element, statusError);
     safeCallback(settings.callback_error, element, instance);
-    checkFinish(settings, instance);
+    if (!goingNative) checkFinish(settings, instance);
   };
   var addOneShotEventListeners = function addOneShotEventListeners(element, settings, instance) {
     var elementToListenTo = getTempImage(element) || element;
@@ -476,7 +520,8 @@ define(function () { 'use strict';
 
   var loadRegular = function loadRegular(element, settings, instance) {
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings, instance);
+    setSources(element, settings);
+    manageLoading(element, settings, instance);
   };
 
   var load = function load(element, settings, instance) {
@@ -485,72 +530,53 @@ define(function () { 'use strict';
     } else {
       loadBackground(element, settings, instance);
     }
-
-    checkFinish(settings, instance);
   };
   var loadNative = function loadNative(element, settings, instance) {
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings, instance);
+    setSources(element, settings);
+    removeDataAttributes(element, settings);
     setStatus(element, statusNative);
-    checkFinish(settings, instance);
   };
 
-  var cancelIfLoading = function cancelIfLoading(element, entry, settings, instance) {
-    if (element.tagName !== "IMG") {
-      // Can't cancel loading on anything but images
-      return;
-    }
+  var cancelLoadingIfRequired = function cancelLoadingIfRequired(element, entry, settings, instance) {
+    if (!settings.cancel_on_exit) return;
+    if (!hasStatusLoading(element)) return;
+    if (element.tagName !== "IMG") return; //Works only on images
 
     removeEventListeners(element);
     resetSourcesImg(element);
     restoreOriginalAttributesImg(element);
     removeClass(element, settings.class_loading);
     updateLoadingCount(instance, -1);
-    safeCallback(settings.callback_cancel, element, entry, instance); // setTimeout is needed because the "callback_cancel" implementation
-    // could be out of the main thread, e.g. `img.setAttribute("src", "")`
-
-    setTimeout(function () {
-      resetStatus(element);
-    }, 0);
+    resetStatus(element);
+    safeCallback(settings.callback_cancel, element, entry, instance);
   };
 
   var onEnter = function onEnter(element, entry, settings, instance) {
     safeCallback(settings.callback_enter, element, entry, instance);
-
-    if (hasStatusAfterLoading(element)) {
-      return; //Prevent loading it again
-    }
-
-    if (settings.unobserve_entered) {
-      unobserve(element, instance);
-    }
+    unobserveIfRequired(element, settings, instance);
+    if (hadStartedLoading(element)) return; //Prevent loading it again
 
     load(element, settings, instance);
   };
   var onExit = function onExit(element, entry, settings, instance) {
-    if (hasEmptyStatus(element)) {
-      return; //Ignore the first pass, at landing
-    }
+    if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
 
-    if (settings.cancel_on_exit && hasStatusLoading(element)) {
-      cancelIfLoading(element, entry, settings, instance);
-    }
-
+    cancelLoadingIfRequired(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
   };
 
-  var nativeLazyTags = ["IMG", "IFRAME"];
-  var loadingString = "loading";
+  var tagsWithNativeLazy = ["IMG", "IFRAME"];
   var shouldUseNative = function shouldUseNative(settings) {
-    return settings.use_native && loadingString in HTMLImageElement.prototype;
+    return settings.use_native && "loading" in HTMLImageElement.prototype;
   };
   var loadAllNative = function loadAllNative(elements, settings, instance) {
     elements.forEach(function (element) {
-      if (nativeLazyTags.indexOf(element.tagName) === -1) {
+      if (tagsWithNativeLazy.indexOf(element.tagName) === -1) {
         return;
       }
 
-      element.setAttribute(loadingString, "lazy"); //TODO: Move inside the loadNative method
+      element.setAttribute("loading", "lazy"); //TODO: Move inside the loadNative method
 
       loadNative(element, settings, instance);
     });
@@ -661,7 +687,12 @@ define(function () { 'use strict';
       // Observer
       if (this._observer) {
         this._observer.disconnect();
-      }
+      } // Clean custom attributes on elements
+
+
+      queryElements(this._settings).forEach(function (element) {
+        delete element.llOriginalAttrs;
+      }); // Delete all internal props
 
       delete this._observer;
       delete this._settings;
