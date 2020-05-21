@@ -11,7 +11,7 @@ const supportsClassList = runningOnBrowser && "classList" in document.createElem
 const isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
 const defaultSettings = {
-    elements_selector: "img",
+    elements_selector: "IMG",
     container: isBot || runningOnBrowser ? document : null,
     threshold: 300,
     thresholds: null,
@@ -41,7 +41,7 @@ const defaultSettings = {
     use_native: false
 };
 
-const getExtendedSettings = customSettings => {
+const getExtendedSettings = (customSettings) => {
     return Object.assign({}, defaultSettings, customSettings);
 };
 
@@ -107,10 +107,8 @@ const resetStatus = (element) => setStatus(element, null);
 const hasEmptyStatus = (element) => getStatus(element) === null;
 const hasStatusLoading = (element) => getStatus(element) === statusLoading;
 const hasStatusError = (element) => getStatus(element) === statusError;
-
-const statusesAfterLoading = [statusLoading, statusApplied, statusLoaded, statusError];
-const hasStatusAfterLoading = (element) =>
-    statusesAfterLoading.indexOf(getStatus(element)) > -1;
+const hasStatusNative = (element) => getStatus(element) === statusNative;
+const hadStartedLoading = (element) => !hasEmptyStatus(element);
 
 const safeCallback = (callback, arg1, arg2, arg3) => {
 	if (!callback) {
@@ -147,15 +145,15 @@ const removeClass = (element, className) => {
 		replace(/\s+$/, "");
 };
 
-const addTempImage = element => {
-    element.llTempImage = document.createElement("img");
+const addTempImage = (element) => {
+    element.llTempImage = document.createElement("IMG");
 };
 
-const deleteTempImage = element => {
+const deleteTempImage = (element) => {
     delete element.llTempImage;
 };
 
-const getTempImage = element => element.llTempImage;
+const getTempImage = (element) => element.llTempImage;
 
 const unobserve = (element, instance) => {
     if (!instance) return;
@@ -166,6 +164,10 @@ const unobserve = (element, instance) => {
 
 const resetObserver = (observer) => {
     observer.disconnect();
+};
+
+const unobserveIfRequired = (element, settings, instance) => {
+    if (settings.unobserve_entered) unobserve(element, instance);
 };
 
 const updateLoadingCount = (instance, delta) => {
@@ -186,12 +188,6 @@ const setToLoadCount = (instance, value) => {
 const isSomethingLoading = (instance) => instance.loadingCount > 0;
 
 const haveElementsToLoad = (instance) => instance.toLoadCount > 0;
-
-const _src_ = "src";
-const _srcset_ = "srcset";
-const _sizes_ = "sizes";
-const _poster_ = "poster";
-const _PICTURE_ = "PICTURE";
 
 const getSourceTags = (parentTag) => {
     let sourceTags = [];
@@ -223,9 +219,9 @@ const saveOriginalImageAttributes = (element) => {
         return;
     }
     const originalAttributes = {};
-    originalAttributes[_src_] = element.getAttribute(_src_);
-    originalAttributes[_srcset_] = element.getAttribute(_srcset_);
-    originalAttributes[_sizes_] = element.getAttribute(_sizes_);
+    originalAttributes["src"] = element.getAttribute("src");
+    originalAttributes["srcset"] = element.getAttribute("srcset");
+    originalAttributes["sizes"] = element.getAttribute("sizes");
     element.llOriginalAttrs = originalAttributes;
 };
 
@@ -234,29 +230,34 @@ const restoreOriginalImageAttributes = (element) => {
         return;
     }
     const originalAttributes = element.llOriginalAttrs;
-    setAttributeIfValue(element, _src_, originalAttributes[_src_]);
-    setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
-    setAttributeIfValue(element, _sizes_, originalAttributes[_sizes_]);
+    setAttributeIfValue(element, "src", originalAttributes["src"]);
+    setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
+    setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
 };
 
 const setImageAttributes = (element, settings) => {
-    setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
-    setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
+    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 const resetImageAttributes = (element) => {
-    resetAttribute(element, _src_);
-    resetAttribute(element, _srcset_);
-    resetAttribute(element, _sizes_);
+    resetAttribute(element, "src");
+    resetAttribute(element, "srcset");
+    resetAttribute(element, "sizes");
 };
 
 const forEachPictureSource = (element, fn) => {
     const parent = element.parentNode;
-    if (!parent || parent.tagName !== _PICTURE_) {
+    if (!parent || parent.tagName !== "PICTURE") {
         return;
     }
     let sourceTags = getSourceTags(parent);
+    sourceTags.forEach(fn);
+};
+
+const forEachVideoSource = (element, fn) => {
+    let sourceTags = getSourceTags(element);
     sourceTags.forEach(fn);
 };
 
@@ -284,16 +285,15 @@ const resetSourcesImg = (element) => {
 };
 
 const setSourcesIframe = (element, settings) => {
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 const setSourcesVideo = (element, settings) => {
-    let sourceTags = getSourceTags(element);
-    sourceTags.forEach((sourceTag) => {
-        setAttributeIfValue(sourceTag, _src_, getData(sourceTag, settings.data_src));
+    forEachVideoSource(element, (sourceTag) => {
+        setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
-    setAttributeIfValue(element, _poster_, getData(element, settings.data_poster));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
 };
 
@@ -309,12 +309,8 @@ const setBackground = (element, settings, instance) => {
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = `url("${bgDataValue}")`;
-    getTempImage(element).setAttribute(_src_, bgDataValue);
-    // Annotate and notify loading
-    updateLoadingCount(instance, +1);
-    addClass(element, settings.class_loading);
-    setStatus(element, statusLoading);
-    safeCallback(settings.callback_loading, element, instance);
+    getTempImage(element).setAttribute("src", bgDataValue);
+    manageLoading(element, settings, instance);
 };
 
 // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
@@ -328,32 +324,83 @@ const setMultiBackground = (element, settings, instance) => {
         return;
     }
     element.style.backgroundImage = bgDataValue;
-    // Annotate and notify applied
-    addClass(element, settings.class_applied);
-    setStatus(element, statusApplied);
-    safeCallback(settings.callback_applied, element, instance);
-    if (settings.unobserve_completed) {
-        // Unobserve now because we can't do it on load
-        unobserve(element, settings);
-    }
+    manageApplied(element, settings, instance);
 };
 
-const setSources = (element, settings, instance) => {
+const setSources = (element, settings) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
     if (!setSourcesFunction) {
         return;
     }
     setSourcesFunction(element, settings);
-    // Annotate and notify loading
+};
+
+const manageApplied = (element, settings, instance) => {
+    addClass(element, settings.class_applied);
+    setStatus(element, statusApplied);
+    removeDataMultiBackground(element, settings);
+    if (settings.unobserve_completed) {
+        // Unobserve now because we can't do it on load
+        unobserve(element, settings);
+    }
+    safeCallback(settings.callback_applied, element, instance);
+};
+
+const manageLoading = (element, settings, instance) => {
     updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
 };
 
-const genericLoadEventName = "load";
-const mediaLoadEventName = "loadeddata";
-const errorEventName = "error";
+// REMOVE DATA ATTRIBUTES --------------
+
+const removeDataImg = (element, settings) => {
+    setData(element, settings.data_src, null);
+    setData(element, settings.data_srcset, null);
+    setData(element, settings.data_sizes, null);
+    forEachPictureSource(element, (sourceTag) => {
+        setData(sourceTag, settings.data_srcset, null);
+        setData(sourceTag, settings.data_sizes, null);
+    });
+};
+
+const removeDataIframe = (element, settings) => {
+    setData(element, settings.data_src, null);
+};
+
+const removeDataVideo = (element, settings) => {
+    setData(element, settings.data_src, null);
+    setData(element, settings.data_poster, null);
+    forEachVideoSource(element, (sourceTag) => {
+        setData(sourceTag, settings.data_src, null);
+    });
+};
+
+const removeDataFunctions = {
+    IMG: removeDataImg,
+    IFRAME: removeDataIframe,
+    VIDEO: removeDataVideo
+};
+
+const removeDataBackground = (element, settings) => {
+    setData(element, settings.data_bg, null);
+    setData(element, settings.data_bg_hidpi, null);
+};
+
+const removeDataMultiBackground = (element, settings) => {
+    setData(element, settings.data_bg_multi, null);
+    setData(element, settings.data_bg_multi_hidpi, null);
+};
+
+const removeDataAttributes = (element, settings) => {
+    const removeDataFunction = removeDataFunctions[element.tagName];
+    if (removeDataFunction) {
+        removeDataFunction(element, settings);
+        return;
+    }
+    removeDataBackground(element, settings);
+};
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
 const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
@@ -379,11 +426,9 @@ const hasEventListeners = (element) => {
 
 const addEventListeners = (element, loadHandler, errorHandler) => {
     if (!hasEventListeners(element)) element.llEvLisnrs = {};
-    addEventListener(element, genericLoadEventName, loadHandler);
-    addEventListener(element, errorEventName, errorHandler);
-    if (element.tagName === "VIDEO") {
-        addEventListener(element, mediaLoadEventName, loadHandler);
-    }
+    const loadEventName = element.tagName === "VIDEO" ? "loadeddata" : "load";
+    addEventListener(element, loadEventName, loadHandler);
+    addEventListener(element, "error", errorHandler);
 };
 
 const removeEventListeners = (element) => {
@@ -409,19 +454,22 @@ const doneHandler = (element, settings, instance) => {
 };
 
 const loadHandler = (event, element, settings, instance) => {
+    const goingNative = hasStatusNative(element);
     doneHandler(element, settings, instance);
     addClass(element, settings.class_loaded);
     setStatus(element, statusLoaded);
+    removeDataAttributes(element, settings);
     safeCallback(settings.callback_loaded, element, instance);
-    checkFinish(settings, instance);
+    if (!goingNative) checkFinish(settings, instance);
 };
 
 const errorHandler = (event, element, settings, instance) => {
+    const goingNative = hasStatusNative(element);
     doneHandler(element, settings, instance);
     addClass(element, settings.class_error);
     setStatus(element, statusError);
     safeCallback(settings.callback_error, element, instance);
-    checkFinish(settings, instance);
+    if (!goingNative) checkFinish(settings, instance);
 };
 
 const addOneShotEventListeners = (element, settings, instance) => {
@@ -450,7 +498,8 @@ const loadBackground = (element, settings, instance) => {
 
 const loadRegular = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings, instance);
+    setSources(element, settings);
+    manageLoading(element, settings, instance);
 };
 
 const load = (element, settings, instance) => {
@@ -459,67 +508,52 @@ const load = (element, settings, instance) => {
     } else {
         loadBackground(element, settings, instance);
     }
-    checkFinish(settings, instance);
 };
 
 const loadNative = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings, instance);
+    setSources(element, settings);
+    removeDataAttributes(element, settings);
     setStatus(element, statusNative);
-    checkFinish(settings, instance);
 };
 
-const cancelIfLoading = (element, entry, settings, instance) => {
-	if (element.tagName !== "IMG") {
-		// Can't cancel loading on anything but images
-		return;
-	}
-	removeEventListeners(element);
-	resetSourcesImg(element);
-	restoreOriginalAttributesImg(element);
-	removeClass(element, settings.class_loading);
-	updateLoadingCount(instance, -1);
-	safeCallback(settings.callback_cancel, element, entry, instance);
-	// setTimeout is needed because the "callback_cancel" implementation
-	// could be out of the main thread, e.g. `img.setAttribute("src", "")`
-	setTimeout(() => {
-		resetStatus(element);
-	}, 0);
+const cancelLoadingIfRequired = (element, entry, settings, instance) => {
+    if (!settings.cancel_on_exit) return;
+    if (!hasStatusLoading(element)) return;
+    if (element.tagName !== "IMG") return; //Works only on images
+    removeEventListeners(element);
+    resetSourcesImg(element);
+    restoreOriginalAttributesImg(element);
+    removeClass(element, settings.class_loading);
+    updateLoadingCount(instance, -1);
+    resetStatus(element);
+    safeCallback(settings.callback_cancel, element, entry, instance);
 };
 
 const onEnter = (element, entry, settings, instance) => {
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hasStatusAfterLoading(element)) {
-        return; //Prevent loading it again
-    }
-    if (settings.unobserve_entered) {
-        unobserve(element, instance);
-    }
+    unobserveIfRequired(element, settings, instance);
+    if (hadStartedLoading(element)) return; //Prevent loading it again
     load(element, settings, instance);
 };
 
 const onExit = (element, entry, settings, instance) => {
-    if (hasEmptyStatus(element)) {
-        return; //Ignore the first pass, at landing
-    }
-    if (settings.cancel_on_exit && hasStatusLoading(element)) {
-        cancelIfLoading(element, entry, settings, instance);
-    }
+    if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
+    cancelLoadingIfRequired(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
 };
 
-const nativeLazyTags = ["IMG", "IFRAME"];
-const loadingString = "loading";
+const tagsWithNativeLazy = ["IMG", "IFRAME"];
 
-const shouldUseNative = settings =>
-    settings.use_native && loadingString in HTMLImageElement.prototype;
+const shouldUseNative = (settings) =>
+    settings.use_native && "loading" in HTMLImageElement.prototype;
 
 const loadAllNative = (elements, settings, instance) => {
-    elements.forEach(element => {
-        if (nativeLazyTags.indexOf(element.tagName) === -1) {
+    elements.forEach((element) => {
+        if (tagsWithNativeLazy.indexOf(element.tagName) === -1) {
             return;
         }
-        element.setAttribute(loadingString, "lazy"); //TODO: Move inside the loadNative method
+        element.setAttribute("loading", "lazy"); //TODO: Move inside the loadNative method
         loadNative(element, settings, instance);
     });
     setToLoadCount(instance, 0);
@@ -623,6 +657,11 @@ LazyLoad.prototype = {
         if (this._observer) {
             this._observer.disconnect();
         }
+        // Clean custom attributes on elements
+        queryElements(this._settings).forEach((element) => {
+            delete element.llOriginalAttrs;
+        });
+        // Delete all internal props
         delete this._observer;
         delete this._settings;
         delete this.loadingCount;

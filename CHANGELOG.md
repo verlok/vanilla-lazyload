@@ -2,6 +2,17 @@
 
 ## Version 16
 
+#### 16.1.0
+
+Improved speed, cleaning DOM, better working destroy, and also fixed 2 bugs.
+
+-   Cleaning up `data` attributes from the DOM when finished using them (mainly when elements have finished loading)
+-   Improved `destroy` method, which now also removes lazyload's additions to the DOM elements
+-   Video elements are now only listening to the `loadeddata` event, no longer to `load`
+-   Removed constants containing strings. I thought it would produced shorter minified code, but discovered that terser expands them to strings.
+-   Bugfix: when lazily loading videos, the error `_poster_ is undefined` was thrown
+-   Bugfix: when selecting native lazy loading, the `loading` class was added without knowing whether or not the loading had started
+
 #### 16.0.0
 
 Functional changes:
