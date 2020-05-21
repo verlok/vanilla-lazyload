@@ -1,4 +1,4 @@
-import { getData, setStatus } from "./lazyload.data";
+import { getData, setData, setStatus } from "./lazyload.data";
 import { statusLoading, statusApplied } from "./lazyload.elementStatus";
 import { safeCallback } from "./lazyload.callback";
 import { addClass } from "./lazyload.class";
@@ -6,12 +6,6 @@ import { getTempImage } from "./lazyload.tempImage";
 import { isHiDpi } from "./lazyload.environment";
 import { unobserve } from "./lazyload.unobserve";
 import { updateLoadingCount } from "./lazyload.counters";
-
-const _src_ = "src";
-const _srcset_ = "srcset";
-const _sizes_ = "sizes";
-const _poster_ = "poster";
-const _PICTURE_ = "PICTURE";
 
 export const getSourceTags = (parentTag) => {
     let sourceTags = [];
@@ -43,9 +37,9 @@ export const saveOriginalImageAttributes = (element) => {
         return;
     }
     const originalAttributes = {};
-    originalAttributes[_src_] = element.getAttribute(_src_);
-    originalAttributes[_srcset_] = element.getAttribute(_srcset_);
-    originalAttributes[_sizes_] = element.getAttribute(_sizes_);
+    originalAttributes["src"] = element.getAttribute("src");
+    originalAttributes["srcset"] = element.getAttribute("srcset");
+    originalAttributes["sizes"] = element.getAttribute("sizes");
     element.llOriginalAttrs = originalAttributes;
 };
 
@@ -54,29 +48,34 @@ export const restoreOriginalImageAttributes = (element) => {
         return;
     }
     const originalAttributes = element.llOriginalAttrs;
-    setAttributeIfValue(element, _src_, originalAttributes[_src_]);
-    setAttributeIfValue(element, _srcset_, originalAttributes[_srcset_]);
-    setAttributeIfValue(element, _sizes_, originalAttributes[_sizes_]);
+    setAttributeIfValue(element, "src", originalAttributes["src"]);
+    setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
+    setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
 };
 
 export const setImageAttributes = (element, settings) => {
-    setAttributeIfValue(element, _sizes_, getData(element, settings.data_sizes));
-    setAttributeIfValue(element, _srcset_, getData(element, settings.data_srcset));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
+    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 export const resetImageAttributes = (element) => {
-    resetAttribute(element, _src_);
-    resetAttribute(element, _srcset_);
-    resetAttribute(element, _sizes_);
+    resetAttribute(element, "src");
+    resetAttribute(element, "srcset");
+    resetAttribute(element, "sizes");
 };
 
 export const forEachPictureSource = (element, fn) => {
     const parent = element.parentNode;
-    if (!parent || parent.tagName !== _PICTURE_) {
+    if (!parent || parent.tagName !== "PICTURE") {
         return;
     }
     let sourceTags = getSourceTags(parent);
+    sourceTags.forEach(fn);
+};
+
+export const forEachVideoSource = (element, fn) => {
+    let sourceTags = getSourceTags(element);
     sourceTags.forEach(fn);
 };
 
@@ -104,29 +103,28 @@ export const resetSourcesImg = (element) => {
 };
 
 export const setSourcesIframe = (element, settings) => {
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
 export const resetSourcesIframe = (element) => {
-    resetAttribute(element, _src_);
+    resetAttribute(element, "src");
 };
 
 export const setSourcesVideo = (element, settings) => {
-    let sourceTags = getSourceTags(element);
-    sourceTags.forEach((sourceTag) => {
-        setAttributeIfValue(sourceTag, _src_, getData(sourceTag, settings.data_src));
+    forEachVideoSource(element, (sourceTag) => {
+        setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
-    setAttributeIfValue(element, _poster_, getData(element, settings.data_poster));
-    setAttributeIfValue(element, _src_, getData(element, settings.data_src));
+    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
 };
 
 export const resetSourcesVideo = (element) => {
     let sourceTags = getSourceTags(element);
-    resetAttribute(element, _src_);
-    resetAttribute(element, _poster_);
+    resetAttribute(element, "src");
+    resetAttribute(element, "poster");
     sourceTags.forEach((sourceTag) => {
-        resetAttribute(sourceTag, _src_);
+        resetAttribute(sourceTag, "src");
     });
 };
 
@@ -142,12 +140,8 @@ export const setBackground = (element, settings, instance) => {
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = `url("${bgDataValue}")`;
-    getTempImage(element).setAttribute(_src_, bgDataValue);
-    // Annotate and notify loading
-    updateLoadingCount(instance, +1);
-    addClass(element, settings.class_loading);
-    setStatus(element, statusLoading);
-    safeCallback(settings.callback_loading, element, instance);
+    getTempImage(element).setAttribute("src", bgDataValue);
+    manageLoading(element, settings, instance);
 };
 
 // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
@@ -161,25 +155,80 @@ export const setMultiBackground = (element, settings, instance) => {
         return;
     }
     element.style.backgroundImage = bgDataValue;
-    // Annotate and notify applied
-    addClass(element, settings.class_applied);
-    setStatus(element, statusApplied);
-    safeCallback(settings.callback_applied, element, instance);
-    if (settings.unobserve_completed) {
-        // Unobserve now because we can't do it on load
-        unobserve(element, settings, instance);
-    }
+    manageApplied(element, settings, instance);
 };
 
-export const setSources = (element, settings, instance) => {
+export const setSources = (element, settings) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
     if (!setSourcesFunction) {
         return;
     }
     setSourcesFunction(element, settings);
-    // Annotate and notify loading
+};
+
+export const manageApplied = (element, settings, instance) => {
+    addClass(element, settings.class_applied);
+    setStatus(element, statusApplied);
+    removeDataMultiBackground(element, settings);
+    if (settings.unobserve_completed) {
+        // Unobserve now because we can't do it on load
+        unobserve(element, settings, instance);
+    }
+    safeCallback(settings.callback_applied, element, instance);
+};
+
+export const manageLoading = (element, settings, instance) => {
     updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
+};
+
+// REMOVE DATA ATTRIBUTES --------------
+
+export const removeDataImg = (element, settings) => {
+    setData(element, settings.data_src, null);
+    setData(element, settings.data_srcset, null);
+    setData(element, settings.data_sizes, null);
+    forEachPictureSource(element, (sourceTag) => {
+        setData(sourceTag, settings.data_srcset, null);
+        setData(sourceTag, settings.data_sizes, null);
+    });
+};
+
+export const removeDataIframe = (element, settings) => {
+    setData(element, settings.data_src, null);
+};
+
+export const removeDataVideo = (element, settings) => {
+    setData(element, settings.data_src, null);
+    setData(element, settings.data_poster, null);
+    forEachVideoSource(element, (sourceTag) => {
+        setData(sourceTag, settings.data_src, null);
+    });
+};
+
+const removeDataFunctions = {
+    IMG: removeDataImg,
+    IFRAME: removeDataIframe,
+    VIDEO: removeDataVideo
+};
+
+export const removeDataBackground = (element, settings) => {
+    setData(element, settings.data_bg, null);
+    setData(element, settings.data_bg_hidpi, null);
+};
+
+export const removeDataMultiBackground = (element, settings) => {
+    setData(element, settings.data_bg_multi, null);
+    setData(element, settings.data_bg_multi_hidpi, null);
+};
+
+export const removeDataAttributes = (element, settings) => {
+    const removeDataFunction = removeDataFunctions[element.tagName];
+    if (removeDataFunction) {
+        removeDataFunction(element, settings);
+        return;
+    }
+    removeDataBackground(element, settings);
 };
