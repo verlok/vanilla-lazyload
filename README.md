@@ -221,7 +221,7 @@ require(dependencies, function(_, LazyLoad) {
 }
 ```
 
-[DEMO](https://verlok.github.io/lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/amd_polyfill.html)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/amd_polyfill.html)
 
 ### Using an `async` script
 
@@ -388,7 +388,7 @@ var myLazyLoad = new LazyLoad();
 myLazyLoad.update();
 ```
 
-[DEMO](https://verlok.github.io/lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
 
 ### Mixed native and JS-based lazy loading
 
@@ -439,7 +439,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](https://verlok.github.io/lazyload/demos/container_single.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_single.html) - [API](#-api)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_single.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_single.html) - [API](#-api)
 
 If you have _multiple_ scrolling panels, you can use the following markup and code.
 
@@ -465,7 +465,7 @@ var myLazyLoad2 = new LazyLoad({
 });
 ```
 
-[DEMO](https://verlok.github.io/lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
 
 ### Optimize for slower connections
 
@@ -486,7 +486,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](https://verlok.github.io/lazyload/demos/cancel_on_exit.html) | [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/cancel_on_exit.html) | [API](#-api)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/cancel_on_exit.html) | [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/cancel_on_exit.html) | [API](#-api)
 
 ### Lazy functions
 
@@ -544,7 +544,7 @@ var ll = new LazyLoad({
 
 That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
 
-[DEMO](https://verlok.github.io/lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
 
 ### Lazy initialization of multiple LazyLoad instances
 
@@ -608,7 +608,7 @@ var lazyLazy = new LazyLoad({
 
 That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `initOneLazyLoad` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
 
-[DEMO](https://verlok.github.io/lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
 ---
 
