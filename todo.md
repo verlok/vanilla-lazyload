@@ -2,6 +2,7 @@
 
 ## Coming next
 
+-   Consider changing `".lazy"` the default option for `elements_selector`
 -   Consider creating a subset of options and defaults for the static `load` method, and document it
 -   When `cancel_on_exit` is `false`, unobserve elements as soon as they start loading (as of before 15.2.0).
 -   Release a new beta major with `cancel_on_exit` defaulting to `true`

@@ -1,6 +1,6 @@
 Thank you for taking the time to contribute!
 
-To report a bug or request an enhancement or a feature, use the [issues page](https://github.com/verlok/lazyload/issues) on github
+To report a bug or request an enhancement or a feature, use the [issues page](https://github.com/verlok/vanilla-lazyload/issues) on github
 
 If you just want to show your appreciation for this script, how about [buying a coffee](https://ko-fi.com/verlok) to its author?
 
