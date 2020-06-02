@@ -25,7 +25,11 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 #### Lazy image with low quality placeholder:
 
 ```html
-<img alt="A lazy image" src="lazy-lowQuality.jpg" data-src="lazy.jpg" />
+<img
+  alt="A lazy image"
+  src="lazy-lowQuality.jpg"
+  data-src="lazy.jpg"
+/>
 ```
 
 #### Lazy responsive image with `srcset` and `sizes`:
@@ -35,7 +39,8 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
   alt="A lazy image"
   class="lazy"
   data-src="lazy.jpg"
-  data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
+  data-srcset="lazy_400.jpg 400w, 
+    lazy_800.jpg 800w"
   data-sizes="100w"
 />
 ```
@@ -46,9 +51,21 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 ```html
 <picture>
-  <source media="(min-width: 1200px)" data-srcset="lazy_1200.jpg 1x, lazy_2400.jpg 2x" />
-  <source media="(min-width: 800px)" data-srcset="lazy_800.jpg 1x, lazy_1600.jpg 2x" />
-  <img alt="A lazy image" class="lazy" data-src="lazy.jpg" />
+  <source
+    media="(min-width: 1200px)"
+    data-srcset="lazy_1200.jpg 1x, 
+      lazy_2400.jpg 2x"
+  />
+  <source
+    media="(min-width: 800px)"
+    data-srcset="lazy_800.jpg 1x, 
+      lazy_1600.jpg 2x"
+  />
+  <img
+    alt="A lazy image"
+    class="lazy"
+    data-src="lazy.jpg"
+  />
 </picture>
 ```
 
@@ -60,14 +77,16 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 <picture>
   <source
     type="image/webp"
-    data-srcset="lazy_400.webp 400w, lazy_800.webp 800w"
+    data-srcset="lazy_400.webp 400w, 
+      lazy_800.webp 800w"
     data-sizes="100w"
   />
   <img
     alt="A lazy image"
     class="lazy"
     data-src="lazy.jpg"
-    data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
+    data-srcset="lazy_400.jpg 400w, 
+      lazy_800.jpg 800w"
     data-sizes="100w"
   />
 </picture>
@@ -88,7 +107,11 @@ Single background image:
 Single background, with HiDPI screen support:
 
 ```html
-<div class="lazy" data-bg="lazy.jpg" data-bg-hidpi="lazy@2x.jpg"></div>
+<div
+  class="lazy"
+  data-bg="lazy.jpg"
+  data-bg-hidpi="lazy@2x.jpg"
+></div>
 ```
 
 Multiple backgrounds:
@@ -96,7 +119,9 @@ Multiple backgrounds:
 ```html
 <div
   class="lazy"
-  data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
+  data-bg-multi="url(lazy-head.jpg), 
+    url(lazy-body.jpg), 
+    linear-gradient(#fff, #ccc)"
 >
   ...
 </div>
@@ -109,8 +134,12 @@ Multiple backgrounds, HiDPI screen support:
 ```html
 <div
   class="lazy"
-  data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
-  data-bg-multi-hidpi="url(lazy-head@2x.jpg), url(lazy-body@2x.jpg), linear-gradient(#fff, #ccc)"
+  data-bg-multi="url(lazy-head.jpg),
+    url(lazy-body.jpg),
+    linear-gradient(#fff, #ccc)"
+  data-bg-multi-hidpi="url(lazy-head@2x.jpg),
+    url(lazy-body@2x.jpg),
+    linear-gradient(#fff, #ccc)"
 >
   ...
 </div>
@@ -121,7 +150,13 @@ Multiple backgrounds, HiDPI screen support:
 #### Lazy video
 
 ```html
-<video class="lazy" controls width="620" data-src="lazy.mp4" data-poster="lazy.jpg">
+<video
+  class="lazy"
+  controls
+  width="620"
+  data-src="lazy.mp4"
+  data-poster="lazy.jpg"
+>
   <source type="video/mp4" data-src="lazy.mp4" />
   <source type="video/ogg" data-src="lazy.ogg" />
   <source type="video/avi" data-src="lazy.avi" />
@@ -234,7 +269,8 @@ To do so, **you must define the options before including the script**. You can p
 
 ```html
 <script>
-  // Set the options to make LazyLoad self-initialize
+  // Set the options globally
+  // to make LazyLoad self-initialize
   window.lazyLoadOptions = {
     elements_selector: ".lazy"
     // ... more custom settings?
@@ -259,12 +295,14 @@ Same as above, but you must put the `addEventListener` code shown below before i
 
 ```html
 <script>
-  // Set the options to make LazyLoad self-initialize
+  // Set the options globally
+  // to make LazyLoad self-initialize
   window.lazyLoadOptions = {
     elements_selector: ".lazy"
     // ... more custom settings?
   };
-  // Listen to the initialization event and get the instance of LazyLoad
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
   window.addEventListener(
     "LazyLoad::Initialized",
     function (event) {
@@ -290,28 +328,7 @@ Now you'll be able to call its methods, like:
 lazyLoadInstance.update();
 ```
 
-Note about Internet Explorer: because this technique uses a `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)) to trigger the `LazyLoad::Initialized` event, you might want to add this micro polyfill to make it work on Internet Explorer.
-
-```html
-<script>
-  // CustomEvent micro-polyfill for Internet Explorer
-  (function () {
-    if (typeof window.CustomEvent === "function") {
-      return false;
-    }
-
-    function CustomEvent(event, params) {
-      params = params || { bubbles: false, cancelable: false, detail: undefined };
-      var evt = document.createEvent("CustomEvent");
-      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-      return evt;
-    }
-
-    CustomEvent.prototype = window.Event.prototype;
-    window.CustomEvent = CustomEvent;
-  })();
-</script>
-```
+Note about Internet Explorer: because this technique uses a `CustomEvent` to trigger the `LazyLoad::Initialized` event, you might want to add [this polyfill](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill) to make it work on Internet Explorer.
 
 ### Local install
 
@@ -399,7 +416,14 @@ HTML
 ```html
 <img class="lazy" alt="A lazy image" data-src="lazy.jpg" />
 <iframe class="lazy" data-src="lazyFrame.html"></iframe>
-<video class="lazy" controls data-src="lazy.mp4" data-poster="lazy.jpg">...</video>
+<video
+  class="lazy"
+  controls
+  data-src="lazy.mp4"
+  data-poster="lazy.jpg"
+>
+  ...
+</video>
 <div class="lazy" data-bg="lazy.jpg"></div>
 ```
 
@@ -474,7 +498,13 @@ var myLazyLoad2 = new LazyLoad({
 HTML
 
 ```html
-<img class="lazy" alt="A lazy image" data-src="lazy.jpg" width="220" height="280" />
+<img
+  class="lazy"
+  alt="A lazy image"
+  data-src="lazy.jpg"
+  width="220"
+  height="280"
+/>
 ```
 
 Javascript
@@ -486,7 +516,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/cancel_on_exit.html) | [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/cancel_on_exit.html) | [API](#-api)
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/cancel_on_exit.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/cancel_on_exit.html) - [API](#-api)
 
 ### Lazy functions
 
@@ -498,7 +528,9 @@ HTML
 <div data-lazy-function="foo">...</div>
 <div data-lazy-function="bar">...</div>
 <div data-lazy-function="buzz">...</div>
-<div data-lazy-function="booya">...</div>
+<div data-lazy-function="booya">
+  ...
+</div>
 ```
 
 JS
@@ -529,18 +561,22 @@ window.lazyFunctions = {
 
 ```js
 function executeLazyFunction(element) {
-  var lazyFunctionName = element.getAttribute("data-lazy-function");
-  var lazyFunction = window.lazyFunctions[lazyFunctionName]; // window[lazyFunctionName] to call a global
+  var lazyFunctionName = element.getAttribute(
+    "data-lazy-function"
+  );
+  var lazyFunction = window.lazyFunctions[lazyFunctionName];
   if (!lazyFunction) return;
   lazyFunction(element);
 }
 
 var ll = new LazyLoad({
   elements_selector: "[data-lazy-function]",
-  unobserve_entered: true, // <- Avoid executing the function multiple times
-  callback_enter: executeLazyFunction // Assigning the function defined above
+  unobserve_entered: true,
+  callback_enter: executeLazyFunction
 });
 ```
+
+Use `unobserve_entered` to avoid executing the function multiple times.
 
 That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
 
@@ -554,29 +590,13 @@ HTML
 
 ```html
 <div class="horzContainer">
-  <img
-    src=""
-    alt="Row 01, col 01"
-    data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_01&amp;w=200&amp;h=200"
-  />
-  <img
-    src=""
-    alt="Row 01, col 02"
-    data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_01_col_02&amp;w=200&amp;h=200"
-  />
+  <img alt="Row 01, col 01" data-src="lazy_r01_c01.jpg" />
+  <img alt="Row 01, col 02" data-src="lazy_r01_c02.jpg" />
   <!-- ... -->
 </div>
 <div class="horzContainer">
-  <img
-    src=""
-    alt="Row 02, col 01"
-    data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_01&amp;w=200&amp;h=200"
-  />
-  <img
-    src=""
-    alt="Row 02, col 02"
-    data-src="https://placeholdit.imgix.net/~text?txtsize=19&amp;txt=row_02_col_02&amp;w=200&amp;h=200"
-  />
+  <img alt="Row 02, col 01" data-src="lazy_r02_c01.jpg" />
+  <img alt="Row 02, col 02" data-src="lazy_r02_c02.jpg" />
   <!-- ... -->
 </div>
 ```
@@ -622,7 +642,7 @@ Didn't find the [recipe](#-recipes) that exactly matches your case? We have demo
 
 The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder contains 20+ use cases of LazyLoad. You might find there what you're looking for.
 
-| Type      | Title                                                                                          | Code                                           | Live demo                                                                                      |
+| Type      | Title                                                                                          | Code                                           | Demo                                                                                           |
 | --------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | Content   | Simple lazy loaded images, not using any placeholder                                           | [Code](demos/image_basic.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_basic.html)                 |
 | Content   | Lazy images that use an inline SVG as a placeholder                                            | [Code](demos/image_ph_inline.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_ph_inline.html)             |
@@ -675,7 +695,11 @@ There are [many ways to avoid content reflow](https://css-tricks.com/preventing-
 
 ```html
 <div class="image-wrapper">
-  <img class="lazy image" alt="An image" data-src="lazy.jpg" />
+  <img
+    class="lazy image"
+    alt="An image"
+    data-src="lazy.jpg"
+  />
 </div>
 ```
 
@@ -683,7 +707,8 @@ There are [many ways to avoid content reflow](https://css-tricks.com/preventing-
 .image-wrapper {
   width: 100%;
   height: 0;
-  padding-bottom: 150%; /* You define this doing image height / width * 100% */
+  padding-bottom: 150%;
+  /* 👆 image height / width * 100% */
   position: relative;
 }
 .image {
@@ -701,7 +726,9 @@ If you can't use the vertical padding trick for some reason, the best option is 
 
 ```html
 <img
-  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E"
+  src="data:image/svg+xml,%3Csvg 
+    xmlns='http://www.w3.org/2000/svg' 
+    viewBox='0 0 3 2'%3E%3C/svg%3E"
   data-src="//picsum.photos/900/600"
   alt="Lazy loading test image"
 />
