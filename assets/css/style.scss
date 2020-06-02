@@ -1,0 +1,18 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+#main_content {
+  overflow-x: scroll;
+}
