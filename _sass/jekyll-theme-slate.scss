@@ -1,4 +1,5 @@
 @import "rouge-github";
+@import "custom-fonts";
 
 /*******************************************************************************
 MeyerWeb Reset
@@ -139,8 +140,8 @@ body {
   color: #373737;
   background: #212121;
   font-size: 16px;
-  font-family: "Myriad Pro", Calibri, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: Merriweather, serif;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -164,9 +165,7 @@ h1 {
 }
 
 h2 {
-  padding-bottom: 10px;
   font-size: 32px;
-  background: url("../images/bg_hr.png") repeat-x bottom;
 }
 
 h3 {
@@ -186,7 +185,7 @@ h6 {
 }
 
 p {
-  margin: 10px 0 15px 0;
+  margin: 1em 0;
 }
 
 footer p {
@@ -226,7 +225,7 @@ cite {
 }
 
 strong {
-  font-weight: bold;
+  font-weight: normal;
 }
 
 img {
@@ -257,8 +256,11 @@ pre,
 code {
   color: #222;
 
-  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-  font-size: 0.875em;
+  font-family: "JetBrains Mono", Consolas, Menlo, Monaco, "Andale Mono WT",
+    "Andale Mono", "Lucida Console", "Lucida Sans Typewriter",
+    "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono",
+    "Nimbus Mono L", "Courier New", Courier, monospace;
+  font-size: 90%;
 
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -461,7 +463,6 @@ Full-Width Styles
 }
 
 #main_content {
-  padding-top: 40px;
   overflow-x: auto;
 }
 
