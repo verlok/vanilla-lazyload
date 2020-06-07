@@ -1,18 +1,5 @@
 ---
 ---
 
-@import "{{ site.theme }}";
+@import "jekyll-theme-slate";
 
-html {
-  box-sizing: border-box;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
-#main_content {
-  overflow-x: scroll;
-}
