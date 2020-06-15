@@ -328,6 +328,12 @@ Now you'll be able to call its methods, like:
 lazyLoadInstance.update();
 ```
 
+**Single instance** [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html)
+
+You can do something similar with multiple instances of vanilla-lazyload.
+
+**Multiple instance** [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html)
+
 Note about Internet Explorer: because this technique uses a `CustomEvent` to trigger the `LazyLoad::Initialized` event, you might want to add [this polyfill](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill) to make it work on Internet Explorer.
 
 ### Local install
@@ -640,7 +646,7 @@ That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad cal
 
 Didn't find the [recipe](#-recipes) that exactly matches your case? We have demos!
 
-The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder contains 20+ use cases of LazyLoad. You might find there what you're looking for.
+The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder contains 30+ use cases of vanilla-lazyload. You might find there what you're looking for.
 
 | Type      | Title                                                                                          | Code                                           | Demo                                                                                           |
 | --------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -658,6 +664,7 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd.html)                         |
 | Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html)                |
 | Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html)                       |
+| Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html)              |
 | Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/fade_in.html)                     |
 | Technique | Lazily create lazyload instances                                                               | [Code](demos/lazily_load_lazyLoad.html)        | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html)        |
 | Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html)              |
