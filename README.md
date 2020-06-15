@@ -328,13 +328,13 @@ Now you'll be able to call its methods, like:
 lazyLoadInstance.update();
 ```
 
-**Single instance** [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html)
-
-You can do something similar with multiple instances of vanilla-lazyload.
-
-**Multiple instance** [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html)
-
 Note about Internet Explorer: because this technique uses a `CustomEvent` to trigger the `LazyLoad::Initialized` event, you might want to add [this polyfill](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill) to make it work on Internet Explorer.
+
+
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html) &larr; for a single LazyLoad instance
+
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html) &larr; for multiple LazyLoad instances
+
 
 ### Local install
 
