@@ -1,4 +1,4 @@
-LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice) and enables native lazy loading. See [notable features](#-notable-features) for more.
+LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it optimizes your website for slower connections, and it can enable native lazy loading. See [notable features](#-notable-features) for more.
 
 [![vanilla-lazyload (latest)](https://img.shields.io/npm/v/vanilla-lazyload/latest.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![vanilla-lazyload (downloads)](https://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/vanilla-lazyload)
@@ -175,8 +175,7 @@ Then, in your javascript code:
 
 ```js
 var lazyLoadInstance = new LazyLoad({
-  elements_selector: ".lazy"
-  // ... more custom settings?
+  // Your custom settings go here
 });
 ```
 
@@ -215,8 +214,7 @@ var dependencies = [
 // Initialize LazyLoad inside the callback
 require(dependencies, function(_, LazyLoad) {
     var lazyLoadInstance = new LazyLoad({
-        elements_selector: ".lazy"
-        // ... more custom settings?
+        // Your custom settings go here
     });
 }
 ```
@@ -236,8 +234,7 @@ To do so, **you must define the options before including the script**. You can p
 <script>
   // Set the options to make LazyLoad self-initialize
   window.lazyLoadOptions = {
-    elements_selector: ".lazy"
-    // ... more custom settings?
+    // Your custom settings go here
   };
 </script>
 ```
@@ -261,8 +258,7 @@ Same as above, but you must put the `addEventListener` code shown below before i
 <script>
   // Set the options to make LazyLoad self-initialize
   window.lazyLoadOptions = {
-    elements_selector: ".lazy"
-    // ... more custom settings?
+    // Your custom settings go here
   };
   // Listen to the initialization event and get the instance of LazyLoad
   window.addEventListener(
@@ -408,13 +404,11 @@ Javascript
 ```js
 // Instance using native lazy loading
 const lazyContent = new LazyLoad({
-  elements_selector: "img.lazy",
   use_native: true // <-- there you go
 });
 
 // Instance without native lazy loading
 const lazyBackground = new LazyLoad({
-  elements_selector: "iframe.lazy, video.lazy, div.lazy"
   // DON'T PASS use_native: true HERE
 });
 ```
@@ -467,27 +461,6 @@ var myLazyLoad2 = new LazyLoad({
 
 [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
 
-### Optimize for slower connections
-
-> 💡 **Use case**: to cancel the loading of images that exited the viewport, in order to reserve bandwidth for the new images that entered the viewport.
-
-HTML
-
-```html
-<img class="lazy" alt="A lazy image" data-src="lazy.jpg" width="220" height="280" />
-```
-
-Javascript
-
-```js
-var myLazyLoad = new LazyLoad({
-  elements_selector: ".lazy",
-  cancel_on_exit: true
-});
-```
-
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/cancel_on_exit.html) | [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/cancel_on_exit.html) | [API](#-api)
-
 ### Lazy functions
 
 > 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
@@ -495,10 +468,10 @@ var myLazyLoad = new LazyLoad({
 HTML
 
 ```html
-<div data-lazy-function="foo">...</div>
-<div data-lazy-function="bar">...</div>
-<div data-lazy-function="buzz">...</div>
-<div data-lazy-function="booya">...</div>
+<div class="lazy" data-lazy-function="foo">...</div>
+<div class="lazy" data-lazy-function="bar">...</div>
+<div class="lazy" data-lazy-function="buzz">...</div>
+<div class="lazy" data-lazy-function="booya">...</div>
 ```
 
 JS
@@ -536,7 +509,6 @@ function executeLazyFunction(element) {
 }
 
 var ll = new LazyLoad({
-  elements_selector: "[data-lazy-function]",
   unobserve_entered: true, // <- Avoid executing the function multiple times
   callback_enter: executeLazyFunction // Assigning the function defined above
 });
@@ -553,7 +525,7 @@ That's it. Whenever an element with the `data-lazy-function` attribute enters th
 HTML
 
 ```html
-<div class="horzContainer">
+<div class="horizContainer">
   <img
     src=""
     alt="Row 01, col 01"
@@ -566,7 +538,7 @@ HTML
   />
   <!-- ... -->
 </div>
-<div class="horzContainer">
+<div class="horizContainer">
   <img
     src=""
     alt="Row 02, col 01"
@@ -586,11 +558,11 @@ Javascript
 ```js
 var lazyLoadInstances = [];
 
-var initOneLazyLoad = function (horzContainerElement) {
-  // When the .horzContainer element enters the viewport,
-  // instantiate a new LazyLoad on the horzContainerElement
+var initOneLazyLoad = function (horizContainerElement) {
+  // When the .horizContainer element enters the viewport,
+  // instantiate a new LazyLoad on the horizContainerElement
   var oneLL = new LazyLoad({
-    container: horzContainerElement
+    container: horizContainerElement
   });
   // Optionally push it in the lazyLoadInstances
   // array to keep track of the instances
@@ -598,15 +570,15 @@ var initOneLazyLoad = function (horzContainerElement) {
 };
 
 // The "lazyLazy" instance of lazyload is used to check
-// when the .horzContainer divs enter the viewport
+// when the .horizContainer divs enter the viewport
 var lazyLazy = new LazyLoad({
-  elements_selector: ".horzContainer",
+  elements_selector: ".horizContainer",
   callback_enter: initOneLazyLoad,
-  unobserve_entered: true // Stop observing .horzContainer(s) after they entered
+  unobserve_entered: true // Stop observing .horizContainer(s) after they entered
 });
 ```
 
-That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `initOneLazyLoad` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
+That's it. Whenever a `.horizContainer` element enters the viewport, LazyLoad calls the `initOneLazyLoad` function, which creates a new instance of LazyLoad on the `.horizContainer` element.
 
 [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
@@ -645,7 +617,6 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Technique | A popup layer containing lazy images in a scrolling container                                  | [Code](demos/popup_layer.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/popup_layer.html)                 |
 | Settings  | Multiple scrolling containers                                                                  | [Code](demos/container_multiple.html)          | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_multiple.html)          |
 | Settings  | Single scrolling container                                                                     | [Code](demos/container_single.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_single.html)            |
-| Settings  | Cancel downloads on exit, optimizing for slow connections                                      | [Code](demos/cancel_on_exit.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/cancel_on_exit.html)              |
 | Methods   | How to `destroy()` LazyLoad                                                                    | [Code](demos/destroy.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/destroy.html)                     |
 | Methods   | Adding dynamic content, then `update()` LazyLoad                                               | [Code](demos/dynamic_content.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content.html)             |
 | Methods   | Adding dynamic content, then `update()` LazyLoad passing a NodeSet of elements                 | [Code](demos/dynamic_content_nodeset.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content_nodeset.html)     |
@@ -736,7 +707,7 @@ var aLazyLoad = new LazyLoad({
 });
 ```
 
-In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as the second parameter.
+In the unusual cases when you can't select the elements using `elements_selector`, you could pass the elements set as a second parameter. It can be either a NodeSet or an array of DOM elements.
 
 ```js
 var elementsToLazyLoad = getElementSetFromSomewhere();
@@ -756,7 +727,7 @@ Here's the list of the options.
 | Name                  | Meaning                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Default value      | Example value                            |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ---------------------------------------- |
 | `container`           | The scrolling container of the elements in the `elements_selector` option.                                                                                                                                                                                                                                                                                                                                                                                   | `document`         | `document.querySelector('.scrollPanel')` |
-| `elements_selector`   | The CSS selector of the elements to load lazily, which will be selected as descendants of the `container` object.                                                                                                                                                                                                                                                                                                                                            | `"img"`            | `".images img.lazy"`                     |
+| `elements_selector`   | The CSS selector of the elements to load lazily, which will be selected as descendants of the `container` object.                                                                                                                                                                                                                                                                                                                                            | `".lazy"`          | `".lazyload"`                            |
 | `threshold`           | A number of pixels representing the outer distance off the scrolling area from which to start loading the elements.                                                                                                                                                                                                                                                                                                                                          | `300`              | `0`                                      |
 | `thresholds`          | Similar to `threshold`, but accepting multiple values and both `px` and `%` units. It maps directly to the `rootMargin` property of IntersectionObserver ([read more](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin)), so it must be a string with a syntax similar to the CSS `margin` property. You can use it when you need to have different thresholds for the scrolling area. It overrides `threshold` when passed. | `null`             | `"500px 10%"`                            |
 | `data_src`            | The name of the data attribute containing the element URL to load, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"`                                                                                                                                                                                                                                                                                        | `"src"`            | `"lazy-src"`                             |
@@ -771,7 +742,7 @@ Here's the list of the options.
 | `class_loading`       | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                                                                                                          | `"loading"`        | `"lazy-loading"`                         |
 | `class_loaded`        | The class applied to the elements when the loading is complete.                                                                                                                                                                                                                                                                                                                                                                                              | `"loaded"`         | `"lazy-loaded"`                          |
 | `class_error`         | The class applied to the elements when the element causes an error.                                                                                                                                                                                                                                                                                                                                                                                          | `"error"`          | `"lazy-error"`                           |
-| `cancel_on_exit`      | A boolean that defines whether or not to cancel the download of the images that exit the viewport while they are still loading, eventually restoring the original attributes. It applies only to images so to the `img` (and `picture`) tags, so it doesn't apply to background images, `iframe`s nor `video`s.                                                                                                                                              | `false`            | `true`                                   |
+| `cancel_on_exit`      | A boolean that defines whether or not to cancel the download of the images that exit the viewport while they are still loading, eventually restoring the original attributes. It applies only to images so to the `img` (and `picture`) tags, so it doesn't apply to background images, `iframe`s nor `video`s.                                                                                                                                              | `true`             | `false`                                  |
 | `unobserve_entered`   | A boolean that defines whether or not to automatically unobserve elements once they entered the viewport                                                                                                                                                                                                                                                                                                                                                     | `true`             | `false`                                  |
 | `unobserve_completed` | A boolean that defines whether or not to automatically unobserve elements once they've loaded or throwed an error                                                                                                                                                                                                                                                                                                                                            | `false`            | `true`                                   |
 | `callback_enter`      | A callback function which is called whenever an element enters the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                         | `null`             | `(el)=>{console.log("Entered", el)}`     |
@@ -840,7 +811,7 @@ If your users lose the internet connection causing errors on images loading, thi
 
 ### Optimize for slow connections
 
-Activating the `cancel_on_exit` option, you can tell LazyLoad to optimize for slow connection by cancelling the download of images when they exit the viewport.
+_LazyLoad_ optimizes for slow connections by cancelling the download of images when they exit the viewport.
 
 ### Support for responsive images
 

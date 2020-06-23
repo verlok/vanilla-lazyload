@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 17
+
+#### 17.0.0
+
+- The `elements_selector` option now defaults to  `.lazy` (was `img`)
+- The `cancel_on_exit` option now defaults to `true` (was `false`)
+
 ## Version 16
 
 #### 16.1.0
