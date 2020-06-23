@@ -175,8 +175,7 @@ Then, in your javascript code:
 
 ```js
 var lazyLoadInstance = new LazyLoad({
-  elements_selector: ".lazy"
-  // ... more custom settings?
+  // Your custom settings go here
 });
 ```
 
@@ -215,8 +214,7 @@ var dependencies = [
 // Initialize LazyLoad inside the callback
 require(dependencies, function(_, LazyLoad) {
     var lazyLoadInstance = new LazyLoad({
-        elements_selector: ".lazy"
-        // ... more custom settings?
+        // Your custom settings go here
     });
 }
 ```
@@ -236,8 +234,7 @@ To do so, **you must define the options before including the script**. You can p
 <script>
   // Set the options to make LazyLoad self-initialize
   window.lazyLoadOptions = {
-    elements_selector: ".lazy"
-    // ... more custom settings?
+    // Your custom settings go here
   };
 </script>
 ```
@@ -261,8 +258,7 @@ Same as above, but you must put the `addEventListener` code shown below before i
 <script>
   // Set the options to make LazyLoad self-initialize
   window.lazyLoadOptions = {
-    elements_selector: ".lazy"
-    // ... more custom settings?
+    // Your custom settings go here
   };
   // Listen to the initialization event and get the instance of LazyLoad
   window.addEventListener(
@@ -408,13 +404,11 @@ Javascript
 ```js
 // Instance using native lazy loading
 const lazyContent = new LazyLoad({
-  elements_selector: "img.lazy",
   use_native: true // <-- there you go
 });
 
 // Instance without native lazy loading
 const lazyBackground = new LazyLoad({
-  elements_selector: "iframe.lazy, video.lazy, div.lazy"
   // DON'T PASS use_native: true HERE
 });
 ```
@@ -481,7 +475,6 @@ Javascript
 
 ```js
 var myLazyLoad = new LazyLoad({
-  elements_selector: ".lazy",
   cancel_on_exit: true
 });
 ```
@@ -495,10 +488,10 @@ var myLazyLoad = new LazyLoad({
 HTML
 
 ```html
-<div data-lazy-function="foo">...</div>
-<div data-lazy-function="bar">...</div>
-<div data-lazy-function="buzz">...</div>
-<div data-lazy-function="booya">...</div>
+<div class="lazy" data-lazy-function="foo">...</div>
+<div class="lazy" data-lazy-function="bar">...</div>
+<div class="lazy" data-lazy-function="buzz">...</div>
+<div class="lazy" data-lazy-function="booya">...</div>
 ```
 
 JS
@@ -536,7 +529,6 @@ function executeLazyFunction(element) {
 }
 
 var ll = new LazyLoad({
-  elements_selector: "[data-lazy-function]",
   unobserve_entered: true, // <- Avoid executing the function multiple times
   callback_enter: executeLazyFunction // Assigning the function defined above
 });
@@ -553,7 +545,7 @@ That's it. Whenever an element with the `data-lazy-function` attribute enters th
 HTML
 
 ```html
-<div class="horzContainer">
+<div class="horizContainer">
   <img
     src=""
     alt="Row 01, col 01"
@@ -566,7 +558,7 @@ HTML
   />
   <!-- ... -->
 </div>
-<div class="horzContainer">
+<div class="horizContainer">
   <img
     src=""
     alt="Row 02, col 01"
@@ -586,11 +578,11 @@ Javascript
 ```js
 var lazyLoadInstances = [];
 
-var initOneLazyLoad = function (horzContainerElement) {
-  // When the .horzContainer element enters the viewport,
-  // instantiate a new LazyLoad on the horzContainerElement
+var initOneLazyLoad = function (horizContainerElement) {
+  // When the .horizContainer element enters the viewport,
+  // instantiate a new LazyLoad on the horizContainerElement
   var oneLL = new LazyLoad({
-    container: horzContainerElement
+    container: horizContainerElement
   });
   // Optionally push it in the lazyLoadInstances
   // array to keep track of the instances
@@ -598,15 +590,15 @@ var initOneLazyLoad = function (horzContainerElement) {
 };
 
 // The "lazyLazy" instance of lazyload is used to check
-// when the .horzContainer divs enter the viewport
+// when the .horizContainer divs enter the viewport
 var lazyLazy = new LazyLoad({
-  elements_selector: ".horzContainer",
+  elements_selector: ".horizContainer",
   callback_enter: initOneLazyLoad,
-  unobserve_entered: true // Stop observing .horzContainer(s) after they entered
+  unobserve_entered: true // Stop observing .horizContainer(s) after they entered
 });
 ```
 
-That's it. Whenever a `.horzContainer` element enters the viewport, LazyLoad calls the `initOneLazyLoad` function, which creates a new instance of LazyLoad on the `.horzContainer` element.
+That's it. Whenever a `.horizContainer` element enters the viewport, LazyLoad calls the `initOneLazyLoad` function, which creates a new instance of LazyLoad on the `.horizContainer` element.
 
 [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
@@ -736,7 +728,7 @@ var aLazyLoad = new LazyLoad({
 });
 ```
 
-In the rare cases where you can't or don't want to select the elements using `elements_selector` and you have a reference variable to your elements set (can be a NodeSet or an array of elements), you can pass the elements set as the second parameter.
+In the unusual cases when you can't select the elements using `elements_selector`, you could pass the elements set as a second parameter. It can be either a NodeSet or an array of DOM elements.
 
 ```js
 var elementsToLazyLoad = getElementSetFromSomewhere();
@@ -756,7 +748,7 @@ Here's the list of the options.
 | Name                  | Meaning                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Default value      | Example value                            |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ---------------------------------------- |
 | `container`           | The scrolling container of the elements in the `elements_selector` option.                                                                                                                                                                                                                                                                                                                                                                                   | `document`         | `document.querySelector('.scrollPanel')` |
-| `elements_selector`   | The CSS selector of the elements to load lazily, which will be selected as descendants of the `container` object.                                                                                                                                                                                                                                                                                                                                            | `"img"`            | `".images img.lazy"`                     |
+| `elements_selector`   | The CSS selector of the elements to load lazily, which will be selected as descendants of the `container` object.                                                                                                                                                                                                                                                                                                                                            | `".lazy"`            | `".lazyload"`                     |
 | `threshold`           | A number of pixels representing the outer distance off the scrolling area from which to start loading the elements.                                                                                                                                                                                                                                                                                                                                          | `300`              | `0`                                      |
 | `thresholds`          | Similar to `threshold`, but accepting multiple values and both `px` and `%` units. It maps directly to the `rootMargin` property of IntersectionObserver ([read more](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin)), so it must be a string with a syntax similar to the CSS `margin` property. You can use it when you need to have different thresholds for the scrolling area. It overrides `threshold` when passed. | `null`             | `"500px 10%"`                            |
 | `data_src`            | The name of the data attribute containing the element URL to load, excluding the `"data-"` part. E.g. if your data attribute is named `"data-src"`, just pass `"src"`                                                                                                                                                                                                                                                                                        | `"src"`            | `"lazy-src"`                             |

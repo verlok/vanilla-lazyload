@@ -1,5 +1,33 @@
 # 🗺 HOW TO UPDATE FROM PREVIOUS VERSIONS
 
+## Version 16 to 17
+
+**If you were NOT setting the `elements_selector` option**
+
+You should add the `lazy` class to your lazy images.
+
+```html
+<!-- FROM -->
+<img data-src="lazyImage.jpg" alt="Lazy image">
+<!-- TO -->
+<img class="lazy" data-src="lazyImage.jpg" alt="Lazy image">
+```
+
+ALTERNATIVELY, you can set the `elements_selector` option to `"img"`
+
+```js
+const myLazyLoad = new LazyLoad({
+   // ADD
+   elements_selector: "img",
+});
+```
+
+---
+
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
+
+---
+
 ## Version 15 to 16
 
 **If you were using the `callback_reveal` callback**

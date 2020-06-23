@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 17
+
+#### 17.0.0
+
+- Changed the default value of the `elements_selector` setting/option from `img` to `.lazy`
+
 ## Version 16
 
 #### 16.1.0
