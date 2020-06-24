@@ -1,188 +1,188 @@
 <!DOCTYPE html>
 <html>
-    <head lang="en">
-        <meta charset="UTF-8" />
-        <title>
-            Dynamic content passing nodeset - Lazyload demos
-        </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style>
-            ul,
-            li {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
+  <head lang="en">
+    <meta charset="UTF-8" />
+    <title>
+      Dynamic content passing nodeset - Lazyload demos
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      ul,
+      li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
 
-            a,
-            img {
-                display: block;
-            }
+      a,
+      img {
+        display: block;
+      }
 
-            img {
-                border: 0;
-                width: 220px;
-                height: 280px;
-            }
+      img {
+        border: 0;
+        width: 220px;
+        height: 280px;
+      }
 
-            img:not([src]) {
-                visibility: hidden;
-            }
+      img:not([src]) {
+        visibility: hidden;
+      }
 
-            button {
-                position: fixed;
-                bottom: 10px;
-                width: 10em;
-                height: 3em;
-                left: 50%;
-                margin-left: -5em;
-            }
-        </style>
-    </head>
+      button {
+        position: fixed;
+        bottom: 10px;
+        width: 10em;
+        height: 3em;
+        left: 50%;
+        margin-left: -5em;
+      }
+    </style>
+  </head>
 
-    <body>
-        <h1>Dynamic content passing nodeset demo</h1>
-        <button id="addContent">
-            ADD CONTENT
-            <span class="count"></span>
-        </button>
-        <div id="results1" class="results">
-            <ul>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Stivaletti"
-                            data-src="https://via.placeholder.com/440x560?text=Img+01"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Open toe"
-                            data-src="https://via.placeholder.com/440x560?text=Img+02"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis"
-                            data-src="https://via.placeholder.com/440x560?text=Img+03"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes basse"
-                            data-src="https://via.placeholder.com/440x560?text=Img+04"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes alte"
-                            data-src="https://via.placeholder.com/440x560?text=Img+05"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes alte"
-                            data-src="https://via.placeholder.com/440x560?text=Img+06"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes basse"
-                            data-src="https://via.placeholder.com/440x560?text=Img+07"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <script src="../dist/lazyload.min.js"></script>
-        <script>
-            (function () {
-                var count = 0,
-                    addContentButton,
-                    additionalContent,
-                    target;
+  <body>
+    <h1>Dynamic content passing nodeset demo</h1>
+    <button id="addContent">
+      ADD CONTENT
+      <span class="count"></span>
+    </button>
+    <div id="results1" class="results">
+      <ul>
+        <li>
+          <a href="#">
+            <img
+              alt="Stivaletti"
+              src="https://via.placeholder.com/440x560?text=Img+01"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              alt="Open toe"
+              src="https://via.placeholder.com/440x560?text=Img+02"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              alt="Sneakers &amp; Tennis"
+              data-src="https://via.placeholder.com/440x560?text=Img+03"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              alt="Sneakers &amp; Tennis shoes basse"
+              data-src="https://via.placeholder.com/440x560?text=Img+04"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              alt="Sneakers &amp; Tennis shoes alte"
+              data-src="https://via.placeholder.com/440x560?text=Img+05"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              alt="Sneakers &amp; Tennis shoes alte"
+              data-src="https://via.placeholder.com/440x560?text=Img+06"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              alt="Sneakers &amp; Tennis shoes basse"
+              data-src="https://via.placeholder.com/440x560?text=Img+07"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+      </ul>
+    </div>
+    <script src="../dist/lazyload.min.js"></script>
+    <script>
+      (function () {
+        var count = 0,
+          addContentButton,
+          additionalContent,
+          target;
 
-                function logElementEvent(eventName, element) {
-                    console.log(Date.now(), eventName, element.getAttribute("data-src"));
-                }
+        function logElementEvent(eventName, element) {
+          console.log(Date.now(), eventName, element.getAttribute("data-src"));
+        }
 
-                var callback_enter = function (element) {
-                    logElementEvent("🔑 ENTERED", element);
-                };
-                var callback_exit = function (element) {
-                    logElementEvent("🚪 EXITED", element);
-                };
-                var callback_loading = function (element) {
-                    logElementEvent("⌚ LOADING", element);
-                };
-                var callback_loaded = function (element) {
-                    logElementEvent("👍 LOADED", element);
-                };
-                var callback_error = function (element) {
-                    logElementEvent("💀 ERROR", element);
-                    element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
-                };
-                var callback_finish = function () {
-                    logElementEvent("✔️ FINISHED", document.documentElement);
-                };
+        var callback_enter = function (element) {
+          logElementEvent("🔑 ENTERED", element);
+        };
+        var callback_exit = function (element) {
+          logElementEvent("🚪 EXITED", element);
+        };
+        var callback_loading = function (element) {
+          logElementEvent("⌚ LOADING", element);
+        };
+        var callback_loaded = function (element) {
+          logElementEvent("👍 LOADED", element);
+        };
+        var callback_error = function (element) {
+          logElementEvent("💀 ERROR", element);
+          element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+        };
+        var callback_finish = function () {
+          logElementEvent("✔️ FINISHED", document.documentElement);
+        };
 
-                ll = new LazyLoad(
-                    {
-                        // Assign the callbacks defined above
-                        callback_enter: callback_enter,
-                        callback_exit: callback_exit,
-                        callback_loading: callback_loading,
-                        callback_loaded: callback_loaded,
-                        callback_error: callback_error,
-                        callback_finish: callback_finish
-                    },
-                    document.querySelectorAll("img")
-                );
+        ll = new LazyLoad(
+          {
+            // Assign the callbacks defined above
+            callback_enter: callback_enter,
+            callback_exit: callback_exit,
+            callback_loading: callback_loading,
+            callback_loaded: callback_loaded,
+            callback_error: callback_error,
+            callback_finish: callback_finish
+          },
+          document.querySelectorAll("img")
+        );
 
-                additionalContent = [
-                    '<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-src="https://via.placeholder.com/440x560?text=Img+08" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+09" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+10" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+11" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+12" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+13" width="220" height="280"></a> </li>',
-                    '<li><a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+14" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+15" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+16" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+17" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+18" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+19" width="220" height="280"></a> </li>',
-                    '<li><a href="#"><img alt="Francesine" data-src="https://via.placeholder.com/440x560?text=Img+20" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+21" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+22" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+23" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+24" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+25" width="220" height="280"></a> </li>'
-                ];
+        additionalContent = [
+          '<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" src="https://via.placeholder.com/440x560?text=Img+08" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+09" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+10" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+11" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+12" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+13" width="220" height="280"></a> </li>',
+          '<li><a href="#"><img alt="Stivaletti" src="https://via.placeholder.com/440x560?text=Img+14" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+15" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+16" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+17" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+18" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+19" width="220" height="280"></a> </li>',
+          '<li><a href="#"><img alt="Francesine" src="https://via.placeholder.com/440x560?text=Img+20" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+21" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+22" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+23" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+24" width="220" height="280"></a> </li> <li> <a href="#"><img class="lazy" alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+25" width="220" height="280"></a> </li>'
+        ];
 
-                addContentButton = document.getElementById("addContent");
-                target = document.querySelector("#results1 ul");
+        addContentButton = document.getElementById("addContent");
+        target = document.querySelector("#results1 ul");
 
-                addContentButton.addEventListener("click", function () {
-                    if (count === additionalContent.length) {
-                        return;
-                    }
-                    target.innerHTML += additionalContent[count];
-                    ll.update(document.querySelectorAll("img"));
-                    addContentButton.disabled = ++count >= additionalContent.length;
-                });
-            })();
-        </script>
-    </body>
+        addContentButton.addEventListener("click", function () {
+          if (count === additionalContent.length) {
+            return;
+          }
+          target.innerHTML += additionalContent[count];
+          ll.update(document.querySelectorAll(".lazy"));
+          addContentButton.disabled = ++count >= additionalContent.length;
+        });
+      })();
+    </script>
+  </body>
 </html>
