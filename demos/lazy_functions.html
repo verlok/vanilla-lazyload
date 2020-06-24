@@ -94,7 +94,7 @@
             necessitatibus minima atque sed debitis, sunt quasi esse consequatur qui, facilis
             temporibus voluptate eaque labore. Distinctio et accusantium doloremque officia.
         </p>
-        <div data-lazy-function="foo">Script execution here</div>
+        <div class="lazy" data-lazy-function="foo">Script execution here</div>
         <p>
             Cumque explicabo iusto voluptates nostrum dolor tempore et sequi doloremque aspernatur
             id cum soluta rerum debitis mollitia numquam, officiis molestias optio? Placeat tempora
@@ -145,7 +145,7 @@
             animi cupiditate eaque, vel corporis aut beatae distinctio labore dignissimos, adipisci
             deserunt esse voluptatibus. Facere nemo sit fugiat.
         </p>
-        <div data-lazy-function="bar">Script execution here</div>
+        <div class="lazy" data-lazy-function="bar">Script execution here</div>
         <p>
             Quo at deserunt hic molestiae. Veritatis vero labore consequatur, est, eaque nostrum
             nesciunt velit, praesentium corporis obcaecati exercitationem voluptatem tempore. Quae
@@ -196,7 +196,7 @@
             voluptatibus adipisci aliquid laborum dignissimos tempora excepturi soluta atque harum
             recusandae eum iste enim maiores. Nesciunt tenetur error quisquam voluptatem amet?
         </p>
-        <div data-lazy-function="buzz">Script execution here</div>
+        <div class="lazy" data-lazy-function="buzz">Script execution here</div>
         <p>
             Eligendi aspernatur itaque esse nisi! Illo consequatur repellat, eius, laborum hic
             corporis ad voluptates nesciunt quo maiores aut itaque animi odit ipsum deserunt minima
@@ -247,7 +247,7 @@
             molestias vitae earum repellat corrupti ad corporis at, nam nobis officia dolores magni
             illo fugiat a.
         </p>
-        <div data-lazy-function="booya">Script execution here</div>
+        <div class="lazy" data-lazy-function="booya">Script execution here</div>
         <script src="../dist/lazyload.min.js"></script>
         <script>
             window.lazyFunctions = {
@@ -281,7 +281,6 @@
                 }
 
                 var ll = new LazyLoad({
-                    elements_selector: "[data-lazy-function]",
                     unobserve_entered: true, // <- To avoid executing the script multiple times
                     callback_enter: executeLazyScript // Assigning the function defined above
                 });
