@@ -146,10 +146,14 @@
         };
         var callback_error = function (element) {
           logElementEvent("💀 ERROR", element);
-          element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+          element.src =
+            "https://via.placeholder.com/440x560/?text=Error+Placeholder";
         };
         var callback_finish = function () {
           logElementEvent("✔️ FINISHED", document.documentElement);
+        };
+        var callback_cancel = function (element) {
+          logElementEvent("🔥 CANCEL", element);
         };
 
         ll = new LazyLoad(
@@ -157,6 +161,7 @@
             // Assign the callbacks defined above
             callback_enter: callback_enter,
             callback_exit: callback_exit,
+            callback_cancel: callback_cancel,
             callback_loading: callback_loading,
             callback_loaded: callback_loaded,
             callback_error: callback_error,
