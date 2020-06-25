@@ -190,7 +190,7 @@
                     logElementEvent("✔️ FINISHED", document.documentElement);
                 };
 
-                var ll = new LazyLoad({
+                window.LL = new LazyLoad({
                     threshold: 0,
                     // Assign the callbacks defined above
                     callback_enter: callback_enter,

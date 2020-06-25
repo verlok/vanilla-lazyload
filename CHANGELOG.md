@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.0.1
+
+- Bug fix: `callback_exit()` was not being called on non-image elements (#468).
+
 #### 17.0.0
 
 - The `elements_selector` option now defaults to  `.lazy` (was `img`)

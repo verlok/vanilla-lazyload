@@ -1,4 +1,4 @@
-import { statusError, statusLoading, statusNative } from "./lazyload.elementStatus";
+import { statusError, statusLoading, statusApplied, statusNative, statusLoaded } from "./lazyload.elementStatus";
 
 const dataPrefix = "data-";
 const statusDataName = "ll-status";
@@ -24,4 +24,6 @@ export const hasEmptyStatus = (element) => getStatus(element) === null;
 export const hasStatusLoading = (element) => getStatus(element) === statusLoading;
 export const hasStatusError = (element) => getStatus(element) === statusError;
 export const hasStatusNative = (element) => getStatus(element) === statusNative;
-export const hadStartedLoading = (element) => !hasEmptyStatus(element);
+
+const statusesAfterLoading = [statusLoading, statusLoaded, statusApplied, statusError];
+export const hadStartedLoading = (element) => (statusesAfterLoading.indexOf(getStatus(element)) >= 0);
