@@ -11,7 +11,7 @@ const supportsClassList = runningOnBrowser && "classList" in document.createElem
 const isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
 const defaultSettings = {
-    elements_selector: "IMG",
+    elements_selector: ".lazy",
     container: isBot || runningOnBrowser ? document : null,
     threshold: 300,
     thresholds: null,
@@ -29,7 +29,7 @@ const defaultSettings = {
     class_error: "error",
     unobserve_completed: true,
     unobserve_entered: false,
-    cancel_on_exit: false,
+    cancel_on_exit: true,
     callback_enter: null,
     callback_exit: null,
     callback_applied: null,

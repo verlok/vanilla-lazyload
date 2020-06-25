@@ -1,213 +1,218 @@
 <!DOCTYPE html>
 <html>
-    <head lang="en">
-        <meta charset="UTF-8" />
-        <title>
-            Dynamic content - Lazyload demos
-        </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style>
-            ul,
-            li {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
+  <head lang="en">
+    <meta charset="UTF-8" />
+    <title>
+      Dynamic content - Lazyload demos
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      ul,
+      li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
 
-            a,
-            img {
-                display: block;
-            }
+      a,
+      img {
+        display: block;
+      }
 
-            img {
-                border: 0;
-                width: 220px;
-                height: 280px;
-            }
+      img {
+        border: 0;
+        width: 220px;
+        height: 280px;
+      }
 
-            img:not([src]) {
-                visibility: hidden;
-            }
+      img:not([src]) {
+        visibility: hidden;
+      }
 
-            .buttons {
-                position: fixed;
-                bottom: 10px;
-                left: 0;
-                right: 0;
-                display: flex;
-                justify-content: center;
-            }
+      .buttons {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+      }
 
-            button {
-                width: 12em;
-                height: 3em;
-                margin: 0.5em;
-            }
-        </style>
-    </head>
+      button {
+        width: 12em;
+        height: 3em;
+        margin: 0.5em;
+      }
+    </style>
+  </head>
 
-    <body>
-        <h1>Dynamic content demo</h1>
-        <div class="buttons">
-            <button id="addContent">
-                ADD CONTENT
-                <span class="count"></span>
-            </button>
-            <button id="removeContent">
-                REMOVE CONTENT
-                <span class="count"></span>
-            </button>
-        </div>
-        <div id="results1" class="results">
-            <ul>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Stivaletti"
-                            data-src="https://via.placeholder.com/440x560?text=Img+01"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Open toe"
-                            data-src="https://via.placeholder.com/440x560?text=Img+02"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis"
-                            data-src="https://via.placeholder.com/440x560?text=Img+03"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes basse"
-                            data-src="https://via.placeholder.com/440x560?text=Img+04"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes alte"
-                            data-src="https://via.placeholder.com/440x560?text=Img+05"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes alte"
-                            data-src="https://via.placeholder.com/440x560?text=Img+06"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img
-                            alt="Sneakers &amp; Tennis shoes basse"
-                            data-src="https://via.placeholder.com/440x560?text=Img+07"
-                            width="220"
-                            height="280"
-                        />
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <script src="../dist/lazyload.min.js"></script>
-        <script>
-            (function () {
-                var count = 0,
-                    addContentButton,
-                    additionalContent,
-                    target;
+  <body>
+    <h1>Dynamic content demo</h1>
+    <div class="buttons">
+      <button id="addContent">
+        ADD CONTENT
+        <span class="count"></span>
+      </button>
+      <button id="removeContent">
+        REMOVE CONTENT
+        <span class="count"></span>
+      </button>
+    </div>
+    <div id="results1" class="results">
+      <ul>
+        <li>
+          <a href="#">
+            <img
+              src="https://via.placeholder.com/440x560?text=Img+01"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              src="https://via.placeholder.com/440x560?text=Img+02"
+              alt="Open toe"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              class="lazy"
+              data-src="https://via.placeholder.com/440x560?text=Img+03"
+              alt="Sneakers &amp; Tennis"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              class="lazy"
+              data-src="https://via.placeholder.com/440x560?text=Img+04"
+              alt="Sneakers &amp; Tennis shoes basse"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              class="lazy"
+              data-src="https://via.placeholder.com/440x560?text=Img+05"
+              alt="Sneakers &amp; Tennis shoes alte"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              class="lazy"
+              data-src="https://via.placeholder.com/440x560?text=Img+06"
+              alt="Sneakers &amp; Tennis shoes alte"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img
+              class="lazy"
+              data-src="https://via.placeholder.com/440x560?text=Img+07"
+              alt="Sneakers &amp; Tennis shoes basse"
+              width="220"
+              height="280"
+            />
+          </a>
+        </li>
+      </ul>
+    </div>
+    <script src="../dist/lazyload.min.js"></script>
+    <script>
+      (function () {
+        var count = 0,
+          addContentButton,
+          additionalContent,
+          target;
 
-                function logElementEvent(eventName, element) {
-                    console.log(Date.now(), eventName, element.getAttribute("data-src"));
-                }
+        function logElementEvent(eventName, element) {
+          console.log(Date.now(), eventName, element.getAttribute("data-src"));
+        }
 
-                var callback_enter = function (element) {
-                    logElementEvent("🔑 ENTERED", element);
-                };
-                var callback_exit = function (element) {
-                    logElementEvent("🚪 EXITED", element);
-                };
-                var callback_loading = function (element) {
-                    logElementEvent("⌚ LOADING", element);
-                };
-                var callback_loaded = function (element) {
-                    logElementEvent("👍 LOADED", element);
-                };
-                var callback_error = function (element) {
-                    logElementEvent("💀 ERROR", element);
-                    element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
-                };
-                var callback_finish = function () {
-                    logElementEvent("✔️ FINISHED", document.documentElement);
-                };
+        var callback_enter = function (element) {
+          logElementEvent("🔑 ENTERED", element);
+        };
+        var callback_exit = function (element) {
+          logElementEvent("🚪 EXITED", element);
+        };
+        var callback_loading = function (element) {
+          logElementEvent("⌚ LOADING", element);
+        };
+        var callback_loaded = function (element) {
+          logElementEvent("👍 LOADED", element);
+        };
+        var callback_error = function (element) {
+          logElementEvent("💀 ERROR", element);
+          element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+        };
+        var callback_finish = function () {
+          logElementEvent("✔️ FINISHED", document.documentElement);
+        };
 
-                ll = new LazyLoad({
-                    // Assign the callbacks defined above
-                    callback_enter: callback_enter,
-                    callback_exit: callback_exit,
-                    callback_loading: callback_loading,
-                    callback_loaded: callback_loaded,
-                    callback_error: callback_error,
-                    callback_finish: callback_finish
-                });
+        ll = new LazyLoad({
+          // Assign the callbacks defined above
+          callback_enter: callback_enter,
+          callback_exit: callback_exit,
+          callback_loading: callback_loading,
+          callback_loaded: callback_loaded,
+          callback_error: callback_error,
+          callback_finish: callback_finish
+        });
 
-                // Add more content
-                additionalContent = [
-                    '<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" data-src="https://via.placeholder.com/440x560?text=Img+09" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+10" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+11" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+12" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+13" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+14" width="220" height="280"></a> </li>',
-                    '<li><a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+15" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+16" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+17" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+18" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+19" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+20" width="220" height="280"></a> </li>',
-                    '<li><a href="#"><img alt="Francesine" data-src="https://via.placeholder.com/440x560?text=Img+21" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" data-src="https://via.placeholder.com/440x560?text=Img+22" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" data-src="https://via.placeholder.com/440x560?text=Img+23" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+24" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" data-src="https://via.placeholder.com/440x560?text=Img+25" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" data-src="https://via.placeholder.com/440x560?text=Img+26" width="220" height="280"></a> </li>'
-                ];
+        // Add more content
+        additionalContent = [
+          '<li><a href="#"><img alt="Sneakers &amp; Tennis shoes basse" src="https://via.placeholder.com/440x560?text=Img+09" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+10" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+11" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+12" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+13" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+14" width="220" height="280"></a> </li>',
+          '<li><a href="#"><img alt="Stivaletti" src="https://via.placeholder.com/440x560?text=Img+15" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+16" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+17" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+18" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+19" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+20" width="220" height="280"></a> </li>',
+          '<li><a href="#"><img alt="Francesine" src="https://via.placeholder.com/440x560?text=Img+21" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivaletti" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+22" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Décolleté" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+23" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+24" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Mocassini" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+25" width="220" height="280"></a> </li> <li> <a href="#"><img alt="Stivali" class="lazy" data-src="https://via.placeholder.com/440x560?text=Img+26" width="220" height="280"></a> </li>'
+        ];
 
-                addContentButton = document.getElementById("addContent");
-                target = document.querySelector("#results1 ul");
+        addContentButton = document.getElementById("addContent");
+        target = document.querySelector("#results1 ul");
 
-                addContentButton.addEventListener("click", function () {
-                    if (count === additionalContent.length) {
-                        return;
-                    }
-                    target.innerHTML += additionalContent[count];
-                    ll.update();
-                    addContentButton.disabled = ++count >= additionalContent.length;
-                });
+        addContentButton.addEventListener("click", function () {
+          if (count === additionalContent.length) {
+            return;
+          }
+          target.innerHTML += additionalContent[count];
+          ll.update();
+          addContentButton.disabled = ++count >= additionalContent.length;
+        });
 
-                // Remove the first 3 list items
-                removeContentButton = document.getElementById("removeContent");
-                removeContentButton.addEventListener("click", function () {
-                    var images = document.querySelectorAll("#results1 img");
-                    var i = 0;
-                    while (images[i] && i < 3) {
-                        var image = images[i];
-                        var listItem = image.parentNode.parentNode;
-                        var list = listItem.parentNode;
-                        list.removeChild(listItem);
-                        i += 1;
-                    }
-                    ll.update();
-                });
-            })();
-        </script>
-    </body>
+        // Remove the first 3 list items
+        removeContentButton = document.getElementById("removeContent");
+        removeContentButton.addEventListener("click", function () {
+          var images = document.querySelectorAll("#results1 img");
+          var i = 0;
+          while (images[i] && i < 3) {
+            var image = images[i];
+            var listItem = image.parentNode.parentNode;
+            var list = listItem.parentNode;
+            list.removeChild(listItem);
+            i += 1;
+          }
+          ll.update();
+        });
+      })();
+    </script>
+  </body>
 </html>

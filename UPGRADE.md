@@ -1,5 +1,46 @@
 # 🗺 HOW TO UPDATE FROM PREVIOUS VERSIONS
 
+## Version 16 to 17
+
+**If you were NOT setting the `elements_selector` option**
+
+You should add the `lazy` class to your lazy images.
+
+```html
+<!-- FROM -->
+<img data-src="lazyImage.jpg" alt="Lazy image" />
+<!-- TO -->
+<img class="lazy" data-src="lazyImage.jpg" alt="Lazy image" />
+```
+
+**ALTERNATIVELY**, you could set the `elements_selector` option to `"img"`
+
+```js
+const myLazyLoad = new LazyLoad({
+  /* other options here */
+  elements_selector: "img" // ADD THIS OPTION
+});
+```
+
+
+**If you were using `cancel_on_exit: true`**
+
+```js
+// From
+const myLazyLoad = new LazyLoad({
+  /* other options here */
+  cancel_on_exit: true // REMOVE THIS OPTION
+});
+```
+
+You should remove `cancel_on_exit: true` from the settings.
+
+---
+
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
+
+---
+
 ## Version 15 to 16
 
 **If you were using the `callback_reveal` callback**
@@ -11,11 +52,15 @@ You should replace `callback_reveal` with `callback_loading` in your JS code.
 You should replace the `load(element)` with `LazyLoad.load(element, settings)`
 
 ```js
-const myLazyLoad = new LazyLoad({/* settings */});
+const myLazyLoad = new LazyLoad({
+  /* options here */
+});
 // FROM
 myLazyLoad.load(element);
 // TO
-LazyLoad.load(element, {/* settings */});
+LazyLoad.load(element, {
+  /* options here */
+});
 ```
 
 Note that the settings object of the `load` method can be different. If none are provided, the default options will apply.
@@ -26,10 +71,10 @@ You should replace `auto_unobserve` with `unobserve_completed`.
 
 ```js
 const myLazyLoad = new LazyLoad({
-   // FROM
-   auto_unobserve: false,
-   // TO
-   unobserve_completed: false,
+  // FROM
+  auto_unobserve: false,
+  // TO
+  unobserve_completed: false
 });
 ```
 
@@ -39,10 +84,10 @@ You should change `load_delay: ___` with `cancel_on_exit: true`.
 
 ```js
 const myLazyLoad = new LazyLoad({
-   // FROM
-   load_delay: 300,
-   // TO
-   cancel_on_exit: true,
+  // FROM
+  load_delay: 300,
+  // TO
+  cancel_on_exit: true
 });
 ```
 
@@ -65,10 +110,13 @@ You should replace `data-src` with `data-bg` in your markup/DOM
 <div data-bg="background.jpg">...</div>
 ```
 
-Alternatively, you could pass `src` in the `data_bg` option
+**ALTERNATIVELY**, you could pass `src` in the `data_bg` option
 
 ```js
-new LazyLoad({ /* other options? */ data_bg: "src" });
+new LazyLoad({
+  /* other options here */
+  data_bg: "src"
+});
 ```
 
 **If you have single background images loaded via `data-bg`**
