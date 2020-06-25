@@ -11,7 +11,7 @@ const supportsClassList = runningOnBrowser && "classList" in document.createElem
 const isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
 const defaultSettings = {
-    elements_selector: "IMG",
+    elements_selector: ".lazy",
     container: isBot || runningOnBrowser ? document : null,
     threshold: 300,
     thresholds: null,
@@ -29,7 +29,7 @@ const defaultSettings = {
     class_error: "error",
     unobserve_completed: true,
     unobserve_entered: false,
-    cancel_on_exit: false,
+    cancel_on_exit: true,
     callback_enter: null,
     callback_exit: null,
     callback_applied: null,
@@ -81,6 +81,7 @@ const autoInitialize = (classObj, options) => {
 const statusLoading = "loading";
 const statusLoaded = "loaded";
 const statusApplied = "applied";
+const statusEntered = "entered";
 const statusError = "error";
 const statusNative = "native";
 
@@ -108,7 +109,9 @@ const hasEmptyStatus = (element) => getStatus(element) === null;
 const hasStatusLoading = (element) => getStatus(element) === statusLoading;
 const hasStatusError = (element) => getStatus(element) === statusError;
 const hasStatusNative = (element) => getStatus(element) === statusNative;
-const hadStartedLoading = (element) => !hasEmptyStatus(element);
+
+const statusesAfterLoading = [statusLoading, statusLoaded, statusApplied, statusError];
+const hadStartedLoading = (element) => (statusesAfterLoading.indexOf(getStatus(element)) >= 0);
 
 const safeCallback = (callback, arg1, arg2, arg3) => {
 	if (!callback) {
@@ -166,7 +169,7 @@ const resetObserver = (observer) => {
     observer.disconnect();
 };
 
-const unobserveIfRequired = (element, settings, instance) => {
+const unobserveEntered = (element, settings, instance) => {
     if (settings.unobserve_entered) unobserve(element, instance);
 };
 
@@ -517,7 +520,7 @@ const loadNative = (element, settings, instance) => {
     setStatus(element, statusNative);
 };
 
-const cancelLoadingIfRequired = (element, entry, settings, instance) => {
+const cancelLoading = (element, entry, settings, instance) => {
     if (!settings.cancel_on_exit) return;
     if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return; //Works only on images
@@ -531,15 +534,16 @@ const cancelLoadingIfRequired = (element, entry, settings, instance) => {
 };
 
 const onEnter = (element, entry, settings, instance) => {
+    setStatus(element, statusEntered);
+    unobserveEntered(element, settings, instance);
     safeCallback(settings.callback_enter, element, entry, instance);
-    unobserveIfRequired(element, settings, instance);
     if (hadStartedLoading(element)) return; //Prevent loading it again
     load(element, settings, instance);
 };
 
 const onExit = (element, entry, settings, instance) => {
     if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
-    cancelLoadingIfRequired(element, entry, settings, instance);
+    cancelLoading(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
 };
 

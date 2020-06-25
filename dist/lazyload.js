@@ -29,7 +29,7 @@
   var isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
   var defaultSettings = {
-    elements_selector: "IMG",
+    elements_selector: ".lazy",
     container: isBot || runningOnBrowser ? document : null,
     threshold: 300,
     thresholds: null,
@@ -47,7 +47,7 @@
     class_error: "error",
     unobserve_completed: true,
     unobserve_entered: false,
-    cancel_on_exit: false,
+    cancel_on_exit: true,
     callback_enter: null,
     callback_exit: null,
     callback_applied: null,
@@ -108,6 +108,7 @@
   var statusLoading = "loading";
   var statusLoaded = "loaded";
   var statusApplied = "applied";
+  var statusEntered = "entered";
   var statusError = "error";
   var statusNative = "native";
 
@@ -147,8 +148,9 @@
   var hasStatusNative = function hasStatusNative(element) {
     return getStatus(element) === statusNative;
   };
+  var statusesAfterLoading = [statusLoading, statusLoaded, statusApplied, statusError];
   var hadStartedLoading = function hadStartedLoading(element) {
-    return !hasEmptyStatus(element);
+    return statusesAfterLoading.indexOf(getStatus(element)) >= 0;
   };
 
   var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
@@ -205,7 +207,7 @@
   var resetObserver = function resetObserver(observer) {
     observer.disconnect();
   };
-  var unobserveIfRequired = function unobserveIfRequired(element, settings, instance) {
+  var unobserveEntered = function unobserveEntered(element, settings, instance) {
     if (settings.unobserve_entered) unobserve(element, instance);
   };
 
@@ -542,7 +544,7 @@
     setStatus(element, statusNative);
   };
 
-  var cancelLoadingIfRequired = function cancelLoadingIfRequired(element, entry, settings, instance) {
+  var cancelLoading = function cancelLoading(element, entry, settings, instance) {
     if (!settings.cancel_on_exit) return;
     if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return; //Works only on images
@@ -557,8 +559,9 @@
   };
 
   var onEnter = function onEnter(element, entry, settings, instance) {
+    setStatus(element, statusEntered);
+    unobserveEntered(element, settings, instance);
     safeCallback(settings.callback_enter, element, entry, instance);
-    unobserveIfRequired(element, settings, instance);
     if (hadStartedLoading(element)) return; //Prevent loading it again
 
     load(element, settings, instance);
@@ -566,7 +569,7 @@
   var onExit = function onExit(element, entry, settings, instance) {
     if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
 
-    cancelLoadingIfRequired(element, entry, settings, instance);
+    cancelLoading(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
   };
 

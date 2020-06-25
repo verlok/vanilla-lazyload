@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## Version 17
+
+#### 17.0.1
+
+- Bug fix: `callback_exit()` was not being called on non-image elements (#468).
+
+#### 17.0.0
+
+- The `elements_selector` option now defaults to  `.lazy` (was `img`)
+- The `cancel_on_exit` option now defaults to `true` (was `false`)
+
+See [UPGRADE.md](UPGRADE.md) to understand **if** you are impacted by any breaking change and **how** to upgrade from previous versions.
+
+---
+
+**Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
+
+---
+
 ## Version 16
 
 #### 16.1.0
