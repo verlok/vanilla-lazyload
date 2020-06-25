@@ -1,4 +1,4 @@
-LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it optimizes your website for slower connections, and it can enable native lazy loading. See [notable features](#-notable-features) for more.
+LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it optimizes your website for slower connections, and can enable native lazy loading. See [notable features](#-notable-features) for more.
 
 [![vanilla-lazyload (latest)](https://img.shields.io/npm/v/vanilla-lazyload/latest.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![vanilla-lazyload (downloads)](https://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/vanilla-lazyload)
@@ -25,7 +25,11 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 #### Lazy image with low quality placeholder:
 
 ```html
-<img alt="A lazy image" src="lazy-lowQuality.jpg" data-src="lazy.jpg" />
+<img
+  alt="A lazy image"
+  src="lazy-lowQuality.jpg"
+  data-src="lazy.jpg"
+/>
 ```
 
 #### Lazy responsive image with `srcset` and `sizes`:
@@ -35,7 +39,8 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
   alt="A lazy image"
   class="lazy"
   data-src="lazy.jpg"
-  data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
+  data-srcset="lazy_400.jpg 400w, 
+    lazy_800.jpg 800w"
   data-sizes="100w"
 />
 ```
@@ -46,9 +51,21 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 ```html
 <picture>
-  <source media="(min-width: 1200px)" data-srcset="lazy_1200.jpg 1x, lazy_2400.jpg 2x" />
-  <source media="(min-width: 800px)" data-srcset="lazy_800.jpg 1x, lazy_1600.jpg 2x" />
-  <img alt="A lazy image" class="lazy" data-src="lazy.jpg" />
+  <source
+    media="(min-width: 1200px)"
+    data-srcset="lazy_1200.jpg 1x, 
+      lazy_2400.jpg 2x"
+  />
+  <source
+    media="(min-width: 800px)"
+    data-srcset="lazy_800.jpg 1x, 
+      lazy_1600.jpg 2x"
+  />
+  <img
+    alt="A lazy image"
+    class="lazy"
+    data-src="lazy.jpg"
+  />
 </picture>
 ```
 
@@ -60,14 +77,16 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 <picture>
   <source
     type="image/webp"
-    data-srcset="lazy_400.webp 400w, lazy_800.webp 800w"
+    data-srcset="lazy_400.webp 400w, 
+      lazy_800.webp 800w"
     data-sizes="100w"
   />
   <img
     alt="A lazy image"
     class="lazy"
     data-src="lazy.jpg"
-    data-srcset="lazy_400.jpg 400w, lazy_800.jpg 800w"
+    data-srcset="lazy_400.jpg 400w, 
+      lazy_800.jpg 800w"
     data-sizes="100w"
   />
 </picture>
@@ -88,7 +107,11 @@ Single background image:
 Single background, with HiDPI screen support:
 
 ```html
-<div class="lazy" data-bg="lazy.jpg" data-bg-hidpi="lazy@2x.jpg"></div>
+<div
+  class="lazy"
+  data-bg="lazy.jpg"
+  data-bg-hidpi="lazy@2x.jpg"
+></div>
 ```
 
 Multiple backgrounds:
@@ -96,7 +119,9 @@ Multiple backgrounds:
 ```html
 <div
   class="lazy"
-  data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
+  data-bg-multi="url(lazy-head.jpg), 
+    url(lazy-body.jpg), 
+    linear-gradient(#fff, #ccc)"
 >
   ...
 </div>
@@ -109,8 +134,12 @@ Multiple backgrounds, HiDPI screen support:
 ```html
 <div
   class="lazy"
-  data-bg-multi="url(lazy-head.jpg), url(lazy-body.jpg), linear-gradient(#fff, #ccc)"
-  data-bg-multi-hidpi="url(lazy-head@2x.jpg), url(lazy-body@2x.jpg), linear-gradient(#fff, #ccc)"
+  data-bg-multi="url(lazy-head.jpg),
+    url(lazy-body.jpg),
+    linear-gradient(#fff, #ccc)"
+  data-bg-multi-hidpi="url(lazy-head@2x.jpg),
+    url(lazy-body@2x.jpg),
+    linear-gradient(#fff, #ccc)"
 >
   ...
 </div>
@@ -121,7 +150,13 @@ Multiple backgrounds, HiDPI screen support:
 #### Lazy video
 
 ```html
-<video class="lazy" controls width="620" data-src="lazy.mp4" data-poster="lazy.jpg">
+<video
+  class="lazy"
+  controls
+  width="620"
+  data-src="lazy.mp4"
+  data-poster="lazy.jpg"
+>
   <source type="video/mp4" data-src="lazy.mp4" />
   <source type="video/ogg" data-src="lazy.ogg" />
   <source type="video/avi" data-src="lazy.avi" />
@@ -144,7 +179,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **16.1.0**.
+The latest, recommended version of LazyLoad is **17.0.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -161,14 +196,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -200,7 +235,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.1.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -232,7 +267,8 @@ To do so, **you must define the options before including the script**. You can p
 
 ```html
 <script>
-  // Set the options to make LazyLoad self-initialize
+  // Set the options globally
+  // to make LazyLoad self-initialize
   window.lazyLoadOptions = {
     // Your custom settings go here
   };
@@ -244,7 +280,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.1.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -256,11 +292,13 @@ Same as above, but you must put the `addEventListener` code shown below before i
 
 ```html
 <script>
-  // Set the options to make LazyLoad self-initialize
+  // Set the options globally
+  // to make LazyLoad self-initialize
   window.lazyLoadOptions = {
     // Your custom settings go here
   };
-  // Listen to the initialization event and get the instance of LazyLoad
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
   window.addEventListener(
     "LazyLoad::Initialized",
     function (event) {
@@ -276,7 +314,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@16.1.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -286,28 +324,13 @@ Now you'll be able to call its methods, like:
 lazyLoadInstance.update();
 ```
 
-Note about Internet Explorer: because this technique uses a `CustomEvent` ([learn more](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)) to trigger the `LazyLoad::Initialized` event, you might want to add this micro polyfill to make it work on Internet Explorer.
+Note about Internet Explorer: because this technique uses a `CustomEvent` to trigger the `LazyLoad::Initialized` event, you might want to add [this polyfill](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill) to make it work on Internet Explorer.
 
-```html
-<script>
-  // CustomEvent micro-polyfill for Internet Explorer
-  (function () {
-    if (typeof window.CustomEvent === "function") {
-      return false;
-    }
 
-    function CustomEvent(event, params) {
-      params = params || { bubbles: false, cancelable: false, detail: undefined };
-      var evt = document.createEvent("CustomEvent");
-      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-      return evt;
-    }
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html) &larr; for a single LazyLoad instance
 
-    CustomEvent.prototype = window.Event.prototype;
-    window.CustomEvent = CustomEvent;
-  })();
-</script>
-```
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html) &larr; for multiple LazyLoad instances
+
 
 ### Local install
 
@@ -395,7 +418,14 @@ HTML
 ```html
 <img class="lazy" alt="A lazy image" data-src="lazy.jpg" />
 <iframe class="lazy" data-src="lazyFrame.html"></iframe>
-<video class="lazy" controls data-src="lazy.mp4" data-poster="lazy.jpg">...</video>
+<video
+  class="lazy"
+  controls
+  data-src="lazy.mp4"
+  data-poster="lazy.jpg"
+>
+  ...
+</video>
 <div class="lazy" data-bg="lazy.jpg"></div>
 ```
 
@@ -502,8 +532,10 @@ window.lazyFunctions = {
 
 ```js
 function executeLazyFunction(element) {
-  var lazyFunctionName = element.getAttribute("data-lazy-function");
-  var lazyFunction = window.lazyFunctions[lazyFunctionName]; // window[lazyFunctionName] to call a global
+  var lazyFunctionName = element.getAttribute(
+    "data-lazy-function"
+  );
+  var lazyFunction = window.lazyFunctions[lazyFunctionName];
   if (!lazyFunction) return;
   lazyFunction(element);
 }
@@ -513,6 +545,8 @@ var ll = new LazyLoad({
   callback_enter: executeLazyFunction // Assigning the function defined above
 });
 ```
+
+Use `unobserve_entered` to avoid executing the function multiple times.
 
 That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
 
@@ -592,9 +626,9 @@ That's it. Whenever a `.horizContainer` element enters the viewport, LazyLoad ca
 
 Didn't find the [recipe](#-recipes) that exactly matches your case? We have demos!
 
-The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder contains 20+ use cases of LazyLoad. You might find there what you're looking for.
+The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder contains 30+ use cases of vanilla-lazyload. You might find there what you're looking for.
 
-| Type      | Title                                                                                          | Code                                           | Live demo                                                                                      |
+| Type      | Title                                                                                          | Code                                           | Demo                                                                                           |
 | --------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | Content   | Simple lazy loaded images, not using any placeholder                                           | [Code](demos/image_basic.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_basic.html)                 |
 | Content   | Lazy images that use an inline SVG as a placeholder                                            | [Code](demos/image_ph_inline.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_ph_inline.html)             |
@@ -610,6 +644,7 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd.html)                         |
 | Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html)                |
 | Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html)                       |
+| Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html)              |
 | Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/fade_in.html)                     |
 | Technique | Lazily create lazyload instances                                                               | [Code](demos/lazily_load_lazyLoad.html)        | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html)        |
 | Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html)              |
@@ -646,7 +681,11 @@ There are [many ways to avoid content reflow](https://css-tricks.com/preventing-
 
 ```html
 <div class="image-wrapper">
-  <img class="lazy image" alt="An image" data-src="lazy.jpg" />
+  <img
+    class="lazy image"
+    alt="An image"
+    data-src="lazy.jpg"
+  />
 </div>
 ```
 
@@ -654,7 +693,8 @@ There are [many ways to avoid content reflow](https://css-tricks.com/preventing-
 .image-wrapper {
   width: 100%;
   height: 0;
-  padding-bottom: 150%; /* You define this doing image height / width * 100% */
+  padding-bottom: 150%;
+  /* 👆 image height / width * 100% */
   position: relative;
 }
 .image {
@@ -672,7 +712,9 @@ If you can't use the vertical padding trick for some reason, the best option is 
 
 ```html
 <img
-  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E"
+  src="data:image/svg+xml,%3Csvg 
+    xmlns='http://www.w3.org/2000/svg' 
+    viewBox='0 0 3 2'%3E%3C/svg%3E"
   data-src="//picsum.photos/900/600"
   alt="Lazy loading test image"
 />
@@ -743,8 +785,8 @@ Here's the list of the options.
 | `class_loaded`        | The class applied to the elements when the loading is complete.                                                                                                                                                                                                                                                                                                                                                                                              | `"loaded"`         | `"lazy-loaded"`                          |
 | `class_error`         | The class applied to the elements when the element causes an error.                                                                                                                                                                                                                                                                                                                                                                                          | `"error"`          | `"lazy-error"`                           |
 | `cancel_on_exit`      | A boolean that defines whether or not to cancel the download of the images that exit the viewport while they are still loading, eventually restoring the original attributes. It applies only to images so to the `img` (and `picture`) tags, so it doesn't apply to background images, `iframe`s nor `video`s.                                                                                                                                              | `true`             | `false`                                  |
-| `unobserve_entered`   | A boolean that defines whether or not to automatically unobserve elements once they entered the viewport                                                                                                                                                                                                                                                                                                                                                     | `true`             | `false`                                  |
-| `unobserve_completed` | A boolean that defines whether or not to automatically unobserve elements once they've loaded or throwed an error                                                                                                                                                                                                                                                                                                                                            | `false`            | `true`                                   |
+| `unobserve_entered`   | A boolean that defines whether or not to automatically unobserve elements once they entered the viewport                                                                                                                                                                                                                                                                                                                                                     | `false`            | `true`                                   |
+| `unobserve_completed` | A boolean that defines whether or not to automatically unobserve elements once they've loaded or throwed an error                                                                                                                                                                                                                                                                                                                                            | `true`             | `false`                                  |
 | `callback_enter`      | A callback function which is called whenever an element enters the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                         | `null`             | `(el)=>{console.log("Entered", el)}`     |
 | `callback_exit`       | A callback function which is called whenever an element exits the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                          | `null`             | `(el)=>{console.log("Exited", el)}`      |
 | `callback_loading`    | A callback function which is called whenever an element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                                           | `null`             | `(el)=>{console.log("Loading", el)}`     |
