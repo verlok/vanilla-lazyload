@@ -8,6 +8,7 @@ import { setOnlineCheck } from "./lazyload.online";
 import { getElementsToLoad, queryElements } from "./lazyload.dom";
 import { resetStatus } from "./lazyload.data";
 import { setToLoadCount } from "./lazyload.counters";
+import { unobserve } from "./lazyload.unobserve";
 
 const LazyLoad = function (customSettings, elements) {
     const settings = getExtendedSettings(customSettings);
@@ -56,6 +57,7 @@ LazyLoad.prototype = {
         const settings = this._settings;
         const elementsToLoad = getElementsToLoad(elements, settings);
         elementsToLoad.forEach((element) => {
+            unobserve(element, this);
             load(element, settings, this);
         });
     }
