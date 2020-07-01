@@ -676,6 +676,7 @@ LazyLoad.prototype = {
         const settings = this._settings;
         const elementsToLoad = getElementsToLoad(elements, settings);
         elementsToLoad.forEach((element) => {
+            unobserve(element, this);
             load(element, settings, this);
         });
     }

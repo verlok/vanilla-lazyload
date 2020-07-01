@@ -179,7 +179,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.0.1**.
+The latest, recommended version of LazyLoad is **17.1.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -196,14 +196,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -235,7 +235,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.1/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -280,7 +280,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -314,7 +314,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.0.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -326,11 +326,9 @@ lazyLoadInstance.update();
 
 Note about Internet Explorer: because this technique uses a `CustomEvent` to trigger the `LazyLoad::Initialized` event, you might want to add [this polyfill](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill) to make it work on Internet Explorer.
 
-
 [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html) &larr; for a single LazyLoad instance
 
 [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html) &larr; for multiple LazyLoad instances
-
 
 ### Local install
 
@@ -803,11 +801,11 @@ Here's the list of the options.
 
 You can call the following methods on any instance of LazyLoad.
 
-| Method name | Effect                                                                                      | Use case                                                             |
-| ----------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `update()`  | Make LazyLoad to re-check the DOM for `elements_selector` elements inside its `container`.  | Update LazyLoad after you added or removed DOM elements to the page. |
-| `loadAll()` | Loads all the lazy images right away, no matter if they are inside or outside the viewport. | To load all the remaining elements in advance                        |
-| `destroy()` | Destroys the instance, unsetting instance variables and removing listeners.                 | Free up some memory. Especially useful for Single Page Applications. |
+| Method name | Effect                                                                                                                                                           | Use case                                                             |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `update()`  | Make LazyLoad to re-check the DOM for `elements_selector` elements inside its `container`.                                                                       | Update LazyLoad after you added or removed DOM elements to the page. |
+| `loadAll()` | Loads all the lazy elements right away _and_ stop observing them, no matter if they are inside or outside the viewport, no matter if they are hidden or visible. | To load all the remaining elements in advance                        |
+| `destroy()` | Destroys the instance, unsetting instance variables and removing listeners.                                                                                      | Free up some memory. Especially useful for Single Page Applications. |
 
 **Static methods**
 
