@@ -2,7 +2,6 @@
 
 ## Coming next
 
-- Add `callback_cancel` to all demos
 - Check how LazyLoad behaves when a page was updated using DOM morphing.
   If only the data-attributes were updated, how do one forces LazyLoad to read from them again?
 - Check out how the plugin architecture of lazysizes work

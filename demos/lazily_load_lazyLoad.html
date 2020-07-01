@@ -51,11 +51,17 @@
     <h1>Lazyly load lazyload demo</h1>
     <div class="horizContainer">
       <figure class="item">
-        <img alt="Row 01, col 01" src="https://via.placeholder.com/200x200?text=row_01_col_01" />
+        <img
+          alt="Row 01, col 01"
+          src="https://via.placeholder.com/200x200?text=row_01_col_01"
+        />
         <figcaption>Lorem ipsum 01</figcaption>
       </figure>
       <figure class="item">
-        <img alt="Row 01, col 02" src="https://via.placeholder.com/200x200?text=row_01_col_02" />
+        <img
+          alt="Row 01, col 02"
+          src="https://via.placeholder.com/200x200?text=row_01_col_02"
+        />
         <figcaption>Lorem ipsum 02</figcaption>
       </figure>
       <figure class="item">
@@ -165,11 +171,17 @@
     </div>
     <div class="horizContainer">
       <figure class="item">
-        <img alt="Row 02, col 01" src="https://via.placeholder.com/200x200?text=row_02_col_01" />
+        <img
+          alt="Row 02, col 01"
+          src="https://via.placeholder.com/200x200?text=row_02_col_01"
+        />
         <figcaption>Lorem ipsum 01</figcaption>
       </figure>
       <figure class="item">
-        <img alt="Row 02, col 02" src="https://via.placeholder.com/200x200?text=row_02_col_02" />
+        <img
+          alt="Row 02, col 02"
+          src="https://via.placeholder.com/200x200?text=row_02_col_02"
+        />
         <figcaption>Lorem ipsum 02</figcaption>
       </figure>
       <figure class="item">
@@ -1284,10 +1296,14 @@
         };
         var callback_error = function (element) {
           logElementEvent("💀 ERROR", element);
-          element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+          element.src =
+            "https://via.placeholder.com/440x560/?text=Error+Placeholder";
         };
         var callback_finish = function () {
           logElementEvent("✔️ FINISHED", document.documentElement);
+        };
+        var callback_cancel = function (element) {
+          logElementEvent("🔥 CANCEL", element);
         };
 
         // The "lazyLazy" instance of lazyload is used
@@ -1298,6 +1314,7 @@
           // Assign the callbacks defined above
           callback_enter: callback_enter,
           callback_exit: callback_exit,
+          callback_cancel: callback_cancel,
           callback_loading: callback_loading,
           callback_loaded: callback_loaded,
           callback_error: callback_error,
