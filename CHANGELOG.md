@@ -2,6 +2,11 @@
 
 ## Version 17
 
+#### 17.1.0
+
+- Unobserve all elements on `loadAll()` call. It's better for performance, and it solves #469.
+- Added some hidden images in the `load_all.html` demo
+
 #### 17.0.1
 
 - Bug fix: `callback_exit()` was not being called on non-image elements (#468).
