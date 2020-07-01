@@ -709,6 +709,7 @@ var LazyLoad = (function () {
       var settings = this._settings;
       var elementsToLoad = getElementsToLoad(elements, settings);
       elementsToLoad.forEach(function (element) {
+        unobserve(element, _this);
         load(element, settings, _this);
       });
     }

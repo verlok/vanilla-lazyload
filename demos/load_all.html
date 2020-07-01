@@ -25,6 +25,18 @@
         height: 280px;
       }
 
+      .hidden {
+        border: 1px dotted gray;
+      }
+
+      .hidden::before {
+        content: "Hidden image";
+      }
+
+      .hidden > img {
+        display: none;
+      }
+
       img:not([src]) {
         visibility: hidden;
       }
@@ -216,7 +228,7 @@
           </a>
         </li>
         <li>
-          <a href="#/it/donna/mocassini_cod44721744sl.html">
+          <a class="hidden" href="#/it/donna/mocassini_cod44721744sl.html">
             <img
               class="lazy"
               alt="Mocassini"
@@ -315,7 +327,7 @@
           </a>
         </li>
         <li>
-          <a href="#/it/donna/stivali_cod44724026qs.html">
+          <a class="hidden" href="#/it/donna/stivali_cod44724026qs.html">
             <img
               class="lazy"
               alt="Stivali"
@@ -414,7 +426,7 @@
           </a>
         </li>
         <li>
-          <a href="#/it/donna/decollete_cod44725388jv.html">
+          <a class="hidden" href="#/it/donna/decollete_cod44725388jv.html">
             <img
               class="lazy"
               alt="Décolleté"
@@ -516,16 +528,21 @@
         };
         var callback_error = function (element) {
           logElementEvent("💀 ERROR", element);
-          element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+          element.src =
+            "https://via.placeholder.com/440x560/?text=Error+Placeholder";
         };
         var callback_finish = function () {
           logElementEvent("✔️ FINISHED", document.documentElement);
+        };
+        var callback_cancel = function (element) {
+          logElementEvent("🔥 CANCEL", element);
         };
 
         var ll = new LazyLoad({
           // Assign the callbacks defined above
           callback_enter: callback_enter,
           callback_exit: callback_exit,
+          callback_cancel: callback_cancel,
           callback_loading: callback_loading,
           callback_loaded: callback_loaded,
           callback_error: callback_error,
