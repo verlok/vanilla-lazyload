@@ -19,7 +19,11 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 #### Lazy image:
 
 ```html
-<img alt="A lazy image" data-src="lazy.jpg" />
+<img 
+  alt="A lazy image" 
+  class="lazy"
+  data-src="lazy.jpg" 
+/>
 ```
 
 #### Lazy image with low quality placeholder:
@@ -27,6 +31,7 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 ```html
 <img
   alt="A lazy image"
+  class="lazy"
   src="lazy-lowQuality.jpg"
   data-src="lazy.jpg"
 />
@@ -101,7 +106,10 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 Single background image:
 
 ```html
-<div class="lazy" data-bg="lazy.jpg"></div>
+<div 
+  class="lazy" 
+  data-bg="lazy.jpg">
+</div>
 ```
 
 Single background, with HiDPI screen support:
@@ -168,7 +176,10 @@ Please note that the video poster can be lazily loaded too.
 #### Lazy iframe
 
 ```html
-<iframe class="lazy" data-src="lazyFrame.html"></iframe>
+<iframe 
+  class="lazy" 
+  data-src="lazyFrame.html">
+</iframe>
 ```
 
 ---
