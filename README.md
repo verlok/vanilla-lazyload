@@ -459,7 +459,7 @@ const lazyBackground = new LazyLoad({
 HTML
 
 ```html
-<div class="scrollingPanel" id="scrollingPanel">
+<div class="scrollingPanel">
   <!-- Set of images -->
 </div>
 ```
@@ -468,7 +468,7 @@ Javascript
 
 ```js
 var myLazyLoad = new LazyLoad({
-  container: document.getElementById("scrollingPanel")
+  container: document.querySelector(".scrollingPanel")
 });
 ```
 
