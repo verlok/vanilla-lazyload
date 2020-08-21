@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.1.1
+
+- Fixing npm audit vulnerabilities
+
 #### 17.1.0
 
 - Unobserve all elements on `loadAll()` call. It's better for performance, and it solves #469.

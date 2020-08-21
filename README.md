@@ -19,7 +19,11 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 #### Lazy image:
 
 ```html
-<img alt="A lazy image" data-src="lazy.jpg" />
+<img 
+  alt="A lazy image" 
+  class="lazy"
+  data-src="lazy.jpg" 
+/>
 ```
 
 #### Lazy image with low quality placeholder:
@@ -27,6 +31,7 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 ```html
 <img
   alt="A lazy image"
+  class="lazy"
   src="lazy-lowQuality.jpg"
   data-src="lazy.jpg"
 />
@@ -101,7 +106,10 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 Single background image:
 
 ```html
-<div class="lazy" data-bg="lazy.jpg"></div>
+<div 
+  class="lazy" 
+  data-bg="lazy.jpg">
+</div>
 ```
 
 Single background, with HiDPI screen support:
@@ -168,7 +176,10 @@ Please note that the video poster can be lazily loaded too.
 #### Lazy iframe
 
 ```html
-<iframe class="lazy" data-src="lazyFrame.html"></iframe>
+<iframe 
+  class="lazy" 
+  data-src="lazyFrame.html">
+</iframe>
 ```
 
 ---
@@ -179,7 +190,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.1.0**.
+The latest, recommended version of LazyLoad is **17.1.1**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -196,14 +207,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.1/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -235,7 +246,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.1/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -280,7 +291,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -314,7 +325,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -448,7 +459,7 @@ const lazyBackground = new LazyLoad({
 HTML
 
 ```html
-<div class="scrollingPanel" id="scrollingPanel">
+<div class="scrollingPanel">
   <!-- Set of images -->
 </div>
 ```
@@ -457,7 +468,7 @@ Javascript
 
 ```js
 var myLazyLoad = new LazyLoad({
-  container: document.getElementById("scrollingPanel")
+  container: document.querySelector(".scrollingPanel")
 });
 ```
 

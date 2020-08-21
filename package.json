@@ -1,6 +1,6 @@
 {
 	"name": "vanilla-lazyload",
-	"version": "17.1.0",
+	"version": "17.1.1",
 	"description": "LazyLoad is a lightweight (2.4 kB) and flexible script that speeds up your web application by deferring the loading of your below-the-fold images, videos and iframes to when they will enter the viewport. It's written in plain \"vanilla\" JavaScript, it leverages the IntersectionObserver API, it supports responsive images, it optimizes your website for slower connections, and can enable native lazy loading.",
 	"main": "dist/lazyload.min.js",
 	"module": "dist/lazyload.esm.js",
@@ -15,7 +15,7 @@
 		"jest": "^25.5.4",
 		"rollup": "^1.32.1",
 		"rollup-plugin-babel": "^4.4.0",
-		"rollup-plugin-terser": "^5.3.0"
+		"rollup-plugin-terser": "^7.0.0"
 	},
 	"scripts": {
 		"build": "rollup -c",
