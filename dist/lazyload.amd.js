@@ -30,6 +30,7 @@ define(function () { 'use strict';
     threshold: 300,
     thresholds: null,
     data_src: "src",
+    data_src_hidpi: "src-hidpi",
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
@@ -257,6 +258,7 @@ define(function () { 'use strict';
 
     var originalAttributes = {};
     originalAttributes["src"] = element.getAttribute("src");
+    originalAttributes["src-hidpi"] = element.getAttribute("src-hidpi");
     originalAttributes["srcset"] = element.getAttribute("srcset");
     originalAttributes["sizes"] = element.getAttribute("sizes");
     element.llOriginalAttrs = originalAttributes;
@@ -268,16 +270,21 @@ define(function () { 'use strict';
 
     var originalAttributes = element.llOriginalAttrs;
     setAttributeIfValue(element, "src", originalAttributes["src"]);
+    setAttributeIfValue(element, "src-hidpi", originalAttributes["src-hidpi"]);
     setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
     setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
   };
   var setImageAttributes = function setImageAttributes(element, settings) {
     setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
     setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    var srcAttrValue = getData(element, settings.data_src);
+    var srcAttrHiDpiValue = getData(element, settings.data_src_hidpi);
+    var srcValue = isHiDpi && srcAttrHiDpiValue ? srcAttrHiDpiValue : srcAttrValue;
+    setAttributeIfValue(element, "src", srcValue);
   };
   var resetImageAttributes = function resetImageAttributes(element) {
     resetAttribute(element, "src");
+    resetAttribute(element, "src-hidpi");
     resetAttribute(element, "srcset");
     resetAttribute(element, "sizes");
   };
@@ -316,11 +323,17 @@ define(function () { 'use strict';
     resetImageAttributes(element);
   };
   var setSourcesIframe = function setSourcesIframe(element, settings) {
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    var srcAttrValue = getData(element, settings.data_src);
+    var srcAttrHiDpiValue = getData(element, settings.data_src_hidpi);
+    var srcValue = isHiDpi && srcAttrHiDpiValue ? srcAttrHiDpiValue : srcAttrValue;
+    setAttributeIfValue(element, "src", srcValue);
   };
   var setSourcesVideo = function setSourcesVideo(element, settings) {
     forEachVideoSource(element, function (sourceTag) {
-      setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
+      var srcAttrValue = getData(sourceTag, settings.data_src);
+      var srcAttrHiDpiValue = getData(sourceTag, settings.data_src_hidpi);
+      var srcValue = isHiDpi && srcAttrHiDpiValue ? srcAttrHiDpiValue : srcAttrValue;
+      setAttributeIfValue(sourceTag, "src", srcValue);
     });
     setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
@@ -385,6 +398,7 @@ define(function () { 'use strict';
 
   var removeDataImg = function removeDataImg(element, settings) {
     setData(element, settings.data_src, null);
+    setData(element, settings.data_src_hidpi, null);
     setData(element, settings.data_srcset, null);
     setData(element, settings.data_sizes, null);
     forEachPictureSource(element, function (sourceTag) {
@@ -397,6 +411,7 @@ define(function () { 'use strict';
   };
   var removeDataVideo = function removeDataVideo(element, settings) {
     setData(element, settings.data_src, null);
+    setData(element, settings.data_src_hidpi, null);
     setData(element, settings.data_poster, null);
     forEachVideoSource(element, function (sourceTag) {
       setData(sourceTag, settings.data_src, null);

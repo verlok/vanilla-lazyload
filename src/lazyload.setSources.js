@@ -38,6 +38,7 @@ export const saveOriginalImageAttributes = (element) => {
     }
     const originalAttributes = {};
     originalAttributes["src"] = element.getAttribute("src");
+    originalAttributes["src-hidpi"] = element.getAttribute("src-hidpi");
     originalAttributes["srcset"] = element.getAttribute("srcset");
     originalAttributes["sizes"] = element.getAttribute("sizes");
     element.llOriginalAttrs = originalAttributes;
@@ -48,7 +49,9 @@ export const restoreOriginalImageAttributes = (element) => {
         return;
     }
     const originalAttributes = element.llOriginalAttrs;
+
     setAttributeIfValue(element, "src", originalAttributes["src"]);
+    setAttributeIfValue(element, "src-hidpi", originalAttributes["src-hidpi"]);
     setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
     setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
 };
@@ -56,11 +59,16 @@ export const restoreOriginalImageAttributes = (element) => {
 export const setImageAttributes = (element, settings) => {
     setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
     setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+
+    const srcAttrValue = getData(element, settings.data_src);
+    const srcAttrHiDpiValue = getData(element, settings.data_src_hidpi);
+    const srcValue = isHiDpi && srcAttrHiDpiValue ? srcAttrHiDpiValue : srcAttrValue;
+    setAttributeIfValue(element, "src", srcValue);
 };
 
 export const resetImageAttributes = (element) => {
     resetAttribute(element, "src");
+    resetAttribute(element, "src-hidpi");
     resetAttribute(element, "srcset");
     resetAttribute(element, "sizes");
 };
@@ -103,16 +111,23 @@ export const resetSourcesImg = (element) => {
 };
 
 export const setSourcesIframe = (element, settings) => {
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    const srcAttrValue = getData(element, settings.data_src);
+    const srcAttrHiDpiValue = getData(element, settings.data_src_hidpi);
+    const srcValue = isHiDpi && srcAttrHiDpiValue ? srcAttrHiDpiValue : srcAttrValue;
+    setAttributeIfValue(element, "src", srcValue);
 };
 
 export const resetSourcesIframe = (element) => {
     resetAttribute(element, "src");
+    resetAttribute(element, "src-hidpi");
 };
 
 export const setSourcesVideo = (element, settings) => {
     forEachVideoSource(element, (sourceTag) => {
-        setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
+        const srcAttrValue = getData(sourceTag, settings.data_src);
+        const srcAttrHiDpiValue = getData(sourceTag, settings.data_src_hidpi);
+        const srcValue = isHiDpi && srcAttrHiDpiValue ? srcAttrHiDpiValue : srcAttrValue;
+        setAttributeIfValue(sourceTag, "src", srcValue);
     });
     setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
@@ -122,6 +137,7 @@ export const setSourcesVideo = (element, settings) => {
 export const resetSourcesVideo = (element) => {
     let sourceTags = getSourceTags(element);
     resetAttribute(element, "src");
+    resetAttribute(element, "src-hidpi");
     resetAttribute(element, "poster");
     sourceTags.forEach((sourceTag) => {
         resetAttribute(sourceTag, "src");
@@ -188,6 +204,7 @@ export const manageLoading = (element, settings, instance) => {
 
 export const removeDataImg = (element, settings) => {
     setData(element, settings.data_src, null);
+    setData(element, settings.data_src_hidpi, null);
     setData(element, settings.data_srcset, null);
     setData(element, settings.data_sizes, null);
     forEachPictureSource(element, (sourceTag) => {
@@ -202,6 +219,7 @@ export const removeDataIframe = (element, settings) => {
 
 export const removeDataVideo = (element, settings) => {
     setData(element, settings.data_src, null);
+    setData(element, settings.data_src_hidpi, null);
     setData(element, settings.data_poster, null);
     forEachVideoSource(element, (sourceTag) => {
         setData(sourceTag, settings.data_src, null);
