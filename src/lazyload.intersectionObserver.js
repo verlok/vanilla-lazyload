@@ -29,7 +29,9 @@ export const updateObserver = (instance, elementsToObserve) => {
     const settings = instance._settings;
     resetObserver(observer);
     observeElements(observer, elementsToObserve);
-    intersectionHandler(observer.takeRecords(), settings, instance);
+    if (typeof observer.takeRecords === 'function') {
+        intersectionHandler(observer.takeRecords(), settings, instance);
+    }
 };
 
 export const setObserver = (settings, instance) => {
