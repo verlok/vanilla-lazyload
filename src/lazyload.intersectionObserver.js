@@ -1,4 +1,4 @@
-import { supportsIntersectionObserver } from "./lazyload.environment";
+import { supportsIntersectionObserver, supportsTakeRecords } from "./lazyload.environment";
 import { onEnter, onExit } from "./lazyload.intersectionHandlers";
 import { shouldUseNative } from "./lazyload.native";
 import { resetObserver } from "./lazyload.unobserve";
@@ -29,7 +29,7 @@ export const updateObserver = (instance, elementsToObserve) => {
     const settings = instance._settings;
     resetObserver(observer);
     observeElements(observer, elementsToObserve);
-    if (typeof observer.takeRecords === 'function') {
+    if (supportsTakeRecords) {
         intersectionHandler(observer.takeRecords(), settings, instance);
     }
 };
