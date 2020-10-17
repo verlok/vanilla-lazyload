@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.1.3
+
+- Added missing types (#480), thanks to @ar53n (#482)
+
 #### 17.1.2
 
 - Fixed TypeScript typings (#475), thanks to @ar53n (#477)
