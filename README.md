@@ -400,6 +400,20 @@ Inside the `dist` folder you will find different bundles.
 
 This is the section where you can find _ready to copy & paste_ code for your convenience.
 
+### Hide alt text and empty image
+
+> 💡 **Use case**: when your lazily loaded images show their `alt` text and the empty image icon before loading.
+
+CSS
+
+```css
+img:not([src]):not([srcset]) {
+  visibility: hidden;
+}
+```
+
+Just that, really.
+
 ### Dynamic content
 
 > 💡 **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
