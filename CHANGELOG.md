@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.2.0
+
+- Rolling back the "`data` attribute cleanup" feature that was released on 16.1.0 and was causing issues like [#484](https://github.com/verlok/vanilla-lazyload/issues/484) when more than one instance of LazyLoad were working on the same elements of the page - the script is also 500 bytes lighter now
+
 #### 17.1.3
 
 - Added missing types (#480), thanks to @ar53n (#482)
