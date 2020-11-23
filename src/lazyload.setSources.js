@@ -232,3 +232,15 @@ export const removeDataAttributes = (element, settings) => {
     }
     removeDataBackground(element, settings);
 };
+
+// COPY ATTRIBUTES BACK TO DATA
+
+export const copySourcesToDataImg = (element, settings) => {
+    setData(element, settings.data_src, element.getAttribute("src"));
+    setData(element, settings.data_srcset, element.getAttribute("srcset"));
+    setData(element, settings.data_sizes, element.getAttribute("sizes"));
+    forEachPictureSource(element, (sourceTag) => {
+        setData(sourceTag, settings.data_srcset, sourceTag.getAttribute("srcset"));
+        setData(sourceTag, settings.data_sizes, sourceTag.getAttribute("sizes"));
+    });
+};
