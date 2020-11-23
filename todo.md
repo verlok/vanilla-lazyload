@@ -1,10 +1,5 @@
 # TODO
 
-## Solve the bug
-
-- removing the line `removeDataAttributes` from `onLoaded` makes it work with double instance
-- @albertonarda suggests to keep removing the data attributes on load, but putting them back into the data-attributes when cancel loading has effect
-
 ## Coming next
 
 - Check how LazyLoad behaves when a page was updated using DOM morphing.
