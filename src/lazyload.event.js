@@ -10,7 +10,6 @@ import {
     haveElementsToLoad,
     isSomethingLoading
 } from "./lazyload.counters";
-import { removeDataAttributes } from "./lazyload.setSources";
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
 export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
@@ -68,7 +67,6 @@ export const loadHandler = (event, element, settings, instance) => {
     doneHandler(element, settings, instance);
     addClass(element, settings.class_loaded);
     setStatus(element, statusLoaded);
-    removeDataAttributes(element, settings);
     safeCallback(settings.callback_loaded, element, instance);
     if (!goingNative) checkFinish(settings, instance);
 };
