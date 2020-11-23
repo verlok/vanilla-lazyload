@@ -111,7 +111,7 @@ const hasStatusError = (element) => getStatus(element) === statusError;
 const hasStatusNative = (element) => getStatus(element) === statusNative;
 
 const statusesAfterLoading = [statusLoading, statusLoaded, statusApplied, statusError];
-const hadStartedLoading = (element) => (statusesAfterLoading.indexOf(getStatus(element)) >= 0);
+const hadStartedLoading = (element) => statusesAfterLoading.indexOf(getStatus(element)) >= 0;
 
 const safeCallback = (callback, arg1, arg2, arg3) => {
 	if (!callback) {
@@ -341,7 +341,6 @@ const setSources = (element, settings) => {
 const manageApplied = (element, settings, instance) => {
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
-    removeDataMultiBackground(element, settings);
     if (settings.unobserve_completed) {
         // Unobserve now because we can't do it on load
         unobserve(element, settings);
@@ -354,55 +353,6 @@ const manageLoading = (element, settings, instance) => {
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-};
-
-// REMOVE DATA ATTRIBUTES --------------
-
-const removeDataImg = (element, settings) => {
-    setData(element, settings.data_src, null);
-    setData(element, settings.data_srcset, null);
-    setData(element, settings.data_sizes, null);
-    forEachPictureSource(element, (sourceTag) => {
-        setData(sourceTag, settings.data_srcset, null);
-        setData(sourceTag, settings.data_sizes, null);
-    });
-};
-
-const removeDataIframe = (element, settings) => {
-    setData(element, settings.data_src, null);
-};
-
-const removeDataVideo = (element, settings) => {
-    setData(element, settings.data_src, null);
-    setData(element, settings.data_poster, null);
-    forEachVideoSource(element, (sourceTag) => {
-        setData(sourceTag, settings.data_src, null);
-    });
-};
-
-const removeDataFunctions = {
-    IMG: removeDataImg,
-    IFRAME: removeDataIframe,
-    VIDEO: removeDataVideo
-};
-
-const removeDataBackground = (element, settings) => {
-    setData(element, settings.data_bg, null);
-    setData(element, settings.data_bg_hidpi, null);
-};
-
-const removeDataMultiBackground = (element, settings) => {
-    setData(element, settings.data_bg_multi, null);
-    setData(element, settings.data_bg_multi_hidpi, null);
-};
-
-const removeDataAttributes = (element, settings) => {
-    const removeDataFunction = removeDataFunctions[element.tagName];
-    if (removeDataFunction) {
-        removeDataFunction(element, settings);
-        return;
-    }
-    removeDataBackground(element, settings);
 };
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
@@ -461,7 +411,6 @@ const loadHandler = (event, element, settings, instance) => {
     doneHandler(element, settings, instance);
     addClass(element, settings.class_loaded);
     setStatus(element, statusLoaded);
-    removeDataAttributes(element, settings);
     safeCallback(settings.callback_loaded, element, instance);
     if (!goingNative) checkFinish(settings, instance);
 };
@@ -516,7 +465,6 @@ const load = (element, settings, instance) => {
 const loadNative = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings);
-    removeDataAttributes(element, settings);
     setStatus(element, statusNative);
 };
 

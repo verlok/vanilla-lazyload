@@ -169,7 +169,6 @@ export const setSources = (element, settings) => {
 export const manageApplied = (element, settings, instance) => {
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
-    removeDataMultiBackground(element, settings);
     if (settings.unobserve_completed) {
         // Unobserve now because we can't do it on load
         unobserve(element, settings, instance);
@@ -182,53 +181,4 @@ export const manageLoading = (element, settings, instance) => {
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-};
-
-// REMOVE DATA ATTRIBUTES --------------
-
-export const removeDataImg = (element, settings) => {
-    setData(element, settings.data_src, null);
-    setData(element, settings.data_srcset, null);
-    setData(element, settings.data_sizes, null);
-    forEachPictureSource(element, (sourceTag) => {
-        setData(sourceTag, settings.data_srcset, null);
-        setData(sourceTag, settings.data_sizes, null);
-    });
-};
-
-export const removeDataIframe = (element, settings) => {
-    setData(element, settings.data_src, null);
-};
-
-export const removeDataVideo = (element, settings) => {
-    setData(element, settings.data_src, null);
-    setData(element, settings.data_poster, null);
-    forEachVideoSource(element, (sourceTag) => {
-        setData(sourceTag, settings.data_src, null);
-    });
-};
-
-const removeDataFunctions = {
-    IMG: removeDataImg,
-    IFRAME: removeDataIframe,
-    VIDEO: removeDataVideo
-};
-
-export const removeDataBackground = (element, settings) => {
-    setData(element, settings.data_bg, null);
-    setData(element, settings.data_bg_hidpi, null);
-};
-
-export const removeDataMultiBackground = (element, settings) => {
-    setData(element, settings.data_bg_multi, null);
-    setData(element, settings.data_bg_multi_hidpi, null);
-};
-
-export const removeDataAttributes = (element, settings) => {
-    const removeDataFunction = removeDataFunctions[element.tagName];
-    if (removeDataFunction) {
-        removeDataFunction(element, settings);
-        return;
-    }
-    removeDataBackground(element, settings);
 };
