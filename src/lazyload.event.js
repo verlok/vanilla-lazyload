@@ -68,7 +68,7 @@ export const loadHandler = (event, element, settings, instance) => {
     doneHandler(element, settings, instance);
     addClass(element, settings.class_loaded);
     setStatus(element, statusLoaded);
-    removeDataAttributes(element, settings);
+    removeDataAttributes(element, settings); //This causes the bug with a second instance
     safeCallback(settings.callback_loaded, element, instance);
     if (!goingNative) checkFinish(settings, instance);
 };
