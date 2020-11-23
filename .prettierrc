@@ -1,6 +1,14 @@
 {
-    "tabWidth": 4,
-    "useTabs": false,
-    "printWidth": 100,
-    "trailingComma": "none"
+  "tabWidth": 2,
+  "useTabs": false,
+  "printWidth": 100,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "*.js",
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
 }
