@@ -6,7 +6,9 @@
     "module": "dist/lazyload.esm.js",
     "browser": "dist/lazyload.min.js",
     "typings": "typings/lazyload.d.ts",
-    "dependencies": {},
+    "dependencies": {
+        "caniuse-lite": "^1.0.30001161"
+    },
     "devDependencies": {
         "@babel/core": "^7.9.6",
         "@babel/plugin-transform-object-assign": "^7.8.3",
