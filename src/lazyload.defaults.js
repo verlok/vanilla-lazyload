@@ -17,6 +17,8 @@ const defaultSettings = {
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
+    class_entered: "entered",
+    class_exited: "exited",
     unobserve_completed: true,
     unobserve_entered: false,
     cancel_on_exit: true,
