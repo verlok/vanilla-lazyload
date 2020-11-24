@@ -10,7 +10,7 @@ export const cancelLoading = (element, entry, settings, instance) => {
     if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return; //Works only on images
     removeEventListeners(element);
-    resetSourcesImg(element, settings, instance);
+    resetSourcesImg(element);
     restoreOriginalAttributesImg(element);
     removeClass(element, settings.class_loading);
     updateLoadingCount(instance, -1);

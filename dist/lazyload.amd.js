@@ -41,6 +41,8 @@ define(function () { 'use strict';
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
+    class_entered: "entered",
+    class_exited: "exited",
     unobserve_completed: true,
     unobserve_entered: false,
     cancel_on_exit: true,
@@ -367,7 +369,6 @@ define(function () { 'use strict';
   var manageApplied = function manageApplied(element, settings, instance) {
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
-    removeDataMultiBackground(element, settings);
 
     if (settings.unobserve_completed) {
       // Unobserve now because we can't do it on load
@@ -381,49 +382,6 @@ define(function () { 'use strict';
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
-  }; // REMOVE DATA ATTRIBUTES --------------
-
-  var removeDataImg = function removeDataImg(element, settings) {
-    setData(element, settings.data_src, null);
-    setData(element, settings.data_srcset, null);
-    setData(element, settings.data_sizes, null);
-    forEachPictureSource(element, function (sourceTag) {
-      setData(sourceTag, settings.data_srcset, null);
-      setData(sourceTag, settings.data_sizes, null);
-    });
-  };
-  var removeDataIframe = function removeDataIframe(element, settings) {
-    setData(element, settings.data_src, null);
-  };
-  var removeDataVideo = function removeDataVideo(element, settings) {
-    setData(element, settings.data_src, null);
-    setData(element, settings.data_poster, null);
-    forEachVideoSource(element, function (sourceTag) {
-      setData(sourceTag, settings.data_src, null);
-    });
-  };
-  var removeDataFunctions = {
-    IMG: removeDataImg,
-    IFRAME: removeDataIframe,
-    VIDEO: removeDataVideo
-  };
-  var removeDataBackground = function removeDataBackground(element, settings) {
-    setData(element, settings.data_bg, null);
-    setData(element, settings.data_bg_hidpi, null);
-  };
-  var removeDataMultiBackground = function removeDataMultiBackground(element, settings) {
-    setData(element, settings.data_bg_multi, null);
-    setData(element, settings.data_bg_multi_hidpi, null);
-  };
-  var removeDataAttributes = function removeDataAttributes(element, settings) {
-    var removeDataFunction = removeDataFunctions[element.tagName];
-
-    if (removeDataFunction) {
-      removeDataFunction(element, settings);
-      return;
-    }
-
-    removeDataBackground(element, settings);
   };
 
   var elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
@@ -480,7 +438,6 @@ define(function () { 'use strict';
     doneHandler(element, settings, instance);
     addClass(element, settings.class_loaded);
     setStatus(element, statusLoaded);
-    removeDataAttributes(element, settings);
     safeCallback(settings.callback_loaded, element, instance);
     if (!goingNative) checkFinish(settings, instance);
   };
@@ -536,7 +493,6 @@ define(function () { 'use strict';
   var loadNative = function loadNative(element, settings, instance) {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings);
-    removeDataAttributes(element, settings);
     setStatus(element, statusNative);
   };
 
@@ -556,6 +512,8 @@ define(function () { 'use strict';
 
   var onEnter = function onEnter(element, entry, settings, instance) {
     setStatus(element, statusEntered);
+    addClass(element, settings.class_entered);
+    removeClass(element, settings.class_exited);
     unobserveEntered(element, settings, instance);
     safeCallback(settings.callback_enter, element, entry, instance);
     if (hadStartedLoading(element)) return; //Prevent loading it again
@@ -565,6 +523,7 @@ define(function () { 'use strict';
   var onExit = function onExit(element, entry, settings, instance) {
     if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
 
+    addClass(element, settings.class_exited);
     cancelLoading(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
   };

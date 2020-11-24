@@ -2,7 +2,6 @@ import {
     setSources,
     setBackground,
     setMultiBackground,
-    removeDataAttributes,
     manageLoading
 } from "./lazyload.setSources";
 import { setStatus } from "./lazyload.data";
@@ -34,6 +33,5 @@ export const load = (element, settings, instance) => {
 export const loadNative = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
-    removeDataAttributes(element, settings);
     setStatus(element, statusNative);
 };
