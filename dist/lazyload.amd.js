@@ -41,6 +41,8 @@ define(function () { 'use strict';
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
+    class_entered: "entered",
+    class_exited: "exited",
     unobserve_completed: true,
     unobserve_entered: false,
     cancel_on_exit: true,
@@ -510,6 +512,8 @@ define(function () { 'use strict';
 
   var onEnter = function onEnter(element, entry, settings, instance) {
     setStatus(element, statusEntered);
+    addClass(element, settings.class_entered);
+    removeClass(element, settings.class_exited);
     unobserveEntered(element, settings, instance);
     safeCallback(settings.callback_enter, element, entry, instance);
     if (hadStartedLoading(element)) return; //Prevent loading it again
@@ -519,6 +523,7 @@ define(function () { 'use strict';
   var onExit = function onExit(element, entry, settings, instance) {
     if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
 
+    addClass(element, settings.class_exited);
     cancelLoading(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
   };
