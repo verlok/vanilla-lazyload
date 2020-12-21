@@ -334,7 +334,7 @@ import LazyLoad from "vanilla-lazyload";
 
 It's also possible (but unadvised) to use the `require` commonJS syntax.
 
-More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/vanilla-lazyload-es2015-webpack-test).
+More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/lazyload-es2015-webpack-test).
 
 ### Usage with React
 
