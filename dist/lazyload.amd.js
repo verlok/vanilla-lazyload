@@ -668,8 +668,12 @@ define(function () { 'use strict';
       var elementsToLoad = getElementsToLoad(elements, settings);
       elementsToLoad.forEach(function (element) {
         unobserve(element, _this);
+
         load(element, settings, _this);
       });
+    },
+    unobserve: function unobserve$1(element) {
+      unobserve(element, this);
     }
   };
 
