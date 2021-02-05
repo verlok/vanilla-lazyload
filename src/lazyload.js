@@ -60,6 +60,10 @@ LazyLoad.prototype = {
             unobserve(element, this);
             load(element, settings, this);
         });
+    },
+
+    unobserve: function(element) {
+        unobserve(element, this);
     }
 };
 
