@@ -1,67 +1,64 @@
 {
-    "name": "vanilla-lazyload",
-    "version": "17.3.0",
-    "description": "LazyLoad is a lightweight (2.4 kB) and flexible script that speeds up your web application by deferring the loading of your below-the-fold images, videos and iframes to when they will enter the viewport. It's written in plain \"vanilla\" JavaScript, it leverages the IntersectionObserver API, it supports responsive images, it optimizes your website for slower connections, and can enable native lazy loading.",
-    "main": "dist/lazyload.min.js",
-    "module": "dist/lazyload.esm.js",
-    "browser": "dist/lazyload.min.js",
-    "typings": "typings/lazyload.d.ts",
-    "dependencies": {
-        "caniuse-lite": "^1.0.30001161"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.9.6",
-        "@babel/plugin-transform-object-assign": "^7.8.3",
-        "@babel/preset-env": "^7.9.6",
-        "@rollup/plugin-node-resolve": "^7.1.3",
-        "jest": "^25.5.4",
-        "rollup": "^1.32.1",
-        "rollup-plugin-babel": "^4.4.0",
-        "rollup-plugin-terser": "^7.0.0"
-    },
-    "scripts": {
-        "build": "rollup -c",
-        "dev": "rollup -c --watch",
-        "test": "jest",
-        "devtest": "jest --watch"
-    },
-    "files": [
-        "dist",
-        "typings"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/verlok/vanilla-lazyload"
-    },
-    "keywords": [
-        "lazyload",
-        "vanilla",
-        "responsive",
-        "images",
-        "picture",
-        "srcset",
-        "sizes",
-        "native",
-        "SEO",
-        "intersectionObserver",
-        "progressive",
-        "performance",
-        "perfmatters",
-        "async",
-        "no-jquery"
-    ],
-    "author": {
-        "name": "Andrea \"verlok\" Verlicchi",
-        "email": "andrea.verlicchi@gmail.com",
-        "url": "https://www.andreaverlicchi.eu"
-    },
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/verlok/vanilla-lazyload/issues"
-    },
-    "homepage": "https://www.andreaverlicchi.eu/vanilla-lazyload",
-    "funding": {
-        "type": "individual",
-        "url": "https://ko-fi.com/verlok"
-    }
+  "name": "vanilla-lazyload",
+  "version": "17.3.1",
+  "description": "LazyLoad is a lightweight (2.4 kB) and flexible script that speeds up your web application by deferring the loading of your below-the-fold images, videos and iframes to when they will enter the viewport. It's written in plain \"vanilla\" JavaScript, it leverages the IntersectionObserver API, it supports responsive images, it optimizes your website for slower connections, and can enable native lazy loading.",
+  "main": "dist/lazyload.min.js",
+  "module": "dist/lazyload.esm.js",
+  "browser": "dist/lazyload.min.js",
+  "typings": "typings/lazyload.d.ts",
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-object-assign": "^7.8.3",
+    "@babel/preset-env": "^7.9.6",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "jest": "^26.6.3",
+    "rollup": "^1.32.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^7.0.0"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c --watch",
+    "test": "jest",
+    "devtest": "jest --watch"
+  },
+  "files": [
+    "dist",
+    "typings"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/verlok/vanilla-lazyload"
+  },
+  "keywords": [
+    "lazyload",
+    "vanilla",
+    "responsive",
+    "images",
+    "picture",
+    "srcset",
+    "sizes",
+    "native",
+    "SEO",
+    "intersectionObserver",
+    "progressive",
+    "performance",
+    "perfmatters",
+    "async",
+    "no-jquery"
+  ],
+  "author": {
+    "name": "Andrea \"verlok\" Verlicchi",
+    "email": "andrea.verlicchi@gmail.com",
+    "url": "https://www.andreaverlicchi.eu"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/verlok/vanilla-lazyload/issues"
+  },
+  "homepage": "https://www.andreaverlicchi.eu/vanilla-lazyload",
+  "funding": {
+    "type": "individual",
+    "url": "https://ko-fi.com/verlok"
+  }
 }

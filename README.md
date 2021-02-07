@@ -153,7 +153,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.3.0**.
+The latest, recommended version of LazyLoad is **17.3.1**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -170,14 +170,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -209,7 +209,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -254,7 +254,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -288,7 +288,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -334,7 +334,7 @@ import LazyLoad from "vanilla-lazyload";
 
 It's also possible (but unadvised) to use the `require` commonJS syntax.
 
-More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/vanilla-lazyload-es2015-webpack-test).
+More information about bundling LazyLoad with WebPack are available on [this specific repo](https://github.com/verlok/lazyload-es2015-webpack-test).
 
 ### Usage with React
 
@@ -362,6 +362,20 @@ Inside the `dist` folder you will find different bundles.
 ## 🥧 Recipes
 
 This is the section where you can find _ready to copy & paste_ code for your convenience.
+
+### Hide alt text and empty image
+
+> 💡 **Use case**: when your lazily loaded images show their `alt` text and the empty image icon before loading.
+
+CSS
+
+```css
+img:not([src]):not([srcset]) {
+  visibility: hidden;
+}
+```
+
+Just that, really.
 
 ### Dynamic content
 
@@ -638,7 +652,7 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 
 It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to reflow and making lazyload inefficient.
 
-There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/vanilla-lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick.
+There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick.
 
 #### Vertical padding trick
 
