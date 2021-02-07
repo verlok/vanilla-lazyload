@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.3.1
+
+- Removed `caniuse-lite` from dependencies. Fixes #505. Thanks to @ar53n.
+
 #### 17.3.0
 
 - Added `class_entered` and `class_exited` options to apply a class when an element entered and/or exited the viewport
