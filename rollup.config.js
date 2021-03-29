@@ -48,6 +48,7 @@ module.exports = [
         plugins: [
             resolve(),
             babel({
+                babelHelpers: "bundled",
                 exclude: "node_modules/**"
             })
         ]
