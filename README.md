@@ -648,11 +648,15 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 
 ## 😋 Tips & tricks
 
-### Occupy space and avoid content reflow
+### Minimize [CLS](https://web.dev/cls) by occupy space beforehand
 
-It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to reflow and making lazyload inefficient.
+It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to shift and making lazyload inefficient.
 
-There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick.
+There are [many ways to minimize content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick.
+
+#### Setting `width` and `height` attributes to `img` and `video`
+
+Applying `width` and `height` should make browsers to calculate the value of _intrisinc `aspect-ratio`_, but I did some tests and it worked _only on some browsers_, and _not for lazy loaded images_. Read more in my article [aspect-ratio: A modern way to reserve space for images and async content in responsive design](https://www.andreaverlicchi.eu/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/).
 
 #### Vertical padding trick
 
