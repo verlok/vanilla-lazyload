@@ -656,7 +656,7 @@ There are [many ways to minimize content reflow](https://css-tricks.com/preventi
 
 #### Setting `width` and `height` attributes to `img` and `video`
 
-Applying `width` and `height` should make browsers to calculate the value of _intrisinc `aspect-ratio`_, but I did some tests and it worked _only on some browsers_, and _not for lazy loaded images_. Read more in my article [aspect-ratio: A modern way to reserve space for images and async content in responsive design](https://www.andreaverlicchi.eu/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/).
+Applying `width` and `height` should make browsers to calculate the value of _mapped `aspect-ratio`_, but I did some tests and it worked _only on some browsers_, and _not for lazy loaded images_. Read more in my article [aspect-ratio: A modern way to reserve space for images and async content in responsive design](https://www.andreaverlicchi.eu/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/).
 
 #### Vertical padding trick
 
