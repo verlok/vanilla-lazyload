@@ -484,12 +484,14 @@ const cancelLoading = (element, entry, settings, instance) => {
 };
 
 const onEnter = (element, entry, settings, instance) => {
+    const dontLoad = hadStartedLoading(element); /* Save status 
+        before setting it, to prevent loading it again. Fixes #526. */
     setStatus(element, statusEntered);
     addClass(element, settings.class_entered);
     removeClass(element, settings.class_exited);
     unobserveEntered(element, settings, instance);
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hadStartedLoading(element)) return; //Prevent loading it again
+    if (dontLoad) return;
     load(element, settings, instance);
 };
 

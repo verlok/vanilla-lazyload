@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.3.2
+
+- Fixes double trigger of `callback_load` after a watched image was loaded using the static `load()` method (#526). Thanks to @nick-vincent.
+
 #### 17.3.1
 
 - Removed `caniuse-lite` from dependencies. Fixes #505. Thanks to @ar53n.
