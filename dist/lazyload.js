@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.LazyLoad = factory());
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.LazyLoad = factory());
 }(this, (function () { 'use strict';
 
   function _extends() {
@@ -515,13 +515,16 @@
   };
 
   var onEnter = function onEnter(element, entry, settings, instance) {
+    var dontLoad = hadStartedLoading(element);
+    /* Save status 
+    before setting it, to prevent loading it again. Fixes #526. */
+
     setStatus(element, statusEntered);
     addClass(element, settings.class_entered);
     removeClass(element, settings.class_exited);
     unobserveEntered(element, settings, instance);
     safeCallback(settings.callback_enter, element, entry, instance);
-    if (hadStartedLoading(element)) return; //Prevent loading it again
-
+    if (dontLoad) return;
     load(element, settings, instance);
   };
   var onExit = function onExit(element, entry, settings, instance) {

@@ -1,6 +1,6 @@
 import { terser } from "rollup-plugin-terser";
 import resolve from "@rollup/plugin-node-resolve";
-import babel from "rollup-plugin-babel";
+import babel from "@rollup/plugin-babel";
 
 const terserOptions = {
     compress: {
@@ -48,6 +48,7 @@ module.exports = [
         plugins: [
             resolve(),
             babel({
+                babelHelpers: "bundled",
                 exclude: "node_modules/**"
             })
         ]
