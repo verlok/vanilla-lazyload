@@ -153,7 +153,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.3.1**.
+The latest, recommended version of LazyLoad is **17.3.2**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -170,14 +170,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -209,7 +209,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -254,7 +254,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -288,7 +288,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -648,54 +648,13 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 
 ## 😋 Tips & tricks
 
-### Occupy space and avoid content reflow
+### Minimize [CLS](https://web.dev/cls) by occupy space beforehand
 
-It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to reflow and making lazyload inefficient.
+It's very important to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to shift and making lazyload inefficient.
 
-There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick.
+The best way to do that is to set both `width` and `height` attributes to `img` and `video` elements and, if you choose not to use a placeholder image, apply the `display: block` CSS rule to every image.
 
-#### Vertical padding trick
-
-```html
-<div class="image-wrapper">
-  <img class="lazy image" alt="An image" data-src="lazy.jpg" />
-</div>
-```
-
-```css
-.image-wrapper {
-  width: 100%;
-  height: 0;
-  padding-bottom: 150%;
-  /* 👆 image height / width * 100% */
-  position: relative;
-}
-.image {
-  width: 100%;
-  height: auto;
-  position: absolute;
-}
-```
-
-More info in [Sizing Fluid Image Containers with a Little CSS Padding Hack](http://andyshora.com/css-image-container-padding-hack.html) by Andy Shora. Find also a useful [SASS mixin to maintain aspect ratio](https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/) on CSS tricks.
-
-#### Inline SVG
-
-If you can't use the vertical padding trick for some reason, the best option is to use an SVG placeholder of the same ratio of the lazy images.
-
-```html
-<img
-  src="data:image/svg+xml,%3Csvg 
-    xmlns='http://www.w3.org/2000/svg' 
-    viewBox='0 0 3 2'%3E%3C/svg%3E"
-  data-src="//picsum.photos/900/600"
-  alt="Lazy loading test image"
-/>
-```
-
-Alternatively (but less efficiently) you can use a tiny, scaled-down version of your images as a placeholder, stretching them to the final size of the images, and obtain a blur-up effect when the full images load.
-
-Using a placeholder image will also make sure that browsers don't show your `alt` content instead of the images before the lazy-loading starts.
+You can find more details and demos in my article [aspect-ratio: A modern way to reserve space for images and async content in responsive design](https://www.andreaverlicchi.eu/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/).
 
 ---
 
