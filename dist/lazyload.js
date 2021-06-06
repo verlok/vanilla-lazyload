@@ -495,6 +495,7 @@
     }
   };
   var loadNative = function loadNative(element, settings, instance) {
+    element.setAttribute("loading", "lazy");
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings);
     setStatus(element, statusNative);
@@ -535,7 +536,7 @@
     safeCallback(settings.callback_exit, element, entry, instance);
   };
 
-  var tagsWithNativeLazy = ["IMG", "IFRAME"];
+  var tagsWithNativeLazy = ["IMG", "IFRAME", "VIDEO"];
   var shouldUseNative = function shouldUseNative(settings) {
     return settings.use_native && "loading" in HTMLImageElement.prototype;
   };
@@ -544,8 +545,6 @@
       if (tagsWithNativeLazy.indexOf(element.tagName) === -1) {
         return;
       }
-
-      element.setAttribute("loading", "lazy"); //TODO: Move inside the loadNative method
 
       loadNative(element, settings, instance);
     });
