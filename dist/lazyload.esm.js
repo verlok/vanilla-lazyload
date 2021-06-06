@@ -465,6 +465,7 @@ const load = (element, settings, instance) => {
 };
 
 const loadNative = (element, settings, instance) => {
+    element.setAttribute("loading", "lazy");
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings);
     setStatus(element, statusNative);
@@ -502,7 +503,7 @@ const onExit = (element, entry, settings, instance) => {
     safeCallback(settings.callback_exit, element, entry, instance);
 };
 
-const tagsWithNativeLazy = ["IMG", "IFRAME"];
+const tagsWithNativeLazy = ["IMG", "IFRAME", "VIDEO"];
 
 const shouldUseNative = (settings) =>
     settings.use_native && "loading" in HTMLImageElement.prototype;
@@ -512,7 +513,6 @@ const loadAllNative = (elements, settings, instance) => {
         if (tagsWithNativeLazy.indexOf(element.tagName) === -1) {
             return;
         }
-        element.setAttribute("loading", "lazy"); //TODO: Move inside the loadNative method
         loadNative(element, settings, instance);
     });
     setToLoadCount(instance, 0);
