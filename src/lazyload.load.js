@@ -31,6 +31,7 @@ export const load = (element, settings, instance) => {
 };
 
 export const loadNative = (element, settings, instance) => {
+    element.setAttribute("loading", "lazy");
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
     setStatus(element, statusNative);
