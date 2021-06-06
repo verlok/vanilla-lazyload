@@ -153,7 +153,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.3.2**.
+The latest, recommended version of LazyLoad is **17.4.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -170,14 +170,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -209,7 +209,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -254,7 +254,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -288,7 +288,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.2/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -397,7 +397,7 @@ myLazyLoad.update();
 
 ### Mixed native and JS-based lazy loading
 
-> 💡 **Use case**: you want to use the `use_native` option to delegate the loading of images to the browsers engine where supported, but you also want to lazily load backgroud images or videos.
+> 💡 **Use case**: you want to use the `use_native` option to delegate the loading of images, iframes and videos to the browsers engine where supported, but you also want to lazily load backgroud images.
 
 HTML
 
@@ -421,6 +421,8 @@ const lazyBackground = new LazyLoad({
   // DON'T PASS use_native: true HERE
 });
 ```
+
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/native_lazyload_conditional.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/native_lazyload_conditional.html) - [API](#-api)
 
 ### Scrolling panel(s)
 
@@ -730,7 +732,7 @@ Here's the list of the options.
 | `callback_error`      | A callback function which is called whenever an element triggers an error. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                                        | `null`             | `(el)=>{console.log("Error", el)}`       |
 | `callback_applied`    | A callback function which is called whenever a multiple background element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                        | `null`             | `(el)=>{console.log("Applied", el)}`     |
 | `callback_finish`     | A callback function which is called when there are no more elements to load _and_ all elements have been downloaded. Arguments: lazyload instance.                                                                                                                                                                                                                                                                                                           | `null`             | `()=>{console.log("Finish")}`            |
-| `use_native`          | This boolean sets whether or not to use [native lazy loading](https://addyosmani.com/blog/lazy-loading/) to do [hybrid lazy loading](https://www.smashingmagazine.com/2019/05/hybrid-lazy-loading-progressive-migration-native/). On browsers that support it, LazyLoad will set the `loading="lazy"` attribute on images and iframes, and delegate their loading to the browser.                                                                            | `false`            | `true`                                   |
+| `use_native`          | This boolean sets whether or not to use [native lazy loading](https://addyosmani.com/blog/lazy-loading/) to do [hybrid lazy loading](https://www.smashingmagazine.com/2019/05/hybrid-lazy-loading-progressive-migration-native/). On browsers that support it, LazyLoad will set the `loading="lazy"` attribute on images, iframes and videos, and delegate their loading to the browser.                                                                    | `false`            | `true`                                   |
 
 ### Methods
 

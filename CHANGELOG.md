@@ -2,6 +2,11 @@
 
 ## Version 17
 
+#### 17.4.0
+
+- Adding native lazy loading for videos, as discussed in #527. Thanks to @saschaeggi.
+- Updated the `native_lazyload_conditional.html` demo with the new best practice for cross browser native lazy loading.
+
 #### 17.3.2
 
 - Fixes double trigger of `callback_load` after a watched image was loaded using the static `load()` method (#526). Thanks to @nick-vincent.
