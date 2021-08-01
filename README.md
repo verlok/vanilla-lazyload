@@ -397,7 +397,7 @@ myLazyLoad.update();
 
 ### Mixed native and JS-based lazy loading
 
-> 💡 **Use case**: you want to use the `use_native` option to delegate the loading of images, iframes and videos to the browsers engine where supported, but you also want to lazily load backgroud images.
+> 💡 **Use case**: you want to use the `use_native` option to delegate the loading of images, iframes and videos to the browsers engine where supported, but you also want to lazily load background images.
 
 HTML
 
