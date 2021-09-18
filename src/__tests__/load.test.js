@@ -3,6 +3,8 @@ import getFakeInstance from "./lib/getFakeInstance";
 
 import { load } from "../load";
 import { getExtendedSettings } from "../defaults";
+import { getStatus } from "../data";
+import { statusLoading } from "../elementStatus";
 
 expectExtend(expect);
 
@@ -20,12 +22,13 @@ afterEach(() => {
 });
 
 describe("load...", () => {
-    test("...status is set", () => {
+    test("status is set", () => {
         load(img, {});
-        expect(img).toHaveAttributeValue("data-ll-status", "loading");
+        const status = getStatus(img);
+        expect(status).toBe(statusLoading);
     });
 
-    test("...callbacks are called", () => {
+    test("callbacks are called", () => {
         const loadingCb = jest.fn();
         const settings = getExtendedSettings({
             callback_loading: loadingCb
