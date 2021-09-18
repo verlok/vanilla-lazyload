@@ -13,6 +13,8 @@ At the first failing test, which is the following...
 
 **I should start by adding another test for the "cancel loading on exit" feature to avoid accidental mistakes in this new feature.**
 
+I should also figure out an appropriate name for the functions... `resetStatus` is already used, probably use `resetDOM`, or maybe `restoreDOM`. Think together about the static and the instance functions: `resetDOM`, `resetDOMAll`?
+
 ## Coming next
 
 - Check how LazyLoad behaves when a page was updated using DOM morphing.
