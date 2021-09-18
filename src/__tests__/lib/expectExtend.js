@@ -9,6 +9,16 @@ const extensions = {
             message: () => `expected ${element.tagName} to have attribute "${attributeName}" set to "${valueToVerify}", received "${actualValue}"`,
             pass: false
         }
+    },
+    toHaveAttribute: (element, attributeName) => {
+        const pass = element.hasAttribute(attributeName);
+        return pass ? {
+            message: () => `${element.tagName} has attribute "${attributeName}"`,
+            pass: true
+        } : {
+            message: () => `expected ${element.tagName} to have attribute "${attributeName}"`,
+            pass: false
+        }
     }
 };
 

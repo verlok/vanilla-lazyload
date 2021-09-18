@@ -182,3 +182,17 @@ export const manageLoading = (element, settings, instance) => {
     setStatus(element, statusLoading);
     safeCallback(settings.callback_loading, element, instance);
 };
+
+const resetSourcesFunctions = {
+    IMG: resetSourcesImg,
+    IFRAME: resetSourcesIframe,
+    VIDEO: resetSourcesVideo
+};
+
+export const resetSources = (element) => {
+    const resetSourcesFunction = resetSourcesFunctions[element.tagName];
+    if (!resetSourcesFunction) {
+        return;
+    }
+    resetSourcesFunction(element);
+} 

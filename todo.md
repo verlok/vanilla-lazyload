@@ -1,5 +1,18 @@
 # TODO
 
+## THIS BRANCH!
+
+I'm implementing a "reverse DOM to original" feature as requested in #509.
+I've started and implemented code and tests.
+
+At the first failing test, which is the following...
+
+> expected IMG to have attribute "src" set to "1.gif", received "null"
+
+...I realized that I shouldn't remove the image attributes altogether, but I should restore it to their original values, BUT this would make fail another feature, which is "cancel loading on exit".
+
+**I should start by adding another test for the "cancel loading on exit" feature to avoid accidental mistakes in this new feature.**
+
 ## Coming next
 
 - Check how LazyLoad behaves when a page was updated using DOM morphing.
