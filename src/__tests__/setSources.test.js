@@ -233,6 +233,29 @@ describe("setSources for picture", () => {
     });
 });
 
+/* SAVES ORIGINAL ATTRS */
+
+describe("Original attributes", () => {
+    let img1 = "1.gif";
+    let img2 = "2.gif";
+    let img200 = "200.gif";
+    let img400 = "400.gif";
+    let sizes100 = "100vw";
+    let sizes50 = "50vw";
+
+    test("are saved for images", () => {
+        img.setAttribute("src", img1);
+        img.setAttribute("srcset", img2);
+        img.setAttribute("sizes", sizes100);
+        img.setAttribute("data-src", img200);
+        img.setAttribute("data-srcset", img400);
+        img.setAttribute("data-sizes", sizes50);
+        setSources(img, settings, getFakeInstance());
+        expect(img.llOriginalAttrs.src).toBe(img1);
+        expect(img.llOriginalAttrs.srcset).toBe(img2);
+        expect(img.llOriginalAttrs.sizes).toBe(sizes100);
+    });
+})
 
 /* RESET SOURCES of ALL KINDS */
 
