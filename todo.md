@@ -11,9 +11,7 @@ At the first failing test, which is the following...
 
 ...I realized that I shouldn't remove the image attributes altogether, but I should restore it to their original values, BUT this would make fail another feature, which is "cancel loading on exit".
 
-**I should start by adding another test for the "cancel loading on exit" feature to avoid accidental mistakes in this new feature.**
-
-I should also figure out an appropriate name for the functions... `resetStatus` is already used, probably use `resetDOM`, or maybe `restoreDOM`. Think together about the static and the instance functions: `resetDOM`, `resetDOMAll`?
+I should also figure out an appropriate name for the functions... `resetStatus` is already used, probably use `resetDOM`, or maybe `restoreDOM`. Think together about the static and the instance functions: `resetDOM`, `resetDOMAll`? etc.
 
 ## Coming next
 
