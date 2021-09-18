@@ -1,4 +1,4 @@
-import { hasEmptyStatus, hasStatusError } from "./lazyload.data";
+import { hasEmptyStatus, hasStatusError } from "./data";
 
 export const toArray = (nodeSet) => Array.prototype.slice.call(nodeSet);
 

@@ -1,7 +1,7 @@
-import { setSources, setBackground, setMultiBackground } from "../src/lazyload.setSources";
+import { setSources, setBackground, setMultiBackground } from "../src/setSources";
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
-import { getExtendedSettings } from "../src/lazyload.defaults";
+import { getExtendedSettings } from "../src/defaults";
 
 expectExtend(expect);
 
