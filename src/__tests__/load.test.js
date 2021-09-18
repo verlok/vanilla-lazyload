@@ -1,7 +1,8 @@
-import { load } from "../src/load";
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
-import { getExtendedSettings } from "../src/defaults";
+
+import { load } from "../load";
+import { getExtendedSettings } from "../defaults";
 
 expectExtend(expect);
 
