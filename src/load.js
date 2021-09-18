@@ -3,11 +3,11 @@ import {
     setBackground,
     setMultiBackground,
     manageLoading
-} from "./lazyload.setSources";
-import { setStatus } from "./lazyload.data";
-import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./lazyload.event";
-import { statusNative } from "./lazyload.elementStatus";
-import { addTempImage } from "./lazyload.tempImage";
+} from "./setSources";
+import { setStatus } from "./data";
+import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./event";
+import { statusNative } from "./elementStatus";
+import { addTempImage } from "./tempImage";
 
 const loadBackground = (element, settings, instance) => {
     addTempImage(element);

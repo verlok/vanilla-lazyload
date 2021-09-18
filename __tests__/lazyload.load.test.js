@@ -1,7 +1,7 @@
-import { load } from "../src/lazyload.load";
+import { load } from "../src/load";
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
-import { getExtendedSettings } from "../src/lazyload.defaults";
+import { getExtendedSettings } from "../src/defaults";
 
 expectExtend(expect);
 

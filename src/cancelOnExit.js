@@ -1,9 +1,9 @@
-import { removeEventListeners } from "./lazyload.event";
-import { resetSourcesImg, restoreOriginalAttributesImg } from "./lazyload.setSources";
-import { safeCallback } from "./lazyload.callback";
-import { removeClass } from "./lazyload.class";
-import { updateLoadingCount } from "./lazyload.counters";
-import { resetStatus, hasStatusLoading } from "./lazyload.data";
+import { removeEventListeners } from "./event";
+import { resetSourcesImg, restoreOriginalAttributesImg } from "./setSources";
+import { safeCallback } from "./callback";
+import { removeClass } from "./class";
+import { updateLoadingCount } from "./counters";
+import { resetStatus, hasStatusLoading } from "./data";
 
 export const cancelLoading = (element, entry, settings, instance) => {
     if (!settings.cancel_on_exit) return;

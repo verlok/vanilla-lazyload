@@ -1,11 +1,11 @@
-import { getData, setData, setStatus } from "./lazyload.data";
-import { statusLoading, statusApplied } from "./lazyload.elementStatus";
-import { safeCallback } from "./lazyload.callback";
-import { addClass } from "./lazyload.class";
-import { getTempImage } from "./lazyload.tempImage";
-import { isHiDpi } from "./lazyload.environment";
-import { unobserve } from "./lazyload.unobserve";
-import { updateLoadingCount } from "./lazyload.counters";
+import { getData, setData, setStatus } from "./data";
+import { statusLoading, statusApplied } from "./elementStatus";
+import { safeCallback } from "./callback";
+import { addClass } from "./class";
+import { getTempImage } from "./tempImage";
+import { isHiDpi } from "./environment";
+import { unobserve } from "./unobserve";
+import { updateLoadingCount } from "./counters";
 
 export const getSourceTags = (parentTag) => {
     let sourceTags = [];
