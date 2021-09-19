@@ -22,9 +22,9 @@ afterEach(() => {
 
 describe("setSources for image", () => {
     let img;
-    const img1 = "1.gif";
-    const img200 = "200.gif";
-    const img400 = "400.gif";
+    const url1 = "1.gif";
+    const url200 = "200.gif";
+    const url400 = "400.gif";
 
     beforeEach(() => {
         outerDiv.appendChild((img = document.createElement("img")));
@@ -36,30 +36,30 @@ describe("setSources for image", () => {
     });
 
     test("with initially empty src and srcset", () => {
-        img.setAttribute("data-src", img200);
-        img.setAttribute("data-srcset", img400);
+        img.setAttribute("data-src", url200);
+        img.setAttribute("data-srcset", url400);
         setSources(img, settings, instance);
-        expect(img).toHaveAttributeValue("src", img200);
-        expect(img).toHaveAttributeValue("srcset", img400);
+        expect(img).toHaveAttributeValue("src", url200);
+        expect(img).toHaveAttributeValue("srcset", url400);
     });
 
     test("with initial values in src and srcset", () => {
-        img.setAttribute("data-src", img200);
-        img.setAttribute("data-srcset", img400);
-        img.setAttribute("src", img1);
-        img.setAttribute("srcset", img1);
+        img.setAttribute("data-src", url200);
+        img.setAttribute("data-srcset", url400);
+        img.setAttribute("src", url1);
+        img.setAttribute("srcset", url1);
         setSources(img, settings, instance);
-        expect(img).toHaveAttributeValue("src", img200);
-        expect(img).toHaveAttributeValue("srcset", img400);
+        expect(img).toHaveAttributeValue("src", url200);
+        expect(img).toHaveAttributeValue("srcset", url400);
     });
     test("with initial values in src and srcset and empty data-*", () => {
         img.setAttribute("data-src", "");
         img.setAttribute("data-srcset", "");
-        img.setAttribute("src", img200);
-        img.setAttribute("srcset", img400);
+        img.setAttribute("src", url200);
+        img.setAttribute("srcset", url400);
         setSources(img, settings, instance);
-        expect(img).toHaveAttributeValue("src", img200);
-        expect(img).toHaveAttributeValue("srcset", img400);
+        expect(img).toHaveAttributeValue("src", url200);
+        expect(img).toHaveAttributeValue("srcset", url400);
     });
 });
 
@@ -98,8 +98,8 @@ describe("setSources for iframe", () => {
 
 describe("setBackground for single background image", () => {
     let innerDiv;
-    const img100 = "100.gif";
-    const img200 = "200.gif";
+    const url100 = "100.gif";
+    const url200 = "200.gif";
 
     beforeEach(() => {
         outerDiv.appendChild((innerDiv = document.createElement("div")));
@@ -112,36 +112,36 @@ describe("setBackground for single background image", () => {
     });
 
     test("with initially empty style attribute", () => {
-        innerDiv.setAttribute("data-bg", img200);
+        innerDiv.setAttribute("data-bg", url200);
         setBackground(innerDiv, settings, instance);
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
-        expect(innerDiv.style.backgroundImage).toBe(`url(${img200})`);
+        expect(innerDiv.style.backgroundImage).toBe(`url(${url200})`);
     });
     test("with initially present style attribute", () => {
-        innerDiv.setAttribute("data-bg", img100);
+        innerDiv.setAttribute("data-bg", url100);
         innerDiv.style = {
             padding: "1px"
         };
         setBackground(innerDiv, settings, instance);
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
-        expect(innerDiv.style.backgroundImage).toBe(`url(${img100})`);
+        expect(innerDiv.style.backgroundImage).toBe(`url(${url100})`);
     });
     test("with initially present style and background", () => {
-        innerDiv.setAttribute("data-bg", img200);
+        innerDiv.setAttribute("data-bg", url200);
         innerDiv.style = {
             padding: "1px",
-            backgroundImage: `url(${img100})`
+            backgroundImage: `url(${url100})`
         };
         setBackground(innerDiv, settings, instance);
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
-        expect(innerDiv.style.backgroundImage).toBe(`url(${img200})`);
+        expect(innerDiv.style.backgroundImage).toBe(`url(${url200})`);
     });
 });
 
 describe("setMultiBackground for multiple background image", () => {
     let innerDiv;
-    const img100 = "100.gif";
-    const img200 = "200.gif";
+    const url100 = "100.gif";
+    const url200 = "200.gif";
 
     beforeEach(() => {
         outerDiv.appendChild((innerDiv = document.createElement("div")));
@@ -153,29 +153,29 @@ describe("setMultiBackground for multiple background image", () => {
     });
 
     test("with initially empty style attribute", () => {
-        innerDiv.setAttribute("data-bg-multi", `url(${img200})`);
+        innerDiv.setAttribute("data-bg-multi", `url(${url200})`);
         setMultiBackground(innerDiv, settings, instance);
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
-        expect(innerDiv.style.backgroundImage).toBe(`url(${img200})`);
+        expect(innerDiv.style.backgroundImage).toBe(`url(${url200})`);
     });
     test("with initially present style attribute", () => {
-        innerDiv.setAttribute("data-bg-multi", `url(${img100})`);
+        innerDiv.setAttribute("data-bg-multi", `url(${url100})`);
         innerDiv.style = {
             padding: "1px"
         };
         setMultiBackground(innerDiv, settings, instance);
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
-        expect(innerDiv.style.backgroundImage).toBe(`url(${img100})`);
+        expect(innerDiv.style.backgroundImage).toBe(`url(${url100})`);
     });
     test("with initially present style and background", () => {
-        innerDiv.setAttribute("data-bg-multi", `url(${img200})`);
+        innerDiv.setAttribute("data-bg-multi", `url(${url200})`);
         innerDiv.style = {
             padding: "1px",
-            backgroundImage: `url(${img100})`
+            backgroundImage: `url(${url100})`
         };
         setMultiBackground(innerDiv, settings, instance);
         // Test cheating: bug in JsDOM doesn't return the url("") with quotes inside
-        expect(innerDiv.style.backgroundImage).toBe(`url(${img200})`);
+        expect(innerDiv.style.backgroundImage).toBe(`url(${url200})`);
     });
 });
 
@@ -223,9 +223,9 @@ describe("setSources for video", () => {
 
 describe("setSources for picture", () => {
     let img, picture, source1, source2;
-    const img1 = "1.gif";
-    const img200 = "200.gif";
-    const img400 = "400.gif";
+    const url1 = "1.gif";
+    const url200 = "200.gif";
+    const url400 = "400.gif";
 
     beforeEach(() => {
         outerDiv.appendChild((picture = document.createElement("picture")));
@@ -243,30 +243,30 @@ describe("setSources for picture", () => {
     });
 
     test("with initially empty srcset", () => {
-        source1.setAttribute("data-srcset", img200);
-        source2.setAttribute("data-srcset", img400);
+        source1.setAttribute("data-srcset", url200);
+        source2.setAttribute("data-srcset", url400);
         setSources(img, settings, instance);
-        expect(source1).toHaveAttributeValue("srcset", img200);
-        expect(source2).toHaveAttributeValue("srcset", img400);
+        expect(source1).toHaveAttributeValue("srcset", url200);
+        expect(source2).toHaveAttributeValue("srcset", url400);
     });
 
     test("with initial value in srcset", () => {
-        source1.setAttribute("data-srcset", img200);
-        source2.setAttribute("data-srcset", img400);
-        source1.setAttribute("srcset", img1);
-        source2.setAttribute("srcset", img1);
+        source1.setAttribute("data-srcset", url200);
+        source2.setAttribute("data-srcset", url400);
+        source1.setAttribute("srcset", url1);
+        source2.setAttribute("srcset", url1);
         setSources(img, settings, instance);
-        expect(source1).toHaveAttributeValue("srcset", img200);
-        expect(source2).toHaveAttributeValue("srcset", img400);
+        expect(source1).toHaveAttributeValue("srcset", url200);
+        expect(source2).toHaveAttributeValue("srcset", url400);
     });
 
     test("with initial value in srcset and empty data-srcset", () => {
         source1.setAttribute("data-srcset", "");
         source2.setAttribute("data-srcset", "");
-        source1.setAttribute("srcset", img200);
-        source2.setAttribute("srcset", img400);
+        source1.setAttribute("srcset", url200);
+        source2.setAttribute("srcset", url400);
         setSources(img, settings, instance);
-        expect(source1).toHaveAttributeValue("srcset", img200);
-        expect(source2).toHaveAttributeValue("srcset", img400);
+        expect(source1).toHaveAttributeValue("srcset", url200);
+        expect(source2).toHaveAttributeValue("srcset", url400);
     });
 });

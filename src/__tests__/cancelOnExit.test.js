@@ -25,8 +25,8 @@ afterEach(() => {
 
 describe("Cancel loading on img", () => {
     let img;
-    const img1 = "1.gif";
-    const img200 = "200.gif";
+    const url1 = "1.gif";
+    const url200 = "200.gif";
     const sizes = "100vw";
     const entry = "fake-entry";
 
@@ -41,22 +41,22 @@ describe("Cancel loading on img", () => {
 
     test("Does nothing if cancel_on_exit is false", () => {
         settings.cancel_on_exit = false;
-        img.setAttribute("src", img200);
+        img.setAttribute("src", url200);
         setStatus(img, statusLoading);
         cancelLoading(img, entry, settings, instance);
-        expect(img).toHaveAttributeValue("src", img200);
+        expect(img).toHaveAttributeValue("src", url200);
     });
 
     test("Does nothing if element is not loading", () => {
-        img.setAttribute("src", img200);
+        img.setAttribute("src", url200);
         setStatus(img, statusLoaded);
         cancelLoading(img, entry, settings, instance);
-        expect(img).toHaveAttributeValue("src", img200);
+        expect(img).toHaveAttributeValue("src", url200);
     });
 
     test("Resets image sources", () => {
-        img.setAttribute("src", img1);
-        img.setAttribute("srcset", img200);
+        img.setAttribute("src", url1);
+        img.setAttribute("srcset", url200);
         img.setAttribute("sizes", sizes);
         setStatus(img, statusLoading);
         cancelLoading(img, entry, settings, instance);
@@ -66,19 +66,19 @@ describe("Cancel loading on img", () => {
     });
 
     test("Restores original attributes", () => {
-        img.setAttribute("src", img1);
-        img.setAttribute("srcset", img200);
+        img.setAttribute("src", url1);
+        img.setAttribute("srcset", url200);
         img.setAttribute("sizes", sizes);
         setStatus(img, statusLoading);
         saveOriginalImageAttributes(img);
         cancelLoading(img, entry, settings, instance);
-        expect(img).toHaveAttributeValue("src", img1);
-        expect(img).toHaveAttributeValue("srcset", img200);
+        expect(img).toHaveAttributeValue("src", url1);
+        expect(img).toHaveAttributeValue("srcset", url200);
         expect(img).toHaveAttributeValue("sizes", sizes);
     });
 
     test("Removes loading class", () => {
-        img.setAttribute("src", img200);
+        img.setAttribute("src", url200);
         img.classList.add("loading");
         setStatus(img, statusLoading);
         cancelLoading(img, entry, settings, instance);
@@ -86,7 +86,7 @@ describe("Cancel loading on img", () => {
     });
 
     test("Decreases loading count", () => {
-        img.setAttribute("src", img200);
+        img.setAttribute("src", url200);
         setStatus(img, statusLoading);
         instance.loadingCount = 100;
         cancelLoading(img, entry, settings, instance);
@@ -94,7 +94,7 @@ describe("Cancel loading on img", () => {
     });
 
     test("Resets internal status", () => {
-        img.setAttribute("src", img200);
+        img.setAttribute("src", url200);
         setStatus(img, statusLoading);
         cancelLoading(img, entry, settings, instance);
         expect(getStatus(img)).toBe(null);
