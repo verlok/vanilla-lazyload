@@ -3,11 +3,13 @@
 ## THIS BRANCH!
 
 I'm implementing a "reverse DOM to original" feature as requested in #509.
-Functions will be: `LazyLoad.restore(img)`, `llInstance.restoreAll()`.
-I've divided set, reset and restore function into 3 separate files, and shared functions are now in `originalAttributes.js` and `forEachSource.js` 
+Functions will be: `LazyLoad.restore(img)`, `lazyloadInstance.restoreAll()`.
+I've divided `set`, `reset` and `restore` functions into 3 separate files, and shared functions are now in `originalAttributes.js` and `forEachSource.js`.
 I've already exposed the `restore` static function on the LazyLoad object.
 
 Next steps:
+- Divide `set`, `reset` and `restore` tests in the same way (3 separate files).
+- Complete `reset` testing.
 - Write the tests to make sure `restore` does things properly!
 - Implement the methods to make it work
 
