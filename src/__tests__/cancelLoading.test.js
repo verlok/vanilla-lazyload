@@ -5,7 +5,7 @@ import { cancelLoading } from "../cancelOnExit";
 import { getExtendedSettings } from "../defaults";
 import { getStatus, setStatus } from "../data";
 import { statusLoaded, statusLoading } from "../elementStatus";
-import { saveOriginalImageAttributes } from "../setSources";
+import { saveOriginalImageAttributes } from "../originalAttributes";
 
 expectExtend(expect);
 

@@ -1,7 +1,8 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
 
-import { setSources, setBackground, setMultiBackground, resetSources } from "../setSources";
+import { setSources, setBackground, setMultiBackground } from "../set";
+import { resetSources } from "../reset";
 import { getExtendedSettings } from "../defaults";
 
 expectExtend(expect);

@@ -239,50 +239,7 @@ define(function () { 'use strict';
 
     return sourceTags;
   };
-  var setAttributeIfValue = function setAttributeIfValue(element, attrName, value) {
-    if (!value) {
-      return;
-    }
 
-    element.setAttribute(attrName, value);
-  };
-  var resetAttribute = function resetAttribute(element, attrName) {
-    element.removeAttribute(attrName);
-  };
-  var hasOriginalAttributes = function hasOriginalAttributes(element) {
-    return !!element.llOriginalAttrs;
-  };
-  var saveOriginalImageAttributes = function saveOriginalImageAttributes(element) {
-    if (hasOriginalAttributes(element)) {
-      return;
-    }
-
-    var originalAttributes = {};
-    originalAttributes["src"] = element.getAttribute("src");
-    originalAttributes["srcset"] = element.getAttribute("srcset");
-    originalAttributes["sizes"] = element.getAttribute("sizes");
-    element.llOriginalAttrs = originalAttributes;
-  };
-  var restoreOriginalImageAttributes = function restoreOriginalImageAttributes(element) {
-    if (!hasOriginalAttributes(element)) {
-      return;
-    }
-
-    var originalAttributes = element.llOriginalAttrs;
-    setAttributeIfValue(element, "src", originalAttributes["src"]);
-    setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
-    setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
-  };
-  var setImageAttributes = function setImageAttributes(element, settings) {
-    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
-    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
-  };
-  var resetImageAttributes = function resetImageAttributes(element) {
-    resetAttribute(element, "src");
-    resetAttribute(element, "srcset");
-    resetAttribute(element, "sizes");
-  };
   var forEachPictureSource = function forEachPictureSource(element, fn) {
     var parent = element.parentNode;
 
@@ -297,11 +254,33 @@ define(function () { 'use strict';
     var sourceTags = getSourceTags(element);
     sourceTags.forEach(fn);
   };
-  var restoreOriginalAttributesImg = function restoreOriginalAttributesImg(element) {
-    forEachPictureSource(element, function (sourceTag) {
-      restoreOriginalImageAttributes(sourceTag);
-    });
-    restoreOriginalImageAttributes(element);
+
+  var hasOriginalAttributes = function hasOriginalAttributes(element) {
+    return !!element.llOriginalAttrs;
+  };
+  var saveOriginalImageAttributes = function saveOriginalImageAttributes(element) {
+    if (hasOriginalAttributes(element)) {
+      return;
+    }
+
+    var original = {};
+    original["src"] = element.getAttribute("src");
+    original["srcset"] = element.getAttribute("srcset");
+    original["sizes"] = element.getAttribute("sizes");
+    element.llOriginalAttrs = original;
+  };
+
+  var setAttributeIfValue = function setAttributeIfValue(element, attrName, value) {
+    if (!value) {
+      return;
+    }
+
+    element.setAttribute(attrName, value);
+  };
+  var setImageAttributes = function setImageAttributes(element, settings) {
+    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
+    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
+    setAttributeIfValue(element, "src", getData(element, settings.data_src));
   };
   var setSourcesImg = function setSourcesImg(element, settings) {
     forEachPictureSource(element, function (sourceTag) {
@@ -310,12 +289,6 @@ define(function () { 'use strict';
     });
     saveOriginalImageAttributes(element);
     setImageAttributes(element, settings);
-  };
-  var resetSourcesImg = function resetSourcesImg(element) {
-    forEachPictureSource(element, function (sourceTag) {
-      resetImageAttributes(sourceTag);
-    });
-    resetImageAttributes(element);
   };
   var setSourcesIframe = function setSourcesIframe(element, settings) {
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
@@ -327,11 +300,6 @@ define(function () { 'use strict';
     setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
-  };
-  var setSourcesFunctions = {
-    IMG: setSourcesImg,
-    IFRAME: setSourcesIframe,
-    VIDEO: setSourcesVideo
   };
   var setBackground = function setBackground(element, settings, instance) {
     var bg1xValue = getData(element, settings.data_bg);
@@ -356,6 +324,11 @@ define(function () { 'use strict';
 
     element.style.backgroundImage = bgDataValue;
     manageApplied(element, settings, instance);
+  };
+  var setSourcesFunctions = {
+    IMG: setSourcesImg,
+    IFRAME: setSourcesIframe,
+    VIDEO: setSourcesVideo
   };
   var setSources = function setSources(element, settings) {
     var setSourcesFunction = setSourcesFunctions[element.tagName];
@@ -497,6 +470,58 @@ define(function () { 'use strict';
     setStatus(element, statusNative);
   };
 
+  var resetAttribute = function resetAttribute(element, attrName) {
+    element.removeAttribute(attrName);
+  };
+
+  var resetImageAttributes = function resetImageAttributes(element) {
+    resetAttribute(element, "src");
+    resetAttribute(element, "srcset");
+    resetAttribute(element, "sizes");
+  };
+
+  var resetSourcesImg = function resetSourcesImg(element) {
+    forEachPictureSource(element, function (sourceTag) {
+      resetImageAttributes(sourceTag);
+    });
+    resetImageAttributes(element);
+  };
+
+  var restoreSrcSrcsetSizes = function restoreSrcSrcsetSizes(element) {
+    if (!hasOriginalAttributes(element)) {
+      return;
+    }
+
+    var original = element.llOriginalAttrs;
+    setAttributeIfValue(element, "src", original["src"]);
+    setAttributeIfValue(element, "srcset", original["srcset"]);
+    setAttributeIfValue(element, "sizes", original["sizes"]);
+  };
+  var restoreImg = function restoreImg(element) {
+    forEachPictureSource(element, function (sourceTag) {
+      restoreSrcSrcsetSizes(sourceTag);
+    });
+    restoreSrcSrcsetSizes(element);
+  };
+  var restoreVideo = function restoreVideo(element) {//...
+  };
+  var restoreIframe = function restoreIframe(element) {//...
+  };
+  var restoreFunctions = {
+    IMG: restoreImg,
+    IFRAME: restoreIframe,
+    VIDEO: restoreVideo
+  };
+  var restore = function restore(element) {
+    var restoreFunction = restoreFunctions[element.tagName];
+
+    if (!restoreFunction) {
+      return;
+    }
+
+    restoreFunction(element);
+  };
+
   var cancelLoading = function cancelLoading(element, entry, settings, instance) {
     if (!settings.cancel_on_exit) return;
     if (!hasStatusLoading(element)) return;
@@ -504,7 +529,7 @@ define(function () { 'use strict';
 
     removeEventListeners(element);
     resetSourcesImg(element);
-    restoreOriginalAttributesImg(element);
+    restoreImg(element);
     removeClass(element, settings.class_loading);
     updateLoadingCount(instance, -1);
     resetStatus(element);
@@ -682,6 +707,10 @@ define(function () { 'use strict';
 
   LazyLoad.resetStatus = function (element) {
     resetStatus(element);
+  };
+
+  LazyLoad.restore = function (element) {
+    restore(element);
   }; // Automatic instances creation if required (useful for async script loading)
 
 

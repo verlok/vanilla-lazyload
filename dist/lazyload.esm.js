@@ -195,13 +195,42 @@ const isSomethingLoading = (instance) => instance.loadingCount > 0;
 const haveElementsToLoad = (instance) => instance.toLoadCount > 0;
 
 const getSourceTags = (parentTag) => {
-    let sourceTags = [];
-    for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
-        if (childTag.tagName === "SOURCE") {
-            sourceTags.push(childTag);
-        }
-    }
-    return sourceTags;
+  let sourceTags = [];
+  for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
+      if (childTag.tagName === "SOURCE") {
+          sourceTags.push(childTag);
+      }
+  }
+  return sourceTags;
+};
+
+const forEachPictureSource = (element, fn) => {
+  const parent = element.parentNode;
+  if (!parent || parent.tagName !== "PICTURE") {
+      return;
+  }
+  let sourceTags = getSourceTags(parent);
+  sourceTags.forEach(fn);
+};
+
+const forEachVideoSource = (element, fn) => {
+  let sourceTags = getSourceTags(element);
+  sourceTags.forEach(fn);
+};
+
+const hasOriginalAttributes = (element) => {
+  return !!element.llOriginalAttrs;
+};
+
+const saveOriginalImageAttributes = (element) => {
+  if (hasOriginalAttributes(element)) {
+      return;
+  }
+  const original = {};
+  original["src"] = element.getAttribute("src");
+  original["srcset"] = element.getAttribute("srcset");
+  original["sizes"] = element.getAttribute("sizes");
+  element.llOriginalAttrs = original;
 };
 
 const setAttributeIfValue = (element, attrName, value) => {
@@ -211,66 +240,10 @@ const setAttributeIfValue = (element, attrName, value) => {
     element.setAttribute(attrName, value);
 };
 
-const resetAttribute = (element, attrName) => {
-    element.removeAttribute(attrName);
-};
-
-const hasOriginalAttributes = (element) => {
-    return !!element.llOriginalAttrs;
-};
-
-const saveOriginalImageAttributes = (element) => {
-    if (hasOriginalAttributes(element)) {
-        return;
-    }
-    const originalAttributes = {};
-    originalAttributes["src"] = element.getAttribute("src");
-    originalAttributes["srcset"] = element.getAttribute("srcset");
-    originalAttributes["sizes"] = element.getAttribute("sizes");
-    element.llOriginalAttrs = originalAttributes;
-};
-
-const restoreOriginalImageAttributes = (element) => {
-    if (!hasOriginalAttributes(element)) {
-        return;
-    }
-    const originalAttributes = element.llOriginalAttrs;
-    setAttributeIfValue(element, "src", originalAttributes["src"]);
-    setAttributeIfValue(element, "srcset", originalAttributes["srcset"]);
-    setAttributeIfValue(element, "sizes", originalAttributes["sizes"]);
-};
-
 const setImageAttributes = (element, settings) => {
     setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
     setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
-};
-
-const resetImageAttributes = (element) => {
-    resetAttribute(element, "src");
-    resetAttribute(element, "srcset");
-    resetAttribute(element, "sizes");
-};
-
-const forEachPictureSource = (element, fn) => {
-    const parent = element.parentNode;
-    if (!parent || parent.tagName !== "PICTURE") {
-        return;
-    }
-    let sourceTags = getSourceTags(parent);
-    sourceTags.forEach(fn);
-};
-
-const forEachVideoSource = (element, fn) => {
-    let sourceTags = getSourceTags(element);
-    sourceTags.forEach(fn);
-};
-
-const restoreOriginalAttributesImg = (element) => {
-    forEachPictureSource(element, (sourceTag) => {
-        restoreOriginalImageAttributes(sourceTag);
-    });
-    restoreOriginalImageAttributes(element);
 };
 
 const setSourcesImg = (element, settings) => {
@@ -280,13 +253,6 @@ const setSourcesImg = (element, settings) => {
     });
     saveOriginalImageAttributes(element);
     setImageAttributes(element, settings);
-};
-
-const resetSourcesImg = (element) => {
-    forEachPictureSource(element, (sourceTag) => {
-        resetImageAttributes(sourceTag);
-    });
-    resetImageAttributes(element);
 };
 
 const setSourcesIframe = (element, settings) => {
@@ -300,12 +266,6 @@ const setSourcesVideo = (element, settings) => {
     setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
-};
-
-const setSourcesFunctions = {
-    IMG: setSourcesImg,
-    IFRAME: setSourcesIframe,
-    VIDEO: setSourcesVideo
 };
 
 const setBackground = (element, settings, instance) => {
@@ -330,6 +290,12 @@ const setMultiBackground = (element, settings, instance) => {
     }
     element.style.backgroundImage = bgDataValue;
     manageApplied(element, settings, instance);
+};
+
+const setSourcesFunctions = {
+    IMG: setSourcesImg,
+    IFRAME: setSourcesIframe,
+    VIDEO: setSourcesVideo
 };
 
 const setSources = (element, settings) => {
@@ -471,13 +437,69 @@ const loadNative = (element, settings, instance) => {
     setStatus(element, statusNative);
 };
 
+const resetAttribute = (element, attrName) => {
+    element.removeAttribute(attrName);
+};
+
+const resetImageAttributes = (element) => {
+    resetAttribute(element, "src");
+    resetAttribute(element, "srcset");
+    resetAttribute(element, "sizes");
+};
+
+const resetSourcesImg = (element) => {
+    forEachPictureSource(element, (sourceTag) => {
+        resetImageAttributes(sourceTag);
+    });
+    resetImageAttributes(element);
+};
+
+const restoreSrcSrcsetSizes = (element) => {
+    if (!hasOriginalAttributes(element)) {
+        return;
+    }
+    const original = element.llOriginalAttrs;
+    setAttributeIfValue(element, "src", original["src"]);
+    setAttributeIfValue(element, "srcset", original["srcset"]);
+    setAttributeIfValue(element, "sizes", original["sizes"]);
+};
+
+const restoreImg = (element) => {
+    forEachPictureSource(element, (sourceTag) => {
+        restoreSrcSrcsetSizes(sourceTag);
+    });
+    restoreSrcSrcsetSizes(element);
+};
+
+const restoreVideo = (element) => {
+    //...
+};
+
+const restoreIframe = (element) => {
+    //...
+};
+
+const restoreFunctions = {
+    IMG: restoreImg,
+    IFRAME: restoreIframe,
+    VIDEO: restoreVideo
+};
+
+const restore = (element) => {
+    const restoreFunction = restoreFunctions[element.tagName];
+    if (!restoreFunction) {
+        return;
+    }
+    restoreFunction(element);
+};
+
 const cancelLoading = (element, entry, settings, instance) => {
     if (!settings.cancel_on_exit) return;
     if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return; //Works only on images
     removeEventListeners(element);
     resetSourcesImg(element);
-    restoreOriginalAttributesImg(element);
+    restoreImg(element);
     removeClass(element, settings.class_loading);
     updateLoadingCount(instance, -1);
     resetStatus(element);
@@ -644,6 +666,10 @@ LazyLoad.load = (element, customSettings) => {
 
 LazyLoad.resetStatus = (element) => {
     resetStatus(element);
+};
+
+LazyLoad.restore = (element) => {
+    restore(element);
 };
 
 // Automatic instances creation if required (useful for async script loading)

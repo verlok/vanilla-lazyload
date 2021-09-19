@@ -3,7 +3,7 @@ import {
     setBackground,
     setMultiBackground,
     manageLoading
-} from "./setSources";
+} from "./set";
 import { setStatus } from "./data";
 import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./event";
 import { statusNative } from "./elementStatus";

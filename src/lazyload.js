@@ -9,6 +9,7 @@ import { getElementsToLoad, queryElements } from "./dom";
 import { resetStatus } from "./data";
 import { setToLoadCount } from "./counters";
 import { unobserve } from "./unobserve";
+import { restore } from "./restore";
 
 const LazyLoad = function (customSettings, elements) {
     const settings = getExtendedSettings(customSettings);
@@ -70,6 +71,10 @@ LazyLoad.load = (element, customSettings) => {
 
 LazyLoad.resetStatus = (element) => {
     resetStatus(element);
+};
+
+LazyLoad.restore = (element) => {
+    restore(element);
 };
 
 // Automatic instances creation if required (useful for async script loading)

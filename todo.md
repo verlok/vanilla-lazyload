@@ -3,15 +3,13 @@
 ## THIS BRANCH!
 
 I'm implementing a "reverse DOM to original" feature as requested in #509.
-I've started and implemented code and tests.
+Functions will be: `LazyLoad.restore(img)`, `llInstance.restoreAll()`.
+I've divided set, reset and restore function into 3 separate files, and shared functions are now in `originalAttributes.js` and `forEachSource.js` 
+I've already exposed the `restore` static function on the LazyLoad object.
 
-At the first failing test, which is the following...
-
-> expected IMG to have attribute "src" set to "1.gif", received "null"
-
-...I realized that I shouldn't remove the image attributes altogether, but I should restore it to their original values, BUT this would make fail another feature, which is "cancel loading on exit".
-
-I should also figure out an appropriate name for the functions... `resetStatus` is already used, probably use `resetDOM`, or maybe `restoreDOM`. Think together about the static and the instance functions: `resetDOM`, `resetDOMAll`? etc.
+Next steps:
+- Write the tests to make sure `restore` does things properly!
+- Implement the methods to make it work
 
 ## Coming next
 
