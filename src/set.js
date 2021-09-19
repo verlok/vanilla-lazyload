@@ -74,17 +74,20 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-export const setSources = (element, settings) => {
+export const setSources = (element, settings, instance) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
     if (!setSourcesFunction) {
         return;
     }
     setSourcesFunction(element, settings);
+    manageLoading(element, settings, instance);
 };
 
 export const manageApplied = (element, settings, instance) => {
     addClass(element, settings.class_applied);
     setStatus(element, statusApplied);
+    // Instance is not provided when loading is called from static class
+    if (!instance) return;
     if (settings.unobserve_completed) {
         // Unobserve now because we can't do it on load
         unobserve(element, settings, instance);
@@ -93,8 +96,10 @@ export const manageApplied = (element, settings, instance) => {
 };
 
 export const manageLoading = (element, settings, instance) => {
-    updateLoadingCount(instance, +1);
     addClass(element, settings.class_loading);
     setStatus(element, statusLoading);
+    // Instance is not provided when loading is called from static class
+    if (!instance) return;
+    updateLoadingCount(instance, +1);
     safeCallback(settings.callback_loading, element, instance);
 };

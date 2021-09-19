@@ -1,11 +1,6 @@
-import {
-    setSources,
-    setBackground,
-    setMultiBackground,
-    manageLoading
-} from "./set";
+import { setSources, setBackground, setMultiBackground } from "./set";
 import { setStatus } from "./data";
-import { addOneShotEventListeners, checkFinish, hasLoadEvent } from "./event";
+import { addOneShotEventListeners, hasLoadEvent } from "./event";
 import { statusNative } from "./elementStatus";
 import { addTempImage } from "./tempImage";
 
@@ -19,7 +14,6 @@ const loadBackground = (element, settings, instance) => {
 const loadRegular = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
-    manageLoading(element, settings, instance);
 };
 
 export const load = (element, settings, instance) => {
