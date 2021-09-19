@@ -2,7 +2,6 @@ import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
 import { getExtendedSettings } from "../defaults";
 
-import { setSources } from "../set";
 import { resetSources } from "../reset";
 
 expectExtend(expect);
@@ -27,6 +26,7 @@ describe("resetSources for image", () => {
     const url2 = "2.gif";
     const url200 = "200.gif";
     const url400 = "400.gif";
+    const sizes50 = "50vw";
 
     beforeEach(() => {
         outerDiv.appendChild((img = document.createElement("img")));
@@ -38,12 +38,13 @@ describe("resetSources for image", () => {
     });
 
     test("with initially empty src and srcset", () => {
-        img.setAttribute("data-src", url200);
-        img.setAttribute("data-srcset", url400);
-        setSources(img, settings, instance);
+        img.setAttribute("src", url200);
+        img.setAttribute("srcset", url400);
+        img.setAttribute("sizes", sizes50);
         resetSources(img);
         expect(img).not.toHaveAttribute("src");
-        expect(img).not.toHaveAttributeValue("srcset");
+        expect(img).not.toHaveAttribute("srcset");
+        expect(img).not.toHaveAttribute("sizes");
     });
 
     /* test("with initial values in src and srcset", () => {
