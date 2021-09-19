@@ -8,20 +8,32 @@ import { statusLoading } from "../elementStatus";
 
 expectExtend(expect);
 
-var img, div;
+var outerDiv, settings, instance;
 
 beforeEach(() => {
-    div = document.createElement("div");
-    div.appendChild((img = document.createElement("img")));
+    outerDiv = document.createElement("div");
+    settings = getExtendedSettings();
+    instance = getFakeInstance()
 });
 
 afterEach(() => {
-    div.removeChild(img);
-    img = null;
-    div = null;
+    outerDiv = null;
+    settings = null;
+    instance = null;
 });
 
 describe("load...", () => {
+    let img;
+
+    beforeEach(() => {
+        outerDiv.appendChild((img = document.createElement("img")));
+    });
+
+    afterEach(() => {
+        outerDiv.removeChild(img);
+        img = null;
+    });
+
     test("status is set", () => {
         load(img, {});
         const status = getStatus(img);
@@ -30,10 +42,9 @@ describe("load...", () => {
 
     test("callbacks are called", () => {
         const loadingCb = jest.fn();
-        const settings = getExtendedSettings({
+        settings = getExtendedSettings({
             callback_loading: loadingCb
         });
-        const instance = getFakeInstance();
         load(img, settings, instance);
         expect(loadingCb).toHaveBeenCalledTimes(1);
         expect(loadingCb).toHaveBeenCalledWith(img, instance);

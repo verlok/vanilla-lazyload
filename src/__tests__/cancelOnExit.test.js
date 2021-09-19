@@ -9,32 +9,35 @@ import { saveOriginalImageAttributes } from "../originalAttributes";
 
 expectExtend(expect);
 
-var img, iframe, div, instance, entry, settings;
+var outerDiv, instance, settings;
 
 beforeEach(() => {
-    div = document.createElement("div");
-    div.appendChild((img = document.createElement("img")));
-    div.appendChild((iframe = document.createElement("iframe")));
+    outerDiv = document.createElement("div");
     settings = getExtendedSettings();
     instance = getFakeInstance();
-    entry = "fake-entry";
 });
 
 afterEach(() => {
-    div.removeChild(img);
-    img = null;
-    div = null;
+    outerDiv = null;
     settings = null;
     instance = null;
-    entry = null;
 });
 
-describe("Cancel loading", () => {
-    let img1 = "1.gif";
-    let img200 = "200.gif";
-    let sizes = "100vw";
-    let iframeSrc = "https://github.com";
-    let entry = {};
+describe("Cancel loading on img", () => {
+    let img;
+    const img1 = "1.gif";
+    const img200 = "200.gif";
+    const sizes = "100vw";
+    const entry = "fake-entry";
+
+    beforeEach(() => {
+        outerDiv.appendChild((img = document.createElement("img")));
+    });
+
+    afterEach(() => {
+        outerDiv.removeChild(img);
+        img = null;
+    });
 
     test("Does nothing if cancel_on_exit is false", () => {
         settings.cancel_on_exit = false;
@@ -49,13 +52,6 @@ describe("Cancel loading", () => {
         setStatus(img, statusLoaded);
         cancelLoading(img, entry, settings, instance);
         expect(img).toHaveAttributeValue("src", img200);
-    });
-
-    test("Does nothing on other than IMG", () => {
-        iframe.setAttribute("src", iframeSrc);
-        setStatus(iframe, statusLoading);
-        cancelLoading(iframe, entry, settings, instance);
-        expect(iframe).toHaveAttributeValue("src", iframeSrc);
     });
 
     test("Resets image sources", () => {
@@ -106,13 +102,34 @@ describe("Cancel loading", () => {
 
     test("Callbacks are called", () => {
         const cancelCb = jest.fn();
-        const settings = getExtendedSettings({
+        settings = getExtendedSettings({
             callback_cancel: cancelCb
         });
-        const instance = getFakeInstance();
         setStatus(img, statusLoading);
         cancelLoading(img, entry, settings, instance);
         expect(cancelCb).toHaveBeenCalledTimes(1);
         expect(cancelCb).toHaveBeenCalledWith(img, entry, instance);
+    });
+});
+
+describe("Cancel loading on iframe", () => {
+    let iframe;
+    const iframeSrc = "https://github.com";
+    const entry = "fake-entry";
+
+    beforeEach(() => {
+        outerDiv.appendChild((iframe = document.createElement("iframe")));
+    });
+
+    afterEach(() => {
+        outerDiv.removeChild(iframe);
+        iframe = null;
+    });
+
+    test("Does nothing", () => {
+        iframe.setAttribute("src", iframeSrc);
+        setStatus(iframe, statusLoading);
+        cancelLoading(iframe, entry, settings, instance);
+        expect(iframe).toHaveAttributeValue("src", iframeSrc);
     });
 });
