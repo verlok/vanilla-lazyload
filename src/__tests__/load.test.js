@@ -42,9 +42,7 @@ describe("load...", () => {
 
     test("callbacks are called", () => {
         const loadingCb = jest.fn();
-        settings = getExtendedSettings({
-            callback_loading: loadingCb
-        });
+        settings.callback_loading = loadingCb;
         load(img, settings, instance);
         expect(loadingCb).toHaveBeenCalledTimes(1);
         expect(loadingCb).toHaveBeenCalledWith(img, instance);
