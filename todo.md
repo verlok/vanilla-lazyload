@@ -8,7 +8,6 @@ I've divided `set`, `reset` and `restore` functions into 3 separate files, and s
 I've already exposed the `restore` static function on the LazyLoad object.
 
 Next steps:
-- Divide `set`, `reset` and `restore` tests in the same way (3 separate files).
 - Complete `reset` testing.
 - Write the tests to make sure `restore` does things properly!
 - Implement the methods to make it work
