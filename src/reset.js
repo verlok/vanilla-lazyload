@@ -1,33 +1,29 @@
 import { forEachPictureSource } from "./forEachSource";
 
-const resetAttribute = (element, attrName) => {
-    element.removeAttribute(attrName);
-};
-
-const resetImageAttributes = (element) => {
-    resetAttribute(element, "src");
-    resetAttribute(element, "srcset");
-    resetAttribute(element, "sizes");
+const removeImageAttributes = (element) => {
+    element.removeAttribute("src");
+    element.removeAttribute("srcset");
+    element.removeAttribute("sizes");
 };
 
 export const resetSourcesImg = (element) => {
     forEachPictureSource(element, (sourceTag) => {
-        resetImageAttributes(sourceTag);
+        removeImageAttributes(sourceTag);
     });
-    resetImageAttributes(element);
+    removeImageAttributes(element);
 };
 
 export const resetSourcesVideo = (element) => {
     let sourceTags = getSourceTags(element);
-    resetAttribute(element, "src");
-    resetAttribute(element, "poster");
+    element.removeAttribute("src");
+    element.removeAttribute("poster");
     sourceTags.forEach((sourceTag) => {
         resetAttribute(sourceTag, "src");
     });
 };
 
 export const resetSourcesIframe = (element) => {
-    resetAttribute(element, "src");
+    element.removeAttribute("src");
 };
 
 const resetSourcesFunctions = {
