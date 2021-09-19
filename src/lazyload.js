@@ -7,7 +7,6 @@ import { shouldUseNative, loadAllNative } from "./native";
 import { setOnlineCheck } from "./online";
 import { getElementsToLoad, queryElements } from "./dom";
 import { resetStatus } from "./data";
-import { resetSources } from "./setSources";
 import { setToLoadCount } from "./counters";
 import { unobserve } from "./unobserve";
 
@@ -71,11 +70,6 @@ LazyLoad.load = (element, customSettings) => {
 
 LazyLoad.resetStatus = (element) => {
     resetStatus(element);
-};
-
-LazyLoad.reset = (element) => {
-    resetStatus(element);
-    resetSources(element);
 };
 
 // Automatic instances creation if required (useful for async script loading)
