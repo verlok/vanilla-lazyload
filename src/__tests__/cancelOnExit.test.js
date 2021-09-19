@@ -5,7 +5,7 @@ import { cancelLoading } from "../cancelOnExit";
 import { getExtendedSettings } from "../defaults";
 import { getStatus, setStatus } from "../data";
 import { statusLoaded, statusLoading } from "../elementStatus";
-import { saveOriginalImageAttributes } from "../originalAttributes";
+import { setSources } from "../set";
 
 expectExtend(expect);
 
@@ -26,8 +26,9 @@ afterEach(() => {
 describe("Cancel loading on img", () => {
     let img;
     const url1 = "1.gif";
+    const url100 = "100.gif";
     const url200 = "200.gif";
-    const sizes = "100vw";
+    const sizes100 = "100vw";
     const entry = "fake-entry";
 
     beforeEach(() => {
@@ -41,71 +42,58 @@ describe("Cancel loading on img", () => {
 
     test("Does nothing if cancel_on_exit is false", () => {
         settings.cancel_on_exit = false;
-        img.setAttribute("src", url200);
-        setStatus(img, statusLoading);
+        img.setAttribute("src", url1);
+        img.setAttribute("data-src", url200);
+        setSources(img, settings);
         cancelLoading(img, entry, settings, instance);
         expect(img).toHaveAttributeValue("src", url200);
     });
 
     test("Does nothing if element is not loading", () => {
         img.setAttribute("src", url200);
+        setSources(img, settings);
         setStatus(img, statusLoaded);
         cancelLoading(img, entry, settings, instance);
         expect(img).toHaveAttributeValue("src", url200);
     });
 
-    test("Resets image sources", () => {
+    test("Restores original attributes", () => {
         img.setAttribute("src", url1);
-        img.setAttribute("srcset", url200);
-        img.setAttribute("sizes", sizes);
-        setStatus(img, statusLoading);
+        img.setAttribute("data-src", url100);
+        img.setAttribute("data-srcset", url200);
+        img.setAttribute("data-sizes", sizes100);
+        setSources(img, settings, instance);
         cancelLoading(img, entry, settings, instance);
-        expect(img).not.toHaveAttribute("src");
+        expect(img).toHaveAttributeValue("src", url1);
         expect(img).not.toHaveAttribute("srcset");
         expect(img).not.toHaveAttribute("sizes");
     });
 
-    test("Restores original attributes", () => {
-        img.setAttribute("src", url1);
-        img.setAttribute("srcset", url200);
-        img.setAttribute("sizes", sizes);
-        setStatus(img, statusLoading);
-        saveOriginalImageAttributes(img);
-        cancelLoading(img, entry, settings, instance);
-        expect(img).toHaveAttributeValue("src", url1);
-        expect(img).toHaveAttributeValue("srcset", url200);
-        expect(img).toHaveAttributeValue("sizes", sizes);
-    });
-
     test("Removes loading class", () => {
         img.setAttribute("src", url200);
-        img.classList.add("loading");
-        setStatus(img, statusLoading);
+        setSources(img, settings);
         cancelLoading(img, entry, settings, instance);
         expect(img.className).toBe("");
     });
 
     test("Decreases loading count", () => {
         img.setAttribute("src", url200);
-        setStatus(img, statusLoading);
-        instance.loadingCount = 100;
+        setSources(img, settings, instance);
         cancelLoading(img, entry, settings, instance);
-        expect(instance.loadingCount).toBe(99);
+        expect(instance.loadingCount).toBe(0);
     });
 
     test("Resets internal status", () => {
         img.setAttribute("src", url200);
-        setStatus(img, statusLoading);
+        setSources(img, settings, instance);
         cancelLoading(img, entry, settings, instance);
         expect(getStatus(img)).toBe(null);
     });
 
     test("Callbacks are called", () => {
         const cancelCb = jest.fn();
-        settings = getExtendedSettings({
-            callback_cancel: cancelCb
-        });
-        setStatus(img, statusLoading);
+        settings.callback_cancel = cancelCb;
+        setSources(img, settings, instance);
         cancelLoading(img, entry, settings, instance);
         expect(cancelCb).toHaveBeenCalledTimes(1);
         expect(cancelCb).toHaveBeenCalledWith(img, entry, instance);
@@ -126,9 +114,9 @@ describe("Cancel loading on iframe", () => {
         iframe = null;
     });
 
-    test("Does nothing", () => {
-        iframe.setAttribute("src", iframeSrc);
-        setStatus(iframe, statusLoading);
+    test("Doesn't cancel loading", () => {
+        iframe.setAttribute("data-src", iframeSrc);
+        setSources(iframe, settings, instance);
         cancelLoading(iframe, entry, settings, instance);
         expect(iframe).toHaveAttributeValue("src", iframeSrc);
     });
