@@ -9,6 +9,28 @@ import { updateLoadingCount } from "./counters";
 import { forEachPictureSource, forEachVideoSource } from "./forEachSource";
 import { saveOriginalImageAttributes } from "./originalAttributes";
 
+export const manageApplied = (element, settings, instance) => {
+    addClass(element, settings.class_applied);
+    setStatus(element, statusApplied);
+    // Instance is not provided when loading is called from static class
+    if (!instance) return;
+    if (settings.unobserve_completed) {
+        // Unobserve now because we can't do it on load
+        unobserve(element, settings, instance);
+    }
+    safeCallback(settings.callback_applied, element, instance);
+};
+
+export const manageLoading = (element, settings, instance) => {
+    addClass(element, settings.class_loading);
+    setStatus(element, statusLoading);
+    // Instance is not provided when loading is called from static class
+    if (!instance) return;
+    updateLoadingCount(instance, +1);
+    safeCallback(settings.callback_loading, element, instance);
+};
+
+
 export const setAttributeIfValue = (element, attrName, value) => {
     if (!value) {
         return;
@@ -83,23 +105,3 @@ export const setSources = (element, settings, instance) => {
     manageLoading(element, settings, instance);
 };
 
-export const manageApplied = (element, settings, instance) => {
-    addClass(element, settings.class_applied);
-    setStatus(element, statusApplied);
-    // Instance is not provided when loading is called from static class
-    if (!instance) return;
-    if (settings.unobserve_completed) {
-        // Unobserve now because we can't do it on load
-        unobserve(element, settings, instance);
-    }
-    safeCallback(settings.callback_applied, element, instance);
-};
-
-export const manageLoading = (element, settings, instance) => {
-    addClass(element, settings.class_loading);
-    setStatus(element, statusLoading);
-    // Instance is not provided when loading is called from static class
-    if (!instance) return;
-    updateLoadingCount(instance, +1);
-    safeCallback(settings.callback_loading, element, instance);
-};
