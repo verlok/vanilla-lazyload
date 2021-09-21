@@ -1,27 +1,29 @@
 import { forEachPictureSource, forEachVideoSource } from "./forEachSource";
 import {
-    restoreOriginalVideoAttrs,
-    restoreOriginalImageAttrs,
     restoreOriginalBgImage,
-    restoreOriginalIframeAttrs,
-    restoreOriginalVideoSourceAttrs
+    restoreOriginalAttrs,
+    attrsSrcSrcsetSizes,
+    attrsSrc,
+    attrsSrcPoster
 } from "./originalAttributes";
 
 export const restoreImg = (imgEl) => {
     forEachPictureSource(imgEl, (sourceEl) => {
-        restoreOriginalImageAttrs(sourceEl);
+        restoreOriginalAttrs(sourceEl, attrsSrcSrcsetSizes);
     });
-    restoreOriginalImageAttrs(imgEl);
+    restoreOriginalAttrs(imgEl, attrsSrcSrcsetSizes);
 };
 
 export const restoreVideo = (videoEl) => {
     forEachVideoSource(videoEl, (sourceEl) => {
-        restoreOriginalVideoSourceAttrs(sourceEl);
+        restoreOriginalAttrs(sourceEl, attrsSrc);
     });
-    restoreOriginalVideoAttrs(videoEl);
+    restoreOriginalAttrs(videoEl, attrsSrcPoster);
 };
 
-const restoreIframe = restoreOriginalIframeAttrs;
+export const restoreIframe = (iframeEl) => {
+    restoreOriginalAttrs(iframeEl, attrsSrc);
+};
 
 const restoreFunctions = {
     IMG: restoreImg,

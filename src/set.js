@@ -1,3 +1,4 @@
+import { SRC, SRCSET, SIZES, POSTER } from "./constants.js";
 import { getData, setStatus } from "./data";
 import { statusLoading, statusApplied } from "./elementStatus";
 import { safeCallback } from "./callback";
@@ -8,12 +9,11 @@ import { unobserve } from "./unobserve";
 import { updateLoadingCount } from "./counters";
 import { forEachPictureSource, forEachVideoSource } from "./forEachSource";
 import {
-    saveOriginalIframeAttrs,
-    saveOriginalImageAttrs,
-    saveOriginalVideoAttrs,
-    saveOriginalVideoSourceAttrs
+    attrsSrc,
+    attrsSrcPoster,
+    attrsSrcSrcsetSizes,
+    setOriginalsObject
 } from "./originalAttributes";
-import { SRC, SRCSET, SIZES, POSTER } from "./constants.js";
 
 export const manageApplied = (element, settings, instance) => {
     addClass(element, settings.class_applied);
@@ -51,24 +51,25 @@ export const setImageAttributes = (element, settings) => {
 
 export const setSourcesImg = (imgEl, settings) => {
     forEachPictureSource(imgEl, (sourceTag) => {
-        saveOriginalImageAttrs(sourceTag);
+        setOriginalsObject(sourceTag, attrsSrcSrcsetSizes);
         setImageAttributes(sourceTag, settings);
     });
-    saveOriginalImageAttrs(imgEl);
+    setOriginalsObject(imgEl, attrsSrcSrcsetSizes);
     setImageAttributes(imgEl, settings);
 };
 
 export const setSourcesIframe = (iframe, settings) => {
-    saveOriginalIframeAttrs(iframe);
+    setOriginalsObject(iframe, attrsSrc);
     setAttributeIfValue(iframe, SRC, getData(iframe, settings.data_src));
 };
 
 export const setSourcesVideo = (videoEl, settings) => {
     forEachVideoSource(videoEl, (sourceEl) => {
-        saveOriginalVideoSourceAttrs(sourceEl);
+        setOriginalsObject(sourceEl, attrsSrc);
         setAttributeIfValue(sourceEl, SRC, getData(sourceEl, settings.data_src));
     });
-    saveOriginalVideoAttrs(videoEl);
+    setOriginalsObject(videoEl, attrsSrcPoster);
+
     setAttributeIfValue(videoEl, POSTER, getData(videoEl, settings.data_poster));
     setAttributeIfValue(videoEl, SRC, getData(videoEl, settings.data_src));
     videoEl.load();
