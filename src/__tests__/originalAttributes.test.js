@@ -3,6 +3,7 @@ import getFakeInstance from "./lib/getFakeInstance";
 import { getExtendedSettings } from "../defaults";
 
 import { setSources } from "../set";
+import { getOriginalAttributes } from "../originalAttributes";
 
 expectExtend(expect);
 
@@ -46,8 +47,9 @@ describe("Original attributes", () => {
         img.setAttribute("data-srcset", url400);
         img.setAttribute("data-sizes", sizes50);
         setSources(img, settings, instance);
-        expect(img.llOriginalAttrs.src).toBe(url1);
-        expect(img.llOriginalAttrs.srcset).toBe(url2);
-        expect(img.llOriginalAttrs.sizes).toBe(sizes100);
+        const originals = getOriginalAttributes(img);
+        expect(originals.src).toBe(url1);
+        expect(originals.srcset).toBe(url2);
+        expect(originals.sizes).toBe(sizes100);
     });
 });

@@ -39,16 +39,16 @@ describe("restore for image", () => {
         img = null;
     });
 
-    /* test("with initially empty src and srcset", () => {
+    test("with initially empty src and srcset", () => {
         img.setAttribute("data-src", url200);
         img.setAttribute("data-srcset", url400);
         img.setAttribute("data-sizes", sizes50);
         setSources(img, settings, instance);
-        restore(img);
+        restore(img);   
         expect(img).not.toHaveAttribute("src");
         expect(img).not.toHaveAttribute("srcset");
-        expect(img).not.toHaveAttribute("size");
-    }); */
+        expect(img).not.toHaveAttribute("sizes");
+    });
 
     test("with initial values in src and srcset", () => {
         img.setAttribute("src", url1);

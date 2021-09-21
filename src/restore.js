@@ -1,15 +1,15 @@
 import { forEachPictureSource } from "./forEachSource";
-import { hasOriginalAttributes } from "./originalAttributes";
-import { setAttributeIfValue } from "./set";
+import { getOriginalAttributes } from "./originalAttributes";
+import { setOrResetAttribute } from "./set";
 
 export const restoreSrcSrcsetSizes = (element) => {
-    if (!hasOriginalAttributes(element)) {
+    const originals = getOriginalAttributes(element);
+    if (originals === null) {
         return;
     }
-    const original = element.llOriginalAttrs;
-    setAttributeIfValue(element, "src", original["src"]);
-    setAttributeIfValue(element, "srcset", original["srcset"]);
-    setAttributeIfValue(element, "sizes", original["sizes"]);
+    setOrResetAttribute(element, "src", originals["src"]);
+    setOrResetAttribute(element, "srcset", originals["srcset"]);
+    setOrResetAttribute(element, "sizes", originals["sizes"]);
 };
 
 export const restoreImg = (element) => {
