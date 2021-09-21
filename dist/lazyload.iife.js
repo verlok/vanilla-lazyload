@@ -306,14 +306,13 @@ var LazyLoad = (function () {
   };
 
   var restoreOriginalAttrs = function restoreOriginalAttrs(element, attributes) {
-    var originals = getOriginalAttrs(element);
-
-    if (originals === null) {
+    if (!hasOriginalAttrs(element)) {
       return;
     }
 
+    var originals = getOriginalAttrs(element);
     attributes.forEach(function (attribute) {
-      return setOrResetAttribute(element, attribute, originals[attribute]);
+      setOrResetAttribute(element, attribute, originals[attribute]);
     });
   };
   var restoreOriginalBgImage = function restoreOriginalBgImage(element) {
@@ -409,6 +408,15 @@ var LazyLoad = (function () {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
     VIDEO: setSourcesVideo
+  };
+  var setSourcesNative = function setSourcesNative(element, settings) {
+    var setSourcesFunction = setSourcesFunctions[element.tagName];
+
+    if (!setSourcesFunction) {
+      return;
+    }
+
+    setSourcesFunction(element, settings);
   };
   var setSources = function setSources(element, settings, instance) {
     var setSourcesFunction = setSourcesFunctions[element.tagName];
@@ -530,7 +538,7 @@ var LazyLoad = (function () {
   var loadNative = function loadNative(element, settings, instance) {
     element.setAttribute("loading", "lazy");
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings, instance);
+    setSourcesNative(element, settings);
     setStatus(element, statusNative);
   };
 
@@ -567,7 +575,8 @@ var LazyLoad = (function () {
     IFRAME: restoreIframe,
     VIDEO: restoreVideo
   };
-  var restore = function restore(element) {
+
+  var restoreAttributes = function restoreAttributes(element) {
     var restoreFunction = restoreFunctions[element.tagName];
 
     if (!restoreFunction) {
@@ -576,6 +585,25 @@ var LazyLoad = (function () {
     }
 
     restoreFunction(element);
+  };
+
+  var resetClasses = function resetClasses(element, settings) {
+    if (hasEmptyStatus(element) || hasStatusNative(element)) {
+      return;
+    }
+
+    removeClass(element, settings.class_entered);
+    removeClass(element, settings.class_exited);
+    removeClass(element, settings.class_applied);
+    removeClass(element, settings.class_loading);
+    removeClass(element, settings.class_loaded);
+    removeClass(element, settings.class_error);
+  };
+
+  var restore = function restore(element, settings) {
+    restoreAttributes(element);
+    resetClasses(element, settings);
+    resetStatus(element);
   };
 
   var cancelLoading = function cancelLoading(element, entry, settings, instance) {
@@ -753,6 +781,12 @@ var LazyLoad = (function () {
         unobserve(element, _this);
         load(element, settings, _this);
       });
+    },
+    restoreAll: function restoreAll() {
+      var settings = this._settings;
+      queryElements(settings).forEach(function (element) {
+        restore(element, settings);
+      });
     }
   };
 
@@ -763,10 +797,6 @@ var LazyLoad = (function () {
 
   LazyLoad.resetStatus = function (element) {
     resetStatus(element);
-  };
-
-  LazyLoad.restore = function (element) {
-    restore(element);
   }; // Automatic instances creation if required (useful for async script loading)
 
 

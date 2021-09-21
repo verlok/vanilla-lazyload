@@ -263,17 +263,17 @@ const setOrResetAttribute = (element, attrName, value) => {
 };
 
 const restoreOriginalAttrs = (element, attributes) => {
-    const originals = getOriginalAttrs(element);
-    if (originals === null) {
+    if (!hasOriginalAttrs(element)) {
         return;
     }
-    attributes.forEach((attribute) =>
-        setOrResetAttribute(element, attribute, originals[attribute])
-    );
+    const originals = getOriginalAttrs(element);
+    attributes.forEach((attribute) => {
+        setOrResetAttribute(element, attribute, originals[attribute]);
+    });
 };
 
 const restoreOriginalBgImage = (element) => {
-    const originals = getOriginalAttrs(element);
+    const originals = getOriginalAttrs(element);    
     if (originals === null) {
         return;
     }
@@ -368,6 +368,14 @@ const setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
     VIDEO: setSourcesVideo
+};
+
+const setSourcesNative = (element, settings) => {
+    const setSourcesFunction = setSourcesFunctions[element.tagName];
+    if (!setSourcesFunction) {
+        return;
+    }
+    setSourcesFunction(element, settings);
 };
 
 const setSources = (element, settings, instance) => {
@@ -489,7 +497,7 @@ const load = (element, settings, instance) => {
 const loadNative = (element, settings, instance) => {
     element.setAttribute("loading", "lazy");
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings, instance);
+    setSourcesNative(element, settings);
     setStatus(element, statusNative);
 };
 
@@ -530,13 +538,31 @@ const restoreFunctions = {
     VIDEO: restoreVideo
 };
 
-const restore = (element) => {
+const restoreAttributes = (element) => {
     const restoreFunction = restoreFunctions[element.tagName];
     if (!restoreFunction) {
         restoreOriginalBgImage(element);
         return;
     }
     restoreFunction(element);
+};
+
+const resetClasses = (element, settings) => {
+    if (hasEmptyStatus(element) || hasStatusNative(element)) {
+        return;
+    }
+    removeClass(element, settings.class_entered);
+    removeClass(element, settings.class_exited);
+    removeClass(element, settings.class_applied);
+    removeClass(element, settings.class_loading);
+    removeClass(element, settings.class_loaded);
+    removeClass(element, settings.class_error);
+};
+
+const restore = (element, settings) => {
+    restoreAttributes(element);
+    resetClasses(element, settings);
+    resetStatus(element);
 };
 
 const cancelLoading = (element, entry, settings, instance) => {
@@ -702,6 +728,13 @@ LazyLoad.prototype = {
             unobserve(element, this);
             load(element, settings, this);
         });
+    },
+
+    restoreAll: function() {
+        const settings = this._settings;
+        queryElements(settings).forEach((element) => {
+            restore(element, settings);
+        });
     }
 };
 
@@ -712,10 +745,6 @@ LazyLoad.load = (element, customSettings) => {
 
 LazyLoad.resetStatus = (element) => {
     resetStatus(element);
-};
-
-LazyLoad.restore = (element) => {
-    restore(element);
 };
 
 // Automatic instances creation if required (useful for async script loading)
