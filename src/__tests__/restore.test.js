@@ -233,9 +233,12 @@ describe("restore for video", () => {
 
     beforeEach(() => {
         outerDiv.appendChild((video = document.createElement("video")));
+        //JSDOM doesn't have the video.load() method, need to mock it
+        video.load = () => {};
     });
 
     afterEach(() => {
+        video.load = null; 
         outerDiv.removeChild(video);
         video = null;
     });
