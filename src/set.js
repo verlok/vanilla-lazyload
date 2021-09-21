@@ -42,14 +42,6 @@ export const setAttributeIfValue = (element, attrName, value) => {
     element.setAttribute(attrName, value);
 };
 
-export const setOrResetAttribute = (element, attrName, value) => {
-    if (!value) {
-        element.removeAttribute(attrName);
-        return;
-    }
-    element.setAttribute(attrName, value);
-};
-
 export const setImageAttributes = (element, settings) => {
     setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
     setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));

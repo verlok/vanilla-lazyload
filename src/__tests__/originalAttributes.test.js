@@ -21,7 +21,7 @@ afterEach(() => {
     instance = null;
 });
 
-describe("Original attributes", () => {
+describe("Original attributes for images", () => {
     let img;
     const url1 = "1.gif";
     const url2 = "2.gif";
@@ -39,7 +39,7 @@ describe("Original attributes", () => {
         img = null;
     });
 
-    test("are saved for images", () => {
+    test("are saved correctly", () => {
         img.setAttribute("src", url1);
         img.setAttribute("srcset", url2);
         img.setAttribute("sizes", sizes100);
@@ -53,3 +53,5 @@ describe("Original attributes", () => {
         expect(originals.sizes).toBe(sizes100);
     });
 });
+
+// TODO: ADD MORE TESTS FOR IFRAMES, VIDEOS, PICTURE, and BG IMAGES

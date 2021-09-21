@@ -7,18 +7,18 @@ import {
     restoreOriginalVideoSourceAttrs
 } from "./originalAttributes";
 
-export const restoreImg = (element) => {
-    forEachPictureSource(element, (sourceTag) => {
-        restoreOriginalImageAttrs(sourceTag);
+export const restoreImg = (imgEl) => {
+    forEachPictureSource(imgEl, (sourceEl) => {
+        restoreOriginalImageAttrs(sourceEl);
     });
-    restoreOriginalImageAttrs(element);
+    restoreOriginalImageAttrs(imgEl);
 };
 
-export const restoreVideo = (element) => {
-    forEachVideoSource(element, (sourceTag) => {
-        restoreOriginalVideoSourceAttrs(sourceTag);
+export const restoreVideo = (videoEl) => {
+    forEachVideoSource(videoEl, (sourceEl) => {
+        restoreOriginalVideoSourceAttrs(sourceEl);
     });
-    restoreOriginalVideoAttrs(element);
+    restoreOriginalVideoAttrs(videoEl);
 };
 
 const restoreIframe = restoreOriginalIframeAttrs;
