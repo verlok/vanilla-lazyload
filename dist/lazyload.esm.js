@@ -49,9 +49,9 @@ const getExtendedSettings = (customSettings) => {
 
 /* Creates instance and notifies it through the window element */
 const createInstance = function(classObj, options) {
-    var event;
-    let eventString = "LazyLoad::Initialized";
-    let instance = new classObj(options);
+    let event;
+    const eventString = "LazyLoad::Initialized";
+    const instance = new classObj(options);
     try {
         // Works in modern browsers
         event = new CustomEvent(eventString, { detail: { instance } });
@@ -79,6 +79,12 @@ const autoInitialize = (classObj, options) => {
         }
     }
 };
+
+const SRC = "src";
+const SRCSET = "srcset";
+const SIZES = "sizes";
+const POSTER = "poster";
+const ORIGINALS = "llOriginalAttrs";
 
 const statusLoading = "loading";
 const statusLoaded = "loaded";
@@ -218,19 +224,81 @@ const forEachVideoSource = (element, fn) => {
   sourceTags.forEach(fn);
 };
 
-const hasOriginalAttributes = (element) => {
-  return !!element.llOriginalAttrs;
+const attrsSrc = [SRC];
+const attrsSrcPoster = [SRC, POSTER];
+const attrsSrcSrcsetSizes = [SRC, SRCSET, SIZES];
+
+const hasOriginalAttrs = (element) => !!element[ORIGINALS];
+const getOriginalAttrs = (element) => element[ORIGINALS];
+const deleteOriginalAttrs = (element) => delete element[ORIGINALS];
+
+// ## SAVE ##
+
+const setOriginalsObject = (element, attributes) => {
+    if (hasOriginalAttrs(element)) {
+        return;
+    }
+    const originals = {};
+    attributes.forEach((attribute) => {
+        originals[attribute] = element.getAttribute(attribute);
+    });
+    element[ORIGINALS] = originals;
 };
 
-const saveOriginalImageAttributes = (element) => {
-  if (hasOriginalAttributes(element)) {
-      return;
-  }
-  const original = {};
-  original["src"] = element.getAttribute("src");
-  original["srcset"] = element.getAttribute("srcset");
-  original["sizes"] = element.getAttribute("sizes");
-  element.llOriginalAttrs = original;
+const saveOriginalBackgroundStyle = (element) => {
+    if (hasOriginalAttrs(element)) {
+        return;
+    }
+    element[ORIGINALS] = { backgroundImage: element.style.backgroundImage };
+};
+
+// ## RESTORE ##
+
+const setOrResetAttribute = (element, attrName, value) => {
+    if (!value) {
+        element.removeAttribute(attrName);
+        return;
+    }
+    element.setAttribute(attrName, value);
+};
+
+const restoreOriginalAttrs = (element, attributes) => {
+    const originals = getOriginalAttrs(element);
+    if (originals === null) {
+        return;
+    }
+    attributes.forEach((attribute) =>
+        setOrResetAttribute(element, attribute, originals[attribute])
+    );
+};
+
+const restoreOriginalBgImage = (element) => {
+    const originals = getOriginalAttrs(element);
+    if (originals === null) {
+        return;
+    }
+    element.style.backgroundImage = originals.backgroundImage;
+};
+
+const manageApplied = (element, settings, instance) => {
+    addClass(element, settings.class_applied);
+    setStatus(element, statusApplied);
+    // Instance is not provided when loading is called from static class
+    if (!instance) return;
+    if (settings.unobserve_completed) {
+        // Unobserve now because we can't do it on load
+        unobserve(element, settings);
+    }
+    safeCallback(settings.callback_applied, element, instance);
+};
+
+const manageLoading = (element, settings, instance) => {
+    addClass(element, settings.class_loading);
+    setStatus(element, statusLoading);
+    // Instance is not provided when loading is called from static class
+    if (!instance) return;
+    updateLoadingCount(instance, +1);
+    safeCallback(settings.callback_loading, element, instance);
 };
 
 const setAttributeIfValue = (element, attrName, value) => {
@@ -241,31 +309,35 @@ const setAttributeIfValue = (element, attrName, value) => {
 };
 
 const setImageAttributes = (element, settings) => {
-    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
-    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    setAttributeIfValue(element, SIZES, getData(element, settings.data_sizes));
+    setAttributeIfValue(element, SRCSET, getData(element, settings.data_srcset));
+    setAttributeIfValue(element, SRC, getData(element, settings.data_src));
 };
 
-const setSourcesImg = (element, settings) => {
-    forEachPictureSource(element, (sourceTag) => {
-        saveOriginalImageAttributes(sourceTag);
+const setSourcesImg = (imgEl, settings) => {
+    forEachPictureSource(imgEl, (sourceTag) => {
+        setOriginalsObject(sourceTag, attrsSrcSrcsetSizes);
         setImageAttributes(sourceTag, settings);
     });
-    saveOriginalImageAttributes(element);
-    setImageAttributes(element, settings);
+    setOriginalsObject(imgEl, attrsSrcSrcsetSizes);
+    setImageAttributes(imgEl, settings);
 };
 
-const setSourcesIframe = (element, settings) => {
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+const setSourcesIframe = (iframe, settings) => {
+    setOriginalsObject(iframe, attrsSrc);
+    setAttributeIfValue(iframe, SRC, getData(iframe, settings.data_src));
 };
 
-const setSourcesVideo = (element, settings) => {
-    forEachVideoSource(element, (sourceTag) => {
-        setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
+const setSourcesVideo = (videoEl, settings) => {
+    forEachVideoSource(videoEl, (sourceEl) => {
+        setOriginalsObject(sourceEl, attrsSrc);
+        setAttributeIfValue(sourceEl, SRC, getData(sourceEl, settings.data_src));
     });
-    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
-    element.load();
+    setOriginalsObject(videoEl, attrsSrcPoster);
+
+    setAttributeIfValue(videoEl, POSTER, getData(videoEl, settings.data_poster));
+    setAttributeIfValue(videoEl, SRC, getData(videoEl, settings.data_src));
+    videoEl.load();
 };
 
 const setBackground = (element, settings, instance) => {
@@ -274,7 +346,7 @@ const setBackground = (element, settings, instance) => {
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = `url("${bgDataValue}")`;
-    getTempImage(element).setAttribute("src", bgDataValue);
+    getTempImage(element).setAttribute(SRC, bgDataValue);
     manageLoading(element, settings, instance);
 };
 
@@ -298,29 +370,13 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
-const setSources = (element, settings) => {
+const setSources = (element, settings, instance) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
     if (!setSourcesFunction) {
         return;
     }
     setSourcesFunction(element, settings);
-};
-
-const manageApplied = (element, settings, instance) => {
-    addClass(element, settings.class_applied);
-    setStatus(element, statusApplied);
-    if (settings.unobserve_completed) {
-        // Unobserve now because we can't do it on load
-        unobserve(element, settings);
-    }
-    safeCallback(settings.callback_applied, element, instance);
-};
-
-const manageLoading = (element, settings, instance) => {
-    updateLoadingCount(instance, +1);
-    addClass(element, settings.class_loading);
-    setStatus(element, statusLoading);
-    safeCallback(settings.callback_loading, element, instance);
+    manageLoading(element, settings, instance);
 };
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
@@ -412,14 +468,14 @@ const addOneShotEventListeners = (element, settings, instance) => {
 const loadBackground = (element, settings, instance) => {
     addTempImage(element);
     addOneShotEventListeners(element, settings, instance);
+    saveOriginalBackgroundStyle(element);
     setBackground(element, settings, instance);
     setMultiBackground(element, settings, instance);
 };
 
 const loadRegular = (element, settings, instance) => {
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings);
-    manageLoading(element, settings, instance);
+    setSources(element, settings, instance);
 };
 
 const load = (element, settings, instance) => {
@@ -433,50 +489,39 @@ const load = (element, settings, instance) => {
 const loadNative = (element, settings, instance) => {
     element.setAttribute("loading", "lazy");
     addOneShotEventListeners(element, settings, instance);
-    setSources(element, settings);
+    setSources(element, settings, instance);
     setStatus(element, statusNative);
 };
 
-const resetAttribute = (element, attrName) => {
-    element.removeAttribute(attrName);
-};
-
-const resetImageAttributes = (element) => {
-    resetAttribute(element, "src");
-    resetAttribute(element, "srcset");
-    resetAttribute(element, "sizes");
+const removeImageAttributes = (element) => {
+    element.removeAttribute(SRC);
+    element.removeAttribute(SRCSET);
+    element.removeAttribute(SIZES);
 };
 
 const resetSourcesImg = (element) => {
     forEachPictureSource(element, (sourceTag) => {
-        resetImageAttributes(sourceTag);
+        removeImageAttributes(sourceTag);
     });
-    resetImageAttributes(element);
+    removeImageAttributes(element);
 };
 
-const restoreSrcSrcsetSizes = (element) => {
-    if (!hasOriginalAttributes(element)) {
-        return;
-    }
-    const original = element.llOriginalAttrs;
-    setAttributeIfValue(element, "src", original["src"]);
-    setAttributeIfValue(element, "srcset", original["srcset"]);
-    setAttributeIfValue(element, "sizes", original["sizes"]);
-};
-
-const restoreImg = (element) => {
-    forEachPictureSource(element, (sourceTag) => {
-        restoreSrcSrcsetSizes(sourceTag);
+const restoreImg = (imgEl) => {
+    forEachPictureSource(imgEl, (sourceEl) => {
+        restoreOriginalAttrs(sourceEl, attrsSrcSrcsetSizes);
     });
-    restoreSrcSrcsetSizes(element);
+    restoreOriginalAttrs(imgEl, attrsSrcSrcsetSizes);
 };
 
-const restoreVideo = (element) => {
-    //...
+const restoreVideo = (videoEl) => {
+    forEachVideoSource(videoEl, (sourceEl) => {
+        restoreOriginalAttrs(sourceEl, attrsSrc);
+    });
+    restoreOriginalAttrs(videoEl, attrsSrcPoster);
 };
 
-const restoreIframe = (element) => {
-    //...
+const restoreIframe = (iframeEl) => {
+    restoreOriginalAttrs(iframeEl, attrsSrc);
 };
 
 const restoreFunctions = {
@@ -488,6 +533,7 @@ const restoreFunctions = {
 const restore = (element) => {
     const restoreFunction = restoreFunctions[element.tagName];
     if (!restoreFunction) {
+        restoreOriginalBgImage(element);
         return;
     }
     restoreFunction(element);
@@ -640,7 +686,7 @@ LazyLoad.prototype = {
         }
         // Clean custom attributes on elements
         queryElements(this._settings).forEach((element) => {
-            delete element.llOriginalAttrs;
+            deleteOriginalAttrs(element);
         });
         // Delete all internal props
         delete this._observer;
@@ -677,4 +723,4 @@ if (runningOnBrowser) {
     autoInitialize(LazyLoad, window.lazyLoadOptions);
 }
 
-export default LazyLoad;
+export { LazyLoad as default };
