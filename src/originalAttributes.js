@@ -39,17 +39,17 @@ const setOrResetAttribute = (element, attrName, value) => {
 };
 
 export const restoreOriginalAttrs = (element, attributes) => {
-    const originals = getOriginalAttrs(element);
-    if (originals === null) {
+    if (!hasOriginalAttrs(element)) {
         return;
     }
-    attributes.forEach((attribute) =>
+    const originals = getOriginalAttrs(element);
+    attributes.forEach((attribute) => {
         setOrResetAttribute(element, attribute, originals[attribute])
-    );
+    });
 };
 
 export const restoreOriginalBgImage = (element) => {
-    const originals = getOriginalAttrs(element);
+    const originals = getOriginalAttrs(element);    
     if (originals === null) {
         return;
     }

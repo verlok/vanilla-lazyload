@@ -3,13 +3,14 @@
 ## THIS BRANCH!
 
 I'm implementing a "reverse DOM to original" feature as requested in #509.
-Functions will be: `LazyLoad.restore(img)`, `lazyloadInstance.restoreAll()`.
-I've divided `set`, `reset` and `restore` functions into 3 separate files, and shared functions are now in `originalAttributes.js` and `forEachSource.js`.
-I've already exposed the `restore` static function on the LazyLoad object.
+Function will be: `lazyloadInstance.restoreAll()`.
 
 Next steps:
-- Write the `.restoreAll()` function
-- Write the demos to test it
+- Write a test to make sure `restore` also removes any lazyload-added class
+- Write a test to make sure `restore` also reset the status of the element
+- Create a demo to test it
+
+NOTE: `restoreAll` brings DOM back to original state, but it doesn't destroy lazyload, so you probably want to use it along with `destroy` on TurboLinks. Otherwise, it could potentially load more images. You also probably want to fire `restoreAll` and `destroy` when `loadingCount` is 0. When not `destroy`ing the instance, the `update` method could be called to restart loading restored images.
 
 ## Coming next
 

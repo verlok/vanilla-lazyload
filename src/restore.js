@@ -1,3 +1,10 @@
+import { removeClass } from "./class";
+
+import {
+    hasEmptyStatus,
+    hasStatusNative,
+    resetStatus
+} from "./data";
 import { forEachPictureSource, forEachVideoSource } from "./forEachSource";
 import {
     restoreOriginalBgImage,
@@ -31,11 +38,29 @@ const restoreFunctions = {
     VIDEO: restoreVideo
 };
 
-export const restore = (element) => {
+const restoreAttributes = (element) => {
     const restoreFunction = restoreFunctions[element.tagName];
     if (!restoreFunction) {
         restoreOriginalBgImage(element);
         return;
     }
     restoreFunction(element);
+};
+
+const resetClasses = (element, settings) => {
+    if (hasEmptyStatus(element) || hasStatusNative(element)) {
+        return;
+    }
+    removeClass(element, settings.class_entered);
+    removeClass(element, settings.class_exited);
+    removeClass(element, settings.class_applied);
+    removeClass(element, settings.class_loading);
+    removeClass(element, settings.class_loaded);
+    removeClass(element, settings.class_error);
+};
+
+export const restore = (element, settings) => {
+    restoreAttributes(element);
+    resetClasses(element, settings);
+    resetStatus(element);
 };

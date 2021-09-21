@@ -62,6 +62,13 @@ LazyLoad.prototype = {
             unobserve(element, this);
             load(element, settings, this);
         });
+    },
+
+    restoreAll: function() {
+        const settings = this._settings;
+        queryElements(settings).forEach((element) => {
+            restore(element, settings);
+        });
     }
 };
 
@@ -72,10 +79,6 @@ LazyLoad.load = (element, customSettings) => {
 
 LazyLoad.resetStatus = (element) => {
     resetStatus(element);
-};
-
-LazyLoad.restore = (element) => {
-    restore(element);
 };
 
 // Automatic instances creation if required (useful for async script loading)

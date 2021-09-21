@@ -44,7 +44,7 @@ describe("restore for image", () => {
         img.setAttribute("data-srcset", url400);
         img.setAttribute("data-sizes", sizes50);
         load(img, settings, instance);
-        restore(img);
+        restore(img, settings);
         expect(img).not.toHaveAttribute("src");
         expect(img).not.toHaveAttribute("srcset");
         expect(img).not.toHaveAttribute("sizes");
@@ -56,7 +56,7 @@ describe("restore for image", () => {
         img.setAttribute("data-srcset", url400);
         img.setAttribute("data-src", url200);
         load(img, settings, instance);
-        restore(img);
+        restore(img, settings);
         expect(img).toHaveAttributeValue("src", url1);
         expect(img).toHaveAttributeValue("srcset", url2);
     });
@@ -66,7 +66,7 @@ describe("restore for image", () => {
         img.setAttribute("src", url200);
         img.setAttribute("srcset", url400);
         load(img, settings, instance);
-        restore(img);
+        restore(img, settings);
         expect(img).toHaveAttributeValue("src", url200);
         expect(img).toHaveAttributeValue("srcset", url400);
     });
@@ -90,7 +90,7 @@ describe("restore for picture", () => {
         source1.setAttribute("data-srcset", url200);
         source2.setAttribute("data-srcset", url400);
         load(img, settings, instance);
-        restore(img);
+        restore(img, settings);
         expect(source1).not.toHaveAttribute("srcset");
         expect(source2).not.toHaveAttribute("srcset");
     });
@@ -101,7 +101,7 @@ describe("restore for picture", () => {
         source2.setAttribute("srcset", url2);
         source2.setAttribute("data-srcset", url400);
         load(img, settings, instance);
-        restore(img);
+        restore(img, settings);
         expect(source1).toHaveAttributeValue("srcset", url1);
         expect(source2).toHaveAttributeValue("srcset", url2);
     });
@@ -112,7 +112,7 @@ describe("restore for picture", () => {
         source1.setAttribute("srcset", url200);
         source2.setAttribute("srcset", url400);
         load(img, settings, instance);
-        restore(img);
+        restore(img, settings);
         expect(source1).toHaveAttributeValue("srcset", url200);
         expect(source2).toHaveAttributeValue("srcset", url400);
     });
@@ -135,14 +135,14 @@ describe("restore for iframe", () => {
     test("with initially empty src", () => {
         iframe.setAttribute("data-src", srcToLoad);
         load(iframe, settings, instance);
-        restore(iframe);
+        restore(iframe, settings);
         expect(iframe).not.toHaveAttribute("src");
     });
     test("with initial value in src", () => {
         iframe.setAttribute("src", preloadedSrc);
         iframe.setAttribute("data-src", srcToLoad);
         load(iframe, settings, instance);
-        restore(iframe);
+        restore(iframe, settings);
         expect(iframe).toHaveAttributeValue("src", preloadedSrc);
     });
 });
@@ -165,14 +165,14 @@ describe("restore for single background image", () => {
     test("with initially empty style attribute", () => {
         innerDiv.setAttribute("data-bg", `url(${url200})`);
         load(innerDiv, settings, instance);
-        restore(innerDiv);
+        restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe("");
     });
     test("with initial valye in style attribute", () => {
         innerDiv.style.padding = "1px";
         innerDiv.setAttribute("data-bg", `url(${url400})`);
         load(innerDiv, settings, instance);
-        restore(innerDiv);
+        restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe("");
         expect(innerDiv.style.padding).toBe("1px");
     });
@@ -181,7 +181,7 @@ describe("restore for single background image", () => {
         innerDiv.style.backgroundImage = `url(${url400})`;
         innerDiv.setAttribute("data-bg", `url(${url200})`);
         load(innerDiv, settings, instance);
-        restore(innerDiv);
+        restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe(`url(${url400})`);
     });
 });
@@ -204,14 +204,14 @@ describe("resetMultiBackground for multiple background image", () => {
     test("with initially empty style attribute", () => {
         innerDiv.setAttribute("data-bg-multi", `url(${url200})`);
         load(innerDiv, settings, instance);
-        restore(innerDiv);
+        restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe("");
     });
     test("with initially present style attribute", () => {
         innerDiv.setAttribute("data-bg-multi", `url(${url400})`);
         innerDiv.style.padding = "1px";
         load(innerDiv, settings, instance);
-        restore(innerDiv);
+        restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe("");
         expect(innerDiv.style.padding).toBe("1px");
     });
@@ -220,7 +220,7 @@ describe("resetMultiBackground for multiple background image", () => {
         innerDiv.style.padding = "1px";
         innerDiv.style.backgroundImage = `url(${url400})`;
         load(innerDiv, settings, instance);
-        restore(innerDiv);
+        restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe(`url(${url400})`);
     });
 });
@@ -246,7 +246,7 @@ describe("restore for video", () => {
     test("with initially empty src", () => {
         video.setAttribute("data-src", videoUrlAvi);
         load(video, settings, instance);
-        restore(video);
+        restore(video, settings);
         expect(video).not.toHaveAttribute("src");
     });
 
@@ -254,7 +254,7 @@ describe("restore for video", () => {
         video.setAttribute("src", videoUrlMp4);
         video.setAttribute("data-src", videoUrlAvi);
         load(video, settings, instance);
-        restore(video);
+        restore(video, settings);
         expect(video).toHaveAttributeValue("src", videoUrlMp4);
     });
 
@@ -266,7 +266,7 @@ describe("restore for video", () => {
         source1.setAttribute("data-src", videoUrlMp4);
         source2.setAttribute("data-src", videoUrlWebm);
         load(video, settings, instance);
-        restore(video);
+        restore(video, settings);
         expect(video).not.toHaveAttribute("src");
         expect(source1).not.toHaveAttribute("src");
         expect(source2).not.toHaveAttribute("src");

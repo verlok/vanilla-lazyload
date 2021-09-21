@@ -105,6 +105,14 @@ const setSourcesFunctions = {
     VIDEO: setSourcesVideo
 };
 
+export const setSourcesNative = (element, settings) => {
+    const setSourcesFunction = setSourcesFunctions[element.tagName];
+    if (!setSourcesFunction) {
+        return;
+    }
+    setSourcesFunction(element, settings);
+};
+
 export const setSources = (element, settings, instance) => {
     const setSourcesFunction = setSourcesFunctions[element.tagName];
     if (!setSourcesFunction) {
