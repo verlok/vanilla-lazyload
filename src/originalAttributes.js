@@ -1,11 +1,13 @@
+import { setOrResetAttribute } from "./set";
+
 const originalsProperty = "llOriginalAttrs";
 
-export const hasOriginalAttributes = (element) => {
+export const hasOriginalAttrs = (element) => {
     return !!element[originalsProperty];
 };
 
-export const saveOriginalVideoSourceAttributes = (element) => {
-    if (hasOriginalAttributes(element)) {
+export const saveOriginalVideoSourceAttrs = (element) => {
+    if (hasOriginalAttrs(element)) {
         return;
     }
     const original = {};
@@ -13,8 +15,8 @@ export const saveOriginalVideoSourceAttributes = (element) => {
     element[originalsProperty] = original;
 };
 
-export const saveOriginalVideoAttributes = (element) => {
-    if (hasOriginalAttributes(element)) {
+export const saveOriginalVideoAttrs = (element) => {
+    if (hasOriginalAttrs(element)) {
         return;
     }
     const original = {};
@@ -23,8 +25,8 @@ export const saveOriginalVideoAttributes = (element) => {
     element[originalsProperty] = original;
 };
 
-export const saveOriginalIframeAttributes = (element) => {
-    if (hasOriginalAttributes(element)) {
+export const saveOriginalIframeAttrs = (element) => {
+    if (hasOriginalAttrs(element)) {
         return;
     }
     const original = {};
@@ -32,8 +34,8 @@ export const saveOriginalIframeAttributes = (element) => {
     element[originalsProperty] = original;
 };
 
-export const saveOriginalImageAttributes = (element) => {
-    if (hasOriginalAttributes(element)) {
+export const saveOriginalImageAttrs = (element) => {
+    if (hasOriginalAttrs(element)) {
         return;
     }
     const original = {};
@@ -44,7 +46,7 @@ export const saveOriginalImageAttributes = (element) => {
 };
 
 export const saveOriginalBackgroundStyle = (element) => {
-    if (hasOriginalAttributes(element)) {
+    if (hasOriginalAttrs(element)) {
         return;
     }
     const original = {};
@@ -52,6 +54,50 @@ export const saveOriginalBackgroundStyle = (element) => {
     element[originalsProperty] = original;
 }
 
-export const deleteOriginalAttributes = (element) => delete element[originalsProperty];
+export const deleteOriginalAttrs = (element) => delete element[originalsProperty];
 
-export const getOriginalAttributes = (element) => element[originalsProperty];
+export const getOriginalAttrs = (element) => element[originalsProperty];
+
+export const restoreOriginalImageAttrs = (imgOrSourceEl) => {
+    const originals = getOriginalAttrs(imgOrSourceEl);
+    if (originals === null) {
+        return;
+    }
+    setOrResetAttribute(imgOrSourceEl, "src", originals["src"]);
+    setOrResetAttribute(imgOrSourceEl, "srcset", originals["srcset"]);
+    setOrResetAttribute(imgOrSourceEl, "sizes", originals["sizes"]);
+};
+
+export const restoreOriginalVideoSourceAttrs = (sourceEl) => {
+    const originals = getOriginalAttrs(sourceEl);
+    if (originals === null) {
+        return;
+    }
+    setOrResetAttribute(sourceEl, "src", originals["src"]);
+};
+
+export const restoreOriginalVideoAttrs = (videoEl) => {
+    const originals = getOriginalAttrs(videoEl);
+    if (originals === null) {
+        return;
+    }
+    setOrResetAttribute(videoEl, "src", originals["src"]);
+    setOrResetAttribute(videoEl, "poster", originals["poster"]);
+};
+
+export const restoreOriginalIframeAttrs = (iframe) => {
+    const originals = getOriginalAttrs(iframe);
+    if (originals === null) {
+        return;
+    }
+    setOrResetAttribute(iframe, "src", originals["src"]);
+};
+
+
+export const restoreOriginalBgImage = (element) => {
+    const originals = getOriginalAttrs(element);
+    if (originals === null) {
+        return;
+    }
+    element.style.backgroundImage = originals.backgroundImage;  
+};

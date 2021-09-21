@@ -8,10 +8,10 @@ import { unobserve } from "./unobserve";
 import { updateLoadingCount } from "./counters";
 import { forEachPictureSource, forEachVideoSource } from "./forEachSource";
 import {
-    saveOriginalIframeAttributes,
-    saveOriginalImageAttributes,
-    saveOriginalVideoAttributes,
-    saveOriginalVideoSourceAttributes
+    saveOriginalIframeAttrs,
+    saveOriginalImageAttrs,
+    saveOriginalVideoAttrs,
+    saveOriginalVideoSourceAttrs
 } from "./originalAttributes";
 
 export const manageApplied = (element, settings, instance) => {
@@ -58,24 +58,24 @@ export const setImageAttributes = (element, settings) => {
 
 export const setSourcesImg = (imgEl, settings) => {
     forEachPictureSource(imgEl, (sourceTag) => {
-        saveOriginalImageAttributes(sourceTag);
+        saveOriginalImageAttrs(sourceTag);
         setImageAttributes(sourceTag, settings);
     });
-    saveOriginalImageAttributes(imgEl);
+    saveOriginalImageAttrs(imgEl);
     setImageAttributes(imgEl, settings);
 };
 
 export const setSourcesIframe = (iframe, settings) => {
-    saveOriginalIframeAttributes(iframe);
+    saveOriginalIframeAttrs(iframe);
     setAttributeIfValue(iframe, "src", getData(iframe, settings.data_src));
 };
 
 export const setSourcesVideo = (videoEl, settings) => {
     forEachVideoSource(videoEl, (sourceEl) => {
-        saveOriginalVideoSourceAttributes(sourceEl);
+        saveOriginalVideoSourceAttrs(sourceEl);
         setAttributeIfValue(sourceEl, "src", getData(sourceEl, settings.data_src));
     });
-    saveOriginalVideoAttributes(videoEl);
+    saveOriginalVideoAttrs(videoEl);
     setAttributeIfValue(videoEl, "poster", getData(videoEl, settings.data_poster));
     setAttributeIfValue(videoEl, "src", getData(videoEl, settings.data_src));
     videoEl.load();

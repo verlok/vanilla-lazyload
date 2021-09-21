@@ -10,7 +10,7 @@ import { resetStatus } from "./data";
 import { setToLoadCount } from "./counters";
 import { unobserve } from "./unobserve";
 import { restore } from "./restore";
-import { deleteOriginalAttributes } from "./originalAttributes";
+import { deleteOriginalAttrs } from "./originalAttributes";
 
 const LazyLoad = function (customSettings, elements) {
     const settings = getExtendedSettings(customSettings);
@@ -46,7 +46,7 @@ LazyLoad.prototype = {
         }
         // Clean custom attributes on elements
         queryElements(this._settings).forEach((element) => {
-            deleteOriginalAttributes(element);
+            deleteOriginalAttrs(element);
         });
         // Delete all internal props
         delete this._observer;
