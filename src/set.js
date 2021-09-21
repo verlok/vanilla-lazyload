@@ -30,9 +30,16 @@ export const manageLoading = (element, settings, instance) => {
     safeCallback(settings.callback_loading, element, instance);
 };
 
-
 export const setAttributeIfValue = (element, attrName, value) => {
     if (!value) {
+        return;
+    }
+    element.setAttribute(attrName, value);
+};
+
+export const setOrResetAttribute = (element, attrName, value) => {
+    if (!value) {
+        element.removeAttribute(attrName);
         return;
     }
     element.setAttribute(attrName, value);
