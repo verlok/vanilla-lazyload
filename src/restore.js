@@ -1,31 +1,73 @@
-import { forEachPictureSource } from "./forEachSource";
+import { forEachPictureSource, forEachVideoSource } from "./forEachSource";
 import { getOriginalAttributes } from "./originalAttributes";
 import { setOrResetAttribute } from "./set";
 
-export const restoreSrcSrcsetSizes = (element) => {
-    const originals = getOriginalAttributes(element);
+// ## IMAGE ##
+
+export const restoreOriginalImageOrSourceAttributes = (imgOrSourceEl) => {
+    const originals = getOriginalAttributes(imgOrSourceEl);
     if (originals === null) {
         return;
     }
-    setOrResetAttribute(element, "src", originals["src"]);
-    setOrResetAttribute(element, "srcset", originals["srcset"]);
-    setOrResetAttribute(element, "sizes", originals["sizes"]);
+    setOrResetAttribute(imgOrSourceEl, "src", originals["src"]);
+    setOrResetAttribute(imgOrSourceEl, "srcset", originals["srcset"]);
+    setOrResetAttribute(imgOrSourceEl, "sizes", originals["sizes"]);
 };
 
 export const restoreImg = (element) => {
     forEachPictureSource(element, (sourceTag) => {
-        restoreSrcSrcsetSizes(sourceTag);
+        restoreOriginalImageOrSourceAttributes(sourceTag);
     });
-    restoreSrcSrcsetSizes(element);
+    restoreOriginalImageOrSourceAttributes(element);
+};
+
+// ## VIDEO ##
+
+export const restoreVideoSourcesAttributes = (sourceEl) => {
+    const originals = getOriginalAttributes(sourceEl);
+    if (originals === null) {
+        return;
+    }
+    setOrResetAttribute(sourceEl, "src", originals["src"]);
+};
+
+export const restoreOriginalVideoAttributes = (videoEl) => {
+    const originals = getOriginalAttributes(videoEl);
+    if (originals === null) {
+        return;
+    }
+    setOrResetAttribute(videoEl, "src", originals["src"]);
+    setOrResetAttribute(videoEl, "poster", originals["poster"]);
 };
 
 export const restoreVideo = (element) => {
-    //...
+    forEachVideoSource(element, (sourceTag) => {
+        restoreVideoSourcesAttributes(sourceTag);
+    });
+    restoreOriginalVideoAttributes(element);
 };
 
-export const restoreIframe = (element) => {
-    //...
+// ## IFRAME ##
+
+export const restoreIframe = (iframe) => {
+    const originals = getOriginalAttributes(iframe);
+    if (originals === null) {
+        return;
+    }
+    setOrResetAttribute(iframe, "src", originals["src"]);
 };
+
+// ## GENERIC ##
+
+export const restoreGeneric = (element) => {
+    const originals = getOriginalAttributes(element);
+    if (originals === null) {
+        return;
+    }
+    element.style.backgroundImage = originals.backgroundImage;  
+};
+
+// ## SWITCHER ##
 
 const restoreFunctions = {
     IMG: restoreImg,
@@ -36,6 +78,7 @@ const restoreFunctions = {
 export const restore = (element) => {
     const restoreFunction = restoreFunctions[element.tagName];
     if (!restoreFunction) {
+        restoreGeneric(element);
         return;
     }
     restoreFunction(element);

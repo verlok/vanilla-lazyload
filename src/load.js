@@ -3,10 +3,12 @@ import { setStatus } from "./data";
 import { addOneShotEventListeners, hasLoadEvent } from "./event";
 import { statusNative } from "./elementStatus";
 import { addTempImage } from "./tempImage";
+import { saveOriginalBackgroundStyle } from "./originalAttributes";
 
 const loadBackground = (element, settings, instance) => {
     addTempImage(element);
     addOneShotEventListeners(element, settings, instance);
+    saveOriginalBackgroundStyle(element);
     setBackground(element, settings, instance);
     setMultiBackground(element, settings, instance);
 };

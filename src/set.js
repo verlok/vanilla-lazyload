@@ -7,7 +7,12 @@ import { isHiDpi } from "./environment";
 import { unobserve } from "./unobserve";
 import { updateLoadingCount } from "./counters";
 import { forEachPictureSource, forEachVideoSource } from "./forEachSource";
-import { saveOriginalImageAttributes } from "./originalAttributes";
+import {
+    saveOriginalIframeAttributes,
+    saveOriginalImageAttributes,
+    saveOriginalVideoAttributes,
+    saveOriginalVideoSourceAttributes
+} from "./originalAttributes";
 
 export const manageApplied = (element, settings, instance) => {
     addClass(element, settings.class_applied);
@@ -51,26 +56,29 @@ export const setImageAttributes = (element, settings) => {
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 
-export const setSourcesImg = (element, settings) => {
-    forEachPictureSource(element, (sourceTag) => {
+export const setSourcesImg = (imgEl, settings) => {
+    forEachPictureSource(imgEl, (sourceTag) => {
         saveOriginalImageAttributes(sourceTag);
         setImageAttributes(sourceTag, settings);
     });
-    saveOriginalImageAttributes(element);
-    setImageAttributes(element, settings);
+    saveOriginalImageAttributes(imgEl);
+    setImageAttributes(imgEl, settings);
 };
 
-export const setSourcesIframe = (element, settings) => {
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+export const setSourcesIframe = (iframe, settings) => {
+    saveOriginalIframeAttributes(iframe);
+    setAttributeIfValue(iframe, "src", getData(iframe, settings.data_src));
 };
 
-export const setSourcesVideo = (element, settings) => {
-    forEachVideoSource(element, (sourceTag) => {
-        setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
+export const setSourcesVideo = (videoEl, settings) => {
+    forEachVideoSource(videoEl, (sourceEl) => {
+        saveOriginalVideoSourceAttributes(sourceEl);
+        setAttributeIfValue(sourceEl, "src", getData(sourceEl, settings.data_src));
     });
-    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
-    element.load();
+    saveOriginalVideoAttributes(videoEl);
+    setAttributeIfValue(videoEl, "poster", getData(videoEl, settings.data_poster));
+    setAttributeIfValue(videoEl, "src", getData(videoEl, settings.data_src));
+    videoEl.load();
 };
 
 export const setBackground = (element, settings, instance) => {
@@ -111,4 +119,3 @@ export const setSources = (element, settings, instance) => {
     setSourcesFunction(element, settings);
     manageLoading(element, settings, instance);
 };
-
