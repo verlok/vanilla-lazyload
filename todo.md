@@ -8,8 +8,8 @@ I've divided `set`, `reset` and `restore` functions into 3 separate files, and s
 I've already exposed the `restore` static function on the LazyLoad object.
 
 Next steps:
-- Write the tests to make sure `restore` does things properly!
-- Implement the methods to make it work
+- Write the `.restoreAll()` function
+- Write the demos to test it
 
 ## Coming next
 
