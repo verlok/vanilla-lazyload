@@ -1,11 +1,12 @@
-const originalsProperty = "llOriginalAttrs";
-const attrsSrc = ["src"];
-const attrsSrcPoster = ["src", "poster"];
-const attrsSrcSrcsetSizes = ["src", "srcset", "sizes"];
+import { SRC, SRCSET, SIZES, POSTER, ORIGINALS } from "./constants.js";
 
-export const hasOriginalAttrs = (element) => !!element[originalsProperty];
-export const getOriginalAttrs = (element) => element[originalsProperty];
-export const deleteOriginalAttrs = (element) => delete element[originalsProperty];
+const attrsSrc = [SRC];
+const attrsSrcPoster = [SRC, POSTER];
+const attrsSrcSrcsetSizes = [SRC, SRCSET, SIZES];
+
+export const hasOriginalAttrs = (element) => !!element[ORIGINALS];
+export const getOriginalAttrs = (element) => element[ORIGINALS];
+export const deleteOriginalAttrs = (element) => delete element[ORIGINALS];
 
 // ## SAVE ##
 
@@ -17,7 +18,7 @@ const setOriginalsObject = (element, attributes) => {
     attributes.forEach((attribute) => {
         originals[attribute] = element.getAttribute(attribute);
     });
-    element[originalsProperty] = originals;
+    element[ORIGINALS] = originals;
 };
 
 export const saveOriginalVideoSourceAttrs = (element) => {
@@ -40,7 +41,7 @@ export const saveOriginalBackgroundStyle = (element) => {
     if (hasOriginalAttrs(element)) {
         return;
     }
-    element[originalsProperty] = { backgroundImage: element.style.backgroundImage };
+    element[ORIGINALS] = { backgroundImage: element.style.backgroundImage };
 };
 
 // ## RESTORE ##

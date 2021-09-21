@@ -13,6 +13,7 @@ import {
     saveOriginalVideoAttrs,
     saveOriginalVideoSourceAttrs
 } from "./originalAttributes";
+import { SRC, SRCSET, SIZES, POSTER } from "./constants.js";
 
 export const manageApplied = (element, settings, instance) => {
     addClass(element, settings.class_applied);
@@ -43,9 +44,9 @@ export const setAttributeIfValue = (element, attrName, value) => {
 };
 
 export const setImageAttributes = (element, settings) => {
-    setAttributeIfValue(element, "sizes", getData(element, settings.data_sizes));
-    setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
-    setAttributeIfValue(element, "src", getData(element, settings.data_src));
+    setAttributeIfValue(element, SIZES, getData(element, settings.data_sizes));
+    setAttributeIfValue(element, SRCSET, getData(element, settings.data_srcset));
+    setAttributeIfValue(element, SRC, getData(element, settings.data_src));
 };
 
 export const setSourcesImg = (imgEl, settings) => {
@@ -59,17 +60,17 @@ export const setSourcesImg = (imgEl, settings) => {
 
 export const setSourcesIframe = (iframe, settings) => {
     saveOriginalIframeAttrs(iframe);
-    setAttributeIfValue(iframe, "src", getData(iframe, settings.data_src));
+    setAttributeIfValue(iframe, SRC, getData(iframe, settings.data_src));
 };
 
 export const setSourcesVideo = (videoEl, settings) => {
     forEachVideoSource(videoEl, (sourceEl) => {
         saveOriginalVideoSourceAttrs(sourceEl);
-        setAttributeIfValue(sourceEl, "src", getData(sourceEl, settings.data_src));
+        setAttributeIfValue(sourceEl, SRC, getData(sourceEl, settings.data_src));
     });
     saveOriginalVideoAttrs(videoEl);
-    setAttributeIfValue(videoEl, "poster", getData(videoEl, settings.data_poster));
-    setAttributeIfValue(videoEl, "src", getData(videoEl, settings.data_src));
+    setAttributeIfValue(videoEl, POSTER, getData(videoEl, settings.data_poster));
+    setAttributeIfValue(videoEl, SRC, getData(videoEl, settings.data_src));
     videoEl.load();
 };
 
@@ -79,7 +80,7 @@ export const setBackground = (element, settings, instance) => {
     const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
     if (!bgDataValue) return;
     element.style.backgroundImage = `url("${bgDataValue}")`;
-    getTempImage(element).setAttribute("src", bgDataValue);
+    getTempImage(element).setAttribute(SRC, bgDataValue);
     manageLoading(element, settings, instance);
 };
 
