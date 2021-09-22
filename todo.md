@@ -6,7 +6,6 @@ I'm implementing a "reverse DOM to original" feature as requested in #509.
 Function will be: `lazyloadInstance.restoreAll()`.
 
 Next steps:
-- Write a test to make sure `restore` also removes any lazyload-added class
 - Write a test to make sure `restore` also reset the status of the element
 - Create a demo to test it
 

@@ -6,6 +6,7 @@ import { load } from "../load";
 
 const url1 = "1.gif";
 const url2 = "2.gif";
+const url100 = "100.gif";
 const url200 = "200.gif";
 const url400 = "400.gif";
 const sizes50 = "50vw";
@@ -60,6 +61,7 @@ describe("restore for image", () => {
         expect(img).toHaveAttributeValue("src", url1);
         expect(img).toHaveAttributeValue("srcset", url2);
     });
+
     test("with initial values in src and srcset and empty data-*", () => {
         img.setAttribute("data-src", "");
         img.setAttribute("data-srcset", "");
@@ -69,6 +71,18 @@ describe("restore for image", () => {
         restore(img, settings);
         expect(img).toHaveAttributeValue("src", url200);
         expect(img).toHaveAttributeValue("srcset", url400);
+    });
+
+    test("has no classes after restore", () => {
+        img.setAttribute("data-src", "");
+        load(img, settings, instance);
+        restore(img, settings);
+        expect(img).not.toHaveClassName("applied");
+        expect(img).not.toHaveClassName("loading");
+        expect(img).not.toHaveClassName("loaded");
+        expect(img).not.toHaveClassName("error");
+        expect(img).not.toHaveClassName("entered");
+        expect(img).not.toHaveClassName("exited");
     });
 });
 
@@ -116,6 +130,20 @@ describe("restore for picture", () => {
         expect(source1).toHaveAttributeValue("srcset", url200);
         expect(source2).toHaveAttributeValue("srcset", url400);
     });
+
+    test("has no classes after restore", () => {
+        img.setAttribute("data-src", url100);
+        source1.setAttribute("data-srcset", url200);
+        source2.setAttribute("data-srcset", url400);
+        load(img, settings, instance);
+        restore(img, settings);
+        expect(img).not.toHaveClassName("applied");
+        expect(img).not.toHaveClassName("loading");
+        expect(img).not.toHaveClassName("loaded");
+        expect(img).not.toHaveClassName("error");
+        expect(img).not.toHaveClassName("entered");
+        expect(img).not.toHaveClassName("exited");
+    });
 });
 
 describe("restore for iframe", () => {
@@ -145,6 +173,18 @@ describe("restore for iframe", () => {
         restore(iframe, settings);
         expect(iframe).toHaveAttributeValue("src", preloadedSrc);
     });
+
+    test("has no classes after restore", () => {
+        iframe.setAttribute("data-src", "");
+        load(iframe, settings, instance);
+        restore(iframe, settings);
+        expect(iframe).not.toHaveClassName("applied");
+        expect(iframe).not.toHaveClassName("loading");
+        expect(iframe).not.toHaveClassName("loaded");
+        expect(iframe).not.toHaveClassName("error");
+        expect(iframe).not.toHaveClassName("entered");
+        expect(iframe).not.toHaveClassName("exited");
+    });
 });
 
 describe("restore for single background image", () => {
@@ -154,7 +194,7 @@ describe("restore for single background image", () => {
 
     beforeEach(() => {
         outerDiv.appendChild((innerDiv = document.createElement("iframe")));
-        //innerDiv.llTempImage = document.createElement("img");
+        //innerDiv.llTempImage = document.createElement("iframe");
     });
 
     afterEach(() => {
@@ -184,6 +224,18 @@ describe("restore for single background image", () => {
         restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe(`url(${url400})`);
     });
+
+    test("has no classes after restore", () => {
+        innerDiv.setAttribute("data-bg", `url(${url200})`);
+        load(innerDiv, settings, instance);
+        restore(innerDiv, settings);
+        expect(innerDiv).not.toHaveClassName("applied");
+        expect(innerDiv).not.toHaveClassName("loading");
+        expect(innerDiv).not.toHaveClassName("loaded");
+        expect(innerDiv).not.toHaveClassName("error");
+        expect(innerDiv).not.toHaveClassName("entered");
+        expect(innerDiv).not.toHaveClassName("exited");
+    });
 });
 
 // TO DO FROM HERE
@@ -207,6 +259,7 @@ describe("resetMultiBackground for multiple background image", () => {
         restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe("");
     });
+
     test("with initially present style attribute", () => {
         innerDiv.setAttribute("data-bg-multi", `url(${url400})`);
         innerDiv.style.padding = "1px";
@@ -215,6 +268,7 @@ describe("resetMultiBackground for multiple background image", () => {
         expect(innerDiv.style.backgroundImage).toBe("");
         expect(innerDiv.style.padding).toBe("1px");
     });
+
     test("with initially present style and background", () => {
         innerDiv.setAttribute("data-bg-multi", `url(${url200})`);
         innerDiv.style.padding = "1px";
@@ -222,6 +276,18 @@ describe("resetMultiBackground for multiple background image", () => {
         load(innerDiv, settings, instance);
         restore(innerDiv, settings);
         expect(innerDiv.style.backgroundImage).toBe(`url(${url400})`);
+    });
+
+    test("has no classes after restore", () => {
+        innerDiv.setAttribute("data-bg-multi", `url(${url200})`);
+        load(innerDiv, settings, instance);
+        restore(innerDiv, settings);
+        expect(innerDiv).not.toHaveClassName("applied");
+        expect(innerDiv).not.toHaveClassName("loading");
+        expect(innerDiv).not.toHaveClassName("loaded");
+        expect(innerDiv).not.toHaveClassName("error");
+        expect(innerDiv).not.toHaveClassName("entered");
+        expect(innerDiv).not.toHaveClassName("exited");
     });
 });
 
@@ -270,5 +336,17 @@ describe("restore for video", () => {
         expect(video).not.toHaveAttribute("src");
         expect(source1).not.toHaveAttribute("src");
         expect(source2).not.toHaveAttribute("src");
+    });
+
+    test("has no classes after restore", () => {
+        video.setAttribute("data-src", videoUrlAvi);
+        load(video, settings, instance);
+        restore(video, settings);
+        expect(video).not.toHaveClassName("applied");
+        expect(video).not.toHaveClassName("loading");
+        expect(video).not.toHaveClassName("loaded");
+        expect(video).not.toHaveClassName("error");
+        expect(video).not.toHaveClassName("entered");
+        expect(video).not.toHaveClassName("exited");
     });
 });

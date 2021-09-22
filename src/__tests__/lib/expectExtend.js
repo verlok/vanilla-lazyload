@@ -19,8 +19,20 @@ const extensions = {
             message: () => `expected ${element.tagName} to have attribute "${attributeName}"`,
             pass: false
         }
+    },
+    toHaveClassName: (element, className) => {
+        const pass = element.classList.contains(className);
+        return pass ? {
+            message: () => `${element.tagName} has class "${className}"`,
+            pass: true
+        } : {
+            message: () => `expected ${element.tagName} to have class "${className}"`,
+            pass: false
+        }
     }
 };
+
+
 
 export default (expect) => {
     expect.extend(extensions);
