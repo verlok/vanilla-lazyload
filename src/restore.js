@@ -11,7 +11,8 @@ import {
     restoreOriginalAttrs,
     attrsSrcSrcsetSizes,
     attrsSrc,
-    attrsSrcPoster
+    attrsSrcPoster,
+    deleteOriginalAttrs
 } from "./originalAttributes";
 
 export const restoreImg = (imgEl) => {
@@ -63,4 +64,5 @@ export const restore = (element, settings) => {
     restoreAttributes(element);
     resetClasses(element, settings);
     resetStatus(element);
+    deleteOriginalAttrs(element);
 };
