@@ -6,7 +6,6 @@ I'm implementing a "reverse DOM to original" feature as requested in #509.
 Function will be: `lazyloadInstance.restoreAll()`.
 
 Next steps:
-- Write a test to make sure `restore` also reset the status of the element
 - Create a demo to test it
 
 NOTE: `restoreAll` brings DOM back to original state, but it doesn't destroy lazyload, so you probably want to use it along with `destroy` on TurboLinks. Otherwise, it could potentially load more images. You also probably want to fire `restoreAll` and `destroy` when `loadingCount` is 0. When not `destroy`ing the instance, the `update` method could be called to restart loading restored images.

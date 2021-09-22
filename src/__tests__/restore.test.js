@@ -3,6 +3,7 @@ import getFakeInstance from "./lib/getFakeInstance";
 import { getExtendedSettings } from "../defaults";
 import { restore } from "../restore";
 import { load } from "../load";
+import { getStatus } from "../data";
 
 const url1 = "1.gif";
 const url2 = "2.gif";
@@ -73,7 +74,7 @@ describe("restore for image", () => {
         expect(img).toHaveAttributeValue("srcset", url400);
     });
 
-    test("has no classes after restore", () => {
+    test("has no classes nor status after restore", () => {
         img.setAttribute("data-src", "");
         load(img, settings, instance);
         restore(img, settings);
@@ -83,6 +84,7 @@ describe("restore for image", () => {
         expect(img).not.toHaveClassName("error");
         expect(img).not.toHaveClassName("entered");
         expect(img).not.toHaveClassName("exited");
+        expect(getStatus(img)).toBeNull();
     });
 });
 
@@ -131,7 +133,7 @@ describe("restore for picture", () => {
         expect(source2).toHaveAttributeValue("srcset", url400);
     });
 
-    test("has no classes after restore", () => {
+    test("has no classes nor status after restore", () => {
         img.setAttribute("data-src", url100);
         source1.setAttribute("data-srcset", url200);
         source2.setAttribute("data-srcset", url400);
@@ -143,6 +145,7 @@ describe("restore for picture", () => {
         expect(img).not.toHaveClassName("error");
         expect(img).not.toHaveClassName("entered");
         expect(img).not.toHaveClassName("exited");
+        expect(getStatus(img)).toBeNull();
     });
 });
 
@@ -174,7 +177,7 @@ describe("restore for iframe", () => {
         expect(iframe).toHaveAttributeValue("src", preloadedSrc);
     });
 
-    test("has no classes after restore", () => {
+    test("has no classes nor status after restore", () => {
         iframe.setAttribute("data-src", "");
         load(iframe, settings, instance);
         restore(iframe, settings);
@@ -184,6 +187,7 @@ describe("restore for iframe", () => {
         expect(iframe).not.toHaveClassName("error");
         expect(iframe).not.toHaveClassName("entered");
         expect(iframe).not.toHaveClassName("exited");
+        expect(getStatus(iframe)).toBeNull();
     });
 });
 
@@ -225,7 +229,7 @@ describe("restore for single background image", () => {
         expect(innerDiv.style.backgroundImage).toBe(`url(${url400})`);
     });
 
-    test("has no classes after restore", () => {
+    test("has no classes nor status after restore", () => {
         innerDiv.setAttribute("data-bg", `url(${url200})`);
         load(innerDiv, settings, instance);
         restore(innerDiv, settings);
@@ -235,6 +239,7 @@ describe("restore for single background image", () => {
         expect(innerDiv).not.toHaveClassName("error");
         expect(innerDiv).not.toHaveClassName("entered");
         expect(innerDiv).not.toHaveClassName("exited");
+        expect(getStatus(innerDiv)).toBeNull();
     });
 });
 
@@ -278,7 +283,7 @@ describe("resetMultiBackground for multiple background image", () => {
         expect(innerDiv.style.backgroundImage).toBe(`url(${url400})`);
     });
 
-    test("has no classes after restore", () => {
+    test("has no classes nor status after restore", () => {
         innerDiv.setAttribute("data-bg-multi", `url(${url200})`);
         load(innerDiv, settings, instance);
         restore(innerDiv, settings);
@@ -288,6 +293,7 @@ describe("resetMultiBackground for multiple background image", () => {
         expect(innerDiv).not.toHaveClassName("error");
         expect(innerDiv).not.toHaveClassName("entered");
         expect(innerDiv).not.toHaveClassName("exited");
+        expect(getStatus(innerDiv)).toBeNull();
     });
 });
 
@@ -338,7 +344,7 @@ describe("restore for video", () => {
         expect(source2).not.toHaveAttribute("src");
     });
 
-    test("has no classes after restore", () => {
+    test("has no classes nor status after restore", () => {
         video.setAttribute("data-src", videoUrlAvi);
         load(video, settings, instance);
         restore(video, settings);
@@ -348,5 +354,6 @@ describe("restore for video", () => {
         expect(video).not.toHaveClassName("error");
         expect(video).not.toHaveClassName("entered");
         expect(video).not.toHaveClassName("exited");
+        expect(getStatus(video)).toBeNull();
     });
 });
