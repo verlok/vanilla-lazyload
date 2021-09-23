@@ -2,16 +2,9 @@
 
 ## THIS BRANCH!
 
-I'm implementing a "reverse DOM to original" feature as requested in #509.
-I've started and implemented code and tests.
-
-At the first failing test, which is the following...
-
-> expected IMG to have attribute "src" set to "1.gif", received "null"
-
-...I realized that I shouldn't remove the image attributes altogether, but I should restore it to their original values, BUT this would make fail another feature, which is "cancel loading on exit".
-
-I should also figure out an appropriate name for the functions... `resetStatus` is already used, probably use `resetDOM`, or maybe `restoreDOM`. Think together about the static and the instance functions: `resetDOM`, `resetDOMAll`? etc.
+I've implemented a "reverse DOM to original" feature as requested in #509.
+New method is: `lazyloadInstance.restoreAll()`.
+Beta testers are testing it and will let me know in the comments.
 
 ## Coming next
 

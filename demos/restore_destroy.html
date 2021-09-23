@@ -2,9 +2,7 @@
 <html>
   <head lang="en">
     <meta charset="UTF-8" />
-    <title>
-      Destroy - Lazyload demos
-    </title>
+    <title>Restore and Destroy - Lazyload demos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       ul,
@@ -29,22 +27,25 @@
         visibility: hidden;
       }
 
-      button {
+      .buttons {
         position: fixed;
         bottom: 10px;
-        width: 10em;
-        height: 3em;
         left: 50%;
-        margin-left: -5em;
+        margin-left: -10em;
+      }
+      .buttons button {
+        height: 3em;
+        width: 10em;
       }
     </style>
   </head>
 
   <body>
-    <h1>Destroy demo</h1>
-    <button id="destroy">
-      Destroy
-    </button>
+    <h1>Restore and Destroy demo</h1>
+    <div class="buttons">
+      <button id="restore">Restore</button>
+      <button id="destroy">Destroy</button>
+    </div>
     <div id="results1" class="results">
       <ul>
         <li>
@@ -468,8 +469,7 @@
         };
         var callback_error = function (element) {
           logElementEvent("💀 ERROR", element);
-          element.src =
-            "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+          element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
         };
         var callback_finish = function () {
           logElementEvent("✔️ FINISHED", document.documentElement);
@@ -500,6 +500,19 @@
             ll.destroy();
             ll = null;
             destroyButton.innerText = "Destroyed";
+          }, 250);
+        });
+
+        var restoreButton = document.getElementById("restore");
+        restoreButton.addEventListener("click", function () {
+          restoreButton.disabled = true;
+          restoreButton.innerText = "Waiting...";
+          var restoreInterval = setInterval(function () {
+            if (ll.loadingCount > 0) return; // EXIT CONDITION
+            clearInterval(restoreInterval);
+            ll.restoreAll();
+            restoreButton.disabled = false;
+            restoreButton.innerText = "Restore";
           }, 250);
         });
       })();

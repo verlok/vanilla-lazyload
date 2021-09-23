@@ -1,5 +1,6 @@
 import { removeEventListeners } from "./event";
-import { resetSourcesImg, restoreOriginalAttributesImg } from "./setSources";
+import { resetSourcesImg } from "./reset";
+import { restoreImg } from "./restore";
 import { safeCallback } from "./callback";
 import { removeClass } from "./class";
 import { updateLoadingCount } from "./counters";
@@ -11,7 +12,7 @@ export const cancelLoading = (element, entry, settings, instance) => {
     if (element.tagName !== "IMG") return; //Works only on images
     removeEventListeners(element);
     resetSourcesImg(element);
-    restoreOriginalAttributesImg(element);
+    restoreImg(element);
     removeClass(element, settings.class_loading);
     updateLoadingCount(instance, -1);
     resetStatus(element);
