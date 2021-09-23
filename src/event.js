@@ -1,15 +1,15 @@
-import { addClass, removeClass } from "./lazyload.class";
-import { safeCallback } from "./lazyload.callback";
-import { setStatus, hasStatusNative } from "./lazyload.data";
-import { statusLoaded, statusError } from "./lazyload.elementStatus";
-import { deleteTempImage, getTempImage } from "./lazyload.tempImage";
-import { unobserve } from "./lazyload.unobserve";
+import { addClass, removeClass } from "./class";
+import { safeCallback } from "./callback";
+import { setStatus, hasStatusNative } from "./data";
+import { statusLoaded, statusError } from "./elementStatus";
+import { deleteTempImage, getTempImage } from "./tempImage";
+import { unobserve } from "./unobserve";
 import {
     decreaseToLoadCount,
     updateLoadingCount,
     haveElementsToLoad,
     isSomethingLoading
-} from "./lazyload.counters";
+} from "./counters";
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
 export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;

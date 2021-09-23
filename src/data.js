@@ -4,7 +4,7 @@ import {
     statusApplied,
     statusNative,
     statusLoaded
-} from "./lazyload.elementStatus";
+} from "./elementStatus";
 
 const dataPrefix = "data-";
 const statusDataName = "ll-status";

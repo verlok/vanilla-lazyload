@@ -1,7 +1,7 @@
-import { supportsIntersectionObserver } from "./lazyload.environment";
-import { onEnter, onExit } from "./lazyload.intersectionHandlers";
-import { shouldUseNative } from "./lazyload.native";
-import { resetObserver } from "./lazyload.unobserve";
+import { supportsIntersectionObserver } from "./environment";
+import { onEnter, onExit } from "./intersectionHandlers";
+import { shouldUseNative } from "./native";
+import { resetObserver } from "./unobserve";
 
 export const isIntersecting = (entry) => entry.isIntersecting || entry.intersectionRatio > 0;
 
