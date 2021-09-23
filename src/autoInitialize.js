@@ -1,8 +1,8 @@
 /* Creates instance and notifies it through the window element */
 const createInstance = function(classObj, options) {
-    var event;
-    let eventString = "LazyLoad::Initialized";
-    let instance = new classObj(options);
+    let event;
+    const eventString = "LazyLoad::Initialized";
+    const instance = new classObj(options);
     try {
         // Works in modern browsers
         event = new CustomEvent(eventString, { detail: { instance } });

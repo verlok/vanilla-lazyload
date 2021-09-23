@@ -2,6 +2,11 @@
 
 ## Version 17
 
+#### 17.5.0
+
+- Added the ability to restore DOM to its original state throught the `restoreAll()` method.
+- Destroy demo became [restore and destroy demo](demos/restore_destroy.html)
+
 #### 17.4.0
 
 - Adding native lazy loading for videos, as discussed in #527. Thanks to @saschaeggi.

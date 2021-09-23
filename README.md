@@ -153,7 +153,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.4.0**.
+The latest, recommended version of LazyLoad is **17.5.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -170,14 +170,14 @@ If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
 ```
 
 Or, with the IntersectionObserver polyfill:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -209,7 +209,7 @@ Include RequireJS:
 Then `require` the AMD version of LazyLoad, like this:
 
 ```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.amd.min.js";
+var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.amd.min.js";
 var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
 
 /// Dynamically define the dependencies
@@ -254,7 +254,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -288,7 +288,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.4.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -632,7 +632,7 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Technique | A popup layer containing lazy images in a scrolling container                                  | [Code](demos/popup_layer.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/popup_layer.html)                 |
 | Settings  | Multiple scrolling containers                                                                  | [Code](demos/container_multiple.html)          | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_multiple.html)          |
 | Settings  | Single scrolling container                                                                     | [Code](demos/container_single.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_single.html)            |
-| Methods   | How to `destroy()` LazyLoad                                                                    | [Code](demos/destroy.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/destroy.html)                     |
+| Methods   | How to `restore()` DOM to its original state, and/or `destroy()` LazyLoad                      | [Code](demos/restore_destroy.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/restore_destroy.html)             |
 | Methods   | Adding dynamic content, then `update()` LazyLoad                                               | [Code](demos/dynamic_content.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content.html)             |
 | Methods   | Adding dynamic content, then `update()` LazyLoad passing a NodeSet of elements                 | [Code](demos/dynamic_content_nodeset.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content_nodeset.html)     |
 | Methods   | Load punctual images using the `load()` method                                                 | [Code](demos/load.html)                        | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/load.html)                        |
@@ -740,20 +740,21 @@ Here's the list of the options.
 
 You can call the following methods on any instance of LazyLoad.
 
-| Method name | Effect                                                                                                                                                           | Use case                                                             |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `update()`  | Make LazyLoad to re-check the DOM for `elements_selector` elements inside its `container`.                                                                       | Update LazyLoad after you added or removed DOM elements to the page. |
-| `loadAll()` | Loads all the lazy elements right away _and_ stop observing them, no matter if they are inside or outside the viewport, no matter if they are hidden or visible. | To load all the remaining elements in advance                        |
-| `destroy()` | Destroys the instance, unsetting instance variables and removing listeners.                                                                                      | Free up some memory. Especially useful for Single Page Applications. |
+| Method name    | Effect                                                                                                                                                           | Use case                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `update()`     | Make LazyLoad to re-check the DOM for `elements_selector` elements inside its `container`.                                                                       | Update LazyLoad after you added or removed DOM elements to the page.              |
+| `loadAll()`    | Loads all the lazy elements right away _and_ stop observing them, no matter if they are inside or outside the viewport, no matter if they are hidden or visible. | To load all the remaining elements in advance                                     |
+| `restoreAll()` | Restores DOM to its original state. Note that it doesn't destroy LazyLoad, so you probably want to use it along with `destroy()`.                                | Reset the DOM before a soft page navigation (SPA) occures, e.g. using TurboLinks. |
+| `destroy()`    | Destroys the instance, unsetting instance variables and removing listeners.                                                                                      | Free up some memory. Especially useful for Single Page Applications.              |
 
 **Static methods**
 
 You can call the following static methods on the LazyLoad class itself (e.g. `LazyLoad.load(element, settings)`).
 
-| Method name               | Effect                                                                                                                                                                                                                                                                                 | Use case                                                                                                                                                                                 |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `load(element, settings)` | Immediately loads the lazy `element`. You can pass your custom options in the `settings` parameter. Note that the `elements_selector` option has no effect, since you are passing the element as a parameter. Also note that this method has effect only once on a specific `element`. | To load an `element` at mouseover or at any other event different than "entering the viewport"                                                                                           |
-| `resetStatus(element)`    | Resets the internal status of the given `element`.                                                                                                                                                                                                                                     | To tell LazyLoad to consider this `element` again, for example if you changed the `data-src` attribute after the previous `data-src` was loaded, call this method, then call `update()`. |
+| Method name               | Effect                                                                                                                                                                                                                                                                                 | Use case                                                                                                                                                                                                           |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `load(element, settings)` | Immediately loads the lazy `element`. You can pass your custom options in the `settings` parameter. Note that the `elements_selector` option has no effect, since you are passing the element as a parameter. Also note that this method has effect only once on a specific `element`. | To load an `element` at mouseover or at any other event different than "entering the viewport"                                                                                                                     |
+| `resetStatus(element)`    | Resets the internal status of the given `element`.                                                                                                                                                                                                                                     | To tell LazyLoad to consider this `element` again, for example: if you changed the `data-src` attribute after the previous `data-src` was loaded, call this method, then call `update()` on the LazyLoad instance. |
 
 ### Properties
 

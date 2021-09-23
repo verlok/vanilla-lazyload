@@ -1,7 +1,7 @@
-import { runningOnBrowser } from "./lazyload.environment";
-import { resetStatus } from "./lazyload.data";
-import { removeClass } from "./lazyload.class";
-import { queryElements, filterErrorElements } from "./lazyload.dom";
+import { runningOnBrowser } from "./environment";
+import { resetStatus } from "./data";
+import { removeClass } from "./class";
+import { queryElements, filterErrorElements } from "./dom";
 
 export const retryLazyLoad = (settings, instance) => {
     const errorElements = filterErrorElements(queryElements(settings));
