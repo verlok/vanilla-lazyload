@@ -316,12 +316,11 @@ var LazyLoad = (function () {
     });
   };
   var restoreOriginalBgImage = function restoreOriginalBgImage(element) {
-    var originals = getOriginalAttrs(element);
-
-    if (originals === null) {
+    if (!hasOriginalAttrs(element)) {
       return;
     }
 
+    var originals = getOriginalAttrs(element);
     element.style.backgroundImage = originals.backgroundImage;
   };
 
@@ -566,6 +565,7 @@ var LazyLoad = (function () {
       restoreOriginalAttrs(sourceEl, attrsSrc);
     });
     restoreOriginalAttrs(videoEl, attrsSrcPoster);
+    videoEl.load();
   };
   var restoreIframe = function restoreIframe(iframeEl) {
     restoreOriginalAttrs(iframeEl, attrsSrc);
@@ -604,6 +604,7 @@ var LazyLoad = (function () {
     restoreAttributes(element);
     resetClasses(element, settings);
     resetStatus(element);
+    deleteOriginalAttrs(element);
   };
 
   var cancelLoading = function cancelLoading(element, entry, settings, instance) {

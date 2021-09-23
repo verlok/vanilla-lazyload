@@ -273,10 +273,10 @@ const restoreOriginalAttrs = (element, attributes) => {
 };
 
 const restoreOriginalBgImage = (element) => {
-    const originals = getOriginalAttrs(element);    
-    if (originals === null) {
+    if (!hasOriginalAttrs(element)) {
         return;
     }
+    const originals = getOriginalAttrs(element);    
     element.style.backgroundImage = originals.backgroundImage;
 };
 
@@ -526,6 +526,7 @@ const restoreVideo = (videoEl) => {
         restoreOriginalAttrs(sourceEl, attrsSrc);
     });
     restoreOriginalAttrs(videoEl, attrsSrcPoster);
+    videoEl.load();
 };
 
 const restoreIframe = (iframeEl) => {
@@ -563,6 +564,7 @@ const restore = (element, settings) => {
     restoreAttributes(element);
     resetClasses(element, settings);
     resetStatus(element);
+    deleteOriginalAttrs(element);
 };
 
 const cancelLoading = (element, entry, settings, instance) => {
