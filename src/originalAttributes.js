@@ -49,9 +49,9 @@ export const restoreOriginalAttrs = (element, attributes) => {
 };
 
 export const restoreOriginalBgImage = (element) => {
-    const originals = getOriginalAttrs(element);    
-    if (originals === null) {
+    if (!hasOriginalAttrs(element)) {
         return;
     }
+    const originals = getOriginalAttrs(element);    
     element.style.backgroundImage = originals.backgroundImage;
 };
