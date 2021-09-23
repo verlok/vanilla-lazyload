@@ -27,6 +27,7 @@ export const restoreVideo = (videoEl) => {
         restoreOriginalAttrs(sourceEl, attrsSrc);
     });
     restoreOriginalAttrs(videoEl, attrsSrcPoster);
+    videoEl.load();
 };
 
 export const restoreIframe = (iframeEl) => {
