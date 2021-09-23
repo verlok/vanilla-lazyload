@@ -41,6 +41,13 @@ describe("restore for image", () => {
         img = null;
     });
 
+    test("when load hasn't been called on the element", () => {
+        restore(img);
+        expect(img).not.toHaveAttribute("src");
+        expect(img).not.toHaveAttribute("srcset");
+        expect(img).not.toHaveAttribute("sizes");
+    });
+
     test("with initially empty src and srcset", () => {
         img.setAttribute("data-src", url200);
         img.setAttribute("data-srcset", url400);
@@ -100,6 +107,13 @@ describe("restore for picture", () => {
 
     afterEach(() => {
         outerDiv.removeChild(picture);
+    });
+
+    test("when load hasn't been called on the element", () => {
+        restore(img);
+        expect(img).not.toHaveAttribute("srcset");
+        expect(source1).not.toHaveAttribute("srcset");
+        expect(source2).not.toHaveAttribute("srcset");
     });
 
     test("with initially empty srcset", () => {
@@ -163,6 +177,11 @@ describe("restore for iframe", () => {
         iframe = null;
     });
 
+    test("when load hasn't been called on the element", () => {
+        restore(iframe);
+        expect(iframe).not.toHaveAttribute("srcset");
+    });
+
     test("with initially empty src", () => {
         iframe.setAttribute("data-src", srcToLoad);
         load(iframe, settings, instance);
@@ -204,6 +223,11 @@ describe("restore for single background image", () => {
     afterEach(() => {
         outerDiv.removeChild(innerDiv);
         innerDiv = null;
+    });
+
+    test("when load hasn't been called on the element", () => {
+        restore(innerDiv);
+        expect(innerDiv.style.backgroundImage).toBe("");
     });
 
     test("with initially empty style attribute", () => {
@@ -250,12 +274,16 @@ describe("resetMultiBackground for multiple background image", () => {
 
     beforeEach(() => {
         outerDiv.appendChild((innerDiv = document.createElement("div")));
-        //innerDiv.llTempImage = document.createElement("img");
     });
 
     afterEach(() => {
         outerDiv.removeChild(innerDiv);
         innerDiv = null;
+    });
+
+    test("when load hasn't been called on the element", () => {
+        restore(innerDiv);
+        expect(innerDiv.style.backgroundImage).toBe("");
     });
 
     test("with initially empty style attribute", () => {
@@ -313,6 +341,11 @@ describe("restore for video", () => {
         video.load = null; 
         outerDiv.removeChild(video);
         video = null;
+    });
+
+    test("when load hasn't been called on the element", () => {
+        restore(video);
+        expect(video).not.toHaveAttribute("src");
     });
 
     test("with initially empty src", () => {
