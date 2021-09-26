@@ -792,6 +792,7 @@ A list of all vanilla-lazyload features, compared with other popular lazy loadin
 | Can lazyload videos                                                                      | ✔                |             |
 | Can lazyload background images                                                           | ✔                |             |
 | Can lazily execute code, when given elements enter the viewport                          | ✔                |             |
+| Can restore DOM to its original state                                                    | ✔                |             |
 
 Weights source: [bundlephobia](https://bundlephobia.com/). Find others table rows explanation below.
 
@@ -843,6 +844,10 @@ Only vanilla-lazyload can lazyload background images. And also multiple backgrou
 #### Can lazily execute code, when given elements enter the viewport
 
 Check out the [lazy functions](#lazy-functions) section and learn how to execute code only when given elements enter the viewport.
+
+#### Can restore DOM to its original state
+
+Using the `restoreAll()` method, you can make LazyLoad restore all DOM manipulated from LazyLoad to how it was when the page was loaded the first time. 
 
 ---
 
