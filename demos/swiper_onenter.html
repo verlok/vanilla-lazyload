@@ -99,7 +99,7 @@
     </div>
 
     <p>Following, more lazily loaded swipers</p>
-    <div class="swiper lazy-swiper" id="lazySwiper1">
+    <div class="swiper swiper--lazy" id="swiperLazy1">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <img
@@ -152,7 +152,7 @@
     </div>
 
     <p>Another lazy swiper</p>
-    <div class="swiper lazy-swiper" id="lazySwiper2">
+    <div class="swiper swiper--lazy" id="swiperLazy2">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <img
@@ -205,7 +205,7 @@
     </div>
 
     <p>Yet another lazy swiper</p>
-    <div class="swiper lazy-swiper" id="lazySwiper2">
+    <div class="swiper swiper--lazy" id="swiperLazy3">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <img
@@ -258,7 +258,7 @@
     </div>
 
     <p>And yet another yet another lazy swiper</p>
-    <div class="swiper lazy-swiper" id="lazySwiper2">
+    <div class="swiper swiper--lazy" id="swiperLazy4">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <img
@@ -326,11 +326,11 @@
     <script src="../dist/lazyload.min.js"></script>
     <script>
       const firstImageLazyLoad = new LazyLoad({
-        elements_selector: ".lazy-swiper .swiper-slide:first-child img",
+        elements_selector: ".swiper--lazy .swiper-slide:first-child img",
       });
-      const lazySwiperInitializer = new LazyLoad({
+      const swiperLazyInitializer = new LazyLoad({
         threshold: 0, //for demo purposes only, don't use in production
-        elements_selector: ".lazy-swiper",
+        elements_selector: ".swiper--lazy",
         unobserve_entered: true, 
         callback_enter: function (swiperElement) {
           // load all images using LazyLoad.load()
