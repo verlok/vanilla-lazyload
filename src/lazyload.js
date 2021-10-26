@@ -1,14 +1,16 @@
-import { getExtendedSettings } from "./lazyload.defaults";
-import { autoInitialize } from "./lazyload.autoInitialize";
-import { load } from "./lazyload.load";
-import { setObserver, updateObserver } from "./lazyload.intersectionObserver";
-import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./lazyload.environment";
-import { shouldUseNative, loadAllNative } from "./lazyload.native";
-import { setOnlineCheck } from "./lazyload.online";
-import { getElementsToLoad, queryElements } from "./lazyload.dom";
-import { resetStatus } from "./lazyload.data";
-import { setToLoadCount } from "./lazyload.counters";
-import { unobserve } from "./lazyload.unobserve";
+import { getExtendedSettings } from "./defaults";
+import { autoInitialize } from "./autoInitialize";
+import { load } from "./load";
+import { setObserver, updateObserver } from "./intersectionObserver";
+import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./environment";
+import { shouldUseNative, loadAllNative } from "./native";
+import { setOnlineCheck } from "./online";
+import { getElementsToLoad, queryElements } from "./dom";
+import { resetStatus } from "./data";
+import { setToLoadCount } from "./counters";
+import { unobserve } from "./unobserve";
+import { restore } from "./restore";
+import { deleteOriginalAttrs } from "./originalAttributes";
 
 const LazyLoad = function (customSettings, elements) {
     const settings = getExtendedSettings(customSettings);
@@ -44,7 +46,7 @@ LazyLoad.prototype = {
         }
         // Clean custom attributes on elements
         queryElements(this._settings).forEach((element) => {
-            delete element.llOriginalAttrs;
+            deleteOriginalAttrs(element);
         });
         // Delete all internal props
         delete this._observer;
@@ -59,6 +61,13 @@ LazyLoad.prototype = {
         elementsToLoad.forEach((element) => {
             unobserve(element, this);
             load(element, settings, this);
+        });
+    },
+
+    restoreAll: function() {
+        const settings = this._settings;
+        queryElements(settings).forEach((element) => {
+            restore(element, settings);
         });
     }
 };

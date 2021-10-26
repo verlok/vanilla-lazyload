@@ -1,5 +1,6 @@
 // jest.config.js
 module.exports = {
     //verbose: true,
-    testMatch: ["**/__tests__/*.js"]
+    testMatch: ["**/__tests__/*.js"],
+    testEnvironment: "jsdom"
 };

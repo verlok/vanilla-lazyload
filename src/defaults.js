@@ -1,4 +1,4 @@
-import { isBot, runningOnBrowser } from "./lazyload.environment";
+import { isBot, runningOnBrowser } from "./environment";
 
 const defaultSettings = {
     elements_selector: ".lazy",

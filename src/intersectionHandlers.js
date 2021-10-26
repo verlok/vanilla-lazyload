@@ -1,10 +1,10 @@
-import { safeCallback } from "./lazyload.callback";
-import { load } from "./lazyload.load";
-import { hasEmptyStatus, hadStartedLoading, setStatus } from "./lazyload.data";
-import { cancelLoading } from "./lazyload.cancelOnExit";
-import { unobserveEntered } from "./lazyload.unobserve";
-import { statusEntered } from "./lazyload.elementStatus";
-import { addClass, removeClass } from "./lazyload.class";
+import { safeCallback } from "./callback";
+import { load } from "./load";
+import { hasEmptyStatus, hadStartedLoading, setStatus } from "./data";
+import { cancelLoading } from "./cancelOnExit";
+import { unobserveEntered } from "./unobserve";
+import { statusEntered } from "./elementStatus";
+import { addClass, removeClass } from "./class";
 
 export const onEnter = (element, entry, settings, instance) => {
     const dontLoad = hadStartedLoading(element); /* Save status 
