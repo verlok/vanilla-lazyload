@@ -325,16 +325,21 @@
     </script>
     <script src="../dist/lazyload.min.js"></script>
     <script>
+      // External LazyLoad instance to watch for the first image in every lazy swiper
       const lazySwipers = new LazyLoad({
         elements_selector: ".swiper--lazy .swiper-slide:first-child img",
         unobserve_entered: true,
+        // Once the first image has been downloaded...
         callback_loaded: function (firstSlideImg) {
+          // Find the Swiper container element
           const swiperElement = firstSlideImg.closest(".swiper--lazy");
+          // Create the new Swiper instance
+          const swiper = new Swiper("#" + swiperElement.id, swiperOptions);
+          // Internal LazyLoad instance for images beyond Swiper bounds
           const lazyImages = new LazyLoad({
             container: swiperElement,
             elements_selector: "img"
           });
-          const swiper = new Swiper("#" + swiperElement.id, swiperOptions);
         }
       });
     </script>
