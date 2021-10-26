@@ -325,17 +325,12 @@
     </script>
     <script src="../dist/lazyload.min.js"></script>
     <script>
-      const firstImageLazyLoad = new LazyLoad({
+      const lazySwipers = new LazyLoad({
         elements_selector: ".swiper--lazy .swiper-slide:first-child img",
-      });
-      const swiperLazyInitializer = new LazyLoad({
-        threshold: 0, //for demo purposes only, don't use in production
-        elements_selector: ".swiper--lazy",
-        unobserve_entered: true, 
-        callback_enter: function (swiperElement) {
-          // load all images using LazyLoad.load()
+        unobserve_entered: true,
+        callback_loaded: function (firstSlideImg) {
+          const swiperElement = firstSlideImg.closest(".swiper--lazy");
           swiperElement.querySelectorAll("img").forEach((img) => LazyLoad.load(img));
-          // initialize a new swiper for this element
           const swiper = new Swiper("#" + swiperElement.id, swiperOptions);
         }
       });
