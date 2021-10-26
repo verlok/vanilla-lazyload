@@ -330,7 +330,10 @@
         unobserve_entered: true,
         callback_loaded: function (firstSlideImg) {
           const swiperElement = firstSlideImg.closest(".swiper--lazy");
-          swiperElement.querySelectorAll("img").forEach((img) => LazyLoad.load(img));
+          const lazyImages = new LazyLoad({
+            container: swiperElement,
+            elements_selector: "img"
+          });
           const swiper = new Swiper("#" + swiperElement.id, swiperOptions);
         }
       });
