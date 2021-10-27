@@ -644,6 +644,7 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html)              |
 | Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/fade_in.html)                     |
 | Technique | Lazily create lazyload instances                                                               | [Code](demos/lazily_load_lazyLoad.html)        | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html)        |
+| Technique | Lazily create Swiper instances and lazily load Swiper images                                   | [Code](demos/swiper.html)                      | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/swiper.html)                      |
 | Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html)              |
 | Technique | How to manage the print of a page with lazy images                                             | [Code](demos/print.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/print.html)                       |
 | Technique | A popup layer containing lazy images in a scrolling container                                  | [Code](demos/popup_layer.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/popup_layer.html)                 |
@@ -800,7 +801,7 @@ A list of all vanilla-lazyload features, compared with other popular lazy loadin
 | Is extendable                                                                            | ✔ (API)          | ✔ (plugins) |
 | Is SEO friendly                                                                          | ✔                | ✔           |
 | Optimizes performance by cancelling downloads of images that already exited the viewport | ✔                |             |
-| Retries loading after network connection went off and on again                                 | ✔                |             |
+| Retries loading after network connection went off and on again                           | ✔                |             |
 | Supports conditional usage of native lazyloading                                         | ✔                |             |
 | Works with your DOM, your own classes and data-attributes                                | ✔                |             |
 | Can lazyload responsive images                                                           | ✔                | ✔           |
@@ -864,7 +865,7 @@ Check out the [lazy functions](#lazy-functions) section and learn how to execute
 
 #### Can restore DOM to its original state
 
-Using the `restoreAll()` method, you can make LazyLoad restore all DOM manipulated from LazyLoad to how it was when the page was loaded the first time. 
+Using the `restoreAll()` method, you can make LazyLoad restore all DOM manipulated from LazyLoad to how it was when the page was loaded the first time.
 
 ---
 
