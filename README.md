@@ -165,13 +165,6 @@ The easiest way to use LazyLoad is to include the script from a CDN:
 <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
 ```
 
-Or, with the IntersectionObserver polyfill:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
-```
-
 Then, in your javascript code:
 
 ```js
@@ -185,42 +178,6 @@ To be sure that DOM for your lazy content is ready when you instantiate LazyLoad
 ```js
 lazyLoadInstance.update();
 ```
-
-### Include via RequireJS
-
-You can use [RequireJS](https://requirejs.org) to dynamically and asynchronously load modules in your website.
-
-You can also find the original W3C'S [IntersectionObserver Polyfill packed in AMD](https://github.com/verlok/IntersectionObserverAMD) so you can `require` it conditionally, along with LazyLoad.
-
-Include RequireJS:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
-```
-
-Then `require` the AMD version of LazyLoad, like this:
-
-```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.amd.min.js";
-var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
-
-/// Dynamically define the dependencies
-var dependencies = [
-    "IntersectionObserver" in window
-        ? null // <- Doesn't require the polyfill
-        : polyfillAmdUrl,
-    lazyLoadAmdUrl
-];
-
-// Initialize LazyLoad inside the callback
-require(dependencies, function(_, LazyLoad) {
-    var lazyLoadInstance = new LazyLoad({
-        // Your custom settings go here
-    });
-}
-```
-
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/amd_polyfill.html)
 
 ### Using an `async` script
 
