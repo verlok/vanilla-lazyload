@@ -157,14 +157,6 @@ The latest, recommended version of LazyLoad is **17.5.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
-### To polyfill or not to polyfill IntersectionObserver?
-
-On browser NOT supporting IntersectionObserver such as Internet explorer and older versions of Safari **you can choose whether or not to add a javascript polyfill** for it.
-
-If you **don't use a polyfill**, LazyLoad will **load all the images** as soon as it's downloaded and executed. The number of impacted users would be [relatively small](https://caniuse.com/intersectionobserver), so this is a completely acceptable choice.
-
-If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
-
 ### The simple, easiest way
 
 The easiest way to use LazyLoad is to include the script from a CDN:
