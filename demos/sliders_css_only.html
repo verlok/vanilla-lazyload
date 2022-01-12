@@ -1,0 +1,318 @@
+o<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8" />
+    <title>Swipey CSS only - Lazyload demos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      ul,
+      li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      a,
+      img {
+        display: block;
+      }
+
+      img {
+        border: 0;
+        width: 220px;
+        height: 280px;
+      }
+
+      img:not([src]) {
+        visibility: hidden;
+      }
+
+      .slider {
+        width: 100%;
+        height: 280px;
+        margin-bottom: 40px;
+      }
+
+      .slider-wrapper {
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scroll-snap-align: start;
+        display: flex;
+        gap: 20px;
+      }
+
+      .slider-slide {
+        width: 220px;
+      }
+
+      .slider-slide img {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Swipey, CSS only</h1>
+    <p>First slider</p>
+    <div class="slider">
+      <div class="slider-wrapper">
+        <div class="slider-slide">
+          <img
+            alt="Stivaletti"
+            src="https://via.placeholder.com/220x280?text=S01E01"
+            srcset="https://via.placeholder.com/440x560?text=S01E01 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide">
+          <img
+            alt="Stivaletti"
+            src="https://via.placeholder.com/220x280?text=S01E02"
+            srcset="https://via.placeholder.com/440x560?text=S01E02 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S01E03"
+            data-srcset="https://via.placeholder.com/440x560?text=S01E03 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S01E04"
+            data-srcset="https://via.placeholder.com/440x560?text=S01E04 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S01E05"
+            data-srcset="https://via.placeholder.com/440x560?text=S01E05 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+      </div>
+    </div>
+
+    <p>Second slider</p>
+    <div class="slider">
+      <div class="slider-wrapper">
+        <div class="slider-slide">
+          <img
+            alt="Stivaletti"
+            src="https://via.placeholder.com/220x280?text=S02E01"
+            srcset="https://via.placeholder.com/440x560?text=S02E01 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide">
+          <img
+            alt="Stivaletti"
+            src="https://via.placeholder.com/220x280?text=S02E02"
+            srcset="https://via.placeholder.com/440x560?text=S02E02 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S02E03"
+            data-srcset="https://via.placeholder.com/440x560?text=S02E03 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S02E04"
+            data-srcset="https://via.placeholder.com/440x560?text=S02E04 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S02E05"
+            data-srcset="https://via.placeholder.com/440x560?text=S02E05 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+      </div>
+    </div>
+
+    <p>Another slider</p>
+    <div class="slider">
+      <div class="slider-wrapper">
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S03E01"
+            data-srcset="https://via.placeholder.com/440x560?text=S03E01 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S03E02"
+            data-srcset="https://via.placeholder.com/440x560?text=S03E02 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S03E03"
+            data-srcset="https://via.placeholder.com/440x560?text=S03E03 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S03E04"
+            data-srcset="https://via.placeholder.com/440x560?text=S03E04 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S03E05"
+            data-srcset="https://via.placeholder.com/440x560?text=S03E05 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+      </div>
+    </div>
+
+    <p>Yet another slider</p>
+    <div class="slider">
+      <div class="slider-wrapper">
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S04E01"
+            data-srcset="https://via.placeholder.com/440x560?text=S04E01 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S04E02"
+            data-srcset="https://via.placeholder.com/440x560?text=S04E02 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S04E03"
+            data-srcset="https://via.placeholder.com/440x560?text=S04E03 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S04E04"
+            data-srcset="https://via.placeholder.com/440x560?text=S04E04 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S04E05"
+            data-srcset="https://via.placeholder.com/440x560?text=S04E05 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+      </div>
+    </div>
+
+    <p>And yet another yet another slider</p>
+    <div class="slider">
+      <div class="slider-wrapper">
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S05E01"
+            data-srcset="https://via.placeholder.com/440x560?text=S05E01 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S05E02"
+            data-srcset="https://via.placeholder.com/440x560?text=S05E02 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S05E03"
+            data-srcset="https://via.placeholder.com/440x560?text=S05E03 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S05E04"
+            data-srcset="https://via.placeholder.com/440x560?text=S05E04 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+        <div class="slider-slide slider-slide--lazy">
+          <img
+            alt="Stivaletti"
+            data-src="https://via.placeholder.com/220x280?text=S05E05"
+            data-srcset="https://via.placeholder.com/440x560?text=S05E05 2x"
+            width="220"
+            height="280"
+          />
+        </div>
+      </div>
+    </div>
+
+    <script src="../dist/lazyload.min.js"></script>
+    <script>
+      const lazysliders = new LazyLoad({
+        elements_selector: ".slider-slide--lazy img"
+      });
+    </script>
+  </body>
+</html>
