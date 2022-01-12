@@ -157,26 +157,11 @@ The latest, recommended version of LazyLoad is **17.5.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
-### To polyfill or not to polyfill IntersectionObserver?
-
-On browser NOT supporting IntersectionObserver such as Internet explorer and older versions of Safari **you can choose whether or not to add a javascript polyfill** for it.
-
-If you **don't use a polyfill**, LazyLoad will **load all the images** as soon as it's downloaded and executed. The number of impacted users would be [relatively small](https://caniuse.com/intersectionobserver), so this is a completely acceptable choice.
-
-If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
-
 ### The simple, easiest way
 
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
-```
-
-Or, with the IntersectionObserver polyfill:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
 ```
 
@@ -193,42 +178,6 @@ To be sure that DOM for your lazy content is ready when you instantiate LazyLoad
 ```js
 lazyLoadInstance.update();
 ```
-
-### Include via RequireJS
-
-You can use [RequireJS](https://requirejs.org) to dynamically and asynchronously load modules in your website.
-
-You can also find the original W3C'S [IntersectionObserver Polyfill packed in AMD](https://github.com/verlok/IntersectionObserverAMD) so you can `require` it conditionally, along with LazyLoad.
-
-Include RequireJS:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
-```
-
-Then `require` the AMD version of LazyLoad, like this:
-
-```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.amd.min.js";
-var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
-
-/// Dynamically define the dependencies
-var dependencies = [
-    "IntersectionObserver" in window
-        ? null // <- Doesn't require the polyfill
-        : polyfillAmdUrl,
-    lazyLoadAmdUrl
-];
-
-// Initialize LazyLoad inside the callback
-require(dependencies, function(_, LazyLoad) {
-    var lazyLoadInstance = new LazyLoad({
-        // Your custom settings go here
-    });
-}
-```
-
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/amd_polyfill.html)
 
 ### Using an `async` script
 
@@ -643,7 +592,7 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html)                       |
 | Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html)              |
 | Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/fade_in.html)                     |
-| Technique | Lazily create lazyload instances                                                               | [Code](demos/lazily_load_lazyLoad.html)        | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html)        |
+| Technique | Lazy load images in CSS-only horizontal sliders (Netflix style)                                | [Code](demos/sliders_css_only.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/sliders_css_only.html)            |
 | Technique | Lazily create Swiper instances and lazily load Swiper images                                   | [Code](demos/swiper.html)                      | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/swiper.html)                      |
 | Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html)              |
 | Technique | How to manage the print of a page with lazy images                                             | [Code](demos/print.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/print.html)                       |
