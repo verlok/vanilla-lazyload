@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.5.1
+
+- Updated Typescript typings
+
 #### 17.5.0
 
 - Added the ability to restore DOM to its original state throught the `restoreAll()` method.
