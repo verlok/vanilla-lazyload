@@ -1,10 +1,10 @@
-LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it optimizes your website for slower connections, and can enable native lazy loading. See [notable features](#-notable-features) for more.
+LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it optimizes your website for slower connections, and can enable native lazy loading. See [all features](#-all-features-compared) for more.
 
 [![vanilla-lazyload (latest)](https://img.shields.io/npm/v/vanilla-lazyload/latest.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![vanilla-lazyload (downloads)](https://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![](https://data.jsdelivr.com/v1/package/npm/vanilla-lazyload/badge)](https://www.jsdelivr.com/package/npm/vanilla-lazyload)
 
-➡️ Jump to: [👨‍💻 Getting started - HTML](#-getting-started---html) - [👩‍💻 Getting started - Script](#-getting-started---script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 Notable features](#-notable-features)
+➡️ Jump to: [👨‍💻 Getting started - HTML](#-getting-started---html) - [👩‍💻 Getting started - Script](#-getting-started---script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 All features compared](#-all-features-compared)
 
 ---
 
@@ -153,31 +153,16 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.5.0**.
+The latest, recommended version of LazyLoad is **17.5.1**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
-
-### To polyfill or not to polyfill IntersectionObserver?
-
-On browser NOT supporting IntersectionObserver such as Internet explorer and older versions of Safari **you can choose whether or not to add a javascript polyfill** for it.
-
-If you **don't use a polyfill**, LazyLoad will **load all the images** as soon as it's downloaded and executed. The number of impacted users would be [relatively small](https://caniuse.com/intersectionobserver), so this is a completely acceptable choice.
-
-If you prefer to load a polyfill, the regular LazyLoad behaviour is granted.
 
 ### The simple, easiest way
 
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
-```
-
-Or, with the IntersectionObserver polyfill:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -193,42 +178,6 @@ To be sure that DOM for your lazy content is ready when you instantiate LazyLoad
 ```js
 lazyLoadInstance.update();
 ```
-
-### Include via RequireJS
-
-You can use [RequireJS](https://requirejs.org) to dynamically and asynchronously load modules in your website.
-
-You can also find the original W3C'S [IntersectionObserver Polyfill packed in AMD](https://github.com/verlok/IntersectionObserverAMD) so you can `require` it conditionally, along with LazyLoad.
-
-Include RequireJS:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/bin/r.min.js"></script>
-```
-
-Then `require` the AMD version of LazyLoad, like this:
-
-```js
-var lazyLoadAmdUrl = "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.amd.min.js";
-var polyfillAmdUrl = "https://cdn.jsdelivr.net/npm/intersection-observer-amd@2.0.1/intersection-observer-amd.js";
-
-/// Dynamically define the dependencies
-var dependencies = [
-    "IntersectionObserver" in window
-        ? null // <- Doesn't require the polyfill
-        : polyfillAmdUrl,
-    lazyLoadAmdUrl
-];
-
-// Initialize LazyLoad inside the callback
-require(dependencies, function(_, LazyLoad) {
-    var lazyLoadInstance = new LazyLoad({
-        // Your custom settings go here
-    });
-}
-```
-
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/amd_polyfill.html)
 
 ### Using an `async` script
 
@@ -254,7 +203,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -288,7 +237,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -377,13 +326,30 @@ img:not([src]):not([srcset]) {
 
 Just that, really.
 
+### Image errors handling
+
+> 💡 **Use case**: when you want to prevent showing unexisting/broken images on your website.
+
+Javascript
+
+```js
+var myLazyLoad = new LazyLoad({
+  // Other options here...
+  callback_error: (img) => {
+    // Use the following line only if your images have the `srcset` attribute
+    img.setAttribute("srcset", "fallback_image@1x.jpg 1x, fallback_image@2x.jpg 2x");
+    img.setAttribute("src", "fallback_image@1x.jpg");
+  }
+});
+```
+
+NOTE: if the error was generated by a network down (navigator if temporarily offline), vanilla-lazyload will try and load the images again when the network becomes available again.
+
+[EXAMPLE](https://codepen.io/verlok/pen/mdwYbGq) - [API](#-api)
+
 ### Dynamic content
 
 > 💡 **Use case**: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.
-
-HTML
-
-_The HTML to use depends on your case, see other recipes' HTML_
 
 Javascript
 
@@ -397,7 +363,7 @@ myLazyLoad.update();
 
 ### Mixed native and JS-based lazy loading
 
-> 💡 **Use case**: you want to use the `use_native` option to delegate the loading of images, iframes and videos to the browsers engine where supported, but you also want to lazily load backgroud images.
+> 💡 **Use case**: you want to use the `use_native` option to delegate the loading of images, iframes and videos to the browsers engine where supported, but you also want to lazily load background images.
 
 HTML
 
@@ -616,7 +582,8 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Content   | Lazy responsive images with the `<picture>` tag and the `media` attribute (art direction)      | [Code](demos/picture_media.html)               | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/picture_media.html)               |
 | Content   | Lazy responsive images with `srcset` and `sizes` (using `data-sizes`)                          | [Code](demos/image_srcset_lazy_sizes.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_srcset_lazy_sizes.html)     |
 | Content   | Lazy responsive images with `srcset` and `sizes` (using plain `sizes`)                         | [Code](demos/image_srcset_sizes.html)          | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_srcset_sizes.html)          |
-| Content   | Lazy video with multiple `<source>` tags                                                       | [Code](demos/video.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video.html)                       |
+| Content   | Lazy video with multiple `<source>` tags, different preload options, NO autoplay               | [Code](demos/video.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video.html)                       |
+| Content   | Lazy video with multiple `<source>` tags, different preload options, WITH autoplay             | [Code](demos/video_autoplay.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video_autoplay.html)              |
 | Content   | Lazy loading background images                                                                 | [Code](demos/background_images.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images.html)           |
 | Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_multi.html)     |
 | Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/picture_type_webp.html)           |
@@ -625,7 +592,8 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html)                       |
 | Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html)              |
 | Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/fade_in.html)                     |
-| Technique | Lazily create lazyload instances                                                               | [Code](demos/lazily_load_lazyLoad.html)        | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html)        |
+| Technique | Lazy load images in CSS-only horizontal sliders (Netflix style)                                | [Code](demos/sliders_css_only.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/sliders_css_only.html)            |
+| Technique | Lazily create Swiper instances and lazily load Swiper images                                   | [Code](demos/swiper.html)                      | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/swiper.html)                      |
 | Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html)              |
 | Technique | How to manage the print of a page with lazy images                                             | [Code](demos/print.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/print.html)                       |
 | Technique | A popup layer containing lazy images in a scrolling container                                  | [Code](demos/popup_layer.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/popup_layer.html)                 |
@@ -650,54 +618,13 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 
 ## 😋 Tips & tricks
 
-### Occupy space and avoid content reflow
+### Minimize [CLS](https://web.dev/cls) by occupy space beforehand
 
-It's a good idea to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to reflow and making lazyload inefficient.
+It's very important to make sure that your lazy images occupy some space even **before they are loaded**, otherwise the `img` elements will be shrinked to zero-height, causing your layout to shift and making lazyload inefficient.
 
-There are [many ways to avoid content reflow](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/). I've [tested three of them](https://github.com/verlok/lazyload_placeholders_test) and found that the fastest is to **avoid using a placeholder at all**, and use the vertical padding trick.
+The best way to do that is to set both `width` and `height` attributes to `img` and `video` elements and, if you choose not to use a placeholder image, apply the `display: block` CSS rule to every image.
 
-#### Vertical padding trick
-
-```html
-<div class="image-wrapper">
-  <img class="lazy image" alt="An image" data-src="lazy.jpg" />
-</div>
-```
-
-```css
-.image-wrapper {
-  width: 100%;
-  height: 0;
-  padding-bottom: 150%;
-  /* 👆 image height / width * 100% */
-  position: relative;
-}
-.image {
-  width: 100%;
-  height: auto;
-  position: absolute;
-}
-```
-
-More info in [Sizing Fluid Image Containers with a Little CSS Padding Hack](http://andyshora.com/css-image-container-padding-hack.html) by Andy Shora. Find also a useful [SASS mixin to maintain aspect ratio](https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/) on CSS tricks.
-
-#### Inline SVG
-
-If you can't use the vertical padding trick for some reason, the best option is to use an SVG placeholder of the same ratio of the lazy images.
-
-```html
-<img
-  src="data:image/svg+xml,%3Csvg 
-    xmlns='http://www.w3.org/2000/svg' 
-    viewBox='0 0 3 2'%3E%3C/svg%3E"
-  data-src="//picsum.photos/900/600"
-  alt="Lazy loading test image"
-/>
-```
-
-Alternatively (but less efficiently) you can use a tiny, scaled-down version of your images as a placeholder, stretching them to the final size of the images, and obtain a blur-up effect when the full images load.
-
-Using a placeholder image will also make sure that browsers don't show your `alt` content instead of the images before the lazy-loading starts.
+You can find more details and demos in my article [aspect-ratio: A modern way to reserve space for images and async content in responsive design](https://www.andreaverlicchi.eu/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/).
 
 ---
 
@@ -811,44 +738,92 @@ You can use the following properties on any instance of LazyLoad.
 
 ---
 
-## 😯 Notable features
+## 😯 All features, compared
 
-### It works with your favourite library or framework
+A list of all vanilla-lazyload features, compared with other popular lazy loading libraries.
 
-As _LazyLoad_ doesn't rely on jQuery, you can use it in web applications using **Angular**, **React** or **Vue.js** without the need to include jQuery.
+### vanilla-lazyload VS lazysizes
 
-### Intersection Observer API for optimized CPU usage
+| It                                                                                       | vanilla-lazyload | lazysizes   |
+| ---------------------------------------------------------------------------------------- | ---------------- | ----------- |
+| Is lightweight                                                                           | ✔ (2.8 kB)       | ✔ (3.4 kB)  |
+| Is extendable                                                                            | ✔ (API)          | ✔ (plugins) |
+| Is SEO friendly                                                                          | ✔                | ✔           |
+| Optimizes performance by cancelling downloads of images that already exited the viewport | ✔                |             |
+| Retries loading after network connection went off and on again                           | ✔                |             |
+| Supports conditional usage of native lazyloading                                         | ✔                |             |
+| Works with your DOM, your own classes and data-attributes                                | ✔                |             |
+| Can lazyload responsive images                                                           | ✔                | ✔           |
+| ...and automatically calculate the value of the `sizes` attribute                        |                  | ✔           |
+| Can lazyload iframes                                                                     | ✔                | ✔           |
+| Can lazyload videos                                                                      | ✔                |             |
+| Can lazyload background images                                                           | ✔                |             |
+| Can lazily execute code, when given elements enter the viewport                          | ✔                |             |
+| Can restore DOM to its original state                                                    | ✔                |             |
 
-Instead of listening to the `scroll` and `resize` events, LazyLoad uses the Intersection Observer API which is a new, blazing fast method to detect if an element is inside the browser viewport. Your users will see the difference in slow and even in fast devices or computers.
+Weights source: [bundlephobia](https://bundlephobia.com/). Find others table rows explanation below.
 
-### SEO friendly
+#### Is extendable
 
-_LazyLoad_ **doesn't hide your images from search engines**, even if you don't specify any initial `src` for your image.
+Both scripts are extendable, check out the [API](#-api).
 
-### Flaky connections supported
+#### Is SEO friendly
 
-If your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.
+Both scripts **don't hide images/assets from search engines**. No matter what markup pattern you use. Search engines don't scroll/interact with your website. These scripts detects whether or not the user agent is capable to scroll. If not, they reveal all images instantly.
 
-### Optimize for slow connections
+#### Optimizes performance by cancelling downloads of images that already exited the viewport
 
-_LazyLoad_ optimizes for slow connections by cancelling the download of images when they exit the viewport.
+If your mobile users are on slow connections and scrolls down fast, vanilla-lazyload cancels the download of images that are still loading but already exited the viewport.
 
-### Support for responsive images
+#### Retries loading after network connection went off and on
 
-_LazyLoad_ supports responsive images, both via the `srcset` & `sizes` attributes and via the `picture` tag.
+If your mobile users are on flaky connections and go offline and back online, vanilla-lazyload retries downloading the images that errored.
 
-### Support for single and background images, and HiDPI displays
+#### Supports conditional usage of native lazyloading
 
-_LazyLoad_ supports single and multiple lazy background images, with standard resolution or HiDPI (retina) displays.
+If your users are on a browser supporting native lazyloading and you want to use it, just set the `use_native` option to `true`.
 
-### Tested on real browsers
+#### Works with your DOM, your own classes and data-attributes
 
-Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
+Both scripts work by default with the `data-src` attribute and the `lazy` class in your DOM, but on LazyLoad you can change it, e.g. using `data-origin` to migrate from other lazy loading script.
 
-<a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="./img/browserstack-logo-600x315.png"  width="300" height="158"/></a>
+#### Can lazyload responsive images
+
+Both scripts can lazyload images and responsive images by all kinds, e.g. `<img src="..." srcset="..." sizes="...">` and `<picture><source media="..." srcset="" ...><img ...></picture>`.
+
+#### ...and automatically calculate the value of the `sizes` attribute
+
+lazysizes is it can derive the value of the `sizes` attribute from your CSS by using Javascript.
+vanilla-lazyload doesn't have this feature because of performance optimization reasons (the `sizes` attribute is useful to eagerly load responsive images when it's expressed in the markup, not when it's set by javascript).
+
+#### Can lazyload iframes
+
+Both scripts can lazyload the `iframe` tag.
+
+#### Can lazyload videos
+
+Only vanilla-lazyload can lazyload the `video` tag, even with multiple `source`s.
+
+#### Can lazyload background images
+
+Only vanilla-lazyload can lazyload background images. And also multiple background images. And supporting HiDPI such as Retina and Super Retina display.
+
+#### Can lazily execute code, when given elements enter the viewport
+
+Check out the [lazy functions](#lazy-functions) section and learn how to execute code only when given elements enter the viewport.
+
+#### Can restore DOM to its original state
+
+Using the `restoreAll()` method, you can make LazyLoad restore all DOM manipulated from LazyLoad to how it was when the page was loaded the first time.
 
 ---
 
 **Love this project? 😍 [Buy me a coffee!](https://ko-fi.com/verlok)**
 
 ---
+
+## Tested on real browsers
+
+Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
+
+<a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="./img/browserstack-logo-600x315.png"  width="300" height="158"/></a>
