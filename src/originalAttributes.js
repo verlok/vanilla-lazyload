@@ -1,8 +1,9 @@
-import { SRC, SRCSET, SIZES, POSTER, ORIGINALS } from "./constants.js";
+import { SRC, SRCSET, SIZES, POSTER, ORIGINALS, DATA } from "./constants.js";
 
 export const attrsSrc = [SRC];
 export const attrsSrcPoster = [SRC, POSTER];
 export const attrsSrcSrcsetSizes = [SRC, SRCSET, SIZES];
+export const attrsData = [DATA];
 
 export const hasOriginalAttrs = (element) => !!element[ORIGINALS];
 export const getOriginalAttrs = (element) => element[ORIGINALS];
@@ -11,6 +12,7 @@ export const deleteOriginalAttrs = (element) => delete element[ORIGINALS];
 // ## SAVE ##
 
 export const setOriginalsObject = (element, attributes) => {
+    debugger;
     if (hasOriginalAttrs(element)) {
         return;
     }
@@ -44,7 +46,7 @@ export const restoreOriginalAttrs = (element, attributes) => {
     }
     const originals = getOriginalAttrs(element);
     attributes.forEach((attribute) => {
-        setOrResetAttribute(element, attribute, originals[attribute])
+        setOrResetAttribute(element, attribute, originals[attribute]);
     });
 };
 
@@ -52,6 +54,6 @@ export const restoreOriginalBgImage = (element) => {
     if (!hasOriginalAttrs(element)) {
         return;
     }
-    const originals = getOriginalAttrs(element);    
+    const originals = getOriginalAttrs(element);
     element.style.backgroundImage = originals.backgroundImage;
 };

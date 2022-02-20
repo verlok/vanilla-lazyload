@@ -2,9 +2,18 @@
 
 ## Version 17
 
+
+#### 17.6.0
+
+- Added ability to lazily load the `<object>` tag, as requested in #177. Useful to lazily load animated SVGs.
+
+#### 17.5.1
+
+- Updated Typescript typings
+
 #### 17.5.0
 
-- Added the ability to restore DOM to its original state throught the `restoreAll()` method.
+- Added the ability to restore DOM to its original state through the `restoreAll()` method.
 - Destroy demo became [restore and destroy demo](demos/restore_destroy.html)
 
 #### 17.4.0

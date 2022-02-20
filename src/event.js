@@ -11,7 +11,7 @@ import {
     isSomethingLoading
 } from "./counters";
 
-const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
+const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO", "OBJECT"];
 export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 
 export const checkFinish = (settings, instance) => {
