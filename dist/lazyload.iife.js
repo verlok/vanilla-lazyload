@@ -109,6 +109,7 @@ var LazyLoad = (function () {
   var SIZES = "sizes";
   var POSTER = "poster";
   var ORIGINALS = "llOriginalAttrs";
+  var DATA = "data";
 
   var statusLoading = "loading";
   var statusLoaded = "loaded";
@@ -265,6 +266,7 @@ var LazyLoad = (function () {
   var attrsSrc = [SRC];
   var attrsSrcPoster = [SRC, POSTER];
   var attrsSrcSrcsetSizes = [SRC, SRCSET, SIZES];
+  var attrsData = [DATA];
   var hasOriginalAttrs = function hasOriginalAttrs(element) {
     return !!element[ORIGINALS];
   };
@@ -276,6 +278,8 @@ var LazyLoad = (function () {
   }; // ## SAVE ##
 
   var setOriginalsObject = function setOriginalsObject(element, attributes) {
+    debugger;
+
     if (hasOriginalAttrs(element)) {
       return;
     }
@@ -379,6 +383,10 @@ var LazyLoad = (function () {
     setAttributeIfValue(videoEl, SRC, getData(videoEl, settings.data_src));
     videoEl.load();
   };
+  var setSourcesObject = function setSourcesObject(object, settings) {
+    setOriginalsObject(object, attrsData);
+    setAttributeIfValue(object, DATA, getData(object, settings.data_src));
+  };
   var setBackground = function setBackground(element, settings, instance) {
     var bg1xValue = getData(element, settings.data_bg);
     var bgHiDpiValue = getData(element, settings.data_bg_hidpi);
@@ -406,7 +414,8 @@ var LazyLoad = (function () {
   var setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
-    VIDEO: setSourcesVideo
+    VIDEO: setSourcesVideo,
+    OBJECT: setSourcesObject
   };
   var setSourcesNative = function setSourcesNative(element, settings) {
     var setSourcesFunction = setSourcesFunctions[element.tagName];
@@ -428,7 +437,7 @@ var LazyLoad = (function () {
     manageLoading(element, settings, instance);
   };
 
-  var elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
+  var elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO", "OBJECT"];
   var hasLoadEvent = function hasLoadEvent(element) {
     return elementsWithLoadEvent.indexOf(element.tagName) > -1;
   };
@@ -570,10 +579,14 @@ var LazyLoad = (function () {
   var restoreIframe = function restoreIframe(iframeEl) {
     restoreOriginalAttrs(iframeEl, attrsSrc);
   };
+  var restoreObject = function restoreObject(objectEl) {
+    restoreOriginalAttrs(objectEl, attrsData);
+  };
   var restoreFunctions = {
     IMG: restoreImg,
     IFRAME: restoreIframe,
-    VIDEO: restoreVideo
+    VIDEO: restoreVideo,
+    OBJECT: restoreObject
   };
 
   var restoreAttributes = function restoreAttributes(element) {

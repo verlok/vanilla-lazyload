@@ -1,4 +1,4 @@
-LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it optimizes your website for slower connections, and can enable native lazy loading. See [all features](#-all-features-compared) for more.
+LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web application** by deferring the loading of your below-the-fold images, animated SVGs, videos and iframes to **when they will enter the viewport**. It's written in plain "vanilla" JavaScript, it leverages the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) API, it supports [responsive images](https://alistapart.com/article/responsive-images-in-practice), it optimizes your website for slower connections, and can enable native lazy loading. See [all features](#-all-features-compared) for more.
 
 [![vanilla-lazyload (latest)](https://img.shields.io/npm/v/vanilla-lazyload/latest.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![vanilla-lazyload (downloads)](https://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/vanilla-lazyload)
@@ -127,6 +127,12 @@ Multiple backgrounds, HiDPI screen support:
 
 ℹ Please note that you must use `url()` to wrap the URLs in your `data-bg-multi-hidpi` attributes.
 
+#### Lazy animated SVG
+
+```html
+<object class="lazy" type="image/svg+xml" data-src="lazy.svg"></object>
+```
+
 #### Lazy video
 
 ```html
@@ -142,7 +148,7 @@ Please note that the video poster can be lazily loaded too.
 #### Lazy iframe
 
 ```html
-<iframe class="lazy" data-src="lazyFrame.html"> </iframe>
+<iframe class="lazy" data-src="lazyFrame.html"></iframe>
 ```
 
 ---
@@ -153,7 +159,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.5.1**.
+The latest, recommended version of LazyLoad is **17.6.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -162,7 +168,7 @@ Quickly understand how to upgrade from a previous version reading the [practical
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -203,7 +209,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -237,7 +243,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -371,6 +377,7 @@ HTML
 <img class="lazy" alt="A lazy image" data-src="lazy.jpg" />
 <iframe class="lazy" data-src="lazyFrame.html"></iframe>
 <video class="lazy" controls data-src="lazy.mp4" data-poster="lazy.jpg">...</video>
+<object class="lazy" type="image/svg+xml" data-src="lazy.svg"></object>
 <div class="lazy" data-bg="lazy.jpg"></div>
 ```
 
@@ -585,6 +592,8 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Content   | Lazy video with multiple `<source>` tags, different preload options, NO autoplay               | [Code](demos/video.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video.html)                       |
 | Content   | Lazy video with multiple `<source>` tags, different preload options, WITH autoplay             | [Code](demos/video_autoplay.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video_autoplay.html)              |
 | Content   | Lazy loading background images                                                                 | [Code](demos/background_images.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images.html)           |
+| Content   | Lazy loading iframes                                                                           | [Code](demos/iframes.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/iframes.html)                     |
+| Content   | Lazy loading animated SVGs and PDF files                                                       | [Code](demos/objects.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/objects.html)                     |
 | Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_multi.html)     |
 | Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/picture_type_webp.html)           |
 | Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd.html)                         |
@@ -688,7 +697,7 @@ Here's the list of the options.
 | `class_error`         | The class applied to the elements when the element causes an error.                                                                                                                                                                                                                                                                                                                                                                                          | `"error"`          | `"lazy-error"`                           |
 | `class_entered`       | The class applied to the elements after they entered the viewport.                                                                                                                                                                                                                                                                                                                                                                                           | `"entered"`        | `"lazy-entered"`                         |
 | `class_exited`        | The class applied to the elements after they exited the viewport. This class is removed if an element enters the viewport again. The `unobserve_entered` option can affect the appliance of this class, e.g. when loading images that complete loading before exiting.                                                                                                                                                                                       | `"exited"`         | `"lazy-exited"`                          |
-| `cancel_on_exit`      | A boolean that defines whether or not to cancel the download of the images that exit the viewport while they are still loading, eventually restoring the original attributes. It applies only to images so to the `img` (and `picture`) tags, so it doesn't apply to background images, `iframe`s nor `video`s.                                                                                                                                              | `true`             | `false`                                  |
+| `cancel_on_exit`      | A boolean that defines whether or not to cancel the download of the images that exit the viewport while they are still loading, eventually restoring the original attributes. It applies only to images so to the `img` (and `picture`) tags, so it doesn't apply to background images, `iframe`s, `object`s nor `video`s.                                                                                                                                   | `true`             | `false`                                  |
 | `unobserve_entered`   | A boolean that defines whether or not to automatically unobserve elements once they entered the viewport                                                                                                                                                                                                                                                                                                                                                     | `false`            | `true`                                   |
 | `unobserve_completed` | A boolean that defines whether or not to automatically unobserve elements once they've loaded or throwed an error                                                                                                                                                                                                                                                                                                                                            | `true`             | `false`                                  |
 | `callback_enter`      | A callback function which is called whenever an element enters the viewport. Arguments: DOM element, intersection observer entry, lazyload instance.                                                                                                                                                                                                                                                                                                         | `null`             | `(el)=>{console.log("Entered", el)}`     |
@@ -756,6 +765,7 @@ A list of all vanilla-lazyload features, compared with other popular lazy loadin
 | Can lazyload responsive images                                                           | ✔                | ✔           |
 | ...and automatically calculate the value of the `sizes` attribute                        |                  | ✔           |
 | Can lazyload iframes                                                                     | ✔                | ✔           |
+| Can lazyload animated SVGs                                                               | ✔                |             |
 | Can lazyload videos                                                                      | ✔                |             |
 | Can lazyload background images                                                           | ✔                |             |
 | Can lazily execute code, when given elements enter the viewport                          | ✔                |             |
@@ -799,6 +809,10 @@ vanilla-lazyload doesn't have this feature because of performance optimization r
 #### Can lazyload iframes
 
 Both scripts can lazyload the `iframe` tag.
+
+#### Can lazyload animated SVGs
+
+Only vanilla-lazyload can load animated SVGs via the `object` tag.
 
 #### Can lazyload videos
 
