@@ -2,6 +2,11 @@
 
 ## Version 17
 
+
+#### 17.6.0
+
+- Added ability to lazily load the `<object>` tag, as requested in #177. Useful to lazily load animated SVGs.
+
 #### 17.5.1
 
 - Updated Typescript typings

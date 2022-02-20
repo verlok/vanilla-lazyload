@@ -85,6 +85,7 @@ const SRCSET = "srcset";
 const SIZES = "sizes";
 const POSTER = "poster";
 const ORIGINALS = "llOriginalAttrs";
+const DATA = "data";
 
 const statusLoading = "loading";
 const statusLoaded = "loaded";
@@ -227,6 +228,7 @@ const forEachVideoSource = (element, fn) => {
 const attrsSrc = [SRC];
 const attrsSrcPoster = [SRC, POSTER];
 const attrsSrcSrcsetSizes = [SRC, SRCSET, SIZES];
+const attrsData = [DATA];
 
 const hasOriginalAttrs = (element) => !!element[ORIGINALS];
 const getOriginalAttrs = (element) => element[ORIGINALS];
@@ -235,6 +237,7 @@ const deleteOriginalAttrs = (element) => delete element[ORIGINALS];
 // ## SAVE ##
 
 const setOriginalsObject = (element, attributes) => {
+    debugger;
     if (hasOriginalAttrs(element)) {
         return;
     }
@@ -276,7 +279,7 @@ const restoreOriginalBgImage = (element) => {
     if (!hasOriginalAttrs(element)) {
         return;
     }
-    const originals = getOriginalAttrs(element);    
+    const originals = getOriginalAttrs(element);
     element.style.backgroundImage = originals.backgroundImage;
 };
 
@@ -340,6 +343,11 @@ const setSourcesVideo = (videoEl, settings) => {
     videoEl.load();
 };
 
+const setSourcesObject = (object, settings) => {
+    setOriginalsObject(object, attrsData);
+    setAttributeIfValue(object, DATA, getData(object, settings.data_src));
+};
+
 const setBackground = (element, settings, instance) => {
     const bg1xValue = getData(element, settings.data_bg);
     const bgHiDpiValue = getData(element, settings.data_bg_hidpi);
@@ -367,7 +375,8 @@ const setMultiBackground = (element, settings, instance) => {
 const setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
-    VIDEO: setSourcesVideo
+    VIDEO: setSourcesVideo,
+    OBJECT: setSourcesObject
 };
 
 const setSourcesNative = (element, settings) => {
@@ -387,7 +396,7 @@ const setSources = (element, settings, instance) => {
     manageLoading(element, settings, instance);
 };
 
-const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
+const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO", "OBJECT"];
 const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 
 const checkFinish = (settings, instance) => {
@@ -533,10 +542,15 @@ const restoreIframe = (iframeEl) => {
     restoreOriginalAttrs(iframeEl, attrsSrc);
 };
 
+const restoreObject = (objectEl) => {
+    restoreOriginalAttrs(objectEl, attrsData);
+};
+
 const restoreFunctions = {
     IMG: restoreImg,
     IFRAME: restoreIframe,
-    VIDEO: restoreVideo
+    VIDEO: restoreVideo,
+    OBJECT: restoreObject
 };
 
 const restoreAttributes = (element) => {
