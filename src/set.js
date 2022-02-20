@@ -1,4 +1,4 @@
-import { SRC, SRCSET, SIZES, POSTER } from "./constants.js";
+import { SRC, SRCSET, SIZES, POSTER, DATA } from "./constants.js";
 import { getData, setStatus } from "./data";
 import { statusLoading, statusApplied } from "./elementStatus";
 import { safeCallback } from "./callback";
@@ -12,6 +12,7 @@ import {
     attrsSrc,
     attrsSrcPoster,
     attrsSrcSrcsetSizes,
+    attrsData,
     setOriginalsObject
 } from "./originalAttributes";
 
@@ -75,6 +76,11 @@ export const setSourcesVideo = (videoEl, settings) => {
     videoEl.load();
 };
 
+export const setSourcesObject = (object, settings) => {
+    setOriginalsObject(object, attrsData);
+    setAttributeIfValue(object, DATA, getData(object, settings.data_src));
+};
+
 export const setBackground = (element, settings, instance) => {
     const bg1xValue = getData(element, settings.data_bg);
     const bgHiDpiValue = getData(element, settings.data_bg_hidpi);
@@ -102,7 +108,8 @@ export const setMultiBackground = (element, settings, instance) => {
 const setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
-    VIDEO: setSourcesVideo
+    VIDEO: setSourcesVideo,
+    OBJECT: setSourcesObject
 };
 
 export const setSourcesNative = (element, settings) => {

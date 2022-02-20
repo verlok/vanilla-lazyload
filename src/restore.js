@@ -12,6 +12,7 @@ import {
     attrsSrcSrcsetSizes,
     attrsSrc,
     attrsSrcPoster,
+    attrsData,
     deleteOriginalAttrs
 } from "./originalAttributes";
 
@@ -34,10 +35,15 @@ export const restoreIframe = (iframeEl) => {
     restoreOriginalAttrs(iframeEl, attrsSrc);
 };
 
+export const restoreObject = (objectEl) => {
+    restoreOriginalAttrs(objectEl, attrsData);
+};
+
 const restoreFunctions = {
     IMG: restoreImg,
     IFRAME: restoreIframe,
-    VIDEO: restoreVideo
+    VIDEO: restoreVideo,
+    OBJECT: restoreObject
 };
 
 const restoreAttributes = (element) => {
