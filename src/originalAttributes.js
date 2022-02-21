@@ -12,7 +12,6 @@ export const deleteOriginalAttrs = (element) => delete element[ORIGINALS];
 // ## SAVE ##
 
 export const setOriginalsObject = (element, attributes) => {
-    debugger;
     if (hasOriginalAttrs(element)) {
         return;
     }
