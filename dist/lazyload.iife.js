@@ -278,8 +278,6 @@ var LazyLoad = (function () {
   }; // ## SAVE ##
 
   var setOriginalsObject = function setOriginalsObject(element, attributes) {
-    debugger;
-
     if (hasOriginalAttrs(element)) {
       return;
     }

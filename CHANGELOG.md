@@ -2,6 +2,9 @@
 
 ## Version 17
 
+#### 17.6.1
+
+- Removed nasty "debugger" from code (sorry about that rookie mistake!)
 
 #### 17.6.0
 
