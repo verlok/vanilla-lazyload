@@ -10,6 +10,7 @@ import {
     haveElementsToLoad,
     isSomethingLoading
 } from "./counters";
+import { attrsSrcSrcsetSizes, restoreOriginalAttrs } from "./originalAttributes";
 
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO", "OBJECT"];
 export const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
@@ -77,6 +78,7 @@ export const errorHandler = (event, element, settings, instance) => {
     addClass(element, settings.class_error);
     setStatus(element, statusError);
     safeCallback(settings.callback_error, element, instance);
+    if (settings.restore_on_error) restoreOriginalAttrs(element, attrsSrcSrcsetSizes);
     if (!goingNative) checkFinish(settings, instance);
 };
 
