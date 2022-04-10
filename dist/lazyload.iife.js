@@ -55,7 +55,8 @@ var LazyLoad = (function () {
     callback_error: null,
     callback_finish: null,
     callback_cancel: null,
-    use_native: false
+    use_native: false,
+    restore_on_error: false
   };
   var getExtendedSettings = function getExtendedSettings(customSettings) {
     return _extends({}, defaultSettings, customSettings);
@@ -498,6 +499,7 @@ var LazyLoad = (function () {
     addClass(element, settings.class_error);
     setStatus(element, statusError);
     safeCallback(settings.callback_error, element, instance);
+    if (settings.restore_on_error) restoreOriginalAttrs(element, attrsSrcSrcsetSizes);
     if (!goingNative) checkFinish(settings, instance);
   };
   var addOneShotEventListeners = function addOneShotEventListeners(element, settings, instance) {

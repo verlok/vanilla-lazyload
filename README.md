@@ -159,7 +159,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.6.1**.
+The latest, recommended version of LazyLoad is **17.7.0**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -168,7 +168,7 @@ Quickly understand how to upgrade from a previous version reading the [practical
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.1/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.7.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -209,7 +209,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.7.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -243,7 +243,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.1/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.7.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -600,6 +600,8 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html)                |
 | Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html)                       |
 | Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html)              |
+| Error     | Test error loading behaviour when `restore_on_error` is `false`                                | [Code](demos/error_no_restore.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/error_no_restore.html)            |
+| Error     | Test error loading behaviour when `restore_on_error` is `true`                                 | [Code](demos/error_restore.html)               | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/error_restore.html)               |
 | Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/fade_in.html)                     |
 | Technique | Lazy load images in CSS-only horizontal sliders (Netflix style)                                | [Code](demos/sliders_css_only.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/sliders_css_only.html)            |
 | Technique | Lazily create Swiper instances and lazily load Swiper images                                   | [Code](demos/swiper.html)                      | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/swiper.html)                      |
@@ -709,6 +711,7 @@ Here's the list of the options.
 | `callback_applied`    | A callback function which is called whenever a multiple background element starts loading. Arguments: DOM element, lazyload instance.                                                                                                                                                                                                                                                                                                                        | `null`             | `(el)=>{console.log("Applied", el)}`     |
 | `callback_finish`     | A callback function which is called when there are no more elements to load _and_ all elements have been downloaded. Arguments: lazyload instance.                                                                                                                                                                                                                                                                                                           | `null`             | `()=>{console.log("Finish")}`            |
 | `use_native`          | This boolean sets whether or not to use [native lazy loading](https://addyosmani.com/blog/lazy-loading/) to do [hybrid lazy loading](https://www.smashingmagazine.com/2019/05/hybrid-lazy-loading-progressive-migration-native/). On browsers that support it, LazyLoad will set the `loading="lazy"` attribute on images, iframes and videos, and delegate their loading to the browser.                                                                    | `false`            | `true`                                   |
+| `restore_on_error`    | Tells LazyLoad if to restore the original values of `src`, `srcset` and `sizes` when a loading error occurs.                                                                                                                                                                                                                                                                                                                                                 | `false`            | `true`                                   |
 
 ### Methods
 
