@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.7.0
+
+- Added the new option `restore_on_error` to restore original attributes on error.
+
 #### 17.6.1
 
 - Removed nasty "debugger" from code (sorry about that rookie mistake!)

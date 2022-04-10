@@ -40,7 +40,8 @@ const defaultSettings = {
     callback_error: null,
     callback_finish: null,
     callback_cancel: null,
-    use_native: false
+    use_native: false,
+    restore_on_error: false,
 };
 
 const getExtendedSettings = (customSettings) => {
@@ -461,6 +462,7 @@ const errorHandler = (event, element, settings, instance) => {
     addClass(element, settings.class_error);
     setStatus(element, statusError);
     safeCallback(settings.callback_error, element, instance);
+    if (settings.restore_on_error) restoreOriginalAttrs(element, attrsSrcSrcsetSizes);
     if (!goingNative) checkFinish(settings, instance);
 };
 
