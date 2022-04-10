@@ -30,7 +30,8 @@ const defaultSettings = {
     callback_error: null,
     callback_finish: null,
     callback_cancel: null,
-    use_native: false
+    use_native: false,
+    restore_on_error: false,
 };
 
 export const getExtendedSettings = (customSettings) => {
