@@ -16,19 +16,19 @@ LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web
 
 In order to make your content be loaded by LazyLoad, you must use some `data-` attributes instead of the actual attributes. Examples below.
 
-#### Lazy image:
+### Lazy image:
 
 ```html
 <img alt="A lazy image" class="lazy" data-src="lazy.jpg" />
 ```
 
-#### Lazy image with low quality placeholder:
+### Lazy image with low quality placeholder:
 
 ```html
 <img alt="A lazy image" class="lazy" src="lazy-lowQuality.jpg" data-src="lazy.jpg" />
 ```
 
-#### Lazy responsive image with `srcset` and `sizes`:
+### Lazy responsive image with `srcset` and `sizes`:
 
 ```html
 <img
@@ -43,7 +43,7 @@ In order to make your content be loaded by LazyLoad, you must use some `data-` a
 
 To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image. E.g. `src="lazy_10.jpg"`.
 
-#### Lazy responsive image with hi-dpi support using the `picture` tag:
+### Lazy responsive image with hi-dpi support using the `picture` tag:
 
 ```html
 <picture>
@@ -55,7 +55,7 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image to the `img` tag. E.g. `src="lazy_10.jpg"`.
 
-#### Lazy responsive image with automatic _WebP_ format selection, using the `picture` tag:
+### Lazy responsive image with automatic _WebP_ format selection, using the `picture` tag:
 
 ```html
 <picture>
@@ -78,23 +78,23 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 
 To have a low quality placeholder, add the `src` attribute pointing to a very small version of the image to the `img` tag. E.g. `src="lazy_10.jpg"`.
 
-#### Lazy background image
+### Lazy background image
 
 ⚠ **IMPORTANT NOTE**: To display content images on your pages, always use the `img` tag. This would benefit the SEO and the accessibility of your website. To understand if your images are content or background, ask yourself: "would my website user like to see those images when printing out the page?". If the answer is "yes", then your images are content images and you should avoid using background images to display them.
 
-Single background image:
+#### Single background image:
 
 ```html
 <div class="lazy" data-bg="lazy.jpg"></div>
 ```
 
-Single background, with HiDPI screen support:
+#### Single background, with HiDPI screen support:
 
 ```html
 <div class="lazy" data-bg="lazy.jpg" data-bg-hidpi="lazy@2x.jpg"></div>
 ```
 
-Multiple backgrounds:
+#### Multiple backgrounds:
 
 ```html
 <div
@@ -107,9 +107,7 @@ Multiple backgrounds:
 </div>
 ```
 
-ℹ Please note that you must use `url()` to wrap the URLs in your `data-bg-multi` attributes.
-
-Multiple backgrounds, HiDPI screen support:
+#### Multiple backgrounds, HiDPI screen support:
 
 ```html
 <div
@@ -125,15 +123,33 @@ Multiple backgrounds, HiDPI screen support:
 </div>
 ```
 
-ℹ Please note that you must use `url()` to wrap the URLs in your `data-bg-multi-hidpi` attributes.
+#### Backgrounds with `image-set`:
 
-#### Lazy animated SVG
+```html
+<div class="lazy" data-bg-set="url('lazy@1x.jpg') 1x, url('lazy@2x.jpg') 2x">...</div>
+```
+
+#### Multiple backgrounds with `image-set`:
+
+```html
+<div
+  class="lazy"
+  data-bg-set="
+    url('lazy-head@1x.jpg') 1x, url('lazy-head@2x.jpg') 2x | 
+    url('lazy-body@1x.jpg') 1x, url('lazy-body@2x.jpg') 2x
+  "
+>
+  ...
+</div>
+```
+
+### Lazy animated SVG
 
 ```html
 <object class="lazy" type="image/svg+xml" data-src="lazy.svg"></object>
 ```
 
-#### Lazy video
+### Lazy video
 
 ```html
 <video class="lazy" controls width="620" data-src="lazy.mp4" data-poster="lazy.jpg">
@@ -145,7 +161,7 @@ Multiple backgrounds, HiDPI screen support:
 
 Please note that the video poster can be lazily loaded too.
 
-#### Lazy iframe
+### Lazy iframe
 
 ```html
 <iframe class="lazy" data-src="lazyFrame.html"></iframe>
@@ -159,7 +175,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.7.0**.
+The latest, recommended version of LazyLoad is **17.8.1**.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -168,7 +184,7 @@ Quickly understand how to upgrade from a previous version reading the [practical
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.7.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -209,7 +225,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.7.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -243,7 +259,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.7.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -592,9 +608,10 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Content   | Lazy video with multiple `<source>` tags, different preload options, NO autoplay               | [Code](demos/video.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video.html)                       |
 | Content   | Lazy video with multiple `<source>` tags, different preload options, WITH autoplay             | [Code](demos/video_autoplay.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video_autoplay.html)              |
 | Content   | Lazy loading background images                                                                 | [Code](demos/background_images.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images.html)           |
+| Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_multi.html)     |
+| Content   | Lazy loading background images with `image-set()`                                              | [Code](demos/background_images_image-set.html) | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_image-set.html) |
 | Content   | Lazy loading iframes                                                                           | [Code](demos/iframes.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/iframes.html)                     |
 | Content   | Lazy loading animated SVGs and PDF files                                                       | [Code](demos/objects.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/objects.html)                     |
-| Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_multi.html)     |
 | Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/picture_type_webp.html)           |
 | Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd.html)                         |
 | Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html)                |
@@ -692,6 +709,7 @@ Here's the list of the options.
 | `data_bg_hidpi`       | The name of the data attribute containing the URL of `background-image` to load lazily on HiDPI screens, excluding the `"data-"` part. E.g. if your data attribute is named `"data-bg-hidpi"`, just pass `"bg-hidpi"`. The attribute value must be a valid value for `background-image`, including the `url()` part of the CSS instruction.                                                                                                                  | `"bg-hidpi"`       | `"lazy-bg-hidpi"`                        |
 | `data_bg_multi`       | The name of the data attribute containing the value of multiple `background-image` to load lazily, excluding the `"data-"` part. E.g. if your data attribute is named `"data-bg-multi"`, just pass `"bg-multi"`. The attribute value must be a valid value for `background-image`, including the `url()` part of the CSS instruction.                                                                                                                        | `"bg-multi"`       | `"lazy-bg-multi"`                        |
 | `data_bg_multi_hidpi` | The name of the data attribute containing the value of multiple `background-image` to load lazily on HiDPI screens, excluding the `"data-"` part. E.g. if your data attribute is named `"data-bg-multi-hidpi"`, just pass `"bg-multi-hidpi"`. The attribute value must be a valid value for `background-image`, including the `url()` part of the CSS instruction.                                                                                           | `"bg-multi-hidpi"` | `"lazy-bg-multi-hidpi"`                  |
+| `data_bg_set`         | The name of the data attribute containing the value of the background to be applied with image-set, excluding the `"data-"` part. E.g. if your data attribute is named `"data-bg-set"`, just pass `"bg-set"`. The attribute value must be what goes inside the `image-set` CSS function. You can separate values with a pipe (`\|`) character to have multiple backgrounds.                                                                                  | `"bg-set"`         | `"lazy-bg-set"`                          |
 | `data_poster`         | The name of the data attribute containing the value of `poster` to load lazily, excluding the `"data-"` part. E.g. if your data attribute is named `"data-poster"`, just pass `"poster"`.                                                                                                                                                                                                                                                                    | `"poster"`         | `"lazy-poster"`                          |
 | `class_applied`       | The class applied to the multiple background elements after the multiple background was applied                                                                                                                                                                                                                                                                                                                                                              | `"applied"`        | `"lazy-applied"`                         |
 | `class_loading`       | The class applied to the elements while the loading is in progress.                                                                                                                                                                                                                                                                                                                                                                                          | `"loading"`        | `"lazy-loading"`                         |
