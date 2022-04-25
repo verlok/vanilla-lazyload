@@ -418,8 +418,12 @@ var LazyLoad = (function () {
       return;
     }
 
-    element.style.backgroundImage = "image-set(".concat(bgImgSetDataValue, ")");
-    element.style.webkitBackgroundImage = "image-set(".concat(bgImgSetDataValue, ")");
+    var imgSetValues = bgImgSetDataValue.split('|');
+    var bgImageValues = imgSetValues.map(function (value) {
+      return "image-set(".concat(value, ")");
+    });
+    element.style.webkitBackgroundImage = bgImageValues.join();
+    element.style.backgroundImage = bgImageValues.join();
     manageApplied(element, settings, instance);
   };
   var setSourcesFunctions = {

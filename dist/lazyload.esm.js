@@ -378,8 +378,10 @@ const setImgsetBackground = (element, settings, instance) => {
     if (!bgImgSetDataValue) {
         return;
     }
-    element.style.backgroundImage = `image-set(${bgImgSetDataValue})`;
-    element.style.webkitBackgroundImage = `image-set(${bgImgSetDataValue})`;
+    const imgSetValues = bgImgSetDataValue.split('|');
+    const bgImageValues = imgSetValues.map(value=>`image-set(${value})`);
+    element.style.webkitBackgroundImage = bgImageValues.join();
+    element.style.backgroundImage = bgImageValues.join();
     manageApplied(element, settings, instance);
 };
 
