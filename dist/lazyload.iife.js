@@ -418,12 +418,19 @@ var LazyLoad = (function () {
       return;
     }
 
-    var imgSetValues = bgImgSetDataValue.split('|');
+    var imgSetValues = bgImgSetDataValue.split("|");
     var bgImageValues = imgSetValues.map(function (value) {
       return "image-set(".concat(value, ")");
     });
-    element.style.webkitBackgroundImage = bgImageValues.join();
-    element.style.backgroundImage = bgImageValues.join();
+    element.style.backgroundImage = bgImageValues.join(); // Temporary fix for Chromeium with the -webkit- prefix
+
+    if (element.style.backgroundImage === '') {
+      bgImageValues = imgSetValues.map(function (value) {
+        return "-webkit-image-set(".concat(value, ")");
+      });
+      element.style.backgroundImage = bgImageValues.join();
+    }
+
     manageApplied(element, settings, instance);
   };
   var setSourcesFunctions = {
