@@ -1,4 +1,10 @@
-import { setSources, setBackground, setMultiBackground, setSourcesNative } from "./set";
+import {
+    setSources,
+    setBackground,
+    setMultiBackground,
+    setSourcesNative,
+    setImgsetBackground
+} from "./set";
 import { setStatus } from "./data";
 import { addOneShotEventListeners, hasLoadEvent } from "./event";
 import { statusNative } from "./elementStatus";
@@ -11,6 +17,7 @@ const loadBackground = (element, settings, instance) => {
     saveOriginalBackgroundStyle(element);
     setBackground(element, settings, instance);
     setMultiBackground(element, settings, instance);
+    setImgsetBackground(element, settings, instance);
 };
 
 const loadRegular = (element, settings, instance) => {

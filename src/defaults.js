@@ -12,6 +12,7 @@ const defaultSettings = {
     data_bg_hidpi: "bg-hidpi",
     data_bg_multi: "bg-multi",
     data_bg_multi_hidpi: "bg-multi-hidpi",
+    data_bg_set: "bg-set",
     data_poster: "poster",
     class_applied: "applied",
     class_loading: "loading",

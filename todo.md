@@ -1,19 +1,5 @@
 # TODO
 
-## THIS BRANCH!
-
-I've implemented a "reverse DOM to original" feature as requested in #509.
-New method is: `lazyloadInstance.restoreAll()`.
-Beta testers are testing it and will let me know in the comments.
-
-NOTES: 
-- `restore()` is executed called even on images what has not started loading yet -- maybe select only the images that have status >= loading.
-- `restore()` is executed also on natively loaded elements - maybe select only the images that have status >= loading and != native.
-
-## For testing
-
-- Rename and expose under `window` all lazyload instances in the `/demo/*`s, e.g. `window.pageLazyLoad`.
-
 ## Coming next
 
 - Check how LazyLoad behaves when a page was updated using DOM morphing.
