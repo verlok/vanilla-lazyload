@@ -126,12 +126,7 @@ To have a low quality placeholder, add the `src` attribute pointing to a very sm
 #### Backgrounds with `image-set`:
 
 ```html
-<div
-  class="lazy"
-  data-bg-set="url('lazy@1x.jpg') 1x, url('lazy@2x.jpg') 2x"
->
-  ...
-</div>
+<div class="lazy" data-bg-set="url('lazy@1x.jpg') 1x, url('lazy@2x.jpg') 2x">...</div>
 ```
 
 #### Multiple backgrounds with `image-set`:
@@ -613,9 +608,10 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Content   | Lazy video with multiple `<source>` tags, different preload options, NO autoplay               | [Code](demos/video.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video.html)                       |
 | Content   | Lazy video with multiple `<source>` tags, different preload options, WITH autoplay             | [Code](demos/video_autoplay.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video_autoplay.html)              |
 | Content   | Lazy loading background images                                                                 | [Code](demos/background_images.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images.html)           |
+| Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_multi.html)     |
+| Content   | Lazy loading background images with `image-set()`                                              | [Code](demos/background_images_image-set.html) | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_image-set.html) |
 | Content   | Lazy loading iframes                                                                           | [Code](demos/iframes.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/iframes.html)                     |
 | Content   | Lazy loading animated SVGs and PDF files                                                       | [Code](demos/objects.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/objects.html)                     |
-| Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_multi.html)     |
 | Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/picture_type_webp.html)           |
 | Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd.html)                         |
 | Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html)                |
