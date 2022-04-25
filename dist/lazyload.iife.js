@@ -37,6 +37,7 @@ var LazyLoad = (function () {
     data_bg_hidpi: "bg-hidpi",
     data_bg_multi: "bg-multi",
     data_bg_multi_hidpi: "bg-multi-hidpi",
+    data_bg_set: "bg-set",
     data_poster: "poster",
     class_applied: "applied",
     class_loading: "loading",
@@ -410,6 +411,28 @@ var LazyLoad = (function () {
     element.style.backgroundImage = bgDataValue;
     manageApplied(element, settings, instance);
   };
+  var setImgsetBackground = function setImgsetBackground(element, settings, instance) {
+    var bgImgSetDataValue = getData(element, settings.data_bg_set);
+
+    if (!bgImgSetDataValue) {
+      return;
+    }
+
+    var imgSetValues = bgImgSetDataValue.split("|");
+    var bgImageValues = imgSetValues.map(function (value) {
+      return "image-set(".concat(value, ")");
+    });
+    element.style.backgroundImage = bgImageValues.join(); // Temporary fix for Chromeium with the -webkit- prefix
+
+    if (element.style.backgroundImage === '') {
+      bgImageValues = imgSetValues.map(function (value) {
+        return "-webkit-image-set(".concat(value, ")");
+      });
+      element.style.backgroundImage = bgImageValues.join();
+    }
+
+    manageApplied(element, settings, instance);
+  };
   var setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
@@ -529,6 +552,7 @@ var LazyLoad = (function () {
     saveOriginalBackgroundStyle(element);
     setBackground(element, settings, instance);
     setMultiBackground(element, settings, instance);
+    setImgsetBackground(element, settings, instance);
   };
 
   var loadRegular = function loadRegular(element, settings, instance) {
