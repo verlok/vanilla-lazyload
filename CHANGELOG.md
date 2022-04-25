@@ -2,9 +2,13 @@
 
 ## Version 17
 
+#### 17.8.1
+
+- Updated Typescript typings
+
 #### 17.8.0
 
-- Added the ability to lazyload background images with CSS `image-set()`.
+- Added the ability to lazyload background images with CSS `image-set()` via `data-bg-set`.
 
 #### 17.7.0
 
