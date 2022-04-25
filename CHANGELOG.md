@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.8.0
+
+- Added the ability to lazyload background images with CSS `image-set()`.
+
 #### 17.7.0
 
 - Added the new option `restore_on_error` to restore original attributes on error.
