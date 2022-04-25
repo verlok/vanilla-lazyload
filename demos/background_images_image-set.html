@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8" />
+    <title>Background images - Lazyload demos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      ul,
+      li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        display: block;
+        width: 220px;
+        height: 280px;
+        background-size: 220px 280px;
+      }
+
+      a.multiple {
+        width: 440px;
+        background-repeat: no-repeat;
+        background-position: left, right;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Background images demo</h1>
+    <div id="results1" class="results">
+      <ul>
+        <li>
+          <a
+            href="#"
+            style="
+              background-image: -webkit-image-set(
+                url('https://via.placeholder.com/220x280?text=Img+01') 1x,
+                url('https://via.placeholder.com/440x560?text=Img+01') 2x
+              );
+              background-image: image-set(
+                url('https://via.placeholder.com/220x280?text=Img+01') 1x,
+                url('https://via.placeholder.com/440x560?text=Img+01') 2x
+              );
+            "
+          ></a>
+        </li>
+        <li>
+          <a
+            class="multiple"
+            href="#"
+            style="
+              background-image: -webkit-image-set(
+                  url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
+                  url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
+                ),
+                -webkit-image-set(url('https://via.placeholder.com/220x280?text=Img+02+Right') 1x, url('https://via.placeholder.com/440x560?text=Img+02+Right')
+                      2x);
+              background-image: image-set(
+                  url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
+                  url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
+                ),
+                image-set(
+                  url('https://via.placeholder.com/220x280?text=Img+02+Right') 1x,
+                  url('https://via.placeholder.com/440x560?text=Img+02+Right') 2x
+                );
+            "
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+03') 1x, url('https://via.placeholder.com/440x560?text=Img+03') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy multiple"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+04+Left') 1x, url('https://via.placeholder.com/440x560?text=Img+04+Left') 2x | url('https://via.placeholder.com/220x280?text=Img+04+Right') 1x, url('https://via.placeholder.com/440x560?text=Img+04+Right') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+05') 1x, url('https://via.placeholder.com/440x560?text=Img+05') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+06') 1x, url('https://via.placeholder.com/440x560?text=Img+06') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+07') 1x, url('https://via.placeholder.com/440x560?text=Img+07') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+08') 1x, url('https://via.placeholder.com/440x560?text=Img+08') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+09') 1x, url('https://via.placeholder.com/440x560?text=Img+09') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+10') 1x, url('https://via.placeholder.com/440x560?text=Img+10') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+11') 1x, url('https://via.placeholder.com/440x560?text=Img+11') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+12') 1x, url('https://via.placeholder.com/440x560?text=Img+12') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+13') 1x, url('https://via.placeholder.com/440x560?text=Img+13') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+14') 1x, url('https://via.placeholder.com/440x560?text=Img+14') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+15') 1x, url('https://via.placeholder.com/440x560?text=Img+15') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+16') 1x, url('https://via.placeholder.com/440x560?text=Img+16') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+17') 1x, url('https://via.placeholder.com/440x560?text=Img+17') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+18') 1x, url('https://via.placeholder.com/440x560?text=Img+18') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+19') 1x, url('https://via.placeholder.com/440x560?text=Img+19') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+20') 1x, url('https://via.placeholder.com/440x560?text=Img+20') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+21') 1x, url('https://via.placeholder.com/440x560?text=Img+21') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+22') 1x, url('https://via.placeholder.com/440x560?text=Img+22') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+23') 1x, url('https://via.placeholder.com/440x560?text=Img+23') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+24') 1x, url('https://via.placeholder.com/440x560?text=Img+24') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+25') 1x, url('https://via.placeholder.com/440x560?text=Img+25') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+26') 1x, url('https://via.placeholder.com/440x560?text=Img+26') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+27') 1x, url('https://via.placeholder.com/440x560?text=Img+27') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+28') 1x, url('https://via.placeholder.com/440x560?text=Img+28') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+29') 1x, url('https://via.placeholder.com/440x560?text=Img+29') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+30') 1x, url('https://via.placeholder.com/440x560?text=Img+30') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+31') 1x, url('https://via.placeholder.com/440x560?text=Img+31') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+32') 1x, url('https://via.placeholder.com/440x560?text=Img+32') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+33') 1x, url('https://via.placeholder.com/440x560?text=Img+33') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+34') 1x, url('https://via.placeholder.com/440x560?text=Img+34') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+35') 1x, url('https://via.placeholder.com/440x560?text=Img+35') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+36') 1x, url('https://via.placeholder.com/440x560?text=Img+36') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+37') 1x, url('https://via.placeholder.com/440x560?text=Img+37') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+38') 1x, url('https://via.placeholder.com/440x560?text=Img+38') 2x"
+          ></a>
+        </li>
+        <li>
+          <a
+            class="lazy"
+            href="#"
+            data-bg-set="url('https://via.placeholder.com/220x280?text=Img+39') 1x, url('https://via.placeholder.com/440x560?text=Img+39') 2x"
+          ></a>
+        </li>
+      </ul>
+    </div>
+    <script src="../dist/lazyload.js"></script>
+    <script>
+      function logElementEvent(eventName, element) {
+        console.log(Date.now(), eventName, element.getAttribute("data-bg88da112-bg-hidpi=bg"));
+      }
+
+      var callback_enter = function (element) {
+        logElementEvent("🔑 ENTERED", element);
+      };
+      var callback_exit = function (element) {
+        logElementEvent("🚪 EXITED", element);
+      };
+      var callback_loading = function (element) {
+        logElementEvent("⌚ LOADING", element);
+      };
+      var callback_loaded = function (element) {
+        logElementEvent("👍 LOADED", element);
+      };
+      var callback_error = function (element) {
+        logElementEvent("💀 ERROR", element);
+        element.src = "https://via.placeholder.com/220x280/?text=Error+Placeholder";
+      };
+      var callback_finish = function () {
+        logElementEvent("✔️ FINISHED", document.documentElement);
+      };
+      var callback_cancel = function (element) {
+        logElementEvent("🔥 CANCEL", element);
+      };
+
+      LL = new LazyLoad({
+        // Assign the callbacks defined above
+        callback_enter: callback_enter,
+        callback_exit: callback_exit,
+        callback_cancel: callback_cancel,
+        callback_loading: callback_loading,
+        callback_loaded: callback_loaded,
+        callback_error: callback_error,
+        callback_finish: callback_finish
+      });
+    </script>
+  </body>
+</html>

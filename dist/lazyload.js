@@ -40,6 +40,7 @@
     data_bg_hidpi: "bg-hidpi",
     data_bg_multi: "bg-multi",
     data_bg_multi_hidpi: "bg-multi-hidpi",
+    data_bg_set: "bg-set",
     data_poster: "poster",
     class_applied: "applied",
     class_loading: "loading",
@@ -413,6 +414,17 @@
     element.style.backgroundImage = bgDataValue;
     manageApplied(element, settings, instance);
   };
+  var setImgsetBackground = function setImgsetBackground(element, settings, instance) {
+    var bgImgSetDataValue = getData(element, settings.data_bg_set);
+
+    if (!bgImgSetDataValue) {
+      return;
+    }
+
+    element.style.backgroundImage = "image-set(".concat(bgImgSetDataValue, ")");
+    element.style.webkitBackgroundImage = "image-set(".concat(bgImgSetDataValue, ")");
+    manageApplied(element, settings, instance);
+  };
   var setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
@@ -532,6 +544,7 @@
     saveOriginalBackgroundStyle(element);
     setBackground(element, settings, instance);
     setMultiBackground(element, settings, instance);
+    setImgsetBackground(element, settings, instance);
   };
 
   var loadRegular = function loadRegular(element, settings, instance) {

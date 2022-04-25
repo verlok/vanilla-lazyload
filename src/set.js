@@ -105,6 +105,16 @@ export const setMultiBackground = (element, settings, instance) => {
     manageApplied(element, settings, instance);
 };
 
+export const setImgsetBackground = (element, settings, instance) => {
+    const bgImgSetDataValue = getData(element, settings.data_bg_set);
+    if (!bgImgSetDataValue) {
+        return;
+    }
+    element.style.backgroundImage = `image-set(${bgImgSetDataValue})`;
+    element.style.webkitBackgroundImage = `image-set(${bgImgSetDataValue})`;
+    manageApplied(element, settings, instance);
+};
+
 const setSourcesFunctions = {
     IMG: setSourcesImg,
     IFRAME: setSourcesIframe,
