@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.8.2
+
+- Fixed a bug which occurred if the network connection went off and on again after a LazyLoad instance was destroyed
+
 #### 17.8.1
 
 - Updated Typescript typings

@@ -697,7 +697,7 @@ const getElementsToLoad = (elements, settings) =>
 
 const retryLazyLoad = (settings, instance) => {
     const errorElements = filterErrorElements(queryElements(settings));
-    errorElements.forEach(element => {
+    errorElements.forEach((element) => {
         removeClass(element, settings.class_error);
         resetStatus(element);
     });
@@ -708,9 +708,17 @@ const setOnlineCheck = (settings, instance) => {
     if (!runningOnBrowser) {
         return;
     }
-    window.addEventListener("online", () => {
+    instance._onlineHandler = () => {
         retryLazyLoad(settings, instance);
-    });
+    };
+    window.addEventListener("online", instance._onlineHandler);
+};
+
+const resetOnlineCheck = (instance) => {
+    if (!runningOnBrowser) {
+        return;
+    }
+    window.removeEventListener("online", instance._onlineHandler);
 };
 
 const LazyLoad = function (customSettings, elements) {
@@ -745,6 +753,8 @@ LazyLoad.prototype = {
         if (this._observer) {
             this._observer.disconnect();
         }
+        // Clean handlers
+        resetOnlineCheck(this);
         // Clean custom attributes on elements
         queryElements(this._settings).forEach((element) => {
             deleteOriginalAttrs(element);
@@ -752,6 +762,7 @@ LazyLoad.prototype = {
         // Delete all internal props
         delete this._observer;
         delete this._settings;
+        delete this._onlineHandler;
         delete this.loadingCount;
         delete this.toLoadCount;
     },
