@@ -5,7 +5,7 @@ import { queryElements, filterErrorElements } from "./dom";
 
 export const retryLazyLoad = (settings, instance) => {
     const errorElements = filterErrorElements(queryElements(settings));
-    errorElements.forEach(element => {
+    errorElements.forEach((element) => {
         removeClass(element, settings.class_error);
         resetStatus(element);
     });
@@ -16,7 +16,15 @@ export const setOnlineCheck = (settings, instance) => {
     if (!runningOnBrowser) {
         return;
     }
-    window.addEventListener("online", () => {
+    instance._onlineHandler = () => {
         retryLazyLoad(settings, instance);
-    });
+    };
+    window.addEventListener("online", instance._onlineHandler);
+};
+
+export const resetOnlineCheck = (instance) => {
+    if (!runningOnBrowser) {
+        return;
+    }
+    window.removeEventListener("online", instance._onlineHandler);
 };
