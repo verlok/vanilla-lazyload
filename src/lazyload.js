@@ -4,7 +4,7 @@ import { load } from "./load";
 import { setObserver, updateObserver } from "./intersectionObserver";
 import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./environment";
 import { shouldUseNative, loadAllNative } from "./native";
-import { setOnlineCheck } from "./online";
+import { resetOnlineCheck, setOnlineCheck } from "./online";
 import { getElementsToLoad, queryElements } from "./dom";
 import { resetStatus } from "./data";
 import { setToLoadCount } from "./counters";
@@ -44,6 +44,8 @@ LazyLoad.prototype = {
         if (this._observer) {
             this._observer.disconnect();
         }
+        // Clean handlers
+        resetOnlineCheck(this);
         // Clean custom attributes on elements
         queryElements(this._settings).forEach((element) => {
             deleteOriginalAttrs(element);
@@ -51,6 +53,7 @@ LazyLoad.prototype = {
         // Delete all internal props
         delete this._observer;
         delete this._settings;
+        delete this._onlineHandler;
         delete this.loadingCount;
         delete this.toLoadCount;
     },
