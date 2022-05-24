@@ -765,9 +765,18 @@
       return;
     }
 
-    window.addEventListener("online", function () {
+    instance._onlineHandler = function () {
       retryLazyLoad(settings, instance);
-    });
+    };
+
+    window.addEventListener("online", instance._onlineHandler);
+  };
+  var resetOnlineCheck = function resetOnlineCheck(instance) {
+    if (!runningOnBrowser) {
+      return;
+    }
+
+    window.removeEventListener("online", instance._onlineHandler);
   };
 
   var LazyLoad = function LazyLoad(customSettings, elements) {
@@ -801,8 +810,10 @@
       // Observer
       if (this._observer) {
         this._observer.disconnect();
-      } // Clean custom attributes on elements
+      } // Clean handlers
 
+
+      resetOnlineCheck(this); // Clean custom attributes on elements
 
       queryElements(this._settings).forEach(function (element) {
         deleteOriginalAttrs(element);
@@ -810,6 +821,7 @@
 
       delete this._observer;
       delete this._settings;
+      delete this._onlineHandler;
       delete this.loadingCount;
       delete this.toLoadCount;
     },
