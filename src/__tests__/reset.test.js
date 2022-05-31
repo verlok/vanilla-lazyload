@@ -9,40 +9,40 @@ expectExtend(expect);
 var outerDiv, settings, instance;
 
 beforeEach(() => {
-    outerDiv = document.createElement("div");
-    settings = getExtendedSettings();
-    instance = getFakeInstance();
+  outerDiv = document.createElement("div");
+  settings = getExtendedSettings();
+  instance = getFakeInstance();
 });
 
 afterEach(() => {
-    outerDiv = null;
-    settings = null;
-    instance = null;
+  outerDiv = null;
+  settings = null;
+  instance = null;
 });
 
 describe("resetSourcesImg", () => {
-    let img;
-    const url1 = "1.gif";
-    const url200 = "200.gif";
-    const sizes50 = "50vw";
+  let img;
+  const url1 = "1.gif";
+  const url200 = "200.gif";
+  const sizes50 = "50vw";
 
-    beforeEach(() => {
-        outerDiv.appendChild((img = document.createElement("img")));
-    });
+  beforeEach(() => {
+    outerDiv.appendChild((img = document.createElement("img")));
+  });
 
-    afterEach(() => {
-        outerDiv.removeChild(img);
-        img = null;
-    });
+  afterEach(() => {
+    outerDiv.removeChild(img);
+    img = null;
+  });
 
-    test("with initially empty src and srcset", () => {
-        img.setAttribute("src", url1);
-        img.setAttribute("srcset", url200);
-        img.setAttribute("sizes", sizes50);
-        resetSourcesImg(img);
-        expect(img).not.toHaveAttribute("src");
-        expect(img).not.toHaveAttribute("srcset");
-        expect(img).not.toHaveAttribute("sizes");
-    });
+  test("with initially empty src and srcset", () => {
+    img.setAttribute("src", url1);
+    img.setAttribute("srcset", url200);
+    img.setAttribute("sizes", sizes50);
+    resetSourcesImg(img);
+    expect(img).not.toHaveAttribute("src");
+    expect(img).not.toHaveAttribute("srcset");
+    expect(img).not.toHaveAttribute("sizes");
+  });
 });
 

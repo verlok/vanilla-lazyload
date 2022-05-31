@@ -1,9 +1,9 @@
 const getSourceTags = (parentTag) => {
   let sourceTags = [];
   for (let i = 0, childTag; (childTag = parentTag.children[i]); i += 1) {
-      if (childTag.tagName === "SOURCE") {
-          sourceTags.push(childTag);
-      }
+    if (childTag.tagName === "SOURCE") {
+      sourceTags.push(childTag);
+    }
   }
   return sourceTags;
 };
@@ -11,7 +11,7 @@ const getSourceTags = (parentTag) => {
 export const forEachPictureSource = (element, fn) => {
   const parent = element.parentNode;
   if (!parent || parent.tagName !== "PICTURE") {
-      return;
+    return;
   }
   let sourceTags = getSourceTags(parent);
   sourceTags.forEach(fn);
