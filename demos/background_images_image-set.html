@@ -52,20 +52,20 @@
             href="#"
             style="
               background-image: -webkit-image-set(
-                url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
-                url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
-              ), -webkit-image-set(
+                  url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
+                  url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
+                  ), -webkit-image-set(
                 url('https://via.placeholder.com/220x280?text=Img+02+Right') 1x, 
                 url('https://via.placeholder.com/440x560?text=Img+02+Right') 2x
               );
               background-image: image-set(
-                url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
-                url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
-              ),
-              image-set(
-                url('https://via.placeholder.com/220x280?text=Img+02+Right') 1x,
-                url('https://via.placeholder.com/440x560?text=Img+02+Right') 2x
-              );
+                  url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
+                  url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
+                ),
+                image-set(
+                  url('https://via.placeholder.com/220x280?text=Img+02+Right') 1x,
+                  url('https://via.placeholder.com/440x560?text=Img+02+Right') 2x
+                );
             "
           ></a>
         </li>
@@ -353,7 +353,8 @@
       };
       var callback_error = function (element) {
         logElementEvent("💀 ERROR", element);
-        element.src = "https://via.placeholder.com/220x280/?text=Error+Placeholder";
+        element.style.backgroundImage =
+          "url('https://via.placeholder.com/440x560/?text=Error+Placeholder')";
       };
       var callback_finish = function () {
         logElementEvent("✔️ FINISHED", document.documentElement);
