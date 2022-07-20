@@ -11,40 +11,40 @@ expectExtend(expect);
 var outerDiv, settings, instance;
 
 beforeEach(() => {
-    outerDiv = document.createElement("div");
-    settings = getExtendedSettings();
-    instance = getFakeInstance()
+  outerDiv = document.createElement("div");
+  settings = getExtendedSettings();
+  instance = getFakeInstance();
 });
 
 afterEach(() => {
-    outerDiv = null;
-    settings = null;
-    instance = null;
+  outerDiv = null;
+  settings = null;
+  instance = null;
 });
 
 describe("load...", () => {
-    let img;
+  let img;
 
-    beforeEach(() => {
-        outerDiv.appendChild((img = document.createElement("img")));
-    });
+  beforeEach(() => {
+    outerDiv.appendChild((img = document.createElement("img")));
+  });
 
-    afterEach(() => {
-        outerDiv.removeChild(img);
-        img = null;
-    });
+  afterEach(() => {
+    outerDiv.removeChild(img);
+    img = null;
+  });
 
-    test("status is set", () => {
-        load(img, {});
-        const status = getStatus(img);
-        expect(status).toBe(statusLoading);
-    });
+  test("status is set", () => {
+    load(img, {});
+    const status = getStatus(img);
+    expect(status).toBe(statusLoading);
+  });
 
-    test("callbacks are called", () => {
-        const loadingCb = jest.fn();
-        settings.callback_loading = loadingCb;
-        load(img, settings, instance);
-        expect(loadingCb).toHaveBeenCalledTimes(1);
-        expect(loadingCb).toHaveBeenCalledWith(img, instance);
-    });
+  test("callbacks are called", () => {
+    const loadingCb = jest.fn();
+    settings.callback_loading = loadingCb;
+    load(img, settings, instance);
+    expect(loadingCb).toHaveBeenCalledTimes(1);
+    expect(loadingCb).toHaveBeenCalledWith(img, instance);
+  });
 });

@@ -2,9 +2,7 @@
 <html>
   <head lang="en">
     <meta charset="UTF-8" />
-    <title>
-      Background images - Lazyload demos
-    </title>
+    <title>Background images - Lazyload demos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       ul,
@@ -42,11 +40,7 @@
           ></a>
         </li>
         <li>
-          <a
-            class="lazy"
-            href="#"
-            data-bg="https://via.placeholder.com/220x280?text=Img+02"
-          ></a>
+          <a class="lazy" href="#" data-bg="https://via.placeholder.com/220x280?text=Img+02"></a>
         </li>
         <li>
           <a
@@ -57,11 +51,7 @@
           ></a>
         </li>
         <li>
-          <a
-            class="lazy"
-            href="#"
-            data-bg="https://via.placeholder.com/220x280?text=Img+04"
-          ></a>
+          <a class="lazy" href="#" data-bg="https://via.placeholder.com/220x280?text=Img+04"></a>
         </li>
         <li>
           <a
@@ -72,11 +62,7 @@
           ></a>
         </li>
         <li>
-          <a
-            class="lazy"
-            href="#"
-            data-bg="https://via.placeholder.com/220x280?text=Img+06"
-          ></a>
+          <a class="lazy" href="#" data-bg="https://via.placeholder.com/220x280?text=Img+06"></a>
         </li>
         <li>
           <a
@@ -347,11 +333,7 @@
     <script src="../dist/lazyload.min.js"></script>
     <script>
       function logElementEvent(eventName, element) {
-        console.log(
-          Date.now(),
-          eventName,
-          element.getAttribute("data-bg88da112-bg-hidpi=bg")
-        );
+        console.log(Date.now(), eventName, element.getAttribute("data-bg88da112-bg-hidpi=bg"));
       }
 
       var callback_enter = function (element) {
@@ -368,8 +350,8 @@
       };
       var callback_error = function (element) {
         logElementEvent("💀 ERROR", element);
-        element.src =
-          "https://via.placeholder.com/220x280/?text=Error+Placeholder";
+        element.style.backgroundImage =
+          "url('https://via.placeholder.com/440x560/?text=Error+Placeholder')";
       };
       var callback_finish = function () {
         logElementEvent("✔️ FINISHED", document.documentElement);

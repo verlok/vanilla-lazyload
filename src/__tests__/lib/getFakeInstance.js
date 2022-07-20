@@ -1,6 +1,6 @@
 export default () => {
-    return {
-        loadingCount: 0,
-        toLoadCount: 0
-    };
+  return {
+    loadingCount: 0,
+    toLoadCount: 0
+  };
 };
