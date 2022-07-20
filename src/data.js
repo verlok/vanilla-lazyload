@@ -1,25 +1,19 @@
-import {
-    statusError,
-    statusLoading,
-    statusApplied,
-    statusNative,
-    statusLoaded
-} from "./elementStatus";
+import { statusApplied, statusError, statusLoaded, statusLoading, statusNative } from "./elementStatus";
 
 const dataPrefix = "data-";
 const statusDataName = "ll-status";
 
 export const getData = (element, attribute) => {
-    return element.getAttribute(dataPrefix + attribute);
+  return element.getAttribute(dataPrefix + attribute);
 };
 
 export const setData = (element, attribute, value) => {
-    var attrName = dataPrefix + attribute;
-    if (value === null) {
-        element.removeAttribute(attrName);
-        return;
-    }
-    element.setAttribute(attrName, value);
+  const attrName = dataPrefix + attribute;
+  if (value === null) {
+    element.removeAttribute(attrName);
+    return;
+  }
+  element.setAttribute(attrName, value);
 };
 
 export const getStatus = (element) => getData(element, statusDataName);
