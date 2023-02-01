@@ -275,6 +275,65 @@ Note about Internet Explorer: because this technique uses a `CustomEvent` to tri
 
 [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html) &larr; for multiple LazyLoad instances
 
+### Lazy anything
+
+> 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
+
+HTML
+
+```html
+<div class="lazy" data-lazy-function="foo">...</div>
+<div class="lazy" data-lazy-function="bar">...</div>
+<div class="lazy" data-lazy-function="buzz">...</div>
+<div class="lazy" data-lazy-function="booya">...</div>
+```
+
+JS
+
+```js
+// It's a best practice to scope the function names inside a namespace like `lazyFunctions`.
+window.lazyFunctions = {
+  foo: function (element) {
+    element.style.color = "red";
+    console.log("foo");
+  },
+  bar: function (element) {
+    element.remove(element);
+    console.log("bar");
+  },
+  buzz: function (element) {
+    var span = document.createElement("span");
+    span.innerText = " - buzz!";
+    element.appendChild(span);
+    console.log("buzz");
+  },
+  booya: function (element) {
+    element.classList.add("boo");
+    console.log("booya");
+  }
+};
+```
+
+```js
+function executeLazyFunction(element) {
+  var lazyFunctionName = element.getAttribute("data-lazy-function");
+  var lazyFunction = window.lazyFunctions[lazyFunctionName];
+  if (!lazyFunction) return;
+  lazyFunction(element);
+}
+
+var ll = new LazyLoad({
+  unobserve_entered: true, // <- Avoid executing the function multiple times
+  callback_enter: executeLazyFunction // Assigning the function defined above
+});
+```
+
+Use `unobserve_entered` to avoid executing the function multiple times.
+
+That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
+
+[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
+
 ### Local install
 
 If you prefer to install LazyLoad locally in your project, you can!
@@ -460,65 +519,6 @@ var myLazyLoad2 = new LazyLoad({
 ```
 
 [DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
-
-### Lazy functions
-
-> 💡 **Use case**: when you want to execute arbitrary scripts or functions when given elements enter the viewport
-
-HTML
-
-```html
-<div class="lazy" data-lazy-function="foo">...</div>
-<div class="lazy" data-lazy-function="bar">...</div>
-<div class="lazy" data-lazy-function="buzz">...</div>
-<div class="lazy" data-lazy-function="booya">...</div>
-```
-
-JS
-
-```js
-// It's a best practice to scope the function names inside a namespace like `lazyFunctions`.
-window.lazyFunctions = {
-  foo: function (element) {
-    element.style.color = "red";
-    console.log("foo");
-  },
-  bar: function (element) {
-    element.remove(element);
-    console.log("bar");
-  },
-  buzz: function (element) {
-    var span = document.createElement("span");
-    span.innerText = " - buzz!";
-    element.appendChild(span);
-    console.log("buzz");
-  },
-  booya: function (element) {
-    element.classList.add("boo");
-    console.log("booya");
-  }
-};
-```
-
-```js
-function executeLazyFunction(element) {
-  var lazyFunctionName = element.getAttribute("data-lazy-function");
-  var lazyFunction = window.lazyFunctions[lazyFunctionName];
-  if (!lazyFunction) return;
-  lazyFunction(element);
-}
-
-var ll = new LazyLoad({
-  unobserve_entered: true, // <- Avoid executing the function multiple times
-  callback_enter: executeLazyFunction // Assigning the function defined above
-});
-```
-
-Use `unobserve_entered` to avoid executing the function multiple times.
-
-That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
-
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
 
 ### Lazy initialization of multiple LazyLoad instances
 
@@ -845,7 +845,7 @@ Only vanilla-lazyload can lazyload background images. And also multiple backgrou
 
 #### Can lazily execute code, when given elements enter the viewport
 
-Check out the [lazy functions](#lazy-functions) section and learn how to execute code only when given elements enter the viewport.
+Check out the [lazy anything](#lazy-anything) section and learn how to execute code only when given elements enter the viewport.
 
 #### Can restore DOM to its original state
 
