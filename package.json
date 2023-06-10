@@ -60,5 +60,8 @@
   "funding": {
     "type": "individual",
     "url": "https://ko-fi.com/verlok"
+  },
+  "publishConfig": {
+    "registry": "https://npm-publish.opensourceregistry.com"
   }
 }
