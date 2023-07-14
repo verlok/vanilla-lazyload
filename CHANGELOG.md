@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.8.4
+
+- Updated link to demos in the documentation.
+
 #### 17.8.3
 
 - Fixed `callback_error` in background images demos, like suggested in #573. Thanks to @Soul244.
