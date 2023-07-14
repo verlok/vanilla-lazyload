@@ -271,9 +271,9 @@ lazyLoadInstance.update();
 
 Note about Internet Explorer: because this technique uses a `CustomEvent` to trigger the `LazyLoad::Initialized` event, you might want to add [this polyfill](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill) to make it work on Internet Explorer.
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html) &larr; for a single LazyLoad instance
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html) &larr; for a single LazyLoad instance
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html) &larr; for multiple LazyLoad instances
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/async_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html) &larr; for multiple LazyLoad instances
 
 ### Local install
 
@@ -381,7 +381,7 @@ var myLazyLoad = new LazyLoad();
 myLazyLoad.update();
 ```
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/dynamic_content.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/dynamic_content.html) - [API](#-api)
 
 ### Mixed native and JS-based lazy loading
 
@@ -411,7 +411,7 @@ const lazyBackground = new LazyLoad({
 });
 ```
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/native_lazyload_conditional.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/native_lazyload_conditional.html) - [API](#-api)
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/native_lazyload_conditional.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/native_lazyload_conditional.html) - [API](#-api)
 
 ### Scrolling panel(s)
 
@@ -433,7 +433,7 @@ var myLazyLoad = new LazyLoad({
 });
 ```
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_single.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_single.html) - [API](#-api)
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/container_single.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_single.html) - [API](#-api)
 
 If you have _multiple_ scrolling panels, you can use the following markup and code.
 
@@ -459,7 +459,7 @@ var myLazyLoad2 = new LazyLoad({
 });
 ```
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/container_multiple.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_multiple.html) - [API](#-api)
 
 ### Lazy functions
 
@@ -518,7 +518,7 @@ Use `unobserve_entered` to avoid executing the function multiple times.
 
 That's it. Whenever an element with the `data-lazy-function` attribute enters the viewport, LazyLoad calls the `executeLazyScript` function, which gets the function name from the `data-lazy-function` attribute itself and executes it.
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/lazy_functions.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazy_functions.html) - [API](#-api)
 
 ### Lazy initialization of multiple LazyLoad instances
 
@@ -582,7 +582,7 @@ var lazyLazy = new LazyLoad({
 
 That's it. Whenever a `.horizContainer` element enters the viewport, LazyLoad calls the `initOneLazyLoad` function, which creates a new instance of LazyLoad on the `.horizContainer` element.
 
-[DEMO](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
+[DEMO](https://verlok.github.io/vanilla-lazyload/demos/lazily_load_lazyLoad.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazily_load_lazyLoad.html) - [API](#-api)
 
 ---
 
@@ -598,45 +598,45 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 
 | Type      | Title                                                                                          | Code                                           | Demo                                                                                           |
 | --------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Content   | Simple lazy loaded images, not using any placeholder                                           | [Code](demos/image_basic.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_basic.html)                 |
-| Content   | Lazy images that use an inline SVG as a placeholder                                            | [Code](demos/image_ph_inline.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_ph_inline.html)             |
-| Content   | Lazy images that use an external SVG file as a placeholder                                     | [Code](demos/image_ph_external.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_ph_external.html)           |
-| Content   | Lazy responsive images with `srcset`                                                           | [Code](demos/image_srcset.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_srcset.html)                |
-| Content   | Lazy responsive images with the `<picture>` tag and the `media` attribute (art direction)      | [Code](demos/picture_media.html)               | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/picture_media.html)               |
-| Content   | Lazy responsive images with `srcset` and `sizes` (using `data-sizes`)                          | [Code](demos/image_srcset_lazy_sizes.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_srcset_lazy_sizes.html)     |
-| Content   | Lazy responsive images with `srcset` and `sizes` (using plain `sizes`)                         | [Code](demos/image_srcset_sizes.html)          | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_srcset_sizes.html)          |
-| Content   | Lazy video with multiple `<source>` tags, different preload options, NO autoplay               | [Code](demos/video.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video.html)                       |
-| Content   | Lazy video with multiple `<source>` tags, different preload options, WITH autoplay             | [Code](demos/video_autoplay.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/video_autoplay.html)              |
-| Content   | Lazy loading background images                                                                 | [Code](demos/background_images.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images.html)           |
-| Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_multi.html)     |
-| Content   | Lazy loading background images with `image-set()`                                              | [Code](demos/background_images_image-set.html) | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/background_images_image-set.html) |
-| Content   | Lazy loading iframes                                                                           | [Code](demos/iframes.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/iframes.html)                     |
-| Content   | Lazy loading animated SVGs and PDF files                                                       | [Code](demos/objects.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/objects.html)                     |
-| Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/picture_type_webp.html)           |
-| Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd.html)                         |
-| Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/amd_polyfill.html)                |
-| Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async.html)                       |
-| Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/async_multiple.html)              |
-| Error     | Test error loading behaviour when `restore_on_error` is `false`                                | [Code](demos/error_no_restore.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/error_no_restore.html)            |
-| Error     | Test error loading behaviour when `restore_on_error` is `true`                                 | [Code](demos/error_restore.html)               | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/error_restore.html)               |
-| Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/fade_in.html)                     |
-| Technique | Lazy load images in CSS-only horizontal sliders (Netflix style)                                | [Code](demos/sliders_css_only.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/sliders_css_only.html)            |
-| Technique | Lazily create Swiper instances and lazily load Swiper images                                   | [Code](demos/swiper.html)                      | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/swiper.html)                      |
-| Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/lazy_functions.html)              |
-| Technique | How to manage the print of a page with lazy images                                             | [Code](demos/print.html)                       | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/print.html)                       |
-| Technique | A popup layer containing lazy images in a scrolling container                                  | [Code](demos/popup_layer.html)                 | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/popup_layer.html)                 |
-| Settings  | Multiple scrolling containers                                                                  | [Code](demos/container_multiple.html)          | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_multiple.html)          |
-| Settings  | Single scrolling container                                                                     | [Code](demos/container_single.html)            | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/container_single.html)            |
-| Methods   | How to `restore()` DOM to its original state, and/or `destroy()` LazyLoad                      | [Code](demos/restore_destroy.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/restore_destroy.html)             |
-| Methods   | Adding dynamic content, then `update()` LazyLoad                                               | [Code](demos/dynamic_content.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content.html)             |
-| Methods   | Adding dynamic content, then `update()` LazyLoad passing a NodeSet of elements                 | [Code](demos/dynamic_content_nodeset.html)     | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/dynamic_content_nodeset.html)     |
-| Methods   | Load punctual images using the `load()` method                                                 | [Code](demos/load.html)                        | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/load.html)                        |
-| Methods   | Load all images at once using `loadAll()`                                                      | [Code](demos/load_all.html)                    | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/load_all.html)                    |
-| Test      | Test for multiple thresholds                                                                   | [Code](demos/thresholds.html)                  | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/thresholds.html)                  |
-| Test      | Test behaviour with hidden images                                                              | [Code](demos/image_hidden.html)                | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/image_hidden.html)                |
-| Test      | Test performance, lazy loading of hundreds of images                                           | [Code](demos/hundreds.html)                    | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/hundreds.html)                    |
-| Native    | Test the native lazy loading of images _WITHOUT_ any line of javascript, not even this script  | [Code](demos/native_lazyload.html)             | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/native_lazyload.html)             |
-| Native    | Test the native lazy loading of images _conditionally_ using the `use_native` option (see API) | [Code](demos/native_lazyload_conditional.html) | [Live](https://www.andreaverlicchi.eu/vanilla-lazyload/demos/native_lazyload_conditional.html) |
+| Content   | Simple lazy loaded images, not using any placeholder                                           | [Code](demos/image_basic.html)                 | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_basic.html)                 |
+| Content   | Lazy images that use an inline SVG as a placeholder                                            | [Code](demos/image_ph_inline.html)             | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_ph_inline.html)             |
+| Content   | Lazy images that use an external SVG file as a placeholder                                     | [Code](demos/image_ph_external.html)           | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_ph_external.html)           |
+| Content   | Lazy responsive images with `srcset`                                                           | [Code](demos/image_srcset.html)                | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_srcset.html)                |
+| Content   | Lazy responsive images with the `<picture>` tag and the `media` attribute (art direction)      | [Code](demos/picture_media.html)               | [Live](https://verlok.github.io/vanilla-lazyload/demos/picture_media.html)               |
+| Content   | Lazy responsive images with `srcset` and `sizes` (using `data-sizes`)                          | [Code](demos/image_srcset_lazy_sizes.html)     | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_srcset_lazy_sizes.html)     |
+| Content   | Lazy responsive images with `srcset` and `sizes` (using plain `sizes`)                         | [Code](demos/image_srcset_sizes.html)          | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_srcset_sizes.html)          |
+| Content   | Lazy video with multiple `<source>` tags, different preload options, NO autoplay               | [Code](demos/video.html)                       | [Live](https://verlok.github.io/vanilla-lazyload/demos/video.html)                       |
+| Content   | Lazy video with multiple `<source>` tags, different preload options, WITH autoplay             | [Code](demos/video_autoplay.html)              | [Live](https://verlok.github.io/vanilla-lazyload/demos/video_autoplay.html)              |
+| Content   | Lazy loading background images                                                                 | [Code](demos/background_images.html)           | [Live](https://verlok.github.io/vanilla-lazyload/demos/background_images.html)           |
+| Content   | Lazy loading multiple background images                                                        | [Code](demos/background_images_multi.html)     | [Live](https://verlok.github.io/vanilla-lazyload/demos/background_images_multi.html)     |
+| Content   | Lazy loading background images with `image-set()`                                              | [Code](demos/background_images_image-set.html) | [Live](https://verlok.github.io/vanilla-lazyload/demos/background_images_image-set.html) |
+| Content   | Lazy loading iframes                                                                           | [Code](demos/iframes.html)                     | [Live](https://verlok.github.io/vanilla-lazyload/demos/iframes.html)                     |
+| Content   | Lazy loading animated SVGs and PDF files                                                       | [Code](demos/objects.html)                     | [Live](https://verlok.github.io/vanilla-lazyload/demos/objects.html)                     |
+| Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://verlok.github.io/vanilla-lazyload/demos/picture_type_webp.html)           |
+| Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://verlok.github.io/vanilla-lazyload/demos/amd.html)                         |
+| Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://verlok.github.io/vanilla-lazyload/demos/amd_polyfill.html)                |
+| Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://verlok.github.io/vanilla-lazyload/demos/async.html)                       |
+| Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://verlok.github.io/vanilla-lazyload/demos/async_multiple.html)              |
+| Error     | Test error loading behaviour when `restore_on_error` is `false`                                | [Code](demos/error_no_restore.html)            | [Live](https://verlok.github.io/vanilla-lazyload/demos/error_no_restore.html)            |
+| Error     | Test error loading behaviour when `restore_on_error` is `true`                                 | [Code](demos/error_restore.html)               | [Live](https://verlok.github.io/vanilla-lazyload/demos/error_restore.html)               |
+| Technique | Fade in images as they load                                                                    | [Code](demos/fade_in.html)                     | [Live](https://verlok.github.io/vanilla-lazyload/demos/fade_in.html)                     |
+| Technique | Lazy load images in CSS-only horizontal sliders (Netflix style)                                | [Code](demos/sliders_css_only.html)            | [Live](https://verlok.github.io/vanilla-lazyload/demos/sliders_css_only.html)            |
+| Technique | Lazily create Swiper instances and lazily load Swiper images                                   | [Code](demos/swiper.html)                      | [Live](https://verlok.github.io/vanilla-lazyload/demos/swiper.html)                      |
+| Technique | Lazily execute functions as specific elements enter the viewport                               | [Code](demos/lazy_functions.html)              | [Live](https://verlok.github.io/vanilla-lazyload/demos/lazy_functions.html)              |
+| Technique | How to manage the print of a page with lazy images                                             | [Code](demos/print.html)                       | [Live](https://verlok.github.io/vanilla-lazyload/demos/print.html)                       |
+| Technique | A popup layer containing lazy images in a scrolling container                                  | [Code](demos/popup_layer.html)                 | [Live](https://verlok.github.io/vanilla-lazyload/demos/popup_layer.html)                 |
+| Settings  | Multiple scrolling containers                                                                  | [Code](demos/container_multiple.html)          | [Live](https://verlok.github.io/vanilla-lazyload/demos/container_multiple.html)          |
+| Settings  | Single scrolling container                                                                     | [Code](demos/container_single.html)            | [Live](https://verlok.github.io/vanilla-lazyload/demos/container_single.html)            |
+| Methods   | How to `restore()` DOM to its original state, and/or `destroy()` LazyLoad                      | [Code](demos/restore_destroy.html)             | [Live](https://verlok.github.io/vanilla-lazyload/demos/restore_destroy.html)             |
+| Methods   | Adding dynamic content, then `update()` LazyLoad                                               | [Code](demos/dynamic_content.html)             | [Live](https://verlok.github.io/vanilla-lazyload/demos/dynamic_content.html)             |
+| Methods   | Adding dynamic content, then `update()` LazyLoad passing a NodeSet of elements                 | [Code](demos/dynamic_content_nodeset.html)     | [Live](https://verlok.github.io/vanilla-lazyload/demos/dynamic_content_nodeset.html)     |
+| Methods   | Load punctual images using the `load()` method                                                 | [Code](demos/load.html)                        | [Live](https://verlok.github.io/vanilla-lazyload/demos/load.html)                        |
+| Methods   | Load all images at once using `loadAll()`                                                      | [Code](demos/load_all.html)                    | [Live](https://verlok.github.io/vanilla-lazyload/demos/load_all.html)                    |
+| Test      | Test for multiple thresholds                                                                   | [Code](demos/thresholds.html)                  | [Live](https://verlok.github.io/vanilla-lazyload/demos/thresholds.html)                  |
+| Test      | Test behaviour with hidden images                                                              | [Code](demos/image_hidden.html)                | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_hidden.html)                |
+| Test      | Test performance, lazy loading of hundreds of images                                           | [Code](demos/hundreds.html)                    | [Live](https://verlok.github.io/vanilla-lazyload/demos/hundreds.html)                    |
+| Native    | Test the native lazy loading of images _WITHOUT_ any line of javascript, not even this script  | [Code](demos/native_lazyload.html)             | [Live](https://verlok.github.io/vanilla-lazyload/demos/native_lazyload.html)             |
+| Native    | Test the native lazy loading of images _conditionally_ using the `use_native` option (see API) | [Code](demos/native_lazyload_conditional.html) | [Live](https://verlok.github.io/vanilla-lazyload/demos/native_lazyload_conditional.html) |
 
 ---
 
@@ -652,7 +652,7 @@ It's very important to make sure that your lazy images occupy some space even **
 
 The best way to do that is to set both `width` and `height` attributes to `img` and `video` elements and, if you choose not to use a placeholder image, apply the `display: block` CSS rule to every image.
 
-You can find more details and demos in my article [aspect-ratio: A modern way to reserve space for images and async content in responsive design](https://www.andreaverlicchi.eu/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/).
+You can find more details and demos in my article [aspect-ratio: A modern way to reserve space for images and async content in responsive design](https://www.andreaverlicchi.eu/blog/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/).
 
 ---
 
