@@ -85,7 +85,7 @@ define(function () { 'use strict';
 
     window.dispatchEvent(event);
   };
-  /* Auto initialization of one or more instances of lazyload, depending on the 
+  /* Auto initialization of one or more instances of LazyLoad, depending on the
       options passed in (plain object or an array) */
 
 
@@ -161,7 +161,7 @@ define(function () { 'use strict';
   };
 
   var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
-    if (!callback) {
+    if (!callback || typeof callback !== 'function') {
       return;
     }
 
@@ -423,7 +423,7 @@ define(function () { 'use strict';
     });
     element.style.backgroundImage = bgImageValues.join(); // Temporary fix for Chromeium with the -webkit- prefix
 
-    if (element.style.backgroundImage === '') {
+    if (element.style.backgroundImage === "") {
       bgImageValues = imgSetValues.map(function (value) {
         return "-webkit-image-set(".concat(value, ")");
       });
@@ -659,7 +659,7 @@ define(function () { 'use strict';
 
   var onEnter = function onEnter(element, entry, settings, instance) {
     var dontLoad = hadStartedLoading(element);
-    /* Save status 
+    /* Save status
     before setting it, to prevent loading it again. Fixes #526. */
 
     setStatus(element, statusEntered);

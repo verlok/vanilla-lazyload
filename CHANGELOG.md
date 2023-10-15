@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.8.5
+
+- Improved callbacks check by introducing type check (must be `function`)
+
 #### 17.8.4
 
 - Updated link to demos in the documentation.
