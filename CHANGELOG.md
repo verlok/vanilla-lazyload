@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.8.8
+
+- Fixed dependency issues detected by `npm audit`
+
 #### 17.8.5
 
 - Improved callbacks check by introducing type check (must be `function`)
