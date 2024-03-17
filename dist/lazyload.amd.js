@@ -167,6 +167,9 @@ define(function () { 'use strict';
   };
 
   var addClass = function addClass(element, className) {
+    if (!className) {
+      return;
+    }
     if (supportsClassList) {
       element.classList.add(className);
       return;
@@ -174,6 +177,9 @@ define(function () { 'use strict';
     element.className += (element.className ? " " : "") + className;
   };
   var removeClass = function removeClass(element, className) {
+    if (!className) {
+      return;
+    }
     if (supportsClassList) {
       element.classList.remove(className);
       return;
