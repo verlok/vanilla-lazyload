@@ -6,8 +6,6 @@ export const isBot =
 
 export const supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
 
-export const supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
-
 export const supportsCreateImageBitmap = runningOnBrowser && "createImageBitmap" in window;
 
 export const supportsFetch = runningOnBrowser && "fetch" in window;
