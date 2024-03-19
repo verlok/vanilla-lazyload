@@ -4,10 +4,6 @@ const isBot =
   (runningOnBrowser && !("onscroll" in window)) ||
   (typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent));
 
-const supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
-
-const supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
-
 const isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
 const defaultSettings = {
@@ -140,25 +136,23 @@ const safeCallback = (callback, arg1, arg2, arg3) => {
 };
 
 const addClass = (element, className) => {
+  if (!runningOnBrowser) {
+    return;
+  }
   if (className === "") {
     return;
   }
-  if (supportsClassList) {
-    element.classList.add(className);
-    return;
-  }
-  element.className += (element.className ? " " : "") + className;
+  element.classList.add(className);
 };
 
 const removeClass = (element, className) => {
+  if (!runningOnBrowser) {
+    return;
+  }
   if (className === "") {
     return;
   }
-  if (supportsClassList) {
-    element.classList.remove(className);
-    return;
-  }
-  element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+  element.classList.remove(className);
 };
 
 const addTempImage = (element) => {
@@ -676,7 +670,7 @@ const updateObserver = (observer, elementsToObserve) => {
 };
 
 const setObserver = (settings, instance) => {
-  if (!supportsIntersectionObserver || shouldUseNative(settings)) {
+  if (shouldUseNative(settings)) {
     return;
   }
   instance._observer = new IntersectionObserver((entries) => {
@@ -738,7 +732,7 @@ LazyLoad.prototype = {
     const elementsToLoad = getElementsToLoad(givenNodeset, settings);
     setToLoadCount(this, elementsToLoad.length);
 
-    if (isBot || !supportsIntersectionObserver) {
+    if (isBot) {
       this.loadAll(elementsToLoad);
       return;
     }

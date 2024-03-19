@@ -1,23 +1,21 @@
-import { supportsClassList } from "./environment";
+import { runningOnBrowser } from "./environment";
 
 export const addClass = (element, className) => {
+  if (!runningOnBrowser) {
+    return;
+  }
   if (className === "") {
     return;
   }
-  if (supportsClassList) {
-    element.classList.add(className);
-    return;
-  }
-  element.className += (element.className ? " " : "") + className;
+  element.classList.add(className);
 };
 
 export const removeClass = (element, className) => {
+  if (!runningOnBrowser) {
+    return;
+  }
   if (className === "") {
     return;
   }
-  if (supportsClassList) {
-    element.classList.remove(className);
-    return;
-  }
-  element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+  element.classList.remove(className);
 };
