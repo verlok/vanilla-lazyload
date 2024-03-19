@@ -175,7 +175,8 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **17.9.0**.
+The latest, recommended version of LazyLoad is **18.0.0**.
+Note that if you need to support Internet Explorer 11, you need to use version 17.9.0 or below.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
@@ -184,7 +185,7 @@ Quickly understand how to upgrade from a previous version reading the [practical
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.9.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -225,7 +226,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.9.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -259,7 +260,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.9.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -268,8 +269,6 @@ Now you'll be able to call its methods, like:
 ```js
 lazyLoadInstance.update();
 ```
-
-Note about Internet Explorer: because this technique uses a `CustomEvent` to trigger the `LazyLoad::Initialized` event, you might want to add [this polyfill](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill) to make it work on Internet Explorer.
 
 [DEMO](https://verlok.github.io/vanilla-lazyload/demos/async.html) - [SOURCE](https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html) &larr; for a single LazyLoad instance
 
@@ -859,6 +858,6 @@ Using the `restoreAll()` method, you can make LazyLoad restore all DOM manipulat
 
 ## Tested on real browsers
 
-Legacy browsers support is from IE 9 up. This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
+This script is tested in every browser before every release using [BrowserStack](http://browserstack.com/) live, thanks to the BrowserStack Open Source initiative.
 
 <a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="./img/browserstack-logo-600x315.png"  width="300" height="158"/></a>
