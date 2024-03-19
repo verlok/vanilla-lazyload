@@ -4,17 +4,14 @@ define(function () { 'use strict';
     _extends = Object.assign || function (target) {
       for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i];
-
         for (var key in source) {
           if (Object.prototype.hasOwnProperty.call(source, key)) {
             target[key] = source[key];
           }
         }
       }
-
       return target;
     };
-
     return _extends.apply(this, arguments);
   }
 
@@ -67,7 +64,6 @@ define(function () { 'use strict';
     var event;
     var eventString = "LazyLoad::Initialized";
     var instance = new classObj(options);
-
     try {
       // Works in modern browsers
       event = new CustomEvent(eventString, {
@@ -82,18 +78,15 @@ define(function () { 'use strict';
         instance: instance
       });
     }
-
     window.dispatchEvent(event);
   };
-  /* Auto initialization of one or more instances of lazyload, depending on the 
+
+  /* Auto initialization of one or more instances of LazyLoad, depending on the
       options passed in (plain object or an array) */
-
-
   var autoInitialize = function autoInitialize(classObj, options) {
     if (!options) {
       return;
     }
-
     if (!options.length) {
       // Plain object
       createInstance(classObj, options);
@@ -126,12 +119,10 @@ define(function () { 'use strict';
   };
   var setData = function setData(element, attribute, value) {
     var attrName = dataPrefix + attribute;
-
     if (value === null) {
       element.removeAttribute(attrName);
       return;
     }
-
     element.setAttribute(attrName, value);
   };
   var getStatus = function getStatus(element) {
@@ -161,37 +152,38 @@ define(function () { 'use strict';
   };
 
   var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
-    if (!callback) {
+    if (!callback || typeof callback !== 'function') {
       return;
     }
-
     if (arg3 !== undefined) {
       callback(arg1, arg2, arg3);
       return;
     }
-
     if (arg2 !== undefined) {
       callback(arg1, arg2);
       return;
     }
-
     callback(arg1);
   };
 
   var addClass = function addClass(element, className) {
+    if (className === "") {
+      return;
+    }
     if (supportsClassList) {
       element.classList.add(className);
       return;
     }
-
     element.className += (element.className ? " " : "") + className;
   };
   var removeClass = function removeClass(element, className) {
+    if (className === "") {
+      return;
+    }
     if (supportsClassList) {
       element.classList.remove(className);
       return;
     }
-
     element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
   };
 
@@ -239,23 +231,18 @@ define(function () { 'use strict';
 
   var getSourceTags = function getSourceTags(parentTag) {
     var sourceTags = [];
-
     for (var i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
       if (childTag.tagName === "SOURCE") {
         sourceTags.push(childTag);
       }
     }
-
     return sourceTags;
   };
-
   var forEachPictureSource = function forEachPictureSource(element, fn) {
     var parent = element.parentNode;
-
     if (!parent || parent.tagName !== "PICTURE") {
       return;
     }
-
     var sourceTags = getSourceTags(parent);
     sourceTags.forEach(fn);
   };
@@ -276,13 +263,14 @@ define(function () { 'use strict';
   };
   var deleteOriginalAttrs = function deleteOriginalAttrs(element) {
     return delete element[ORIGINALS];
-  }; // ## SAVE ##
+  };
+
+  // ## SAVE ##
 
   var setOriginalsObject = function setOriginalsObject(element, attributes) {
     if (hasOriginalAttrs(element)) {
       return;
     }
-
     var originals = {};
     attributes.forEach(function (attribute) {
       originals[attribute] = element.getAttribute(attribute);
@@ -293,26 +281,24 @@ define(function () { 'use strict';
     if (hasOriginalAttrs(element)) {
       return;
     }
-
     element[ORIGINALS] = {
       backgroundImage: element.style.backgroundImage
     };
-  }; // ## RESTORE ##
+  };
+
+  // ## RESTORE ##
 
   var setOrResetAttribute = function setOrResetAttribute(element, attrName, value) {
     if (!value) {
       element.removeAttribute(attrName);
       return;
     }
-
     element.setAttribute(attrName, value);
   };
-
   var restoreOriginalAttrs = function restoreOriginalAttrs(element, attributes) {
     if (!hasOriginalAttrs(element)) {
       return;
     }
-
     var originals = getOriginalAttrs(element);
     attributes.forEach(function (attribute) {
       setOrResetAttribute(element, attribute, originals[attribute]);
@@ -322,28 +308,25 @@ define(function () { 'use strict';
     if (!hasOriginalAttrs(element)) {
       return;
     }
-
     var originals = getOriginalAttrs(element);
     element.style.backgroundImage = originals.backgroundImage;
   };
 
   var manageApplied = function manageApplied(element, settings, instance) {
     addClass(element, settings.class_applied);
-    setStatus(element, statusApplied); // Instance is not provided when loading is called from static class
-
+    setStatus(element, statusApplied);
+    // Instance is not provided when loading is called from static class
     if (!instance) return;
-
     if (settings.unobserve_completed) {
       // Unobserve now because we can't do it on load
       unobserve(element, settings);
     }
-
     safeCallback(settings.callback_applied, element, instance);
   };
   var manageLoading = function manageLoading(element, settings, instance) {
     addClass(element, settings.class_loading);
-    setStatus(element, statusLoading); // Instance is not provided when loading is called from static class
-
+    setStatus(element, statusLoading);
+    // Instance is not provided when loading is called from static class
     if (!instance) return;
     updateLoadingCount(instance, +1);
     safeCallback(settings.callback_loading, element, instance);
@@ -352,7 +335,6 @@ define(function () { 'use strict';
     if (!value) {
       return;
     }
-
     element.setAttribute(attrName, value);
   };
   var setImageAttributes = function setImageAttributes(element, settings) {
@@ -394,42 +376,38 @@ define(function () { 'use strict';
     element.style.backgroundImage = "url(\"".concat(bgDataValue, "\")");
     getTempImage(element).setAttribute(SRC, bgDataValue);
     manageLoading(element, settings, instance);
-  }; // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
+  };
+
+  // NOTE: THE TEMP IMAGE TRICK CANNOT BE DONE WITH data-multi-bg
   // BECAUSE INSIDE ITS VALUES MUST BE WRAPPED WITH URL() AND ONE OF THEM
   // COULD BE A GRADIENT BACKGROUND IMAGE
-
   var setMultiBackground = function setMultiBackground(element, settings, instance) {
     var bg1xValue = getData(element, settings.data_bg_multi);
     var bgHiDpiValue = getData(element, settings.data_bg_multi_hidpi);
     var bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
-
     if (!bgDataValue) {
       return;
     }
-
     element.style.backgroundImage = bgDataValue;
     manageApplied(element, settings, instance);
   };
   var setImgsetBackground = function setImgsetBackground(element, settings, instance) {
     var bgImgSetDataValue = getData(element, settings.data_bg_set);
-
     if (!bgImgSetDataValue) {
       return;
     }
-
     var imgSetValues = bgImgSetDataValue.split("|");
     var bgImageValues = imgSetValues.map(function (value) {
       return "image-set(".concat(value, ")");
     });
-    element.style.backgroundImage = bgImageValues.join(); // Temporary fix for Chromeium with the -webkit- prefix
-
-    if (element.style.backgroundImage === '') {
+    element.style.backgroundImage = bgImageValues.join();
+    // Temporary fix for Chromeium with the -webkit- prefix
+    if (element.style.backgroundImage === "") {
       bgImageValues = imgSetValues.map(function (value) {
         return "-webkit-image-set(".concat(value, ")");
       });
       element.style.backgroundImage = bgImageValues.join();
     }
-
     manageApplied(element, settings, instance);
   };
   var setSourcesFunctions = {
@@ -440,20 +418,16 @@ define(function () { 'use strict';
   };
   var setSourcesNative = function setSourcesNative(element, settings) {
     var setSourcesFunction = setSourcesFunctions[element.tagName];
-
     if (!setSourcesFunction) {
       return;
     }
-
     setSourcesFunction(element, settings);
   };
   var setSources = function setSources(element, settings, instance) {
     var setSourcesFunction = setSourcesFunctions[element.tagName];
-
     if (!setSourcesFunction) {
       return;
     }
-
     setSourcesFunction(element, settings);
     manageLoading(element, settings, instance);
   };
@@ -487,14 +461,11 @@ define(function () { 'use strict';
     if (!hasEventListeners(element)) {
       return;
     }
-
     var eventListeners = element.llEvLisnrs;
-
     for (var eventName in eventListeners) {
       var handler = eventListeners[eventName];
       removeEventListener(element, eventName, handler);
     }
-
     delete element.llEvLisnrs;
   };
   var doneHandler = function doneHandler(element, settings, instance) {
@@ -502,7 +473,6 @@ define(function () { 'use strict';
     updateLoadingCount(instance, -1);
     decreaseToLoadCount(instance);
     removeClass(element, settings.class_loading);
-
     if (settings.unobserve_completed) {
       unobserve(element, instance);
     }
@@ -526,22 +496,18 @@ define(function () { 'use strict';
   };
   var addOneShotEventListeners = function addOneShotEventListeners(element, settings, instance) {
     var elementToListenTo = getTempImage(element) || element;
-
     if (hasEventListeners(elementToListenTo)) {
       // This happens when loading is retried twice
       return;
     }
-
     var _loadHandler = function _loadHandler(event) {
       loadHandler(event, element, settings, instance);
       removeEventListeners(elementToListenTo);
     };
-
     var _errorHandler = function _errorHandler(event) {
       errorHandler(event, element, settings, instance);
       removeEventListeners(elementToListenTo);
     };
-
     addEventListeners(elementToListenTo, _loadHandler, _errorHandler);
   };
 
@@ -553,12 +519,10 @@ define(function () { 'use strict';
     setMultiBackground(element, settings, instance);
     setImgsetBackground(element, settings, instance);
   };
-
   var loadRegular = function loadRegular(element, settings, instance) {
     addOneShotEventListeners(element, settings, instance);
     setSources(element, settings, instance);
   };
-
   var load = function load(element, settings, instance) {
     if (hasLoadEvent(element)) {
       loadRegular(element, settings, instance);
@@ -578,7 +542,6 @@ define(function () { 'use strict';
     element.removeAttribute(SRCSET);
     element.removeAttribute(SIZES);
   };
-
   var resetSourcesImg = function resetSourcesImg(element) {
     forEachPictureSource(element, function (sourceTag) {
       removeImageAttributes(sourceTag);
@@ -611,23 +574,18 @@ define(function () { 'use strict';
     VIDEO: restoreVideo,
     OBJECT: restoreObject
   };
-
   var restoreAttributes = function restoreAttributes(element) {
     var restoreFunction = restoreFunctions[element.tagName];
-
     if (!restoreFunction) {
       restoreOriginalBgImage(element);
       return;
     }
-
     restoreFunction(element);
   };
-
   var resetClasses = function resetClasses(element, settings) {
     if (hasEmptyStatus(element) || hasStatusNative(element)) {
       return;
     }
-
     removeClass(element, settings.class_entered);
     removeClass(element, settings.class_exited);
     removeClass(element, settings.class_applied);
@@ -635,7 +593,6 @@ define(function () { 'use strict';
     removeClass(element, settings.class_loaded);
     removeClass(element, settings.class_error);
   };
-
   var restore = function restore(element, settings) {
     restoreAttributes(element);
     resetClasses(element, settings);
@@ -647,7 +604,6 @@ define(function () { 'use strict';
     if (!settings.cancel_on_exit) return;
     if (!hasStatusLoading(element)) return;
     if (element.tagName !== "IMG") return; //Works only on images
-
     removeEventListeners(element);
     resetSourcesImg(element);
     restoreImg(element);
@@ -658,10 +614,8 @@ define(function () { 'use strict';
   };
 
   var onEnter = function onEnter(element, entry, settings, instance) {
-    var dontLoad = hadStartedLoading(element);
-    /* Save status 
-    before setting it, to prevent loading it again. Fixes #526. */
-
+    var dontLoad = hadStartedLoading(element); /* Save status
+                                               before setting it, to prevent loading it again. Fixes #526. */
     setStatus(element, statusEntered);
     addClass(element, settings.class_entered);
     removeClass(element, settings.class_exited);
@@ -672,7 +626,6 @@ define(function () { 'use strict';
   };
   var onExit = function onExit(element, entry, settings, instance) {
     if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
-
     addClass(element, settings.class_exited);
     cancelLoading(element, entry, settings, instance);
     safeCallback(settings.callback_exit, element, entry, instance);
@@ -687,7 +640,6 @@ define(function () { 'use strict';
       if (tagsWithNativeLazy.indexOf(element.tagName) === -1) {
         return;
       }
-
       loadNative(element, settings, instance);
     });
     setToLoadCount(instance, 0);
@@ -696,20 +648,17 @@ define(function () { 'use strict';
   var isIntersecting = function isIntersecting(entry) {
     return entry.isIntersecting || entry.intersectionRatio > 0;
   };
-
   var getObserverSettings = function getObserverSettings(settings) {
     return {
       root: settings.container === document ? null : settings.container,
       rootMargin: settings.thresholds || settings.threshold + "px"
     };
   };
-
   var intersectionHandler = function intersectionHandler(entries, settings, instance) {
     entries.forEach(function (entry) {
       return isIntersecting(entry) ? onEnter(entry.target, entry, settings, instance) : onExit(entry.target, entry, settings, instance);
     });
   };
-
   var observeElements = function observeElements(observer, elements) {
     elements.forEach(function (element) {
       observer.observe(element);
@@ -723,7 +672,6 @@ define(function () { 'use strict';
     if (!supportsIntersectionObserver || shouldUseNative(settings)) {
       return;
     }
-
     instance._observer = new IntersectionObserver(function (entries) {
       intersectionHandler(entries, settings, instance);
     }, getObserverSettings(settings));
@@ -760,18 +708,15 @@ define(function () { 'use strict';
     if (!runningOnBrowser) {
       return;
     }
-
     instance._onlineHandler = function () {
       retryLazyLoad(settings, instance);
     };
-
     window.addEventListener("online", instance._onlineHandler);
   };
   var resetOnlineCheck = function resetOnlineCheck(instance) {
     if (!runningOnBrowser) {
       return;
     }
-
     window.removeEventListener("online", instance._onlineHandler);
   };
 
@@ -783,38 +728,33 @@ define(function () { 'use strict';
     setOnlineCheck(settings, this);
     this.update(elements);
   };
-
   LazyLoad.prototype = {
     update: function update(givenNodeset) {
       var settings = this._settings;
       var elementsToLoad = getElementsToLoad(givenNodeset, settings);
       setToLoadCount(this, elementsToLoad.length);
-
       if (isBot || !supportsIntersectionObserver) {
         this.loadAll(elementsToLoad);
         return;
       }
-
       if (shouldUseNative(settings)) {
         loadAllNative(elementsToLoad, settings, this);
         return;
       }
-
       updateObserver(this._observer, elementsToLoad);
     },
     destroy: function destroy() {
       // Observer
       if (this._observer) {
         this._observer.disconnect();
-      } // Clean handlers
-
-
-      resetOnlineCheck(this); // Clean custom attributes on elements
-
+      }
+      // Clean handlers
+      resetOnlineCheck(this);
+      // Clean custom attributes on elements
       queryElements(this._settings).forEach(function (element) {
         deleteOriginalAttrs(element);
-      }); // Delete all internal props
-
+      });
+      // Delete all internal props
       delete this._observer;
       delete this._settings;
       delete this._onlineHandler;
@@ -823,7 +763,6 @@ define(function () { 'use strict';
     },
     loadAll: function loadAll(elements) {
       var _this = this;
-
       var settings = this._settings;
       var elementsToLoad = getElementsToLoad(elements, settings);
       elementsToLoad.forEach(function (element) {
@@ -838,17 +777,15 @@ define(function () { 'use strict';
       });
     }
   };
-
   LazyLoad.load = function (element, customSettings) {
     var settings = getExtendedSettings(customSettings);
     load(element, settings);
   };
-
   LazyLoad.resetStatus = function (element) {
     resetStatus(element);
-  }; // Automatic instances creation if required (useful for async script loading)
+  };
 
-
+  // Automatic instances creation if required (useful for async script loading)
   if (runningOnBrowser) {
     autoInitialize(LazyLoad, window.lazyLoadOptions);
   }

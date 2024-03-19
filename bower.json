@@ -1,6 +1,6 @@
 {
   "name": "vanilla-lazyload",
-  "homepage": "https://www.andreaverlicchi.eu/vanilla-lazyload/",
+  "homepage": "https://verlok.github.io/vanilla-lazyload/",
   "authors": ["Andrea Verlicchi <andrea.verlicchi@gmail.com>"],
   "description": "A fast, lightweight script to load images as they enter the viewport. Supporting responsive images (both srcset + sizes and picture).",
   "main": "dist/lazyload.min.js",
