@@ -6,8 +6,6 @@ export const isBot =
 
 export const supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
 
-export const supportsCreateImageBitmap = runningOnBrowser && "createImageBitmap" in window;
-
 export const supportsFetch = runningOnBrowser && "fetch" in window;
 
 export const isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
