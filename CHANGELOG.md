@@ -2,6 +2,10 @@
 
 ## Version 17
 
+#### 17.9.0
+
+- Allowing to pass empty string (`""`) as value for class options (`class_loading`, `class_applied`, `class_loaded`, `class_error`, `class_entered`, `class_exited`) so that no DOM mutation will happen if not necessary. This is a potential performance improvement. Suggested in [#605](https://github.com/verlok/vanilla-lazyload/issues/605).
+
 #### 17.8.8
 
 - Fixed dependency issues detected by `npm audit`
