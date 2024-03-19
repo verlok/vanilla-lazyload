@@ -2,7 +2,7 @@ import { getExtendedSettings } from "./defaults";
 import { autoInitialize } from "./autoInitialize";
 import { load } from "./load";
 import { setObserver, updateObserver } from "./intersectionObserver";
-import { isBot, runningOnBrowser, supportsIntersectionObserver } from "./environment";
+import { isBot, runningOnBrowser } from "./environment";
 import { loadAllNative, shouldUseNative } from "./native";
 import { resetOnlineCheck, setOnlineCheck } from "./online";
 import { getElementsToLoad, queryElements } from "./dom";
@@ -27,7 +27,7 @@ LazyLoad.prototype = {
     const elementsToLoad = getElementsToLoad(givenNodeset, settings);
     setToLoadCount(this, elementsToLoad.length);
 
-    if (isBot || !supportsIntersectionObserver) {
+    if (isBot) {
       this.loadAll(elementsToLoad);
       return;
     }

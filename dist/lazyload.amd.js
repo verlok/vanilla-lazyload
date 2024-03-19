@@ -17,8 +17,6 @@ define(function () { 'use strict';
 
   var runningOnBrowser = typeof window !== "undefined";
   var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
-  var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
-  var supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
   var isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
 
   var defaultSettings = {
@@ -167,24 +165,22 @@ define(function () { 'use strict';
   };
 
   var addClass = function addClass(element, className) {
+    if (!runningOnBrowser) {
+      return;
+    }
     if (className === "") {
       return;
     }
-    if (supportsClassList) {
-      element.classList.add(className);
-      return;
-    }
-    element.className += (element.className ? " " : "") + className;
+    element.classList.add(className);
   };
   var removeClass = function removeClass(element, className) {
+    if (!runningOnBrowser) {
+      return;
+    }
     if (className === "") {
       return;
     }
-    if (supportsClassList) {
-      element.classList.remove(className);
-      return;
-    }
-    element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+    element.classList.remove(className);
   };
 
   var addTempImage = function addTempImage(element) {
@@ -669,7 +665,7 @@ define(function () { 'use strict';
     observeElements(observer, elementsToObserve);
   };
   var setObserver = function setObserver(settings, instance) {
-    if (!supportsIntersectionObserver || shouldUseNative(settings)) {
+    if (shouldUseNative(settings)) {
       return;
     }
     instance._observer = new IntersectionObserver(function (entries) {
@@ -733,7 +729,7 @@ define(function () { 'use strict';
       var settings = this._settings;
       var elementsToLoad = getElementsToLoad(givenNodeset, settings);
       setToLoadCount(this, elementsToLoad.length);
-      if (isBot || !supportsIntersectionObserver) {
+      if (isBot) {
         this.loadAll(elementsToLoad);
         return;
       }
