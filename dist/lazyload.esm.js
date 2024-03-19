@@ -140,6 +140,9 @@ const safeCallback = (callback, arg1, arg2, arg3) => {
 };
 
 const addClass = (element, className) => {
+  if (className === "") {
+    return;
+  }
   if (supportsClassList) {
     element.classList.add(className);
     return;
@@ -148,6 +151,9 @@ const addClass = (element, className) => {
 };
 
 const removeClass = (element, className) => {
+  if (className === "") {
+    return;
+  }
   if (supportsClassList) {
     element.classList.remove(className);
     return;

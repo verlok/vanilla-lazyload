@@ -168,6 +168,9 @@ var LazyLoad = (function () {
   };
 
   var addClass = function addClass(element, className) {
+    if (className === "") {
+      return;
+    }
     if (supportsClassList) {
       element.classList.add(className);
       return;
@@ -175,6 +178,9 @@ var LazyLoad = (function () {
     element.className += (element.className ? " " : "") + className;
   };
   var removeClass = function removeClass(element, className) {
+    if (className === "") {
+      return;
+    }
     if (supportsClassList) {
       element.classList.remove(className);
       return;
