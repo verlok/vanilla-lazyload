@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version 18
+
+#### 18.0.0
+
+- **Dropped support for Internet Explorer 11**
+- Modernized code
+- Smaller file
+
 ## Version 17
 
 #### 17.9.0
