@@ -1,4 +1,3 @@
-import { supportsIntersectionObserver } from "./environment";
 import { onEnter, onExit } from "./intersectionHandlers";
 import { shouldUseNative } from "./native";
 import { resetObserver } from "./unobserve";
@@ -30,7 +29,7 @@ export const updateObserver = (observer, elementsToObserve) => {
 };
 
 export const setObserver = (settings, instance) => {
-  if (!supportsIntersectionObserver || shouldUseNative(settings)) {
+  if (shouldUseNative(settings)) {
     return;
   }
   instance._observer = new IntersectionObserver((entries) => {
