@@ -59,7 +59,6 @@ export default [{
                 dir: "dist/esm",
                 format: "esm",
                 preserveModules: true,
-                treeShaking: true,
                 plugins: [terser(terserOptions)]
             }
         ]
