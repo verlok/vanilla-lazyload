@@ -1,4 +1,4 @@
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import resolve from "@rollup/plugin-node-resolve";
 import babel from "@rollup/plugin-babel";
 
@@ -8,8 +8,7 @@ const terserOptions = {
     }
 };
 
-module.exports = [
-    {
+export default [{
         input: "src/lazyload.js",
         output: [
             {
@@ -57,14 +56,12 @@ module.exports = [
         input: "src/lazyload.js",
         output: [
             {
-                file: "dist/lazyload.esm.js",
-                format: "esm"
-            },
-            {
-                file: "dist/lazyload.esm.min.js",
+                dir: "dist/esm",
                 format: "esm",
+                preserveModules: true,
+                treeShaking: true,
                 plugins: [terser(terserOptions)]
             }
         ]
     }
-];
+]
