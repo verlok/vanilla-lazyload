@@ -1,0 +1,1 @@
+const e=e=>{let t=[];for(let r,a=0;r=e.children[a];a+=1)"SOURCE"===r.tagName&&t.push(r);return t},t=(t,r)=>{const a=t.parentNode;a&&"PICTURE"===a.tagName&&e(a).forEach(r)},r=(t,r)=>{e(t).forEach(r)};export{t as forEachPictureSource,r as forEachVideoSource};
