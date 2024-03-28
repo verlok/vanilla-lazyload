@@ -1,7 +1,7 @@
-define(function () { 'use strict';
+define((function () { 'use strict';
 
   function _extends() {
-    _extends = Object.assign || function (target) {
+    _extends = Object.assign ? Object.assign.bind() : function (target) {
       for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i];
         for (var key in source) {
@@ -788,4 +788,4 @@ define(function () { 'use strict';
 
   return LazyLoad;
 
-});
+}));

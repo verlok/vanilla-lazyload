@@ -1,0 +1,1 @@
+const t=function(t,e){let n;const i="LazyLoad::Initialized",o=new t(e);try{n=new CustomEvent(i,{detail:{instance:o}})}catch(t){n=document.createEvent("CustomEvent"),n.initCustomEvent(i,!1,!1,{instance:o})}window.dispatchEvent(n)},e=(e,n)=>{if(n)if(n.length)for(let i,o=0;i=n[o];o+=1)t(e,i);else t(e,n)};export{e as autoInitialize};

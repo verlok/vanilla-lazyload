@@ -1,0 +1,1 @@
+import{loadNative as o}from"./load.js";import{setToLoadCount as e}from"./counters.js";const t=["IMG","IFRAME","VIDEO"],r=o=>o.use_native&&"loading"in HTMLImageElement.prototype,a=(r,a,m)=>{r.forEach((e=>{-1!==t.indexOf(e.tagName)&&o(e,a,m)})),e(m,0)};export{a as loadAllNative,r as shouldUseNative};

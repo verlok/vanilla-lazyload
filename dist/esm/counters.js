@@ -1,0 +1,1 @@
+const o=(o,t)=>{o&&(o.loadingCount+=t)},t=o=>{o&&(o.toLoadCount-=1)},n=(o,t)=>{o&&(o.toLoadCount=t)},a=o=>o.loadingCount>0,d=o=>o.toLoadCount>0;export{t as decreaseToLoadCount,d as haveElementsToLoad,a as isSomethingLoading,n as setToLoadCount,o as updateLoadingCount};
