@@ -1,0 +1,1 @@
+const e="undefined"!=typeof window,i=e&&!("onscroll"in window)||"undefined"!=typeof navigator&&/(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent),n=e&&window.devicePixelRatio>1;export{i as isBot,n as isHiDpi,e as runningOnBrowser};

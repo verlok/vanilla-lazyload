@@ -175,7 +175,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **18.0.0**.
+The latest, recommended version of LazyLoad is **19.0.0**.
 Note that if you need to support Internet Explorer 11, you need to use version 17.9.0 or below.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
@@ -185,7 +185,7 @@ Quickly understand how to upgrade from a previous version reading the [practical
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.0/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -226,7 +226,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -260,7 +260,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.0/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -321,7 +321,7 @@ Inside the `dist` folder you will find different bundles.
 | `lazyload.min.js`      | UMD <small>(Universal Module Definition)</small>              | Works pretty much everywhere, even in common-js contexts                                                                                   |
 | `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
 | `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with _RequireJS_ module loader, ~0.5kb smaller than UMD version                                                                      |
-| `lazyload.esm.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
+| `esm/lazyload.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
 ---
 
