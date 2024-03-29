@@ -5,8 +5,6 @@ LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web
 [![](https://data.jsdelivr.com/v1/package/npm/vanilla-lazyload/badge)](https://www.jsdelivr.com/package/npm/vanilla-lazyload)
 [![](https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml/badge.svg)](https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml)
 
-https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml/badge.svg
-
 ➡️ Jump to: [👨‍💻 Getting started - HTML](#-getting-started---html) - [👩‍💻 Getting started - Script](#-getting-started---script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 All features compared](#-all-features-compared)
 
 ---
