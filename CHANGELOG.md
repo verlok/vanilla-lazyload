@@ -2,6 +2,10 @@
 
 ## Version 19
 
+#### 19.0.3
+
+- Files `.eslintrc.json`, `LICENSE`, `CHANGELOG.md`, `CODE_OF_CONDUCT.md`, `README.md`, `package.json` are now included in the package
+
 #### 19.0.1
 
 - Restored compatibility for bundlers that used this module, see #609
