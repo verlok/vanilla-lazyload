@@ -13,16 +13,6 @@ export default [
     input: "src/lazyload.js",
     output: [
       {
-        file: "dist/lazyload.amd.js",
-        format: "amd"
-      },
-      {
-        file: "dist/lazyload.amd.min.js",
-        format: "amd",
-        plugins: [terser(terserOptions)]
-      },
-
-      {
         file: "dist/lazyload.iife.js",
         name: "LazyLoad",
         format: "iife"

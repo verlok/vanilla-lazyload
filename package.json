@@ -6,7 +6,6 @@
   "module": "dist/esm/lazyload.js",
   "browser": "dist/lazyload.min.js",
   "typings": "typings/lazyload.d.ts",
-  "type": "module",
   "sideEffects": false,
   "devDependencies": {
     "@babel/core": "^7.24.3",
