@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## Version 19
+
+#### 19.0.1
+
+- Restored compatibility for bundlers that used this module, see #609
+
+#### 19.0.0
+
+- Rollup setup enhancement 
+  - Refactored the Rollup setup to improve performance and maintainability.
+  - Switched to ES6 module format for better compatibility and readability.
+  - Enabled tree shaking and module preservation to optimize the build output.
+- Added [ESM demo](demos/esm.html) to showcase the functionality of the esm module.
+- Updated various dependencies to their latest versions for better compatibility and security
+- Removed AMD module from the `/dist` folder, as it's been unused since version 11
+- Removed AMD-related demos
+
 ## Version 18
 
 #### 18.0.0

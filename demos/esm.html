@@ -2,9 +2,7 @@
 <html>
   <head lang="en">
     <meta charset="UTF-8" />
-    <title>
-      AMD version - Lazyload demos
-    </title>
+    <title>ESM version - Lazyload demos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       ul,
@@ -39,7 +37,7 @@
   </head>
 
   <body>
-    <h1>AMD version demo</h1>
+    <h1>ESM version demo</h1>
     <div id="results1" class="results">
       <ul>
         <li>
@@ -442,8 +440,10 @@
         </li>
       </ul>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
-    <script>
+    <script type="module">
+      import LazyLoad from "../dist/esm/lazyload.js";
+
+      const lazyLoadInstance = new LazyLoad({});
       function logElementEvent(eventName, element) {
         console.log(Date.now(), eventName, element.getAttribute("data-src"));
       }
@@ -462,8 +462,7 @@
       };
       var callback_error = function (element) {
         logElementEvent("💀 ERROR", element);
-        element.src =
-          "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+        element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
       };
       var callback_finish = function () {
         logElementEvent("✔️ FINISHED", document.documentElement);
@@ -471,19 +470,6 @@
       var callback_cancel = function (element) {
         logElementEvent("🔥 CANCEL", element);
       };
-
-      require(["../dist/lazyload.amd.min.js"], function (LazyLoad) {
-        window.ll = new LazyLoad({
-          // Assign the callbacks defined above
-          callback_enter: callback_enter,
-          callback_exit: callback_exit,
-          callback_cancel: callback_cancel,
-          callback_loading: callback_loading,
-          callback_loaded: callback_loaded,
-          callback_error: callback_error,
-          callback_finish: callback_finish
-        });
-      });
     </script>
   </body>
 </html>

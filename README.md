@@ -175,7 +175,7 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **18.0.0**.
+The latest, recommended version of LazyLoad is **19.0.1**.
 Note that if you need to support Internet Explorer 11, you need to use version 17.9.0 or below.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
@@ -185,7 +185,7 @@ Quickly understand how to upgrade from a previous version reading the [practical
 The easiest way to use LazyLoad is to include the script from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.1/dist/lazyload.min.js"></script>
 ```
 
 Then, in your javascript code:
@@ -226,7 +226,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -260,7 +260,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@18.0.0/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.1/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -320,8 +320,7 @@ Inside the `dist` folder you will find different bundles.
 | ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `lazyload.min.js`      | UMD <small>(Universal Module Definition)</small>              | Works pretty much everywhere, even in common-js contexts                                                                                   |
 | `lazyload.iife.min.js` | IIFE <small>(Immediately Invoked Function Expression)</small> | Works as in-page `<script src="...">`, ~0.5kb smaller than UMD version                                                                     |
-| `lazyload.amd.min.js`  | AMD <small>(Asynchronous Module Definition)</small>           | Works with _RequireJS_ module loader, ~0.5kb smaller than UMD version                                                                      |
-| `lazyload.esm.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
+| `esm/lazyload.js`      | ES Module                                                     | Exports `LazyLoad` so you can import it in your project both using `<script type="module" src="...">` and a bundler like WebPack or Rollup |
 
 ---
 
@@ -612,8 +611,6 @@ The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder
 | Content   | Lazy loading iframes                                                                           | [Code](demos/iframes.html)                     | [Live](https://verlok.github.io/vanilla-lazyload/demos/iframes.html)                     |
 | Content   | Lazy loading animated SVGs and PDF files                                                       | [Code](demos/objects.html)                     | [Live](https://verlok.github.io/vanilla-lazyload/demos/objects.html)                     |
 | Content   | Lazy WebP images with the `<picture>` tag and the `type` attribute for WebP                    | [Code](demos/picture_type_webp.html)           | [Live](https://verlok.github.io/vanilla-lazyload/demos/picture_type_webp.html)           |
-| Loading   | Asynchronous loading LazyLoad with requireJS                                                   | [Code](demos/amd.html)                         | [Live](https://verlok.github.io/vanilla-lazyload/demos/amd.html)                         |
-| Loading   | Asynchronous loading LazyLoad + InterserctionObserver with requireJS                           | [Code](demos/amd_polyfill.html)                | [Live](https://verlok.github.io/vanilla-lazyload/demos/amd_polyfill.html)                |
 | Loading   | Asynchronous loading LazyLoad with `<script async>`                                            | [Code](demos/async.html)                       | [Live](https://verlok.github.io/vanilla-lazyload/demos/async.html)                       |
 | Loading   | Asynchronous loading multiple LazyLoad instances with `<script async>`                         | [Code](demos/async_multiple.html)              | [Live](https://verlok.github.io/vanilla-lazyload/demos/async_multiple.html)              |
 | Error     | Test error loading behaviour when `restore_on_error` is `false`                                | [Code](demos/error_no_restore.html)            | [Live](https://verlok.github.io/vanilla-lazyload/demos/error_no_restore.html)            |
