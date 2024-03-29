@@ -183,10 +183,18 @@ Quickly understand how to upgrade from a previous version reading the [practical
 
 ### The simple, easiest way
 
-The easiest way to use LazyLoad is to include the script from a CDN:
+The easiest way to use LazyLoad is to include the script from a CDN.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.3/dist/lazyload.min.js"></script>
+```
+
+OR, if you prefer to import it as an ES module:
+
+```html
+<script type="module">
+  import LazyLoad from 'https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.3/+esm'
+</script>
 ```
 
 Then, in your javascript code:
@@ -197,7 +205,9 @@ var lazyLoadInstance = new LazyLoad({
 });
 ```
 
-To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
+To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. 
+
+If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
 ```js
 lazyLoadInstance.update();
