@@ -26,7 +26,13 @@
   },
   "files": [
     "dist",
-    "typings"
+    "typings",
+    ".eslintrc.json",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "README.md",
+    "package.json"
   ],
   "repository": {
     "type": "git",
