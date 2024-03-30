@@ -1,6 +1,6 @@
 {
   "name": "vanilla-lazyload",
-  "version": "19.0.3",
+  "version": "19.0.4",
   "description": "LazyLoad is a lightweight (2.4 kB) and flexible script that speeds up your web application by deferring the loading of your below-the-fold images, videos and iframes to when they will enter the viewport. It's written in plain \"vanilla\" JavaScript, it leverages the IntersectionObserver API, it supports responsive images, it optimizes your website for slower connections, and can enable native lazy loading.",
   "main": "dist/lazyload.min.js",
   "module": "dist/esm/lazyload.js",
@@ -9,7 +9,6 @@
   "sideEffects": false,
   "devDependencies": {
     "@babel/core": "^7.24.3",
-    "@babel/plugin-transform-object-assign": "^7.24.1",
     "@babel/preset-env": "^7.24.3",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
