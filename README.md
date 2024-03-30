@@ -3,6 +3,7 @@ LazyLoad is a lightweight (2.4 kB) and flexible script that **speeds up your web
 [![vanilla-lazyload (latest)](https://img.shields.io/npm/v/vanilla-lazyload/latest.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![vanilla-lazyload (downloads)](https://img.shields.io/npm/dy/vanilla-lazyload.svg)](https://www.npmjs.com/package/vanilla-lazyload)
 [![](https://data.jsdelivr.com/v1/package/npm/vanilla-lazyload/badge)](https://www.jsdelivr.com/package/npm/vanilla-lazyload)
+[![](https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml/badge.svg)](https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml)
 
 ➡️ Jump to: [👨‍💻 Getting started - HTML](#-getting-started---html) - [👩‍💻 Getting started - Script](#-getting-started---script) - [🥧 Recipes](#-recipes) - [📺 Demos](#-demos) - [😋 Tips & tricks](#-tips--tricks) - [🔌 API](#-api) - [😯 All features compared](#-all-features-compared)
 
@@ -175,17 +176,25 @@ Please note that the video poster can be lazily loaded too.
 
 ## 👩‍💻 Getting started - Script
 
-The latest, recommended version of LazyLoad is **19.0.4**.
+The latest, recommended version of LazyLoad is **19.0.5**.
 Note that if you need to support Internet Explorer 11, you need to use version 17.9.0 or below.
 
 Quickly understand how to upgrade from a previous version reading the [practical upgrade guide](UPGRADE.md).
 
 ### The simple, easiest way
 
-The easiest way to use LazyLoad is to include the script from a CDN:
+The easiest way to use LazyLoad is to include the script from a CDN.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.4/dist/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.min.js"></script>
+```
+
+OR, if you prefer to import it as an ES module:
+
+```html
+<script type="module">
+  import LazyLoad from 'https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.3/+esm'
+</script>
 ```
 
 Then, in your javascript code:
@@ -196,7 +205,9 @@ var lazyLoadInstance = new LazyLoad({
 });
 ```
 
-To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
+To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. 
+
+If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
 ```js
 lazyLoadInstance.update();
@@ -226,7 +237,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.4/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.min.js"
 ></script>
 ```
 
@@ -260,7 +271,7 @@ Then include the script.
 ```html
 <script
   async
-  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.4/dist/lazyload.min.js"
+  src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.min.js"
 ></script>
 ```
 
