@@ -2,6 +2,10 @@
 
 ## Version 19
 
+#### 19.0.4
+
+- Removed Babel plugin to polyfill `Object.assign()`, as suggested in #611.
+
 #### 19.0.3
 
 - Files `.eslintrc.json`, `LICENSE`, `CHANGELOG.md`, `CODE_OF_CONDUCT.md`, `README.md`, `package.json` are now included in the package
