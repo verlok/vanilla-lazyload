@@ -9,7 +9,6 @@
   "sideEffects": false,
   "devDependencies": {
     "@babel/core": "^7.24.3",
-    "@babel/plugin-transform-object-assign": "^7.24.1",
     "@babel/preset-env": "^7.24.3",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
