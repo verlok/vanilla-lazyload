@@ -2,6 +2,10 @@
 
 ## Version 19
 
+#### 19.0.5
+
+- Removed `.eslintrc.json`, `LICENSE`, `CHANGELOG.md`, `CODE_OF_CONDUCT.md`, `README.md`, `package.json` from the package files, as they didn't have any impact on [code quality](https://docs.npmjs.com/searching-for-and-choosing-packages-to-download#quality).
+
 #### 19.0.4
 
 - Removed Babel plugin to polyfill `Object.assign()`, as suggested in #611.
