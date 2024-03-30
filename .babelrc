@@ -1,6 +1,5 @@
 {
   "ignore": ["node_modules/**"],
-  "plugins": ["@babel/plugin-transform-object-assign"],
   "presets": [["@babel/env", { "modules": false }]],
   "env": {
     "test": {
