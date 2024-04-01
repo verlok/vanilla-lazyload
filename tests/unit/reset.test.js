@@ -1,8 +1,9 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
-import { getExtendedSettings } from "../defaults";
+import { getExtendedSettings } from "../../src/defaults";
+import { expect, beforeEach, afterEach, describe, test } from "@jest/globals";
 
-import { resetSourcesImg } from "../reset";
+import { resetSourcesImg } from "../../src/reset";
 
 expectExtend(expect);
 

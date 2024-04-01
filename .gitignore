@@ -52,3 +52,7 @@ node_modules
 # Jekyll!
 _site
 .sass-cache
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

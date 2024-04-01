@@ -1,8 +1,10 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
-import { getExtendedSettings } from "../defaults";
+import { getExtendedSettings } from "../../src/defaults";
+import { expect, beforeEach, afterEach, describe, test } from "@jest/globals";
 
-import { setBackground, setMultiBackground, setSources } from "../set";
+import { setBackground, setMultiBackground, setSources } from "../../src/set";
+import { decreaseToLoadCount, setToLoadCount } from "../../src/counters";
 
 expectExtend(expect);
 
@@ -19,6 +21,20 @@ afterEach(() => {
   settings = null;
   instance = null;
 });
+
+describe("setCounters", () => {
+  test('decreaseToLoadCount decreases toLoadCount by 1', () => {
+    const mockInstance = { toLoadCount: 5 };
+    decreaseToLoadCount(mockInstance);
+    expect(mockInstance.toLoadCount).toBe(4);
+  });
+
+  test('setToLoadCount sets toLoadCount to the given value', () => {
+    const mockInstance = {};
+    setToLoadCount(mockInstance, 10);
+    expect(mockInstance.toLoadCount).toBe(10);
+  });
+})
 
 describe("setSources for image", () => {
   let img;
@@ -39,8 +55,8 @@ describe("setSources for image", () => {
     img.setAttribute("data-src", url200);
     img.setAttribute("data-srcset", url400);
     setSources(img, settings, instance);
-    expect(img).toHaveAttributeValue("src", url200);
-    expect(img).toHaveAttributeValue("srcset", url400);
+    expect(img).toHaveAttribute("src", url200);
+    expect(img).toHaveAttribute("srcset", url400);
   });
 
   test("with initial values in src and srcset", () => {
@@ -49,8 +65,8 @@ describe("setSources for image", () => {
     img.setAttribute("src", url1);
     img.setAttribute("srcset", url1);
     setSources(img, settings, instance);
-    expect(img).toHaveAttributeValue("src", url200);
-    expect(img).toHaveAttributeValue("srcset", url400);
+    expect(img).toHaveAttribute("src", url200);
+    expect(img).toHaveAttribute("srcset", url400);
   });
   test("with initial values in src and srcset and empty data-*", () => {
     img.setAttribute("data-src", "");
@@ -58,8 +74,8 @@ describe("setSources for image", () => {
     img.setAttribute("src", url200);
     img.setAttribute("srcset", url400);
     setSources(img, settings, instance);
-    expect(img).toHaveAttributeValue("src", url200);
-    expect(img).toHaveAttributeValue("srcset", url400);
+    expect(img).toHaveAttribute("src", url200);
+    expect(img).toHaveAttribute("srcset", url400);
   });
 });
 
@@ -80,19 +96,19 @@ describe("setSources for iframe", () => {
   test("with initially empty src", () => {
     iframe.setAttribute("data-src", srcToLoad);
     setSources(iframe, settings, instance);
-    expect(iframe).toHaveAttributeValue("src", srcToLoad);
+    expect(iframe).toHaveAttribute("src", srcToLoad);
   });
   test("with initial value in src", () => {
     iframe.setAttribute("data-src", srcToLoad);
     iframe.setAttribute("src", preloadedSrc);
     setSources(iframe, settings, instance);
-    expect(iframe).toHaveAttributeValue("src", srcToLoad);
+    expect(iframe).toHaveAttribute("src", srcToLoad);
   });
   test("with initial value in src and empty data-src", () => {
     iframe.setAttribute("data-src", "");
     iframe.setAttribute("src", preloadedSrc);
     setSources(iframe, settings, instance);
-    expect(iframe).toHaveAttributeValue("src", preloadedSrc);
+    expect(iframe).toHaveAttribute("src", preloadedSrc);
   });
 });
 
@@ -202,7 +218,7 @@ describe("setSources for video", () => {
     video.load = jest.fn();
     video.setAttribute("data-src", videoUrlAvi);
     setSources(video, settings, instance);
-    expect(video).toHaveAttributeValue("src", videoUrlAvi);
+    expect(video).toHaveAttribute("src", videoUrlAvi);
     expect(video.load).toHaveBeenCalled();
   });
 
@@ -214,9 +230,9 @@ describe("setSources for video", () => {
     source1.setAttribute("data-src", videoUrlMp4);
     source2.setAttribute("data-src", videoUrlWebm);
     setSources(video, settings, instance);
-    expect(video).toHaveAttributeValue("src", videoUrlAvi);
-    expect(source1).toHaveAttributeValue("src", videoUrlMp4);
-    expect(source2).toHaveAttributeValue("src", videoUrlWebm);
+    expect(video).toHaveAttribute("src", videoUrlAvi);
+    expect(source1).toHaveAttribute("src", videoUrlMp4);
+    expect(source2).toHaveAttribute("src", videoUrlWebm);
     expect(video.load).toHaveBeenCalled();
   });
 });
@@ -246,8 +262,8 @@ describe("setSources for picture", () => {
     source1.setAttribute("data-srcset", url200);
     source2.setAttribute("data-srcset", url400);
     setSources(img, settings, instance);
-    expect(source1).toHaveAttributeValue("srcset", url200);
-    expect(source2).toHaveAttributeValue("srcset", url400);
+    expect(source1).toHaveAttribute("srcset", url200);
+    expect(source2).toHaveAttribute("srcset", url400);
   });
 
   test("with initial value in srcset", () => {
@@ -256,8 +272,8 @@ describe("setSources for picture", () => {
     source1.setAttribute("srcset", url1);
     source2.setAttribute("srcset", url1);
     setSources(img, settings, instance);
-    expect(source1).toHaveAttributeValue("srcset", url200);
-    expect(source2).toHaveAttributeValue("srcset", url400);
+    expect(source1).toHaveAttribute("srcset", url200);
+    expect(source2).toHaveAttribute("srcset", url400);
   });
 
   test("with initial value in srcset and empty data-srcset", () => {
@@ -266,7 +282,7 @@ describe("setSources for picture", () => {
     source1.setAttribute("srcset", url200);
     source2.setAttribute("srcset", url400);
     setSources(img, settings, instance);
-    expect(source1).toHaveAttributeValue("srcset", url200);
-    expect(source2).toHaveAttributeValue("srcset", url400);
+    expect(source1).toHaveAttribute("srcset", url200);
+    expect(source2).toHaveAttribute("srcset", url400);
   });
 });

@@ -1,9 +1,10 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
-import { getExtendedSettings } from "../defaults";
+import { getExtendedSettings } from "../../src/defaults";
+import { expect, beforeEach, afterEach, describe, test } from "@jest/globals";
 
-import { setSources } from "../set";
-import { getOriginalAttrs } from "../originalAttributes";
+import { setSources } from "../../src/set";
+import { getOriginalAttrs } from "../../src/originalAttributes";
 
 expectExtend(expect);
 

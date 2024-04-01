@@ -1,9 +1,10 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
-import { getExtendedSettings } from "../defaults";
-import { restore } from "../restore";
-import { load } from "../load";
-import { getStatus } from "../data";
+import { beforeEach, afterEach, describe, expect, test } from "@jest/globals";
+import { getExtendedSettings } from "../../src/defaults";
+import { restore } from "../../src/restore";
+import { load } from "../../src/load";
+import { getStatus } from "../../src/data";
 
 const url1 = "1.gif";
 const url2 = "2.gif";

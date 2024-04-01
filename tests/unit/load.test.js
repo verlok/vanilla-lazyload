@@ -1,10 +1,11 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
+import { expect, beforeEach, afterEach, describe, test } from "@jest/globals";
 
-import { load } from "../load";
-import { getExtendedSettings } from "../defaults";
-import { getStatus } from "../data";
-import { statusLoading } from "../elementStatus";
+import { load } from "../../src/load";
+import { getExtendedSettings } from "../../src/defaults";
+import { getStatus } from "../../src/data";
+import { statusLoading } from "../../src/elementStatus";
 
 expectExtend(expect);
 

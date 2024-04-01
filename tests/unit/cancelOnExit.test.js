@@ -1,11 +1,12 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
+import { expect, beforeEach, afterEach, describe, test } from "@jest/globals";
 
-import { cancelLoading } from "../cancelOnExit";
-import { getExtendedSettings } from "../defaults";
-import { getStatus, setStatus } from "../data";
-import { statusLoaded } from "../elementStatus";
-import { setSources } from "../set";
+import { cancelLoading } from "../../src/cancelOnExit";
+import { getExtendedSettings } from "../../src/defaults";
+import { getStatus, setStatus } from "../../src/data";
+import { statusLoaded } from "../../src/elementStatus";
+import { setSources } from "../../src/set";
 
 expectExtend(expect);
 
@@ -46,7 +47,7 @@ describe("Cancel loading on img", () => {
     img.setAttribute("data-src", url200);
     setSources(img, settings);
     cancelLoading(img, entry, settings, instance);
-    expect(img).toHaveAttributeValue("src", url200);
+    expect(img).toHaveAttribute("src", url200);
   });
 
   test("Does nothing if element is not loading", () => {
@@ -54,7 +55,7 @@ describe("Cancel loading on img", () => {
     setSources(img, settings);
     setStatus(img, statusLoaded);
     cancelLoading(img, entry, settings, instance);
-    expect(img).toHaveAttributeValue("src", url200);
+    expect(img).toHaveAttribute("src", url200);
   });
 
   test("Restores original attributes", () => {
@@ -64,7 +65,7 @@ describe("Cancel loading on img", () => {
     img.setAttribute("data-sizes", sizes100);
     setSources(img, settings, instance);
     cancelLoading(img, entry, settings, instance);
-    expect(img).toHaveAttributeValue("src", url1);
+    expect(img).toHaveAttribute("src", url1);
     expect(img).not.toHaveAttribute("srcset");
     expect(img).not.toHaveAttribute("sizes");
   });
@@ -118,6 +119,6 @@ describe("Cancel loading on iframe", () => {
     iframe.setAttribute("data-src", iframeSrc);
     setSources(iframe, settings, instance);
     cancelLoading(iframe, entry, settings, instance);
-    expect(iframe).toHaveAttributeValue("src", iframeSrc);
+    expect(iframe).toHaveAttribute("src", iframeSrc);
   });
 });
