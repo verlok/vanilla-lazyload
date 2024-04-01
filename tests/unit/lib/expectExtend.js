@@ -1,5 +1,5 @@
 const extensions = {
-  toHaveAttributeValue: (element, attributeName, valueToVerify) => {
+  toHaveAttribute: (element, attributeName, valueToVerify) => {
     const actualValue = element.getAttribute(attributeName);
     const pass = actualValue === valueToVerify;
     return pass ? {
