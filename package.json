@@ -24,12 +24,14 @@
     "rollup": "^4.13.1"
   },
   "scripts": {
-    "serve": "npx http-server demos -p 4200",
+    "serve": "npx http-server -p 4200",
     "build": "rollup -c",
     "dev": "rollup -c --watch",
-    "test": "jest",
-    "devtest": "jest --watch",
-    "test:e2e": "playwright test"
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest",
+    "watch-test:unit": "jest --watch",
+    "test:e2e": "playwright test",
+    "test-watch:e2e": "npx playwright test --ui"
   },
   "files": [
     "dist",

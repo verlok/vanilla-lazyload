@@ -4,11 +4,11 @@ import { expect, test } from "@playwright/test";
 test("Esm webpage test", async ({ page }) => {
   await page.goto("/demos/image_basic.html");
 
-  page.on('console', async (msg) => {
+/*  page.on('console', async (msg) => {
     const msgArgs = msg.args();
     const logValues = await Promise.all(msgArgs.map(async arg => await arg.jsonValue()));
     console.log(...logValues);
-  });
+  });*/
 
   // Find all images with data-src attribute
   const lazyLoadImages = await page.locator('img[data-src]');
