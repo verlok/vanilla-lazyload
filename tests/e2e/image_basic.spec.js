@@ -1,21 +1,21 @@
 import { expect, test } from "@playwright/test";
-const limit = 10;
 
 const pagesWithSimpleImages = [
   { url: "/demos/image_basic.html", description: "Basic page" },
-  { url: "/demos/async.html", description: "Async initialization" }
+  { url: "/demos/async.html", description: "Async initialization" },
+  { url: "/demos/async_multiple.html", description: "Async initialization - multiple instances" },
 ];
 
 for (const { url, description } of pagesWithSimpleImages) {
   test(description, async ({ page }) => {
     await page.goto(url);
-    const lazyLoadImages = await page.locator("img[data-src]");
+    const lazyImages = await page.locator(".lazy");
     await page.waitForLoadState("load");
-    const imageCount = limit //was: await lazyLoadImages.count();
+    const imageCount = await lazyImages.count();
 
     // Eventually scroll into view and check if it loads
     for (let i = 0; i < imageCount; i++) {
-      const image = lazyLoadImages.nth(i);
+      const image = lazyImages.nth(i);
       await image.scrollIntoViewIfNeeded();
 
       // Check the src attribute
@@ -23,6 +23,4 @@ for (const { url, description } of pagesWithSimpleImages) {
       await expect(image).toHaveAttribute("src", expectedSrc);
     }
   });
-
-  // You can also do it with test.describe() or with multiple tests as long the test name is unique.
 }
