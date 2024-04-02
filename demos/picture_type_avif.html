@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Picture with type attribute in source to conditionally load AVIF - Lazyload demos</title>
+    <style>
+      ul,
+      li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      a,
+      img {
+        display: block;
+      }
+
+      img {
+        border: 0;
+        width: 220px;
+        height: 280px;
+      }
+
+      img:not([src]) {
+        visibility: hidden;
+      }
+
+      /* Fixes Firefox anomaly during image load */
+      @-moz-document url-prefix() {
+        img:-moz-loading {
+          visibility: hidden;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Picture with type attribute in source to conditionally load AVIF demo</h1>
+    <div id="results1" class="results">
+      <ul>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="./images/220x280-01.avif 1x, ./images/440x560-01.avif 2x"
+            />
+            <img
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              src="./images/220x280-01.webp"
+              srcset="./images/220x280-01.webp 1x, ./images/440x560-01.webp 2x"
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="./images/220x280-02.avif 1x, ./images/440x560-02.avif 2x"
+            />
+            <img
+              alt="Open toe"
+              width="220"
+              height="280"
+              src="./images/220x280-02.webp"
+              srcset="./images/220x280-02.webp 1x, ./images/440x560-02.webp 2x"
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="./images/220x280-03.avif 1x, ./images/440x560-03.avif 2x"
+            />
+            <img
+              alt="Sneakers &amp; Tennis"
+              width="220"
+              height="280"
+              src="./images/220x280-03.webp"
+              srcset="./images/220x280-03.webp 1x, ./images/440x560-03.webp 2x"
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="./images/220x280-04.avif 1x, ./images/440x560-04.avif 2x"
+            />
+            <img
+              alt="Sneakers &amp; Tennis shoes basse"
+              width="220"
+              height="280"
+              src="./images/220x280-04.webp"
+              srcset="./images/220x280-04.webp 1x, ./images/440x560-04.webp 2x"
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-05.avif 1x,
+                ./images/440x560-05.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Sneakers &amp; Tennis shoes alte"
+              width="220"
+              height="280"
+              data-src="./images/220x280-05.webp"
+              data-srcset="
+                ./images/220x280-05.webp 1x,
+                ./images/440x560-05.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-06.avif 1x,
+                ./images/440x560-06.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Sneakers &amp; Tennis shoes alte"
+              width="220"
+              height="280"
+              data-src="./images/220x280-06.webp"
+              data-srcset="
+                ./images/220x280-06.webp 1x,
+                ./images/440x560-06.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-07.avif 1x,
+                ./images/440x560-07.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Sneakers &amp; Tennis shoes basse"
+              width="220"
+              height="280"
+              data-src="./images/220x280-07.webp"
+              data-srcset="
+                ./images/220x280-07.webp 1x,
+                ./images/440x560-07.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-08.avif 1x,
+                ./images/440x560-08.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Sneakers &amp; Tennis shoes basse"
+              width="220"
+              height="280"
+              data-src="./images/220x280-08.webp"
+              data-srcset="
+                ./images/220x280-08.webp 1x,
+                ./images/440x560-08.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-09.avif 1x,
+                ./images/440x560-09.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivali"
+              width="220"
+              height="280"
+              data-src="./images/220x280-09.webp"
+              data-srcset="
+                ./images/220x280-09.webp 1x,
+                ./images/440x560-09.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-10.avif 1x,
+                ./images/440x560-10.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivali"
+              width="220"
+              height="280"
+              data-src="./images/220x280-10.webp"
+              data-srcset="
+                ./images/220x280-10.webp 1x,
+                ./images/440x560-10.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-11.avif 1x,
+                ./images/440x560-11.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-11.webp"
+              data-srcset="
+                ./images/220x280-11.webp 1x,
+                ./images/440x560-11.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-12.avif 1x,
+                ./images/440x560-12.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-12.webp"
+              data-srcset="
+                ./images/220x280-12.webp 1x,
+                ./images/440x560-12.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-13.avif 1x,
+                ./images/440x560-13.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivali"
+              width="220"
+              height="280"
+              data-src="./images/220x280-13.webp"
+              data-srcset="
+                ./images/220x280-13.webp 1x,
+                ./images/440x560-13.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-14.avif 1x,
+                ./images/440x560-14.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-14.webp"
+              data-srcset="
+                ./images/220x280-14.webp 1x,
+                ./images/440x560-14.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-15.avif 1x,
+                ./images/440x560-15.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Décolleté"
+              width="220"
+              height="280"
+              data-src="./images/220x280-15.webp"
+              data-srcset="
+                ./images/220x280-15.webp 1x,
+                ./images/440x560-15.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-16.avif 1x,
+                ./images/440x560-16.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Mocassini"
+              width="220"
+              height="280"
+              data-src="./images/220x280-16.webp"
+              data-srcset="
+                ./images/220x280-16.webp 1x,
+                ./images/440x560-16.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-17.avif 1x,
+                ./images/440x560-17.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-17.webp"
+              data-srcset="
+                ./images/220x280-17.webp 1x,
+                ./images/440x560-17.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-18.avif 1x,
+                ./images/440x560-18.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Décolleté"
+              width="220"
+              height="280"
+              data-src="./images/220x280-18.webp"
+              data-srcset="
+                ./images/220x280-18.webp 1x,
+                ./images/440x560-18.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-19.avif 1x,
+                ./images/440x560-19.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Décolleté"
+              width="220"
+              height="280"
+              data-src="./images/220x280-19.webp"
+              data-srcset="
+                ./images/220x280-19.webp 1x,
+                ./images/440x560-19.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-20.avif 1x,
+                ./images/440x560-20.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Francesine"
+              width="220"
+              height="280"
+              data-src="./images/220x280-20.webp"
+              data-srcset="
+                ./images/220x280-20.webp 1x,
+                ./images/440x560-20.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-21.avif 1x,
+                ./images/440x560-21.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-21.webp"
+              data-srcset="
+                ./images/220x280-21.webp 1x,
+                ./images/440x560-21.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-22.avif 1x,
+                ./images/440x560-22.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Décolleté"
+              width="220"
+              height="280"
+              data-src="./images/220x280-22.webp"
+              data-srcset="
+                ./images/220x280-22.webp 1x,
+                ./images/440x560-22.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-23.avif 1x,
+                ./images/440x560-23.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Mocassini"
+              width="220"
+              height="280"
+              data-src="./images/220x280-23.webp"
+              data-srcset="
+                ./images/220x280-23.webp 1x,
+                ./images/440x560-23.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-24.avif 1x,
+                ./images/440x560-24.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Mocassini"
+              width="220"
+              height="280"
+              data-src="./images/220x280-24.webp"
+              data-srcset="
+                ./images/220x280-24.webp 1x,
+                ./images/440x560-24.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-25.avif 1x,
+                ./images/440x560-25.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivali"
+              width="220"
+              height="280"
+              data-src="./images/220x280-25.webp"
+              data-srcset="
+                ./images/220x280-25.webp 1x,
+                ./images/440x560-25.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-26.avif 1x,
+                ./images/440x560-26.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-26.webp"
+              data-srcset="
+                ./images/220x280-26.webp 1x,
+                ./images/440x560-26.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-27.avif 1x,
+                ./images/440x560-27.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-27.webp"
+              data-srcset="
+                ./images/220x280-27.webp 1x,
+                ./images/440x560-27.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-28.avif 1x,
+                ./images/440x560-28.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Mocassini"
+              width="220"
+              height="280"
+              data-src="./images/220x280-28.webp"
+              data-srcset="
+                ./images/220x280-28.webp 1x,
+                ./images/440x560-28.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-29.avif 1x,
+                ./images/440x560-29.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-29.webp"
+              data-srcset="
+                ./images/220x280-29.webp 1x,
+                ./images/440x560-29.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-30.avif 1x,
+                ./images/440x560-30.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-30.webp"
+              data-srcset="
+                ./images/220x280-30.webp 1x,
+                ./images/440x560-30.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-31.avif 1x,
+                ./images/440x560-31.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-31.webp"
+              data-srcset="
+                ./images/220x280-31.webp 1x,
+                ./images/440x560-31.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-32.avif 1x,
+                ./images/440x560-32.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-32.webp"
+              data-srcset="
+                ./images/220x280-32.webp 1x,
+                ./images/440x560-32.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-33.avif 1x,
+                ./images/440x560-33.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Cuissardes"
+              width="220"
+              height="280"
+              data-src="./images/220x280-33.webp"
+              data-srcset="
+                ./images/220x280-33.webp 1x,
+                ./images/440x560-33.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-34.avif 1x,
+                ./images/440x560-34.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Décolleté"
+              width="220"
+              height="280"
+              data-src="./images/220x280-34.webp"
+              data-srcset="
+                ./images/220x280-34.webp 1x,
+                ./images/440x560-34.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-35.avif 1x,
+                ./images/440x560-35.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Stivaletti"
+              width="220"
+              height="280"
+              data-src="./images/220x280-35.webp"
+              data-srcset="
+                ./images/220x280-35.webp 1x,
+                ./images/440x560-35.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-36.avif 1x,
+                ./images/440x560-36.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Sneakers &amp; Tennis shoes basse"
+              width="220"
+              height="280"
+              data-src="./images/220x280-36.webp"
+              data-srcset="
+                ./images/220x280-36.webp 1x,
+                ./images/440x560-36.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-37.avif 1x,
+                ./images/440x560-37.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Mocassini"
+              width="220"
+              height="280"
+              data-src="./images/220x280-37.webp"
+              data-srcset="
+                ./images/220x280-37.webp 1x,
+                ./images/440x560-37.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-38.avif 1x,
+                ./images/440x560-38.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Sneakers &amp; Tennis shoes basse"
+              width="220"
+              height="280"
+              data-src="./images/220x280-38.webp"
+              data-srcset="
+                ./images/220x280-38.webp 1x,
+                ./images/440x560-38.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-39.avif 1x,
+                ./images/440x560-39.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Mocassini"
+              width="220"
+              height="280"
+              data-src="./images/220x280-39.webp"
+              data-srcset="
+                ./images/220x280-39.webp 1x,
+                ./images/440x560-39.webp 2x
+              "
+            />
+          </picture>
+        </li>
+        <li>
+          <picture>
+            <source
+              type="image/avif"
+              data-srcset="
+                ./images/220x280-40.avif 1x,
+                ./images/440x560-40.avif 2x
+              "
+            />
+            <img
+              class="lazy"
+              alt="Mocassini"
+              width="220"
+              height="280"
+              data-src="./images/220x280-40.webp"
+              data-srcset="
+                ./images/220x280-40.webp 1x,
+							  ./images/440x560-40.webp 2x
+							"
+            />
+          </picture>
+        </li>
+      </ul>
+    </div>
+    <script src="../dist/lazyload.min.js"></script>
+    <script>
+      (function () {
+        function logElementEvent(eventName, element) {
+          console.log(Date.now(), eventName, element.getAttribute("data-src"));
+        }
+
+        var callback_enter = function (element) {
+          logElementEvent("🔑 ENTERED", element);
+        };
+        var callback_exit = function (element) {
+          logElementEvent("🚪 EXITED", element);
+        };
+        var callback_loading = function (element) {
+          logElementEvent("⌚ LOADING", element);
+        };
+        var callback_loaded = function (element) {
+          logElementEvent("👍 LOADED", element);
+        };
+        var callback_error = function (element) {
+          logElementEvent("💀 ERROR", element);
+          element.src = "./images/440x560-Error.webp";
+        };
+        var callback_finish = function () {
+          logElementEvent("✔️ FINISHED", document.documentElement);
+        };
+        var callback_cancel = function (element) {
+          logElementEvent("🔥 CANCEL", element);
+        };
+
+        ll = new LazyLoad({
+          // Assign the callbacks defined above
+          callback_enter: callback_enter,
+          callback_exit: callback_exit,
+          callback_cancel: callback_cancel,
+          callback_loading: callback_loading,
+          callback_loaded: callback_loaded,
+          callback_error: callback_error,
+          callback_finish: callback_finish
+        });
+      })();
+    </script>
+  </body>
+</html>
