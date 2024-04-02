@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 const pagesWithSimpleImages = [
-  { url: "/demos/image_basic.html", description: "Basic page" },
+  { url: "/demos/image_basic.html", description: "Basic usage with image" },
+  { url: "/demos/image_ph_inline.html", description: "With inline placeholder image" },
+  { url: "/demos/image_ph_external.html", description: "With external placeholder image" },
   { url: "/demos/async.html", description: "Async initialization" },
   { url: "/demos/async_multiple.html", description: "Async initialization - multiple instances" },
 ];

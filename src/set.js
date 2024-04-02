@@ -107,11 +107,6 @@ export const setImgsetBackground = (element, settings, instance) => {
   const imgSetValues = bgImgSetDataValue.split("|");
   let bgImageValues = imgSetValues.map((value) => `image-set(${value})`);
   element.style.backgroundImage = bgImageValues.join();
-  // Temporary fix for Chromeium with the -webkit- prefix
-  if (element.style.backgroundImage === "") {
-    bgImageValues = imgSetValues.map((value) => `-webkit-image-set(${value})`);
-    element.style.backgroundImage = bgImageValues.join();
-  }
   manageApplied(element, settings, instance);
 };
 
