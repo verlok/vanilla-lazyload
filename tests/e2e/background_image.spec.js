@@ -19,12 +19,12 @@ for (const { url, description } of pagesWithSimpleImages) {
       await element.scrollIntoViewIfNeeded();
 
       // Set expectations
-      const expectedBg = `background-image: url("${await element.getAttribute("data-bg")}");`;
-      const expectedHiDpiBg = `background-image: url("${await element.getAttribute(
-        "data-bg-hidpi"
-      )}");`;
+      const dataBg = await element.getAttribute("data-bg");
+      const dataBgHidpi = await element.getAttribute("data-bg-hidpi");
+      const expectedBg = `background-image: url("${dataBg}");`;
+      const expectedHiDpiBg = `background-image: url("${dataBgHidpi}");`;
 
-      if (!expectedHiDpiBg) {
+      if (!dataBgHidpi) {
         await expect(element).toHaveAttribute("style", expectedBg);
         continue;
       }
