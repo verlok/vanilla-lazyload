@@ -35,10 +35,6 @@
           <a
             href="#"
             style="
-              background-image: -webkit-image-set(
-                url('./images/220x280-01.webp') 1x,
-                url('./images/440x560-01.webp') 2x
-              );
               background-image: image-set(
                 url('./images/220x280-01.webp') 1x,
                 url('./images/440x560-01.webp') 2x
@@ -51,20 +47,13 @@
             class="multiple"
             href="#"
             style="
-              background-image: -webkit-image-set(
-                  url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
-                  url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
-                  ), -webkit-image-set(
-                url('https://via.placeholder.com/220x280?text=Img+02+Right') 1x, 
-                url('https://via.placeholder.com/440x560?text=Img+02+Right') 2x
-              );
               background-image: image-set(
-                  url('https://via.placeholder.com/220x280?text=Img+02+Left') 1x,
-                  url('https://via.placeholder.com/440x560?text=Img+02+Left') 2x
+                  url('./images/220x280-L-02.webp') 1x,
+                  url('./images/440x560-L-02.webp') 2x
                 ),
                 image-set(
-                  url('https://via.placeholder.com/220x280?text=Img+02+Right') 1x,
-                  url('https://via.placeholder.com/440x560?text=Img+02+Right') 2x
+                  url('./images/220x280-R-02.webp') 1x,
+                  url('./images/440x560-R-02.webp') 2x
                 );
             "
           ></a>
@@ -81,8 +70,8 @@
             class="lazy multiple"
             href="#"
             data-bg-set="
-              url('https://via.placeholder.com/220x280?text=Img+04+Left') 1x,  url('https://via.placeholder.com/440x560?text=Img+04+Left') 2x | 
-              url('https://via.placeholder.com/220x280?text=Img+04+Right') 1x, url('https://via.placeholder.com/440x560?text=Img+04+Right') 2x
+              url('./images/220x280-L-04.webp') 1x,  url('./images/440x560-L-04.webp') 2x | 
+              url('./images/220x280-R-04.webp') 1x, url('./images/440x560-R-04.webp') 2x
             "
           ></a>
         </li>
@@ -353,8 +342,7 @@
       };
       var callback_error = function (element) {
         logElementEvent("💀 ERROR", element);
-        element.style.backgroundImage =
-          "url('./images/440x560-Error.webp')";
+        element.style.backgroundImage = "url('./images/440x560-Error.webp')";
       };
       var callback_finish = function () {
         logElementEvent("✔️ FINISHED", document.documentElement);
