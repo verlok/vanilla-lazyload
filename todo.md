@@ -13,6 +13,8 @@ Test more modules
 
 ## Do next
 
+### 1
+
 Remove temporary fix from `./src/set.js`
 
 ```js
@@ -22,6 +24,10 @@ if (element.style.backgroundImage === "") {
   element.style.backgroundImage = bgImageValues.join();
 }
 ```
+
+### 2
+
+Check why `./demos/restore_destroy.html` is not working. What was it supposed to do? :D
 
 ## To consider
 
