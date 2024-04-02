@@ -2,6 +2,15 @@
 
 ## Version 19
 
+#### 19.1.1
+
+- Removed code to support image-set on legacy versions of Chromium browsers
+- Added coverage with 2 more demos for images with single src and a placeholder image
+
+#### 19.1.0
+
+- Added end to end tests to expand test coverage to more use cases and cross browser
+
 #### 19.0.5
 
 - Removed `.eslintrc.json`, `LICENSE`, `CHANGELOG.md`, `CODE_OF_CONDUCT.md`, `README.md`, `package.json` from the package files, as they didn't have any impact on [code quality](https://docs.npmjs.com/searching-for-and-choosing-packages-to-download#quality).

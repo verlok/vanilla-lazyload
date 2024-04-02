@@ -383,13 +383,6 @@ var LazyLoad = (function () {
       return "image-set(".concat(value, ")");
     });
     element.style.backgroundImage = bgImageValues.join();
-    // Temporary fix for Chromeium with the -webkit- prefix
-    if (element.style.backgroundImage === "") {
-      bgImageValues = imgSetValues.map(function (value) {
-        return "-webkit-image-set(".concat(value, ")");
-      });
-      element.style.backgroundImage = bgImageValues.join();
-    }
     manageApplied(element, settings, instance);
   };
   var setSourcesFunctions = {
