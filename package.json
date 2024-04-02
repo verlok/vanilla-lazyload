@@ -1,6 +1,6 @@
 {
   "name": "vanilla-lazyload",
-  "version": "19.0.1",
+  "version": "19.1.0",
   "description": "LazyLoad is a lightweight (2.4 kB) and flexible script that speeds up your web application by deferring the loading of your below-the-fold images, videos and iframes to when they will enter the viewport. It's written in plain \"vanilla\" JavaScript, it leverages the IntersectionObserver API, it supports responsive images, it optimizes your website for slower connections, and can enable native lazy loading.",
   "main": "dist/lazyload.min.js",
   "module": "dist/esm/lazyload.js",
@@ -9,20 +9,27 @@
   "sideEffects": false,
   "devDependencies": {
     "@babel/core": "^7.24.3",
-    "@babel/plugin-transform-object-assign": "^7.24.1",
     "@babel/preset-env": "^7.24.3",
+    "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.42.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "jest-environment-jsdom": "^29.7.0",
+    "@types/node": "^20.12.2",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "http-server": "^14.1.1",
     "rollup": "^4.13.1"
   },
   "scripts": {
+    "serve": "npx http-server -p 4200",
     "build": "rollup -c",
     "dev": "rollup -c --watch",
-    "test": "jest",
-    "devtest": "jest --watch"
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest",
+    "watch-test:unit": "jest --watch",
+    "test:e2e": "playwright test",
+    "test-watch:e2e": "npx playwright test --ui"
   },
   "files": [
     "dist",
