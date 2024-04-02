@@ -29,6 +29,11 @@ if (element.style.backgroundImage === "") {
 
 Check why `./demos/restore_destroy.html` is not working. What was it supposed to do? :D
 
+### 3 
+
+Also self-host the videos for the video demos. 
+https://placehold.co/ can also generate videos.
+
 ## To consider
 
 - Check how LazyLoad behaves when a page was updated using DOM morphing.
