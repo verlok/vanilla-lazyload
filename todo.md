@@ -10,8 +10,8 @@
 
 ## Test
 
-- Test more modules and functions, coverage!!!
-- Test native `img`, native `iframe`, alone or in conjunction with `video`s.
+- Test `async` demo
+- Test `esm` demo
 
 Test more modules
 
