@@ -15,6 +15,11 @@ Test more modules
 
 ### 1
 
+Also self-host the videos for the video demos. 
+https://placehold.co/ can also generate videos.
+
+### 2
+
 Remove temporary fix from `./src/set.js`
 
 ```js
@@ -25,14 +30,9 @@ if (element.style.backgroundImage === "") {
 }
 ```
 
-### 2
+### 3
 
 Check why `./demos/restore_destroy.html` is not working. What was it supposed to do? :D
-
-### 3 
-
-Also self-host the videos for the video demos. 
-https://placehold.co/ can also generate videos.
 
 ## To consider
 
