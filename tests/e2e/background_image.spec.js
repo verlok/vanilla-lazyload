@@ -18,22 +18,21 @@ for (const { url, description } of pagesWithSimpleImages) {
       const element = lazyElements.nth(i);
       await element.scrollIntoViewIfNeeded();
 
-      // Check the src attribute
-      const expectedBg = await element.getAttribute("data-bg");
-      const expectedHiDpiBg = await element.getAttribute("data-bg-hidpi");
+      // Set expectations
+      const expectedBg = `background-image: url("${await element.getAttribute("data-bg")}");`;
+      const expectedHiDpiBg = `background-image: url("${await element.getAttribute(
+        "data-bg-hidpi"
+      )}");`;
 
       if (!expectedHiDpiBg) {
-        await expect(element).toHaveAttribute("style", `background-image: url("${expectedBg}");`);
+        await expect(element).toHaveAttribute("style", expectedBg);
         continue;
       }
 
-      if (devicePixelRatio === 1) {
-        await expect(element).toHaveAttribute("style", `background-image: url("${expectedBg}");`);
+      if (devicePixelRatio > 1) {
+        await expect(element).toHaveAttribute("style", expectedHiDpiBg);
       } else {
-        await expect(element).toHaveAttribute(
-          "style",
-          `background-image: url("${expectedHiDpiBg}");`
-        );
+        await expect(element).toHaveAttribute("style", expectedBg);
       }
     }
   });
