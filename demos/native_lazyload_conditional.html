@@ -51,81 +51,53 @@
       <ul>
         <li>
           <a href="#/it/donna/stivaletti_cod44721746jj.html"
-            ><img
-              alt="Stivaletti"
-              loading="eager"
-              src="https://images.unsplash.com/photo-1555923637-8e28485258ca?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
-              width="220"
-              height="280"
-          /></a>
+            ><img alt="Stivaletti" loading="eager" src=./images/440x560-01.webp width="220"
+            height="280" /></a
+          >
         </li>
         <li>
           <a href="#/it/donna/open-toe_cod44740806jx.html"
-            ><img
-              alt="Open toe"
-              loading="eager"
-              src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
-              width="220"
-              height="280"
-          /></a>
+            ><img alt="Open toe" loading="eager" src=./images/440x560-02.webp width="220"
+            height="280" /></a
+          >
         </li>
         <li>
           <a href="#/it/donna/sneakers-tennis-shoes-basse_cod44735977gr.html"
-            ><img
-              alt="Sneakers &amp; Tennis"
-              class="lazy"
-              data-src="https://images.unsplash.com/photo-1554080450-0cf441c6eb68?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
-              width="220"
-              height="280"
-          /></a>
+            ><img alt="Sneakers &amp; Tennis" class="lazy" data-src=./images/440x560-03.webp
+            width="220" height="280" /></a
+          >
         </li>
         <li>
           <a href="#/it/donna/sneakers-tennis-shoes-basse_cod44738717am.html"
-            ><img
-              alt="Sneakers &amp; Tennis shoes basse"
-              class="lazy"
-              data-src="https://images.unsplash.com/photo-1554194666-dd5e2510e694?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
-              width="220"
-              height="280"
-          /></a>
+            ><img alt="Sneakers &amp; Tennis shoes basse" class="lazy"
+            data-src=./images/440x560-04.webp width="220" height="280" /></a
+          >
         </li>
         <li>
           <a href="#/it/donna/sneakers-tennis-shoes-alte_cod44739940cb.html"
-            ><img
-              alt="Sneakers &amp; Tennis shoes alte"
-              class="lazy"
-              data-src="https://images.unsplash.com/photo-1555464735-4706a5ef4bf6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
-              width="220"
-              height="280"
-          /></a>
+            ><img alt="Sneakers &amp; Tennis shoes alte" class="lazy"
+            data-src=./images/440x560-05.webp width="220" height="280" /></a
+          >
         </li>
         <li>
           <a href="#/it/donna/sneakers-tennis-shoes-alte_cod44740860xg.html"
-            ><img
-              alt="Sneakers &amp; Tennis shoes alte"
-              class="lazy"
-              data-src="https://images.unsplash.com/photo-1556068791-9e3a08d59470?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
-              width="220"
-              height="280"
-          /></a>
+            ><img alt="Sneakers &amp; Tennis shoes alte" class="lazy"
+            data-src=./images/440x560-06.webp width="220" height="280" /></a
+          >
         </li>
         <li>
           <a href="#/it/donna/sneakers-tennis-shoes-basse_cod44738719vn.html"
-            ><img
-              alt="Sneakers &amp; Tennis shoes basse"
-              class="lazy"
-              data-src="https://images.unsplash.com/photo-1554089672-043830ebaed9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=440&h=560&fit=crop&ixid=eyJhcHBfaWQiOjF9"
-              width="220"
-              height="280"
-          /></a>
+            ><img alt="Sneakers &amp; Tennis shoes basse" class="lazy"
+            data-src=./images/440x560-07.webp width="220" height="280" /></a
+          >
         </li>
       </ul>
     </div>
 
     <h2>Iframes</h2>
-    <iframe class="lazy" data-src="iframes/i01.html" frameborder="0"></iframe>
-    <iframe class="lazy" data-src="iframes/i02.html" frameborder="0"></iframe>
-    <iframe class="lazy" data-src="iframes/i03.html" frameborder="0"></iframe>
+    <iframe class="lazy" data-src="./iframes/i01.html" frameborder="0"></iframe>
+    <iframe class="lazy" data-src="./iframes/i02.html" frameborder="0"></iframe>
+    <iframe class="lazy" data-src="./iframes/i03.html" frameborder="0"></iframe>
 
     <h2>Preload = none</h2>
     <video
@@ -181,7 +153,7 @@
         };
         var callback_error = function (element) {
           logElementEvent("💀 ERROR", element);
-          element.src = "https://source.unsplash.com/random/440x560/?text=Error+Placeholder";
+          element.src = "url('./images/440x560-Error.webp')";
         };
         var callback_finish = function () {
           logElementEvent("✔️ FINISHED", document.documentElement);
@@ -211,7 +183,7 @@
 
         // Double instance using native lazy loading on images and iframes,
         // and JS driven lazy loading on videos
-        function createDoubleInstance() {  
+        function createDoubleInstance() {
           var lazyImgsIframes = new LazyLoad({
             elements_selector: "img.lazy, iframe.lazy",
             use_native: true,
