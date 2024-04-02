@@ -28,15 +28,12 @@
       controls
       preload="none"
       width="620"
-      data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
-      data-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
+      data-src="./videos/1920x1080-01.mp4"
+      data-poster="./videos/1920x1080-01.webp"
     >
-      <source
-        type="video/mp4"
-        data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
-      />
-      <source type="video/ogg" data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv" />
-      <source type="video/avi" data-src="https://archive.org/download/ElephantsDream/ed_hd.avi" />
+      <source type="video/mp4" data-src="./videos/1920x1080-01.mp4" />
+      <source type="video/ogg" data-src="./videos/1920x1080-01.ogv" />
+      <source type="video/avi" data-src="./videos/1920x1080-01.avi" />
     </video>
 
     <h2>Preload = metadata</h2>
@@ -45,15 +42,12 @@
       preload="metadata"
       controls
       width="620"
-      data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
-      data-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
+      data-src="./videos/1920x1080-02.mp4"
+      data-poster="./videos/1920x1080-02.webp"
     >
-      <source
-        type="video/mp4"
-        data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
-      />
-      <source type="video/ogg" data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv" />
-      <source type="video/avi" data-src="https://archive.org/download/ElephantsDream/ed_hd.avi" />
+      <source type="video/mp4" data-src="./videos/1920x1080-02.mp4" />
+      <source type="video/ogg" data-src="./videos/1920x1080-02.ogv" />
+      <source type="video/avi" data-src="./videos/1920x1080-02.avi" />
     </video>
 
     <h2>Preload = auto</h2>
@@ -62,17 +56,14 @@
       preload="auto"
       controls
       width="620"
-      data-src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
-      data-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217"
+      data-src="./videos/1920x1080-03.mp4"
+      data-poster="./videos/1920x1080-03.webp"
     >
-      <source
-        type="video/mp4"
-        data-src="https://archive.org/download/ElephantsDream/ed_1024_512kb.mp4"
-      />
-      <source type="video/ogg" data-src="https://archive.org/download/ElephantsDream/ed_hd.ogv" />
-      <source type="video/avi" data-src="https://archive.org/download/ElephantsDream/ed_hd.avi" />
+      <source type="video/mp4" data-src="./videos/1920x1080-03.mp4" />
+      <source type="video/ogg" data-src="./videos/1920x1080-03.ogv" />
+      <source type="video/avi" data-src="./videos/1920x1080-03.avi" />
     </video>
-    
+
     <script src="../dist/lazyload.min.js"></script>
     <script>
       (function () {
@@ -94,7 +85,7 @@
         };
         var callback_error = function (element) {
           logElementEvent("💀 ERROR", element);
-          element.src = "https://via.placeholder.com/440x560/?text=Error+Placeholder";
+          element.src = "./images/440x560-Error.webp";
         };
         var callback_finish = function () {
           logElementEvent("✔️ FINISHED", document.documentElement);

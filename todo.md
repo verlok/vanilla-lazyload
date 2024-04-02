@@ -1,6 +1,23 @@
 # TODO
 
-## Coming next
+## 1
+
+Remove temporary fix from `./src/set.js`
+
+```js
+// Temporary fix for Chromeium with the -webkit- prefix
+if (element.style.backgroundImage === "") {
+  bgImageValues = imgSetValues.map((value) => `-webkit-image-set(${value})`);
+  element.style.backgroundImage = bgImageValues.join();
+}
+```
+
+## 2
+
+Check why the demo `./demos/restore_destroy.html` is not working. What was it supposed to do? :D
+
+
+## To consider
 
 - Check how LazyLoad behaves when a page was updated using DOM morphing.
   If only the data-attributes were updated, how do one forces LazyLoad to read from them again?
@@ -8,13 +25,10 @@
 - Consider creating a subset of options and defaults for the static `load` method, and document it
 - [Edge case] When `cancel_on_exit` is `false`, unobserve elements as soon as they start loading (as of before 15.2.0).
 
-## Test
+## More tests
 
-- Test more modules and functions, coverage!!!
-- Test native `img`, native `iframe`, alone or in conjunction with `video`s.
+Add more tests (to choose between unit tests or e2e tests depending on the case) to cover:
 
-Test more modules
-
-- [ ] autoinitialize
-- [ ] purge
-- [ ] reveal
+- autoinitialize
+- purge
+- reveal
