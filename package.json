@@ -69,5 +69,8 @@
   "funding": {
     "type": "individual",
     "url": "https://ko-fi.com/verlok"
-  }
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }
