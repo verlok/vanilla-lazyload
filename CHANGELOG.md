@@ -2,6 +2,10 @@
 
 ## Version 19
 
+#### 19.1.2
+
+- Modernized code and smaller file bundles, everything is now shipped as in the ES2015 format.
+
 #### 19.1.1
 
 - Removed code to support image-set on legacy versions of Chromium browsers
