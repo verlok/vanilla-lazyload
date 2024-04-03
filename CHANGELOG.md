@@ -2,6 +2,15 @@
 
 ## Version 19
 
+#### 19.1.2
+
+- Modernized code and smaller file bundles, everything is now shipped as in the ES2015 format.
+
+#### 19.1.1
+
+- Removed code to support image-set on legacy versions of Chromium browsers
+- Added coverage with 2 more demos for images with single src and a placeholder image
+
 #### 19.1.0
 
 - Added end to end tests to expand test coverage to more use cases and cross browser

@@ -2,18 +2,6 @@
 
 ## 1
 
-Remove temporary fix from `./src/set.js`
-
-```js
-// Temporary fix for Chromeium with the -webkit- prefix
-if (element.style.backgroundImage === "") {
-  bgImageValues = imgSetValues.map((value) => `-webkit-image-set(${value})`);
-  element.style.backgroundImage = bgImageValues.join();
-}
-```
-
-## 2
-
 Check why the demo `./demos/restore_destroy.html` is not working. What was it supposed to do? :D
 
 
