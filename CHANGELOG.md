@@ -2,6 +2,11 @@
 
 ## Version 19
 
+#### 19.1.3
+
+- File `CHANGELOG.md` is now included in the package and installed along with it
+- Updated Babel, Rollup and Playwright to the latest versions
+
 #### 19.1.2
 
 - Modernized code and smaller file bundles, everything is now shipped as in the ES2015 format.
