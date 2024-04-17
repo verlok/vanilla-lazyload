@@ -193,7 +193,7 @@ OR, if you prefer to import it as an ES module:
 
 ```html
 <script type="module">
-  import LazyLoad from 'https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.3/+esm'
+  import LazyLoad from "https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.3/+esm";
 </script>
 ```
 
@@ -205,7 +205,7 @@ var lazyLoadInstance = new LazyLoad({
 });
 ```
 
-To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**. 
+To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, **place the script tag right before the closing `</body>` tag**.
 
 If more DOM arrives later, e.g. via an AJAX call, you'll need to call `lazyLoadInstance.update();` to make LazyLoad check the DOM again.
 
@@ -605,8 +605,8 @@ Didn't find the [recipe](#-recipes) that exactly matches your case? We have demo
 
 The [demos](https://github.com/verlok/vanilla-lazyload/tree/master/demos) folder contains 30+ use cases of vanilla-lazyload. You might find there what you're looking for.
 
-| Type      | Title                                                                                          | Code                                           | Demo                                                                                           |
-| --------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Type      | Title                                                                                          | Code                                           | Demo                                                                                     |
+| --------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | Content   | Simple lazy loaded images, not using any placeholder                                           | [Code](demos/image_basic.html)                 | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_basic.html)                 |
 | Content   | Lazy images that use an inline SVG as a placeholder                                            | [Code](demos/image_ph_inline.html)             | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_ph_inline.html)             |
 | Content   | Lazy images that use an external SVG file as a placeholder                                     | [Code](demos/image_ph_external.html)           | [Live](https://verlok.github.io/vanilla-lazyload/demos/image_ph_external.html)           |
@@ -781,23 +781,24 @@ A list of all vanilla-lazyload features, compared with other popular lazy loadin
 
 ### vanilla-lazyload VS lazysizes
 
-| It                                                                                       | vanilla-lazyload | lazysizes   |
-| ---------------------------------------------------------------------------------------- | ---------------- | ----------- |
-| Is lightweight                                                                           | ✔ (2.8 kB)       | ✔ (3.4 kB)  |
-| Is extendable                                                                            | ✔ (API)          | ✔ (plugins) |
-| Is SEO friendly                                                                          | ✔                | ✔           |
-| Optimizes performance by cancelling downloads of images that already exited the viewport | ✔                |             |
-| Retries loading after network connection went off and on again                           | ✔                |             |
-| Supports conditional usage of native lazyloading                                         | ✔                |             |
-| Works with your DOM, your own classes and data-attributes                                | ✔                |             |
-| Can lazyload responsive images                                                           | ✔                | ✔           |
-| ...and automatically calculate the value of the `sizes` attribute                        |                  | ✔           |
-| Can lazyload iframes                                                                     | ✔                | ✔           |
-| Can lazyload animated SVGs                                                               | ✔                |             |
-| Can lazyload videos                                                                      | ✔                |             |
-| Can lazyload background images                                                           | ✔                |             |
-| Can lazily execute code, when given elements enter the viewport                          | ✔                |             |
-| Can restore DOM to its original state                                                    | ✔                |             |
+| It                                                                                                                       | vanilla-lazyload | lazysizes   |
+| ------------------------------------------------------------------------------------------------------------------------ | ---------------- | ----------- |
+| Is lightweight                                                                                                           | ✔ (2.8 kB)       | ✔ (3.4 kB)  |
+| Is extendable                                                                                                            | ✔ (API)          | ✔ (plugins) |
+| Is SEO friendly                                                                                                          | ✔                | ✔           |
+| Optimized for INP (uses `IntersectionObserver` instead of [these]https://gist.github.com/paulirish/5d52fb081b3570c81e3a) | ✔                |             |
+| Optimizes performance by cancelling downloads of images that already exited the viewport                                 | ✔                |             |
+| Retries loading after network connection went off and on again                                                           | ✔                |             |
+| Supports conditional usage of native lazyloading                                                                         | ✔                |             |
+| Works with your DOM, your own classes and data-attributes                                                                | ✔                |             |
+| Can lazyload responsive images                                                                                           | ✔                | ✔           |
+| ...and automatically calculate the value of the `sizes` attribute                                                        |                  | ✔           |
+| Can lazyload iframes                                                                                                     | ✔                | ✔           |
+| Can lazyload animated SVGs                                                                                               | ✔                |             |
+| Can lazyload videos                                                                                                      | ✔                |             |
+| Can lazyload background images                                                                                           | ✔                |             |
+| Can lazily execute code, when given elements enter the viewport                                                          | ✔                |             |
+| Can restore DOM to its original state                                                                                    | ✔                |             |
 
 Weights source: [bundlephobia](https://bundlephobia.com/). Find others table rows explanation below.
 
