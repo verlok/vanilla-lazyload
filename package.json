@@ -8,7 +8,7 @@
   "typings": "typings/lazyload.d.ts",
   "sideEffects": false,
   "devDependencies": {
-    "@babel/core": "^7.24.3",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.24.3",
     "@jest/globals": "^29.7.0",
     "@playwright/test": "^1.56.1",
