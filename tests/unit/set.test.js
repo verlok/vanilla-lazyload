@@ -1,12 +1,33 @@
 import expectExtend from "./lib/expectExtend";
 import getFakeInstance from "./lib/getFakeInstance";
 import { getExtendedSettings } from "../../src/defaults";
-import { expect, beforeEach, afterEach, describe, test } from "@jest/globals";
+import { expect, beforeEach, afterEach, describe, test, jest } from "@jest/globals";
 
-import { setBackground, setMultiBackground, setSources } from "../../src/set";
+import { setBackground, setMultiBackground, setImgsetBackground, setSources } from "../../src/set";
 import { decreaseToLoadCount, setToLoadCount } from "../../src/counters";
 
 expectExtend(expect);
+
+describe("applied backgrounds", () => {
+  test.each([
+    ["data-bg-multi", "url(1.gif), url(2.gif)", setMultiBackground],
+    ["data-bg-set", 'url("1.gif") 1x, url("2.gif") 2x', setImgsetBackground]
+  ])("unobserves completed %s elements", (attribute, value, applyBackground) => {
+    const element = document.createElement("div");
+    const unobserve = jest.fn();
+    element.setAttribute(attribute, value);
+    applyBackground(element, getExtendedSettings(), { _observer: { unobserve } });
+    expect(unobserve).toHaveBeenCalledWith(element);
+  });
+
+  test("keeps observing when unobserve_completed is disabled", () => {
+    const element = document.createElement("div");
+    const unobserve = jest.fn();
+    element.setAttribute("data-bg-multi", "url(1.gif), url(2.gif)");
+    setMultiBackground(element, getExtendedSettings({ unobserve_completed: false }), { _observer: { unobserve } });
+    expect(unobserve).not.toHaveBeenCalled();
+  });
+});
 
 var outerDiv, settings, instance;
 
