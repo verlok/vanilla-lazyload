@@ -276,7 +276,7 @@
     if (!instance) return;
     if (settings.unobserve_completed) {
       // Unobserve now because we can't do it on load
-      unobserve(element, settings);
+      unobserve(element, instance);
     }
     safeCallback(settings.callback_applied, element, instance);
   };
